@@ -1,0 +1,274 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>CCWiC</title>
+
+    <link rel="shortcut icon" href="img/favicon.png">
+
+    <meta name="description" content="">
+
+    <!-- CSS -->
+    <link href="css/preload.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/yamm.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap-switch.min.css" rel="stylesheet" media="screen">
+    <link href="css/font-awesome.min.css" rel="stylesheet" media="screen">
+    <link href="css/animate.min.css" rel="stylesheet" media="screen">
+    <link href="css/slidebars.css" rel="stylesheet" media="screen">
+    <link href="css/lightbox.css" rel="stylesheet" media="screen">
+    <link href="css/jquery.bxslider.css" rel="stylesheet">
+    <link href="css/syntaxhighlighter/shCore.css" rel="stylesheet" media="screen">
+
+    <link href="css/style-red.css" rel="stylesheet" media="screen" title="default">
+    <link href="css/width-full.css" rel="stylesheet" media="screen" title="default">
+
+    <link href="css/buttons.css" rel="stylesheet" media="screen">
+    <!-- Custom styles for this template -->
+
+
+    <script src="/Scripts/angular.js"></script>
+    <script src="/Scripts/angular-animate.js"></script>
+    <script src="/Scripts/angular-route.js"></script>
+    <script src="/Scripts/AngularUi/ui-router.js"></script>
+
+
+    <script src="/App/app.js"></script>
+    <script src="/App/controller.js"></script>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="js/html5shiv.min.js"></script>
+        <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status">&nbsp;</div>
+</div>
+
+<body>
+
+<div id="sb-site">
+<div class="boxed">
+
+<header id="header-full-top" class="hidden-xs header-full">
+    <div class="container">
+        <div class="header-full-title">
+            <h1 class="animated fadeInRight"><a href="index.html"><span>CCWiC</span></a></h1>
+            <p class="animated fadeInRight">Caribbean Celebration of Women in Computing</p>
+        </div>
+        <nav class="top-nav">
+            <ul class="top-nav-social hidden-sm">
+                <li><a href="#" class="animated fadeIn animation-delay-7 twitter"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="#" class="animated fadeIn animation-delay-8 facebook"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="#" class="animated fadeIn animation-delay-9 google-plus"><i class="fa fa-google-plus"></i></a></li>
+                <li><a href="#" class="animated fadeIn animation-delay-9 instagram"><i class="fa fa-instagram"></i></a></li>
+            </ul>
+            
+            <div class="top-nav-social hidden-sm">
+            	<a href="#">Register</a>
+            </div>
+
+            <div class="top-nav-social hidden-sm">
+                <a href="#"><i class="fa fa-user"></i> Login</a>
+            </div>
+        </nav>
+    </div> <!-- container -->
+</header> <!-- header-full -->
+
+<section class="carousel">
+    <div id="carousel-example-generic" class="carousel carousel-razon slide" data-ride="carousel" data-interval="5000">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-7">
+                            <div class="carousel-caption">
+                                <div class="carousel-text">
+                                   <h1 class="animated fadeInDownBig animation-delay-7 carousel-title">A template, infinite possibilities</h1>
+                                   <h2 class="animated fadeInDownBig animation-delay-5  crousel-subtitle">We give you everything done, except the coffee</h2>
+                                   <ul class="list-unstyled carousel-list">
+                                       <li class="animated bounceInLeft animation-delay-11"><i class="fa fa-check"></i>Built with Bootstrap</li>
+                                       <li class="animated bounceInLeft animation-delay-13"><i class="fa fa-check"></i>HTML5 and CSS3</li>
+                                       <li class="animated bounceInLeft animation-delay-15"><i class="fa fa-check"></i>Responsive Template</li>
+                                   </ul>
+                                   <p class="animated fadeInUpBig animation-delay-17">Lorem ipsum dolor sit amet consectetur adipisicing elit. In rerum maxime quis tenetur dolor <span>recusandae a nulla</span> qui enim dolorem.</p>
+                               </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-5 hidden-xs carousel-img-wrap">
+                            <div class="carousel-img">
+                                <img src="img/demo/pre.png" class="img-responsive animated bounceInUp animation-delay-3" alt="Image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-8">
+                            <div class="carousel-caption">
+                                <div class="carousel-text">
+                                   <h1 class="animated fadeInDownBig animation-delay-7 carousel-title">Customization extremes</h1>
+                                   <h2 class="animated fadeInDownBig animation-delay-5  crousel-subtitle">Configure your own template in few easy steps</h2>
+                                   <ul class="list-unstyled carousel-list">
+                                       <li class="animated bounceInLeft animation-delay-11"><i class="fa fa-check"></i>25 default colors</li>
+                                       <li class="animated bounceInLeft animation-delay-13"><i class="fa fa-check"></i>Variables less for all colors</li>
+                                       <li class="animated bounceInLeft animation-delay-15"><i class="fa fa-check"></i>Full width and boxed mode</li>
+                                   </ul>
+                                   <p class="animated fadeInUpBig animation-delay-17">Lorem ipsum dolor sit amet consectetur adipisicing elit. In rerum maxime quis tenetur dolor <span>recusandae a nulla</span> qui enim dolorem.</p>
+                               </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-4 hidden-xs carousel-img-wrap">
+                            <div class="carousel-img">
+                                <img src="img/demo/pre2.png" class="img-responsive animated bounceInUp animation-delay-3" alt="Image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-7 col-sm-9">
+                            <div class="carousel-caption">
+                                <div class="carousel-text">
+                                   <h1 class="animated fadeInDownBig animation-delay-7 carousel-title">Templates for almost everything</h1>
+                                   <h2 class="animated fadeInDownBig animation-delay-5  crousel-subtitle">Artificial Reason include over 80 HTML templates</h2>
+                                   <ul class="list-unstyled carousel-list">
+                                       <li class="animated bounceInLeft animation-delay-11"><i class="fa fa-check"></i>84 HTML Templates</li>
+                                       <li class="animated bounceInLeft animation-delay-13"><i class="fa fa-check"></i>More than 50 components</li>
+                                       <li class="animated bounceInLeft animation-delay-15"><i class="fa fa-check"></i>Extra CSS classes</li>
+                                   </ul>
+                                   <p class="animated fadeInUpBig animation-delay-17">Lorem ipsum dolor sit amet consectetur adipisicing elit. In rerum maxime quis tenetur dolor <span>recusandae a nulla</span> qui enim dolorem.</p>
+                               </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-5 col-sm-3 hidden-xs carousel-img-wrap">
+                            <div class="carousel-img">
+                                <img src="img/demo/pre3.png" class="img-responsive animated bounceInUp animation-delay-3" alt="Image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
+</section> <!-- carousel -->
+
+<nav id="header" class="navbar navbar-static-top navbar-default navbar-header-full navbar-dark" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand hidden-lg hidden-md hidden-sm" href="index.html">Artificial <span>Reason</span></a>
+        </div> <!-- navbar-header -->
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="javascript:void(0);">Home</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Committee</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Venue</a>
+                </li>
+                 <li>
+                    <a href="javascript:void(0);">Deadlines</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Registration</a>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Call for Participation</a>
+                     <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="javascript:void(0);">Call for Papers</a></li>
+                        <li><a href="javascript:void(0);">Call for Workshops</a></li>
+                        <li class="divider"></li>
+                        <li><a href="javascript:void(0);">Scholarship Application</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Program</a>
+                     <ul class="dropdown-menu dropdown-menu-left">
+                        <li><a href="javascript:void(0);">Program Schedule</a></li>
+                        <li><a href="javascript:void(0);">Abstract / Bios</a></li>
+                    </ul>
+                </li>
+                 <li>
+                    <a href="javascript:void(0);">Sponsors</a>
+                </li>
+                 <li>
+                    <a href="javascript:void(0);">Contact</a>
+                </li>
+             </ul>
+        </div><!-- navbar-collapse -->
+    </div><!-- container -->
+</nav>
+
+    <div ng-app="app" id="content" class="container">
+        <div ui-view></div>
+
+    </div>
+
+<footer id="footer">
+    <p>&copy; 2014 <a href="#">Artificial Reason</a>, inc. All rights reserved.</p>
+</footer>
+
+
+</div> <!-- boxed -->
+</div> <!-- sb-site -->
+
+
+<!-- Scripts -->
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-switch.min.js"></script>
+<script src="js/wow.min.js"></script>
+<script src="js/slidebars.js"></script>
+<script src="js/jquery.bxslider.min.js"></script>
+<script src="js/holder.js"></script>
+<script src="js/buttons.js"></script>
+<script src="js/styleswitcher.js"></script>
+<script src="js/jquery.mixitup.min.js"></script>
+<script src="js/circles.min.js"></script>
+
+<!-- Syntaxhighlighter -->
+<script src="js/syntaxhighlighter/shCore.js"></script>
+<script src="js/syntaxhighlighter/shBrushXml.js"></script>
+<script src="js/syntaxhighlighter/shBrushJScript.js"></script>
+
+<script src="js/app.js"></script>
+
+</body>
+</html>
