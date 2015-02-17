@@ -1,8 +1,8 @@
-﻿
-<div class="container">
+﻿﻿
+<div class="container" ng-controller="homeCtrl as vm">
     <div class="row">
         <div class="col-md-9">
-        	<h2 class="section-title">CCWiC 2016</h2>
+            <h2 class="section-title">CCWiC 2016</h2>
             <div class="row margin-top">
                 <div class="col-sm-6">
                     <img src="img/demo/office3.jpg" alt="" class="img-responsive">
@@ -19,15 +19,15 @@
             </div>
         </div>
         <div class="col-md-3">
-        	<h2 class="section-title">News</h2>
+            <h2 class="section-title">News</h2>
             <div class="row">
                 <div class="col-md-12 col-sm-4">
                     <div class="home-news-box">
                         <h5 class="no-margin"><a href="#">Lorem ipsum dolor sit amet elit labore quae sint delectus tenetur</a></h5>
                         <small><a href="#">Jack Nylon</a> | January 20, 2014</small>
                         <div class="video">
-                                    <iframe src="http:///player.vimeo.com/video/30196331?title=0&amp;byline=0&amp;portrait=0"></iframe>
-                                </div>
+                            <iframe src="http:///player.vimeo.com/video/30196331?title=0&amp;byline=0&amp;portrait=0"></iframe>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-12 col-sm-4">
@@ -40,7 +40,7 @@
             </div>
         </div>
     </div> <!-- row -->
-    
+
     <div class="row">
         <div class="col-md-8">
             <h2 class="section-title">Latest images</h2>
@@ -117,38 +117,36 @@
             <h2 class="section-title">Social Media</h2>
             <!-- Nav tabs -->
             <ul class="nav nav-tabs nav-tabs-ar">
-              <li class="active"><a href="#home3" data-toggle="tab"><i class="fa fa-twitter"></i></a></li>
-              <li><a href="#profile3" data-toggle="tab"><i class="fa fa-facebook"></i></a></li>
-              <li><a href="#messages3" data-toggle="tab"><i class="fa fa-rss"></i></a></li>
+                <li class="active"><a href="#home3" data-toggle="tab"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="#profile3" data-toggle="tab"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="#messages3" data-toggle="tab"><i class="fa fa-rss"></i></a></li>
             </ul>
-
             <!-- Tab panes -->
             <div class="tab-content">
-              <div class="tab-pane active" id="home3">
-                  <p class="small"><a href="#">@areason</a> Lorem ipsum dolor sit amet, consectetur adipisicing elit. <a href="http://goo.gl/rMZhoY">http://goo.gl/rMZhoY</a></p>
-                  <hr class="dotted margin-small">
-                  <p class="small"><a href="#">@areason</a> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima pariatur perferendis eaque quidem sunt excepturi.</p>
-                  <hr class="dotted margin-small">
-                  <p class="small"><a href="#">@areason</a>architecto asperiores eaque quidem ullam dolores consequatur.</p>
-                  <hr class="dotted margin-small">
-                  <p class="small"><a href="#">@areason</a> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima pariatur perferendis eaque quidem sunt excepturi.</p>
-              </div>
-              <div class="tab-pane" id="profile3">
-                  <p><strong>Put here your facebook widget!</strong></p>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores unde consequatur architecto deserunt nam veritatis accusantium maiores eos neque, blanditiis quibusdam sapiente tempora saepe quas impedit cumque dolorem, perferendis nobis?</p>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id laborum, eaque nostrum. Illo iusto sed voluptatum.</p>
-              </div>
-              <div class="tab-pane" id="messages3">
-                  <p class="small"><a href="#">Eum, voluptatum! Quam ipsum, quidem ullam aliquam ipsa aspernatur</a> 21/04/14</p>
-                  <hr class="dotted margin-small">
-                  <p class="small"><a href="#">Amet aperiam error, sapiente corrupti, pariatur perferendis dolor eligendi</a> 17/10/13</p>
-                  <hr class="dotted margin-small">
-                  <p class="small"><a href="#">Distinctio autem perspiciatis, officiis eaque nostrum eveniet beatae odit</a> 7/10/13</p>
-                  <hr class="dotted margin-small">
-                  <p class="small"><a href="#">Doloremque possimus praesentium quae consectetur molestiae esse, quasi</a> 19/09/13</p>
-              </div>
+                <div class="tab-pane active" id="home3">
+                    <p class="small"><a href="#">@areason</a> Lorem ipsum dolor sit amet, consectetur adipisicing elit. <a href="http://goo.gl/rMZhoY">http://goo.gl/rMZhoY</a></p>
+                    <hr class="dotted margin-small">
+                    <p class="small"><a href="#">@areason</a> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima pariatur perferendis eaque quidem sunt excepturi.</p>
+                    <hr class="dotted margin-small">
+                    <p class="small"><a href="#">@areason</a>architecto asperiores eaque quidem ullam dolores consequatur.</p>
+                    <hr class="dotted margin-small">
+                    <p class="small"><a href="#">@areason</a> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima pariatur perferendis eaque quidem sunt excepturi.</p>
+                </div>
+                <div class="tab-pane" id="profile3">
+                    <p><strong>Put here your facebook widget!</strong></p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores unde consequatur architecto deserunt nam veritatis accusantium maiores eos neque, blanditiis quibusdam sapiente tempora saepe quas impedit cumque dolorem, perferendis nobis?</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id laborum, eaque nostrum. Illo iusto sed voluptatum.</p>
+                </div>
+                <div class="tab-pane" id="messages3">
+                    <p class="small"><a href="#">Eum, voluptatum! Quam ipsum, quidem ullam aliquam ipsa aspernatur</a> 21/04/14</p>
+                    <hr class="dotted margin-small">
+                    <p class="small"><a href="#">Amet aperiam error, sapiente corrupti, pariatur perferendis dolor eligendi</a> 17/10/13</p>
+                    <hr class="dotted margin-small">
+                    <p class="small"><a href="#">Distinctio autem perspiciatis, officiis eaque nostrum eveniet beatae odit</a> 7/10/13</p>
+                    <hr class="dotted margin-small">
+                    <p class="small"><a href="#">Doloremque possimus praesentium quae consectetur molestiae esse, quasi</a> 19/09/13</p>
+                </div>
             </div>
         </div>
     </div> <!-- row -->
-</div> <!-- container -->
-
+</div> <!-- container -->

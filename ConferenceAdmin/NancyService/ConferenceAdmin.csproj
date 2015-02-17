@@ -69,7 +69,33 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\app.js" />
+    <Content Include="App\abstractCtrl.js" />
+    <Content Include="App\committeeCtrl.js" />
+    <Content Include="App\contactCtrl.js" />
+    <Content Include="App\deadlinesCtrl.js" />
+    <Content Include="App\homeCtrl.js" />
+    <Content Include="App\layoutCtrl.js" />
+    <Content Include="App\loginCtrl.js" />
+    <Content Include="App\papersCtrl.js" />
+    <Content Include="App\registerCtrl.js" />
+    <Content Include="App\registrationCtrl.js" />
+    <Content Include="App\scheduleCtrl.js" />
+    <Content Include="App\scholarshipCtrl.js" />
+    <Content Include="App\services.js" />
+    <Content Include="App\sponsorCtrl.js" />
+    <Content Include="App\venueCtrl.js" />
+    <Content Include="App\workshopsCtrl.js" />
+    <Content Include="Views\abstracts.html" />
+    <Content Include="Views\committee.html" />
+    <Content Include="Views\contact.html" />
     <Content Include="App\controller.js" />
+    <Content Include="Views\deadlines.html" />
+    <Content Include="Views\login.html" />
+    <Content Include="Views\papers.html" />
+    <Content Include="Views\register.html" />
+    <Content Include="Views\schedule.html" />
+    <Content Include="Views\scholarship.html" />
+    <Content Include="Views\sponsors.html" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -1226,6 +1252,9 @@
     <Content Include="js\syntaxhighlighter\shCore.js" />
     <Content Include="js\syntaxhighlighter\shLegacy.js" />
     <Content Include="js\wow.min.js" />
+    <Content Include="Views\registration.html" />
+    <Content Include="Views\venue.html" />
+    <Content Include="Views\workshops.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
