@@ -3477,12 +3477,12 @@ a.thumbnail.active {
   }
   /*Navbar*/
   .navbar-default .navbar-nav > li > a {
-    padding-top: 16px;
-    padding-bottom: 15px;
+    padding-top: 12px;
+    padding-bottom: 12px;
     margin-top: -1px;
     color: #000;
     font-family: "Lato";
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
   }
   .navbar-default .navbar-nav > li.dropdown > a {
@@ -6086,13 +6086,15 @@ a.feature-icon:hover {
   float: left;
   overflow: hidden;
   padding-left: 75px;
-  background-image: url("../img/colors/red/logo_big.png");
   background-repeat: no-repeat;
   background-position: left center;
+  background-image: url("http://i63.photobucket.com/albums/h140/alignedstars/CCWiC_Logo_3_zps21f62af0.png"); 
+  background-size: 120px 120px; 
+  padding-left: 100px;
 }
 .header-full-title h1 {
   margin-bottom: 5px;
-  margin-top: 15px;
+  margin-top: 5px;
   font-family: "Muli";
   word-spacing: -7px;
   color: #000;
@@ -6107,7 +6109,7 @@ a.feature-icon:hover {
   color: #e73c3c;
 }
 .header-full-title p {
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   font-size: 1.2em;
   text-align: center;
 }
@@ -6178,7 +6180,7 @@ a.feature-icon:hover {
   margin: 0;
 }
 .top-nav-social a {
-  font-size: 1.5em;
+  font-size: 1.2em;
   margin: 0;
   color: #444;
   display: inline-block;
@@ -6291,11 +6293,11 @@ a.feature-icon:hover {
 }
 .header-full-dark .header-full-title h1 a {
   margin-bottom: 5px;
-  margin-top: 15px;
+  margin-top: 10px;
   font-family: "Muli";
   word-spacing: -7px;
   color: #fff;
-  font-size: 32px;
+  font-size: 20px;
 }
 .navbar-header-full .sb-icon-navbar i {
   height: 51px;
