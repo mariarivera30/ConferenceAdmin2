@@ -7,7 +7,7 @@
     angular.module('app').controller(controllerId,
         ['$scope', '$http', 'restApi', contactCtrl]);
 
-    function controller($scope, $http) {
+    function contactCtrl($scope, $http) {
         var vm = this;
 
         vm.activate = activate;

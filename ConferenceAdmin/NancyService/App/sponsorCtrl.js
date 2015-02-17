@@ -7,7 +7,7 @@
     angular.module('app').controller(controllerId,
         ['$scope', '$http', 'restApi', sponsorCtrl]);
 
-    function controller($scope, $http) {
+    function sponsorCtrl($scope, $http) {
         var vm = this;
 
         vm.activate = activate;

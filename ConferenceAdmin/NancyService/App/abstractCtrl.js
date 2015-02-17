@@ -7,7 +7,7 @@
     angular.module('app').controller(controllerId,
         ['$scope', '$http', 'restApi', abstractCtrl]);
 
-    function controller($scope, $http) {
+    function abstractCtrl($scope, $http) {
         var vm = this;
 
         vm.activate = activate;
