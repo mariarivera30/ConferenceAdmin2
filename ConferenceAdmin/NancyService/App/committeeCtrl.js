@@ -7,7 +7,7 @@
     angular.module('app').controller(controllerId,
         ['$scope', '$http', 'restApi', committeeCtrl]);
 
-    function controller($scope, $http) {
+    function committeeCtrl($scope, $http) {
         var vm = this;
 
         vm.activate = activate;

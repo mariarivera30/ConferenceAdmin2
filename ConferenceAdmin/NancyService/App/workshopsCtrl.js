@@ -7,7 +7,7 @@
     angular.module('app').controller(controllerId,
         ['$scope', '$http', 'restApi', workshopsCtrl]);
 
-    function controller($scope, $http) {
+    function workshopsCtrl($scope, $http) {
         var vm = this;
 
         vm.activate = activate;

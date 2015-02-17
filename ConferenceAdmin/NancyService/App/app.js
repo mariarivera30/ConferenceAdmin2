@@ -24,7 +24,7 @@
     app.config(function ($stateProvider, $urlRouterProvider) {
         //
         // For any unmatched url, redirect to /state1
-        $urlRouterProvider.otherwise("/Home");
+        $urlRouterProvider.otherwise("/Home ");
         //
         // Now set up the states
         $stateProvider

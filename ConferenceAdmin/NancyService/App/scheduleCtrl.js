@@ -7,7 +7,7 @@
     angular.module('app').controller(controllerId,
         ['$scope', '$http', 'restApi', scheduleCtrl]);
 
-    function controller($scope, $http) {
+    function scheduleCtrl($scope, $http) {
         var vm = this;
 
         vm.activate = activate;
