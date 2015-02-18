@@ -188,7 +188,7 @@
              url: "/Administrator",
              views: {
                  'dynamic': {
-                     templateUrl: "views/administrator.html"
+                     templateUrl: "views/admin.html"
                  },
                  'banner': {
                      templateUrl: "views/abstracts.html"
@@ -200,7 +200,7 @@
             url: "/GeneralInformation",
             views: {
                 'dynamic': {
-                    templateUrl: "views/administrator.html"
+                    templateUrl: "views/admin.html"
                 },
                 'banner': {
                     templateUrl: "views/abstracts.html"
@@ -212,7 +212,7 @@
             url: "/RegistrationForm",
             views: {
                 'dynamic': {
-                    templateUrl: "views/administrator.html"
+                    templateUrl: "views/admin.html"
                 },
                 'banner': {
                     templateUrl: "views/abstracts.html"
@@ -224,7 +224,7 @@
             url: "/Agenda",
             views: {
                 'dynamic': {
-                    templateUrl: "views/administrator.html"
+                    templateUrl: "views/admin.html"
                 },
                 'banner': {
                     templateUrl: "views/abstracts.html"
@@ -236,7 +236,7 @@
             url: "/SponsorInformation",
             views: {
                 'dynamic': {
-                    templateUrl: "views/administrator.html"
+                    templateUrl: "views/admin.html"
                 },
                 'banner': {
                     templateUrl: "views/abstracts.html"
@@ -248,7 +248,7 @@
             url: "/ManageAdministrators",
             views: {
                 'dynamic': {
-                    templateUrl: "views/administrator.html"
+                    templateUrl: "views/admin.html"
                 },
                 'banner': {
                     templateUrl: "views/abstracts.html"
@@ -260,7 +260,7 @@
             url: "/ManageAttendants",
             views: {
                 'dynamic': {
-                    templateUrl: "views/administrator.html"
+                    templateUrl: "views/admin.html"
                 },
                 'banner': {
                     templateUrl: "views/abstracts.html"
@@ -272,7 +272,7 @@
             url: "/ManageEvaluators",
             views: {
                 'dynamic': {
-                    templateUrl: "views/administrator.html"
+                    templateUrl: "views/admin.html"
                 },
                 'banner': {
                     templateUrl: "views/abstracts.html"
@@ -284,7 +284,7 @@
             url: "/Reports",
             views: {
                 'dynamic': {
-                    templateUrl: "views/administrator.html"
+                    templateUrl: "views/admin.html"
                 },
                 'banner': {
                     templateUrl: "views/abstracts.html"
