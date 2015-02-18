@@ -196,8 +196,8 @@
 
              }
          })
-        .state('administratorHome', {
-            url: "/home2",
+        .state('Admin_Information', { //Start Administrator Menu
+            url: "/GeneralInformation",
             views: {
                 'dynamic': {
                     templateUrl: "views/administrator.html"
@@ -208,8 +208,8 @@
 
             }
         })
-        .state('administratorProfile', {
-            url: "/profile2",
+        .state('Admin_Registration', {
+            url: "/RegistrationForm",
             views: {
                 'dynamic': {
                     templateUrl: "views/administrator.html"
@@ -220,8 +220,8 @@
 
             }
         })
-        .state('administratorMessages', {
-            url: "/messages2",
+        .state('Admin_Agenda', {
+            url: "/Agenda",
             views: {
                 'dynamic': {
                     templateUrl: "views/administrator.html"
@@ -232,8 +232,56 @@
 
             }
         })
-        .state('administratorSettings', {
-            url: "/settings2",
+        .state('Admin_SponsorInformation', {
+            url: "/SponsorInformation",
+            views: {
+                'dynamic': {
+                    templateUrl: "views/administrator.html"
+                },
+                'banner': {
+                    templateUrl: "views/abstracts.html"
+                }
+
+            }
+        })
+        .state('Admin_ManageAdmins', {
+            url: "/ManageAdministrators",
+            views: {
+                'dynamic': {
+                    templateUrl: "views/administrator.html"
+                },
+                'banner': {
+                    templateUrl: "views/abstracts.html"
+                }
+
+            }
+        })
+        .state('Admin_Attendants', {
+            url: "/ManageAttendants",
+            views: {
+                'dynamic': {
+                    templateUrl: "views/administrator.html"
+                },
+                'banner': {
+                    templateUrl: "views/abstracts.html"
+                }
+
+            }
+        })
+        .state('Admin_Evaluators', {
+            url: "/ManageEvaluators",
+            views: {
+                'dynamic': {
+                    templateUrl: "views/administrator.html"
+                },
+                'banner': {
+                    templateUrl: "views/abstracts.html"
+                }
+
+            }
+        })
+        .state('Admin_Reports', {
+            url: "/Reports",
             views: {
                 'dynamic': {
                     templateUrl: "views/administrator.html"
