@@ -68,6 +68,7 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App\adminCtrl.js" />
     <Content Include="App\app.js" />
     <Content Include="App\abstractCtrl.js" />
     <Content Include="App\committeeCtrl.js" />
@@ -86,6 +87,8 @@
     <Content Include="App\venueCtrl.js" />
     <Content Include="App\workshopsCtrl.js" />
     <Content Include="Views\abstracts.html" />
+    <Content Include="Views\administrator.html" />
+    <Content Include="Views\admin_generalInformation.html" />
     <Content Include="Views\banner.html" />
     <Content Include="Views\committee.html" />
     <Content Include="Views\contact.html" />

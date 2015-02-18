@@ -188,7 +188,7 @@
              url: "/Administrator",
              views: {
                  'dynamic': {
-                     templateUrl: "views/admin.html"
+                     templateUrl: "views/administrator.html"
                  },
                  'banner': {
                      templateUrl: "views/abstracts.html"
@@ -196,16 +196,12 @@
 
              }
          })
-        .state('Admin_Information', { //Start Administrator Menu
+        .state('administrator.information', { //Start Administrator Menu
             url: "/GeneralInformation",
             views: {
-                'dynamic': {
-                    templateUrl: "views/admin.html"
-                },
-                'banner': {
-                    templateUrl: "views/abstracts.html"
+                'adminPage': {
+                    templateUrl: "views/admin_generalInformation.html"
                 }
-
             }
         })
         .state('Admin_Registration', {
@@ -280,15 +276,12 @@
 
             }
         })
-        .state('Admin_Reports', {
+        .state('administrator.reports', {
             url: "/Reports",
             views: {
-                'dynamic': {
-                    templateUrl: "views/admin.html"
-                },
-                'banner': {
-                    templateUrl: "views/abstracts.html"
-                }
+               'adminPage': {
+            templateUrl: "views/home.html"
+        }
 
             }
         })

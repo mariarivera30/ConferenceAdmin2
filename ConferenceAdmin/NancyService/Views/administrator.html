@@ -1,0 +1,43 @@
+﻿<div class="container" ng-controller="administratorCtrl">
+
+    <div class="vertical-tabs-left">
+        <div class="vertical-tab-list">
+            <ul class="nav">
+                <li class="active">
+                    <a href="#/Administrator/GeneralInformation" data-toggle="tab"><i class="fa fa-home"></i> General Information</a>
+                </li>
+                <li>
+                    <a href="#RegistrationForm" data-toggle="tab"><i class="fa fa-user"></i> Registration Form</a>
+                </li>
+                <li>
+                    <a href="#Agenda" data-toggle="tab"><i class="fa fa-envelope-o"></i> Agenda</a>
+                </li>
+                <li>
+                    <a href="#SponsorInformation" data-toggle="tab"><i class="fa fa-gear"></i> Sponsors</a>
+                </li>
+                <li>
+                    <a href="#ManageAdministrators" data-toggle="tab"><i class="fa fa-gear"></i> Manage Administrators</a>
+                </li>
+                <li>
+                    <a href="#ManageAttendants" data-toggle="tab"><i class="fa fa-gear"></i> Manage Attendants</a>
+                </li>
+                <li>
+                    <a href="#ManageEvaluators" data-toggle="tab"><i class="fa fa-gear"></i> Manage Evaluators</a>
+                </li>
+                <li>
+                    <a href="#/Administrator/Reports" data-toggle="tab"><i class="fa fa-gear"></i> Reports</a>
+                </li>
+            </ul>
+        </div>
+
+
+        <!-- vertical-tab-list -->
+        <div class="tab-content">
+            <div ui-view="adminPage" autoscroll='false'>
+                          
+            </div> <!-- tab-content -->
+    </div> <!-- vertical-tabs-left -->
+
+</div>
+
+
