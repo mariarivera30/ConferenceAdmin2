@@ -59,3 +59,16 @@ C:\Users\Randy\Documents\GitHub\Conference_Admin\ConferenceAdmin\NancyService\bi
 C:\Users\Randy\Documents\GitHub\Conference_Admin\ConferenceAdmin\NancyService\obj\Debug\ConferenceAdmin.csprojResolveAssemblyReference.cache
 C:\Users\Randy\Documents\GitHub\Conference_Admin\ConferenceAdmin\NancyService\obj\Debug\NancyService.dll
 C:\Users\Randy\Documents\GitHub\Conference_Admin\ConferenceAdmin\NancyService\obj\Debug\NancyService.pdb
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\NancyService.dll.config
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\NancyService.dll
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\NancyService.pdb
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.dll
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.SqlServer.dll
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.xml
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.SqlServer.xml
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.xml
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.Authentication.Token.xml
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.Hosting.Aspnet.xml
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\obj\Debug\ConferenceAdmin.csprojResolveAssemblyReference.cache
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\obj\Debug\NancyService.dll
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\obj\Debug\NancyService.pdb

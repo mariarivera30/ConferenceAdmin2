@@ -87,7 +87,7 @@
                             <span class="sr-only">Toggle navigation</span>
                             <i class="fa fa-bars"></i>
                         </button>
-                        <a class="navbar-brand hidden-lg hidden-md hidden-sm" href="index.html">Artificial <span>Reason</span></a>
+                        <a class="navbar-brand hidden-lg hidden-md hidden-sm" href="index.html"><span>CCWiC</span></a>
                     </div> <!-- navbar-header -->
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -129,20 +129,25 @@
                             <li>
                                 <a href="#/Contact">Contact</a>
                             </li>
-                        </ul>
+                           
+</ul>
                     </div><!-- navbar-collapse -->
                 </div><!-- container -->
             </nav>
 
             <div ng-app="app" id="content" class="container">
-                <div ui-view="banner" autoscroll='false'>
-                </div>
-                <div ui-view="dynamic" autoscroll='false'>
-                </div>
-            </div>
-            
+                <div ui-view="dynamic" autoscroll='false'></div>
 
-           
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="section-title">Our Sponsors</h2>
+                        <div class="row">
+                            <div style="margin-bottom:20px" ui-view="banner" autoscroll='false'>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- row -->
+            </div>       
               
           
         <footer id="footer">
