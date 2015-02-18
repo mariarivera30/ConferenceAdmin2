@@ -30,55 +30,159 @@
         $stateProvider
           .state('home', {
               url: "/Home",
-              templateUrl: "views/home.html"
+              views: {
+                  'banner': {
+                      templateUrl: "views/banner.html"
+                  },
+                  'dynamic': {
+                      templateUrl: "views/home.html"
+                  }
+                 
+              }
           })
         .state('committee', {
             url: "/Committee",
-            templateUrl: "views/committee.html"
+            views: {
+                'banner': {
+                    templateUrl: "views/banner.html"
+                },
+                'dynamic': {
+                    templateUrl: "views/committee.html"
+                }
+                
+            }
         })
         .state('venue', {
             url: "/Venue",
-            templateUrl: "views/venue.html"
+            views: {
+                'banner': {
+                    templateUrl: "views/banner.html"
+                },
+                'dynamic': {
+                    templateUrl: "views/venue.html"
+                }
+
+            }
         })
         .state('deadline', {
             url: "/Deadlines",
-            templateUrl: "views/deadlines.html"
+            views: {
+                'banner': {
+                    templateUrl: "views/banner.html"
+                },
+                'dynamic': {
+                    templateUrl: "views/deadlines.html"
+                }
+                
+            }
         })
         .state('registration', {
             url: "/Registration",
-            templateUrl: "views/registration.html"
+            views: {
+                'banner': {
+                    templateUrl: "views/banner.html"
+                },
+                'dynamic': {
+                    templateUrl: "views/registration.html"
+                }
+
+            }
         })
         .state('sponsors', {
             url: "/Sponsors",
-            templateUrl: "views/sponsors.html"
+            views: {
+                'banner': {
+                    templateUrl: "views/banner.html"
+                },
+                'dynamic': {
+                    templateUrl: "views/sponsors.html"
+                }
+                
+            }
         })
         .state('contact', {
             url: "/Contact",
-            templateUrl: "views/contact.html"
+            views: {
+                'banner': {
+                    templateUrl: "views/banner.html"
+                },
+                'dynamic': {
+                    templateUrl: "views/contact.html"
+                }
+
+            }
         })
         .state('schedule', {
             url: "/Schedule",
-            templateUrl: "views/schedule.html"
+            views: {
+                'banner': {
+                    templateUrl: "views/banner.html"
+                },
+                'dynamic': {
+                    templateUrl: "views/schedule.html"
+                }
+                
+            }
         })
         .state('abstracts', {
             url: "/Abstracts",
-            templateUrl: "views/abstracts.html"
+            views: {
+                'banner': {
+                    templateUrl: "views/banner.html"
+                },
+                'dynamic': {
+                    templateUrl: "views/abstracts.html"
+                }
+                
+            }
         })
          .state('workshops', {
              url: "/Workshops",
-             templateUrl: "views/workshops.html"
+             views: {
+                 'banner': {
+                     templateUrl: "views/banner.html"
+                 },
+                 'dynamic': {
+                     templateUrl: "views/workshops.html"
+                 }
+                 
+             }
          }
          ).state('papers', {
             url: "/Papers",
-            templateUrl: "views/papers.html"
+            views: {
+                'banner': {
+                    templateUrl: "views/banner.html"
+                },
+                'dynamic': {
+                    templateUrl: "views/papers.html"
+                }
+                
+            }
         })
          .state('register', {
              url: "/Register",
-             templateUrl: "views/register.html"
+             views: {
+                 'banner': {
+                     templateUrl: "views/banner.html"
+                 },
+                 'dynamic': {
+                     templateUrl: "views/register.html"
+                 }
+
+             }
          }
          ).state('login', {
              url: "/Login",
-             templateUrl: "views/login.html"
+             views: {
+                 'dynamic': {
+                     templateUrl: "views/login.html"
+                 },
+                 'banner': {
+                     templateUrl: "views/abstracts.html"
+                 }
+
+             }
          })
     });
 })();

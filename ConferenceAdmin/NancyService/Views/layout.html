@@ -32,7 +32,7 @@
     <script src="/App/controller.js"></script>
     <script src="/App/abstractCtrl.js"></script>
     <script src="/App/contactCtrl.js"></script>
-    <script src="/App/controllerCtrl.js"></script>
+    <script src="/App/controller.js"></script>
     <script src="/App/homeCtrl.js"></script>
     <script src="/App/layoutCtrl.js"></script>
     <script src="/App/loginCtrl.js"></script>
@@ -133,88 +133,18 @@
                     </div><!-- navbar-collapse -->
                 </div><!-- container -->
             </nav>
-            <section class="carousel">
-                <div id="carousel-example-generic" class="carousel carousel-razon slide" data-ride="carousel" data-interval="5000">
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators">
-                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-
-                    </ol>
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner">
-
-                        <!-- Banner -->
-                        <div class="item active">
-                            <div class="container">
-                                <div class="row">
-                                    <center>
-                                        <img src="http://ece.uprm.edu/ccwic/wp-content/uploads/2013/11/CCWiC-header-foto-estudiantes.png" style="max-width: 100%; max-height: 242px;" alt="Banner">
-                                    </center>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Start Logos -->
-                        <!--### ng-repeat for all the logos in the DB -->
-                        <div class="item">
-                            <div class="container">
-                                <div class="row" style="height: 242px;">
-                                    <center>
-                                        <img src="http://ece.uprm.edu/ccwic/submissions/view/img/google-logo.png" style="max-width: 100%; max-height: 242px;" alt="Logo">
-                                    </center>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="item">
-                            <div class="container">
-                                <div class="row" style="height: 242px;">
-                                    <center>
-                                        <img src="http://ece.uprm.edu/ccwic/submissions/view/img/acmw-logo.jpg" style="max-width: 100%; max-height: 242px;" alt="Logo">
-                                    </center>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- End Logos -->
-
-
-                    </div>
-                    <!-- Controls -->
-                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                    </a>
-                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                    </a>
-                </div>
-            </section> <!-- carousel -->
 
             <div ng-app="app" id="content" class="container">
-                <div ui-view autoscroll='false' />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                <div ui-view="banner" autoscroll='false'>
+                </div>
+                <div ui-view="dynamic" autoscroll='false'>
+                </div>
             </div>
-        </div>
+            
+
+           
+              
+          
         <footer id="footer">
             <p>&copy; 2014 <a href="#">Artificial Reason</a>, inc. All rights reserved.</p>
         </footer>

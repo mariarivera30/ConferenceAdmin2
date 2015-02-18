@@ -7,7 +7,7 @@
     angular.module('app').controller(controllerId,
         ['$scope', '$http', 'restApi', layoutCtrl]);
 
-    function layoutCtrl($scope, $http) {
+    function layoutCtrl ($scope, $http) {
         var vm = this;
 
         vm.activate = activate;

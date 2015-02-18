@@ -86,6 +86,7 @@
     <Content Include="App\venueCtrl.js" />
     <Content Include="App\workshopsCtrl.js" />
     <Content Include="Views\abstracts.html" />
+    <Content Include="Views\banner.html" />
     <Content Include="Views\committee.html" />
     <Content Include="Views\contact.html" />
     <Content Include="App\controller.js" />
