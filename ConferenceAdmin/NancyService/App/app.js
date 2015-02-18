@@ -24,7 +24,7 @@
     app.config(function ($stateProvider, $urlRouterProvider) {
         //
         // For any unmatched url, redirect to /state1
-        $urlRouterProvider.otherwise("/Home ");
+       $urlRouterProvider.otherwise("/Home");
         //
         // Now set up the states
         $stateProvider
@@ -184,5 +184,65 @@
 
              }
          })
+        .state('administrator', {
+             url: "/Administrator",
+             views: {
+                 'dynamic': {
+                     templateUrl: "views/administrator.html"
+                 },
+                 'banner': {
+                     templateUrl: "views/abstracts.html"
+                 }
+
+             }
+         })
+        .state('administratorHome', {
+            url: "/home2",
+            views: {
+                'dynamic': {
+                    templateUrl: "views/administrator.html"
+                },
+                'banner': {
+                    templateUrl: "views/abstracts.html"
+                }
+
+            }
+        })
+        .state('administratorProfile', {
+            url: "/profile2",
+            views: {
+                'dynamic': {
+                    templateUrl: "views/administrator.html"
+                },
+                'banner': {
+                    templateUrl: "views/abstracts.html"
+                }
+
+            }
+        })
+        .state('administratorMessages', {
+            url: "/messages2",
+            views: {
+                'dynamic': {
+                    templateUrl: "views/administrator.html"
+                },
+                'banner': {
+                    templateUrl: "views/abstracts.html"
+                }
+
+            }
+        })
+        .state('administratorSettings', {
+            url: "/settings2",
+            views: {
+                'dynamic': {
+                    templateUrl: "views/administrator.html"
+                },
+                'banner': {
+                    templateUrl: "views/abstracts.html"
+                }
+
+            }
+        })
     });
 })();
