@@ -13,6 +13,13 @@
 /* ---------------------------------------------------- */
 /* Animations Delay */
 /* ---------------------------------------------------- */
+
+.eval_btn {
+    margin-right:15px; 
+   /* float:right;*/
+    width:125px;
+}
+
 .animation-delay-1 {
   -webkit-animation-delay: .1s !important;
   -moz-animation-delay: .1s !important;
@@ -978,7 +985,7 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6, label {
   font-family: "Lato", sans-serif;
   font-weight: 300;
   line-height: 120%;
@@ -994,7 +1001,7 @@ h2 {
 h3 {
   font-size: 1.7em;
 }
-h4 {
+h4,label {
   font-size: 1.4em;
 }
 h5 {
@@ -2852,6 +2859,7 @@ textarea.form-control:focus {
 }
 .panel-default .panel-heading {
   border-color: #e5e5e5;
+
 }
 .panel-primary {
   border-color: #e73c3c;
@@ -2860,10 +2868,12 @@ textarea.form-control:focus {
 .panel-primary .panel-footer {
   background-color: #e73c3c;
   color: #fff;
+
 }
 .panel-heading {
   border-radius: 0;
   font-family: "Lato", "Open Sans", sans-serif;
+  font-size:1.5em;
 }
 .panel-heading a {
   font-weight: 500 !important;
@@ -7104,4 +7114,7 @@ input[type="date"]:focus {
 .vertical-tabs-right .tab-content {
   display: table-cell;
   padding: 20px;
+}
+.small-input{
+    width:70px;
 }

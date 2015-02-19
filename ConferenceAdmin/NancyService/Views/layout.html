@@ -89,7 +89,7 @@
                             <span class="sr-only">Toggle navigation</span>
                             <i class="fa fa-bars"></i>
                         </button>
-                        <a class="navbar-brand hidden-lg hidden-md hidden-sm" href="index.html">Artificial <span>Reason</span></a>
+                        <a class="navbar-brand hidden-lg hidden-md hidden-sm" href="index.html"><span>CCWiC</span></a>
                     </div> <!-- navbar-header -->
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -139,16 +139,14 @@
                 </div><!-- container -->
             </nav>
 
+            <div ng-app="app" id="content" class="container">
+                <div ui-view="dynamic" autoscroll='false'></div>
             <div ng-app="app" id="content">
-                <div ui-view="banner" autoscroll='false'>
-                </div>
-                <div ui-view="dynamic" autoscroll='false'>
+                <h2 class="section-title">Our Sponsors</h2>
+                <div style="margin-bottom:20px" ui-view="banner" autoscroll='false'>
                 </div>
             </div>
-            
-
-           
-              
+            </div>       
           
         <footer id="footer">
             <p>&copy; 2014 <a href="#">Artificial Reason</a>, inc. All rights reserved.</p>
