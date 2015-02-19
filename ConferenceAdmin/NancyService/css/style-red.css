@@ -1001,14 +1001,14 @@ h2 {
 h3 {
   font-size: 1.7em;
 }
-h4,label {
+h4 {
   font-size: 1.4em;
 }
-h5 {
+h5{
   font-size: 1.2em;
   font-weight: 400;
 }
-h6 {
+h6,label  {
   font-size: 1em;
   font-weight: 400;
 }
@@ -2873,7 +2873,7 @@ textarea.form-control:focus {
 .panel-heading {
   border-radius: 0;
   font-family: "Lato", "Open Sans", sans-serif;
-  font-size:1.5em;
+  font-size:1.2em;
 }
 .panel-heading a {
   font-weight: 500 !important;
@@ -3448,10 +3448,11 @@ a.thumbnail.active {
   font-family: "Muli", sans-serif;
   word-spacing: -6px;
   -webkit-text-stroke: 0.01em;
-  background-image: url("../img/colors/red/logo.png");
+  background-image: url("http://i63.photobucket.com/albums/h140/alignedstars/CCWiC_Logo_3_zpsecede781.png");
   background-position: left center;
   background-repeat: no-repeat;
   padding-left: 45px;
+  background-size:45px 45px;
   color: #000;
 }
 @media (min-width: 360px) and (max-width: 768px) {
@@ -5606,14 +5607,15 @@ a.feature-icon:hover {
   right: 0;
 }
 .title-logo {
-  background-image: url("../img/colors/red/logo50.png");
+  background-image: url("http://i63.photobucket.com/albums/h140/alignedstars/CCWiC_Logo_3_zpsecede781.png");
   background-repeat: no-repeat;
   background-position: center top;
   font-size: 2.3em;
   font-weight: 300;
   font-family: "Muli", "Lato", sans-serif;
   color: #000;
-  padding-top: 70px;
+  padding-top: 120px;
+  background-size:120px;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -6098,9 +6100,9 @@ a.feature-icon:hover {
   padding-left: 75px;
   background-repeat: no-repeat;
   background-position: left center;
-  background-image: url("http://i63.photobucket.com/albums/h140/alignedstars/CCWiC_Logo_3_zps21f62af0.png"); 
-  background-size: 120px 120px; 
-  padding-left: 100px;
+  background-image: url("http://i63.photobucket.com/albums/h140/alignedstars/CCWiC_Logo_3_zpsecede781.png"); 
+  background-size: 75px 75px; 
+  padding-left: 75px;
 }
 .header-full-title h1 {
   margin-bottom: 5px;
@@ -7116,5 +7118,5 @@ input[type="date"]:focus {
   padding: 20px;
 }
 .small-input{
-    width:70px;
+    width:60px;
 }
