@@ -204,85 +204,60 @@
                 }
             }
         })
-        .state('Admin_Registration', {
+        .state('administrator.registration', {
             url: "/RegistrationForm",
             views: {
-                'dynamic': {
-                    templateUrl: "views/admin.html"
-                },
-                'banner': {
-                    templateUrl: "views/abstracts.html"
+                'adminPage': {
+                    templateUrl: "views/admin_registrationform.html"
                 }
-
             }
         })
-        .state('Admin_Agenda', {
+        .state('administrator.agenda', {
             url: "/Agenda",
             views: {
-                'dynamic': {
-                    templateUrl: "views/admin.html"
-                },
-                'banner': {
-                    templateUrl: "views/abstracts.html"
+                'adminPage': {
+                    templateUrl: "views/admin_agenda.html"
                 }
-
             }
         })
-        .state('Admin_SponsorInformation', {
-            url: "/SponsorInformation",
+        .state('administrator.sponsors', {
+            url: "/Sponsors",
             views: {
-                'dynamic': {
-                    templateUrl: "views/admin.html"
-                },
-                'banner': {
-                    templateUrl: "views/abstracts.html"
+                'adminPage': {
+                    templateUrl: "views/admin_sponsors.html"
                 }
-
             }
         })
-        .state('Admin_ManageAdmins', {
+        .state('administrator.manageadmins', {
             url: "/ManageAdministrators",
             views: {
-                'dynamic': {
-                    templateUrl: "views/admin.html"
-                },
-                'banner': {
-                    templateUrl: "views/abstracts.html"
+                'adminPage': {
+                    templateUrl: "views/admin_manageadmins.html"
                 }
-
             }
         })
-        .state('Admin_Attendants', {
+        .state('administrator.attendants', {
             url: "/ManageAttendants",
             views: {
-                'dynamic': {
-                    templateUrl: "views/admin.html"
-                },
-                'banner': {
-                    templateUrl: "views/abstracts.html"
+                'adminPage': {
+                    templateUrl: "views/admin_manageattendants.html"
                 }
-
             }
         })
-        .state('Admin_Evaluators', {
+        .state('administrator.evaluators', {
             url: "/ManageEvaluators",
             views: {
-                'dynamic': {
-                    templateUrl: "views/admin.html"
-                },
-                'banner': {
-                    templateUrl: "views/abstracts.html"
+                'adminPage': {
+                    templateUrl: "views/admin_manageevaluators.html"
                 }
-
             }
         })
         .state('administrator.reports', {
             url: "/Reports",
             views: {
-               'adminPage': {
-            templateUrl: "views/home.html"
-        }
-
+                'adminPage': {
+                    templateUrl: "views/admin_reports.html"
+                }
             }
         })
     });
