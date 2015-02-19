@@ -24,7 +24,7 @@
     app.config(function ($stateProvider, $urlRouterProvider) {
         //
         // For any unmatched url, redirect to /state1
-        $urlRouterProvider.otherwise("/Home ");
+       $urlRouterProvider.otherwise("/Home");
         //
         // Now set up the states
         $stateProvider
@@ -184,5 +184,81 @@
 
              }
          })
+        .state('administrator', {
+             url: "/Administrator",
+             views: {
+                 'dynamic': {
+                     templateUrl: "views/administrator.html"
+                 },
+                 'banner': {
+                     templateUrl: "views/abstracts.html"
+                 }
+
+             }
+         })
+        .state('administrator.information', { //Start Administrator Menu
+            url: "/GeneralInformation",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_generalInformation.html"
+                }
+            }
+        })
+        .state('administrator.registration', {
+            url: "/RegistrationForm",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_registrationform.html"
+                }
+            }
+        })
+        .state('administrator.agenda', {
+            url: "/Agenda",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_agenda.html"
+                }
+            }
+        })
+        .state('administrator.sponsors', {
+            url: "/Sponsors",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_sponsors.html"
+                }
+            }
+        })
+        .state('administrator.manageadmins', {
+            url: "/ManageAdministrators",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_manageadmins.html"
+                }
+            }
+        })
+        .state('administrator.attendants', {
+            url: "/ManageAttendants",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_manageattendants.html"
+                }
+            }
+        })
+        .state('administrator.evaluators', {
+            url: "/ManageEvaluators",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_manageevaluators.html"
+                }
+            }
+        })
+        .state('administrator.reports', {
+            url: "/Reports",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_reports.html"
+                }
+            }
+        })
     });
 })();

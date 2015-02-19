@@ -21,6 +21,7 @@
     <link href="css/style-red.css" rel="stylesheet" media="screen" title="default">
     <link href="css/width-full.css" rel="stylesheet" media="screen" title="default">
     <link href="css/buttons.css" rel="stylesheet" media="screen">
+    <link href="Scripts/ng-table/ng-table.min.css" rel="stylesheet" />
     <!-- Custom styles for this template -->
 
     <script src="/Scripts/angular.js"></script>
@@ -45,6 +46,7 @@
     <script src="/App/workshopsCtrl.js"></script>
     <script src="/App/deadlinesCtrl.js"></script>
     <script src="/App/services.js"></script>
+    <script src="/App/adminCtrl.js"></script>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -67,10 +69,10 @@
                     </div>
                     <nav class="top-nav">
                         <ul class="top-nav-social hidden-sm">
-                            <li><a href="#" class="animated fadeIn animation-delay-7 twitter"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#" class="animated fadeIn animation-delay-8 facebook"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#" class="animated fadeIn animation-delay-9 google-plus"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#" class="animated fadeIn animation-delay-9 instagram"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="https://twitter.com/hashtag/ccwic" class="animated fadeIn animation-delay-7 twitter" target="_blank" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="https://www.facebook.com/ccwic2014" class="animated fadeIn animation-delay-8 facebook" target="_blank" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="https://plus.google.com/s/ccwic" class="animated fadeIn animation-delay-9 google-plus" target="_blank" title="Google Plus"><i class="fa fa-google-plus"></i></a></li>
+                            <!-- <li><a href="#" class="animated fadeIn animation-delay-9 instagram"><i class="fa fa-instagram"></i></a></li> -->
                         </ul>
                         <div class="top-nav-social hidden-sm">
                             <a href="#/Login"><i class="fa fa-user"></i> Login | Register</a>
@@ -129,26 +131,22 @@
                             <li>
                                 <a href="#/Contact">Contact</a>
                             </li>
-                           
-</ul>
+                            <li>
+                                <a href="#/Administrator" style="float: right;">Administrator</a>
+                            </li>
+                        </ul>
                     </div><!-- navbar-collapse -->
                 </div><!-- container -->
             </nav>
 
             <div ng-app="app" id="content" class="container">
                 <div ui-view="dynamic" autoscroll='false'></div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <h2 class="section-title">Our Sponsors</h2>
-                        <div class="row">
-                            <div style="margin-bottom:20px" ui-view="banner" autoscroll='false'>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- row -->
+            <div ng-app="app" id="content">
+                <h2 class="section-title">Our Sponsors</h2>
+                <div style="margin-bottom:20px" ui-view="banner" autoscroll='false'>
+                </div>
+            </div>
             </div>       
-              
           
         <footer id="footer">
             <p>&copy; 2014 <a href="#">Artificial Reason</a>, inc. All rights reserved.</p>
@@ -174,5 +172,7 @@
     <script src="js/syntaxhighlighter/shBrushXml.js"></script>
     <script src="js/syntaxhighlighter/shBrushJScript.js"></script>
     <script src="js/app.js"></script>
+    <script src="Scripts/ng-table/ng-table.min.js"></script>
+    <script src="Scripts/ng-table/ng-table.js"></script>
 </body>
 </html>
