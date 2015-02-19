@@ -191,7 +191,7 @@
                      templateUrl: "views/administrator.html"
                  },
                  'banner': {
-                     templateUrl: "views/abstracts.html"
+                     templateUrl: "views/banner.html"
                  }
 
              }
