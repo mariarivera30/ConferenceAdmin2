@@ -237,7 +237,7 @@
             }
         })
         .state('administrator.attendants', {
-            url: "/ManageAttendants",
+            url: "/ManageApplicants",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_manageattendants.html"

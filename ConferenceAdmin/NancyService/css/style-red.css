@@ -1011,6 +1011,7 @@ h5{
 h6,label  {
   font-size: 1em;
   font-weight: 400;
+  margin-bottom: 0px;
 }
 a {
   color: #e73c3c;
@@ -7119,4 +7120,24 @@ input[type="date"]:focus {
 }
 .small-input{
     width:60px;
+}
+.med-input{
+    width:120px;
+}
+.big-input{
+    width:200px;
+}
+.platinum {
+    background-color: lightgray;
+    color: black;
+}
+.gold {
+    background-color: #B2A12E;
+}
+.silver {
+    background-color: silver;
+    color: black;
+}
+.bronze {
+    background-color: saddlebrown;
 }

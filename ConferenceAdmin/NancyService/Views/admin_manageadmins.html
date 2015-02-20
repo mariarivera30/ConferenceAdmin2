@@ -1,11 +1,8 @@
 ﻿<div ng-controller="administratorCtrl as vm">
 
     <h3>Manage Administrators</h3>
-
-
-
-
-        <table ng-table="tableParams" show-filter="true" class="table">
+    
+        <table ng-table="tableParams" show-filter="true" class="table row">
             <tr>
                 <td>Name</td>
                 <td>E-mail</td>
@@ -17,8 +14,8 @@
                 <td data-title="'Email'">
                     {{user.email}}
                 </td>
-                
-
             </tr>
         </table>
+
+    <button class="btn btn-ar btn-primary" style="float: right;">Create Administrator</button>
 </div>
