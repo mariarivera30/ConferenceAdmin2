@@ -1,12 +1,23 @@
-﻿<h3>Reports (UNDER CONSTRUCTION)</h3>
+﻿<div ng-controller="administratorCtrl as vm">
+    <h3>Reports</h3>
 
-<table>
-    <tr>
-        <td>Attendee Name |</td>
-        <td>Affiliation Name |</td>
-        <td>Type of User |</td>
-        <td>Amount Paid |</td>
-        <td>Total of Attendees |</td>
-        <td>Total Amount Paid</td>
-    </tr>
-</table>
+    <table ng-table="tableParams" show-filter="true" class="table row">
+        <tr>
+            <td><b>Attendee Name</b></td>
+            <td><b>Affiliation Name</b></td>
+            <td><b>Type of User</b></td>
+            <td><b>Amount Paid</b></td>
+        </tr>
+        <tr ng-repeat="user in vm.list">
+            <td>{{user.name}}</td>
+            <td>University of Puerto Rico</td>
+            <td>{{user.type}}</td>
+            <td>$ 25.00</td>
+        </tr>
+    </table>
+
+    <label>Total of Attendees: </label> 4
+    <br />
+    <label>Total Amount Paid: </label> $100.00
+
+</div>

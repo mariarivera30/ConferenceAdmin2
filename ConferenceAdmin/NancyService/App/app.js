@@ -229,7 +229,7 @@
             }
         })
         .state('administrator.manageadmins', {
-            url: "/ManageAdministrators",
+            url: "/ManageCommittee",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_manageadmins.html"
@@ -245,7 +245,7 @@
             }
         })
         .state('administrator.evaluators', {
-            url: "/ManageEvaluators",
+            url: "/ManageEvaluations",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_manageevaluators.html"

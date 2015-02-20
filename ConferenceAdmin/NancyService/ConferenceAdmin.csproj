@@ -93,6 +93,7 @@
     <Content Include="Views\admin_manageadmins.html" />
     <Content Include="Views\admin_manageattendants.html" />
     <Content Include="Views\admin_manageevaluators.html" />
+    <Content Include="Views\admin_manageminors.html" />
     <Content Include="Views\admin_registrationform.html" />
     <Content Include="Views\admin_reports.html" />
     <Content Include="Views\admin_sponsors.html" />
@@ -105,7 +106,6 @@
     <Content Include="Views\fullscreen.html" />
     <Content Include="Views\login.html" />
     <Content Include="Views\papers.html" />
-    <Content Include="Views\register.html" />
     <Content Include="Views\schedule.html" />
     <Content Include="Views\scholarship.html" />
     <Content Include="Views\sponsors.html" />

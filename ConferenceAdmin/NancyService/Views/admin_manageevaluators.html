@@ -1,27 +1,28 @@
 ﻿<div ng-controller="administratorCtrl as vm">
 
-    <h3>Manage Evaluators</h3>
+    <h3>Manage Evaluations</h3>
 
 
 
 
-    <table ng-table="tableParams" show-filter="true" class="table">
+    <table ng-table="tableParams" show-filter="true" class="table row">
         <tr>
-            <td>Name</td>
-            <td>E-mail</td>
-            <td>Evaluations</td>
+            <td><b>Submision Title</b></td>
+            <td><b>Evaluator</b></td>
+            <td><b>Evaluation Template</b></td>
         </tr>
-        <tr ng-repeat="user in vm.list" ng-class="{ 'emphasis': user.money > 500 }">
-            <td data-title="'Name'" filter="{ 'name': 'select' }" filter-data="names($column)">
-                {{user.name}}
+        <tr ng-repeat="user in vm.list">
+            <td data-title="'Title'">
+                Title of Submission
             </td>
-            <td data-title="'Email'">
-                {{user.email}}
+            <td data-title="'Evaluator'">
+                <select class="form-control">
+                    <option ng-repeat="evaluator in vm.list">{{evaluator.name}}</option>
+                </select>
             </td>
-            <td data-title="'Evaluations'">
-                <span ng-repeat="eval in user.evaluations"> <a href=""><i class="fa fa-file-text"> </i></a> </span>
+            <td data-title="'Template'">
+                <input type="file" class="btn btn-default" />
             </td>
-
         </tr>
     </table>
 </div>

@@ -1,11 +1,12 @@
 ﻿<div ng-controller="administratorCtrl as vm">
 
-    <h3>Manage Administrators</h3>
+    <h3>Manage Committee</h3>
     
         <table ng-table="tableParams" show-filter="true" class="table row">
             <tr>
-                <td>Name</td>
-                <td>E-mail</td>
+                <td><b>Name</b></td>
+                <td><b>E-mail</b></td>
+                <td><b>Type</b></td>
             </tr>
             <tr ng-repeat="user in vm.list" ng-class="{ 'emphasis': user.money > 500 }">
                 <td data-title="'Name'" filter="{ 'name': 'select' }" filter-data="names($column)">
@@ -13,6 +14,13 @@
                 </td>
                 <td data-title="'Email'">
                     {{user.email}}
+                </td>
+                <td>
+                    <select class="form-group col-md-6">
+                        <option>
+                            {{user.type}}
+                        </option>
+                    </select>
                 </td>
             </tr>
         </table>
