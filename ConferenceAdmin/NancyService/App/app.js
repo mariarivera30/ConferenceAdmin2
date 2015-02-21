@@ -260,11 +260,81 @@
                 }
             }
         })
+
         .state('administrator.manageminors', {
             url: "/ManageMinors",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_manageminors.html"
+                }
+            }
+        })
+
+        .state('profile', {
+            url: "/Profile",
+            views: {
+                'dynamic': {
+                    templateUrl: "views/profile.html"
+                },
+                'banner': {
+                    templateUrl: "views/banner.html"
+                }
+
+            }
+        })
+        .state('profile.information', { //Start Administrator Menu
+            url: "/GeneralInformation",
+            views: {
+                'profilePage': {
+                    templateUrl: "views/profile_information.html"
+                }
+            }
+        })
+        .state('profile.bill', {
+            url: "/Bill",
+            views: {
+                'profilePage': {
+                    templateUrl: "views/profile_bill.html"
+                }
+            }
+        })
+        .state('profile.benefits', {
+            url: "/Benefits",
+            views: {
+                'profilePage': {
+                    templateUrl: "views/profile_benefits.html"
+                }
+            }
+        })
+        .state('profile.status', {
+            url: "/Status",
+            views: {
+                'profilePage': {
+                    templateUrl: "views/profile_status.html"
+                }
+            }
+        })
+        .state('profile.evaluation', {
+            url: "/Evaluator",
+            views: {
+                'profilePage': {
+                    templateUrl: "views/profile_evaluation.html"
+                }
+            }
+        })
+        .state('profile.submission', {
+            url: "/Submission",
+            views: {
+                'profilePage': {
+                    templateUrl: "views/profile_submission.html"
+                }
+            }
+        })
+        .state('profile.authorization', {
+            url: "/Authorization",
+            views: {
+                'profilePage': {
+                    templateUrl: "views/profile_authorization.html"
                 }
             }
         })
