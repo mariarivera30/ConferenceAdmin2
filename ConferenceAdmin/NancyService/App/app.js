@@ -319,9 +319,13 @@
             views: {
                 'profilePage': {
                     templateUrl: "views/profile_evaluation.html"
+                },
+                'viewEvaluation': {
+                    templateUrl: "views/evaluation.html"
                 }
             }
         })
+      
         .state('profile.submission', {
             url: "/Submission",
             views: {
@@ -330,6 +334,14 @@
                 }
             }
         })
+            .state('profile.evaluateSubmission', {
+                url: "/EvaluateSubmission",
+                views: {
+                    'viewEvaluation': {
+                        templateUrl: "views/evaluation.html"
+                    }
+                }
+            })
         .state('profile.authorization', {
             url: "/Authorization",
             views: {
@@ -343,6 +355,9 @@
                   views: {
                       'dynamic': {
                           templateUrl: "views/participation_Information.html"
+                      },
+                      'banner': {
+                          templateUrl: "views/banner.html"
                       }
                   }
               })

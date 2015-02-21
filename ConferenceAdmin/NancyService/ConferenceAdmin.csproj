@@ -75,6 +75,7 @@
     <Content Include="App\contactCtrl.js" />
     <Content Include="App\deadlinesCtrl.js" />
     <Content Include="App\homeCtrl.js" />
+    <Content Include="App\participationInformation.js" />
     <Content Include="App\profileEvaluationCtrl.js" />
     <Content Include="App\profileStatusCtrl.js" />
     <Content Include="App\layoutCtrl.js" />
