@@ -260,6 +260,16 @@
                 }
             }
         })
+
+        .state('administrator.manageminors', {
+            url: "/ManageMinors",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_manageminors.html"
+                }
+            }
+        })
+
         .state('profile', {
             url: "/Profile",
             views: {

@@ -1,9 +1,37 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-</head>
-<body>
+﻿<div ng-controller="administratorCtrl as vm">
 
-</body>
-</html>
+    <h3>Manage Minors</h3>
+
+
+
+
+    <table ng-table="tableParams" show-filter="true" class="table row">
+        <tr>
+            <td><b>Name</b></td>
+            <td><b>Companion</b></td>
+            <td><b>Authorization</b></td>
+            <td><b>Acceptance Status</b></td>
+        </tr>
+        <tr ng-repeat="user in vm.list">
+            <td data-title="'Name'">
+                {{user.name}}
+            </td>
+            <td data-title="'Companion'">
+                Nayda Santiago
+            </td>
+            <td data-title="'Template'">
+                <a href="" ng-show="user.accepted"><i class="fa fa-file" title="Authorization Form"> </i></a>
+                <a href="" ng-show="user.accepted"><i class="fa fa-file" title="Photo Release Form"> </i></a>
+            </td>
+            <td>
+                <button ng-hide="user.accepted || user.rejected" class="btn btn-ar btn-primary">Accept</button>
+                <button ng-hide="user.accepted || user.rejected" class="btn btn-ar btn-default">Reject</button>
+                <span ng-show="user.accepted" style="color:limegreen;"><i class="fa fa-check"></i> Accepted</span>
+                <span ng-show="user.rejected" style="color:red;"><i class="fa fa-times"></i> Rejected</span>
+            </td>
+        </tr>
+    </table>
+
+    <button class="btn btn-ar btn-primary ng-scope">Add Template</button> <a href="" style="font-size:1.5em;"><i class="fa fa-info-circle" title="These templates will be available for all minors when they register."> </i></a>
+
+</div>
