@@ -328,5 +328,13 @@
                 }
             }
         })
+              .state('participation', {
+                  url: "/Participation",
+                  views: {
+                      'dynamic': {
+                          templateUrl: "views/participation_Information.html"
+                      }
+                  }
+              })
     });
 })();

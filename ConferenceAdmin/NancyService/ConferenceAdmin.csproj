@@ -113,6 +113,7 @@
     <Content Include="Views\fullscreen.html" />
     <Content Include="Views\login.html" />
     <Content Include="Views\papers.html" />
+    <Content Include="Views\participation_Information.html" />
     <Content Include="Views\profile.html" />
     <Content Include="App\profileCtrl.js" />
     <Content Include="Views\profile_authorization.html" />
