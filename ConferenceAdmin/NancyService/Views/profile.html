@@ -5,7 +5,7 @@
     <div class="row">
         <div class="vertical-tabs-left">
 
-            <div class="vertical-tab-list">
+            <div class="vertical-tab-list noPrint">
                 <ul class="nav">
                     <li class="">
                         <a href="#/Profile/GeneralInformation" data-toggle="tab"><i class="fa fa-pencil"></i> General Information</a>
@@ -14,7 +14,7 @@
                         <a href="#/Profile/Submission" data-toggle="tab"><i class="fa fa-newspaper-o"></i> Submission</a>
                     </li>
                     <li>
-                        <a href="#/Profile/Status" data-toggle="tab"><i class="fa fa-check-square-o"></i> Status</a>
+                        <a href="#/Profile/Status" data-toggle="tab"><i class="fa fa-check-square-o"></i> Acceptance Status</a>
                     </li>
                     <li>
                         <a href="#/Profile/Authorization" data-toggle="tab"><i class="fa fa-plus-square-o"></i> Authorization</a>
@@ -23,27 +23,32 @@
                         <a href="#/Profile/Benefits" data-toggle="tab"><i class="fa fa-dollar"></i> Benefits</a>
                     </li>
                     <li>
-                        <a href="#/Profile/Bill" data-toggle="tab"><i class="fa fa-money"></i> Bill</a>
+                        <a href="#/Profile/Bill" data-toggle="tab"><i class="fa fa-money"></i> Billing Information</a>
                     </li>
                     <li>
                         <a href="#/Profile/Evaluator" data-toggle="tab"><i class="fa fa-check-square-o"></i> Evaluations</a>
                     </li>
-                   
+
                 </ul>
             </div>
 
 
             <!-- vertical-tab-list -->
             <div class="tab-content" style="width:100%;">
-                <div ui-view="profilePage" autoscroll='false'>
-                
 
-                    </div> <!-- tab-content -->
-               
-                </div> <!-- vertical-tabs-left -->
-           
-            </div>
-        <div ui-view="viewEvaluation" autoscroll='false'>
+                <div ui-view="profilePage" autoscroll='false'>
+
+
+                </div> <!-- tab-content -->
+
+            </div> <!-- vertical-tabs-left -->
+
         </div>
 
 
+        <div ui-view="viewEvaluation" autoscroll='false'>
+        </div>
+
+    </div>
+
+</div>

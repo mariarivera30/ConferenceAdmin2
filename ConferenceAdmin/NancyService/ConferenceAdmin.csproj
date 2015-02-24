@@ -94,6 +94,7 @@
     <Content Include="App\sponsorCtrl.js" />
     <Content Include="App\venueCtrl.js" />
     <Content Include="App\workshopsCtrl.js" />
+    <Content Include="css\print.css" />
     <Content Include="Views\abstracts.html" />
     <Content Include="Views\administrator.html" />
     <Content Include="Views\admin_agenda.html" />

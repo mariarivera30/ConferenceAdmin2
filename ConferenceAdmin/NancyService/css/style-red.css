@@ -7154,3 +7154,8 @@ b {
 textarea.abstract {
     height: 100px !important;
 }
+
+.label-simple {
+    color: #e73c3c;
+}
+
