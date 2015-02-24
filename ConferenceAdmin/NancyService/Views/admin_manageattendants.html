@@ -7,6 +7,7 @@
             <td><b>Name</b></td>
             <td><b>User Type</b></td>
             <td><b>Acceptance Status</b></td>
+            <td></td>
         </tr>
         <tr ng-repeat="user in vm.list" ng-class="{ 'emphasis': user.money > 500 }">
             <td data-title="'Name'" filter="{ 'name': 'select' }" filter-data="names($column)">
@@ -16,10 +17,14 @@
                 {{user.type}}
             </td>
             <td>
-                <button ng-hide="user.accepted || user.rejected" class="btn btn-ar btn-primary">Accept</button>
-                <button ng-hide="user.accepted || user.rejected" class="btn btn-ar btn-default">Reject</button>
+                <span ng-hide="user.accepted || user.rejected" style="color:cornflowerblue;"><i class="fa fa-refresh fa-spin"></i> In Process</span>
                 <span ng-show="user.accepted" style="color:limegreen;"><i class="fa fa-check"></i> Accepted</span>
                 <span ng-show="user.rejected" style="color:red;"><i class="fa fa-times"></i> Rejected</span>
+            </td>
+            <td>
+                <button ng-hide="user.accepted || user.rejected" class="btn btn-ar btn-primary">Accept</button>
+                <button ng-hide="user.accepted || user.rejected" class="btn btn-ar btn-default">Reject</button>
+                
             </td>
         </tr>
     </table>

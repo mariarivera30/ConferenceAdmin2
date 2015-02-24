@@ -2863,13 +2863,14 @@ textarea.form-control:focus {
 
 }
 .panel-primary {
-  border-color: #e73c3c;
+  border-color: #444;
 }
 .panel-primary .panel-heading,
 .panel-primary .panel-footer {
-  background-color: #e73c3c;
+  background-color: #444;
   color: #fff;
-
+  height: 35px !important;
+  padding: 5px 5px 5px 10px !important;
 }
 .panel-heading {
   border-radius: 0;
@@ -7140,4 +7141,16 @@ input[type="date"]:focus {
 }
 .bronze {
     background-color: saddlebrown;
+}
+
+h3 {
+    margin-top: 0px !important;
+}
+
+b {
+    color:#e73c3c;
+}
+
+textarea.abstract {
+    height: 100px !important;
 }
