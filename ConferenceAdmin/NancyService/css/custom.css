@@ -1,12 +1,17 @@
-﻿.registration-title{
+﻿.title-field{
     padding-top:20px;
 }
 
-.registration-after-title-field{
+.after-title-field{
     padding-top:0px; 
     margin:0px;
 }
 
 #register-button{
     padding-top:40px;
+}
+
+#remember-me-checkbox{
+    padding-left:20px;
+    margin: 20px;
 }
