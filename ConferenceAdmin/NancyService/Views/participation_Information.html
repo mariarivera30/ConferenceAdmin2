@@ -2,23 +2,12 @@
     <div class="row">
         <div class="col-md-12">
             <h2 class="right-line">Participate</h2>
-            <button type="submit" class="btn btn-ar btn-primary pull-right">Apply</button>
-            <div class="col-md-10">
-               
-            </div>
-
-
-
+     
             <div ng-repeat="item in vm.list" class="row  animated fadeInUp animation-delay-3">
                 <div class="row">
                     <div class="col-md-8 ">
-                        <h4 class="content-box-title margin-small">{{item.name}}</h4>
+                        <h4 class="content-box-title margin-small">{{item.name}}</h4> <br>
                         <p>{{item.description}}</p>
-                        <p>{{item.cancelation}}</p>
-                        <p>
-                            Days of participation for conference:</p>
-                          <h6>  First Day: {{item.date1}}</p> <p>Last day: {{item.date2}} </p>
-                        </h6>
                     </div>
 
                     <div class="col-lg-3 col-sm-4">
@@ -43,18 +32,8 @@
                 </div>
                 <div class="row">
                     <hr class="dotted"></div>
-               
              </div>
-        
-
-
-
-
-
-
-
-
+            <button type="submit" class="btn btn-ar btn-primary">Apply</button>
         </div>
-       
     </div>
 </div>
