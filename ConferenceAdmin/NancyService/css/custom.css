@@ -7,6 +7,10 @@
     margin:0px;
 }
 
+.black-label{
+    color:black;
+}
+
 #register-button{
     padding-top:40px;
 }
