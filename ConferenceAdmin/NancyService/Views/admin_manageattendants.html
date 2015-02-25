@@ -6,26 +6,32 @@
         <tr>
             <td><b>Name</b></td>
             <td><b>User Type</b></td>
+            <td><b>Scholarship Status</b></td>
             <td><b>Acceptance Status</b></td>
-            <td></td>
         </tr>
         <tr ng-repeat="user in vm.list" ng-class="{ 'emphasis': user.money > 500 }">
             <td data-title="'Name'" filter="{ 'name': 'select' }" filter-data="names($column)">
                 {{user.name}}
             </td>
+
             <td data-title="'Type'">
                 {{user.type}}
             </td>
+
             <td>
-                <span ng-hide="user.accepted || user.rejected" style="color:cornflowerblue;"><i class="fa fa-refresh fa-spin"></i> In Process</span>
+                <span ng-show="user.accepted" style="color:limegreen;"><i class="fa fa-check"></i> Accepted</span>
+
+            </td>
+
+            <td>
+                <span ng-show="user.pending" style="color:cornflowerblue;"><i class="fa fa-refresh"></i> In Process</span>
                 <span ng-show="user.accepted" style="color:limegreen;"><i class="fa fa-check"></i> Accepted</span>
                 <span ng-show="user.rejected" style="color:red;"><i class="fa fa-times"></i> Rejected</span>
+                <span ng-show="user.visitor" style="color:mediumpurple;"><i class="fa fa-male"></i> Spectator</span>
+                <button ng-show="user.visitor" class="btn btn-ar btn-primary" style="margin-left:15px;">Accept</button>
+                <button ng-show="user.visitor" class="btn btn-ar btn-default">Reject</button>
             </td>
-            <td>
-                <button ng-hide="user.accepted || user.rejected" class="btn btn-ar btn-primary">Accept</button>
-                <button ng-hide="user.accepted || user.rejected" class="btn btn-ar btn-default">Reject</button>
-                
-            </td>
+            
         </tr>
     </table>
 

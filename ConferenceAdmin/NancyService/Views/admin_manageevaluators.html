@@ -8,7 +8,7 @@
     <table ng-table="tableParams" show-filter="true" class="table row">
         <tr>
             <td><b>Submision Title</b></td>
-            <td><b>Evaluator</b></td>
+            <td><b>Evaluators</b></td>
             <td><b>Evaluation Template</b></td>
         </tr>
         <tr ng-repeat="user in vm.list">
@@ -16,9 +16,9 @@
                 Title of Submission
             </td>
             <td data-title="'Evaluator'">
-                <select class="form-control">
-                    <option ng-repeat="evaluator in vm.list">{{evaluator.name}}</option>
-                </select>
+                <div class="panel panel-default" style="height:70px; overflow-y:auto;">
+                    <span ng-repeat="evaluator in vm.list"><input type="checkbox"> {{evaluator.name}}<br /></span>
+                </div>
             </td>
             <td data-title="'Template'">
                 <select class="form-control">
@@ -31,6 +31,27 @@
     </table>
 
 
-    <button class="btn btn-ar btn-primary ng-scope">Add Template</button> <a href="" style="font-size:1.5em;"><i class="fa fa-info-circle" title="These templates will be available to be selected for each submission."> </i></a>
+    <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" data-target="#addTemplate">Add Template</button> <a href="" style="font-size:1.5em;"><i class="fa fa-info-circle" title="These templates will be available to be selected for each submission."> </i></a>
 
+</div>
+
+
+
+<div class="modal fade" id="addTemplate" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4>Select template document:</h4>
+            </div>
+            <div class="modal-body">
+                <button class="btn btn-ar btn-primary">Browse</button> <input class="form-group"/>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ar btn-primary" data-dismiss="modal" style="float:left;">Save</button>
+                <button class="btn btn-ar btn-default" data-dismiss="modal" style="float:left;">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>

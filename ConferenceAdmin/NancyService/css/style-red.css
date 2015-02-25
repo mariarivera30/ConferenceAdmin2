@@ -7159,3 +7159,12 @@ textarea.abstract {
     color: #e73c3c;
 }
 
+.hour {
+    display: block;
+    float: left;
+    width: 150px;
+}
+
+textarea {
+    resize: none;
+}
