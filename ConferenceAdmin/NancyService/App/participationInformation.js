@@ -13,47 +13,23 @@
         vm.activate = activate;
         vm.title = 'participationCtrl';
         vm.list = [{
-            name: "University Student (Undergraduate & Graduate)",
-            description: "Poster Instructions",
-            date1: "2/12/2015",
-            date2: "2/13/2015",
-            registrationPrice: "$25.00",
-            withoutFee: "$25.00",
-            withFee: "35.00"
+            name: "Poster Instructions",
+            description: "Consider attending the first day of the conference where activities for female High School students will take place (hands on activities, presentations on computing, talk to females studying computing, attend the Puerto Rico Aspirations in Computing Award ceremony). Every high school student must be accompanied by a responsible adult (21 years or older).",
+            elegibility: "Must be undergraduate or graduate student",
         },         {
-            name: "Professional - Industry",
+            name: "Paper Instructions",
             description: "Consider attending the first day of the conference where activities for female High School students will take place (hands on activities, presentations on computing, talk to females studying computing, attend the Puerto Rico Aspirations in Computing Award ceremony). Every high school student must be accompanied by a responsible adult (21 years or older).",
-            date1: "2/12/2015",
-            date2: "2/13/2015",
-            registrationPrice: "$25.00",
-            withoutFee: "$25.00",
-            withFee: "35.00"
+            elegibility: "Must be undergraduate or graduate student",
         },
         {
-            name: "Professional - Academy",
+            name: "BoF Instructions",
             description: "Consider attending the first day of the conference where activities for female High School students will take place (hands on activities, presentations on computing, talk to females studying computing, attend the Puerto Rico Aspirations in Computing Award ceremony). Every high school student must be accompanied by a responsible adult (21 years or older).",
-            date1: "2/12/2015",
-            date2: "2/13/2015",
-            registrationPrice: "$25.00",
-            withoutFee: "$25.00",
-            withFee: "35.00"
+            elegibility: "Must be undergraduate or graduate student",
         },
         {
-            name: "High School Student",
+            name: "Workshop Instructions",
             description: "Consider attending the first day of the conference where activities for female High School students will take place (hands on activities, presentations on computing, talk to females studying computing, attend the Puerto Rico Aspirations in Computing Award ceremony). Every high school student must be accompanied by a responsible adult (21 years or older).",
-            date1: "2/12/2015",
-            date2: "2/13/2015",
-            registrationPrice: "$25.00",
-            withoutFee: "$25.00",
-            withFee:"35.00"
-        }, {
-            name: "High School Student- Companion",
-            description: "Consider attending the first day of the conference where activities for female High School students will take place (hands on activities, presentations on computing, talk to females studying computing, attend the Puerto Rico Aspirations in Computing Award ceremony). Every high school student must be accompanied by a responsible adult (21 years or older).",
-            date1: "2/12/2015",
-            date2: "2/13/2015",
-            registrationPrice: "$25.00",
-            withoutFee: "$25.00",
-            withFee: "35.00"
+            elegibility: "Must be undergraduate or graduate student",
         }];
         function activate() {
 

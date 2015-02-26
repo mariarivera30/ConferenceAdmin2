@@ -70,3 +70,8 @@ C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy
 C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\obj\Debug\ConferenceAdmin.csprojResolveAssemblyReference.cache
 C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\obj\Debug\NancyService.dll
 C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\obj\Debug\NancyService.pdb
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.dll
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.SqlServer.dll
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.Authentication.Token.dll
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.dll
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.Hosting.Aspnet.dll

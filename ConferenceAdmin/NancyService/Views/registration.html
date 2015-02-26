@@ -1,12 +1,10 @@
 ﻿<div class="container" ng-controller="registrationCtrl as vm">
-
     <div class="row">
-        <div class="col-md-12"><br />
-            <h2 class="section-title no-margin-top">CCWiC Registration</h2>
+        <div class="col-md-12">
+            <h2 class="section-title">CCWiC Registration</h2>
             <div class="panel">
                 <div class="panel-body">
                     <form role="form">
-
                         <div class="row">
                             <div class="col-md-4">
                                 <h3>General Information</h3>
@@ -162,7 +160,87 @@
                 </div>
             </div>
         </div>
+
+        <!--
+        <div>
+            <div class="col-lg-3 col-sm-4 ">
+                <div class="pricing-box animated fadeInUp animation-delay-3">
+                    <div class="pricing-box-header ">
+                        <center>Price</center>
+                    </div>
+                    <div class="pricing-box-price">
+                        <center>{{item.registrationPrice}}</center>
+                    </div>
+                    <div class="pricing-box-content">
+                        <ul>
+                            <li> <center>Deadline to pay:  ${{item.withoutFee}}</center></li>
+                            <li> <center>Amount to pay if fee increase: ${{item.withtFee}}</center></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+        <div class="col-md-12">
+            <h2 class="section-title no-margin-top">Registration Fees</h2>
+            <h4>The deadline for registration is: December 10, 2015. <br> Registration is subject to approval. </h4>
+            <h5 class="black-label">General Instructions:</h5>
+            <p class="p-lg">Please create an account to apply for a space in the conference. If you are submitting a paper, you do not need to apply. </p>
+        </div>
+
+        <div class="col-md-8">
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Participant</th>
+
+                        <th>Fee</th>
+
+                        <th>After deadline fee</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>University Student</td>
+
+                        <td>$25</td>
+
+                        <td>$40</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>High School Student</td>
+
+                        <td>$20</td>
+
+                        <td>$30</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Professional</td>
+
+                        <td>$50</td>
+
+                        <td>$60</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+        </div>
     </div>
-
-
 </div>
