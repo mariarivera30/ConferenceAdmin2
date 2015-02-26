@@ -1,24 +1,26 @@
 ﻿<div ng-controller="administratorCtrl as vm">
-    <h3>Reports</h3>
-
-    <table ng-table="tableParams" show-filter="true" class="table row">
-        <tr>
-            <td><b>Attendee Name</b></td>
-            <td><b>Affiliation Name</b></td>
-            <td><b>Type of User</b></td>
-            <td><b>Amount Paid</b></td>
-        </tr>
-        <tr ng-repeat="user in vm.list">
-            <td>{{user.name}}</td>
-            <td>University of Puerto Rico</td>
-            <td>{{user.type}}</td>
-            <td>$ 25.00</td>
-        </tr>
-    </table>
-
-    <label>Total of Attendees: </label> 4    
-    <br />
-    <label>Total Amount Paid: </label> $100.00
-    <button class="btn btn-ar btn-primary noPrint" style="float:right;" onclick="window.print();">Download Full Report</button>
-
+    <h3>Bill Report</h3>
+    <div class="col-lg-12">
+        <table ng-table="tableParams" show-filter="true" class="table row">
+            <tr>
+                <td><b>Attendee Name</b></td>
+                <td><b>Affiliation Name</b></td>
+                <td><b>Type of User</b></td>
+                <td><b>Amount Paid</b></td>
+            </tr>
+            <tr ng-repeat="user in vm.list">
+                <td>{{user.name}}</td>
+                <td>University of Puerto Rico</td>
+                <td>{{user.type}}</td>
+                <td>$ 25.00</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>$100.00</td>
+            </tr>
+        </table>
+        <button class="btn btn-ar btn-primary" onclick="window.print();">Download Full Report</button>
+    </div>
 </div>
