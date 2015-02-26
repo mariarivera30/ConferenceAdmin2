@@ -7,8 +7,17 @@
     margin:0px;
 }
 
+.collapse-body{
+    padding:5px;
+    margin: 10px;
+}
+
 .black-label{
     color:black;
+}
+
+#deadline-save{
+    margin-top:20px;
 }
 
 #register-button{

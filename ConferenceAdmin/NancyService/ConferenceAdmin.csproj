@@ -63,6 +63,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -95,6 +97,7 @@
     <Content Include="App\venueCtrl.js" />
     <Content Include="App\workshopsCtrl.js" />
     <Content Include="css\custom.css" />
+    <Content Include="css\datepicker.css" />
     <Content Include="css\print.css" />
     <Content Include="Views\abstracts.html" />
     <Content Include="Views\administrator.html" />

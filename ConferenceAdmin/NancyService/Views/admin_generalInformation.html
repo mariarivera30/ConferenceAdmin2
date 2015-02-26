@@ -1,62 +1,154 @@
-﻿<h3>General Information</h3><br>
+﻿<h3>Conference Information</h3>
 
 <div class="row">
-    <h5 class="col-lg-8">
-        Venue Details:<br /><br />
-        <textarea class="form-control" rows="5"></textarea>
-    </h5>
+    <div class="col-lg-10">
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading panel-plus-link">
+                    <h2 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="Administrator/#home">Home</a>
+                    </h2>
+                </div>
+                <div id="home" class="panel-collapse collapse in collapse-body">
+                    <div class="panel">
+                        <h5 class="after-title-field">Description</h5>
+                        <textarea class="form-control" rows="5"></textarea><br>
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <button class="btn btn-ar btn-primary">Save</button>                            
+                            </div>
+                        </div>                
+                    </div>
+                </div>
+            </div>
 
-    <h5 class="col-lg-4">
-        Deadlines:
-        <h6>
-            Submission Deadline:  &nbsp;&nbsp;&nbsp;&nbsp;<input type="date" /><br /><br />
-            Application Deadline:  &nbsp;&nbsp;&nbsp;&nbsp;<input type="date" /><br /><br />
-            Registration Deadline:  &nbsp;&nbsp;<input type="date" />
-        </h6>
-    </h5>
+            <div class="panel panel-default">
+                <div class="panel-heading panel-plus-link">
+                    <h2 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="Administrator/#venue" class="collapsed">Venue</a>
+                    </h2>
+                </div>
+                <div id="venue" class="panel-collapse collapse collapse-body">
+                    <div class="panel">
+                        <h5 class="after-title-field">Description</h5>
+                        <textarea class="form-control" rows="5"></textarea>
+                        <h5>Directions</h5>
+                        <textarea class="form-control" rows="5"></textarea><br>
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <button class="btn btn-ar btn-primary">Save</button>
+                            </div>
+                        </div>      
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading panel-plus-link">
+                    <h2 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="Administrator/#deadlines" class="collapsed">Deadlines</a>
+                    </h2>
+                </div>
+                <div id="deadlines" class="panel-collapse collapse collapse-body">
+                    <div class="panel">
+                        Paper Submission Deadline:  &nbsp;&nbsp;&nbsp;&nbsp;<input type="date" value="10-10-2015" /><br /><br>
+                        Paper Acceptance/Rejection Deadline:  &nbsp;&nbsp;&nbsp;&nbsp;<input type="date" value="01-10-2016"/><br><br>
+                        Ready Paper Submission Deadline:  &nbsp;&nbsp;<input type="date" value="02-10-2016" />
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-10" id="deadline-save">
+                                <button class="btn btn-ar btn-primary">Save</button>
+                            </div>
+                        </div>      
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading panel-plus-link">
+                    <h2 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="Administrator/#registration" class="collapsed">Registration</a>
+                    </h2>
+                </div>
+                <div id="registration" class="panel-collapse collapse collapse-body">
+                    <div class="panel">
+                        <h5 class="after-title-field">Instructions for Registration</h5>
+                        <textarea class="form-control" rows="5"></textarea><br>
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <button class="btn btn-ar btn-primary">Save</button>
+                            </div>
+                        </div>      
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading panel-plus-link">
+                    <h2 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="Administrator/#participation" class="collapsed">Call for Participation</a>
+                    </h2>
+                </div>
+                <div id="participation" class="panel-collapse collapse collapse-body">
+                    <div class="panel">
+                        <h5 class="after-title-field">Instructions for Extended Papers</h5>
+                        <textarea class="form-control" rows="5"></textarea>
+
+                        <h5>Instructions for Posters</h5>
+                        <textarea class="form-control" rows="5"></textarea>
+
+                        <h5>Instructions for Workshops</h5>
+                        <textarea class="form-control" rows="5"></textarea>
+
+                        <h5>Instructions for High School Students</h5>
+                        <textarea class="form-control" rows="5"></textarea><br>
+
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <button class="btn btn-ar btn-primary">Save</button>
+                            </div>
+                        </div>      
+
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading panel-plus-link">
+                    <h2 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="Administrator/#sponsor" class="collapsed">Sponsors</a>
+                    </h2>
+                </div>
+                <div id="sponsor" class="panel-collapse collapse collapse-body">
+                    <div class="panel">
+                        <h5 class="after-title-field">Instructions for Sponsors</h5>
+                        <textarea class="form-control" rows="5"></textarea><br>
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <button class="btn btn-ar btn-primary">Save</button>
+                            </div>
+                        </div>      
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading panel-plus-link">
+                    <h2 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="Administrator/#contact" class="collapsed">Contact Information</a>
+                    </h2>
+                </div>
+                <div id="contact" class="panel-collapse collapse collapse-body">
+                    <div class="panel">
+                        <h5 class="after-title-field">Description</h5>
+                        <textarea class="form-control" rows="5"></textarea><br>
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <button class="btn btn-ar btn-primary">Save</button>
+                            </div>
+                        </div>      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-
-<div class="row">
-    <h5 class="col-lg-6">
-        Contact Information:<br /><br />
-        <textarea class="form-control" rows="5"></textarea>
-    </h5>
-
-    <h5 class="col-lg-6">
-        Wired Transfer Information:<br /><br />
-        <textarea class=" form-control" rows="5"></textarea>
-    </h5>
-</div>
-
-
-<div class="row">
-    <h5 class="col-lg-6">
-        Instructions for paper submission:<br /><br />
-        <textarea class="form-control" rows="5"></textarea>
-    </h5>
-
-    <h5 class="col-lg-6">
-        Instructions for sponsorship and donations:<br /><br />
-        <textarea class="form-control" rows="5"></textarea>
-    </h5>
-</div>
-
-
-<div class="row">
-    <h5 class="col-lg-6">
-        Instructions for registration:<br /><br />
-        <textarea class="form-control" rows="5"></textarea>
-    </h5>
-
-    <h5 class="col-lg-6">
-        Instructions for scholarship application:<br /><br />
-        <textarea class="form-control" rows="5"></textarea>
-    </h5>
-</div>
-
-
-    <br />
-    <button class="btn btn-ar btn-primary">Usher Key Code</button> &nbsp;&nbsp;<a href="" style="font-size:1.5em;"><i class="fa fa-info-circle" title="This code will be used when Ushers register."> </i></a>
-    <br />
-    <textarea rows="1" class="form-control med-input">U5H3R-C0D3</textarea>
+<button class="btn btn-ar btn-primary">Usher Key Code</button> &nbsp;&nbsp;<a href="" style="font-size:1.5em;"><i class="fa fa-info-circle" title="This code will be used when Ushers register."> </i></a>
+<br />
+<textarea rows="1" class="form-control med-input">U5H3R-C0D3</textarea>
