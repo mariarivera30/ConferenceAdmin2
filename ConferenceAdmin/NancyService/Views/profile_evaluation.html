@@ -1,0 +1,37 @@
+﻿<div ng-controller="profileEvaluationCtrl as vm">
+   <!--  List of evaluation when select one aparece lo de abajo
+   <a href="#/EvaluateSubmission">Abstract / Bios</a> -->
+
+    <h3>Evaluations</h3>
+
+    <table ng-table="tableParams" show-filter="true" class="table row">
+        <tr>
+            <td><b>Submision Title</b></td>
+            <td><b>Category</b></td>
+            <td><b>Topic</b></td>
+            <td><b></b></td>
+        </tr>
+        <tr ng-repeat="user in vm.list">
+            <td data-title="'Title'">
+                Title of Submission <br /><a href=""> View</a>
+            </td>
+
+            <td>{{user.type}}</td>
+
+            <td>Robotics</td>
+
+            <td data-title="'Template'">
+                <!-- <select class="form-control" style="width: 300px; float: left;">
+                    <option>Document_1</option>
+                    <option>Document_2</option>
+                    <option>Document_3</option>
+                </select> -->
+                <a href="#evaluation"><button class="btn btn-ar btn-primary ng-scope" style="float: left; margin-left:10px;">Evaluate</button></a>
+            </td>
+
+        </tr>
+    </table>
+
+</div>
+
+<div id="evaluation"></div>

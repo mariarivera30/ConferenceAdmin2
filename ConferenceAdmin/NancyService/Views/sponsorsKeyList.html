@@ -1,0 +1,32 @@
+﻿<div ng-controller="sponsorCtrl as vm">
+
+    <h3>List of complementary keys</h3>
+    <div class="col-lg-12">
+        <table ng-table="tableParams" show-filter="true" class="table row after-title-field">
+            <tr>
+                <td><b>Keys</b></td>
+                <td><b>Name</b></td>
+                <td><b>E-mail</b></td>
+            </tr>
+            <tr ng-repeat="user in vm.list" ng-class="{ 'emphasis': user.money > 500 }">
+                <td data-title="'Key'">
+                    {{user.key}}
+                </td>
+                <td data-title="'Name'" filter="{ 'name': 'select' }" filter-data="names($column)">
+                    {{user.name}}
+                </td>
+                <td data-title="'Email'">
+                    {{user.email}}
+                </td>
+
+
+
+            </tr>
+        </table>
+    </div>
+        <h3>Upload Company Logo</h3>
+       
+            <button class="btn btn-ar btn-primary eval_btn"> <i class="fa fa-upload"> </i> Upload </button>
+    
+   
+   </div>

@@ -1,0 +1,99 @@
+C:\Users\Maria\Downloads\NancyService (2) (1)\NancyService\NancyService\bin\NancyService.dll.config
+C:\Users\Maria\Downloads\NancyService (2) (1)\NancyService\NancyService\bin\NancyService.dll
+C:\Users\Maria\Downloads\NancyService (2) (1)\NancyService\NancyService\bin\NancyService.pdb
+C:\Users\Maria\Downloads\NancyService (2) (1)\NancyService\NancyService\bin\EntityFramework.dll
+C:\Users\Maria\Downloads\NancyService (2) (1)\NancyService\NancyService\bin\EntityFramework.SqlServer.dll
+C:\Users\Maria\Downloads\NancyService (2) (1)\NancyService\NancyService\bin\Nancy.Authentication.Token.dll
+C:\Users\Maria\Downloads\NancyService (2) (1)\NancyService\NancyService\bin\Nancy.dll
+C:\Users\Maria\Downloads\NancyService (2) (1)\NancyService\NancyService\bin\Nancy.Hosting.Aspnet.dll
+C:\Users\Maria\Downloads\NancyService (2) (1)\NancyService\NancyService\bin\EntityFramework.xml
+C:\Users\Maria\Downloads\NancyService (2) (1)\NancyService\NancyService\bin\EntityFramework.SqlServer.xml
+C:\Users\Maria\Downloads\NancyService (2) (1)\NancyService\NancyService\bin\Nancy.xml
+C:\Users\Maria\Downloads\NancyService (2) (1)\NancyService\NancyService\bin\Nancy.Authentication.Token.xml
+C:\Users\Maria\Downloads\NancyService (2) (1)\NancyService\NancyService\bin\Nancy.Hosting.Aspnet.xml
+C:\Users\Maria\Downloads\NancyService (2) (1)\NancyService\NancyService\obj\Debug\ConferenceAdmin.csprojResolveAssemblyReference.cache
+C:\Users\Maria\Downloads\NancyService (2) (1)\NancyService\NancyService\obj\Debug\NancyService.dll
+C:\Users\Maria\Downloads\NancyService (2) (1)\NancyService\NancyService\obj\Debug\NancyService.pdb
+C:\Users\Maria\Downloads\ParadigmInnovation\ConferenceAdmin\NancyService\bin\NancyService.dll.config
+C:\Users\Maria\Downloads\ParadigmInnovation\ConferenceAdmin\NancyService\bin\NancyService.dll
+C:\Users\Maria\Downloads\ParadigmInnovation\ConferenceAdmin\NancyService\bin\NancyService.pdb
+C:\Users\Maria\Downloads\ParadigmInnovation\ConferenceAdmin\NancyService\bin\EntityFramework.dll
+C:\Users\Maria\Downloads\ParadigmInnovation\ConferenceAdmin\NancyService\bin\EntityFramework.SqlServer.dll
+C:\Users\Maria\Downloads\ParadigmInnovation\ConferenceAdmin\NancyService\bin\Nancy.Authentication.Token.dll
+C:\Users\Maria\Downloads\ParadigmInnovation\ConferenceAdmin\NancyService\bin\Nancy.dll
+C:\Users\Maria\Downloads\ParadigmInnovation\ConferenceAdmin\NancyService\bin\Nancy.Hosting.Aspnet.dll
+C:\Users\Maria\Downloads\ParadigmInnovation\ConferenceAdmin\NancyService\bin\EntityFramework.xml
+C:\Users\Maria\Downloads\ParadigmInnovation\ConferenceAdmin\NancyService\bin\EntityFramework.SqlServer.xml
+C:\Users\Maria\Downloads\ParadigmInnovation\ConferenceAdmin\NancyService\bin\Nancy.xml
+C:\Users\Maria\Downloads\ParadigmInnovation\ConferenceAdmin\NancyService\bin\Nancy.Authentication.Token.xml
+C:\Users\Maria\Downloads\ParadigmInnovation\ConferenceAdmin\NancyService\bin\Nancy.Hosting.Aspnet.xml
+C:\Users\Maria\Downloads\ParadigmInnovation\ConferenceAdmin\NancyService\obj\Debug\ConferenceAdmin.csprojResolveAssemblyReference.cache
+C:\Users\Maria\Downloads\ParadigmInnovation\ConferenceAdmin\NancyService\obj\Debug\NancyService.dll
+C:\Users\Maria\Downloads\ParadigmInnovation\ConferenceAdmin\NancyService\obj\Debug\NancyService.pdb
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\NancyService.dll.config
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\NancyService.dll
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\NancyService.pdb
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.dll
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.SqlServer.dll
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.Authentication.Token.dll
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.dll
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.Hosting.Aspnet.dll
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.xml
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.SqlServer.xml
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.xml
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.Authentication.Token.xml
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.Hosting.Aspnet.xml
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\obj\Debug\ConferenceAdmin.csprojResolveAssemblyReference.cache
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\obj\Debug\NancyService.dll
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\obj\Debug\NancyService.pdb
+C:\Users\Randy\Documents\GitHub\Conference_Admin\ConferenceAdmin\NancyService\bin\NancyService.dll.config
+C:\Users\Randy\Documents\GitHub\Conference_Admin\ConferenceAdmin\NancyService\bin\NancyService.dll
+C:\Users\Randy\Documents\GitHub\Conference_Admin\ConferenceAdmin\NancyService\bin\NancyService.pdb
+C:\Users\Randy\Documents\GitHub\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.dll
+C:\Users\Randy\Documents\GitHub\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.SqlServer.dll
+C:\Users\Randy\Documents\GitHub\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.xml
+C:\Users\Randy\Documents\GitHub\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.SqlServer.xml
+C:\Users\Randy\Documents\GitHub\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.xml
+C:\Users\Randy\Documents\GitHub\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.Authentication.Token.xml
+C:\Users\Randy\Documents\GitHub\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.Hosting.Aspnet.xml
+C:\Users\Randy\Documents\GitHub\Conference_Admin\ConferenceAdmin\NancyService\obj\Debug\ConferenceAdmin.csprojResolveAssemblyReference.cache
+C:\Users\Randy\Documents\GitHub\Conference_Admin\ConferenceAdmin\NancyService\obj\Debug\NancyService.dll
+C:\Users\Randy\Documents\GitHub\Conference_Admin\ConferenceAdmin\NancyService\obj\Debug\NancyService.pdb
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\NancyService.dll.config
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\NancyService.dll
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\NancyService.pdb
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.dll
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.SqlServer.dll
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.Authentication.Token.dll
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.dll
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.Hosting.Aspnet.dll
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.xml
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.SqlServer.xml
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.xml
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.Authentication.Token.xml
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.Hosting.Aspnet.xml
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\obj\Debug\ConferenceAdmin.csprojResolveAssemblyReference.cache
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\obj\Debug\NancyService.dll
+C:\Users\Heidi\Documents\Conference_Admin\ConferenceAdmin\NancyService\obj\Debug\NancyService.pdb
+C:\Users\Maria\Documents\Conference_Admin\New folder\NancyService\bin\NancyService.dll.config
+C:\Users\Maria\Documents\Conference_Admin\New folder\NancyService\bin\NancyService.dll
+C:\Users\Maria\Documents\Conference_Admin\New folder\NancyService\bin\NancyService.pdb
+C:\Users\Maria\Documents\Conference_Admin\New folder\NancyService\bin\EntityFramework.xml
+C:\Users\Maria\Documents\Conference_Admin\New folder\NancyService\bin\EntityFramework.SqlServer.xml
+C:\Users\Maria\Documents\Conference_Admin\New folder\NancyService\bin\Nancy.xml
+C:\Users\Maria\Documents\Conference_Admin\New folder\NancyService\bin\Nancy.Authentication.Token.xml
+C:\Users\Maria\Documents\Conference_Admin\New folder\NancyService\bin\Nancy.Hosting.Aspnet.xml
+C:\Users\Maria\Documents\Conference_Admin\New folder\NancyService\obj\Debug\ConferenceAdmin.csprojResolveAssemblyReference.cache
+C:\Users\Maria\Documents\Conference_Admin\New folder\NancyService\obj\Debug\NancyService.dll
+C:\Users\Maria\Documents\Conference_Admin\New folder\NancyService\obj\Debug\NancyService.pdb
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\ConferenceAdmin2\NancyService\bin\NancyService.dll.config
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\ConferenceAdmin2\NancyService\bin\NancyService.dll
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\ConferenceAdmin2\NancyService\bin\NancyService.pdb
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\ConferenceAdmin2\NancyService\bin\EntityFramework.xml
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\ConferenceAdmin2\NancyService\bin\EntityFramework.SqlServer.xml
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\ConferenceAdmin2\NancyService\bin\Nancy.xml
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\ConferenceAdmin2\NancyService\bin\Nancy.Authentication.Token.xml
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\ConferenceAdmin2\NancyService\bin\Nancy.Hosting.Aspnet.xml
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\ConferenceAdmin2\NancyService\obj\Debug\ConferenceAdmin.csprojResolveAssemblyReference.cache
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\ConferenceAdmin2\NancyService\obj\Debug\NancyService.dll
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\ConferenceAdmin2\NancyService\obj\Debug\NancyService.pdb

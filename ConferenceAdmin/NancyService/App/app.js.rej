@@ -1,0 +1,16 @@
+diff a/ConferenceAdmin/NancyService/App/app.js b/ConferenceAdmin/NancyService/App/app.js	(rejected hunks)
+@@ -292,6 +292,14 @@
+                 }
+             }
+         })
++         .state('administrator.manageguests', {
++             url: "/ManageGuests",
++             views: {
++                 'adminPage': {
++                     templateUrl: "views/admin_manageguests.html"
++                 }
++             }
++         })
+         .state('administrator.managetemplates', {
+             url: "/ManageTemplates",
+             views: {

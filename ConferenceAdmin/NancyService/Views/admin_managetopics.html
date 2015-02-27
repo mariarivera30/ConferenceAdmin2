@@ -1,0 +1,57 @@
+﻿<h3>Manage Topics</h3>
+<div class="col-lg-12">
+    <table ng-table="tableParams" show-filter="true" class="table row">
+        <tr>
+            <td><b>Topic Name</b></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Human-Computer Interaction</td>
+            <td data-toggle="modal" data-target="#editTopic"><a href="">Edit</a></td>
+        </tr>
+        <tr>
+            <td>Access Control</td>
+            <td data-toggle="modal" data-target="#editTopic"><a href="">Edit</a></td>
+        </tr>
+    </table>
+    <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" data-target="#addTopic">Add Topic</button> <a href="" style="font-size:1.5em;"><i class="fa fa-info-circle" title="Submission topics"> </i></a>
+</div>
+
+
+<div class="modal fade" id="addTopic" tabindex="-1" role="dialog" aria-labelledby="addTopicLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="addTopicLabel">Add New Topic</h4>
+            </div>
+            <div class="modal-body">
+                <h5 class="after-title-field">Topic Name:</h5><br>
+                <input type="text" />
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ar btn-primary" data-dismiss="modal" style="float:left;">Add</button>
+                <button class="btn btn-ar btn-default" data-dismiss="modal" style="float:left;">Cancel</button>
+           </div>
+       </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editTopic" tabindex="-1" role="dialog" aria-labelledby="editTopicLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="editTopicLabel">Edit Topic</h4>
+            </div>
+            <div class="modal-body">
+                <h5 class="after-title-field">Topic Name:</h5><br>
+                <input type="text" value="Access Control"/>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ar btn-primary" data-dismiss="modal" style="float:left;">Save</button>
+                <button class="btn btn-ar btn-default" data-dismiss="modal" style="float:left;">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

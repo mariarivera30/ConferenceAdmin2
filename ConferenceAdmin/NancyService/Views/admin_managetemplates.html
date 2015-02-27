@@ -1,0 +1,55 @@
+﻿<h3>Manage Evaluation Templates</h3>
+<div class="col-lg-12">
+    <table ng-table="tableParams" show-filter="true" class="table row">
+        <tr>
+            <td><b>Name</b></td>
+            <td><b>Topic</b></td>
+            <td><b>Description</b></td>
+            <td><b>File</b></td>
+        </tr>
+        <tr>
+            <td>Evaluation_1</td>
+            <td>Human-Computer Interaction</td>
+            <td>Undergraduate Students</td>
+            <td><a href="">View</a></td>
+        </tr>
+        <tr>
+            <td>Evaluation_2</td>
+            <td>Human-Computer Interaction</td>
+            <td>Graduate Students</td>
+            <td><a href="">View</a></td>
+        </tr>
+        <tr>
+            <td>Evaluation_3</td>
+            <td>Access Control</td>
+            <td>Undergraduate Students</td>
+            <td><a href="">View</a></td>
+        </tr>
+        <tr>
+            <td>Evaluation_4</td>
+            <td>Access Control</td>
+            <td>Graduate Students</td>
+            <td><a href="">View</a></td>
+        </tr>
+    </table>
+    <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" data-target="#addTemplate">Add New Template</button> <a href="" style="font-size:1.5em;"></a>
+</div>
+
+<div class="modal fade" id="addTemplate" tabindex="-1" role="dialog" aria-labelledby="addTemplateLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="addTemplateLabel">Add New Template</h4>
+            </div>
+            <div class="modal-body">
+                <h5 class="after-title-field">Select template:</h5><br>
+                <button class="btn btn-ar btn-primary">Browse</button> <input class="form-group" />
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ar btn-primary" data-dismiss="modal" style="float:left;">Add</button>
+                <button class="btn btn-ar btn-default" data-dismiss="modal" style="float:left;">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,193 @@
+﻿﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CCWiC</title>
+    <link rel="shortcut icon" href="img/favicon.png">
+    <meta name="description" content="">
+    <!-- CSS -->
+    <link href="css/custom.css" rel="stylesheet" media="screen">
+    <link href="css/preload.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/yamm.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap-switch.min.css" rel="stylesheet" media="screen">
+    <link href="css/font-awesome.min.css" rel="stylesheet" media="screen">
+    <link href="css/animate.min.css" rel="stylesheet" media="screen">
+    <link href="css/slidebars.css" rel="stylesheet" media="screen">
+    <link href="css/lightbox.css" rel="stylesheet" media="screen">
+    <link href="css/jquery.bxslider.css" rel="stylesheet">
+    <link href="css/syntaxhighlighter/shCore.css" rel="stylesheet" media="screen">
+    <link href="css/style-red.css" rel="stylesheet" media="screen" title="default">
+    <link href="css/print.css" rel="stylesheet" media="print">
+    <link href="css/width-full.css" rel="stylesheet" media="screen" title="default">
+    <link href="css/buttons.css" rel="stylesheet" media="screen">
+    <link href="Scripts/ng-table/ng-table.min.css" rel="stylesheet" />
+   
+     <!-- Custom styles for this template -->
+
+    <script src="/Scripts/angular.js"></script>
+    <script src="/Scripts/angular-animate.js"></script>
+    <script src="/Scripts/angular-route.js"></script>
+    <script src="/Scripts/AngularUi/ui-router.js"></script>
+    <script src="/Scripts/AngularUi/ui-router.min.js"></script>
+    <script src="/App/app.js"></script>
+    <script src="/App/controller.js"></script>
+    <script src="/App/abstractCtrl.js"></script>
+    <script src="/App/contactCtrl.js"></script>
+    <script src="/App/controller.js"></script>
+    <script src="/App/homeCtrl.js"></script>
+    <script src="/App/layoutCtrl.js"></script>
+    <script src="/App/loginCtrl.js"></script>
+    <script src="/App/papersCtrl.js"></script>
+    <script src="/App/registrationCtrl.js"></script>
+    <script src="/App/scheduleCtrl.js"></script>
+    <script src="/App/scholarshipCtrl.js"></script>
+    <script src="/App/sponsorCtrl.js"></script>
+    <script src="/App/venueCtrl.js"></script>
+    <script src="/App/workshopsCtrl.js"></script>
+    <script src="/App/deadlinesCtrl.js"></script>
+    <script src="/App/services.js"></script>
+    <script src="/App/adminCtrl.js"></script>
+    <script src="/App/profileCtrl.js"></script>
+    <script src="/App/profileAuthorizationCtrl.js"></script>
+    <script src="/App/profileBenefitsCtrl.js"></script>
+    <script src="/App/profileBillingCtrl.js"></script>
+    <script src="/App/profileInformationCtrl.js"></script>
+    <script src="/App/profileStatusCtrl.js"></script>
+    <script src="/App/profileSubmissionsCtrl.js"></script>
+    <script src="/App/profileEvaluationCtrl.js"></script>
+    <script src="/App/participationInformation.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="js/html5shiv.min.js"></script>
+        <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status">&nbsp;</div>
+</div>
+<body ng-controller="layoutCtrl as vm">
+    <div id="sb-site">
+        <div class="boxed">
+            <header id="header-full-top" class="hidden-xs header-full noPrint">
+                <div class="container">
+                    <div class="header-full-title">
+                        <h1 class="animated fadeInRight"><a href="index.html"><span>CCWiC</span></a></h1>
+                        <p class="animated fadeInRight">Caribbean Celebration of Women in Computing</p>
+                    </div>
+                    <nav class="top-nav">
+                        <ul class="top-nav-social hidden-sm">
+                            <li><a href="https://twitter.com/hashtag/ccwic" class="animated fadeIn animation-delay-7 twitter" target="_blank" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="https://www.facebook.com/ccwic2014" class="animated fadeIn animation-delay-8 facebook" target="_blank" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="https://plus.google.com/s/ccwic" class="animated fadeIn animation-delay-9 google-plus" target="_blank" title="Google Plus"><i class="fa fa-google-plus"></i></a></li>
+                            <!-- <li><a href="#" class="animated fadeIn animation-delay-9 instagram"><i class="fa fa-instagram"></i></a></li> -->
+                        </ul>
+                        <div class="top-nav-social hidden-sm">
+                            <a href="#/Login"><i class="fa fa-user"></i> Login | Register</a>
+                        </div>
+                        <div class="top-nav-social hidden-sm">
+                            <a href="#/Profile"><i class="fa fa-user"></i> My Profile</a>
+                        </div>
+                    </nav>
+                </div> <!-- container -->
+            </header> <!-- header-full -->
+
+            <nav id="header" class="navbar navbar-static-top navbar-default navbar-header-full navbar-dark noPrint"  role="navigation">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <a class="navbar-brand hidden-lg hidden-md hidden-sm" href="index.html"><span>CCWiC</span></a>
+                    </div> <!-- navbar-header -->
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="#/Home">Home</a>
+                            </li>
+                            <li>
+                                <a href="#/Committee">Planning Committee</a>
+                            </li>
+                            <li>
+                                <a href="#/Venue">Venue</a>
+                            </li>
+                            <li>
+                                <a href="#/Deadlines">Deadlines</a>
+                            </li>
+                            <li>
+                                <a href="#/Registration">Registration</a>
+                            </li>
+                            <li>
+                                <a href="#/Participation">Call for Participation</a>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Program</a>
+                                <ul class="dropdown-menu dropdown-menu-left">
+                                    <li><a href="#/Schedule">Program Schedule</a></li>
+                                    <li><a href="#/Abstracts">Abstract / Bios</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#/Sponsors">Sponsors</a>
+                            </li>
+                            <li>
+                                <a href="#/Contact">Contact</a>
+                            </li>
+                            <li>
+                                <a href="#/Administrator" style="float: right;">Administrator</a>
+                            </li>
+                        </ul>
+                    </div><!-- navbar-collapse -->
+                </div><!-- container -->
+            </nav>
+
+            <div ng-app="app" id="content" class="container">
+
+
+                <div ui-view="dynamic" autoscroll='false'>
+                    <!-- section -->
+                </div>
+
+                <div ng-app="app" id="content" class="noPrint">
+                    <h2 class="section-title">Our Sponsors</h2>
+                    <div style="margin-bottom:20px" ui-view="banner" autoscroll='false'>
+                    </div>
+                </div>
+            </div>       
+          
+        <footer id="footer" class="noPrint">
+            <p>&copy; 2014 <a href="#">Artificial Reason</a>, inc. All rights reserved.</p>
+        </footer>
+
+    </div> <!-- boxed -->
+    </div> <!-- sb-site -->
+    <!-- Scripts -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-switch.min.js"></script>
+    <script src="js/wow.min.js"></script>
+    <script src="js/slidebars.js"></script>
+    <script src="js/jquery.bxslider.min.js"></script>
+    <script src="js/holder.js"></script>
+    <script src="js/buttons.js"></script>
+    <script src="js/styleswitcher.js"></script>
+    <script src="js/jquery.mixitup.min.js"></script>
+    <script src="js/circles.min.js"></script>
+    <!-- Syntaxhighlighter -->
+    <script src="js/syntaxhighlighter/shCore.js"></script>
+    <script src="js/syntaxhighlighter/shBrushXml.js"></script>
+    <script src="js/syntaxhighlighter/shBrushJScript.js"></script>
+    <script src="js/app.js"></script>
+    <script src="Scripts/ng-table/ng-table.min.js"></script>
+    <script src="Scripts/ng-table/ng-table.js"></script>
+</body>
+</html>

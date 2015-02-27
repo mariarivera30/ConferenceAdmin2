@@ -1,0 +1,67 @@
+﻿<h3>Manage Sponsors</h3>
+<div class="col-lg-12">
+    <table ng-table="tableParams" show-filter="true" class="table row">
+        <tr>
+            <td>Name</td>
+            <td><b>Affiliation</b></td>
+            <td><b>Amount</b></td>
+            <td><b>Bill</b></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Prof. Anton</td>
+            <td>Georgia Tech</td>
+            <td>5000</td>
+            <td><a href=""> View</a></td>
+            <td data-toggle="modal" data-target="#editSponsor"><a href="">Edit</a></td>
+        </tr>
+    </table>
+    <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" data-target="#addSponsor">Add Sponsor</button> <a href="" style="font-size:1.5em;"><i class="fa fa-info-circle" title="Manually Add Sponsor"> </i></a>
+</div>
+
+
+<div class="modal fade" id="addSponsor" tabindex="-1" role="dialog" aria-labelledby="addSponsorLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="addSponsorLabel">Add Sponsor</h4>
+            </div>
+            <div class="modal-body">
+                <h5 class="after-title-field">Name:</h5>
+                <input class="after-title-field" type="text">
+                <h5>Affiliation:</h5>
+                <input class="after-title-field" type="text">
+                <h5>Amount:</h5>
+                <input class="after-title-field" type="number">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ar btn-primary" data-dismiss="modal" style="float:left;">Add</button>
+                <button class="btn btn-ar btn-default" data-dismiss="modal" style="float:left;">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editSponsor" tabindex="-1" role="dialog" aria-labelledby="editSponsorLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="editSponsorLabel">Edit Sponsor</h4>
+            </div>
+            <div class="modal-body">
+                <h5 class="after-title-field">Name:</h5>
+                <input type="text">
+                <h5>Affiliation:</h5>
+                <input class="after-title-field" type="text">
+                <h5>Amount:</h5>
+                <input class="after-title-field" type="number">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ar btn-primary" data-dismiss="modal" style="float:left;">Save</button>
+                <button class="btn btn-ar btn-default" data-dismiss="modal" style="float:left;">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
