@@ -16,8 +16,7 @@
             type: "Evaluator Admin",
             accepted: true,
             rejected: false,
-            pending: false,
-            visitor: false,
+            registered: true,
             average: 57
         }, {
             name: "Maria Rivera",
@@ -26,8 +25,7 @@
             type: "Administrator",
             accepted: false,
             rejected: false,
-            pending: true,
-            visitor: false,
+            registered: false,
             average: 61
         }, {
             name: "Jaimeiris Nieves",
@@ -36,8 +34,7 @@
             type: "Finance Admin",
             accepted: false,
             rejected: false,
-            pending: false,
-            visitor: true,
+            registered: true,
             average: 63
         }, {
             name: "Heidi Negron",
@@ -46,8 +43,7 @@
             type: "Finance Admin",
             accepted: false,
             rejected: true,
-            pending: false,
-            visitor: false,
+            registered: false,
             average: 78
         } ];
 

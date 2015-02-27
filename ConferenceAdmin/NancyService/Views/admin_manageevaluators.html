@@ -9,7 +9,7 @@
                 <td><b>Topic</b></td>
                 <td><b>Evaluations</b></td>
                 <td><b>Average Score</b></td>
-                <td><b>Acceptance</b></td>
+                <td><b>Acceptance Status</b></td>
             </tr>
             <tr ng-repeat="user in vm.list">
                 <td data-title="'Title'">
@@ -24,12 +24,12 @@
                     <center>{{user.average}}</center>                    
                 </td>
                 <td data-title="''">
-                    <center>
-                        <a ng-show="user.accepted" style="color:limegreen;" href=""><i class="fa fa-check"></i> Accepted</a>
-                        <a ng-show="user.rejected" style="color:red;" href=""><i class="fa fa-times"></i> Rejected</a>
-                        <button ng-hide="user.rejected || user.accepted" class="btn btn-ar btn-primary" style="margin-left:15px;">Accept</button>
-                        <button ng-hide="user.rejected || user.accepted" class="btn btn-ar btn-default">Reject</button>
-                    </center>
+                    <select>
+                        <option>Select Status</option>
+                        <option>Accept</option>
+                        <option>Reject</option>
+                    </select>
+                    <button class="btn btn-ar btn-primary">Apply</button>
                 </td>
             </tr>
         </table>
