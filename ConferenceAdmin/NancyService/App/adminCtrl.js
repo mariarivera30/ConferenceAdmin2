@@ -17,7 +17,8 @@
             accepted: true,
             rejected: false,
             pending: false,
-            visitor: false
+            visitor: false,
+            average: 57
         }, {
             name: "Maria Rivera",
             email: "maria.rivera30@upr.edu",
@@ -26,7 +27,8 @@
             accepted: false,
             rejected: false,
             pending: true,
-            visitor: false
+            visitor: false,
+            average: 61
         }, {
             name: "Jaimeiris Nieves",
             email: "jaimeiris.nieves@upr.edu",
@@ -35,7 +37,8 @@
             accepted: false,
             rejected: false,
             pending: false,
-            visitor: true
+            visitor: true,
+            average: 63
         }, {
             name: "Heidi Negron",
             email: "heidi.negron1@upr.edu",
@@ -44,7 +47,8 @@
             accepted: false,
             rejected: true,
             pending: false,
-            visitor: false
+            visitor: false,
+            average: 78
         } ];
 
 

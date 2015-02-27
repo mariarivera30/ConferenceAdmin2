@@ -105,6 +105,7 @@
     <Content Include="Views\admin_agenda.html" />
     <Content Include="Views\admin_contact.html" />
     <Content Include="Views\admin_deadlines.html" />
+    <Content Include="Views\admin_evaluationsDetails.html" />
     <Content Include="Views\admin_generalInformation.html" />
     <Content Include="Views\admin_manageadmins.html" />
     <Content Include="Views\admin_manageattendants.html" />
