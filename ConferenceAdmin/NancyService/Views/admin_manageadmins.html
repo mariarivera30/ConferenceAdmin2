@@ -6,7 +6,8 @@
             <tr>
                 <td><b>Name</b></td>
                 <td><b>E-mail</b></td>
-                <td><b></b></td>
+                <td><b>Privilege</b></td>
+                <td></td>
             </tr>
             <tr ng-repeat="user in vm.list" ng-class="{ 'emphasis': user.money > 500 }">
                 <td data-title="'Name'" filter="{ 'name': 'select' }" filter-data="names($column)">
@@ -15,29 +16,28 @@
                 <td data-title="'Email'">
                     {{user.email}}
                 </td>
+                <td>Evaluator</td>
                 <td>
-                    <a href="" data-toggle="modal" data-target="#restorePrivilege">Edit Privileges</a>
+                    <a href="" data-toggle="modal" data-target="#restorePrivilege">Edit</a>
                 </td>
             </tr>
         </table>
-        <button class="btn btn-ar btn-primary pull" data-toggle="modal" data-target="#addAdmin">Add</button>
+        <button class="btn btn-ar btn-primary pull" data-toggle="modal" data-target="#addAdmin">Add Administrator</button>
     </div>
 
-
-
-
-    <div class="modal fade" id="restorePrivilege" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
+    
+    <div class="modal fade" id="restorePrivilege" tabindex="-1" role="dialog" aria-labelledby="restorePrivilegeLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4>Select privilege to assign:</h4>
+                    <h4 class="modal-title" id="restorePrivilegeLabel">Edit Privileges</h4>
                 </div>
                 <div class="modal-body">
+                    <h5 class="after-title-field">Select Privileges:</h5><br>
                     <input type="checkbox" name="privilege" value="evalAdmin">&nbsp;&nbsp;Evaluator Admin<br />
                     <input type="checkbox" name="privilege" value="financeAdmin">&nbsp;&nbsp;Finance Admin<br />
-                    <input type="checkbox" name="privilege" value="evaluator">&nbsp;&nbsp;Evaluator
-
+                    <input type="checkbox" name="privilege" value="evaluator">&nbsp;&nbsp;Evaluator 
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-ar btn-primary" data-dismiss="modal" style="float:left;">Save</button>
@@ -47,33 +47,22 @@
         </div>
     </div>
 
-    <div class="modal fade" id="addAdmin" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addAdmin" tabindex="-1" role="dialog" aria-labelledby="addAdminLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4>Create Committe User:</h4>
+                    <h4 class="modal-title" id="addAdminLabel">Add Administrator</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="EmailInput">Email<sup>*</sup></label>
-                                <input type="email" class="form-control" id="InputPassword">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="InputPassword">Confirm Password<sup>*</sup></label>
-                                <input type="password" class="form-control" id="InputPassword">
-                            </div>
-                           
-                        </div>
-                    </div>
-
-                   
+                    <h5 class="after-title-field">Name:</h5>
+                    <input type="text" /><br>
+                    <h5>Email:</h5>
+                    <input type="text" /><br>
+                    <h5>Select Privileges:</h5>
+                    <input type="checkbox" name="privilege" value="evalAdmin">&nbsp;&nbsp;Evaluator Admin<br />
+                    <input type="checkbox" name="privilege" value="financeAdmin">&nbsp;&nbsp;Finance Admin<br />
+                    <input type="checkbox" name="privilege" value="evaluator">&nbsp;&nbsp;Evaluator 
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-ar btn-primary" data-dismiss="modal" style="float:left;">Save</button>

@@ -1,12 +1,12 @@
 ﻿<div ng-controller="administratorCtrl as vm">
     
-    <h3>Manage Applicants</h3>
+    <h3>Manage Applications</h3>
     <div class="col-lg-12">
         <table ng-table="tableParams" show-filter="true" class="table row">
             <tr>
                 <td><b>Name</b></td>
-                <td><b>User Type</b></td>
                 <td><b>Submission</b></td>
+                <td><b>Category</b></td>
                 <td><b>Submission Status</b></td>
                 <td><b>Acceptance Status</b></td>
                 <td><b>Registration Status</b></td>
@@ -15,11 +15,8 @@
                 <td data-title="'Name'" filter="{ 'name': 'select' }" filter-data="names($column)">
                     {{user.name}}
                 </td>
-
-                <td data-title="'Type'">
-                    {{user.type}}
-                </td>
                 <td><a ng-show="user.accepted || user.rejected" href="">View</a></td>
+                <td>Poster</td>
                 <td>
                     <a ng-show="user.accepted" style="color:limegreen;" href=""><i class="fa fa-check"></i> Accepted  </a>
 
@@ -38,7 +35,5 @@
 
             </tr>
         </table>
-
-        <button class="btn btn-ar btn-primary">Download Attendance List</button>
     </div>
 </div>

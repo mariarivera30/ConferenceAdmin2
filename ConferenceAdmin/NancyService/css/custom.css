@@ -2,6 +2,10 @@
     padding-top:20px;
 }
 
+.title-centered{
+    text-align:center;
+}
+
 .after-title-field{
     padding-top:0px; 
     margin:0px;

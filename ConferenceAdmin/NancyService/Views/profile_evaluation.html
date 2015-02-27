@@ -7,15 +7,18 @@
     <table ng-table="tableParams" show-filter="true" class="table row">
         <tr>
             <td><b>Submision Title</b></td>
-            <td><b>Submision Type</b></td>
+            <td><b>Category</b></td>
+            <td><b>Topic</b></td>
             <td><b></b></td>
         </tr>
         <tr ng-repeat="user in vm.list">
             <td data-title="'Title'">
-                Title of Submission
+                Title of Submission <br /><a href=""> View</a>
             </td>
 
             <td>{{user.type}}</td>
+
+            <td>Robotics</td>
 
             <td data-title="'Template'">
                 <!-- <select class="form-control" style="width: 300px; float: left;">

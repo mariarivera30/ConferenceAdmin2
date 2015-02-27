@@ -83,7 +83,7 @@
                     templateUrl: "views/banner.html"
                 },
                 'dynamic': {
-                    templateUrl: "views/sponsorRegistration.html"
+                    templateUrl: "views/registration.html"
                 }
 
             }
@@ -268,11 +268,27 @@
                 }
             }
         })
+        .state('administrator.managesponsors', {
+            url: "/ManageSponsors",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_managesponsors.html"
+                }
+            }
+        })
         .state('administrator.manageadmins', {
             url: "/ManageCommittee",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_manageadmins.html"
+                }
+            }
+        })
+        .state('administrator.manageconferencecommittee', {
+            url: "/ManageConferenceCommittee",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_manageconfcommittee.html"
                 }
             }
         })
@@ -289,6 +305,14 @@
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_manageattendants.html"
+                }
+            }
+        })
+        .state('administrator.managekeycodes', {
+            url: "/ManageKeyCodes",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_managekeycodes.html"
                 }
             }
         })
