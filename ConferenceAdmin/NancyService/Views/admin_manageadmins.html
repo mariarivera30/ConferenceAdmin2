@@ -20,28 +20,65 @@
                 </td>
             </tr>
         </table>
-        <button class="btn btn-ar btn-primary pull"> Add </button>
+        <button class="btn btn-ar btn-primary pull" data-toggle="modal" data-target="#addAdmin">Add</button>
     </div>
-</div>
 
 
 
-<div class="modal fade" id="restorePrivilege" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4>Select privilege to assign:</h4>
+
+    <div class="modal fade" id="restorePrivilege" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4>Select privilege to assign:</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="checkbox" name="privilege" value="evalAdmin">&nbsp;&nbsp;Evaluator Admin<br />
+                    <input type="checkbox" name="privilege" value="financeAdmin">&nbsp;&nbsp;Finance Admin<br />
+                    <input type="checkbox" name="privilege" value="evaluator">&nbsp;&nbsp;Evaluator
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary" data-dismiss="modal" style="float:left;">Save</button>
+                    <button class="btn btn-ar btn-default" data-dismiss="modal" style="float:left;">Cancel</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <input type="checkbox" name="privilege" value="evalAdmin">&nbsp;&nbsp;Evaluator Admin<br />
-                <input type="checkbox" name="privilege" value="financeAdmin">&nbsp;&nbsp;Finance Admin<br />
-                <input type="checkbox" name="privilege" value="evaluator">&nbsp;&nbsp;Evaluator
+        </div>
+    </div>
 
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-ar btn-primary" data-dismiss="modal" style="float:left;">Save</button>
-                <button class="btn btn-ar btn-default" data-dismiss="modal" style="float:left;">Cancel</button>
+    <div class="modal fade" id="addAdmin" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4>Create Committe User:</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="EmailInput">Email<sup>*</sup></label>
+                                <input type="email" class="form-control" id="InputPassword">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="InputPassword">Confirm Password<sup>*</sup></label>
+                                <input type="password" class="form-control" id="InputPassword">
+                            </div>
+                           
+                        </div>
+                    </div>
+
+                   
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary" data-dismiss="modal" style="float:left;">Save</button>
+                    <button class="btn btn-ar btn-default" data-dismiss="modal" style="float:left;">Cancel</button>
+                </div>
             </div>
         </div>
     </div>

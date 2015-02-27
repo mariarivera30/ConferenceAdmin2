@@ -94,6 +94,7 @@
     <Content Include="App\scholarshipCtrl.js" />
     <Content Include="App\services.js" />
     <Content Include="App\sponsorCtrl.js" />
+    <Content Include="App\sponsorsKey.js" />
     <Content Include="App\venueCtrl.js" />
     <Content Include="App\workshopsCtrl.js" />
     <Content Include="css\custom.css" />
@@ -116,8 +117,10 @@
     <Content Include="Views\admin_venue.html" />
     <Content Include="Views\banner.html" />
     <Content Include="Views\committee.html" />
+    <Content Include="Views\companionStudentList.html" />
     <Content Include="Views\contact.html" />
     <Content Include="App\controller.js" />
+    <Content Include="Views\createAdmin.html" />
     <Content Include="Views\deadlines.html" />
     <Content Include="Views\evaluation.html" />
     <Content Include="Views\fullscreen.html" />
@@ -133,8 +136,10 @@
     <Content Include="Views\profile_evaluation.html" />
     <Content Include="Views\profile_status.html" />
     <Content Include="Views\profile_submission.html" />
+    <Content Include="Views\ResetPassword.html" />
     <Content Include="Views\schedule.html" />
     <Content Include="Views\scholarship.html" />
+    <Content Include="Views\sponsorRegistration.html" />
     <Content Include="Views\sponsors.html" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -1293,6 +1298,7 @@
     <Content Include="js\syntaxhighlighter\shLegacy.js" />
     <Content Include="js\wow.min.js" />
     <Content Include="Views\registration.html" />
+    <Content Include="Views\sponsorsKeyList.html" />
     <Content Include="Views\venue.html" />
     <Content Include="Views\workshops.html" />
     <Content Include="Web.config" />

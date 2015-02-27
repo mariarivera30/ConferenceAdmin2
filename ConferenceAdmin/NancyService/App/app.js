@@ -83,7 +83,7 @@
                     templateUrl: "views/banner.html"
                 },
                 'dynamic': {
-                    templateUrl: "views/registration.html"
+                    templateUrl: "views/sponsorRegistration.html"
                 }
 
             }

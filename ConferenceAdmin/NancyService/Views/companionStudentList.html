@@ -1,0 +1,23 @@
+﻿<div ng-controller="administratorCtrl as vm">
+
+    <h3>List of Student registered with my companion key</h3>
+    <div class="col-lg-12">
+        <table ng-table="tableParams" show-filter="true" class="table row after-title-field">
+            <tr>
+                <td><b>Name</b></td>
+                <td><b>E-mail</b></td>
+                <td><b></b></td>
+            </tr>
+            <tr ng-repeat="user in vm.list" ng-class="{ 'emphasis': user.money > 500 }">
+                <td data-title="'Name'" filter="{ 'name': 'select' }" filter-data="names($column)">
+                    {{user.name}}
+                </td>
+                <td data-title="'Email'">
+                    {{user.email}}
+                </td>
+              
+            </tr>
+        </table>
+      
+    </div>
+   
