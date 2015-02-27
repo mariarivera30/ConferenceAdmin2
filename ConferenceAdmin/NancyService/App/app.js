@@ -292,6 +292,14 @@
                 }
             }
         })
+         .state('administrator.manageguests', {
+             url: "/ManageGuests",
+             views: {
+                 'adminPage': {
+                     templateUrl: "views/admin_manageguests.html"
+                 }
+             }
+         })
         .state('administrator.managetemplates', {
             url: "/ManageTemplates",
             views: {
@@ -302,6 +310,7 @@
         })
         .state('administrator.attendants', {
             url: "/ManageApplicants",
+            url: "/ViewRegistration",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_manageattendants.html"

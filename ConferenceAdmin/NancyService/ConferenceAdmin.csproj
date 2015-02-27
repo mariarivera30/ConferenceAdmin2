@@ -109,6 +109,7 @@
     <Content Include="Views\admin_manageadmins.html" />
     <Content Include="Views\admin_manageattendants.html" />
     <Content Include="Views\admin_manageevaluators.html" />
+    <Content Include="Views\admin_manageguests.html" />
     <Content Include="Views\admin_manageminors.html" />
     <Content Include="Views\admin_participation.html" />
     <Content Include="Views\admin_registrationform.html" />
