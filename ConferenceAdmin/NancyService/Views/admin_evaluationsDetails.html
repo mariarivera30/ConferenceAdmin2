@@ -1,0 +1,53 @@
+﻿<div ng-controller="administratorCtrl as vm">
+
+
+    <label>Submission Title: Title</label><br />
+    <label>Evaluation Template:</label>
+    <select>
+        <option>Template_1</option>
+        <option>Template_2</option>
+        <option>Template_3</option>
+    </select>
+    <button class="btn btn-ar btn-primary">Add New</button> <br /><br />
+
+
+    <table ng-table="tableParams" show-filter="true" class="table row">
+        <thead>
+            <tr>
+                <td>Evaluator</td>
+                <td>Score</td>
+                <td>Evaluation</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="user in vm.list">
+                <td>
+                    {{user.name}}
+                </td>
+                <td>
+                    {{user.average}}
+                </td>
+                <td>
+                    <a href="">View</a>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+    <br />
+
+
+    <select>
+        <option ng-repeat="user in vm.list">{{user.name}}</option>
+    </select>
+    <button class="btn btn-ar btn-primary">Assign <i class="fa fa-arrow-up"> </i></button>
+
+
+
+    <br /><br />
+    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Save</button>
+    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+
+
+
+</div>

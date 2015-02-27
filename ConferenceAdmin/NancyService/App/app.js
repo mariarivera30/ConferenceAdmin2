@@ -350,6 +350,14 @@
                 }
             }
         })
+        .state('administrator.evaluationdetails', {
+            url: "/EvaluationDetails",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_evaluationDetails.html"
+                }
+            }
+        })
 
         .state('profile', {
             url: "/Profile",

@@ -1,14 +1,15 @@
 ﻿<div ng-controller="administratorCtrl as vm">
 
-    <h3>Manage Evaluations</h3>
+    <h3>Manage Submissions</h3>
     <div class="col-lg-12">
         <table ng-table="tableParams" show-filter="true" class="table row">
             <tr>
                 <td><b>Submision Title</b></td>
-                <td><b>Category</b></td>
+                <td><b>Type</b></td>
                 <td><b>Topic</b></td>
-                <td><b>Evaluators</b></td>
-                <td><b>Evaluation Template</b></td>
+                <td><b>Evaluations</b></td>
+                <td><b>Average Score</b></td>
+                <td><b>Acceptance Status</b></td>
             </tr>
             <tr ng-repeat="user in vm.list">
                 <td data-title="'Title'">
@@ -17,20 +18,22 @@
                 <td>Poster</td>
                 <td>Robotics</td>
                 <td data-title="'Evaluator'">
-                    <div class="panel panel-default" style="height:70px; overflow-y:auto;">
-                        <span ng-repeat="evaluator in vm.list"><input type="checkbox"> {{evaluator.name}}<br /></span>
-                    </div>
+                    <a href="" data-toggle="modal" data-target="#evalDetail">Manage Evaluations</a>
                 </td>
-                <td data-title="'Template'">
-                    <select class="form-control">
-                        <option>Evaluation_1</option>
-                        <option>Evaluation_2</option>
-                        <option>Evaluation_3</option>
+                <td>
+                    <center>{{user.average}}</center>                    
+                </td>
+                <td data-title="''">
+                    <select>
+                        <option>Select Status</option>
+                        <option>Accept</option>
+                        <option>Reject</option>
                     </select>
+                    <button class="btn btn-ar btn-primary">Apply</button>
                 </td>
             </tr>
         </table>
-        <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" data-target="#addTemplate">Add Evaluation Template</button> <a href="" style="font-size:1.5em;"><i class="fa fa-info-circle" title="These templates will be available to be selected for each submission."> </i></a>
+        
     </div>
 </div>
 
@@ -49,6 +52,66 @@
             <div class="modal-footer">
                 <button class="btn btn-ar btn-primary" data-dismiss="modal" style="float:left;">Add</button>
                 <button class="btn btn-ar btn-default" data-dismiss="modal" style="float:left;">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="evalDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="administratorCtrl as vm">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">Manage Evaluations:</h4>
+            </div>
+            <div class="modal-body">
+                <label>Submission Title: Title</label><br />
+                <label>Evaluation Template:</label> 
+                <select>
+                    <option>Template_1</option>
+                    <option>Template_2</option>
+                    <option>Template_3</option>
+                </select>
+                <button class="btn btn-ar btn-primary">Add New</button> <br /><br />
+
+
+                <table ng-table="tableParams" show-filter="true" class="table row">
+                    <thead>
+                        <tr>
+                            <td>Evaluator</td>
+                            <td>Score</td>
+                            <td>Evaluation</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="user in vm.list">
+                            <td>
+                                {{user.name}}
+                            </td>
+                            <td>
+                                {{user.average}}
+                            </td>
+                            <td>
+                                <a href="">View</a>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <br />
+                <select>
+                    <option ng-repeat="user in vm.list">{{user.name}}</option>
+                </select>
+                <button class="btn btn-ar btn-primary">Assign <i class="fa fa-arrow-up"> </i></button>
+
+            </div>
+
+
+            <div class="modal-footer">
+                <button class="btn btn-ar btn-primary left" data-dismiss="modal">Save</button>
+                <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>

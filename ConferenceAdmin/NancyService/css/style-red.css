@@ -7168,3 +7168,20 @@ textarea.abstract {
 textarea {
     resize: none;
 }
+
+
+td {
+    text-align:center;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+select {
+    height: 34px;
+}
