@@ -204,6 +204,14 @@
                 }
             }
         })
+        .state('administrator.managetopics', {
+            url: "/ManageTopics",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_managetopics.html"
+                }
+            }
+        })
          .state('administrator.venue', { 
              url: "/Venue",
              views: {
@@ -265,6 +273,14 @@
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_manageadmins.html"
+                }
+            }
+        })
+        .state('administrator.managetemplates', {
+            url: "/ManageTemplates",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_managetemplates.html"
                 }
             }
         })

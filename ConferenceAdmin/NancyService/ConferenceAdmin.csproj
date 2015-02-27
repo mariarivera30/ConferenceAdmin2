@@ -124,6 +124,8 @@
     <Content Include="Views\deadlines.html" />
     <Content Include="Views\evaluation.html" />
     <Content Include="Views\fullscreen.html" />
+    <Content Include="Views\admin_managetopics.html" />
+    <Content Include="Views\admin_managetemplates.html" />
     <Content Include="Views\login.html" />
     <Content Include="Views\papers.html" />
     <Content Include="Views\participation_Information.html" />

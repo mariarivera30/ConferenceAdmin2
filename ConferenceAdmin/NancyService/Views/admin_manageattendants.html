@@ -6,6 +6,7 @@
             <tr>
                 <td><b>Name</b></td>
                 <td><b>User Type</b></td>
+                <td><b>Submission</b></td>
                 <td><b>Submission Status</b></td>
                 <td><b>Acceptance Status</b></td>
                 <td><b>Registration Status</b></td>
@@ -18,18 +19,17 @@
                 <td data-title="'Type'">
                     {{user.type}}
                 </td>
-
+                <td><a ng-show="user.accepted || user.rejected" href="">View</a></td>
                 <td>
-                    <span ng-show="user.accepted" style="color:limegreen;"><i class="fa fa-check"></i> Accepted</span>
+                    <a ng-show="user.accepted" style="color:limegreen;" href=""><i class="fa fa-check"></i> Accepted  </a>
 
                 </td>
 
                 <td>
-                    <span ng-show="user.pending" style="color:cornflowerblue;"><i class="fa fa-refresh"></i> In Process</span>
-                    <span ng-show="user.accepted" style="color:limegreen;"><i class="fa fa-check"></i> Accepted</span>
-                    <span ng-show="user.rejected" style="color:red;"><i class="fa fa-times"></i> Rejected</span>
-                    <span ng-show="user.visitor" style="color:mediumpurple;"><i class="fa fa-male"></i> Spectator</span>
-
+                    <a ng-show="user.pending" style="color:cornflowerblue;" href=""><i class="fa fa-refresh"></i> In Process</a>
+                    <a ng-show="user.accepted" style="color:limegreen;" href=""><i class="fa fa-check"></i> Accepted</a>
+                    <a ng-show="user.rejected" style="color:red;" href=""><i class="fa fa-times"></i> Rejected</a>
+                    <a ng-show="user.visitor" style="color:mediumpurple;" href=""><i class="fa fa-male"></i> Spectator</a>
                 </td>
                 <td>
                     <button ng-show="user.visitor || user.accepted" class="btn btn-ar btn-primary" style="margin-left:15px;">Accept</button>
