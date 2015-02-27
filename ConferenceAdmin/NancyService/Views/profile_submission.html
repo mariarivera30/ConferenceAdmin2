@@ -1,12 +1,45 @@
 ﻿<div ng-controller="profileSubmissionCtrl">
-    <h3>Submission</h3>
+    <h3>Submission
+        <span style="float:right; font-size:.6em; color:#666;">
+            <select style="height: 34px">
+                <option>
+                    Extended Paper
+                </option>
+                <option>
+                    Poster
+                </option>
+                <option>
+                    Pannel
+                </option>
+                <option>
+                    BoF
+                </option>
+                <option>
+                    Workshop
+                </option>
+            </select>
+            &nbsp;<button class="btn btn-ar btn-primary">Add New</button>
+        </span>
+    </h3>
 
 
-    <div class="row panel panel-default" style="padding: 0px 10px 10px 10px;">
+    <div class="panel panel-default" style="padding: 0px 10px 10px 10px;">
         <h5>Extended Paper</h5>
-        Topic category <input type="text" class="form-control">
-        Abstract <textarea class="form-control abstract"></textarea>
-        PDF file <input type="text" class="form-control">        
+        <div class="row">
+            <div class="col-md-4">
+                Topic category ->Dropdown <input type="text" class="form-control">
+            </div>
+        </div><br />
+        <div class="row">
+            <div class="col-md-8">
+                Abstract <textarea class="form-control abstract"></textarea>
+            </div>
+        </div><br />
+        <div class="row">
+            <div class="col-md-2">
+                PDF file <input type="text" class="form-control">
+            </div>
+        </div>
     </div>
     <!--
     <div class="row panel panel-default" style="padding: 0px 10px 10px 10px;">

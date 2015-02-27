@@ -204,6 +204,38 @@
                 }
             }
         })
+         .state('administrator.venue', { 
+             url: "/Venue",
+             views: {
+                 'adminPage': {
+                     templateUrl: "views/admin_venue.html"
+                 }
+             }
+         })
+        .state('administrator.deadlines', {
+            url: "/Deadlines",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_deadlines.html"
+                }
+            }
+        })
+        .state('administrator.contact', {
+            url: "/Contact",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_contact.html"
+                }
+            }
+        })
+        .state('administrator.participation', {
+            url: "/Participation",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_participation.html"
+                }
+            }
+        })
         .state('administrator.registration', {
             url: "/RegistrationForm",
             views: {

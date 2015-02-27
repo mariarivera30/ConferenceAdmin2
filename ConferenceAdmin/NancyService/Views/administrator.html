@@ -1,50 +1,33 @@
 ﻿<div class="container" ng-controller="administratorCtrl">
     <div class="row">
-        <br/> <br/>
-    </div>
-    <div class="row">
-        <div class="vertical-tabs-left">
-
-            <div class="vertical-tab-list">
-                <ul class="nav noPrint">
-                    <li class="">
-                        <a href="#/Administrator/GeneralInformation" data-toggle="tab"><i class="fa fa-pencil"></i> General Information</a>
-                    </li>
-                    <li>
-                        <a href="#/Administrator/RegistrationForm" data-toggle="tab"><i class="fa fa-newspaper-o"></i> Registration Form</a>
-                    </li>
-                    <li>
-                        <a href="#/Administrator/Agenda" data-toggle="tab"><i class="fa fa-calendar"></i> Agenda</a>
-                    </li>
-                    <li>
-                        <a href="#/Administrator/Sponsors" data-toggle="tab"><i class="fa fa-building-o"></i> Sponsors</a>
-                    </li>
-                    <li>
-                        <a href="#/Administrator/ManageCommittee" data-toggle="tab"><i class="fa fa-users"></i> Manage Committee</a>
-                    </li>
-                    <li>
-                        <a href="#/Administrator/ManageApplicants" data-toggle="tab"><i class="fa fa-users"></i> Manage Applicants</a>
-                    </li>
-                    <li>
-                        <a href="#/Administrator/ManageEvaluations" data-toggle="tab"><i class="fa fa-users"></i> Manage Evaluations</a>
-                    </li>
-                    <li>
-                        <a href="#/Administrator/ManageMinors" data-toggle="tab"><i class="fa fa-users"></i> Manage Minors</a>
-                    </li>
-                    <li>
-                        <a href="#/Administrator/Reports" data-toggle="tab"><i class="fa fa-folder-open-o"></i> Reports</a>
-                    </li>
-                </ul>
+        <div class="column-lg-12">
+            <h2 class="section-title">Administrator Settings</h2>
+            <div class="vertical-tabs-left">
+                <div class="vertical-tab-list">
+                    <ul class="nav">
+                        <li><a href="#/Administrator/GeneralInformation" data-toggle="tab"><i class="fa fa-home"></i> General</a></li>
+                        <li><a href="#/Administrator/ManageCommittee" data-toggle="tab"><i class="fa fa-gear"></i> Committee</a></li>
+                        <li><a href="#/Administrator/Venue" data-toggle="tab"><i class="fa fa-gear"></i> Venue</a></li>
+                        <li><a href="#/Administrator/Deadlines" data-toggle="tab"><i class="fa fa-gear"></i> Deadlines</a></li>
+                        <li><a href="#/Administrator/RegistrationForm" data-toggle="tab"><i class="fa fa-gear"></i> Registration</a></li>
+                        <li><a href="#/Administrator/Participation" data-toggle="tab"><i class="fa fa-gear"></i> Call for Participation</a></li>
+                        <li><a href="#/Administrator/Agenda" data-toggle="tab"><i class="fa fa-gear"></i> Agenda</a></li>
+                        <li><a href="#/Administrator/Sponsors" data-toggle="tab"><i class="fa fa-gear"></i> Sponsors</a></li>
+                        <li><a href="#/Administrator/Contact" data-toggle="tab"><i class="fa fa-gear"></i> Contact</a></li>
+                    </ul>
+                    <hr>
+                    <ul class="nav">
+                        <li><a href="#/Administrator/ManageApplicants" data-toggle="tab"><i class="fa fa-gear"></i> Applications</a></li>
+                        <li><a href="#/Administrator/ManageEvaluations" data-toggle="tab"><i class="fa fa-gear"></i> Evaluations</a></li>
+                        <li><a href="#/Administrator/ManageMinors" data-toggle="tab"><i class="fa fa-gear"></i> Minors</a></li>
+                        <li><a href="#/Administrator/Reports" data-toggle="tab"><i class="fa fa-folder-open-o"></i> Reports</a></li>
+                    </ul>
+                </div> <!-- vertical-tab-list -->
+                <div class="tab-content" style="width:100%;">
+                    <div ui-view="adminPage" autoscroll='false'> </div> <!-- tab-content -->
+                </div> <!-- vertical-tabs-left -->
             </div>
-
-
-            <!-- vertical-tab-list -->
-            <div class="tab-content" style="width:100%;">
-                <div ui-view="adminPage" autoscroll='false'>
-
-                </div> <!-- tab-content -->
-            </div> <!-- vertical-tabs-left -->
         </div>
     </div>
-
+</div>
 

@@ -1,12 +1,12 @@
 ﻿<div ng-controller="administratorCtrl as vm">
 
     <h3>Manage Committee</h3>
-    
-        <table ng-table="tableParams" show-filter="true" class="table row">
+    <div class="col-lg-12">
+        <table ng-table="tableParams" show-filter="true" class="table row after-title-field">
             <tr>
                 <td><b>Name</b></td>
                 <td><b>E-mail</b></td>
-                <td><b>Type</b></td>
+                <td><b></b></td>
             </tr>
             <tr ng-repeat="user in vm.list" ng-class="{ 'emphasis': user.money > 500 }">
                 <td data-title="'Name'" filter="{ 'name': 'select' }" filter-data="names($column)">
@@ -16,11 +16,33 @@
                     {{user.email}}
                 </td>
                 <td>
-                    {{user.type}} <a href="" style="float:right;">Remove Privilege</a>
+                    <a href="" data-toggle="modal" data-target="#restorePrivilege">Edit Privileges</a>
                 </td>
             </tr>
         </table>
+        <button class="btn btn-ar btn-primary pull"> Add </button>
+    </div>
+</div>
 
-    <button class="btn btn-ar btn-primary" style="float: left;">Generate Usher Key</button> <a href="" style="font-size:1.5em; float:left; margin-left:15px;"><i class="fa fa-info-circle" title="This code will be used when Ushers register."> </i></a>
-    <button class="btn btn-ar btn-primary" style="float: right;">Create Administrator</button>
+
+
+<div class="modal fade" id="restorePrivilege" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4>Select privilege to assign:</h4>
+            </div>
+            <div class="modal-body">
+                <input type="checkbox" name="privilege" value="evalAdmin">&nbsp;&nbsp;Evaluator Admin<br />
+                <input type="checkbox" name="privilege" value="financeAdmin">&nbsp;&nbsp;Finance Admin<br />
+                <input type="checkbox" name="privilege" value="evaluator">&nbsp;&nbsp;Evaluator
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ar btn-primary" data-dismiss="modal" style="float:left;">Save</button>
+                <button class="btn btn-ar btn-default" data-dismiss="modal" style="float:left;">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>

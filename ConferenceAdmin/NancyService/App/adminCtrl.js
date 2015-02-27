@@ -15,28 +15,36 @@
             evaluations: ["1", "2", "3"],
             type: "Evaluator Admin",
             accepted: true,
-            rejected: false
+            rejected: false,
+            pending: false,
+            visitor: false
         }, {
             name: "Maria Rivera",
             email: "maria.rivera30@upr.edu",
             evaluations: ["1", "2", "3", "4"],
             type: "Administrator",
             accepted: false,
-            rejected: false
+            rejected: false,
+            pending: true,
+            visitor: false
         }, {
             name: "Jaimeiris Nieves",
             email: "jaimeiris.nieves@upr.edu",
             evaluations: ["1", "2"],
             type: "Finance Admin",
             accepted: false,
-            rejected: false
+            rejected: false,
+            pending: false,
+            visitor: true
         }, {
             name: "Heidi Negron",
             email: "heidi.negron1@upr.edu",
             evaluations: ["1", "2", "3"],
-            type: "Usher",
+            type: "Finance Admin",
             accepted: false,
-            rejected: true
+            rejected: true,
+            pending: false,
+            visitor: false
         } ];
 
 
