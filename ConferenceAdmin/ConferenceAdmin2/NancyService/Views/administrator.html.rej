@@ -1,0 +1,9 @@
+diff a/ConferenceAdmin/NancyService/Views/administrator.html b/ConferenceAdmin/NancyService/Views/administrator.html	(rejected hunks)
+@@ -33,6 +33,7 @@
+                 </div> <!-- vertical-tab-list -->
+                 <div class="tab-content" style="width:100%;">
+                     <div ui-view="adminPage" autoscroll='false'> </div> <!-- tab-content -->
++                    <div ui-view="adminPage" autoscroll='true'> </div> <!-- tab-content -->
+                 </div> <!-- vertical-tabs-left -->
+             </div>
+         </div>

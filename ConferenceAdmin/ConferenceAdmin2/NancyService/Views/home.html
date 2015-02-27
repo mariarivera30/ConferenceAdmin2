@@ -1,0 +1,28 @@
+﻿<div class="container" ng-controller="homeCtrl as vm">
+    <div class="row">
+        <div class="col-md-9">
+            <h2 class="section-title">CCWiC 2016</h2>
+            <section class="animated fadeInDown animation-delay-6">
+                <img src="img/demo/team.jpg" class="img-responsive imageborder" alt="Image">
+                <h4>The Time is Now!</h4>
+                <p class="p-lg">{{vm.home.p1}}</p>
+                <h4>Caribbean Celebration of Women in Computing</h4>
+                <p class="p-lg">{{vm.home.p2}}</p>
+            </section>
+        </div>
+        <div class="col-md-3">
+            <h2 class="section-title">News</h2>
+            <div class="row">
+                <div class="col-md-12 col-sm-4">
+                    <div class="home-news-box">
+                        <h3 class="no-margin">{{vm.news.title}}</h3>
+                        <p class="no-margin">{{vm.news.description}}</p>
+                        <small>{{vm.news.name}} | {{vm.news.date}}</small>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div> <!-- row -->
+</div> <!-- container -->
