@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Angular-UI-Router</id>
+    <version>0.2.8.0</version>
+    <title>Angular UI-Router</title>
+    <authors>Mark Rendle</authors>
+    <owners>Mark Rendle</owners>
+    <projectUrl>https://github.com/angular-ui/ui-router</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The de-facto solution to flexible routing with nested views</description>
+    <summary>AngularUI Router is a routing framework for AngularJS, which allows you to organize the parts of your interface into a state machine. Unlike the $route service in Angular core, which is organized around URL routes, UI-Router is organized around states, which may optionally have routes, as well as other behavior, attached.
+
+States are bound to named, nested and parallel views, allowing you to powerfully manage your application's interface.</summary>
+    <releaseNotes />
+    <copyright />
+    <language>en-US</language>
+    <tags>angular angularjs angular-ui ui-router</tags>
+  </metadata>
+</package>
