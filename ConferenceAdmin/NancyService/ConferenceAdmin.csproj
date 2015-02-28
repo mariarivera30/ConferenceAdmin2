@@ -110,9 +110,9 @@
     <Content Include="Views\admin_manageadmins.html" />
     <Content Include="Views\admin_manageattendants.html" />
     <Content Include="Views\admin_manageevaluators.html" />
-    <Content Include="Views\admin_manageminors.html" />
     <Content Include="Views\admin_participation.html" />
     <Content Include="Views\admin_registrationform.html" />
+    <Content Include="Views\admin_registrationlist.html" />
     <Content Include="Views\admin_reports.html" />
     <Content Include="Views\admin_sponsors.html" />
     <Content Include="Views\admin_venue.html" />

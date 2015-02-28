@@ -252,6 +252,14 @@
                 }
             }
         })
+        .state('administrator.registrationlist', {
+            url: "/RegistrationList",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_registrationlist.html"
+                }
+            }
+        })
         .state('administrator.agenda', {
             url: "/Agenda",
             views: {
@@ -329,15 +337,6 @@
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_reports.html"
-                }
-            }
-        })
-
-        .state('administrator.manageminors', {
-            url: "/ManageMinors",
-            views: {
-                'adminPage': {
-                    templateUrl: "views/admin_manageminors.html"
                 }
             }
         })

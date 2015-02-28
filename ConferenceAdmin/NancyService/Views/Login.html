@@ -35,44 +35,129 @@
                     </div>
                     <div class="tab-pane" id="register">
                         <form role="form">
-                            <div class="form-group">
-                                <label for="InputUserName">User Name<sup>*</sup></label>
-                                <input type="text" class="form-control" id="InputUserName">
-                            </div>
-                            <div class="form-group">
-                                <label for="InputFirstName">First Name</label>
-                                <input type="text" class="form-control" id="InputFirstName">
-                            </div>
-                            <div class="form-group">
-                                <label for="InputLastName">Last Name</label>
-                                <input type="text" class="form-control" id="InputLastName">
-                            </div>
-                            <div class="form-group">
-                                <label for="InputEmail">Email<sup>*</sup></label>
-                                <input type="email" class="form-control" id="InputEmail">
-                            </div>
+                            <h3>General Information</h3>  
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-2">
                                     <div class="form-group">
-                                        <label for="InputPassword">Password<sup>*</sup></label>
-                                        <input type="password" class="form-control" id="InputPassword">
+                                        <label class="after-title-field black-label" for="InputUserName">Title<sup>*</sup></label>
+                                        <input type="text" class="form-control" id="InputUserName">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-7">
                                     <div class="form-group">
-                                        <label for="InputConfirmPassword">Confirm Password<sup>*</sup></label>
-                                        <input type="password" class="form-control" id="InputConfirmPassword">
+                                        <label class="after-title-field black-label" for="InputUserName">First Name<sup>*</sup></label>
+                                        <input type="text" class="form-control" id="InputUserName">
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <label class="after-title-field black-label" for="InputFirstName">Last Name<sup>*</sup></label>
+                                        <input type="text" class="form-control" id="InputFirstName">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-8">
-                                    <label class="checkbox-inline">
-                                        <input type="checkbox" id="inlineCheckbox1" value="option1"> I read <a href="#">Terms and Conditions</a>.
-                                    </label>
+                                    <div class="form-group">
+                                        <label for="InputFirstName" class="black-label">Affiliation (e.g. University, Company)<sup>*</sup></label>
+                                        <input type="text" class="form-control" id="InputFirstName">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="InputLastName" class="black-label">Type of User<sup>*</sup></label><br />
+                                        <select class="form-control">
+                                            <option value="">Evaluator</option>
+                                            <option value="">High School Student</option>
+                                            <option value="">High School Student- Companion</option>
+                                            <option value="">Graduate Student</option>
+                                            <option value="">Undergraduate Student</option>
+                                            <option value="">Professional - Academy</option>
+                                            <option value="">Professional - Industry</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row title-field">
+                                <div class="col-md-6">
+                                    <h3>Mailing Address</h3>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label class="after-title-field black-label" for="">Line 1<sup>*</sup></label>
+                                        <input type="" class="form-control" id="">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label for="" class="black-label">Line 2<sup>*</sup></label>
+                                        <input type="" class="form-control" id="">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="" class="black-label">City<sup>*</sup></label>
+                                        <input type="" class="form-control" id="">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="" class="black-label">State<sup>*</sup></label>
+                                        <input type="" class="form-control" id="">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="" class="black-label">Country<sup>*</sup></label>
+                                        <input type="" class="form-control" id="">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="" class="black-label">ZipCode<sup>*</sup></label>
+                                        <input type="" class="form-control" id="">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br>
+                            <h3>Contact Information</h3>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="after-title-field black-label" for="">Email<sup>*</sup></label>
+                                        <input type="" class="form-control" id="">
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label class="after-title-field black-label" for="">Phone Number<sup>*</sup></label>
+                                        <input type="" class="form-control" id="">
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <button type="submit" class="btn btn-ar btn-primary pull-right">Register</button>
+                                    <div class="form-group">
+                                        <label class="after-title-field black-label" for="">Fax</label>
+                                        <input type="" class="form-control" id="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="account-button"><br>
+                                <div class="col-md-10">
+                                    <button type="submit" class="btn btn-ar btn-primary ">Create Account</button>
                                 </div>
                             </div>
                         </form>

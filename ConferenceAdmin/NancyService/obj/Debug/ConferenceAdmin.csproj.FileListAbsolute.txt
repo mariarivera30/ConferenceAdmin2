@@ -33,11 +33,6 @@ C:\Users\Maria\Downloads\ParadigmInnovation\ConferenceAdmin\NancyService\obj\Deb
 C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\NancyService.dll.config
 C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\NancyService.dll
 C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\NancyService.pdb
-C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.dll
-C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.SqlServer.dll
-C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.Authentication.Token.dll
-C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.dll
-C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.Hosting.Aspnet.dll
 C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.xml
 C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.SqlServer.xml
 C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.xml
@@ -97,3 +92,8 @@ C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\ConferenceAdmin2\Nancy
 C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\ConferenceAdmin2\NancyService\obj\Debug\ConferenceAdmin.csprojResolveAssemblyReference.cache
 C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\ConferenceAdmin2\NancyService\obj\Debug\NancyService.dll
 C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\ConferenceAdmin2\NancyService\obj\Debug\NancyService.pdb
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.dll
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\EntityFramework.SqlServer.dll
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.Authentication.Token.dll
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.dll
+C:\Users\Maria\Documents\Conference_Admin\ConferenceAdmin\NancyService\bin\Nancy.Hosting.Aspnet.dll
