@@ -292,11 +292,11 @@
                 }
             }
         })
-        .state('administrator.manageconferencecommittee', {
-            url: "/ManageConferenceCommittee",
+        .state('administrator.planningcommittee', {
+            url: "/PlanningCommittee",
             views: {
                 'adminPage': {
-                    templateUrl: "views/admin_manageconfcommittee.html"
+                    templateUrl: "views/admin_planningcommittee.html"
                 }
             }
         })
@@ -308,11 +308,11 @@
                 }
             }
         })
-        .state('administrator.attendants', {
-            url: "/ManageApplicants",
+        .state('administrator.guests', {
+            url: "/ManageGuests",
             views: {
                 'adminPage': {
-                    templateUrl: "views/admin_manageattendants.html"
+                    templateUrl: "views/admin_manageguests.html"
                 }
             }
         })
@@ -324,11 +324,11 @@
                 }
             }
         })
-        .state('administrator.evaluators', {
-            url: "/ManageEvaluations",
+        .state('administrator.submissions', {
+            url: "/ManageSubmissions",
             views: {
                 'adminPage': {
-                    templateUrl: "views/admin_manageevaluators.html"
+                    templateUrl: "views/admin_managesubmissions.html"
                 }
             }
         })
@@ -369,11 +369,11 @@
                 }
             }
         })
-        .state('profile.bill', {
-            url: "/Bill",
+        .state('profile.receiptinformation', {
+            url: "/ReceiptInformation",
             views: {
                 'profilePage': {
-                    templateUrl: "views/profile_bill.html"
+                    templateUrl: "views/profile_receiptinfo.html"
                 }
             }
         })
@@ -394,7 +394,7 @@
             }
         })
         .state('profile.evaluation', {
-            url: "/Evaluator",
+            url: "/Evaluations",
             views: {
                 'profilePage': {
                     templateUrl: "views/profile_evaluation.html"
@@ -406,7 +406,7 @@
         })
       
         .state('profile.submission', {
-            url: "/Submission",
+            url: "/Submissions",
             views: {
                 'profilePage': {
                     templateUrl: "views/profile_submission.html"

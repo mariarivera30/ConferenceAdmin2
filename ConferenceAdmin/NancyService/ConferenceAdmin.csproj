@@ -108,8 +108,8 @@
     <Content Include="Views\admin_evaluationsDetails.html" />
     <Content Include="Views\admin_generalInformation.html" />
     <Content Include="Views\admin_manageadmins.html" />
-    <Content Include="Views\admin_manageattendants.html" />
-    <Content Include="Views\admin_manageevaluators.html" />
+    <Content Include="Views\admin_manageguests.html" />
+    <Content Include="Views\admin_managesubmissions.html" />
     <Content Include="Views\admin_participation.html" />
     <Content Include="Views\admin_registrationform.html" />
     <Content Include="Views\admin_registrationlist.html" />
@@ -128,7 +128,7 @@
     <Content Include="Views\admin_managetopics.html" />
     <Content Include="Views\admin_managetemplates.html" />
     <Content Include="Views\admin_managekeycodes.html" />
-    <Content Include="Views\admin_manageconfcommittee.html" />
+    <Content Include="Views\admin_planningcommittee.html" />
     <Content Include="Views\admin_managesponsors.html" />
     <Content Include="Views\registration_form.html" />
     <Content Include="Views\login.html" />
@@ -138,7 +138,7 @@
     <Content Include="App\profileCtrl.js" />
     <Content Include="Views\profile_authorization.html" />
     <Content Include="Views\profile_benefits.html" />
-    <Content Include="Views\profile_bill.html" />
+    <Content Include="Views\profile_receiptinfo.html" />
     <Content Include="Views\profile_information.html" />
     <Content Include="Views\profile_evaluation.html" />
     <Content Include="Views\profile_status.html" />
