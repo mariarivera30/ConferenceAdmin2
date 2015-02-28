@@ -107,7 +107,7 @@
     <Content Include="Views\admin_deadlines.html" />
     <Content Include="Views\admin_evaluationsDetails.html" />
     <Content Include="Views\admin_generalInformation.html" />
-    <Content Include="Views\admin_manageadmins.html" />
+    <Content Include="Views\admin_managecommittee.html" />
     <Content Include="Views\admin_manageguests.html" />
     <Content Include="Views\admin_managesubmissions.html" />
     <Content Include="Views\admin_participation.html" />
@@ -132,7 +132,6 @@
     <Content Include="Views\admin_managesponsors.html" />
     <Content Include="Views\registration_form.html" />
     <Content Include="Views\login.html" />
-    <Content Include="Views\papers.html" />
     <Content Include="Views\participation_Information.html" />
     <Content Include="Views\profile.html" />
     <Content Include="App\profileCtrl.js" />

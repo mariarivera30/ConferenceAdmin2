@@ -267,7 +267,7 @@ a.social:active {
   font-size: 35px;
   line-height: 1.2em;
   text-indent: 10px;
-  font-weight: regular;
+  font-weight: 100;
   color: white;
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.2);
   /*Background*/
@@ -7119,6 +7119,9 @@ input[type="date"]:focus {
   display: table-cell;
   padding: 20px;
 }
+
+
+
 .small-input{
     width:60px;
 }
@@ -7128,14 +7131,14 @@ input[type="date"]:focus {
 .big-input{
     width:200px;
 }
-.platinum {
+.platinum, .platinum h2{
     background-color: lightgray;
     color: black;
 }
 .gold {
     background-color: #B2A12E;
 }
-.silver {
+.silver, .silver h2 {
     background-color: silver;
     color: black;
 }
@@ -7195,4 +7198,75 @@ select {
 }
 .pending {
     color:cornflowerblue;
+}
+
+div .tab-content {
+    width:100%;
+}
+
+div .agenda-list {
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    height: 135px; 
+    overflow-y: scroll; 
+    padding: 0px;
+}
+
+div .agenda-division {
+    border-right: 1px solid #e73c3c; 
+    height: 300px;
+}
+
+.info-icon {
+    font-size:1.5em;
+}
+
+.br-top {
+    padding-top:60px;
+}
+
+nh6{
+    margin: 0;
+    margin-top: 10px;
+}
+nh5 {
+    margin: 10px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.banner-style {
+    height: 242px;
+}
+
+.banner-style img {
+    max-width: 100%; 
+    max-height: 242px;
+}
+
+.margin-fix {
+    margin-left:-15px;
+}
+
+.margin-fix-banner {
+    margin-bottom:20px;
+}
+
+.no-top-margin {
+    margin-top: 0px;
+}
+
+.block {
+    display:block;
+}
+
+.eval-btn {
+    float: left; 
+    margin-left:10px;
+}
+
+.padding-10 {
+    padding: 0px 10px 10px 10px;
 }

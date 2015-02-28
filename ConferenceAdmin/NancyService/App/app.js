@@ -148,18 +148,7 @@
                  
              }
          }
-         ).state('papers', {
-            url: "/Papers",
-            views: {
-                'banner': {
-                    templateUrl: "views/banner.html"
-                },
-                'dynamic': {
-                    templateUrl: "views/papers.html"
-                }
-                
-            }
-        })
+         )
          .state('register', {
              url: "/Register",
              views: {
@@ -284,11 +273,11 @@
                 }
             }
         })
-        .state('administrator.manageadmins', {
+        .state('administrator.managecommittee', {
             url: "/ManageCommittee",
             views: {
                 'adminPage': {
-                    templateUrl: "views/admin_manageadmins.html"
+                    templateUrl: "views/admin_managecommittee.html"
                 }
             }
         })
