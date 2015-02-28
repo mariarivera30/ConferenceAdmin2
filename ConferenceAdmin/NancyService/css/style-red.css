@@ -7184,4 +7184,15 @@ td {
 
 select {
     height: 34px;
+
+}
+
+.accepted {
+    color:limegreen;
+}
+.rejected {
+    color:red;
+}
+.pending {
+    color:cornflowerblue;
 }

@@ -1,6 +1,39 @@
 ﻿<div ng-controller="profileSubmissionCtrl">
-    <h3>Submission
-        <span style="float:right; font-size:.6em; color:#666;">
+    <h3>My Submissions</h3>
+
+    <table ng-table="tableParams" show-filter="true" class="table row">
+        <tr>
+            <td><b>Title</b></td>
+            <td><b>Type</b></td>
+            <td><b>Manage</b></td>
+            <td><b>Statuss</b></td>
+        </tr>
+
+        <tr>
+            <td><i class="fa fa-file-text-o"> </i> Submission_1_Title</td>
+            <td>Paper</td>
+            <td>
+                <a href="" data-toggle="modal" data-target="#viewSubmission">View</a> |
+                <a href="" data-toggle="modal" data-target="#editSubmission">Edit</a>
+            </td>
+            <td><span class="accepted"><i class="fa fa-check"> </i> Accepted</span></td>
+        </tr>
+
+        <tr>
+            <td><i class="fa fa-file-text-o"> </i> Submission_2_Title</td>
+            <td>Poster</td>
+            <td>
+                <a href="" data-toggle="modal" data-target="#viewSubmission">View</a> |
+                <a href="" data-toggle="modal" data-target="#editSubmission">Edit</a>
+            </td>
+            <td><span class="pending"><i class="fa fa-refresh"> </i> Pending</span></td>
+        </tr>
+    </table>
+
+
+    
+    <br />
+  
             <select style="height: 34px">
                 <option>
                     Extended Paper
@@ -19,15 +52,20 @@
                 </option>
             </select>
             &nbsp;<button class="btn btn-ar btn-primary">Add New</button>
-        </span>
-    </h3>
+  
 
-
+    <br /><br />
     <div class="panel panel-default" style="padding: 0px 10px 10px 10px;">
         <h5>Extended Paper</h5>
         <div class="row">
             <div class="col-md-4">
-                Topic category ->Dropdown <input type="text" class="form-control">
+                Topic category 
+                <select class="form-control">
+                    <option>Select</option>                    
+                    <option>Topic 1</option>
+                    <option>Topic 2</option>
+                    <option>Topic 3</option>
+                </select>
             </div>
         </div><br />
         <div class="row">
@@ -36,8 +74,8 @@
             </div>
         </div><br />
         <div class="row">
-            <div class="col-md-2">
-                PDF file <input type="text" class="form-control">
+            <div class="col-lg-3">
+                PDF file <input type="file" class="form-control">
             </div>
         </div>
     </div>
@@ -78,30 +116,79 @@
     </div>
     -->
 
-    <br />
 
     <button class="btn btn-ar btn-primary" style="float:left;">Submit</button>
 
-    <span style="float:right;">
-        <select style="height: 34px">
-            <option>
-                Extended Paper
-            </option>
-            <option>
-                Poster
-            </option>
-            <option>
-                Pannel
-            </option>
-            <option>
-                BoF
-            </option>
-            <option>
-                Workshop
-            </option>
-        </select>
-        &nbsp;<button class="btn btn-ar btn-primary">Add New</button>
-    </span>
+
+</div>
 
 
+
+<div class="modal fade" id="viewSubmission" tabindex="-1" role="dialog" aria-labelledby="addTemplateLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="addTemplateLabel"><b>Title:</b> Robotics is the Future</h4>
+            </div>
+            <div class="modal-body">
+                
+                <label>Name of submitter:</label> Randy Soto<br />
+                <label>Submission Type:</label> Paper<br />
+                <label>Topic category:</label> Robotics<br />
+                <label>Abstract: </label><br />
+                Lorem ipsum dolor sit amet, cubilia proin. Posuere viverra fusce. Nonummy magna dui. Elementum sed, nulla elit potenti, a hac dolor. Vivamus felis tellus. Bibendum consectetuer, ac suspendisse pede, ultrices vitae nulla. Sapien dictum elit, nulla ac ultrices.<br />  
+                <label>Uploaded File:</label><br />
+                <img src="http://typophile.com/files/lorem-ipsum.jpg" style="max-width:100%;"/><br />
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ar btn-default" data-dismiss="modal" style="float:left;">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="editSubmission" tabindex="-1" role="dialog" aria-labelledby="addTemplateLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="addTemplateLabel"><b>Title:</b> Robotics is the Future</h4>
+            </div>
+            <div class="modal-body">
+                                
+                <h5>Extended Paper</h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        Topic category
+                        <select class="form-control">
+                            <option>Select</option>
+                            <option>Topic 1</option>
+                            <option>Topic 2</option>
+                            <option>Topic 3</option>
+                        </select>
+                    </div>
+                </div><br />
+                <div class="row">
+                    <div class="col-md-8">
+                        Abstract <textarea class="form-control abstract"></textarea>
+                    </div>
+                </div><br />
+                <div class="row">
+                    <div class="col-lg-5">
+                        PDF file <input type="file" class="form-control">
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ar btn-primary" data-dismiss="modal" style="float:left;">Save</button>
+                <button class="btn btn-ar btn-default" data-dismiss="modal" style="float:left;">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>
