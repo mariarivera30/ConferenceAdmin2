@@ -6,33 +6,56 @@
             <td><b>Topic</b></td>
             <td><b>Description</b></td>
             <td><b>File</b></td>
+            <td></td>
         </tr>
         <tr>
             <td>Evaluation_1</td>
             <td>Human-Computer Interaction</td>
             <td>Undergraduate Students</td>
             <td><a href="">View</a></td>
+            <td><a href="" data-toggle="modal" data-target="#delete"><i class="glyphicon glyphicon-remove"></i></a></td>
         </tr>
         <tr>
             <td>Evaluation_2</td>
             <td>Human-Computer Interaction</td>
             <td>Graduate Students</td>
             <td><a href="">View</a></td>
+            <td><a href="" data-toggle="modal" data-target="#delete"><i class="glyphicon glyphicon-remove"></i></a></td>
         </tr>
         <tr>
             <td>Evaluation_3</td>
             <td>Access Control</td>
             <td>Undergraduate Students</td>
             <td><a href="">View</a></td>
+            <td><a href="" data-toggle="modal" data-target="#delete"><i class="glyphicon glyphicon-remove"></i></a></td>
         </tr>
         <tr>
             <td>Evaluation_4</td>
             <td>Access Control</td>
             <td>Graduate Students</td>
             <td><a href="">View</a></td>
+            <td><a href="" data-toggle="modal" data-target="#delete"><i class="glyphicon glyphicon-remove"></i></a></td>
         </tr>
     </table>
     <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" data-target="#addTemplate">Add New Template</button> <a href="" style="font-size:1.5em;"></a>
+</div>
+
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="deleteLabel">Remove Template</h4>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to remove the selection?
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ar btn-primary" data-dismiss="modal" style="float:left;">Remove</button>
+                <button class="btn btn-ar btn-default" data-dismiss="modal" style="float:left;">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="addTemplate" tabindex="-1" role="dialog" aria-labelledby="addTemplateLabel" aria-hidden="true">
