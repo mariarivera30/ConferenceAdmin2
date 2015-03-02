@@ -1,4 +1,84 @@
-﻿<div ng-controller="profileInformationCtrl">
+﻿<div ng-controller="profileInformationCtrl as vm">
+    <div ng-hide="vm.edit">
+        <h3>General Information   <button class="btn btn-ar btn-primary">Edit</button></h3>
+        <div class="row">
+            <div class="col-lg-1">
+                <b>Title:</b><br /> Dr.
+            </div>
+            <div class="col-lg-3">
+                <b>First Name:</b><br /> Randy
+            </div>
+            <div class="col-lg-4">
+                <b>Last Name:</b><br /> Soto
+            </div>
+        </div><br />
+
+        <div class="row">
+            <div class="col-lg-4">
+                <b>Affiliation:</b><br />  University of Puerto Rico
+            </div>
+        </div>
+
+        <h4>Mailing Address</h4>
+        <div class="row">
+            <div class="col-lg-6">
+                <b>Line 1:</b><br />  P. Sherman 42 Wallaby Way
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <b>Line 2:</b><br />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-3">
+                <b>City:</b><br />  Mayaguez
+            </div>
+            <div class="col-lg-3">
+                <b>State:</b><br />  Puerto Rico
+            </div>
+            <div class="col-lg-3">
+                <b>Country:</b><br />  United States
+            </div>
+            <div class="col-lg-3">
+                <b>Zip Code:</b><br />  01234
+            </div>
+        </div>
+
+        <h4>Contact Information</h4>
+        <div class="row">
+            <div class="col-lg-6">
+                <b>Email:</b> <br /> name@email.com
+            </div>
+            <div class="col-lg-3">
+                <b>Phone Number:</b><br />  123-456-7890
+            </div>
+            <div class="col-lg-3">
+                <b>Fax:</b> <br /> 123-456-7890
+            </div>
+        </div>
+
+        <h4>Participation Days</h4>
+        <div class="row">
+            <div class="col-lg-4">
+                <span class="block"> Day 1</span>
+                <span class="block"> Day 2</span>
+            </div>
+        </div>
+
+        <br />
+        <button class="btn btn-ar btn-primary">Save Changes</button>
+        <button class="btn btn-ar btn-default">Cancel</button>
+
+    </div>
+</div>
+
+
+
+
+<div ng-controller="profileInformationCtrl as vm">
+    <div ng-show="vm.edit">
     <h3>General Information</h3>
     <div class="row">
         <div class="col-lg-1">
@@ -71,5 +151,6 @@
     <button class="btn btn-ar btn-primary">Save Changes</button> 
     <button class="btn btn-ar btn-default">Cancel</button>
 
-
+    </div>
 </div>
+    

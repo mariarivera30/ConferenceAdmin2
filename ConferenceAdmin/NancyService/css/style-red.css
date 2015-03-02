@@ -2139,12 +2139,13 @@ hr.double {
   display: block;
   text-align: center;
   overflow: hidden;
-  padding: 15px;
+  padding: 25px;
   margin-bottom: 5px;
 }
 .content-box.box-default {
   background-color: #f6f6f6;
-  border: solid 1px #e5e5e5;
+  border: solid 1px #ccc;
+  margin-top: 20px;
 }
 .content-box.box-default:hover {
   background-color: #f3f3f3;
@@ -4934,9 +4935,7 @@ input.input-lg[type="text"] {
 /*-------------------------------------------------------------------*/
 /* Sidebar */
 /*-------------------------------------------------------------------*/
-.block {
-  margin-bottom: 40px;
-}
+
 .block .nav > li > a > i {
   font-size: 1.3em;
 }
@@ -7173,7 +7172,7 @@ textarea {
 }
 
 
-td {
+td, th {
     text-align:center;
 }
 
@@ -7225,14 +7224,6 @@ div .agenda-division {
     padding-top:60px;
 }
 
-nh6{
-    margin: 0;
-    margin-top: 10px;
-}
-nh5 {
-    margin: 10px;
-}
-
 .full-width {
     width: 100%;
 }
@@ -7269,4 +7260,13 @@ nh5 {
 
 .padding-10 {
     padding: 0px 10px 10px 10px;
+}
+
+.btn-small {
+    font-size:.8em;
+    padding: 2px;
+}
+
+.date-range-width {
+    width:48.5%;
 }

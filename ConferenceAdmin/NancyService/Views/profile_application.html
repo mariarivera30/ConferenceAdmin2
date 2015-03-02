@@ -1,0 +1,24 @@
+﻿<div class="row" ng-controller="registrationCtrl as vm">
+    <h3>Application:</h3>
+
+    <div class="alert alert-warning">
+        <strong><i class="fa fa-info"></i></strong> You have not applied yet. Please click the Apply button below to begin.
+    </div>
+
+    <div class="alert alert-danger">
+        <strong><i class="fa fa-times"></i></strong> Your application has been <strong>REJECTED</strong>.
+    </div>
+
+    <div class="alert alert-info">
+        <strong><i class="fa fa-bullhorn"></i></strong> Your application has been <strong>APPROVED</strong>. Please proceed to fill out your Registration by clicking the Register button below.
+    </div>
+
+    <div class="alert alert-success">
+        <strong><i class="fa fa-check"></i></strong> Your Registration process has been completed.
+    </div>
+
+    <button class="btn btn-ar btn-primary" ng-hide="registration">Apply</button>
+    <button class="btn btn-ar btn-primary" ng-show="registration" disabled>Apply</button>
+    <button class="btn btn-ar btn-primary" ng-show="registration">Register</button>
+    <button class="btn btn-ar btn-primary" ng-hide="registration" disabled>Register</button>
+</div>

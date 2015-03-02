@@ -5,8 +5,9 @@
             <div class="transparent-div no-padding animated fadeInUp animation-delay-8">
                 <ul class="nav nav-tabs nav-tabs-transparent">
                     <li class="active"><a href="/Login/#home" data-toggle="tab">Login</a></li>
-                    <li><a href="/Login/#register" data-toggle="tab">Register</a></li>
-                    <li><a href="/Login/#recover" data-toggle="tab">Recovery Pass</a></li>
+                    <li><a href="/Login/#signup" data-toggle="tab">Sign Up</a></li>
+                    <li><a href="/Login/#recover" data-toggle="tab">Recover Pass</a></li>
+                    <li><a href="/Login/#recover2" data-toggle="tab">Recover Pass 2</a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -33,7 +34,10 @@
                             </div>
                         </form>
                     </div>
-                    <div class="tab-pane" id="register">
+
+
+
+                    <div class="tab-pane" id="signup">
                         <form role="form">
                             <h3>General Information</h3>  
                             <div class="row">
@@ -43,13 +47,13 @@
                                         <input type="text" class="form-control" id="InputUserName">
                                     </div>
                                 </div>
-                                <div class="col-md-7">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="after-title-field black-label" for="InputUserName">First Name<sup>*</sup></label>
                                         <input type="text" class="form-control" id="InputUserName">
                                     </div>
                                 </div>
-                                <div class="col-md-7">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="after-title-field black-label" for="InputFirstName">Last Name<sup>*</sup></label>
                                         <input type="text" class="form-control" id="InputFirstName">
@@ -57,7 +61,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="InputFirstName" class="black-label">Affiliation (e.g. University, Company)<sup>*</sup></label>
                                         <input type="text" class="form-control" id="InputFirstName">
@@ -88,7 +92,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-10">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="after-title-field black-label" for="">Line 1<sup>*</sup></label>
                                         <input type="" class="form-control" id="">
@@ -97,7 +101,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-10">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="" class="black-label">Line 2<sup>*</sup></label>
                                         <input type="" class="form-control" id="">
@@ -106,25 +110,25 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="" class="black-label">City<sup>*</sup></label>
                                         <input type="" class="form-control" id="">
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="" class="black-label">State<sup>*</sup></label>
                                         <input type="" class="form-control" id="">
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="" class="black-label">Country<sup>*</sup></label>
                                         <input type="" class="form-control" id="">
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="" class="black-label">ZipCode<sup>*</sup></label>
                                         <input type="" class="form-control" id="">
@@ -142,13 +146,13 @@
                                         <input type="" class="form-control" id="">
                                     </div>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="after-title-field black-label" for="">Phone Number<sup>*</sup></label>
                                         <input type="" class="form-control" id="">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="after-title-field black-label" for="">Fax</label>
                                         <input type="" class="form-control" id="">
@@ -162,17 +166,30 @@
                             </div>
                         </form>
                     </div>
+
+
+
+
+
                     <div class="tab-pane" id="recover">
                         <form role="form">
-                            <div class="form-group">
-                                <label for="InputUserName">User Name<sup>*</sup></label>
-                                <input type="text" class="form-control" id="InputUserName">
-                            </div>
                             <div class="form-group">
                                 <label for="InputEmail">Email<sup>*</sup></label>
                                 <input type="email" class="form-control" id="InputEmail">
                             </div>
-                            <button type="submit" class="btn btn-ar btn-primary pull-right">Send Password</button>
+                            <button type="submit" class="btn btn-ar btn-primary pull-right">Request Password</button>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane" id="recover2">
+                        <form role="form">
+                            <div class="form-group">
+                                <label for="InputEmail">Enter new password<sup>*</sup></label>
+                                <input type="email" class="form-control" id="InputPass">
+                                <label for="InputEmail">Confirm password<sup>*</sup></label>
+                                <input type="email" class="form-control" id="InputPass">
+                            </div>
+                            <button type="submit" class="btn btn-ar btn-primary pull-right">Submit</button>
                         </form>
                     </div>
                 </div>

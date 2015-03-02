@@ -130,6 +130,7 @@
     <Content Include="Views\admin_managekeycodes.html" />
     <Content Include="Views\admin_planningcommittee.html" />
     <Content Include="Views\admin_managesponsors.html" />
+    <Content Include="Views\profile_application.html" />
     <Content Include="Views\registration_form.html" />
     <Content Include="Views\login.html" />
     <Content Include="Views\participation_Information.html" />

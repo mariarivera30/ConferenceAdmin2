@@ -10,6 +10,7 @@
     function registrationCtrl($scope, $http) {
         var vm = this;
 
+        vm.registration = false;
         vm.activate = activate;
         vm.title = 'registrationCtrl';
 

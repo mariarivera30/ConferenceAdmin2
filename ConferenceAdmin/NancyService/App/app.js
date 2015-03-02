@@ -88,6 +88,19 @@
 
             }
         })
+        .state('sponsorregistration', {
+            url: "/SponsorRegistration",
+            views: {
+                'banner': {
+                    templateUrl: "views/banner.html"
+                },
+                'dynamic': {
+                    templateUrl: "views/sponsorRegistration.html"
+                }
+
+            }
+        })
+
         .state('sponsors', {
             url: "/Sponsors",
             views: {
@@ -100,6 +113,7 @@
                 
             }
         })
+        
         .state('contact', {
             url: "/Contact",
             views: {
@@ -418,16 +432,25 @@
                 }
             }
         })
-              .state('participation', {
-                  url: "/Participation",
-                  views: {
-                      'dynamic': {
-                          templateUrl: "views/participation_Information.html"
-                      },
-                      'banner': {
-                          templateUrl: "views/banner.html"
-                      }
-                  }
-              })
+        .state('profile.apply', {
+            url: "/Application",
+            views: {
+                'profilePage': {
+                    templateUrl: "views/profile_application.html"
+                }
+            }
+        })
+        .state('participation', {
+            url: "/Participation",
+            views: {
+                'dynamic': {
+                    templateUrl: "views/participation_Information.html"
+                },
+                'banner': {
+                    templateUrl: "views/banner.html"
+                }
+            }
+        })
+
     });
 })();
