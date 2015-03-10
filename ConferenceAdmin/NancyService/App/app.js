@@ -8,7 +8,9 @@
         // Angular modules 
         'ngAnimate',        // animations
         'ngRoute',           // routing
-        'ui.router'
+        'ui.router',
+        
+       
         // Custom modules 
 
         // 3rd Party Modules

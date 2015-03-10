@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Nancy.Bootstrappers.Grace</name>
+    </assembly>
+    <members>
+        <member name="T:Nancy.Bootstrappers.Grace.GraceNancyBootstrapper">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Nancy.Bootstrappers.Grace.GraceNancyBootstrapper.AutoRegisterIgnoredAssemblies">
+            <summary>
+            Gets the assemblies to ignore when autoregistering the application container
+            Return true from the delegate to ignore that particular assembly, returning true
+            does not mean the assembly *will* be included, a false from another delegate will
+            take precedence.
+            </summary>
+        </member>
+    </members>
+</doc>

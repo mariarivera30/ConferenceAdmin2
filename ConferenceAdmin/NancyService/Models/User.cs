@@ -1,76 +1,36 @@
-﻿using Nancy.Security;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace NancyService.Models
 {
-    public class UserIdentity: IUserIdentity
+    public partial class user
     {
-        public IEnumerable<string> Claims { get; set; }
-
-        public string UserName { get; set; }
-     
-    }
-
-    public class User
-    {
-        private IUserIdentity _identity;
-
-        [Key]
-        [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public int Age { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-
-        public virtual ICollection<Claim> Claims { get; set; } 
-      
-        public IUserIdentity GetIdentity()
+        public user()
         {
-            if (_identity != null)
-                return _identity;
-
-            UserIdentity identity = new UserIdentity();
-            identity.UserName = this.Email;
-            
-            List<string> claims = new List<string>();
-            foreach(var claim in this.Claims)
-            {   
-
-                claims.Add(claim.Role.Value);
-            }
-
-            identity.Claims = claims;
-            _identity = identity;
-
-            return identity;
+            this.companions = new List<companion>();
+            this.evaluators = new List<evaluator>();
+            this.minors = new List<minor>();
+            this.registrations = new List<registration>();
         }
-    }
 
-    public class Role
-    {
-        [Key]
-        [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
-        public int RoleId { get; set; }
-        public string Name { get; set; }
-        public string Value { get; set; }
-    }
-
-    public class Claim
-    {
-        [Key]
-        [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
-        public int ClaimId { get; set; }
-
-        public int RoleId { get; set; }
-        public virtual Role Role { get; set; }
-        public int UserId { get; set; }
-        public virtual User User { get; set; }
+        public long userID { get; set; }
+        public long membershipID { get; set; }
+        public Nullable<long> addressID { get; set; }
+        public int userTypeID { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string title { get; set; }
+        public string affiliationName { get; set; }
+        public string phone { get; set; }
+        public string userFax { get; set; }
+        public string registrationStatus { get; set; }
+        public string hasApplied { get; set; }
+        public virtual address address { get; set; }
+        public virtual ICollection<companion> companions { get; set; }
+        public virtual ICollection<evaluator> evaluators { get; set; }
+        public virtual membership membership { get; set; }
+        public virtual ICollection<minor> minors { get; set; }
+        public virtual ICollection<registration> registrations { get; set; }
+        public virtual usertype usertype { get; set; }
     }
 }

@@ -1,4 +1,7 @@
 ﻿using Nancy;
+using NancyService.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NancyService.Modules
 {
@@ -9,8 +12,15 @@ namespace NancyService.Modules
             // Serves Index.html as a static content.
             Get["/"] = parameters =>
             {
-                return View["layout.html"];
+               return View["layout.html"];
             };
+
+
+
+           
+
+            // Method for registering a user.
+          
         }
     }
 }

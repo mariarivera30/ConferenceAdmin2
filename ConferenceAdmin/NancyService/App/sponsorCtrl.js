@@ -7,40 +7,62 @@
     angular.module('app').controller(controllerId,
         ['$scope', '$http', 'restApi', sponsorCtrl]);
 
-    function sponsorCtrl($scope, $http) {
-            var vm = this;
-            vm.list = [{
-                name: "Randy Soto",
-                email: "randy.soto@upr.edu",
-                key: 245646545
-               
-            },  {
-                name: "Juan Retrolla",
-                email: "juan.retorlla@upr.edu",
-                key: 245646546
-            }, 
-            {
-                name: "unused",
-                email: "unused",
-                key:245646547
-            },
-            {
-                name: "unused",
-                email: "unused",
-                key: 245646548
-            }
-            ];
+    function sponsorCtrl($scope, $http, restApi) {
+        var vm = this;
+        vm.activate = activate;
+        //add sponsor fields
+        vm.title = 'sponsorCtrl';
+        vm.email;
+        vm.phone;
+        vm.email;
+        vm.sponsorType;
+        vm.firstName;
+        vm.lastName;
+        vm.titleSponsor;
+        vm.company;
+        vm.logo;
+        vm.sponsorsList = {};
+        // Functions
+        vm.addSponsor = _addSponsor;
+        vm.getSponsors = _getSponsors;
 
+        
+       
+        _getSponsors();
 
-            vm.activate = activate;
-            vm.title = 'administratorCtrl';
+        
+                  
             // Functions
-
-
-
             function activate() {
-
+                
             }
+            
+            function _addSponsor() {
+                restApi.postNewSponsor(vm)
+                    .success(function (data, status, headers, config) {
+                         })
+
+                    .error(function (error) {
+                
+                        });                
+            }
+
+
+            function _getSponsors() {
+                restApi.getSponsors().
+                       success(function (data, status, headers, config) {
+                           // this callback will be called asynchronously
+                           // when the response is available
+                           vm.sponsorsList = data;
+                       }).
+                       error(function (data, status, headers, config) {
+                           // called asynchronously if an error occurs
+                           // or server returns response with an error status.
+                           vm.sponsorsList = data;
+                       });
+            }
+
+           
 
 
         }

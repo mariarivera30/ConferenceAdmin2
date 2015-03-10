@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Nancy.Bootstrapper.Grace</id>
+    <version>0.20.0</version>
+    <title>Nancy.Bootstrapper.Grace</title>
+    <authors>Ian Johnson</authors>
+    <owners>Ian Johnson</owners>
+    <licenseUrl>https://grace.codeplex.com/license</licenseUrl>
+    <projectUrl>https://grace.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Nancy.Bootstrapper.Grace is a Nancy bootstrapper using Grace for dependency injection</description>
+    <summary>Nancy.Bootstrapper.Grace provides integration between Nancy and Grace.</summary>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2013 Ian Johnson</copyright>
+    <language>en-US</language>
+    <tags>IoC Dependency Injection Container Nancy Grace</tags>
+    <dependencies>
+      <dependency id="Grace" version="1.0.0" />
+    </dependencies>
+  </metadata>
+</package>
