@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+  <metadata>
+    <id>Npgsql.EF6</id>
+    <version>2.0.12-pre4</version>
+    <title>Npgsql.EF6</title>
+    <authors>Francisco Figueiredo Jr.,   Josh Cooley,   Dave Page,   Jon Asher,   Brar Piening,   Chris Morgan,   Hiroshi Saito,   Jon Hanna,   Federico Di Gregorio</authors>
+    <owners>Francisco Figueiredo Jr.,   Josh Cooley,   Dave Page,   Jon Asher,   Brar Piening,   Chris Morgan,   Hiroshi Saito,   Jon Hanna,   Federico Di Gregorio</owners>
+    <licenseUrl>http://www.opensource.org/licenses/bsd-license.php</licenseUrl>
+    <projectUrl>http://project.npgsql.org/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Npgsql is a .NET data provider for PostgreSQL. It is implemented in C#. Works with Postgresql 7.x and above.</description>
+    <summary>Npgsql is a .NET data provider for PostgreSQL.</summary>
+    <releaseNotes>Compiled with the new Entity Framework 6 namespaces. Works on both Windows and Mono. Compiled with Mono 3.0.11.</releaseNotes>
+    <copyright />
+    <language>en-US</language>
+    <tags>npgsql postgres postgresql entityframework</tags>
+    <dependencies>
+      <dependency id="EntityFramework" version="6.0.0-alpha3" />
+    </dependencies>
+  </metadata>
+</package>

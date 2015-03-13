@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1decf62a6e1e44f38ec94da849d92e1a" Name="Diagram1" ZoomLevel="77">
+        <EntityTypeShape EntityType="conferenceadminModel2.address" Width="1.75" PointX="3.875" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.administrator" Width="1.5" PointX="13.625" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.authorizationsubmitted" Width="2.125" PointX="12.125" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.committeeinterface" Width="1.875" PointX="16.375" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.companion" Width="1.5" PointX="6.25" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.companionminor" Width="1.75" PointX="9.75" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.complementarykey" Width="1.75" PointX="3.875" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.documentssubmitted" Width="1.875" PointX="16.375" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.evaluationsubmitted" Width="1.875" PointX="13.875" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.evaluatiorsubmission" Width="1.875" PointX="11.375" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.evaluator" Width="1.5" PointX="8.625" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.interfaceinformation" Width="1.875" PointX="16.375" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.membership" Width="1.5" PointX="11.375" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.membershiptype" Width="1.5" PointX="13.625" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.minor" Width="1.5" PointX="9.875" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.panel" Width="1.5" PointX="13.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.payment" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.paymentbill" Width="1.5" PointX="0.625" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.paymentcomplementary" Width="1.5" PointX="5.375" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.paymenttype" Width="1.5" PointX="2.5" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.priviledge" Width="1.5" PointX="16" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.registration" Width="1.5" PointX="3.125" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.sponsor" Width="1.5" PointX="0.5" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.sponsortype" Width="1.5" PointX="0.625" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.submission" Width="1.5" PointX="11.25" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.submissiontype" Width="1.5" PointX="7.625" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.template" Width="1.875" PointX="16.375" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.templatesubmission" Width="1.75" PointX="14" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.topiccategory" Width="1.5" PointX="7.625" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.user" Width="1.5" PointX="6.5" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.usertype" Width="1.5" PointX="8.625" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="conferenceadminModel2.workshop" Width="1.5" PointX="7.625" PointY="0.5" IsExpanded="true" />
+        <AssociationConnector Association="conferenceadminModel2.addressID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.addressIDuser" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.memebershipID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.priviledgeID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.minorID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.companionID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.userCompanionID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.minorcompanionID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.complementaryKeyID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.sponsorID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.submisisonID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.evaluatorsubmissionID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.evaluatorID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.submissionID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.userEvaluatorID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.membershipID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.memebershipTypeID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.userID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.submissionPanelID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.paymentComplementaryID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.paymentID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.paymentIDRegistration" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.paymentIDsPONSOR" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.paymentTypeID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.userIDRegister" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.sponsorTypeID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.submissionTemplateID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.submissionType1" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.submissionWorkshopID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.topicCategoryID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.templateAssigniedID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.userTypeID" ManuallyRouted="false" />
+        <AssociationConnector Association="conferenceadminModel2.userIDSumission" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
