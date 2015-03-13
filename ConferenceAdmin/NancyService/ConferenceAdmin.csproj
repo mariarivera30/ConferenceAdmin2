@@ -950,7 +950,7 @@
     <Content Include="Scripts\i18n\angular-locale_zh.js" />
     <Content Include="Scripts\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\i18n\angular-locale_zu.js" />
-<<<<<<< HEAD
+
     <EntityDeploy Include="Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -985,7 +985,7 @@
       <DependentUpon>Model2.edmx</DependentUpon>
       <LastGenOutput>Model2.cs</LastGenOutput>
     </Content>
-=======
+
     <Content Include="Scripts\errors.json" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -995,7 +995,7 @@
     <Content Include="CodeTemplates\ReverseEngineerCodeFirst\Context.tt" />
     <Content Include="CodeTemplates\ReverseEngineerCodeFirst\Entity.tt" />
     <Content Include="CodeTemplates\ReverseEngineerCodeFirst\Mapping.tt" />
->>>>>>> b4ad17af23014a4ddcdfe1e06d4be9f315deab6c
+
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />
@@ -1369,7 +1369,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
-<<<<<<< HEAD
+
     <Compile Include="Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1401,7 +1401,7 @@
       <DependentUpon>Model2.edmx</DependentUpon>
     </Compile>
     <Compile Include="Modules\AuthModule.cs" />
-=======
+
     <Compile Include="Models\address.cs" />
     <Compile Include="Models\administrator.cs" />
     <Compile Include="Models\authorizationsubmitted.cs" />
@@ -1469,7 +1469,7 @@
     <Compile Include="Models\workshop.cs" />
     <Compile Include="Modules\AdminManager.cs" />
     <Compile Include="Modules\AdminModules.cs" />
->>>>>>> b4ad17af23014a4ddcdfe1e06d4be9f315deab6c
+
     <Compile Include="Modules\IndexModule.cs" />
     <Compile Include="Modules\AuthModels.cs" />
     <Compile Include="Modules\UserIdentity.cs" />
