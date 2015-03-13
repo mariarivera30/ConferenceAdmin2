@@ -4,6 +4,35 @@
         <name>Nancy.Authentication.Token</name>
     </assembly>
     <members>
+        <member name="T:Nancy.Authentication.Token.DefaultUserIdentityResolver">
+            <summary>
+            The default user identity resolver.
+            This creates a plain user identity based on username and claims.
+            </summary>
+        </member>
+        <member name="T:Nancy.Authentication.Token.IUserIdentityResolver">
+            <summary>
+            Provides a mapping between username and an <see cref="T:Nancy.Security.IUserIdentity"/>.
+            </summary>
+        </member>
+        <member name="M:Nancy.Authentication.Token.IUserIdentityResolver.GetUser(System.String,System.Collections.Generic.IEnumerable{System.String},Nancy.NancyContext)">
+            <summary>
+            Gets the <see cref="T:Nancy.Security.IUserIdentity"/> from username and claims.
+            </summary>
+            <param name="userName">The username.</param>
+            <param name="claims">The claims.</param>
+            <param name="context">Current <see cref="T:Nancy.NancyContext"/>.</param>
+            <returns>A populated <see cref="T:Nancy.Security.IUserIdentity"/>, or <c>null</c></returns>
+        </member>
+        <member name="M:Nancy.Authentication.Token.DefaultUserIdentityResolver.GetUser(System.String,System.Collections.Generic.IEnumerable{System.String},Nancy.NancyContext)">
+            <summary>
+            Gets the <see cref="T:Nancy.Security.IUserIdentity"/> from username and claims.
+            </summary>
+            <param name="userName">The username.</param>
+            <param name="claims">The claims.</param>
+            <param name="context">Current <see cref="T:Nancy.NancyContext"/>.</param>
+            <returns>A populated <see cref="T:Nancy.Security.IUserIdentity"/>, or <c>null</c></returns>
+        </member>
         <member name="T:Nancy.Authentication.Token.Storage.FileSystemTokenKeyStore">
             <summary>
             Stores encryption keys in the file system
@@ -98,15 +127,16 @@
             Create a token from a <see cref="T:Nancy.Security.IUserIdentity"/>
             </summary>
             <param name="userIdentity">The user identity from which to create a token.</param>
-            <param name="context">NancyContext</param>
+            <param name="context">Current <see cref="T:Nancy.NancyContext"/>.</param>
             <returns>The generated token.</returns>
         </member>
-        <member name="M:Nancy.Authentication.Token.ITokenizer.Detokenize(System.String,Nancy.NancyContext)">
+        <member name="M:Nancy.Authentication.Token.ITokenizer.Detokenize(System.String,Nancy.NancyContext,Nancy.Authentication.Token.IUserIdentityResolver)">
             <summary>
             Create a <see cref="T:Nancy.Security.IUserIdentity"/> from a token
             </summary>
             <param name="token">The token from which to create a user identity.</param>
-            <param name="context">NancyContext</param>
+            <param name="context">Current <see cref="T:Nancy.NancyContext"/>.</param>
+            <param name="userIdentityResolver">The user identity resolver.</param>
             <returns>The detokenized user identity.</returns>
         </member>
         <member name="T:Nancy.Authentication.Token.TokenAuthentication">
@@ -141,15 +171,21 @@
             Configuration options for token authentication
             </summary>
         </member>
-        <member name="M:Nancy.Authentication.Token.TokenAuthenticationConfiguration.#ctor(Nancy.Authentication.Token.ITokenizer)">
+        <member name="M:Nancy.Authentication.Token.TokenAuthenticationConfiguration.#ctor(Nancy.Authentication.Token.ITokenizer,Nancy.Authentication.Token.IUserIdentityResolver)">
             <summary>
             Initializes a new instance of the <see cref="T:Nancy.Authentication.Token.TokenAuthenticationConfiguration"/> class.
             </summary>
             <param name="tokenizer">A valid instance of <see cref="T:Nancy.Authentication.Token.ITokenizer"/> class</param>
+            <param name="userIdentityResolver">The user identity resolver.</param>
         </member>
         <member name="P:Nancy.Authentication.Token.TokenAuthenticationConfiguration.Tokenizer">
             <summary>
             Gets the token validator
+            </summary>
+        </member>
+        <member name="P:Nancy.Authentication.Token.TokenAuthenticationConfiguration.UserIdentityResolver">
+            <summary>
+            Gets or sets the user identity resolver
             </summary>
         </member>
         <member name="T:Nancy.Authentication.Token.Tokenizer">
@@ -173,15 +209,16 @@
             Creates a token from a <see cref="T:Nancy.Security.IUserIdentity"/>.
             </summary>
             <param name="userIdentity">The user identity from which to create a token.</param>
-            <param name="context">NancyContext</param>
+            <param name="context">Current <see cref="T:Nancy.NancyContext"/>.</param>
             <returns>The generated token.</returns>
         </member>
-        <member name="M:Nancy.Authentication.Token.Tokenizer.Detokenize(System.String,Nancy.NancyContext)">
+        <member name="M:Nancy.Authentication.Token.Tokenizer.Detokenize(System.String,Nancy.NancyContext,Nancy.Authentication.Token.IUserIdentityResolver)">
             <summary>
             Creates a <see cref="T:Nancy.Security.IUserIdentity"/> from a token.
             </summary>
             <param name="token">The token from which to create a user identity.</param>
-            <param name="context">NancyContext</param>
+            <param name="context">Current <see cref="T:Nancy.NancyContext"/>.</param>
+            <param name="userIdentityResolver">The user identity resolver.</param>
             <returns>The detokenized user identity.</returns>
         </member>
         <member name="T:Nancy.Authentication.Token.Tokenizer.TokenizerConfigurator">
@@ -197,7 +234,7 @@
         </member>
         <member name="M:Nancy.Authentication.Token.Tokenizer.TokenizerConfigurator.WithKeyCache(Nancy.Authentication.Token.Storage.ITokenKeyStore)">
             <summary>
-            Sets the token key store ued by the tokenizer
+            Sets the token key store used by the tokenizer
             </summary>
             <param name="store"></param>
             <returns>A reference to the current <see cref="T:Nancy.Authentication.Token.Tokenizer.TokenizerConfigurator"/></returns>

@@ -17,19 +17,19 @@
                             <div class="form-group">
                                 <div class="input-group login-input">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                    <input type="text" class="form-control" placeholder="Email">
+                                    <input type="text" class="form-control" placeholder="Email" ng-model="vm.email">
                                 </div>
                                 <br>
                                 <div class="input-group login-input">
                                     <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                    <input type="password" class="form-control" placeholder="Password">
+                                    <input type="password" class="form-control" placeholder="Password" ng-model="vm.password">
                                 </div>
                                 <div class="checkbox">
                                     <label id="remember-me-checkbox">
                                         <input type="checkbox"> Remember me
                                     </label>
                                 </div>
-                                <button type="submit" class="btn btn-ar btn-primary pull-right">Login</button>
+                                <button type="submit" class="btn btn-ar btn-primary pull-right" ng-click="vm.register()">Login</button>
                                 <div class="clearfix"></div>
                             </div>
                         </form>
