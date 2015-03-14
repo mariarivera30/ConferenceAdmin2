@@ -34,7 +34,6 @@ namespace NancyService.Models.Mapping
 
             this.Property(t => t.logo)
                 .HasMaxLength(45);
-
             // Table & Column Mappings
             this.ToTable("sponsor", "conferenceadmin");
             this.Property(t => t.sponsorID).HasColumnName("sponsorID");
@@ -50,6 +49,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.logo).HasColumnName("logo");
             this.Property(t => t.creationDate).HasColumnName("creationDate");
             this.Property(t => t.deleitionDate).HasColumnName("deleitionDate");
+
 
             // Relationships
             this.HasRequired(t => t.address)

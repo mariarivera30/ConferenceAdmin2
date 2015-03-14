@@ -34,12 +34,8 @@ namespace NancyService.Modules
 
             Get["/getSponsor"] = parameters =>
             {
-                List<string> list = new List<string>();
-                foreach (sponsor c in admin.getSponsorList())
-                {
-                    list.Add(c.firstName);
-                }               
-                return Response.AsJson(list);
+               
+                return Response.AsJson(admin.getSponsorList());
                 
             };
             

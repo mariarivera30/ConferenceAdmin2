@@ -28,6 +28,9 @@ namespace NancyService.Models.Mapping
             this.HasRequired(t => t.topiccategory)
                 .WithMany(t => t.submissions)
                 .HasForeignKey(d => d.topicID);
+            this.HasRequired(t => t.user)
+                .WithMany(t => t.submissions)
+                .HasForeignKey(d => d.userID);
 
         }
     }

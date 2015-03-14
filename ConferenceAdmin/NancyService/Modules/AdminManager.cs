@@ -9,19 +9,22 @@ namespace NancyService.Modules
     public class AdminManager
     {   
         
-        private conferenceadminContext context;
+       
         
         public AdminManager(){
-            context = new conferenceadminContext();
+            
         }
         
         public bool addSponsor (sponsor s)
         {
             try
             {
-                context.sponsors.Add(s);
-                context.SaveChanges();
-                return true;
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    context.sponsors.Add(s);
+                    context.SaveChanges();
+                    return true;
+                }
             }
             catch (Exception ex)
             {
@@ -31,11 +34,19 @@ namespace NancyService.Modules
                
          }    
         
-        public List<sponsor> getSponsorList () 
+        public List<string> getSponsorList () 
         {
-            try
-            {
-                return context.sponsors.ToList();
+            try{
+             
+                 using(conferenceadminContext context = new conferenceadminContext())
+                    {
+                        var list = from s in context.sponsors
+                                   select s.firstName;
+                        return list.ToList();
+
+                     }
+                
+              
             }
             catch (Exception ex)
             {

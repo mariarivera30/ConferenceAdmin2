@@ -13,10 +13,10 @@ namespace NancyService.Models.Mapping
             // Properties
 
             // Relationships
-            this.HasOptional(t => t.companion)
+            this.HasRequired(t => t.companion)
                 .WithMany(t => t.companionminors)
                 .HasForeignKey(d => d.companionID);
-            this.HasOptional(t => t.minor)
+            this.HasRequired(t => t.minor)
                 .WithMany(t => t.companionminors)
                 .HasForeignKey(d => d.minorID);
 

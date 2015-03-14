@@ -16,7 +16,7 @@ namespace NancyService.Models.Mapping
 
 
             // Relationships
-            this.HasOptional(t => t.user)
+            this.HasRequired(t => t.user)
                 .WithMany(t => t.companions)
                 .HasForeignKey(d => d.userID);
 

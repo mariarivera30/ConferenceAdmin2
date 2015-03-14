@@ -15,12 +15,6 @@ namespace NancyService.Modules
                return View["layout.html"];
             };
 
-
-
-           
-
-            // Method for registering a user.
-          
         }
     }
 }

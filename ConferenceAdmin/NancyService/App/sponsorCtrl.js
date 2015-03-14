@@ -12,9 +12,8 @@
         vm.activate = activate;
         //add sponsor fields
         vm.title = 'sponsorCtrl';
-        vm.email;
+        vm.email ;
         vm.phone;
-        vm.email;
         vm.sponsorType;
         vm.firstName;
         vm.lastName;
@@ -34,12 +33,16 @@
                   
             // Functions
             function activate() {
-                
+                vm.email = "";
+                vm.phone = "";
+                vm.firstName = "";
             }
             
             function _addSponsor() {
                 restApi.postNewSponsor(vm)
                     .success(function (data, status, headers, config) {
+                        vm.sponsorsList.push(vm.firstName);
+                        activate();
                          })
 
                     .error(function (error) {

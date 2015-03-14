@@ -7,8 +7,8 @@ namespace NancyService.Models
     {
         public address()
         {
-            this.sponsors = new List<sponsor>();
             this.users = new List<user>();
+            this.sponsors = new List<sponsor>();
         }
 
         public long addressID { get; set; }
@@ -18,7 +18,7 @@ namespace NancyService.Models
         public string state { get; set; }
         public string country { get; set; }
         public string zipcode { get; set; }
-        public virtual ICollection<sponsor> sponsors { get; set; }
         public virtual ICollection<user> users { get; set; }
+        public virtual ICollection<sponsor> sponsors { get; set; }
     }
 }

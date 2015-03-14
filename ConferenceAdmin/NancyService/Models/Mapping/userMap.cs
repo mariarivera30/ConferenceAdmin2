@@ -37,9 +37,12 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.hasApplied)
                 .HasMaxLength(45);
 
+            this.Property(t => t.acceptanceStatus)
+                .HasMaxLength(45);
+
 
             // Relationships
-            this.HasOptional(t => t.address)
+            this.HasRequired(t => t.address)
                 .WithMany(t => t.users)
                 .HasForeignKey(d => d.addressID);
             this.HasRequired(t => t.membership)

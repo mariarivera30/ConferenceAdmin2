@@ -19,9 +19,12 @@ namespace NancyService.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(45);
 
+            this.Property(t => t.emailConfirmation)
+                .HasMaxLength(45);
+
 
             // Relationships
-            this.HasOptional(t => t.membershiptype)
+            this.HasRequired(t => t.membershiptype)
                 .WithMany(t => t.memberships)
                 .HasForeignKey(d => d.membershipTypeID);
 

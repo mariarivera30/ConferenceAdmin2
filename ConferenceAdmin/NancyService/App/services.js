@@ -10,7 +10,8 @@
         var service = {
             postNewSponsor: _postNewSponsor,
             postUser: _postUser,
-            getSponsors: _getSponsors,
+            getSponsors: _getSponsors
+           
           
 
         };

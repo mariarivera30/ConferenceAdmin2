@@ -285,7 +285,8 @@
             url: "/ManageSponsors",
             views: {
                 'adminPage': {
-                    templateUrl: "views/admin_managesponsors.html"
+                    templateUrl: "views/admin_managesponsors.html",
+                    controller: "sponsorCtrl"
                 }
             }
         })

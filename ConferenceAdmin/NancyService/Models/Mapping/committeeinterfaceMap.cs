@@ -11,11 +11,11 @@ namespace NancyService.Models.Mapping
             this.HasKey(t => t.committeID);
 
             // Properties
-            this.Property(t => t.firstNme)
+            this.Property(t => t.firstName)
                 .IsRequired()
                 .HasMaxLength(45);
 
-            this.Property(t => t.lastname)
+            this.Property(t => t.lastName)
                 .IsRequired()
                 .HasMaxLength(45);
 

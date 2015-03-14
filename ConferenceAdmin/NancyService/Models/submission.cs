@@ -30,5 +30,6 @@ namespace NancyService.Models
         public virtual submissiontype submissiontype { get; set; }
         public virtual ICollection<workshop> workshops { get; set; }
         public virtual topiccategory topiccategory { get; set; }
+        public virtual user user { get; set; }
     }
 }

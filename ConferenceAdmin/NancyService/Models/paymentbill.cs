@@ -6,7 +6,7 @@ namespace NancyService.Models
     public partial class paymentbill
     {
         public long paymentBillID { get; set; }
-        public long paymentID { get; set; }
+        public Nullable<long> paymentID { get; set; }
         public string transactionid { get; set; }
         public int AmountPaid { get; set; }
         public string methodOfPayment { get; set; }

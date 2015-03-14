@@ -24,7 +24,7 @@ namespace NancyService.Models.Mapping
 
 
             // Relationships
-            this.HasRequired(t => t.payment)
+            this.HasOptional(t => t.payment)
                 .WithMany(t => t.paymentbills)
                 .HasForeignKey(d => d.paymentID);
 

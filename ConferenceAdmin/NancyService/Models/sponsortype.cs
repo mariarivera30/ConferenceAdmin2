@@ -18,7 +18,6 @@ namespace NancyService.Models
         public string benefit3 { get; set; }
         public string benefit4 { get; set; }
         public string benefit5 { get; set; }
-        public string sponsortypecol { get; set; }
         public virtual ICollection<sponsor> sponsors { get; set; }
     }
 }

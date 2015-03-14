@@ -33,10 +33,6 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.benefit5)
                 .HasMaxLength(45);
 
-            this.Property(t => t.sponsortypecol)
-                .HasMaxLength(45);
-            
-
         }
     }
 }
