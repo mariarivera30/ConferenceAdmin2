@@ -31,15 +31,21 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.userFax)
                 .HasMaxLength(45);
 
-            this.Property(t => t.registrationStatus)
-                .HasMaxLength(45);
-
-            this.Property(t => t.hasApplied)
-                .HasMaxLength(45);
-
-            this.Property(t => t.acceptanceStatus)
-                .HasMaxLength(45);
-
+            // Table & Column Mappings
+            this.ToTable("user", "conferenceadmin");
+            this.Property(t => t.userID).HasColumnName("userID");
+            this.Property(t => t.membershipID).HasColumnName("membershipID");
+            this.Property(t => t.userTypeID).HasColumnName("userTypeID");
+            this.Property(t => t.firstName).HasColumnName("firstName");
+            this.Property(t => t.lastName).HasColumnName("lastName");
+            this.Property(t => t.title).HasColumnName("title");
+            this.Property(t => t.affiliationName).HasColumnName("affiliationName");
+            this.Property(t => t.phone).HasColumnName("phone");
+            this.Property(t => t.addressID).HasColumnName("addressID");
+            this.Property(t => t.userFax).HasColumnName("userFax");
+            this.Property(t => t.registrationStatus).HasColumnName("registrationStatus");
+            this.Property(t => t.hasApplied).HasColumnName("hasApplied");
+            this.Property(t => t.acceptanceStatus).HasColumnName("acceptanceStatus");
 
             // Relationships
             this.HasRequired(t => t.address)

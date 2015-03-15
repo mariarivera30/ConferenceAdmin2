@@ -11,6 +11,13 @@ namespace NancyService.Models.Mapping
             this.HasKey(t => t.templatesubmissionID);
 
             // Properties
+            // Table & Column Mappings
+            this.ToTable("templatesubmission", "conferenceadmin");
+            this.Property(t => t.templatesubmissionID).HasColumnName("templatesubmissionID");
+            this.Property(t => t.templateID).HasColumnName("templateID");
+            this.Property(t => t.submissionID).HasColumnName("submissionID");
+            this.Property(t => t.creationDate).HasColumnName("creationDate");
+            this.Property(t => t.deleitionDate).HasColumnName("deleitionDate");
 
             // Relationships
             this.HasRequired(t => t.submission)

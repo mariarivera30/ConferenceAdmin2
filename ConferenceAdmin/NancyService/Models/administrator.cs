@@ -8,6 +8,7 @@ namespace NancyService.Models
         public int administratorsID { get; set; }
         public int priviledgesID { get; set; }
         public long membershipID { get; set; }
+        public Nullable<bool> enabled { get; set; }
         public virtual membership membership { get; set; }
         public virtual priviledge priviledge { get; set; }
     }

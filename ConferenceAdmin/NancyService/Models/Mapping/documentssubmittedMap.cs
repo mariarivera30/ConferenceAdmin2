@@ -18,6 +18,14 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.documentssubmittedcol)
                 .HasMaxLength(45);
 
+            // Table & Column Mappings
+            this.ToTable("documentssubmitted", "conferenceadmin");
+            this.Property(t => t.documentssubmittedID).HasColumnName("documentssubmittedID");
+            this.Property(t => t.submissionID).HasColumnName("submissionID");
+            this.Property(t => t.document).HasColumnName("document");
+            this.Property(t => t.creationDate).HasColumnName("creationDate");
+            this.Property(t => t.deleitionDate).HasColumnName("deleitionDate");
+            this.Property(t => t.documentssubmittedcol).HasColumnName("documentssubmittedcol");
 
             // Relationships
             this.HasRequired(t => t.submission)

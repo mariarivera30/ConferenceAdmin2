@@ -14,6 +14,11 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.companionKey)
                 .HasMaxLength(45);
 
+            // Table & Column Mappings
+            this.ToTable("companion", "conferenceadmin");
+            this.Property(t => t.companionID).HasColumnName("companionID");
+            this.Property(t => t.userID).HasColumnName("userID");
+            this.Property(t => t.companionKey).HasColumnName("companionKey");
 
             // Relationships
             this.HasRequired(t => t.user)

@@ -16,17 +16,17 @@ namespace NancyService.Models
 
         public long userID { get; set; }
         public long membershipID { get; set; }
-        public long addressID { get; set; }
         public int userTypeID { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string title { get; set; }
         public string affiliationName { get; set; }
         public string phone { get; set; }
+        public long addressID { get; set; }
         public string userFax { get; set; }
-        public string registrationStatus { get; set; }
-        public string hasApplied { get; set; }
-        public string acceptanceStatus { get; set; }
+        public Nullable<bool> registrationStatus { get; set; }
+        public Nullable<bool> hasApplied { get; set; }
+        public Nullable<bool> acceptanceStatus { get; set; }
         public virtual address address { get; set; }
         public virtual ICollection<companion> companions { get; set; }
         public virtual ICollection<evaluator> evaluators { get; set; }

@@ -19,6 +19,11 @@ namespace NancyService.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(500);
 
+            // Table & Column Mappings
+            this.ToTable("submissiontype", "conferenceadmin");
+            this.Property(t => t.submissiontypeID).HasColumnName("submissiontypeID");
+            this.Property(t => t.name).HasColumnName("name");
+            this.Property(t => t.description).HasColumnName("description");
         }
     }
 }

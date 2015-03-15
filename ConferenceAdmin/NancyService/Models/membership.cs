@@ -17,7 +17,7 @@ namespace NancyService.Models
         public string password { get; set; }
         public Nullable<System.DateTime> creationDate { get; set; }
         public Nullable<System.DateTime> deletionDate { get; set; }
-        public string emailConfirmation { get; set; }
+        public Nullable<bool> emailConfirmation { get; set; }
         public virtual ICollection<administrator> administrators { get; set; }
         public virtual ICollection<user> users { get; set; }
         public virtual membershiptype membershiptype { get; set; }

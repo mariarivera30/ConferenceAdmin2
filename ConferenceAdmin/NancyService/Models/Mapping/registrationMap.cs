@@ -11,9 +11,13 @@ namespace NancyService.Models.Mapping
             this.HasKey(t => t.registrationID);
 
             // Properties
-            this.Property(t => t.date3)
-                .HasMaxLength(45);
-
+            // Table & Column Mappings
+            this.ToTable("registration", "conferenceadmin");
+            this.Property(t => t.registrationID).HasColumnName("registrationID");
+            this.Property(t => t.userID).HasColumnName("userID");
+            this.Property(t => t.paymentID).HasColumnName("paymentID");
+            this.Property(t => t.date1).HasColumnName("date1");
+            this.Property(t => t.date2).HasColumnName("date2");
 
             // Relationships
             this.HasRequired(t => t.payment)

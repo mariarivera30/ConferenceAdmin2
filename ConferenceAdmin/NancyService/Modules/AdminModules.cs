@@ -33,7 +33,8 @@ namespace NancyService.Modules
             };
 
             Get["/getSponsor"] = parameters =>
-            {
+            {   
+                
                
                 return Response.AsJson(admin.getSponsorList());
                 

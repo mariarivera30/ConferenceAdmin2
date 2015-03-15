@@ -11,9 +11,11 @@ namespace NancyService.Models.Mapping
             this.HasKey(t => t.minorsID);
 
             // Properties
-            this.Property(t => t.authorizationStatus)
-                .HasMaxLength(45);
-
+            // Table & Column Mappings
+            this.ToTable("minors", "conferenceadmin");
+            this.Property(t => t.minorsID).HasColumnName("minorsID");
+            this.Property(t => t.userID).HasColumnName("userID");
+            this.Property(t => t.authorizationStatus).HasColumnName("authorizationStatus");
 
             // Relationships
             this.HasRequired(t => t.user)

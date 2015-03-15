@@ -11,15 +11,20 @@ namespace NancyService.Models.Mapping
             this.HasKey(t => t.submissionID);
 
             // Properties
-            this.Property(t => t.hasApplied)
-                .HasMaxLength(45);
-
             this.Property(t => t.title)
                 .HasMaxLength(45);
 
-            this.Property(t => t.status)
-                .HasMaxLength(45);
-
+            // Table & Column Mappings
+            this.ToTable("submissions", "conferenceadmin");
+            this.Property(t => t.submissionID).HasColumnName("submissionID");
+            this.Property(t => t.userID).HasColumnName("userID");
+            this.Property(t => t.topicID).HasColumnName("topicID");
+            this.Property(t => t.submissionTypeID).HasColumnName("submissionTypeID");
+            this.Property(t => t.hasApplied).HasColumnName("hasApplied");
+            this.Property(t => t.title).HasColumnName("title");
+            this.Property(t => t.status).HasColumnName("status");
+            this.Property(t => t.creationDate).HasColumnName("creationDate");
+            this.Property(t => t.deleitionDate).HasColumnName("deleitionDate");
 
             // Relationships
             this.HasRequired(t => t.submissiontype)

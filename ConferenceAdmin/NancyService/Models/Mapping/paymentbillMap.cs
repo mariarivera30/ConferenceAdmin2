@@ -22,6 +22,14 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.creditCardNumber)
                 .HasMaxLength(45);
 
+            // Table & Column Mappings
+            this.ToTable("paymentbill", "conferenceadmin");
+            this.Property(t => t.paymentBillID).HasColumnName("paymentBillID");
+            this.Property(t => t.paymentID).HasColumnName("paymentID");
+            this.Property(t => t.transactionid).HasColumnName("transactionid");
+            this.Property(t => t.AmountPaid).HasColumnName("AmountPaid");
+            this.Property(t => t.methodOfPayment).HasColumnName("methodOfPayment");
+            this.Property(t => t.creditCardNumber).HasColumnName("creditCardNumber");
 
             // Relationships
             this.HasOptional(t => t.payment)

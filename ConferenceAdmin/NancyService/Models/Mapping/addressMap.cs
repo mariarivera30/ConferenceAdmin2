@@ -29,6 +29,15 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.zipcode)
                 .HasMaxLength(45);
 
+            // Table & Column Mappings
+            this.ToTable("address", "conferenceadmin");
+            this.Property(t => t.addressID).HasColumnName("addressID");
+            this.Property(t => t.line1).HasColumnName("line1");
+            this.Property(t => t.line2).HasColumnName("line2");
+            this.Property(t => t.city).HasColumnName("city");
+            this.Property(t => t.state).HasColumnName("state");
+            this.Property(t => t.country).HasColumnName("country");
+            this.Property(t => t.zipcode).HasColumnName("zipcode");
         }
     }
 }

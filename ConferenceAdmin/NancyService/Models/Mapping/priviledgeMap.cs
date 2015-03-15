@@ -15,6 +15,10 @@ namespace NancyService.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(45);
 
+            // Table & Column Mappings
+            this.ToTable("priviledges", "conferenceadmin");
+            this.Property(t => t.priviledgesID).HasColumnName("priviledgesID");
+            this.Property(t => t.priviledgestType).HasColumnName("priviledgestType");
         }
     }
 }

@@ -33,6 +33,16 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.benefit5)
                 .HasMaxLength(45);
 
+            // Table & Column Mappings
+            this.ToTable("sponsortype", "conferenceadmin");
+            this.Property(t => t.sponsortypeID).HasColumnName("sponsortypeID");
+            this.Property(t => t.name).HasColumnName("name");
+            this.Property(t => t.amount).HasColumnName("amount");
+            this.Property(t => t.benefit1).HasColumnName("benefit1");
+            this.Property(t => t.benefit2).HasColumnName("benefit2");
+            this.Property(t => t.benefit3).HasColumnName("benefit3");
+            this.Property(t => t.benefit4).HasColumnName("benefit4");
+            this.Property(t => t.benefit5).HasColumnName("benefit5");
         }
     }
 }

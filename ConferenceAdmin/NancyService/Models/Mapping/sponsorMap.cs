@@ -34,22 +34,22 @@ namespace NancyService.Models.Mapping
 
             this.Property(t => t.logo)
                 .HasMaxLength(45);
+
             // Table & Column Mappings
             this.ToTable("sponsor", "conferenceadmin");
             this.Property(t => t.sponsorID).HasColumnName("sponsorID");
             this.Property(t => t.sponsorType).HasColumnName("sponsorType");
+            this.Property(t => t.addressID).HasColumnName("addressID");
             this.Property(t => t.paymentID).HasColumnName("paymentID");
             this.Property(t => t.firstName).HasColumnName("firstName");
             this.Property(t => t.lastName).HasColumnName("lastName");
             this.Property(t => t.title).HasColumnName("title");
             this.Property(t => t.company).HasColumnName("company");
-            this.Property(t => t.addressID).HasColumnName("addressID");
             this.Property(t => t.phone).HasColumnName("phone");
             this.Property(t => t.email).HasColumnName("email");
             this.Property(t => t.logo).HasColumnName("logo");
             this.Property(t => t.creationDate).HasColumnName("creationDate");
             this.Property(t => t.deleitionDate).HasColumnName("deleitionDate");
-
 
             // Relationships
             this.HasRequired(t => t.address)

@@ -40,9 +40,16 @@ namespace NancyService.Modules
              
                  using(conferenceadminContext context = new conferenceadminContext())
                     {
-                        var list = from s in context.sponsors
+                        var guests = from g in context.users
+                                     join ad in context.minors on g.userID equals ad.userID
+                                   //  join mem in context.memberships on g.membershipID equals mem.membershipID
+                                     where g.hasApplied == true
+                                     select g.firstName ;
+
+                        return guests.ToList();
+                        /*var list = from s in context.sponsors
                                    select s.firstName;
-                        return list.ToList();
+                        return list.ToList();*/
 
                      }
                 

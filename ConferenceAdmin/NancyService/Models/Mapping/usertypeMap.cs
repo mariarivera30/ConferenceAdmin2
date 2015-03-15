@@ -18,6 +18,13 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.description)
                 .HasMaxLength(500);
 
+            // Table & Column Mappings
+            this.ToTable("usertype", "conferenceadmin");
+            this.Property(t => t.userTypeID).HasColumnName("userTypeID");
+            this.Property(t => t.userTypeName).HasColumnName("userTypeName");
+            this.Property(t => t.description).HasColumnName("description");
+            this.Property(t => t.registrationCost).HasColumnName("registrationCost");
+            this.Property(t => t.registrationLateFee).HasColumnName("registrationLateFee");
         }
     }
 }
