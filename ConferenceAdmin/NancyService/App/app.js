@@ -23,9 +23,28 @@
         function ($q, $rootScope) {
 
         }]);
-    app.config(function ($stateProvider, $urlRouterProvider) {
+
+    app.factory('AuthInterceptor', function ($window, $q) {
+        return {
+            request: function (config) {
+                config.headers = config.headers || {};
+                if ($window.sessionStorage.getItem('token')) {
+                    config.headers.Authorization = 'Token ' + $window.sessionStorage.getItem('token');
+                }
+                return config || $q.when(config);
+            },
+            response: function (response) {
+                if (response.status === 401) {
+                    // TODO: Redirect user to login page.
+                }
+                return response || $q.when(response);
+            }
+        };
+    });
+    app.config(function ($stateProvider, $urlRouterProvider,$httpProvider) {
         //
         // For any unmatched url, redirect to /state1
+       $httpProvider.interceptors.push('AuthInterceptor');
        $urlRouterProvider.otherwise("/Home");
         //
         // Now set up the states

@@ -5,9 +5,9 @@
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$http', 'restApi', loginCtrl]);
+        ['$scope', '$http', 'restApi', '$window', '$location', loginCtrl]);
 
-    function loginCtrl($scope, $http, restApi) {
+    function loginCtrl($scope, $http, restApi, $window, $location) {
         var vm = this;
 
         vm.activate = activate;
@@ -17,59 +17,41 @@
         vm.lastname;
         vm.email;
         vm.password;
-
-        // login fields
-        vm.username;
-        vm.password;
-        // Functions
-        vm.register = _register;
-        vm.login = _login;
-        vm.validation = _validation;
         vm.token;
+
+
+        // Functions
+        vm.login = _login;
+
 
         function activate() {
 
-        }  
-        
-        function _register() {
-            $http.post('/auth/register', { email: vm.email, password: vm.password }).
-                   success(function (data, status, headers, config) {
-                       // this callback will be called asynchronously
-                       // when the response is available
-                   }).
-                   error(function (data, status, headers, config) {
-                       // called asynchronously if an error occurs
-                       // or server returns response with an error status.
-                   });
         }
 
         function _login() {
-            $http.post('/auth', { email: vm.username, password: vm.password }).
-                   success(function (data, status, headers, config) {
-                       // this callback will be called asynchronously
-                       // when the response is available
+            restApi.login(vm)
+                   .success(function (data, status, headers, config) {
                        $http.defaults.headers.common.Authorization = 'Token ' + data.token;
+                       $window.sessionStorage.setItem('token', data.token);
+                       $window.data = data;
 
-                   }).
-                   error(function (data, status, headers, config) {
+                       if ($window.data.userPriviledge != 0)
+                           $location.path('/Administrator');
+                       else {
+                           $location.path('/Profile');
+                       }
+                   })
+
+                   .error(function (error) {
                        // called asynchronously if an error occurs
                        // or server returns response with an error status.
-                       vm.message = data;
+                       $window.sessionStorage.removeItem('token');
+                       vm.message = "Wrong email or password please try again";
+                       vm.email = "";
+                       vm.password = "";
                    });
+
         }
 
-        function _validation() {
-            $http.get('/auth/validation').
-                   success(function (data, status, headers, config) {
-                       // this callback will be called asynchronously
-                       // when the response is available
-                       vm.message = data;
-                   }).
-                   error(function (data, status, headers, config) {
-                       // called asynchronously if an error occurs
-                       // or server returns response with an error status.
-                       vm.message = data;
-                   });
-        }
     }
 })();

@@ -72,7 +72,7 @@
 <div id="preloader">
     <div id="status">&nbsp;</div>
 </div>
-<body ng-controller="layoutCtrl as vm">
+<body ng-app="app" ng-controller="layoutCtrl as vm">
     <div id="sb-site">
         <div class="boxed">
             <header id="header-full-top" class="hidden-xs header-full noPrint">
@@ -98,7 +98,7 @@
                 </div> <!-- container -->
             </header> <!-- header-full -->
 
-            <nav id="header" class="navbar navbar-static-top navbar-default navbar-header-full navbar-dark noPrint"  role="navigation">
+            <nav id="header" class="navbar navbar-static-top navbar-default navbar-header-full navbar-dark noPrint" role="navigation">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
@@ -151,25 +151,25 @@
                 </div><!-- container -->
             </nav>
 
-            <div ng-app="app" id="content" class="container">
+            <div id="content" class="container">
 
 
-                <div ui-view="dynamic" autoscroll='false'>
+                <div ui-view="dynamic" autoscroll="false">
                     <!-- section -->
                 </div>
 
                 <div ng-app="app" id="content" class="noPrint">
                     <h2 class="section-title">Our Sponsors</h2>
-                    <div ui-view="banner" autoscroll='false' class="margin-fix-banner">
+                    <div ui-view="banner" autoscroll="false" class="margin-fix-banner">
                     </div>
                 </div>
-            </div>       
-          
-        <footer id="footer" class="noPrint">
-            <p>&copy; 2014 <a href="#">Artificial Reason</a>, inc. All rights reserved.</p>
-        </footer>
+            </div>
 
-    </div> <!-- boxed -->
+            <footer id="footer" class="noPrint">
+                <p>&copy; 2014 <a href="#">Artificial Reason</a>, inc. All rights reserved.</p>
+            </footer>
+
+        </div> <!-- boxed -->
     </div> <!-- sb-site -->
     <!-- Scripts -->
     <script src="js/jquery.min.js"></script>

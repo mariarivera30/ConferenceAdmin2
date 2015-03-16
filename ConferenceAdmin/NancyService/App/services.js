@@ -8,6 +8,7 @@
 
     function addrestApi($http) {
         var service = {
+            login: _login,
             postNewSponsor: _postNewSponsor,
             postUser: _postUser,
             getSponsors: _getSponsors,
@@ -18,6 +19,10 @@
         };
 
         return service;
+
+        function _login(data) {
+            return $http.post('/auth/login', { email: data.email, password: data.password });
+        };
 
         function _postNewSponsor(data) {
             return $http.post('/admin/addsponsor', {

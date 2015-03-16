@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Nancy.ModelBinding;
+using Nancy.Authentication.Token;
+using Nancy.Security;
 
 namespace NancyService.Modules
 {
     public class AdminModules : NancyModule
     {
-        public AdminModules(conferenceadminContext context)
+        public AdminModules(ITokenizer tokenizer)
             : base("/admin")
         {
             AdminManager admin = new AdminManager();
@@ -33,12 +35,15 @@ namespace NancyService.Modules
             };
 
             Get["/getSponsor"] = parameters =>
-            {   
-                
-               
-                return Response.AsJson(admin.getSponsorList());
-                
-            };
+             {
+                 try
+                 {
+                     this.RequiresAuthentication();
+                     this.RequiresClaims(new[] { "admin" });
+                     return Response.AsJson(admin.getSponsorList());
+                 }
+                 catch { return null; }
+             };
 
             Post["/addTopic"] = parameters =>
             {
@@ -48,6 +53,7 @@ namespace NancyService.Modules
 
             Get["/getTopic"] = parameters =>
             {
+                
                 return Response.AsJson(admin.getTopicList());
             };
 
