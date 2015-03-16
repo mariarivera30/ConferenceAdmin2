@@ -61,7 +61,7 @@ CREATE TABLE `administrators` (
   KEY `memebershipID_idx` (`membershipID`),
   CONSTRAINT `memebershipID` FOREIGN KEY (`membershipID`) REFERENCES `memberships` (`membershipID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `priviledgeID` FOREIGN KEY (`priviledgesID`) REFERENCES `priviledges` (`priviledgesID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `administrators` (
 
 LOCK TABLES `administrators` WRITE;
 /*!40000 ALTER TABLE `administrators` DISABLE KEYS */;
-INSERT INTO `administrators` VALUES (1,1,1,1);
+INSERT INTO `administrators` VALUES (1,1,1,1),(2,1,13,1),(3,1,14,1),(4,1,15,1);
 /*!40000 ALTER TABLE `administrators` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -369,7 +369,7 @@ CREATE TABLE `memberships` (
   UNIQUE KEY `email_UNIQUE` (`email`),
   KEY `memebershipTypeID_idx` (`membershipTypeID`),
   CONSTRAINT `memebershipTypeID` FOREIGN KEY (`membershipTypeID`) REFERENCES `membershiptype` (`membershipTypeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -378,7 +378,7 @@ CREATE TABLE `memberships` (
 
 LOCK TABLES `memberships` WRITE;
 /*!40000 ALTER TABLE `memberships` DISABLE KEYS */;
-INSERT INTO `memberships` VALUES (1,1,'maria.rivera30@gmail.com','maria','0001-01-01 00:00:00',NULL,0),(2,2,'juan.rivera@gmail.com','juan','0001-01-01 00:00:00',NULL,0),(10,1,'dsdfd','sfgsfdgfd','0001-01-01 00:00:00',NULL,0),(11,1,'juana','puebla','0001-01-01 00:00:00',NULL,0),(12,2,'evaliu','sdsd','0001-01-01 00:00:00',NULL,0);
+INSERT INTO `memberships` VALUES (1,1,'maria@','maria','0001-01-01 00:00:00',NULL,0),(2,2,'juan@','juan','0001-01-01 00:00:00',NULL,0),(10,1,'dsdfd','sfgsfdgfd','0001-01-01 00:00:00',NULL,0),(11,1,'juana','puebla','0001-01-01 00:00:00',NULL,0),(12,2,'evaliu','sdsd','0001-01-01 00:00:00',NULL,0),(13,1,'heidi@','heidi','0001-01-01 00:00:00',NULL,0),(14,1,'randy@','randy','0001-01-01 00:00:00',NULL,0),(15,1,'jai@','jai','0001-01-01 00:00:00',NULL,0);
 /*!40000 ALTER TABLE `memberships` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -502,7 +502,7 @@ CREATE TABLE `paymentbill` (
   `paymentBillID` bigint(20) NOT NULL AUTO_INCREMENT,
   `paymentID` bigint(20) DEFAULT NULL,
   `transactionid` varchar(45) NOT NULL,
-  `AmountPaid` int(11) NOT NULL,
+  `AmountPaid` double NOT NULL,
   `methodOfPayment` varchar(45) NOT NULL,
   `creditCardNumber` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`paymentBillID`),
@@ -608,6 +608,7 @@ CREATE TABLE `registration` (
   `paymentID` bigint(20) NOT NULL,
   `date1` tinyint(1) DEFAULT '0',
   `date2` tinyint(1) DEFAULT '0',
+  `date3` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`registrationID`),
   KEY `userID_idx` (`userID`),
   KEY `paymentID_idx` (`paymentID`),
@@ -676,12 +677,17 @@ DROP TABLE IF EXISTS `sponsortype`;
 CREATE TABLE `sponsortype` (
   `sponsortypeID` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
-  `amount` varchar(45) DEFAULT NULL,
+  `amount` double NOT NULL,
   `benefit1` varchar(45) DEFAULT NULL,
   `benefit2` varchar(45) DEFAULT NULL,
   `benefit3` varchar(45) DEFAULT NULL,
   `benefit4` varchar(45) DEFAULT NULL,
   `benefit5` varchar(45) DEFAULT NULL,
+  `benefit6` varchar(45) DEFAULT NULL,
+  `benefit7` varchar(45) DEFAULT NULL,
+  `benefit8` varchar(45) DEFAULT NULL,
+  `benefit9` varchar(45) DEFAULT NULL,
+  `benefit10` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`sponsortypeID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -692,7 +698,7 @@ CREATE TABLE `sponsortype` (
 
 LOCK TABLES `sponsortype` WRITE;
 /*!40000 ALTER TABLE `sponsortype` DISABLE KEYS */;
-INSERT INTO `sponsortype` VALUES (1,'Gold','555','',NULL,NULL,NULL,NULL);
+INSERT INTO `sponsortype` VALUES (1,'Gold',555,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `sponsortype` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -821,7 +827,7 @@ CREATE TABLE `topiccategory` (
   `topiccategoryID` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`topiccategoryID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -830,6 +836,7 @@ CREATE TABLE `topiccategory` (
 
 LOCK TABLES `topiccategory` WRITE;
 /*!40000 ALTER TABLE `topiccategory` DISABLE KEYS */;
+INSERT INTO `topiccategory` VALUES (1,'lola'),(2,'juan'),(3,'loka');
 /*!40000 ALTER TABLE `topiccategory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -870,7 +877,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,2,1,'juan','rivera','dsf','hg','45454',1,'543',0,1,1),(2,2,6,'ty','ty','t','yt','yt',1,'y',0,1,1),(3,10,6,'jijki','jkjk','kjj','jkj','kjk',1,'j',1,0,0),(4,11,5,'rtrrtrt','yt','y','t','tyt',1,NULL,1,0,1),(5,12,7,'uyyu','yuyu','uyu','uyu','yuyu',1,'yu',0,0,0);
+INSERT INTO `user` VALUES (1,2,3,'juan','rivera','dsf','hg','45454',1,'543',0,1,1),(2,1,1,'ty','ty','t','yt','yt',1,'y',0,1,1),(3,10,6,'jijki','jkjk','kjj','jkj','kjk',1,'j',1,0,0),(4,11,5,'rtrrtrt','yt','y','t','tyt',1,NULL,1,0,1),(5,12,7,'uyyu','yuyu','uyu','uyu','yuyu',1,'yu',0,0,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -885,8 +892,8 @@ CREATE TABLE `usertype` (
   `userTypeID` int(11) NOT NULL AUTO_INCREMENT,
   `userTypeName` varchar(45) NOT NULL,
   `description` varchar(500) DEFAULT NULL,
-  `registrationCost` int(11) DEFAULT NULL,
-  `registrationLateFee` int(11) DEFAULT NULL,
+  `registrationCost` double DEFAULT NULL,
+  `registrationLateFee` double DEFAULT NULL,
   PRIMARY KEY (`userTypeID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -939,4 +946,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-15  2:06:29
+-- Dump completed on 2015-03-16 11:06:52
