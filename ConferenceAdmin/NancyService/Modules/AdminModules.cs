@@ -39,11 +39,45 @@ namespace NancyService.Modules
                 return Response.AsJson(admin.getSponsorList());
                 
             };
-            
-                
 
-           
-       
+            Post["/addTopic"] = parameters =>
+            {
+                var topic = this.Bind<topiccategory>();
+                return Response.AsJson(admin.addTopic(topic));
+            };
+
+            Get["/getTopic"] = parameters =>
+            {
+                return Response.AsJson(admin.getTopicList());
+            };
+
+            Delete["/deleteTopic/{topiccategoryID:int}"] = parameters =>
+            {
+                if (admin.deleteTopic(parameters.topiccategoryID))
+                {
+                    return HttpStatusCode.OK;
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+            };
+
+            Put["/updateTopic"] = parameters =>
+            {
+                var topic = this.Bind<topiccategory>();
+
+                if (admin.updateTopic(topic))
+                {
+                    return HttpStatusCode.OK;
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+            };       
         }
     }
 }

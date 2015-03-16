@@ -1,61 +1,74 @@
 ﻿<div ng-controller="profileInformationCtrl as vm">
     <div ng-hide="vm.edit">
-        <h3>General Information   <button class="btn btn-ar btn-primary">Edit</button></h3>
+        <h4 id="g-information">General Information </h4>
         <div class="row">
             <div class="col-lg-1">
-                <b>Title:</b><br /> Dr.
+                <h5 class="after-title-field">Title</h5>
+                <input type="text" value="Dr. "class="form-control">
             </div>
             <div class="col-lg-3">
-                <b>First Name:</b><br /> Randy
+                <h5 class="after-title-field">First Name</h5>
+                <input type="text" value="Randy" class="form-control">
             </div>
             <div class="col-lg-4">
-                <b>Last Name:</b><br /> Soto
+                <h5 class="after-title-field">Last Name</h5>
+                <input type="text" value="Soto" class="form-control">            
             </div>
         </div><br />
 
         <div class="row">
             <div class="col-lg-4">
-                <b>Affiliation:</b><br />  University of Puerto Rico
+                <h5 class="after-title-field">Affiliation</h5>
+                <input type="text" value="University of Puerto Rico" class="form-control">                    
             </div>
         </div>
 
         <h4>Mailing Address</h4>
         <div class="row">
             <div class="col-lg-6">
-                <b>Line 1:</b><br />  P. Sherman 42 Wallaby Way
+                <h5 class="after-title-field">Line 1</h5>
+                <input type="text" value="P. Sherman 42 Wallaby Way" class="form-control">                                       
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-6">
-                <b>Line 2:</b><br />
+            <div class="col-lg-6 title-field">
+                <h5 class="after-title-field">Line 2</h5>
+                <input type="text" value="" class="form-control">
             </div>
         </div>
         <br />
         <div class="row">
             <div class="col-lg-3">
-                <b>City:</b><br />  Mayaguez
+                <h5 class="after-title-field">City</h5>
+                <input type="text" value="Mayaguez" class="form-control">                    
             </div>
             <div class="col-lg-3">
-                <b>State:</b><br />  Puerto Rico
+                <h5 class="after-title-field">State</h5>
+                <input type="text" value="Puerto Rico" class="form-control">                   
+             </div>
+            <div class="col-lg-3">
+                <h5 class="after-title-field">Country</h5>
+                <input type="text" value="United States" class="form-control">                    
             </div>
             <div class="col-lg-3">
-                <b>Country:</b><br />  United States
-            </div>
-            <div class="col-lg-3">
-                <b>Zip Code:</b><br />  01234
+                <h5 class="after-title-field">Zip Code</h5>
+                <input type="text" value="00612" class="form-control">                    
             </div>
         </div>
 
         <h4>Contact Information</h4>
         <div class="row">
             <div class="col-lg-6">
-                <b>Email:</b> <br /> name@email.com
+                <h5 class="after-title-field">Email</h5>
+                <input type="text" value="randy.soto@upr.edu" class="form-control">                    
             </div>
             <div class="col-lg-3">
-                <b>Phone Number:</b><br />  123-456-7890
+                <h5 class="after-title-field">Phone Number</h5>
+                <input type="text" value="787-123-4567" class="form-control">                    
             </div>
             <div class="col-lg-3">
-                <b>Fax:</b> <br /> 123-456-7890
+                <h5 class="after-title-field">Fax</h5>
+                <input type="text" value="" class="form-control">                    
             </div>
         </div>
 

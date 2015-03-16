@@ -10,10 +10,11 @@
         var service = {
             postNewSponsor: _postNewSponsor,
             postUser: _postUser,
-            getSponsors: _getSponsors
-           
-          
-
+            getSponsors: _getSponsors,
+            postNewTopic: _postNewTopic,
+            getTopics: _getTopics,
+            deleteTopic: _deleteTopic,
+            updateTopic: _updateTopic,
         };
 
         return service;
@@ -41,10 +42,24 @@
                  });
         };
 
-      
+        function _postNewTopic(data) {
+            return $http.post('/admin/addTopic', {
+                name: data,
+            });
+        };
+
+        function _getTopics() {
+            return $http.get('/admin/getTopic');
+        };
+
+        function _deleteTopic(data) {
+            return $http.delete('/admin/deleteTopic/' + data);
+        };
+
+        function _updateTopic(data) {
+            return $http.put('/admin/updateTopic', { topiccategoryID: data.topiccategoryID, name: data.name });
+        };     
     }
-
-
 }
 
 )();
