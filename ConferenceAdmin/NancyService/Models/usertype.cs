@@ -13,8 +13,8 @@ namespace NancyService.Models
         public int userTypeID { get; set; }
         public string userTypeName { get; set; }
         public string description { get; set; }
-        public Nullable<int> registrationCost { get; set; }
-        public Nullable<int> registrationLateFee { get; set; }
+        public Nullable<double> registrationCost { get; set; }
+        public Nullable<double> registrationLateFee { get; set; }
         public virtual ICollection<user> users { get; set; }
     }
 }

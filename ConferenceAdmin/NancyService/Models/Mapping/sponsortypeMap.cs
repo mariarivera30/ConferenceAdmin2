@@ -15,9 +15,6 @@ namespace NancyService.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(45);
 
-            this.Property(t => t.amount)
-                .HasMaxLength(45);
-
             this.Property(t => t.benefit1)
                 .HasMaxLength(45);
 
@@ -33,6 +30,21 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.benefit5)
                 .HasMaxLength(45);
 
+            this.Property(t => t.benefit6)
+                .HasMaxLength(45);
+
+            this.Property(t => t.benefit7)
+                .HasMaxLength(45);
+
+            this.Property(t => t.benefit8)
+                .HasMaxLength(45);
+
+            this.Property(t => t.benefit9)
+                .HasMaxLength(45);
+
+            this.Property(t => t.benefit10)
+                .HasMaxLength(45);
+
             // Table & Column Mappings
             this.ToTable("sponsortype", "conferenceadmin");
             this.Property(t => t.sponsortypeID).HasColumnName("sponsortypeID");
@@ -43,6 +55,11 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.benefit3).HasColumnName("benefit3");
             this.Property(t => t.benefit4).HasColumnName("benefit4");
             this.Property(t => t.benefit5).HasColumnName("benefit5");
+            this.Property(t => t.benefit6).HasColumnName("benefit6");
+            this.Property(t => t.benefit7).HasColumnName("benefit7");
+            this.Property(t => t.benefit8).HasColumnName("benefit8");
+            this.Property(t => t.benefit9).HasColumnName("benefit9");
+            this.Property(t => t.benefit10).HasColumnName("benefit10");
         }
     }
 }

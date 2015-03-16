@@ -12,12 +12,17 @@ namespace NancyService.Models
 
         public int sponsortypeID { get; set; }
         public string name { get; set; }
-        public string amount { get; set; }
+        public double amount { get; set; }
         public string benefit1 { get; set; }
         public string benefit2 { get; set; }
         public string benefit3 { get; set; }
         public string benefit4 { get; set; }
         public string benefit5 { get; set; }
+        public string benefit6 { get; set; }
+        public string benefit7 { get; set; }
+        public string benefit8 { get; set; }
+        public string benefit9 { get; set; }
+        public string benefit10 { get; set; }
         public virtual ICollection<sponsor> sponsors { get; set; }
     }
 }

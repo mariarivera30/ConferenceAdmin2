@@ -10,6 +10,7 @@ namespace NancyService.Models
         public long paymentID { get; set; }
         public Nullable<bool> date1 { get; set; }
         public Nullable<bool> date2 { get; set; }
+        public Nullable<bool> date3 { get; set; }
         public virtual payment payment { get; set; }
         public virtual user user { get; set; }
     }
