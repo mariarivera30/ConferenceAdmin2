@@ -5,51 +5,83 @@
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$http', 'restApi', profileCtrl]);
+        ['$scope', '$http', 'restApi', '$window', '$location', profileCtrl]);
 
-    function profileCtrl($scope, $http) {
+    function profileCtrl($scope, $http, restApi, $window, $location) {
         var vm = this;
-        vm.list = [{
-            name: "Randy Soto",
-            email: "randy.soto@upr.edu",
-            evaluations: ["1", "2", "3"],
-            type: "Evaluator Admin",
-            accepted: true,
-            rejected: false
-        }, {
-            name: "Maria Rivera",
-            email: "maria.rivera30@upr.edu",
-            evaluations: ["1", "2", "3", "4"],
-            type: "Administrator",
-            accepted: false,
-            rejected: false
-        }, {
-            name: "Jaimeiris Nieves",
-            email: "jaimeiris.nieves@upr.edu",
-            evaluations: ["1", "2"],
-            type: "Finance Admin",
-            accepted: false,
-            rejected: false
-        }, {
-            name: "Heidi Negron",
-            email: "heidi.negron1@upr.edu",
-            evaluations: ["1", "2", "3"],
-            type: "Usher",
-            accepted: false,
-            rejected: true
-        }];
-
-
+        //Website content tabs
         vm.activate = activate;
-        vm.title = 'profileCtrl';
+        vm.generalInfo = false;
+        vm.application = false;
+        vm.submission = false;
+        vm.authorization = false;
+        vm.receipt = false;
+        vm.evaluation = false;
+        
+
         // Functions
-
-
-
+        vm.tabViewControl = _tabViewControl;
+        activate();
         function activate() {
-
+            _tabViewControl();
+            
         }
 
+        function _tabViewControl() {
+            var list = [];
+            list.push($window.sessionStorage.getItem('claim-1'));
+            list.push($window.sessionStorage.getItem('claim-2'));
+                list.forEach(function (claim) {
 
+
+                    if (claim.localeCompare('minor') == 0) {
+                        vm.generalInfo = true;
+                        vm.application = true;
+                        vm.submission = false;
+                        vm.authorization = true;
+                        vm.receipt = true;
+                        vm.evaluation = false;
+
+                    }
+                    if (claim.localeCompare('participant') == 0) {
+                        vm.generalInfo = true;
+                        vm.application = false;
+                        vm.submission = true;
+                        vm.authorization = false;
+                        vm.receipt = true;
+                        vm.evaluation = false;
+                        vm.evaluation = true;
+                    }
+
+                    if (claim.localeCompare('companion') == 0) {
+                        vm.generalInfo = true;
+                        vm.application = true;
+                        
+                    }
+                    if (claim.localeCompare('evaluator') == 0) {
+                        vm.evaluation = true;
+                    }
+                    //Esto lo puedo quitar cuando se de unable al button de Profile.
+                    if (claim.localeCompare('admin') == 0 || claim.localeCompare('adminFinance') == 0 || claim.localeCompare('adminCommittee') == 0 )  {
+                        vm.generalInfo = false;
+                        vm.application = false;
+                        vm.receipt = false;
+                        vm.authorization = false;
+                        vm.evaluation = false;
+                        vm.submission = false;
+
+                    }
+                });
+
+            
+
+            };
+
+
+
+
+
+
+        }
     }
-})();
+)();

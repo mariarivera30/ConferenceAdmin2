@@ -1,4 +1,4 @@
-﻿<div class="container" ng-controller="profileCtrl">
+﻿<div class="container" ng-controller="profileCtrl as vm ">
     <div class="row">
         <h2 class="section-title">My Profile</h2>
     </div>
@@ -7,27 +7,25 @@
             <div class="vertical-tab-list noPrint">
                 <h5 class="title-centered">Settings</h5>
                 <ul class="nav">
-                    <li class="">
+                    <li ng-show="{{vm.generalInfo}}" >
                         <a href="#/Profile/GeneralInformation" data-toggle="tab"><i class="fa fa-pencil"> </i> General Information</a>
                     </li>
-                    <li>
+                    <li ng-show="{{vm.application}}">
                         <a href="#/Profile/Application" data-toggle="tab"><i class="fa fa-newspaper-o"> </i> Application</a>
                     </li>
 
-                    <li>
+                    <li ng-show="{{vm.submission}}">
                         <a href="#/Profile/Submissions" data-toggle="tab"><i class="fa fa-newspaper-o"> </i> Submissions</a>
                     </li>
                      
-                    <li>
+                    <li ng-show="{{vm.authorization}}">
                         <a href="#/Profile/Authorization" data-toggle="tab"><i class="fa fa-plus-square-o"> </i> Authorization</a>
                     </li>
-                    <li>
-                        <a href="#/Profile/Benefits" data-toggle="tab"><i class="fa fa-dollar"> </i> Benefits</a>
-                    </li>
-                    <li>
+                   
+                    <li ng-show={{vm.receipt}}>
                         <a href="#/Profile/ReceiptInformation" data-toggle="tab"><i class="fa fa-money"></i> Receipt Information</a>
                     </li>
-                    <li>
+                    <li ng-show="{{vm.evaluation}}">
                         <a href="#/Profile/Evaluations" data-toggle="tab"><i class="fa fa-check-square-o"></i> Evaluations</a>
                     </li>
 

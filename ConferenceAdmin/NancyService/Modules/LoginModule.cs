@@ -34,9 +34,8 @@ namespace NancyService.Modules
                 return new
                 {
                     memberID = user.memberID,
-                    userType = user.userType,
-                    userPriviledge = user.priviledge,
-                    Token = token
+                    userClaims = userIdentity.Claims.ToArray(),
+                    Token = token,
                 };
 
 

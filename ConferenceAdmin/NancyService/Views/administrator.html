@@ -1,32 +1,31 @@
-﻿<div class="container" ng-controller="administratorCtrl">
+﻿<div class="container" ng-controller="adminCtrl as vm">
     <div class="row">
         <div class="column-lg-12">
             <h2 class="section-title">Administrator Settings</h2>
             <div class="vertical-tabs-left">
                 <div class="vertical-tab-list">
-                    <h5 class="title-centered">Website Content</h5>
+                    <h5 ng-show="{{vm.reports}}" class="title-centered">Website Content</h5>
                     <ul class="nav">
-                        <li><a href="#/Administrator/GeneralInformation" data-toggle="tab">General</a></li>
-                        <li><a href="#/Administrator/PlanningCommittee" data-toggle="tab">Planning Committee</a></li>
-                        <li><a href="#/Administrator/Venue" data-toggle="tab">Venue</a></li>
-                        <li><a href="#/Administrator/Deadlines" data-toggle="tab">Deadlines</a></li>
-                        <li><a href="#/Administrator/RegistrationForm" data-toggle="tab">Registration</a></li>
-                        <li><a href="#/Administrator/Participation" data-toggle="tab">Call for Participation</a></li>
-                        <li><a href="#/Administrator/Agenda" data-toggle="tab">Agenda</a></li>
-                        <li><a href="#/Administrator/Sponsors" data-toggle="tab">Sponsors</a></li>
-                        <li><a href="#/Administrator/Contact" data-toggle="tab">Contact</a></li>
+                        <li ng-show="{{vm.general}}"><a href="#/Administrator/GeneralInformation" data-toggle="tab">General</a></li>
+                        <li ng-show="{{vm.planning}}"><a href="#/Administrator/PlanningCommittee" data-toggle="tab">Planning Committee</a></li>
+                        <li ng-show="{{vm.venue}}"><a href="#/Administrator/Venue" data-toggle="tab">Venue</a></li>
+                        <li ng-show="{{vm.deadline}}"><a href="#/Administrator/Deadlines" data-toggle="tab">Deadlines</a></li>
+                        <li ng-show="{{vm.registrationInt}}"><a href="#/Administrator/RegistrationForm" data-toggle="tab">Registration</a></li>
+                        <li ng-show="{{vm.sponsorsInt}}"><a href="#/Administrator/Participation" data-toggle="tab">Call for Participation</a></li>
+                        <li ng-show="{{vm.contact}}"><a href="#/Administrator/Sponsors" data-toggle="tab">Sponsors</a></li>
+                        <li ng-show="{{vm.general}}"><a href="#/Administrator/Contact" data-toggle="tab">Contact</a></li>
                     </ul>
                     <h5 class="title-centered">Conference Management</h5>
                     <ul class="nav">
-                        <li><a href="#/Administrator/ManageCommittee" data-toggle="tab">Committee</a></li>
-                        <li><a href="#/Administrator/ManageTopics" data-toggle="tab">Topics</a></li>
-                        <li><a href="#/Administrator/RegistrationList" data-toggle="tab">Registration List</a></li>
-                        <li><a href="#/Administrator/ManageGuests" data-toggle="tab">Guests</a></li>
-                        <li><a href="#/Administrator/ManageSubmissions" data-toggle="tab">Submissions</a></li>
-                        <li><a href="#/Administrator/ManageSponsors" data-toggle="tab">Sponsors</a></li>
-                        <li><a href="#/Administrator/ManageTemplates" data-toggle="tab">Templates</a></li>
-                        <li><a href="#/Administrator/ManageKeyCodes" data-toggle="tab">Key Codes</a></li>
-                        <li><a href="#/Administrator/Reports" data-toggle="tab">Reports</a></li>
+                        <li ng-show="{{vm.committeeManage}}"><a href="#/Administrator/ManageCommittee" data-toggle="tab">Committee</a></li>
+                        <li ng-show="{{vm.topic}}"><a href="#/Administrator/ManageTopics" data-toggle="tab">Topics</a></li>
+                        <li ng-show="{{vm.registrationList}}"><a href="#/Administrator/RegistrationList" data-toggle="tab">Registration List</a></li>
+                        <li ng-show="{{vm.guest}}"><a href="#/Administrator/ManageGuests" data-toggle="tab">Guests</a></li>
+                        <li ng-show="{{vm.submissions}}"><a href="#/Administrator/ManageSubmissions" data-toggle="tab">Submissions</a></li>
+                        <li ng-show="{{vm.sponsors}}"><a href="#/Administrator/ManageSponsors" data-toggle="tab">Sponsors</a></li>
+                        <li ng-show="{{vm.templates}}"><a href="#/Administrator/ManageTemplates" data-toggle="tab">Templates</a></li>
+                        <li ng-show="{{vm.keyCodes}}"><a href="#/Administrator/ManageKeyCodes" data-toggle="tab">Key Codes</a></li>
+                        <li ng-show="{{vm.reports}}"><a href="#/Administrator/Reports" data-toggle="tab">Reports</a></li>
                     </ul>
                 </div> <!-- vertical-tab-list -->
                 <div class="tab-content">

@@ -18,7 +18,9 @@
         vm.email;
         vm.password;
         vm.token;
-
+        vm.profileButton = false;
+       
+      
 
         // Functions
         vm.login = _login;
@@ -33,13 +35,34 @@
                    .success(function (data, status, headers, config) {
                        $http.defaults.headers.common.Authorization = 'Token ' + data.token;
                        $window.sessionStorage.setItem('token', data.token);
-                       $window.data = data;
+                       $window.sessionStorage.setItem('claim-1', data.userClaims[0]);
+                       $window.sessionStorage.setItem('claim-2', "");
 
-                       if ($window.data.userPriviledge != 0)
-                           $location.path('/Administrator');
-                       else {
-                           $location.path('/Profile');
-                       }
+                       if (data.userClaims.length > 1)
+                           $window.sessionStorage.setItem('claim-2', data.userClaims[1]);
+
+                       var list = []; 
+                       list.push($window.sessionStorage.getItem('claim-1'));
+                       list.push($window.sessionStorage.getItem('claim-2'));
+                       list.forEach(function (claim) {
+
+                           if (claim.localeCompare('minor') == 0 || claim.localeCompare('companion') == 0 || claim.localeCompare('participant') == 0 || claim.localeCompare('evaluator') == 0) {
+                               if (claim.localeCompare('evaluator') == 0)
+                                   $location.path('/Profile/Evaluations');
+                               else $location.path('/Profile/GeneralInformation');
+                               return;
+                           }
+                           else if (claim.localeCompare('admin') == 0 || claim.localeCompare('adminFinance') == 0 || claim.localeCompare('adminCommittee') == 0 ) {
+                               if (claim.localeCompare('adminCommittee') == 0)
+                                   $location.path('/Administrator/ManageSubmissions');
+                               else {
+                                   $location.path('/Administrator/GeneralInformation');
+                               }
+                           }
+
+                       });
+                          
+                       
                    })
 
                    .error(function (error) {

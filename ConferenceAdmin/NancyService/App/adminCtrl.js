@@ -1,63 +1,122 @@
 ﻿(function () {
     'use strict';
 
-    var controllerId = 'administratorCtrl';
+    var controllerId = 'adminCtrl';
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$http', 'restApi', administratorCtrl]);
+        ['$scope', '$http', 'restApi','$window','$location', adminCtrl]);
 
-    function administratorCtrl($scope, $http) {
+    function adminCtrl($scope, $http, restApi, $window, $location) {
+
+
         var vm = this;
-        vm.list = [{
-            name: "Randy Soto",
-            email: "randy.soto@upr.edu",
-            evaluations: ["1", "2", "3"],
-            type: "Evaluator",
-            accepted: true,
-            rejected: false,
-            registered: true,
-            average: 57
-        }, {
-            name: "Maria Rivera",
-            email: "maria.rivera30@upr.edu",
-            evaluations: ["1", "2", "3", "4"],
-            type: "Administrator",
-            accepted: false,
-            rejected: false,
-            registered: false,
-            average: 61
-        }, {
-            name: "Jaimeiris Nieves",
-            email: "jaimeiris.nieves@upr.edu",
-            evaluations: ["1", "2"],
-            type: "Professional",
-            accepted: false,
-            rejected: false,
-            registered: true,
-            average: 63
-        }, {
-            name: "Heidi Negron",
-            email: "heidi.negron1@upr.edu",
-            evaluations: ["1", "2", "3"],
-            type: "Evaluator",
-            accepted: false,
-            rejected: true,
-            registered: false,
-            average: 78
-        } ];
-
-
         vm.activate = activate;
-        vm.title = 'administratorCtrl';
+        vm.title = 'adminCtrl';
+        //Website content tabs
+
+        vm.general = false;
+        vm.planning = false;
+        vm.venue = false;
+        vm.deadline = false;
+        vm.registrationInt = false;
+        vm.participation = false;
+        vm.sponsorsInt = false;
+        vm.contact = false;
+
+        //Conference Manage tabs
+        vm.committeeManage = false; //committe,admin,
+        vm.topic = false; //committe,admin,
+        vm.registrationList = false;
+        vm.guest = false;
+        vm.submissions = false;//committe,admin,
+        vm.sponsors = false;
+        vm.templates = false;//committe,admin,
+        vm.keyCodes = false;
+        vm.reports = false;
+
+
         // Functions
-
-
+        vm.tabViewControl = _tabViewControl;
+        activate();
 
         function activate() {
-
+            _tabViewControl();
         }
+
+        function _tabViewControl() {
+            var list = [];
+            list.push($window.sessionStorage.getItem('claim-1'));
+            list.push($window.sessionStorage.getItem('claim-2'));
+            list.forEach(function (claim) {
+
+
+
+                if (claim.localeCompare('admin') == 0) {
+                    //Website content tabs
+                    vm.participation = true;
+                    vm.general = true;
+                    vm.planning = true;
+                    vm.venue = true;
+                    vm.deadline = true;
+                    vm.registrationInt = true;
+                    vm.sponsorsInt = true;
+                    vm.contact = true;
+
+                    //Conference Manage tabs
+
+                    vm.committeeManage = true; //committe,admin,
+                    vm.topic = true; //committe,admin,
+                    vm.registrationList = true;
+                    vm.guest = true;
+                    vm.submissions = true;//committe,admin,
+                    vm.sponsors = true;
+                    vm.templates = true;//committe,admin,
+                    vm.keyCodes = true;
+                    vm.reports = true;
+
+                }
+                if (claim.localeCompare('adminFinance') == 0) {
+                    vm.general = true;
+                    vm.planning = true;
+                    vm.venue = true;
+                    vm.deadline = true;
+                    vm.registrationInt = true;
+                    vm.sponsorsInt = true;
+                    vm.contact = true;
+                    vm.participation = true;
+
+                    //Conference Manage tabs
+                    vm.committeeManage = false; //committe,admin,
+                    vm.topic = false; //committe,admin,
+                    vm.registrationList = true;
+                    vm.guest = true;
+                    vm.submissions = false;//committe,admin,
+                    vm.sponsors = true;
+                    vm.templates = false;//committe,admin,
+                    vm.keyCodes = true;
+                    vm.reports = true;
+                }
+
+                if (claim.localeCompare('adminCommittee') == 0) {
+                    vm.submissions = true;//committe,admin,
+                    vm.templates = true;//committe,admin,
+                    vm.topic = true; //committe,admin,
+                    vm.participation = false;
+                }
+
+
+
+
+            });
+
+
+
+        };
+
+    
 
 
     }
-})();
+}
+)();
