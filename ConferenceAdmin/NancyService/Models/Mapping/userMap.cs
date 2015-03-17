@@ -46,7 +46,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.registrationStatus).HasColumnName("registrationStatus");
             this.Property(t => t.hasApplied).HasColumnName("hasApplied");
             this.Property(t => t.acceptanceStatus).HasColumnName("acceptanceStatus");
-
+            this.Property(t => t.isEvaluator).HasColumnName("isEvaluator");
             // Relationships
             this.HasRequired(t => t.address)
                 .WithMany(t => t.users)
