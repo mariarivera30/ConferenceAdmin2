@@ -31,7 +31,7 @@ CREATE TABLE `address` (
   `country` varchar(45) DEFAULT NULL,
   `zipcode` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`addressID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (1,'line1','line2','city','state','country','zipcode');
+INSERT INTO `address` VALUES (1,'1','1','1','1','country','1'),(2,'hgh','ghg','hg','gh','g','h');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,14 +53,14 @@ DROP TABLE IF EXISTS `administrators`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `administrators` (
   `administratorsID` int(11) NOT NULL AUTO_INCREMENT,
-  `priviledgesID` int(11) NOT NULL,
+  `privilegesID` int(11) NOT NULL,
   `membershipID` bigint(20) NOT NULL,
   `enabled` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`administratorsID`),
-  KEY `priviledgeID_idx` (`priviledgesID`),
+  KEY `priviledgeID_idx` (`privilegesID`),
   KEY `memebershipID_idx` (`membershipID`),
   CONSTRAINT `memebershipID` FOREIGN KEY (`membershipID`) REFERENCES `memberships` (`membershipID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `priviledgeID` FOREIGN KEY (`priviledgesID`) REFERENCES `priviledges` (`priviledgesID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `priviledgeID` FOREIGN KEY (`privilegesID`) REFERENCES `privileges` (`privilegesID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -479,7 +479,7 @@ CREATE TABLE `payment` (
   PRIMARY KEY (`paymentID`),
   KEY `paymentTypeID_idx` (`paymentTypeID`),
   CONSTRAINT `paymentTypeID` FOREIGN KEY (`paymentTypeID`) REFERENCES `paymenttype` (`paymentTypeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -488,7 +488,7 @@ CREATE TABLE `payment` (
 
 LOCK TABLES `payment` WRITE;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
-INSERT INTO `payment` VALUES (1,1,NULL,NULL);
+INSERT INTO `payment` VALUES (1,1,NULL,NULL),(2,1,NULL,NULL);
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -502,14 +502,14 @@ DROP TABLE IF EXISTS `paymentbill`;
 CREATE TABLE `paymentbill` (
   `paymentBillID` bigint(20) NOT NULL AUTO_INCREMENT,
   `paymentID` bigint(20) DEFAULT NULL,
-  `transactionid` varchar(45) NOT NULL,
+  `transactionid` varchar(45) NOT NULL DEFAULT '0',
   `AmountPaid` double NOT NULL,
   `methodOfPayment` varchar(45) NOT NULL,
   `creditCardNumber` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`paymentBillID`),
   KEY `paymentID_idx` (`paymentID`),
   CONSTRAINT `paymentID` FOREIGN KEY (`paymentID`) REFERENCES `payment` (`paymentID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -518,6 +518,7 @@ CREATE TABLE `paymentbill` (
 
 LOCK TABLES `paymentbill` WRITE;
 /*!40000 ALTER TABLE `paymentbill` DISABLE KEYS */;
+INSERT INTO `paymentbill` VALUES (1,1,'1',1,'gfdg','1'),(2,2,'1',150,'hjh','353454534');
 /*!40000 ALTER TABLE `paymentbill` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -559,7 +560,7 @@ CREATE TABLE `paymenttype` (
   `paymentTypeID` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`paymentTypeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -568,32 +569,32 @@ CREATE TABLE `paymenttype` (
 
 LOCK TABLES `paymenttype` WRITE;
 /*!40000 ALTER TABLE `paymenttype` DISABLE KEYS */;
-INSERT INTO `paymenttype` VALUES (1,'Bill');
+INSERT INTO `paymenttype` VALUES (1,'Bill'),(2,'Complementary');
 /*!40000 ALTER TABLE `paymenttype` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `priviledges`
+-- Table structure for table `privileges`
 --
 
-DROP TABLE IF EXISTS `priviledges`;
+DROP TABLE IF EXISTS `privileges`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `priviledges` (
-  `priviledgesID` int(11) NOT NULL AUTO_INCREMENT,
-  `priviledgestType` varchar(45) NOT NULL,
-  PRIMARY KEY (`priviledgesID`)
+CREATE TABLE `privileges` (
+  `privilegesID` int(11) NOT NULL AUTO_INCREMENT,
+  `privilegestType` varchar(45) NOT NULL,
+  PRIMARY KEY (`privilegesID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `priviledges`
+-- Dumping data for table `privileges`
 --
 
-LOCK TABLES `priviledges` WRITE;
-/*!40000 ALTER TABLE `priviledges` DISABLE KEYS */;
-INSERT INTO `priviledges` VALUES (1,'Admin'),(2,'Finance'),(3,'CommitteEvaluator'),(4,'Evaluator');
-/*!40000 ALTER TABLE `priviledges` ENABLE KEYS */;
+LOCK TABLES `privileges` WRITE;
+/*!40000 ALTER TABLE `privileges` DISABLE KEYS */;
+INSERT INTO `privileges` VALUES (1,'Admin'),(2,'Finance'),(3,'CommitteEvaluator'),(4,'Evaluator');
+/*!40000 ALTER TABLE `privileges` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -664,7 +665,7 @@ CREATE TABLE `sponsor` (
 
 LOCK TABLES `sponsor` WRITE;
 /*!40000 ALTER TABLE `sponsor` DISABLE KEYS */;
-INSERT INTO `sponsor` VALUES (1,1,1,NULL,'gdf','hgfhdfg','hfgdh','gfdhgfdhg','hgfd','gfdhgfd',NULL,NULL,NULL),(2,1,1,NULL,'Angel','De La Torre','Student','UPRM','7876075141','ANGEL@UPR.ED',NULL,NULL,NULL),(3,1,1,NULL,'ttt','tttt','ttt','ttt','ttt','tt',NULL,NULL,NULL),(4,1,1,NULL,'ttttttttttttttttttttttttttttttttttttttttt','fdf','dfdf','dfd','t','t',NULL,NULL,NULL),(5,1,1,NULL,'dfsff','dfd','dfdf','dfd','dfdfd','dfdf',NULL,NULL,NULL),(6,1,1,NULL,'vcvc','vcv','cvcvc','vc','cvcvc','vcv',NULL,NULL,NULL),(7,1,1,NULL,'yyy','yyy','yyyy','yyyy','yyy','yyy',NULL,NULL,NULL),(8,1,1,NULL,'ui','ui','ui','u','i','uii',NULL,NULL,NULL),(9,1,1,NULL,'chumba Catala','j','j','j','j','j',NULL,NULL,NULL),(10,1,1,NULL,'amorr','k','k','k','k','k',NULL,NULL,NULL),(11,1,1,NULL,'WWWW','WWWW','WW','WW','WWW','WW',NULL,NULL,NULL),(12,1,1,NULL,'jai','k','k','k','k','k',NULL,NULL,NULL),(13,1,1,NULL,'ghg','ghg','ghg','gh','gh','gh',NULL,NULL,NULL),(14,1,1,NULL,'juana','k','k','k','k','k',NULL,NULL,NULL),(15,1,1,NULL,'ty','ty','ty','ty','y','ty',NULL,NULL,NULL),(16,1,1,NULL,'jkj','jk','j','k','k','lk',NULL,NULL,NULL),(17,1,1,NULL,'kik','k','k','k','k','k',NULL,NULL,NULL),(18,1,1,NULL,'heidi','i','i','i','i','i',NULL,NULL,NULL),(19,1,1,NULL,'kjkjk','kjk','j','kj','jk','jk',NULL,NULL,NULL),(20,1,1,NULL,'yuyuyu','uy','uy','u','yu','y',NULL,NULL,NULL),(21,1,1,NULL,'fg','fg','fg','fg','fg','fg',NULL,NULL,NULL),(22,1,1,NULL,'hjhj','jh','j','hj','h','jh',NULL,NULL,NULL),(23,1,1,NULL,'jkjk','jk','jk','jk','kj','kj',NULL,NULL,NULL),(24,1,1,NULL,'holaaaa','jk','jk','jk','','',NULL,NULL,NULL),(25,1,1,NULL,'alejo','h','h','h','h','h',NULL,NULL,NULL),(26,1,1,NULL,'huhuh','h','h','h','h','h',NULL,NULL,NULL),(27,1,1,NULL,'hj','hj','h','jh','j','hj',NULL,NULL,NULL),(28,1,1,NULL,'lolaL','L','L','L','L','L',NULL,NULL,NULL);
+INSERT INTO `sponsor` VALUES (1,1,1,1,'spon122','1','hfgdh','1','1','1',NULL,NULL,NULL),(2,1,2,2,'spon2','De La Torre','Student','UPRM','7876075141','ANGEL@UPR.ED',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `sponsor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -690,7 +691,7 @@ CREATE TABLE `sponsortype` (
   `benefit9` varchar(45) DEFAULT NULL,
   `benefit10` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`sponsortypeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -699,7 +700,7 @@ CREATE TABLE `sponsortype` (
 
 LOCK TABLES `sponsortype` WRITE;
 /*!40000 ALTER TABLE `sponsortype` DISABLE KEYS */;
-INSERT INTO `sponsortype` VALUES (1,'Gold',555,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `sponsortype` VALUES (1,'Platinium',5000,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,'Gold',3000,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,'Silver',1500,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,'Bronze',500,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(5,'Supporter',100,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `sponsortype` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -859,9 +860,9 @@ CREATE TABLE `user` (
   `phone` varchar(45) DEFAULT NULL,
   `addressID` bigint(20) NOT NULL,
   `userFax` varchar(45) DEFAULT NULL,
-  `registrationStatus` tinyint(1) DEFAULT '0',
+  `registrationStatus` varchar(45) DEFAULT NULL,
   `hasApplied` tinyint(1) DEFAULT '0',
-  `acceptanceStatus` tinyint(1) DEFAULT '0',
+  `acceptanceStatus` varchar(45) DEFAULT NULL,
   `isEvaluator` varchar(45) NOT NULL,
   PRIMARY KEY (`userID`),
   KEY `addressID_idx` (`addressID`),
@@ -879,7 +880,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,2,1,'juan','rivera','dsf','hg','45454',1,'543',0,1,1,''),(3,10,6,'jijki','jkjk','kjj','jkj','kjk',1,'j',1,0,0,''),(4,11,7,'rtrrtrt','yt','y','t','tyt',1,NULL,1,0,1,''),(5,12,2,'uyyu','yuyu','uyu','uyu','yuyu',1,'yu',0,0,0,'');
+INSERT INTO `user` VALUES (1,2,1,'juan','rivera','dsf','hg','45454',1,'543','0',1,'1',''),(3,10,6,'jijki','jkjk','kjj','jkj','kjk',1,'j','1',0,'0',''),(4,11,7,'rtrrtrt','yt','y','t','tyt',1,NULL,'1',0,'1',''),(5,12,2,'uyyu','yuyu','uyu','uyu','yuyu',1,'yu','0',0,'0','');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -948,4 +949,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-17  6:17:09
+-- Dump completed on 2015-03-18  2:35:06

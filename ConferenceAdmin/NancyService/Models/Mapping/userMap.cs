@@ -31,6 +31,16 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.userFax)
                 .HasMaxLength(45);
 
+            this.Property(t => t.registrationStatus)
+                .HasMaxLength(45);
+
+            this.Property(t => t.acceptanceStatus)
+                .HasMaxLength(45);
+
+            this.Property(t => t.isEvaluator)
+                .IsRequired()
+                .HasMaxLength(45);
+
             // Table & Column Mappings
             this.ToTable("user", "conferenceadmin");
             this.Property(t => t.userID).HasColumnName("userID");
@@ -47,6 +57,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.hasApplied).HasColumnName("hasApplied");
             this.Property(t => t.acceptanceStatus).HasColumnName("acceptanceStatus");
             this.Property(t => t.isEvaluator).HasColumnName("isEvaluator");
+
             // Relationships
             this.HasRequired(t => t.address)
                 .WithMany(t => t.users)

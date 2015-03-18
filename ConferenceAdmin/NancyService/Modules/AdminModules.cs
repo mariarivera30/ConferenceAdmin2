@@ -17,13 +17,14 @@ namespace NancyService.Modules
             : base("/admin")
         {
             AdminManager admin = new AdminManager();
+            SponsorManager sponsorManager = new SponsorManager();
             List<sponsor> sponsorList = new List<sponsor>();
             
             Post["/addsponsor"] = parameters =>
             {
-                var sponsor = this.Bind<sponsor>();
+                var sponsor = this.Bind<NancyService.Modules.SponsorManager.SponsorQuery>();
 
-                if (admin.addSponsor(sponsor))
+                if (sponsorManager.addSponsor(sponsor))
                 {
                     return HttpStatusCode.Created;
                 }
@@ -37,13 +38,39 @@ namespace NancyService.Modules
             Get["/getSponsor"] = parameters =>
              {
                  try
-                 {
-                     this.RequiresAuthentication();
-                     this.RequiresClaims(new[] { "admin" });
-                     return Response.AsJson(admin.getSponsorList());
+                 {    
+                     //this.RequiresAuthentication();
+                     //this.RequiresClaims(new[] { "admin" });
+                     return Response.AsJson(sponsorManager.getSponsorList());
                  }
                  catch { return null; }
              };
+
+            Put["/updateSponsor"] = parameters =>
+            {
+                var sponsor = this.Bind<NancyService.Modules.SponsorManager.SponsorQuery>();
+
+                if (sponsorManager.updateSponsor(sponsor))
+                {
+                    return HttpStatusCode.OK;
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+            };       
+
+            Get["/getSponsorTypesList"] = parameters =>
+            {
+                try
+                {
+                    //this.RequiresAuthentication();
+                    //this.RequiresClaims(new[] { "admin" });
+                    return Response.AsJson(sponsorManager.getSponsorTypesList());
+                }
+                catch { return null; }
+            };
 
             Post["/addTopic"] = parameters =>
             {

@@ -24,10 +24,10 @@ namespace NancyService.Models
         public string phone { get; set; }
         public long addressID { get; set; }
         public string userFax { get; set; }
-        public Nullable<bool> registrationStatus { get; set; }
+        public string registrationStatus { get; set; }
         public Nullable<bool> hasApplied { get; set; }
-        public Nullable<bool> acceptanceStatus { get; set; }
-        public Nullable<bool> isEvaluator { get; set; }
+        public string acceptanceStatus { get; set; }
+        public string isEvaluator { get; set; }
         public virtual address address { get; set; }
         public virtual ICollection<companion> companions { get; set; }
         public virtual ICollection<evaluator> evaluators { get; set; }

@@ -36,7 +36,7 @@ namespace NancyService.Models
         public DbSet<paymentbill> paymentbills { get; set; }
         public DbSet<paymentcomplementary> paymentcomplementaries { get; set; }
         public DbSet<paymenttype> paymenttypes { get; set; }
-        public DbSet<priviledge> priviledges { get; set; }
+        public DbSet<privilege> priviledges { get; set; }
         public DbSet<registration> registrations { get; set; }
         public DbSet<sponsor> sponsors { get; set; }
         public DbSet<sponsortype> sponsortypes { get; set; }
@@ -71,7 +71,7 @@ namespace NancyService.Models
             modelBuilder.Configurations.Add(new paymentbillMap());
             modelBuilder.Configurations.Add(new paymentcomplementaryMap());
             modelBuilder.Configurations.Add(new paymenttypeMap());
-            modelBuilder.Configurations.Add(new priviledgeMap());
+            modelBuilder.Configurations.Add(new privilegeMap());
             modelBuilder.Configurations.Add(new registrationMap());
             modelBuilder.Configurations.Add(new sponsorMap());
             modelBuilder.Configurations.Add(new sponsortypeMap());

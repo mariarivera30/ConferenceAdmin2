@@ -15,25 +15,25 @@
         vm.title = 'adminCtrl';
         //Website content tabs
 
-        vm.general = false;
-        vm.planning = false;
-        vm.venue = false;
-        vm.deadline = false;
-        vm.registrationInt = false;
-        vm.participation = false;
-        vm.sponsorsInt = false;
-        vm.contact = false;
+        vm.general = true;
+        vm.planning = true;
+        vm.venue = true;
+        vm.deadline = true;
+        vm.registrationInt = true;
+        vm.participation = true;
+        vm.sponsorsInt = true;
+        vm.contact = true;
 
         //Conference Manage tabs
-        vm.committeeManage = false; //committe,admin,
-        vm.topic = false; //committe,admin,
-        vm.registrationList = false;
-        vm.guest = false;
-        vm.submissions = false;//committe,admin,
-        vm.sponsors = false;
-        vm.templates = false;//committe,admin,
-        vm.keyCodes = false;
-        vm.reports = false;
+        vm.committeeManage = true; //committe,admin,
+        vm.topic = true; //committe,admin,
+        vm.registrationList = true;
+        vm.guest = true;
+        vm.submissions = true;//committe,admin,
+        vm.sponsors = true;
+        vm.templates = true;//committe,admin,
+        vm.keyCodes = true;
+        vm.reports = true;
 
 
         // Functions
@@ -41,7 +41,7 @@
         activate();
 
         function activate() {
-            _tabViewControl();
+            //_tabViewControl();
         }
 
         function _tabViewControl() {

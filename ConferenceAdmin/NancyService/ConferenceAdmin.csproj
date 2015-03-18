@@ -1364,7 +1364,7 @@
     <Compile Include="Models\Mapping\paymentcomplementaryMap.cs" />
     <Compile Include="Models\Mapping\paymentMap.cs" />
     <Compile Include="Models\Mapping\paymenttypeMap.cs" />
-    <Compile Include="Models\Mapping\priviledgeMap.cs" />
+    <Compile Include="Models\Mapping\privilegeMap.cs" />
     <Compile Include="Models\Mapping\registrationMap.cs" />
     <Compile Include="Models\Mapping\sponsorMap.cs" />
     <Compile Include="Models\Mapping\sponsortypeMap.cs" />
@@ -1384,7 +1384,7 @@
     <Compile Include="Models\paymentbill.cs" />
     <Compile Include="Models\paymentcomplementary.cs" />
     <Compile Include="Models\paymenttype.cs" />
-    <Compile Include="Models\priviledge.cs" />
+    <Compile Include="Models\privilege.cs" />
     <Compile Include="Models\registration.cs" />
     <Compile Include="Models\sponsor.cs" />
     <Compile Include="Models\sponsortype.cs" />
@@ -1401,8 +1401,10 @@
     <Compile Include="Modules\IndexModule.cs" />
     <Compile Include="Modules\LoginAuthenticateManager.cs" />
     <Compile Include="Modules\LoginModule.cs" />
+    <Compile Include="Modules\SponsorManager.cs" />
     <Compile Include="Modules\UserIdentity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SponsorAdmin.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\logex.html">
@@ -1447,7 +1449,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:12008/</IISUrl>
+          <IISUrl>http://localhost:12021/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

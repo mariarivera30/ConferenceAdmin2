@@ -94,7 +94,7 @@ namespace NancyService.Modules
                 UserAuth admin = (from g in contx.memberships
                                   join admi in contx.administrators.DefaultIfEmpty() on g.membershipID equals admi.membershipID
                                   where g.email == param.email && g.password == param.password
-                                  select new UserAuth { memberID = g.membershipID, password = g.password, email = g.email, priviledge = admi.priviledgesID }).FirstOrDefault();
+                                  select new UserAuth { memberID = g.membershipID, password = g.password, email = g.email, priviledge = admi.privilegesID }).FirstOrDefault();
                 UserAuth user = (from g in contx.memberships
                                  join type in contx.users on g.membershipID equals type.membershipID
                                  where g.email == param.email && g.password == param.password

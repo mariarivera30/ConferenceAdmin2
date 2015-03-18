@@ -14,7 +14,7 @@ namespace NancyService.Models.Mapping
             // Table & Column Mappings
             this.ToTable("administrators", "conferenceadmin");
             this.Property(t => t.administratorsID).HasColumnName("administratorsID");
-            this.Property(t => t.priviledgesID).HasColumnName("priviledgesID");
+            this.Property(t => t.privilegesID).HasColumnName("privilegesID");
             this.Property(t => t.membershipID).HasColumnName("membershipID");
             this.Property(t => t.enabled).HasColumnName("enabled");
 
@@ -22,9 +22,9 @@ namespace NancyService.Models.Mapping
             this.HasRequired(t => t.membership)
                 .WithMany(t => t.administrators)
                 .HasForeignKey(d => d.membershipID);
-            this.HasRequired(t => t.priviledge)
+            this.HasRequired(t => t.privilege)
                 .WithMany(t => t.administrators)
-                .HasForeignKey(d => d.priviledgesID);
+                .HasForeignKey(d => d.privilegesID);
 
         }
     }

@@ -1,7 +1,7 @@
 ﻿<h3>Manage Sponsors</h3><br>
 <div ng-controller="sponsorCtrl as vm ">
     <div class="col-lg-12">
-       
+
         <table ng-table="tableParams" show-filter="true" class="table row">
             <tr>
                 <td><b>Name</b></td>
@@ -12,16 +12,18 @@
                 <td></td>
             </tr>
             <tr ng-repeat="sponsor in  vm.sponsorsList">
-                <td>{{sponsor}}</td>
-                <td><a href=""> View</a></td>
-                <td data-toggle="modal" data-target="#editSponsor"><a href="">Edit</a></td>
+                <td>{{sponsor.firstName}} {{sponsor.lastName}}</td>
+                <td>{{sponsor.company}}</td>
+                <td>{{sponsor.amount}}</td>
+                <td data-toggle="modal" data-target="#viewSponsor" ng-click="vm.selectedSponsorUpdate(sponsor)"><a href="">View</a></td>
+                <td data-toggle="modal" data-target="#editSponsor" ng-click="vm.selectedSponsorUpdate(sponsor)"><a href="">Edit</a></td>
                 <td><a href="" data-toggle="modal" data-target="#delete"><i class="glyphicon glyphicon-remove"></i></a></td>
             </tr>
 
 
         </table>
 
-        <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" data-target="#addSponsor">Add Sponsor</button> <a href=""><i class="fa fa-info-circle info-icon" title="Manually Add Sponsor"> </i></a>
+        <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" data-target="#addSponsor" ng-click="vm.clearSponsor()">Add Sponsor</button> <a href=""><i class="fa fa-info-circle info-icon" title="Manually Add Sponsor"> </i></a>
     </div>
 
     <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
@@ -42,13 +44,14 @@
         </div>
     </div>
 
-    <div class="modal fade" id="addSponsor" tabindex="-1" role="dialog" aria-labelledby="addSponsorLabel" aria-hidden="true">
+    <div class="modal fade" id="viewSponsor" tabindex="-1" role="dialog" aria-labelledby="editSponsorLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="addSponsorLabel">Add Sponsor</h4>
+                    <h4 class="modal-title" id="viewSponsorLabel">View Sponsor</h4>
                 </div>
+
 
 
                 <div class="modal-body">
@@ -56,65 +59,245 @@
                         <div class="row">
                             <span class="col-lg-6">
                                 <label>Name:</label>
-                                <input class="form-control" type="text" name="" ng-model="vm.firstName">
+                                <input ng-disabled="true" class="form-control" type="text" name="" ng-model="vm.sponsor.firstName">
                             </span>
                             <span class="col-lg-6">
                                 <label>Last Name:</label>
-                                <input class="form-control" type="text" name="" ng-model="vm.lastName">
+                                <input ng-disabled="true" class="form-control" type="text" name="" ng-model="vm.sponsor.lastName">
                             </span>
+                        </div>
+                        <div class="row">
+                            <span class=" col-lg-6">
+
+                                <label>Email:</label>
+                                <input ng-disabled="true"  class="form-control" type="text" name="email" ng-model="vm.sponsor.email">
+                            </span>
+
+                            <span class=" col-lg-6">
+                                <label>Sponsor Type:</label>
+                                <br />
+                                <select ng-disabled="true" class="form-control" >
+                                    <option ng-repeat="type in vm.sponsorsTypeList">{{type.name}}</option>
+
+                                </select>
+
+                            </span>
+
                         </div>
 
                         <div class="row">
                             <span class="col-lg-12">
-                                <label>Title:</label>
-                                <input class="form-control" type="text" name="" ng-model="vm.titleSponsor">
-                            </span>
-                            <span class="col-lg-12">
-                                <label>Company:</label>
-                                <input class="form-control" type="text" name="" ng-model="vm.company">
+                                <label>Affiliation:</label>
+                                <input ng-disabled="true" class="form-control" type="text" name="" ng-model="vm.sponsor.company">
                             </span>
                         </div>
 
                         <div class="row">
                             <span class="col-lg-6">
-                                <label>Street Address:</label>
-                                <input class="form-control" type="text" name="" ng-model="vm.street">
+                                <label>Street Address Line 1:</label>
+                                <input ng-disabled="true" class="form-control" type="text" name="" ng-model="vm.sponsor.line1">
+
+                            </span>
+                            <span class="col-lg-6">
+                                <label>Street Address Line 2:</label>
+                                <input ng-disabled="true" class="form-control" type="text" name="" ng-model="vm.sponsor.line2">
+
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span ng-disabled="true" class="col-lg-6" >
+                                <label>State:</label>
+                                <input ng-disabled="true" class="form-control" type="text" name="" ng-model="vm.sponsor.state">
                             </span>
                             <span class="col-lg-6">
                                 <label>City:</label>
-                                <input class="form-control" type="text" name="" ng-model="vm.city">
+                                <input ng-disabled="true"  class="form-control" class="for" type="text" name="" ng-model="vm.sponsor.city">
+
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span class="col-lg-6">
+                                <label>Zip Code:</label>
+                                <input ng-disabled="true" class="form-control" type="text" name="" ng-model="vm.sponsor.zipcode">
+
+                            </span>
+
+                            <span class=" col-lg-6">
+                                <label>Phone Number:</label>
+                                <input ng-disabled="true"  class="form-control" type="text" name="" ng-model="vm.sponsor.phone">
+
+                            </span>
+                        </div>
+
+
+                        <div class="row">
+                            <span class=" col-lg-6">
+
+                                <label>Amount:</label>
+                                <input ng-disabled="true"  class="form-control" type="text" name="" ng-model="vm.sponsor.amount">
+                            </span>
+
+                            <span class=" col-lg-6">
+                                <label>Card Number:</label>
+                                <input ng-disabled="true" class="form-control" type="text" name="" ng-model="vm.sponsor.card">
+                               
+
+
+                            </span>
+
+                        </div>
+                        <div class="row">
+                            <span class=" col-lg-6">
+
+                                <label>Method Payment:</label>
+                                <input ng-disabled="true" class="form-control" type="text" name="" ng-model="vm.sponsor.method">
+                            </span>
+
+                            <span class=" col-lg-6">
+                                <label>Logo:</label>
+                                <br />
+                                <input ng-disabled="true" type="text" ng-model="vm.sponsor.logo" />
+                               
+                                
+                            </span>
+
+                        </div>
+
+
+
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addSponsor" tabindex="-1" role="dialog" aria-labelledby="addSponsorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="addSponsorLabel">Edit Sponsor</h4>
+                </div>
+
+
+
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <span class="col-lg-6">
+                                <label>Name:</label>
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.firstName">
+                            </span>
+                            <span class="col-lg-6">
+                                <label>Last Name:</label>
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.lastName">
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class=" col-lg-6">
+
+                                <label>Email:</label>
+                                <input class="form-control" type="text" name="email" ng-model="vm.sponsor.email">
+                            </span>
+
+                            <span class=" col-lg-6">
+                                <label>Sponsor Type:</label>
+                                <br />
+                                <select class="form-control">
+                                    <option ng-repeat="type in vm.sponsorsTypeList">{{type.name}}</option>
+
+                                </select>
+
+                            </span>
+
+                        </div>
+
+                        <div class="row">
+                            <span class="col-lg-12">
+                                <label>Affiliation:</label>
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.company">
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <span class="col-lg-6">
+                                <label>Street Address Line 1:</label>
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.line1">
+
+                            </span>
+                            <span class="col-lg-6">
+                                <label>Street Address Line 2:</label>
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.line2">
+
                             </span>
                         </div>
 
                         <div class="row">
                             <span class="col-lg-6">
                                 <label>State:</label>
-                                <input class="form-control" type="text" name="" ng-model="vm.state">
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.state">
                             </span>
+                            <span class="col-lg-6">
+                                <label>City:</label>
+                                <input class="form-control" class="for" type="text" name="" ng-model="vm.sponsor.city">
+
+                            </span>
+                        </div>
+
+                        <div class="row">
                             <span class="col-lg-6">
                                 <label>Zip Code:</label>
-                                <input class="form-control" type="text" name="" ng-model="vm.zipCode">
-                            </span>
-                        </div>
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.zipcode">
 
-                        <div class="row">
-                            <span class="col-lg-6">
+                            </span>
+
+                            <span class=" col-lg-6">
                                 <label>Phone Number:</label>
-                                <input class="form-control" type="text" name="" ng-model="vm.phone">
-                            </span>
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.phone">
 
-                            <span class=" col-lg-6">
-                                <label>Email:</label>
-                                <input class="form-control" type="text" name="email" ng-model="vm.email">
                             </span>
                         </div>
+
 
                         <div class="row">
                             <span class=" col-lg-6">
+
                                 <label>Amount:</label>
-                                <input class="form-control" type="text" name="" ng-model="vm.amount">
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.amount">
                             </span>
+
+                            <span class=" col-lg-6">
+                                <label>Logo:</label>
+                                <br />
+                                <input type="text" ng-model="vm.sponsor.logo" />
+                                <input type="file"><br />
+
+
+                            </span>
+
                         </div>
+                        <div class="row">
+                            <span class=" col-lg-6">
+
+                                <label>Method Payment:</label>
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.method">
+                            </span>
+
+                            <span class=" col-lg-6">
+
+                                <label>Card Number:</label>
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.card">
+                            </span>
+
+                        </div>
+
+
 
                     </form>
                 </div>
@@ -145,61 +328,112 @@
                         <div class="row">
                             <span class="col-lg-6">
                                 <label>Name:</label>
-                                <input class="form-control" type="text" name="">
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.firstName">
                             </span>
                             <span class="col-lg-6">
                                 <label>Last Name:</label>
-                                <input class="form-control" type="text" name="">
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.lastName">
                             </span>
+                        </div>
+                        <div class="row">
+                            <span class=" col-lg-6">
+
+                                <label>Email:</label>
+                                <input class="form-control" type="text" name="email" ng-model="vm.sponsor.email">
+                            </span>
+
+                            <span class=" col-lg-6">
+                                <label>Sponsor Type:</label>
+                                <br />
+                                <select class="form-control">
+                                    <option ng-repeat="type in vm.sponsorsTypeList">{{type.name}}</option>
+
+                                </select>
+
+                            </span>
+
                         </div>
 
                         <div class="row">
                             <span class="col-lg-12">
                                 <label>Affiliation:</label>
-                                <input class="form-control" type="text" name="">
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.company">
                             </span>
                         </div>
 
                         <div class="row">
                             <span class="col-lg-6">
-                                <label>Street Address:</label>
-                                <input class="form-control" type="text" name="">
+                                <label>Street Address Line 1:</label>
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.line1">
+
                             </span>
                             <span class="col-lg-6">
-                                <label>City:</label>
-                                <input class="form-control" class="for" type="text" name="">
+                                <label>Street Address Line 2:</label>
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.line2">
+
                             </span>
                         </div>
 
                         <div class="row">
                             <span class="col-lg-6">
                                 <label>State:</label>
-                                <input class="form-control" type="text" name="">
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.state">
                             </span>
+                            <span class="col-lg-6">
+                                <label>City:</label>
+                                <input class="form-control" class="for" type="text" name="" ng-model="vm.sponsor.city">
+
+                            </span>
+                        </div>
+
+                        <div class="row">
                             <span class="col-lg-6">
                                 <label>Zip Code:</label>
-                                <input class="form-control" type="text" name="">
-                            </span>
-                        </div>
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.zipcode">
 
-                        <div class="row">
-                            <span class="col-lg-6">
+                            </span>
+
+                            <span class=" col-lg-6">
                                 <label>Phone Number:</label>
-                                <input class="form-control" type="text" name="">
-                            </span>
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.phone">
 
-                            <span class=" col-lg-6">
-                                <label>Email:</label>
-                                <input class="form-control" type="text" name="email">
                             </span>
                         </div>
+
 
                         <div class="row">
                             <span class=" col-lg-6">
+
                                 <label>Amount:</label>
-                                <input class="form-control" type="text" name="">
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.amount">
                             </span>
+
+                            <span class=" col-lg-6">
+                                <label>Logo:</label>
+                                <br />
+                                <input type="text" ng-model="vm.sponsor.logo" />
+                                <input type="file"><br />
+
+
+                            </span>
+
                         </div>
+                        <div class="row">
+                            <span class=" col-lg-6">
+
+                                <label>Method Payment:</label>
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.method">
+                            </span>
+
+                            <span class=" col-lg-6">
+
+                                <label>Card Number:</label>
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.card">
+                            </span>
+
+                        </div>
+
+
 
                     </form>
                 </div>
@@ -207,7 +441,7 @@
 
 
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Save</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.updateSponsor()">Save</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
