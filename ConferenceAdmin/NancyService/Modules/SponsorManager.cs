@@ -112,7 +112,7 @@ namespace NancyService.Modules
                
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    var user = context.users.FirstOrDefault(u => u.userID==1);
+                   
                     
                     var sponsor = (from s in context.sponsors
                                    from type in context.sponsortypes

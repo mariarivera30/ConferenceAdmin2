@@ -93,6 +93,7 @@
                             if (sponsor.sponsorID == vm.sponsor.sponsorID) {
                                 sponsor = vm.sponsor;
                             }
+                            vm.sponsor = {};
                         });
                     })
                     .error(function (data, status, headers, config) {
