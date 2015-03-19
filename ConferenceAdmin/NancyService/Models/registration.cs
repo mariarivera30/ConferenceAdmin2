@@ -11,6 +11,7 @@ namespace NancyService.Models
         public Nullable<bool> date1 { get; set; }
         public Nullable<bool> date2 { get; set; }
         public Nullable<bool> date3 { get; set; }
+        public string note { get; set; }
         public Nullable<bool> byAdmin { get; set; }
         public Nullable<bool> deleted { get; set; }
         public virtual payment payment { get; set; }

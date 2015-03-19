@@ -481,6 +481,7 @@ CREATE TABLE `paymentbill` (
   `methodOfPayment` varchar(45) NOT NULL,
   `creditCardNumber` varchar(45) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
+  `cardExpirationDate` date DEFAULT NULL,
   PRIMARY KEY (`paymentBillID`),
   KEY `paymentID_idx` (`paymentID`),
   KEY `addressID_idx` (`addressID`),
@@ -495,7 +496,7 @@ CREATE TABLE `paymentbill` (
 
 LOCK TABLES `paymentbill` WRITE;
 /*!40000 ALTER TABLE `paymentbill` DISABLE KEYS */;
-INSERT INTO `paymentbill` VALUES (1,1,NULL,'1',1,'gfdg','1',NULL),(2,2,NULL,'1',150,'hjh','353454534',NULL);
+INSERT INTO `paymentbill` VALUES (1,1,NULL,'1',1,'gfdg','1',NULL,NULL),(2,2,NULL,'1',150,'hjh','353454534',NULL,NULL);
 /*!40000 ALTER TABLE `paymentbill` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -591,6 +592,7 @@ CREATE TABLE `registration` (
   `date3` tinyint(1) DEFAULT '0',
   `byAdmin` tinyint(1) DEFAULT '0',
   `deleted` tinyint(1) DEFAULT '0',
+  `note` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`registrationID`),
   KEY `userID_idx` (`userID`),
   KEY `paymentID_idx` (`paymentID`),
@@ -696,7 +698,7 @@ CREATE TABLE `submissions` (
   `userID` bigint(20) NOT NULL,
   `topicID` int(11) NOT NULL,
   `submissionTypeID` int(11) NOT NULL,
-  `hasApplied` tinyint(1) DEFAULT '0',
+  `submissionAbstract` varchar(2000) DEFAULT '0',
   `title` varchar(45) DEFAULT NULL,
   `status` varchar(45) DEFAULT 'Pending',
   `creationDate` datetime NOT NULL,
@@ -933,4 +935,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-18 22:38:18
+-- Dump completed on 2015-03-19  0:58:14

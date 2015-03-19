@@ -15,5 +15,6 @@ namespace NancyService.Models
         public Nullable<bool> deleted { get; set; }
         public virtual address address { get; set; }
         public virtual payment payment { get; set; }
+        public Nullable<System.DateTime> cardExpirationDate { get; set; }
     }
 }

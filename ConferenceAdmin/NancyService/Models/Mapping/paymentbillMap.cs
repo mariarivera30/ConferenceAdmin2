@@ -32,6 +32,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.methodOfPayment).HasColumnName("methodOfPayment");
             this.Property(t => t.creditCardNumber).HasColumnName("creditCardNumber");
             this.Property(t => t.deleted).HasColumnName("deleted");
+            this.Property(t => t.cardExpirationDate).HasColumnName("cardExpirationDate");
 
             // Relationships
             this.HasOptional(t => t.address)
