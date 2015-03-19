@@ -11,6 +11,7 @@ namespace NancyService.Models
         public string delivery { get; set; }
         public string plan { get; set; }
         public string necessary_equipment { get; set; }
+        public Nullable<bool> deleted { get; set; }
         public virtual submission submission { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.paymentcomplementaryID).HasColumnName("paymentcomplementaryID");
             this.Property(t => t.paymentID).HasColumnName("paymentID");
             this.Property(t => t.complementaryKeyID).HasColumnName("complementaryKeyID");
+            this.Property(t => t.deleted).HasColumnName("deleted");
 
             // Relationships
             this.HasRequired(t => t.complementarykey)

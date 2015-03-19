@@ -9,8 +9,7 @@ namespace NancyService.Models
         public long minorID { get; set; }
         public string documentFile { get; set; }
         public string documentName { get; set; }
-        public System.DateTime creationDate { get; set; }
-        public Nullable<System.DateTime> deletionDate { get; set; }
+        public Nullable<bool> deleted { get; set; }
         public virtual minor minor { get; set; }
     }
 }

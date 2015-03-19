@@ -57,6 +57,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.hasApplied).HasColumnName("hasApplied");
             this.Property(t => t.acceptanceStatus).HasColumnName("acceptanceStatus");
             this.Property(t => t.isEvaluator).HasColumnName("isEvaluator");
+            this.Property(t => t.deleted).HasColumnName("deleted");
 
             // Relationships
             this.HasRequired(t => t.address)

@@ -16,7 +16,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.paymentID).HasColumnName("paymentID");
             this.Property(t => t.paymentTypeID).HasColumnName("paymentTypeID");
             this.Property(t => t.creationDate).HasColumnName("creationDate");
-            this.Property(t => t.deletionDate).HasColumnName("deletionDate");
+            this.Property(t => t.deleted).HasColumnName("deleted");
 
             // Relationships
             this.HasRequired(t => t.paymenttype)

@@ -16,8 +16,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.templatesubmissionID).HasColumnName("templatesubmissionID");
             this.Property(t => t.templateID).HasColumnName("templateID");
             this.Property(t => t.submissionID).HasColumnName("submissionID");
-            this.Property(t => t.creationDate).HasColumnName("creationDate");
-            this.Property(t => t.deleitionDate).HasColumnName("deleitionDate");
+            this.Property(t => t.deleted).HasColumnName("deleted");
 
             // Relationships
             this.HasRequired(t => t.submission)

@@ -16,6 +16,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.minorsID).HasColumnName("minorsID");
             this.Property(t => t.userID).HasColumnName("userID");
             this.Property(t => t.authorizationStatus).HasColumnName("authorizationStatus");
+            this.Property(t => t.deleted).HasColumnName("deleted");
 
             // Relationships
             this.HasRequired(t => t.user)

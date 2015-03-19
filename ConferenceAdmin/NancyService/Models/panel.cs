@@ -12,6 +12,7 @@ namespace NancyService.Models
         public string guideQuestion { get; set; }
         public string formatDescription { get; set; }
         public string necessaryEquipment { get; set; }
+        public Nullable<bool> deleted { get; set; }
         public virtual submission submission { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.companionminorID).HasColumnName("companionminorID");
             this.Property(t => t.minorID).HasColumnName("minorID");
             this.Property(t => t.companionID).HasColumnName("companionID");
+            this.Property(t => t.deleted).HasColumnName("deleted");
 
             // Relationships
             this.HasRequired(t => t.companion)

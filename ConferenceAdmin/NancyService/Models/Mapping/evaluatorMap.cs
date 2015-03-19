@@ -15,6 +15,7 @@ namespace NancyService.Models.Mapping
             this.ToTable("evaluators", "conferenceadmin");
             this.Property(t => t.evaluatorsID).HasColumnName("evaluatorsID");
             this.Property(t => t.userID).HasColumnName("userID");
+            this.Property(t => t.deleted).HasColumnName("deleted");
 
             // Relationships
             this.HasRequired(t => t.user)

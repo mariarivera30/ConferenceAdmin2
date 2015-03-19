@@ -23,6 +23,7 @@ namespace NancyService.Models
         public string benefit8 { get; set; }
         public string benefit9 { get; set; }
         public string benefit10 { get; set; }
+        public Nullable<bool> deleted { get; set; }
         public virtual ICollection<sponsor> sponsors { get; set; }
     }
 }

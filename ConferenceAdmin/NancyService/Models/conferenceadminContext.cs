@@ -1,6 +1,8 @@
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using NancyService.Models.Mapping;
+using NnacyService.Models;
+using NnacyService.Models.Mapping;
 
 namespace NancyService.Models
 {
@@ -17,8 +19,8 @@ namespace NancyService.Models
         }
 
         public DbSet<address> addresses { get; set; }
-        public DbSet<administrator> administrators { get; set; }
         public DbSet<authorizationsubmitted> authorizationsubmitteds { get; set; }
+        public DbSet<claim> claims { get; set; }
         public DbSet<committeeinterface> committeeinterfaces { get; set; }
         public DbSet<companion> companions { get; set; }
         public DbSet<companionminor> companionminors { get; set; }
@@ -29,14 +31,13 @@ namespace NancyService.Models
         public DbSet<evaluator> evaluators { get; set; }
         public DbSet<interfaceinformation> interfaceinformations { get; set; }
         public DbSet<membership> memberships { get; set; }
-        public DbSet<membershiptype> membershiptypes { get; set; }
         public DbSet<minor> minors { get; set; }
         public DbSet<panel> panels { get; set; }
         public DbSet<payment> payments { get; set; }
         public DbSet<paymentbill> paymentbills { get; set; }
         public DbSet<paymentcomplementary> paymentcomplementaries { get; set; }
         public DbSet<paymenttype> paymenttypes { get; set; }
-        public DbSet<privilege> priviledges { get; set; }
+        public DbSet<privilege> privileges { get; set; }
         public DbSet<registration> registrations { get; set; }
         public DbSet<sponsor> sponsors { get; set; }
         public DbSet<sponsortype> sponsortypes { get; set; }
@@ -52,8 +53,8 @@ namespace NancyService.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new addressMap());
-            modelBuilder.Configurations.Add(new administratorMap());
             modelBuilder.Configurations.Add(new authorizationsubmittedMap());
+            modelBuilder.Configurations.Add(new claimMap());
             modelBuilder.Configurations.Add(new committeeinterfaceMap());
             modelBuilder.Configurations.Add(new companionMap());
             modelBuilder.Configurations.Add(new companionminorMap());
@@ -64,7 +65,6 @@ namespace NancyService.Models
             modelBuilder.Configurations.Add(new evaluatorMap());
             modelBuilder.Configurations.Add(new interfaceinformationMap());
             modelBuilder.Configurations.Add(new membershipMap());
-            modelBuilder.Configurations.Add(new membershiptypeMap());
             modelBuilder.Configurations.Add(new minorMap());
             modelBuilder.Configurations.Add(new panelMap());
             modelBuilder.Configurations.Add(new paymentMap());

@@ -90,6 +90,7 @@ namespace NancyService.Modules
         {
             using (conferenceadminContext contx = new conferenceadminContext())
             {
+                /*
                 UserAuth complete;
                 UserAuth admin = (from g in contx.memberships
                                   join admi in contx.administrators.DefaultIfEmpty() on g.membershipID equals admi.membershipID
@@ -116,8 +117,8 @@ namespace NancyService.Modules
                 {
                     complete = admin;
                     complete.userType = user.userType;
-                }
-                return complete;
+                }*/
+                return null;
 
             }
         }

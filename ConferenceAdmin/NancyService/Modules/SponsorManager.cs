@@ -129,7 +129,7 @@ namespace NancyService.Modules
                                    logo = s.logo,
                                    phone = s.phone,
                                    email = s.email,
-                                   addressID = s.addressID,
+                                   addressID = (long)s.addressID,
                                    city = a.city,
                                    line1 = a.line1,
                                    line2 = a.line2,

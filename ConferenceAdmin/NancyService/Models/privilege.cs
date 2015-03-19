@@ -1,3 +1,4 @@
+using NnacyService.Models;
 using System;
 using System.Collections.Generic;
 
@@ -7,11 +8,11 @@ namespace NancyService.Models
     {
         public privilege()
         {
-            this.administrators = new List<administrator>();
+            this.claims = new List<claim>();
         }
 
         public int privilegesID { get; set; }
         public string privilegestType { get; set; }
-        public virtual ICollection<administrator> administrators { get; set; }
+        public virtual ICollection<claim> claims { get; set; }
     }
 }

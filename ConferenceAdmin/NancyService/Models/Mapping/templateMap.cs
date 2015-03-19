@@ -24,6 +24,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.templateID).HasColumnName("templateID");
             this.Property(t => t.name).HasColumnName("name");
             this.Property(t => t.document).HasColumnName("document");
+            this.Property(t => t.deleted).HasColumnName("deleted");
         }
     }
 }

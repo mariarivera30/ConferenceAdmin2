@@ -29,6 +29,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.score).HasColumnName("score");
             this.Property(t => t.publicFeedback).HasColumnName("publicFeedback");
             this.Property(t => t.privateFeedback).HasColumnName("privateFeedback");
+            this.Property(t => t.deleted).HasColumnName("deleted");
 
             // Relationships
             this.HasRequired(t => t.evaluatiorsubmission)

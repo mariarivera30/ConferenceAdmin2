@@ -1,3 +1,4 @@
+using NnacyService.Models;
 using System;
 using System.Collections.Generic;
 
@@ -7,6 +8,7 @@ namespace NancyService.Models
     {
         public user()
         {
+            this.claims = new List<claim>();
             this.companions = new List<companion>();
             this.evaluators = new List<evaluator>();
             this.minors = new List<minor>();
@@ -28,7 +30,9 @@ namespace NancyService.Models
         public Nullable<bool> hasApplied { get; set; }
         public string acceptanceStatus { get; set; }
         public string isEvaluator { get; set; }
+        public Nullable<short> deleted { get; set; }
         public virtual address address { get; set; }
+        public virtual ICollection<claim> claims { get; set; }
         public virtual ICollection<companion> companions { get; set; }
         public virtual ICollection<evaluator> evaluators { get; set; }
         public virtual membership membership { get; set; }

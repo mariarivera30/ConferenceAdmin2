@@ -12,6 +12,7 @@ namespace NancyService.Models
 
         public int topiccategoryID { get; set; }
         public string name { get; set; }
+        public Nullable<bool> deleted { get; set; }
         public virtual ICollection<submission> submissions { get; set; }
     }
 }

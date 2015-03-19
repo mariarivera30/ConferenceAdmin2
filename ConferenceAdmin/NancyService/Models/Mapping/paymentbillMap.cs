@@ -26,13 +26,18 @@ namespace NancyService.Models.Mapping
             this.ToTable("paymentbill", "conferenceadmin");
             this.Property(t => t.paymentBillID).HasColumnName("paymentBillID");
             this.Property(t => t.paymentID).HasColumnName("paymentID");
+            this.Property(t => t.addressID).HasColumnName("addressID");
             this.Property(t => t.transactionid).HasColumnName("transactionid");
             this.Property(t => t.AmountPaid).HasColumnName("AmountPaid");
             this.Property(t => t.methodOfPayment).HasColumnName("methodOfPayment");
             this.Property(t => t.creditCardNumber).HasColumnName("creditCardNumber");
+            this.Property(t => t.deleted).HasColumnName("deleted");
 
             // Relationships
-            this.HasOptional(t => t.payment)
+            this.HasOptional(t => t.address)
+                .WithMany(t => t.paymentbills)
+                .HasForeignKey(d => d.addressID);
+            this.HasRequired(t => t.payment)
                 .WithMany(t => t.paymentbills)
                 .HasForeignKey(d => d.paymentID);
 

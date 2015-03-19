@@ -36,6 +36,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.guideQuestion).HasColumnName("guideQuestion");
             this.Property(t => t.formatDescription).HasColumnName("formatDescription");
             this.Property(t => t.necessaryEquipment).HasColumnName("necessaryEquipment");
+            this.Property(t => t.deleted).HasColumnName("deleted");
 
             // Relationships
             this.HasRequired(t => t.submission)

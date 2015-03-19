@@ -11,6 +11,7 @@ namespace NancyService.Models
         public Nullable<int> score { get; set; }
         public string publicFeedback { get; set; }
         public string privateFeedback { get; set; }
+        public Nullable<bool> deleted { get; set; }
         public virtual evaluatiorsubmission evaluatiorsubmission { get; set; }
     }
 }

@@ -19,6 +19,7 @@ namespace NancyService.Models.Mapping
             this.ToTable("topiccategory", "conferenceadmin");
             this.Property(t => t.topiccategoryID).HasColumnName("topiccategoryID");
             this.Property(t => t.name).HasColumnName("name");
+            this.Property(t => t.deleted).HasColumnName("deleted");
         }
     }
 }

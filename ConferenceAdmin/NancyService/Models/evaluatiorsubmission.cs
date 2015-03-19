@@ -14,8 +14,7 @@ namespace NancyService.Models
         public long evaluatorID { get; set; }
         public long submissionID { get; set; }
         public string statusEvaluation { get; set; }
-        public System.DateTime creationDate { get; set; }
-        public Nullable<System.DateTime> deleitionDate { get; set; }
+        public Nullable<bool> deleted { get; set; }
         public virtual ICollection<evaluationsubmitted> evaluationsubmitteds { get; set; }
         public virtual evaluator evaluator { get; set; }
         public virtual submission submission { get; set; }

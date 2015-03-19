@@ -1332,8 +1332,8 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Models\address.cs" />
-    <Compile Include="Models\administrator.cs" />
     <Compile Include="Models\authorizationsubmitted.cs" />
+    <Compile Include="Models\claim.cs" />
     <Compile Include="Models\committeeinterface.cs" />
     <Compile Include="Models\companion.cs" />
     <Compile Include="Models\companionminor.cs" />
@@ -1345,8 +1345,8 @@
     <Compile Include="Models\evaluator.cs" />
     <Compile Include="Models\interfaceinformation.cs" />
     <Compile Include="Models\Mapping\addressMap.cs" />
-    <Compile Include="Models\Mapping\administratorMap.cs" />
     <Compile Include="Models\Mapping\authorizationsubmittedMap.cs" />
+    <Compile Include="Models\Mapping\claimMap.cs" />
     <Compile Include="Models\Mapping\committeeinterfaceMap.cs" />
     <Compile Include="Models\Mapping\companionMap.cs" />
     <Compile Include="Models\Mapping\companionminorMap.cs" />
@@ -1357,7 +1357,6 @@
     <Compile Include="Models\Mapping\evaluatorMap.cs" />
     <Compile Include="Models\Mapping\interfaceinformationMap.cs" />
     <Compile Include="Models\Mapping\membershipMap.cs" />
-    <Compile Include="Models\Mapping\membershiptypeMap.cs" />
     <Compile Include="Models\Mapping\minorMap.cs" />
     <Compile Include="Models\Mapping\panelMap.cs" />
     <Compile Include="Models\Mapping\paymentbillMap.cs" />
@@ -1377,7 +1376,6 @@
     <Compile Include="Models\Mapping\usertypeMap.cs" />
     <Compile Include="Models\Mapping\workshopMap.cs" />
     <Compile Include="Models\membership.cs" />
-    <Compile Include="Models\membershiptype.cs" />
     <Compile Include="Models\minor.cs" />
     <Compile Include="Models\panel.cs" />
     <Compile Include="Models\payment.cs" />

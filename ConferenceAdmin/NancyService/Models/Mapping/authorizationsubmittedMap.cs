@@ -25,8 +25,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.minorID).HasColumnName("minorID");
             this.Property(t => t.documentFile).HasColumnName("documentFile");
             this.Property(t => t.documentName).HasColumnName("documentName");
-            this.Property(t => t.creationDate).HasColumnName("creationDate");
-            this.Property(t => t.deletionDate).HasColumnName("deletionDate");
+            this.Property(t => t.deleted).HasColumnName("deleted");
 
             // Relationships
             this.HasRequired(t => t.minor)

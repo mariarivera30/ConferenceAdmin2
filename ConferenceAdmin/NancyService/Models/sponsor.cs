@@ -11,9 +11,9 @@ namespace NancyService.Models
         }
 
         public long sponsorID { get; set; }
+        public long paymentID { get; set; }
         public int sponsorType { get; set; }
-        public long addressID { get; set; }
-        public Nullable<long> paymentID { get; set; }
+        public Nullable<long> addressID { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string title { get; set; }
@@ -21,8 +21,7 @@ namespace NancyService.Models
         public string phone { get; set; }
         public string email { get; set; }
         public string logo { get; set; }
-        public Nullable<System.DateTime> creationDate { get; set; }
-        public Nullable<System.DateTime> deleitionDate { get; set; }
+        public Nullable<bool> deleted { get; set; }
         public virtual address address { get; set; }
         public virtual ICollection<complementarykey> complementarykeys { get; set; }
         public virtual payment payment { get; set; }

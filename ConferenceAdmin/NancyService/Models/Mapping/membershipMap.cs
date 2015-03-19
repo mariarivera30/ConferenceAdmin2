@@ -17,23 +17,19 @@ namespace NancyService.Models.Mapping
 
             this.Property(t => t.password)
                 .IsRequired()
-                .HasMaxLength(45);
+                .HasMaxLength(200);
+
+            this.Property(t => t.confirmationKey)
+                .HasMaxLength(200);
 
             // Table & Column Mappings
             this.ToTable("memberships", "conferenceadmin");
             this.Property(t => t.membershipID).HasColumnName("membershipID");
-            this.Property(t => t.membershipTypeID).HasColumnName("membershipTypeID");
             this.Property(t => t.email).HasColumnName("email");
             this.Property(t => t.password).HasColumnName("password");
-            this.Property(t => t.creationDate).HasColumnName("creationDate");
-            this.Property(t => t.deletionDate).HasColumnName("deletionDate");
             this.Property(t => t.emailConfirmation).HasColumnName("emailConfirmation");
-
-            // Relationships
-            this.HasRequired(t => t.membershiptype)
-                .WithMany(t => t.memberships)
-                .HasForeignKey(d => d.membershipTypeID);
-
+            this.Property(t => t.confirmationKey).HasColumnName("confirmationKey");
+            this.Property(t => t.deleted).HasColumnName("deleted");
         }
     }
 }
