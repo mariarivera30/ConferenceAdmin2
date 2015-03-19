@@ -1,8 +1,7 @@
-﻿using NancyService.Models;
 using System;
 using System.Collections.Generic;
 
-namespace NnacyService.Models
+namespace NancyService.Models
 {
     public partial class claim
     {

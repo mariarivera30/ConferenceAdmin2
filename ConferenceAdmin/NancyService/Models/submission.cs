@@ -18,10 +18,11 @@ namespace NancyService.Models
         public long userID { get; set; }
         public int topicID { get; set; }
         public int submissionTypeID { get; set; }
-        public Nullable<bool> hasApplied { get; set; }
+        public string submissionAbstract { get; set; }
         public string title { get; set; }
         public string status { get; set; }
         public System.DateTime creationDate { get; set; }
+        public Nullable<bool> byAdmin { get; set; }
         public Nullable<bool> deleted { get; set; }
         public virtual ICollection<documentssubmitted> documentssubmitteds { get; set; }
         public virtual ICollection<evaluatiorsubmission> evaluatiorsubmissions { get; set; }

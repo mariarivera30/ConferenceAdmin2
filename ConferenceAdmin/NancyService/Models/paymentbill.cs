@@ -13,8 +13,8 @@ namespace NancyService.Models
         public string methodOfPayment { get; set; }
         public string creditCardNumber { get; set; }
         public Nullable<bool> deleted { get; set; }
+        public Nullable<System.DateTime> cardExpirationDate { get; set; }
         public virtual address address { get; set; }
         public virtual payment payment { get; set; }
-        public Nullable<System.DateTime> cardExpirationDate { get; set; }
     }
 }

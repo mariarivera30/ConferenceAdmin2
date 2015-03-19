@@ -1,8 +1,6 @@
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using NancyService.Models.Mapping;
-using NnacyService.Models;
-using NnacyService.Models.Mapping;
 
 namespace NancyService.Models
 {

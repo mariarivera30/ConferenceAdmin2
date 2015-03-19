@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
-namespace NnacyService.Models.Mapping
+namespace NancyService.Models.Mapping
 {
     public class claimMap : EntityTypeConfiguration<claim>
     {

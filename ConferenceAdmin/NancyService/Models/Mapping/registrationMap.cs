@@ -11,6 +11,9 @@ namespace NancyService.Models.Mapping
             this.HasKey(t => t.registrationID);
 
             // Properties
+            this.Property(t => t.note)
+                .HasMaxLength(300);
+
             // Table & Column Mappings
             this.ToTable("registration", "conferenceadmin");
             this.Property(t => t.registrationID).HasColumnName("registrationID");
