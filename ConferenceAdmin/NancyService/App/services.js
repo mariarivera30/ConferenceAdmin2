@@ -18,6 +18,10 @@
             getTopics: _getTopics,
             deleteTopic: _deleteTopic,
             updateTopic: _updateTopic,
+            getRegistrations: _getRegistrations,
+            postNewRegistration: _postNewRegistration,
+            updateRegistration: _updateRegistration,
+            deleteRegistration: _deleteRegistration
         };
 
         return service;
@@ -72,7 +76,23 @@
 
         function _updateTopic(data) {
             return $http.put('/admin/updateTopic', { topiccategoryID: data.topiccategoryID, name: data.name });
-        };     
+        };
+
+        function _getRegistrations() {
+            return $http.get('/admin/getRegistrations');
+        };
+
+        function _updateRegistration(data) {
+            return $http.put('/admin/updateRegistration', { registrationID: data.registrationID, firstname: data.firstname });
+        };
+
+        function _deleteRegistration(data) {
+            return $http.delete('/admin/deleteRegistration/' + data);
+        };
+
+        function _postNewRegistration(data) {
+            return $http.post('/admin/addRegistration', data);
+        };
     }
 }
 

@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.6.23, for Win32 (x86)
 --
--- Host: 127.0.0.1    Database: conferenceadmin
+-- Host: localhost    Database: conferenceadmin
 -- ------------------------------------------------------
--- Server version	5.6.22-log
+-- Server version	5.6.21
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -40,8 +40,38 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (1,'1f','1f','1f','1f','country','1f'),(2,'hgh','ghg','hg','gh','g','h');
+INSERT INTO `address` VALUES (1,'default','default','default','default','default','00000'),(2,'hgh','ghg','hg','gh','g','h');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `administrators`
+--
+
+DROP TABLE IF EXISTS `administrators`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `administrators` (
+  `administratorsID` int(11) NOT NULL AUTO_INCREMENT,
+  `priviledgesID` int(11) NOT NULL,
+  `membershipID` bigint(20) NOT NULL,
+  `enabled` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`administratorsID`),
+  KEY `priviledgeID_idx` (`priviledgesID`),
+  KEY `memebershipID_idx` (`membershipID`),
+  CONSTRAINT `memebershipID` FOREIGN KEY (`membershipID`) REFERENCES `memberships` (`membershipID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `priviledgeID` FOREIGN KEY (`priviledgesID`) REFERENCES `priviledges` (`priviledgesID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `administrators`
+--
+
+LOCK TABLES `administrators` WRITE;
+/*!40000 ALTER TABLE `administrators` DISABLE KEYS */;
+INSERT INTO `administrators` VALUES (1,1,1,1);
+/*!40000 ALTER TABLE `administrators` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -365,7 +395,7 @@ CREATE TABLE `memberships` (
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`membershipID`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -374,8 +404,32 @@ CREATE TABLE `memberships` (
 
 LOCK TABLES `memberships` WRITE;
 /*!40000 ALTER TABLE `memberships` DISABLE KEYS */;
-INSERT INTO `memberships` VALUES (1,'maria@','maria',0,NULL,NULL),(2,'minor@','minor',0,NULL,NULL),(10,'companion@','companion',0,NULL,NULL),(11,'evaluator@','evaluator',0,NULL,NULL),(12,'participant@','participant',0,NULL,NULL),(13,'heidi@','heidi',0,NULL,NULL),(14,'randy@','randy',0,NULL,NULL),(15,'jai@','jai',0,NULL,NULL),(16,'finance@','finance',0,NULL,NULL),(17,'committee@','committee',0,NULL,NULL),(18,'eva@','eva',0,NULL,NULL),(19,'eva','eva',0,NULL,NULL);
+INSERT INTO `memberships` VALUES (1,'default','default',1,NULL,NULL),(2,'minor@','minor',0,NULL,NULL),(10,'companion@','companion',0,NULL,NULL),(11,'evaluator@','evaluator',0,NULL,NULL),(12,'participant@','participant',0,NULL,NULL),(13,'heidi@','heidi',0,NULL,NULL),(14,'randy@','randy',0,NULL,NULL),(15,'jai@','jai',0,NULL,NULL),(16,'finance@','finance',0,NULL,NULL),(17,'committee@','committee',0,NULL,NULL),(18,'eva@','eva',0,NULL,NULL),(19,'eva','eva',0,NULL,NULL),(20,'maria@','maria',0,NULL,0);
 /*!40000 ALTER TABLE `memberships` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `membershiptype`
+--
+
+DROP TABLE IF EXISTS `membershiptype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `membershiptype` (
+  `membershipTypeID` int(11) NOT NULL AUTO_INCREMENT,
+  `membershipTypeName` varchar(45) NOT NULL,
+  PRIMARY KEY (`membershipTypeID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `membershiptype`
+--
+
+LOCK TABLES `membershiptype` WRITE;
+/*!40000 ALTER TABLE `membershiptype` DISABLE KEYS */;
+INSERT INTO `membershiptype` VALUES (1,'Admin'),(2,'User');
+/*!40000 ALTER TABLE `membershiptype` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -461,7 +515,7 @@ CREATE TABLE `payment` (
 
 LOCK TABLES `payment` WRITE;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
-INSERT INTO `payment` VALUES (1,1,NULL,NULL),(2,1,NULL,NULL);
+INSERT INTO `payment` VALUES (1,2,NULL,NULL),(2,1,NULL,NULL);
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -550,6 +604,30 @@ LOCK TABLES `paymenttype` WRITE;
 /*!40000 ALTER TABLE `paymenttype` DISABLE KEYS */;
 INSERT INTO `paymenttype` VALUES (1,'Bill'),(2,'Complementary');
 /*!40000 ALTER TABLE `paymenttype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `priviledges`
+--
+
+DROP TABLE IF EXISTS `priviledges`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `priviledges` (
+  `priviledgesID` int(11) NOT NULL AUTO_INCREMENT,
+  `priviledgestType` varchar(45) NOT NULL,
+  PRIMARY KEY (`priviledgesID`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `priviledges`
+--
+
+LOCK TABLES `priviledges` WRITE;
+/*!40000 ALTER TABLE `priviledges` DISABLE KEYS */;
+INSERT INTO `priviledges` VALUES (1,'Admin'),(2,'Finance'),(3,'CommitteEvaluator'),(4,'Evaluator');
+/*!40000 ALTER TABLE `priviledges` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -935,4 +1013,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-19  0:58:14
+-- Dump completed on 2015-03-19 17:52:33

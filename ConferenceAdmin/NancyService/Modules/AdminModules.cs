@@ -19,7 +19,11 @@ namespace NancyService.Modules
             AdminManager admin = new AdminManager();
             SponsorManager sponsorManager = new SponsorManager();
             List<sponsor> sponsorList = new List<sponsor>();
-            
+            RegistrationManager registration = new RegistrationManager();
+
+
+/* ----- Sponsor -----*/
+
             Post["/addsponsor"] = parameters =>
             {
                 var sponsor = this.Bind<NancyService.Modules.SponsorManager.SponsorQuery>();
@@ -72,6 +76,9 @@ namespace NancyService.Modules
                 catch { return null; }
             };
 
+
+/* ----- Topic -----*/
+
             Post["/addTopic"] = parameters =>
             {
                 var topic = this.Bind<topiccategory>();
@@ -110,7 +117,50 @@ namespace NancyService.Modules
                 {
                     return HttpStatusCode.Conflict;
                 }
-            };       
+            };
+
+
+/* ----- Registration -----*/
+
+            Get["/getRegistrations"] = parameters =>
+            {
+                List<RegisteredUser> list = registration.getRegistrationList();
+                return Response.AsJson(list);
+            };
+
+            Put["/updateRegistration/{registrationID:int, firstname:string}"] = parameters =>
+            {
+                if (registration.updateRegistration(parameters.registrationID, parameters.firstname))
+                {
+                    return HttpStatusCode.OK;
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+            };
+
+            Delete["/deleteRegistration/{registrationID:int}"] = parameters =>
+            {
+                if (registration.deleteRegistration(parameters.registrationID))
+                {
+                    return HttpStatusCode.OK;
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+            };
+
+            Post["/addRegistration"] = parameters =>
+            {
+                var user = this.Bind<user>();
+                var reg = this.Bind<registration>();
+                return Response.AsJson(registration.addRegistration(reg: reg, user: user));
+            };
+
         }
     }
 }
