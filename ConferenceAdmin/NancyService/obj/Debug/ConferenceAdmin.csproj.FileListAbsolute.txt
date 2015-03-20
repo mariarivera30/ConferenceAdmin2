@@ -176,3 +176,4 @@ C:\Users\Jaimeiris\Documents\Conference_Admin_March19try\ConferenceAdmin\NancySe
 C:\Users\Jaimeiris\Documents\Conference_Admin_March19try\ConferenceAdmin\NancyService\bin\NancyService.pdb
 C:\Users\Jaimeiris\Documents\Conference_Admin_March19try\ConferenceAdmin\NancyService\obj\Debug\NancyService.dll
 C:\Users\Jaimeiris\Documents\Conference_Admin_March19try\ConferenceAdmin\NancyService\obj\Debug\NancyService.pdb
+C:\Users\Jaimeiris\Documents\Conference_Admin_March19try\ConferenceAdmin\NancyService\obj\Debug\ConferenceAdmin.csprojResolveAssemblyReference.cache

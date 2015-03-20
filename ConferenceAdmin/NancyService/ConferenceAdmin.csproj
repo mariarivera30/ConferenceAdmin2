@@ -105,6 +105,7 @@
     <Content Include="App\services.js" />
     <Content Include="App\sponsorCtrl.js" />
     <Content Include="App\sponsorsKey.js" />
+    <Content Include="App\topicCtrl.js" />
     <Content Include="App\venueCtrl.js" />
     <Content Include="App\workshopsCtrl.js" />
     <Content Include="bin\EntityFramework.dll" />
