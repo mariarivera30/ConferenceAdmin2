@@ -171,3 +171,8 @@ C:\Users\Maria\Documents\Conference_Admin1.0\ConferenceAdmin\NancyService\bin\Na
 C:\Users\Maria\Documents\Conference_Admin1.0\ConferenceAdmin\NancyService\bin\Nancy.Hosting.Aspnet.xml
 C:\Users\Maria\Documents\Conference_Admin1.0\ConferenceAdmin\NancyService\obj\Debug\NancyService.dll
 C:\Users\Maria\Documents\Conference_Admin1.0\ConferenceAdmin\NancyService\obj\Debug\NancyService.pdb
+C:\Users\Jaimeiris\Documents\Conference_Admin_March19try\ConferenceAdmin\NancyService\bin\NancyService.dll.config
+C:\Users\Jaimeiris\Documents\Conference_Admin_March19try\ConferenceAdmin\NancyService\bin\NancyService.dll
+C:\Users\Jaimeiris\Documents\Conference_Admin_March19try\ConferenceAdmin\NancyService\bin\NancyService.pdb
+C:\Users\Jaimeiris\Documents\Conference_Admin_March19try\ConferenceAdmin\NancyService\obj\Debug\NancyService.dll
+C:\Users\Jaimeiris\Documents\Conference_Admin_March19try\ConferenceAdmin\NancyService\obj\Debug\NancyService.pdb

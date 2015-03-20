@@ -20,6 +20,7 @@ namespace NancyService.Modules
             SponsorManager sponsorManager = new SponsorManager();
             List<sponsor> sponsorList = new List<sponsor>();
             RegistrationManager registration = new RegistrationManager();
+            GuestManager guest = new GuestManager();
 
 
 /* ----- Sponsor -----*/
@@ -160,7 +161,53 @@ namespace NancyService.Modules
                 var reg = this.Bind<registration>();
                 return Response.AsJson(registration.addRegistration(reg: reg, user: user));
             };
+            //-------------------------------------GUESTS---------------------------------------------
+            //Guest list for admins
+            Get["/getGuestList"] = parameters =>
+            {
+                List<GuestList> guestList = guest.getListOfGuests();
+
+                if (guestList == null)
+                {
+                    guestList = new List<GuestList>();
+                }
+                return Response.AsJson(guestList);
+            };
+
+            //update acceptance status of guest
+            Put["/updateAcceptanceStatus"] = parameters =>
+            {
+                var update = this.Bind<AcceptanceStatusInfo>();
+                int guestID = update.id;
+                String acceptanceStatus = update.status;
+
+                if (guest.updateAcceptanceStatus(guestID, acceptanceStatus)) return HttpStatusCode.OK;
+                else return HttpStatusCode.Conflict;
+            };
+
+            //set registration status of guest to Rejected.
+            Put["/rejectRegisteredGuest/{id}"] = parameters =>
+            {
+                int id = parameters.id;
+
+                if (guest.rejectRegisteredGuest(id)) return HttpStatusCode.OK;
+                else return HttpStatusCode.Conflict;
+            };
+
+            //get minor's authorizations
+            Get["/displayAuthorizations/{id}"] = parameters =>
+            {
+                int id = parameters.id;
+                var authorizations = guest.getMinorAuthorizations(id);
+
+                return Response.AsJson(authorizations);
+            };
 
         }
+    }
+    public class AcceptanceStatusInfo
+    {
+        public int id { get; set; }
+        public String status { get; set; }
     }
 }

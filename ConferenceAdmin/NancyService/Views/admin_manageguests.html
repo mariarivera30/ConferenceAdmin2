@@ -1,7 +1,8 @@
-﻿<div ng-controller="administratorCtrl as vm">
-    
+﻿<div ng-controller="guestCtrl as vm">
+
     <h3>Manage Guests</h3><br>
     <div class="col-lg-12">
+
         <table ng-table="tableParams" show-filter="true" class="table row">
             <tr>
                 <td><b>Name</b></td>
@@ -10,120 +11,192 @@
                 <td><b>Acceptance Status</b></td>
                 <td><b>Registration Status</b></td>
             </tr>
-            <tr ng-repeat="user in vm.list" ng-class="{ 'emphasis': user.money > 500 }">
-                <td data-title="'Name'" filter="{ 'name': 'select' }" filter-data="names($column)">
-                    <a href="" data-toggle="modal" data-target="#profile">{{user.name}}</a>
-                </td>
-                <td>Undergraduate Student</td>
-                <td><a ng-show="user.accepted || user.rejected" href="">View</a></td>
+            <tr ng-repeat="guest in vm.guestList">
                 <td>
-                    <select>
-                        <option>Select Status</option>
-                        <option>Accept</option>
-                        <option>Reject</option>
-                        <option>Pending Authorization</option>
-                    </select>
-                    <button class="btn btn-ar btn-primary">Apply</button>
+                    <a href="" data-toggle="modal" data-target="#profile" ng-click="vm.displayGuest(guest.userID,
+                               guest.firstName, guest.lastName, guest.acceptanceStatus, guest.registrationStatus,
+                               guest.authorizationStatus, guest.title,
+                               guest.affiliationName, guest.line1,
+                               guest.line2, guest.city, guest.state,
+                               guest.country, guest.zipcode, guest.email,
+                               guest.phoneNumber, guest.fax,
+                               guest.day1, guest.day2, guest.day3, guest.companionFirstName, guest.companionLastName)">{{guest.firstName}} {{guest.lastName}}</a>
+                </td>
+                <td>{{guest.userTypeName}}</td>
+                <td><a ng-show="guest.authorizationStatus" href="" data-toggle="modal" data-target="#authorizations" ng-click="vm.displayAuthorizations(guest.userID, guest.firstName, guest.lastName)">View</a></td>
+                <td>
+                    <select ng-disabled="guest.isRegistered" ng-model="guest.acceptanceStatus"
+                            ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
+                    <button ng-disabled="guest.isRegistered" data-toggle="modal" data-target="#confirmAcceptanceChange" class="btn btn-ar btn-primary" ng-click="vm.updateAcceptanceStatus(guest.userID, guest.acceptanceStatus)">Apply</button>
                 </td>
 
                 <td>
-                    <span ng-show="user.registered" class="accepted"><i class="fa fa-check"> </i> Registered</span> &nbsp;&nbsp;<button ng-show="user.registered" class="btn btn-ar btn-primary btn-small"> <i class="fa fa-times"></i>Cancel</button></td>
+                    <span ng-show="guest.isRegistered" class="accepted"><i class="fa fa-check"> </i> Registered</span> &nbsp;&nbsp;
+                    <button ng-show="guest.isRegistered" class="btn btn-ar btn-primary btn-small" data-toggle="modal" data-target="#confirmRejection" ng-click="vm.rejectedSelectedGuest(guest.userID)"> <i class="fa fa-times"></i>Cancel</button>
+                    <span ng-hide="guest.isRegistered" class=""> Not Registered</span> &nbsp;&nbsp;
+                </td>
 
             </tr>
         </table>
     </div>
-</div>
 
 
+    <!--MODAL SCREEN begin-->
+    <div class="modal fade" id="profile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">{{vm.modalFirstName}} {{vm.modalLastName}}'s Profile:</h4>
+                </div>
 
+                <div class="modal-body">
+                    <h3>General Information</h3>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label>Title: </label> {{vm.modalTitle}}
 
+                        </div>
+                        <div class="col-lg-6">
+                            <label>First Name:</label> {{vm.modalFirstName}}
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Last Name:</label> {{vm.modalLastName}}
+                        </div>
+                    </div><br />
 
-<div class="modal fade" id="profile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="administratorCtrl as vm">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel">Randy Soto's Profile:</h4>
-            </div>
-
-            <div class="modal-body">
-                
-
-
-                <h3>General Information</h3>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <label>Title:</label> Dr.
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label>Affiliation:</label> {{vm.modalAffiliationName}}
+                        </div>
                     </div>
-                    <div class="col-lg-6">
-                        <label>First Name:</label> Randy
-                    </div>
-                    <div class="col-lg-6">
-                        <label>Last Name:</label> Soto
-                    </div>
-                </div><br />
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        <label>Affiliation:</label> University of Puerto Rico
+                    <h4>Mailing Address</h4>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label>Address 1:</label> {{vm.modalLine1}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label>Address 2:</label> {{vm.modalLine2}}
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label>City:</label> {{vm.modalCity}}
+                        </div>
+                        <div class="col-lg-6">
+                            <label>State:</label> {{vm.modalState}}
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Country:</label> {{vm.modalCountry}}
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Zip Code:</label> {{vm.modalZipcode}}
+                        </div>
+                    </div>
+
+                    <h4>Contact Information</h4>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label>Email:</label> {{vm.modalEmail}}
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Phone Number:</label> {{vm.modalPhoneNumber}}
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Fax:</label> {{vm.modalFax}}
+                        </div>
+                    </div>
+
+                    <h4>Participation Days</h4>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <span> Day 1&nbsp;&nbsp;<i ng-show="vm.modalDay1" class="fa fa-check"></i></span>
+                            <span class="block"> Day 2 &nbsp;&nbsp;<i ng-show="vm.modalDay2" class="fa fa-check"></i></span>
+                            <span class="block"> Day 3&nbsp;&nbsp;<i ng-show="vm.modalDay3" class="fa fa-check"></i></span>
+                        </div>
                     </div>
                 </div>
 
-                <h4>Mailing Address</h4>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <label>Line 1:</label> #10 Street Name
-                    </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Close</button>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <label>Line 2:</label> 
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-lg-6">
-                        <label>City:</label> Mayaguez
-                    </div>
-                    <div class="col-lg-6">
-                        <label>State:</label> Puerto Rico
-                    </div>
-                    <div class="col-lg-6">
-                        <label>Country:</label> United States
-                    </div>
-                    <div class="col-lg-6">
-                        <label>Zip Code:</label> 012345
-                    </div>
-                </div>
-
-                <h4>Contact Information</h4>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <label>Email:</label> name@email.com
-                    </div>
-                    <div class="col-lg-6">
-                        <label>Phone Number:</label> 123-456-7890
-                    </div>
-                    <div class="col-lg-6">
-                        <label>Fax:</label> 123-456-7890
-                    </div>
-                </div>
-
-                <h4>Participation Days</h4>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <span class="block"> Day 1</span>
-                        <span class="block"> Day 2</span>
-                    </div>
-                </div>
-
-
-
-            </div>
-
-            <div class="modal-footer">
-                <button class="btn btn-ar btn-default left" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-</div>
+    <!--MODAL SCREEN END-->
+    <!-- authorization MODAL SCREEN begin-->
+    <div class="modal fade" id="authorizations" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">{{vm.authFirstName}} {{vm.authLastName}}'s Authorizations:</h4>
+                </div>
+
+                <div class="modal-body">
+                    <h3>Authorizations</h3>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label>Participation Authorization: </label> {{vm.participantAuth}}
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Photo Release Authorization:</label> {{vm.photoAuth}}
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Companion Authorization:</label> {{vm.companionAuth}}
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Overnight Authorization:</label> {{vm.overnightAuth}}
+                        </div>
+                    </div><br />
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--MODAL SCREEN END-->
+    <!-- change acceptance status confirmation modal-->
+    <div class="modal fade" id="confirmAcceptanceChange" tabindex="-1" role="dialog" aria-labelledby="acceptanceLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="acceptanceLabel">Acceptance Status Changed</h4>
+                </div>
+                <div class="modal-body">
+                    The acceptance status has been changed.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--change acceptance status confirmation modal end-->
+    <!--reject registered user modal-->
+    <div class="modal fade" id="confirmRejection" tabindex="-1" role="dialog" aria-labelledby="rejectLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="rejectLabel">Reject Guest</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to rejected the registration for this guest?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.rejectRegisteredGuest()">Reject</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end rejection modal-->
+</div><!--ctrl end-->

@@ -21,7 +21,11 @@
             getRegistrations: _getRegistrations,
             postNewRegistration: _postNewRegistration,
             updateRegistration: _updateRegistration,
-            deleteRegistration: _deleteRegistration
+            deleteRegistration: _deleteRegistration,
+            getGuestList: _getGuestList,
+            updateAcceptanceStatus: _updateAcceptanceStatus,
+            displayAuthorizations: _displayAuthorizations,
+            rejectRegisteredGuest: _rejectRegisteredGuest
         };
 
         return service;
@@ -92,6 +96,26 @@
 
         function _postNewRegistration(data) {
             return $http.post('/admin/addRegistration', data);
+        };
+        //-----------------------------------GUESTS-----------------------------------
+        //get guest list for admin
+        function _getGuestList() {
+            return $http.get('admin/getGuestList');
+        };
+
+        //update guest acceptance status
+        function _updateAcceptanceStatus(data) {
+            return $http.put('admin/updateAcceptanceStatus', { id: data.ID, status: data.status })
+        };
+
+        //get minor authorizations
+        function _displayAuthorizations(data) {
+            return $http.get('admin/displayAuthorizations/' + data);
+        };
+
+        //Change registration status to Rejected
+        function _rejectRegisteredGuest(data) {
+            return $http.put('admin/rejectRegisteredGuest/' + data);
         };
     }
 }

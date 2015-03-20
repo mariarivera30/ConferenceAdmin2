@@ -456,7 +456,7 @@ CREATE TABLE `minors` (
 
 LOCK TABLES `minors` WRITE;
 /*!40000 ALTER TABLE `minors` DISABLE KEYS */;
-INSERT INTO `minors` VALUES (1,1,0,0);
+INSERT INTO `minors` VALUES (1,1,1,0);
 /*!40000 ALTER TABLE `minors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -943,7 +943,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,2,1,'juan','rivera','dsf','hg','45454',1,'543','0',1,'1','',0),(3,10,6,'jijki','jkjk','kjj','jkj','kjk',1,'j','1',0,'0','',0),(4,11,2,'rtrrtrt','yt','y','t','tyt',1,NULL,'1',0,'1','',0),(5,12,2,'uyyu','yuyu','uyu','uyu','yuyu',1,'yu','0',0,'0','',0);
+INSERT INTO `user` VALUES (1,2,1,'juan','rivera','dsf','hg','45454',1,'543','Rejected',1,'Accepted','',0),(3,10,6,'jijki','jkjk','kjj','jkj','kjk',1,'j','Accepted',1,'Rejected','',0),(4,11,2,'rtrrtrt','yt','y','t','tyt',1,NULL,'Accepted',1,'Accepted','',0),(5,12,2,'uyyu','yuyu','uyu','uyu','yuyu',1,'yu','Rejected',1,'Rejected','',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
