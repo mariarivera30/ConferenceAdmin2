@@ -91,9 +91,11 @@ namespace NancyService.Modules
                     sponsor.email = x.email;
                     sponsor.logo = x.logo;
                     sponsor.phone = x.phone;
-                    sponsor.sponsorType = 1;
+                    sponsor.sponsorType = x.sponsorType;
                     sponsor.addressID = address.addressID;
                     sponsor.paymentID = payment2.paymentID;
+                    sponsor.deleted = false;
+                   
 
                     context.sponsors.Add(sponsor);
                     context.SaveChanges();
@@ -228,8 +230,7 @@ namespace NancyService.Modules
                         address.zipcode = x.zipcode;
                         address.line1 = x.line1;
                         address.line2 = x.line2;
-
-
+                        
                         context.SaveChanges();
                     }
                     return true;

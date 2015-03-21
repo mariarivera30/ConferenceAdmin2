@@ -15,7 +15,7 @@
                 <td>{{sponsor.firstName}} {{sponsor.lastName}}</td>
                 <td>{{sponsor.company}}</td>
                 <td>{{sponsor.amount}}</td>
-                <td data-toggle="modal" data-target="#addSponsor" ng-click="vm.selectedSponsor(sponsor); vm.viewValues()"><a href="">View</a></td>
+                <td data-toggle="modal" data-target="#viewSponsor" ng-click="vm.selectedSponsor(sponsor); vm.viewValues()"><a href="">View</a></td>
                 <td data-toggle="modal" data-target="#addSponsor" ng-click="vm.selectedSponsor(sponsor);vm.editValues()"><a href="">Edit</a></td>
                 <td><a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedSponsor(sponsor)"><i class="glyphicon glyphicon-remove"></i></a></td>
             </tr>
@@ -30,7 +30,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
                     <h4 class="modal-title" id="deleteLabel">Remove Sponsor</h4>
                 </div>
                 <div class="modal-body">
@@ -50,7 +50,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
                     <h4 class="modal-title" id="addSponsorLabel">{{vm.headerModal}}</h4>
                 </div>
 
@@ -59,13 +59,12 @@
                 <div class="modal-body">
                     <form name="addSponsorForm" novalidate>
 
-                        <fieldset ng-disabled="vm.view">
-                            <div class="row">
+                          <div class="row">
                                 <span class="col-lg-6">
                                     <label>Name:</label>
                                     <input class="form-control" type="text" name="name" ng-model="vm.sponsor.firstName" required>
-                                    <p ng-show="addSponsorForm.name.$invalid && !addSponsorForm.name.$pristine" class="help-block">First name is required.</p>
-                                </span>
+                                    <p  ng-show="addSponsorForm.name.$invalid && !addSponsorForm.name.$pristine" class="help-block">First name is required.</p>
+                                </span>  
                                 <span class="col-lg-6">
                                     <label>Last Name:</label>
                                     <input class="form-control" type="text" name="last" ng-model="vm.sponsor.lastName" required>
@@ -84,8 +83,9 @@
                                 <span class=" col-lg-6">
                                     <label>Sponsor Type:</label>
                                     <br />
-                                    <select class="form-control">
-                                        <option ng-repeat="type in vm.sponsorsTypeList">{{type.name}}</option>
+                                    <select ng-model="vm.TYPE" 
+                                            ng-options="type as type.name for type in vm.sponsorsTypeList" class="form-control" >
+                              
 
                                     </select>
 
@@ -124,7 +124,7 @@
 
                                 <span class="col-lg-6">
                                     <label>Country:</label>
-                                    <input class="form-control" class="for" type="text" name="country" ng-model="vm.sponsor.city" required>
+                                    <input class="form-control" class="for" type="text" name="country" ng-model="vm.sponsor.country" required>
                                     <p ng-show="addSponsorForm.country.$invalid && !addSponsorForm.country.$pristine" class="help-block">Country is required.</p>
 
                                 </span>
@@ -170,9 +170,10 @@
                                 </span>
 
                             </div>
+
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title" id="">Payment Bill Information:</h4>
+                               
+                                <h4>Payment Bill Information:</h4>
                             </div>
                             <div class="row">
 
@@ -201,19 +202,17 @@
                                 </span>
 
                             </div>
-
+                        
                             <div ng-hide=" vm.view" class="modal-footer">
                                 <button ng-show="vm.add" type="submit" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addSponsor()" ng-disabled="addSponsorForm.$invalid">Add</button>
                                 <button ng-show="vm.edit" type="submit" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.updateSponsor()" ng-disabled="addSponsorForm.$invalid">Save</button>
 
-                                <button ng-hide=" vm.view" class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                                <button  class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
 
                             </div>
 
-                        </fieldset> 
-                <div ng-show=" vm.view" class="modal-footer">
-                    <button  type="submit" class="btn btn-ar btn-primary left" data-dismiss="modal">Close</button>
-                </div>
+                      
+                
 
 
                     </form>
@@ -221,6 +220,133 @@
 
 
                
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="viewSponsor" tabindex="-1" role="dialog" aria-labelledby=viewSponsorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h4 class="modal-title" >{{vm.headerModal}}</h4>
+                </div>
+
+
+
+                <div class="modal-body">
+                   
+
+                    
+                            <div class="row">
+                                <span class="col-lg-6">
+                                    <label>Name:</label> {{vm.sponsor.firstName}}
+                               </span>    
+
+                                    <span class="col-lg-6">
+                                        <label>Last Name:</label> {{vm.sponsor.lastName}}
+                                    </span>
+                            </div>
+
+                            <div class="row">
+                                <span class=" col-lg-6">
+
+                                    <label>Email:</label> {{vm.sponsor.email}}
+                                    
+                                </span>
+
+                                <span class=" col-lg-6">
+                                    <label>Sponsor Type:</label> {{vm.sponsor.typeName}}
+                                                           
+                                </span>
+
+                            </div>
+
+                            <div class="row">
+                                <span class="col-lg-6">
+                                    <label>Company:</label> {{vm.sponsor.company}}
+                                </span>
+                                <span class=" col-lg-6">
+                                    <label>Phone Number:</label> {{vm.sponsor.phone}}
+                                </span>
+                            </div>
+
+                            <div class="row">
+                                <span class="col-lg-6">
+                                    <label>Street Address Line 1:</label> {{vm.sponsor.line1}}
+                                   </span>
+                                <span class="col-lg-6">
+                                    <label>Street Address Line 2:</label> {{vm.sponsor.line2}}
+                                </span>
+                            </div>
+
+                            <div class="row">
+                                <span class="col-lg-6">
+                                    <label>State:</label> {{vm.sponsor.state}}
+                                </span>
+
+                                <span class="col-lg-6">
+                                    <label>Country:</label> {{vm.sponsor.country}}
+                                </span>
+
+                            </div>
+
+                            <div class="row">
+                                <span class="col-lg-6">
+                                    <label>City:</label> {{vm.sponsor.city}}
+                                    </span>
+                                <span class="col-lg-6">
+                                    <label>Zip Code:</label> {{vm.sponsor.zipcode}}
+                                </span>
+
+                            </div>
+
+
+                            <div class="row">
+                              
+
+
+                                <span class=" col-lg-6">
+                                    <label>Logo:</label> {{vm.sponsor.logo}}
+                                </span>
+
+                            </div>
+                            <div >
+                <br />
+                                <h4 class="modal-title" id="">Payment Bill Information:</h4>
+                            </div>
+                            <div class="row">
+
+                                <span class=" col-lg-6">
+
+                                    <label>Method Payment:</label> {{vm.sponsor.method}}
+                                </span>
+
+                                <span class=" col-lg-6">
+
+                                    <label>Transaction Id:</label> {{vm.sponsor.transactionID}}
+                                </span>
+                            </div>
+                            <div class="row">
+
+                                <span class=" col-lg-6">
+
+                                    <label>Amount Paid:</label> {{vm.sponsor.amount}}
+                                </span>
+
+                            </div>
+
+                                              
+                        <div  class="modal-footer">
+                         
+                        </div>
+
+
+               
+                </div>
+
+
+
             </div>
         </div>
     </div>
