@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.23, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
 --
--- Host: localhost    Database: conferenceadmin
+-- Host: 127.0.0.1    Database: conferenceadmin
 -- ------------------------------------------------------
--- Server version	5.6.21
+-- Server version	5.6.22-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -31,7 +31,7 @@ CREATE TABLE `address` (
   `country` varchar(45) DEFAULT NULL,
   `zipcode` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`addressID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,38 +40,8 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (1,'default','default','default','default','default','00000'),(2,'hgh','ghg','hg','gh','g','h');
+INSERT INTO `address` VALUES (1,'default','default','default','default','default','00000'),(2,'hgh','ghg','hg','gh','g','h'),(3,'j','j','j','j','vvv','j'),(4,'fgh','ghfg','gfhgf','hg','d','gfh'),(5,'yuyt','utyu','ytuytu','yuyt',NULL,'uyt'),(6,'hgfhf','hgfhf','hhgf','gfh',NULL,'gfh'),(7,'fg','fg','fg','gfg','eew','gfg'),(8,'uiu','iu','uiu','iu',NULL,'iu'),(9,'fgf','gf','fg','fgfg','gfg','f'),(10,'df',NULL,'dfd','fd','fd','f'),(11,'gfg','fgf','gfg','gfg','fg','fgfg'),(12,'g','g','g','g','g','g'),(13,'k','k','k','k','k','k');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `administrators`
---
-
-DROP TABLE IF EXISTS `administrators`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `administrators` (
-  `administratorsID` int(11) NOT NULL AUTO_INCREMENT,
-  `priviledgesID` int(11) NOT NULL,
-  `membershipID` bigint(20) NOT NULL,
-  `enabled` tinyint(1) DEFAULT '1',
-  PRIMARY KEY (`administratorsID`),
-  KEY `priviledgeID_idx` (`priviledgesID`),
-  KEY `memebershipID_idx` (`membershipID`),
-  CONSTRAINT `memebershipID` FOREIGN KEY (`membershipID`) REFERENCES `memberships` (`membershipID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `priviledgeID` FOREIGN KEY (`priviledgesID`) REFERENCES `priviledges` (`priviledgesID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `administrators`
---
-
-LOCK TABLES `administrators` WRITE;
-/*!40000 ALTER TABLE `administrators` DISABLE KEYS */;
-INSERT INTO `administrators` VALUES (1,1,1,1);
-/*!40000 ALTER TABLE `administrators` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -409,30 +379,6 @@ INSERT INTO `memberships` VALUES (1,'default','default',1,NULL,NULL),(2,'minor@'
 UNLOCK TABLES;
 
 --
--- Table structure for table `membershiptype`
---
-
-DROP TABLE IF EXISTS `membershiptype`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `membershiptype` (
-  `membershipTypeID` int(11) NOT NULL AUTO_INCREMENT,
-  `membershipTypeName` varchar(45) NOT NULL,
-  PRIMARY KEY (`membershipTypeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `membershiptype`
---
-
-LOCK TABLES `membershiptype` WRITE;
-/*!40000 ALTER TABLE `membershiptype` DISABLE KEYS */;
-INSERT INTO `membershiptype` VALUES (1,'Admin'),(2,'User');
-/*!40000 ALTER TABLE `membershiptype` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `minors`
 --
 
@@ -506,7 +452,7 @@ CREATE TABLE `payment` (
   PRIMARY KEY (`paymentID`),
   KEY `paymentTypeID_idx` (`paymentTypeID`),
   CONSTRAINT `paymentTypeID` FOREIGN KEY (`paymentTypeID`) REFERENCES `paymenttype` (`paymentTypeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -515,7 +461,7 @@ CREATE TABLE `payment` (
 
 LOCK TABLES `payment` WRITE;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
-INSERT INTO `payment` VALUES (1,2,NULL,NULL),(2,1,NULL,NULL);
+INSERT INTO `payment` VALUES (1,2,NULL,NULL),(2,1,NULL,NULL),(3,1,NULL,NULL),(4,1,NULL,NULL),(5,1,NULL,NULL),(6,1,NULL,NULL),(7,1,NULL,NULL),(8,1,NULL,NULL),(9,1,NULL,NULL),(10,1,NULL,NULL),(11,1,NULL,NULL),(12,1,NULL,NULL),(13,1,NULL,NULL);
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -541,7 +487,7 @@ CREATE TABLE `paymentbill` (
   KEY `addressID_idx` (`addressID`),
   CONSTRAINT `addressID` FOREIGN KEY (`addressID`) REFERENCES `address` (`addressID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `paymentID` FOREIGN KEY (`paymentID`) REFERENCES `payment` (`paymentID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -550,7 +496,7 @@ CREATE TABLE `paymentbill` (
 
 LOCK TABLES `paymentbill` WRITE;
 /*!40000 ALTER TABLE `paymentbill` DISABLE KEYS */;
-INSERT INTO `paymentbill` VALUES (1,1,NULL,'1',1,'gfdg','1',NULL,NULL),(2,2,NULL,'1',150,'hjh','353454534',NULL,NULL);
+INSERT INTO `paymentbill` VALUES (1,1,NULL,'1',666,'gfdg','1',NULL,NULL),(2,2,NULL,'1',150,'hjh','353454534',NULL,NULL),(3,3,NULL,'fd',34,'df',NULL,NULL,NULL),(4,4,NULL,'ghg',455,'ghfh',NULL,NULL,NULL),(5,5,NULL,'tuty',7,'ytu',NULL,NULL,NULL),(6,6,NULL,'hgf',5,'hgf',NULL,NULL,NULL),(7,7,NULL,'fg',9,'gf',NULL,NULL,NULL),(8,8,NULL,'iu',4,'iu',NULL,NULL,NULL),(9,9,NULL,'gfg',44,'fgf',NULL,NULL,NULL),(10,10,NULL,'fd',78,'fd',NULL,NULL,NULL),(11,11,NULL,'fgf',9,'gfg',NULL,NULL,NULL),(12,12,NULL,'g',666,'g',NULL,NULL,NULL),(13,13,NULL,'g',44,'gg',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `paymentbill` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -607,30 +553,6 @@ INSERT INTO `paymenttype` VALUES (1,'Bill'),(2,'Complementary');
 UNLOCK TABLES;
 
 --
--- Table structure for table `priviledges`
---
-
-DROP TABLE IF EXISTS `priviledges`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `priviledges` (
-  `priviledgesID` int(11) NOT NULL AUTO_INCREMENT,
-  `priviledgestType` varchar(45) NOT NULL,
-  PRIMARY KEY (`priviledgesID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `priviledges`
---
-
-LOCK TABLES `priviledges` WRITE;
-/*!40000 ALTER TABLE `priviledges` DISABLE KEYS */;
-INSERT INTO `priviledges` VALUES (1,'Admin'),(2,'Finance'),(3,'CommitteEvaluator'),(4,'Evaluator');
-/*!40000 ALTER TABLE `priviledges` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `privileges`
 --
 
@@ -676,7 +598,7 @@ CREATE TABLE `registration` (
   KEY `paymentID_idx` (`paymentID`),
   CONSTRAINT `paymentIDRegistration` FOREIGN KEY (`paymentID`) REFERENCES `payment` (`paymentID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `userIDRegister` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -685,6 +607,7 @@ CREATE TABLE `registration` (
 
 LOCK TABLES `registration` WRITE;
 /*!40000 ALTER TABLE `registration` DISABLE KEYS */;
+INSERT INTO `registration` VALUES (3,8,1,NULL,NULL,NULL,1,NULL,NULL);
 /*!40000 ALTER TABLE `registration` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -715,7 +638,7 @@ CREATE TABLE `sponsor` (
   CONSTRAINT `SponsoraddressID` FOREIGN KEY (`addressID`) REFERENCES `address` (`addressID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `payment` FOREIGN KEY (`paymentID`) REFERENCES `payment` (`paymentID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `sponsorTypeID` FOREIGN KEY (`sponsorType`) REFERENCES `sponsortype` (`sponsortypeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COMMENT='			';
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COMMENT='			';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -724,7 +647,7 @@ CREATE TABLE `sponsor` (
 
 LOCK TABLES `sponsor` WRITE;
 /*!40000 ALTER TABLE `sponsor` DISABLE KEYS */;
-INSERT INTO `sponsor` VALUES (1,1,1,1,'spon122hffff','1h','hfgdh','1f','1f','1f',NULL,NULL),(2,2,1,2,'spon2dsdss','De La Torredddd','Student','UPRM','7876075141','ANGEL@UPR.ED',NULL,NULL);
+INSERT INTO `sponsor` VALUES (1,1,2,1,'spon122hffff','1h','hfgdh','1f','1f','1f','0',1),(2,2,4,2,'spon2dsdss','De La Torredddd','Student','UPRM','7876075141','ANGEL@UPR.ED','0',1),(29,3,1,3,'heidi','jjj',NULL,'j','df','j','df',1),(30,4,1,4,'vale','ghfghgf',NULL,'ghgfh','gfhgf','hfgh','popp',1),(31,5,1,5,'y','uyu',NULL,'ytuyt','ytu','yutyu','ytuyt',0),(32,6,1,6,'vc','fghgfhg',NULL,'gfhgfh','hfg','hgfh','ghf',0),(33,7,2,7,'fdgf','fgf',NULL,'fgf','gfg','fgfg','i7yuty',1),(34,8,1,8,'iuiu','ui',NULL,'iu','iui','uiu','ui',0),(35,9,5,9,'tuta','gfg',NULL,'fg','fgf','fg','gf',1),(36,10,5,10,'i','f',NULL,'fdf','fd','f','dfd',1),(37,11,5,11,'aaaa','fgf',NULL,'gfgf','fgf','fgfgf','gf',1),(38,12,5,12,'dfdf','dfdffff',NULL,'g','g','gg','g',1),(39,13,4,13,'kaka','k',NULL,'k','k','k','k',0);
 /*!40000 ALTER TABLE `sponsor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -891,7 +814,7 @@ CREATE TABLE `topiccategory` (
   `name` varchar(45) NOT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`topiccategoryID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -900,7 +823,7 @@ CREATE TABLE `topiccategory` (
 
 LOCK TABLES `topiccategory` WRITE;
 /*!40000 ALTER TABLE `topiccategory` DISABLE KEYS */;
-INSERT INTO `topiccategory` VALUES (1,'lola',0),(2,'juan',0),(3,'loka',0);
+INSERT INTO `topiccategory` VALUES (2,'juan',0),(3,'loka',0);
 /*!40000 ALTER TABLE `topiccategory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -934,7 +857,7 @@ CREATE TABLE `user` (
   CONSTRAINT `addressIDuser` FOREIGN KEY (`addressID`) REFERENCES `address` (`addressID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `membershipID` FOREIGN KEY (`membershipID`) REFERENCES `memberships` (`membershipID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `userTypeID` FOREIGN KEY (`userTypeID`) REFERENCES `usertype` (`userTypeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='	';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='	';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -943,7 +866,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,2,1,'juan','rivera','dsf','hg','45454',1,'543','Rejected',1,'Accepted','',0),(3,10,6,'jijki','jkjk','kjj','jkj','kjk',1,'j','Accepted',1,'Rejected','',0),(4,11,2,'rtrrtrt','yt','y','t','tyt',1,NULL,'Accepted',1,'Accepted','',0),(5,12,2,'uyyu','yuyu','uyu','uyu','yuyu',1,'yu','Rejected',1,'Rejected','',0);
+INSERT INTO `user` VALUES (1,2,1,'juan','rivera','dsf','hg','45454',1,'543','Rejected',1,'Rejected','',0),(3,10,6,'jijki','jkjk','kjj','jkj','kjk',1,'j','Accepted',1,'Rejected','',0),(4,11,2,'rtrrtrt','yt','y','t','tyt',1,NULL,'Rejected',1,'Rejected','',0),(5,12,2,'uyyu','yuyu','uyu','uyu','yuyu',1,'yu','Rejected',1,'Accepted','',0),(6,1,1,'dfgd','gfdgd','fggf','fdgfd','',1,'','Accepted',1,'Accepted','yes',NULL),(7,1,2,'yryr','yuuyu','uyyu','tgyty','',1,'','Accepted',1,'Accepted','yes',NULL),(8,1,1,'fgfd','gdffg','gfdg','gfdgd','',1,'','Accepted',1,'Accepted','yes',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1013,4 +936,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-19 17:52:33
+-- Dump completed on 2015-03-21 17:56:45
