@@ -7,18 +7,18 @@ using System.Web;
 namespace NancyService.Modules
 {
     public class TopicManager
-    {       
-        public TopicManager(){
-            
+    {
+        public TopicManager()
+        {
+
         }
-        
+
         public topiccategory addTopic(topiccategory s)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    s.deleted = false;
                     context.topiccategories.Add(s);
                     context.SaveChanges();
                     return s;
@@ -26,7 +26,7 @@ namespace NancyService.Modules
             }
             catch (Exception ex)
             {
-                Console.Write("TopicManager.addTopic error " + ex);
+                Console.Write("AdminManager.addTopic error " + ex);
                 return s;
             }
 
@@ -38,8 +38,20 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    /*
+                    List<topiccategory> topicList = new List<topiccategory>();
+                    var query = (from s in context.topiccategories
+                                 select new {s.topiccategoryID, s.name });
+                    foreach (var row in query)
+                    {
+                        topiccategory topic = new topiccategory();
+                        topic.topiccategoryID = row.topiccategoryID;
+                        topic.name = row.name;
+                        topicList.Add(topic);
+                    }
+                    return topicList;*/
+
                     var topicList = (from s in context.topiccategories
-                                     where s.deleted !=true
                                      select new { s.topiccategoryID, s.name }).ToList();
 
                     return topicList.Select(x => new topiccategory { topiccategoryID = x.topiccategoryID, name = x.name }).ToList();
@@ -47,7 +59,7 @@ namespace NancyService.Modules
             }
             catch (Exception ex)
             {
-                Console.Write("TopicManager.getTopic error " + ex);
+                Console.Write("AdminManager.getTopic error " + ex);
                 return null;
             }
         }
@@ -61,14 +73,14 @@ namespace NancyService.Modules
                     var topic = (from s in context.topiccategories
                                  where s.topiccategoryID == id
                                  select s).First();
-                    topic.deleted = true;
+                    context.topiccategories.Remove(topic);
                     context.SaveChanges();
                     return true;
                 }
             }
             catch (Exception ex)
             {
-                Console.Write("TopicManager.deleteTopic error " + ex);
+                Console.Write("AdminManager.deleteTopic error " + ex);
                 return false;
             }
         }
@@ -89,10 +101,11 @@ namespace NancyService.Modules
             }
             catch (Exception ex)
             {
-                Console.Write("TopicManager.updateTopic error " + ex);
+                Console.Write("AdminManager.updateTopic error " + ex);
                 return false;
             }
-        }  
-     }
-}
+        } 
 
+    }
+       
+}
