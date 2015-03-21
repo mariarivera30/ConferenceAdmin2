@@ -16,7 +16,8 @@ namespace NancyService.Modules
         public AdminModules(ITokenizer tokenizer)
             : base("/admin")
         {
-            AdminManager admin = new AdminManager();
+            AdminManager adminManager = new AdminManager();
+            TopicManager topicManager = new TopicManager();
             SponsorManager sponsorManager = new SponsorManager();
             List<sponsor> sponsorList = new List<sponsor>();
             RegistrationManager registration = new RegistrationManager();
@@ -99,18 +100,18 @@ namespace NancyService.Modules
             Post["/addTopic"] = parameters =>
             {
                 var topic = this.Bind<topiccategory>();
-                return Response.AsJson(admin.addTopic(topic));
+                return Response.AsJson(topicManager.addTopic(topic));
             };
 
             Get["/getTopic"] = parameters =>
             {
                 
-                return Response.AsJson(admin.getTopicList());
+                return Response.AsJson(topicManager.getTopicList());
             };
 
-            Delete["/deleteTopic/{topiccategoryID:int}"] = parameters =>
+            Put["/deleteTopic/{topiccategoryID:int}"] = parameters =>
             {
-                if (admin.deleteTopic(parameters.topiccategoryID))
+                if (topicManager.deleteTopic(parameters.topiccategoryID))
                 {
                     return HttpStatusCode.OK;
                 }
@@ -125,7 +126,7 @@ namespace NancyService.Modules
             {
                 var topic = this.Bind<topiccategory>();
 
-                if (admin.updateTopic(topic))
+                if (topicManager.updateTopic(topic))
                 {
                     return HttpStatusCode.OK;
                 }
@@ -136,6 +137,43 @@ namespace NancyService.Modules
                 }
             };
 
+/* ----- Administrators -----*/
+
+            Get["/getAdministrators"] = parameters =>
+            {
+                try
+                {
+                    //this.RequiresAuthentication();
+                    //this.RequiresClaims(new[] { "admin" });
+                    return Response.AsJson(adminManager.getAdministratorList());
+                }
+                catch { return null; }
+            };
+
+            Put["/deleteAdmin/{adminID:long}"] = parameters =>
+            {
+                if (adminManager.deleteAdministrator(parameters.adminID))
+                {
+                    return HttpStatusCode.OK;
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+            };
+
+            Post["/addAdmin"] = parameters =>
+            {
+                var newAdmin = this.Bind<AdministratorPrivilege>();
+                return Response.AsJson(adminManager.addAdmin(newAdmin));
+            };
+
+            Put["/editAdmin"] = parameters =>
+            {
+                var editAdmin = this.Bind<AdministratorPrivilege>();
+                return Response.AsJson(adminManager.editAdministrator(editAdmin));
+            };
 
 /* ----- Registration -----*/
 
