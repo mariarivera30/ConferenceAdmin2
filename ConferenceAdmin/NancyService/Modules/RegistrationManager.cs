@@ -26,7 +26,7 @@ namespace NancyService.Modules
                     user.acceptanceStatus = "Accepted";
                     user.phone = "";
                     user.userFax = "";
-                    user.isEvaluator = "yes";
+                    user.isEvaluator = true;
                     context.users.Add(user);
                     context.SaveChanges();
 

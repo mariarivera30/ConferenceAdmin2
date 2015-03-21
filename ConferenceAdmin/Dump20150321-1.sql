@@ -848,7 +848,7 @@ CREATE TABLE `user` (
   `registrationStatus` varchar(45) DEFAULT NULL,
   `hasApplied` tinyint(1) DEFAULT '0',
   `acceptanceStatus` varchar(45) DEFAULT NULL,
-  `isEvaluator` varchar(45) NOT NULL,
+  `isEvaluator` varchar(45) DEFAULT '0',
   `deleted` smallint(1) DEFAULT '0',
   PRIMARY KEY (`userID`),
   KEY `addressID_idx` (`addressID`),
@@ -866,7 +866,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,2,1,'juan','rivera','dsf','hg','45454',1,'543','Rejected',1,'Rejected','',0),(3,10,6,'jijki','jkjk','kjj','jkj','kjk',1,'j','Accepted',1,'Rejected','',0),(4,11,2,'rtrrtrt','yt','y','t','tyt',1,NULL,'Rejected',1,'Rejected','',0),(5,12,2,'uyyu','yuyu','uyu','uyu','yuyu',1,'yu','Rejected',1,'Accepted','',0),(6,1,1,'dfgd','gfdgd','fggf','fdgfd','',1,'','Accepted',1,'Accepted','yes',NULL),(7,1,2,'yryr','yuuyu','uyyu','tgyty','',1,'','Accepted',1,'Accepted','yes',NULL),(8,1,1,'fgfd','gdffg','gfdg','gfdgd','',1,'','Accepted',1,'Accepted','yes',NULL);
+INSERT INTO `user` VALUES (1,2,1,'juan','rivera','dsf','hg','45454',1,'543','Rejected',1,'Rejected','',0),(3,10,6,'jijki','jkjk','kjj','jkj','kjk',1,'j','Accepted',1,'Rejected','',0),(4,11,2,'rtrrtrt','yt','y','t','tyt',1,NULL,'Rejected',1,'Rejected','',0),(5,12,2,'uyyu','yuyu','uyu','uyu','yuyu',1,'yu','Rejected',1,'Accepted','',0),(6,1,1,'dfgd','gfdgd','fggf','fdgfd','',1,'','Accepted',1,'Accepted','1',NULL),(7,1,2,'yryr','yuuyu','uyyu','tgyty','',1,'','Accepted',1,'Accepted','1',NULL),(8,1,1,'fgfd','gdffg','gfdg','gfdgd','',1,'','Accepted',1,'Accepted','1',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -936,4 +936,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-21 17:56:45
+-- Dump completed on 2015-03-21 18:25:54

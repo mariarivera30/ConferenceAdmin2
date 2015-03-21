@@ -104,8 +104,8 @@ namespace NancyService.Modules
                 Console.Write("AdminManager.updateTopic error " + ex);
                 return false;
             }
-        } 
+        }
 
     }
-       
+
 }
