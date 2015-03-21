@@ -19,7 +19,12 @@ namespace NancyService.Modules
             AdminManager admin = new AdminManager();
             SponsorManager sponsorManager = new SponsorManager();
             List<sponsor> sponsorList = new List<sponsor>();
-            
+            RegistrationManager registration = new RegistrationManager();
+            GuestManager guest = new GuestManager();
+
+
+/* ----- Sponsor -----*/
+
             Post["/addsponsor"] = parameters =>
             {
                 var sponsor = this.Bind<NancyService.Modules.SponsorManager.SponsorQuery>();
@@ -72,6 +77,7 @@ namespace NancyService.Modules
                 catch { return null; }
             };
 
+
             Put["/deleteSponsor"] = parameters =>
             {
                 var id = this.Bind<long>();
@@ -85,6 +91,10 @@ namespace NancyService.Modules
                     return HttpStatusCode.Conflict;
                 }
             };
+
+
+/* ----- Topic -----*/
+
 
             Post["/addTopic"] = parameters =>
             {
@@ -124,7 +134,96 @@ namespace NancyService.Modules
                 {
                     return HttpStatusCode.Conflict;
                 }
-            };       
+            };
+
+
+/* ----- Registration -----*/
+
+            Get["/getRegistrations"] = parameters =>
+            {
+                List<RegisteredUser> list = registration.getRegistrationList();
+                return Response.AsJson(list);
+            };
+
+            Put["/updateRegistration/{registrationID:int, firstname:string}"] = parameters =>
+            {
+                if (registration.updateRegistration(parameters.registrationID, parameters.firstname))
+                {
+                    return HttpStatusCode.OK;
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+            };
+
+            Delete["/deleteRegistration/{registrationID:int}"] = parameters =>
+            {
+                if (registration.deleteRegistration(parameters.registrationID))
+                {
+                    return HttpStatusCode.OK;
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+            };
+
+            Post["/addRegistration"] = parameters =>
+            {
+                var user = this.Bind<user>();
+                var reg = this.Bind<registration>();
+                return Response.AsJson(registration.addRegistration(reg: reg, user: user));
+            };
+            //-------------------------------------GUESTS---------------------------------------------
+            //Guest list for admins
+            Get["/getGuestList"] = parameters =>
+            {
+                List<GuestList> guestList = guest.getListOfGuests();
+
+                if (guestList == null)
+                {
+                    guestList = new List<GuestList>();
+                }
+                return Response.AsJson(guestList);
+            };
+
+            //update acceptance status of guest
+            Put["/updateAcceptanceStatus"] = parameters =>
+            {
+                var update = this.Bind<AcceptanceStatusInfo>();
+                int guestID = update.id;
+                String acceptanceStatus = update.status;
+
+                if (guest.updateAcceptanceStatus(guestID, acceptanceStatus)) return HttpStatusCode.OK;
+                else return HttpStatusCode.Conflict;
+            };
+
+            //set registration status of guest to Rejected.
+            Put["/rejectRegisteredGuest/{id}"] = parameters =>
+            {
+                int id = parameters.id;
+
+                if (guest.rejectRegisteredGuest(id)) return HttpStatusCode.OK;
+                else return HttpStatusCode.Conflict;
+            };
+
+            //get minor's authorizations
+            Get["/displayAuthorizations/{id}"] = parameters =>
+            {
+                int id = parameters.id;
+                var authorizations = guest.getMinorAuthorizations(id);
+
+                return Response.AsJson(authorizations);
+            };
+
         }
+    }
+    public class AcceptanceStatusInfo
+    {
+        public int id { get; set; }
+        public String status { get; set; }
     }
 }
