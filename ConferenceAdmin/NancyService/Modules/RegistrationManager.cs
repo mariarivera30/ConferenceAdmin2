@@ -24,15 +24,17 @@ namespace NancyService.Modules
                     user.registrationStatus = "Accepted";
                     user.hasApplied = true;
                     user.acceptanceStatus = "Accepted";
+                    user.title = "";
                     user.phone = "";
                     user.userFax = "";
-                    user.isEvaluator = "yes";
+                    user.isEvaluator = "";
                     context.users.Add(user);
                     context.SaveChanges();
 
                     reg.userID = user.userID;
                     reg.paymentID = 1;
                     reg.byAdmin = true;
+                    reg.deleted = false;
                     context.registrations.Add(reg);
 
                     context.SaveChanges();
@@ -54,7 +56,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     var registrationList = new List<RegisteredUser>();
-                    registrationList = context.registrations.Select(reg => new RegisteredUser
+                    registrationList = context.registrations.Where(reg => reg.deleted == false).Select(reg => new RegisteredUser
                     {
                         registrationID = reg.registrationID,
                         firstname = reg.user.firstName,
@@ -62,6 +64,7 @@ namespace NancyService.Modules
                         usertypeid = reg.user.usertype.userTypeName,
                         date1 = reg.date1,
                         date2 = reg.date2,
+                        date3 = reg.date3,
                         affiliationName = reg.user.affiliationName
                     }).ToList();
 
@@ -75,7 +78,29 @@ namespace NancyService.Modules
             }
         }
 
+        public List<UserTypeName> getUserTypesList()
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    var userTypesList = new List<UserTypeName>();
+                    userTypesList = context.usertypes.Select(u => new UserTypeName
+                    {
+                        userTypeID = u.userTypeID,
+                        userTypeName = u.userTypeName
+                    }).ToList();
 
+                    return userTypesList;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("RegistrationManager.getUserTypes error " + ex);
+                return null;
+            }
+        }
+        
 
         public bool deleteRegistration(int id)
         {
@@ -84,7 +109,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     var registration = context.registrations.Where(reg => reg.registrationID == id).FirstOrDefault();
-                    context.registrations.Remove(registration);
+                    registration.deleted = true;
                     context.SaveChanges();
 
                     return true;
@@ -128,9 +153,16 @@ public class RegisteredUser
     public string usertypeid;
     public bool? date1;
     public bool? date2;
+    public bool? date3;
     public string affiliationName;
 
 
     public RegisteredUser() { }
 
+}
+
+public class UserTypeName
+{
+    public int userTypeID;
+    public string userTypeName;
 }

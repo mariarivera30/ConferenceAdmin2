@@ -11,13 +11,15 @@
         var vm = this;
         vm.activate = activate;
         //add registration fields        
-        //vm.title = 'registrationCtrl';
+        vm.title = 'registrationCtrl';
         vm.userID;
         vm.paymentID;
         vm.date1;
         vm.date2;
+        vm.date3;
 
         vm.registrationsList = {};
+        vm.userTypesList = {};
         vm.firstname;
         vm.lastname;
         vm.usertypeid;
@@ -39,10 +41,12 @@
         vm.deleteRegistration = _deleteRegistration;
         vm.selectedRegistrationUpdate = _selectedRegistrationUpdate;
         vm.selectedRegistrationDelete = _selectedRegistrationDelete;
+        vm.getUserTypes = _getUserTypes;
         vm.clear = clear;
 
 
         _getRegistrations();
+        _getUserTypes();
 
 
 
@@ -52,12 +56,12 @@
             lastname = vm.lastname;
             usertypeid = vm.usertypeid;
             affiliationName = vm.affiliationName;
-            title = vm.title;
             registrationstatus = vm.registrationstatus;
             hasapplied = vm.hasapplied;
             acceptancestatus = vm.acceptancestatus;
             date1 = vm.date1;
             date2 = vm.date2;
+            date3 = vm.date3;
         }
 
         function clear() {
@@ -66,29 +70,21 @@
             vm.usertypeid = 0;
             vm.affiliationName = "";
             vm.title = "";
-            vm.registrationstatus = false;
+            vm.registrationstatus = "";
             vm.hasapplied = false;
-            vm.acceptancestatus = false;
-            date1 = null;
-            date2 = null;
+            vm.acceptancestatus = "";
+            date1 = false;
+            date2 = false;
+            date3 = false;
         }
 
         function _addRegistration() {
-            if (vm.firstname != null && vm.lastname != null && vm.usertypeid != null && vm.affiliationName != null && !(vm.date1 == false && vm.date2 == false) ) {
+            var userTypeName = vm.usertypeid.userTypeName;
+            vm.usertypeid = vm.usertypeid.userTypeID;            
+            if (vm.firstname != null && vm.lastname != null && vm.usertypeid != 0 && vm.affiliationName != null && !(vm.date1 == false && vm.date2 == false) ) {
                 restApi.postNewRegistration(vm)
                     .success(function (data, status, headers, config) {
-                        if (vm.usertypeid == 1)
-                            vm.usertypeid = "High School Student";
-                        if (vm.usertypeid == 2)
-                            vm.usertypeid = "Undergraduate Student";
-                        if (vm.usertypeid == 3)
-                            vm.usertypeid = "Graduate Student";
-                        if (vm.usertypeid == 4)
-                            vm.usertypeid = "Professional Industry";
-                        if (vm.usertypeid == 5)
-                            vm.usertypeid = "Professional Academia";
-                        if (vm.usertypeid == 6)
-                            vm.usertypeid = "Companion";
+                        vm.usertypeid = userTypeName;
                         vm.registrationsList.push(vm);
                     })
 
@@ -119,7 +115,7 @@
 
 
 
-        function _selectedRegistrationUpdate(id, firstname, lastname, usertypeid, affiliation, date1, date2) {
+        function _selectedRegistrationUpdate(id, firstname, lastname, usertypeid, affiliation, date1, date2, date3) {
             vm.currentid = id;
             vm.editfirstname = firstname;
         }
@@ -165,6 +161,16 @@
             }
         }
 
+
+        function _getUserTypes() {
+            restApi.getUserTypes().
+                   success(function (data, status, headers, config) {
+                       vm.userTypesList = data;
+                   }).
+                   error(function (data, status, headers, config) {
+                       vm.userTypesList = data;
+                   });
+        }
 
     }
 })();
