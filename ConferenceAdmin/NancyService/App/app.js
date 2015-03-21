@@ -24,7 +24,7 @@
 
         }]);
 
-    app.factory('AuthInterceptor', function ($window, $q) {
+  /*  app.factory('AuthInterceptor', function ($window, $q) {
         return {
             request: function (config) {
                 config.headers = config.headers || {};
@@ -40,11 +40,11 @@
                 return response || $q.when(response);
             }
         };
-    });
+    });*/
     app.config(function ($stateProvider, $urlRouterProvider,$httpProvider) {
         //
         // For any unmatched url, redirect to /state1
-     $httpProvider.interceptors.push('AuthInterceptor');
+    // $httpProvider.interceptors.push('AuthInterceptor');
        $urlRouterProvider.otherwise("/Home");
         //
         // Now set up the states

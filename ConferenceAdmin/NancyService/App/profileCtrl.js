@@ -23,7 +23,7 @@
         vm.tabViewControl = _tabViewControl;
         activate();
         function activate() {
-            _tabViewControl();
+        //    _tabViewControl();
             
         }
 
