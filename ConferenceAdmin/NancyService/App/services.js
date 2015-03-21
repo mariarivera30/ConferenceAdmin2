@@ -66,6 +66,8 @@
                  });
         };
 
+        //-----------------------------------TOPICS-----------------------------------
+
         function _postNewTopic(data) {
             return $http.post('/admin/addTopic', {
                 name: data,
@@ -83,6 +85,29 @@
         function _updateTopic(data) {
             return $http.put('/admin/updateTopic', { topiccategoryID: data.topiccategoryID, name: data.name });
         };
+
+        //-----------------------------------ADMINISTRATORS-----------------------------------
+
+        function _getAdministrators() {
+            return $http.get('/admin/getAdministrators');
+        };
+
+        function _deleteAdmin(data) {
+            return $http.put('/admin/deleteAdmin/' + data);
+        };
+
+        function _postNewAdmin(email, privilege) {
+            return $http.post('/admin/addAdmin', {
+                email: email,
+                privilegeID: privilege
+            });
+        };
+
+        function _editAdmin(id, privilegeID) {
+            return $http.put('/admin/editAdmin/', { membershipID: id, privilegeID: privilegeID });
+        };
+
+        //-----------------------------------REGISTRATIONS-----------------------------------
 
         function _getRegistrations() {
             return $http.get('/admin/getRegistrations');

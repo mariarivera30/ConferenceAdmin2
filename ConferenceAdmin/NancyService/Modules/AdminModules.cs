@@ -16,6 +16,7 @@ namespace NancyService.Modules
         public AdminModules(ITokenizer tokenizer)
             : base("/admin")
         {
+            AdminManager adminManager = new AdminManager();
             TopicManager topicManager = new TopicManager();
             SponsorManager sponsorManager = new SponsorManager();
             List<sponsor> sponsorList = new List<sponsor>();
@@ -136,6 +137,43 @@ namespace NancyService.Modules
                 }
             };
 
+/* ----- Administrators -----*/
+
+            Get["/getAdministrators"] = parameters =>
+            {
+                try
+                {
+                    //this.RequiresAuthentication();
+                    //this.RequiresClaims(new[] { "admin" });
+                    return Response.AsJson(adminManager.getAdministratorList());
+                }
+                catch { return null; }
+            };
+
+            Put["/deleteAdmin/{adminID:long}"] = parameters =>
+            {
+                if (adminManager.deleteAdministrator(parameters.adminID))
+                {
+                    return HttpStatusCode.OK;
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+            };
+
+            Post["/addAdmin"] = parameters =>
+            {
+                var newAdmin = this.Bind<AdministratorPrivilege>();
+                return Response.AsJson(adminManager.addAdmin(newAdmin));
+            };
+
+            Put["/editAdmin"] = parameters =>
+            {
+                var editAdmin = this.Bind<AdministratorPrivilege>();
+                return Response.AsJson(adminManager.editAdministrator(editAdmin));
+            };
 
 /* ----- Registration -----*/
 
