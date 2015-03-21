@@ -27,14 +27,15 @@ namespace NancyService.Modules
                     return HttpStatusCode.Unauthorized;
                 }
 
-                var userIdentity = LoginAuthenticateManager.login(paramuser).GetIdentity();
+                var userIdentity = user.GetIdentity();
 
                 var token = tokenizer.Tokenize(userIdentity, Context);
 
                 return new
                 {
                     memberID = user.memberID,
-                    userClaims = userIdentity.Claims.ToArray(),
+                    userID = user.userID,
+                    userClaims = userIdentity.Claims,
                     Token = token,
                 };
 

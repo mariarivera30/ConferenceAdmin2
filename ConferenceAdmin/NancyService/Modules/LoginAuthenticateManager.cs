@@ -13,7 +13,7 @@ namespace NancyService.Modules
         {
             public string email { get; set; }
             public string password { get; set; }
-            public int priviledge { get; set; }
+            public long userID { get; set; }
             public int userType { get; set; }
             public long memberID { get; set; }
 
@@ -34,26 +34,16 @@ namespace NancyService.Modules
                 UserIdentity identity = new UserIdentity();
                 identity.UserName = this.email;
 
-                List<string> claims = new List<string>();
-
-                switch (priviledge)
+                List<string> claims;
+                using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    case 0:
-                        break;
-                    case 1:
-                        claims.Add("admin");
-                        break;
-                    case 2:
-                        claims.Add("adminFinance");
-                        break;
-                    case 3:
-                        claims.Add("adminCommittee");
-                        break;
-                    case 4:
-                        claims.Add("evaluator");
-                        break;
-                }
-
+                    claims = (
+                              from c in context.claims 
+                              join p in context.privileges on c.privilegesID equals p.privilegesID
+                              where this.userID == c.userID
+                              select p.privilegestType).ToList();
+                }             
+       
                 switch (userType)
                 {
                     case 0:
@@ -71,6 +61,8 @@ namespace NancyService.Modules
                         }
                 }
 
+               
+
                 identity.Claims = claims;
                 _identity = identity;
 
@@ -79,8 +71,7 @@ namespace NancyService.Modules
 
             public UserAuth()
             {
-                priviledge = 0;
-                userType = 0;
+               userType = 0;
                 // TODO: Complete member initialization
             }
 
@@ -90,36 +81,23 @@ namespace NancyService.Modules
         {
             using (conferenceadminContext contx = new conferenceadminContext())
             {
-                /*
-                UserAuth complete;
-                UserAuth admin = (from g in contx.memberships
-                                  join admi in contx.administrators.DefaultIfEmpty() on g.membershipID equals admi.membershipID
-                                  where g.email == param.email && g.password == param.password
-                                  select new UserAuth { memberID = g.membershipID, password = g.password, email = g.email, priviledge = admi.privilegesID }).FirstOrDefault();
+               
                 UserAuth user = (from g in contx.memberships
-                                 join type in contx.users on g.membershipID equals type.membershipID
+                                 join u in contx.users on g.membershipID equals u.membershipID
                                  where g.email == param.email && g.password == param.password
-                                 select new UserAuth { memberID = g.membershipID, password = g.password, email = g.email, userType = type.userTypeID }).FirstOrDefault();
+                                 select new UserAuth { userID = u.userID ,memberID = g.membershipID, password = g.password, email = g.email, userType = u.userTypeID }).FirstOrDefault();
 
-                if (admin == null && user == null)
+                if (user == null)
                 {
                     return null;
                 }
-                else if (admin != null && user == null)
-                {
-                    complete = admin;
-                }
-                else if (admin == null && user != null)
-                {
-                    complete = user;
-                }
+                              
                 else
                 {
-                    complete = admin;
-                    complete.userType = user.userType;
-                }*/
-                return null;
-
+                   return user;
+                    
+                }
+     
             }
         }
     }

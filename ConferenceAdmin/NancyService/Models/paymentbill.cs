@@ -1,3 +1,4 @@
+using NancyService.Models;
 using System;
 using System.Collections.Generic;
 

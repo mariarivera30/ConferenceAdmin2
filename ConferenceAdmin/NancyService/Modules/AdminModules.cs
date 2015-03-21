@@ -39,8 +39,8 @@ namespace NancyService.Modules
              {
                  try
                  {    
-                     //this.RequiresAuthentication();
-                     //this.RequiresClaims(new[] { "admin" });
+                    // this.RequiresAuthentication();
+                    // this.RequiresClaims(new[] { "minor" });
                      return Response.AsJson(sponsorManager.getSponsorList());
                  }
                  catch { return null; }
@@ -70,6 +70,20 @@ namespace NancyService.Modules
                     return Response.AsJson(sponsorManager.getSponsorTypesList());
                 }
                 catch { return null; }
+            };
+
+            Put["/deleteSponsor"] = parameters =>
+            {
+                var id = this.Bind<long>();
+                if (sponsorManager.deleteSponsor(id))
+                {
+                    return HttpStatusCode.OK;
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
             };
 
             Post["/addTopic"] = parameters =>

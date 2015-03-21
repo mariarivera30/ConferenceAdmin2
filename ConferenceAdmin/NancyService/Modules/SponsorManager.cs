@@ -27,8 +27,9 @@ namespace NancyService.Modules
             public string state { get; set; }
             public string zipcode { get; set; }
             public string country { get; set; }
-            public string card { get; set; }
+            public string transactionID { get; set; }
             public string method { get; set; }
+            public string typeName { get; set; }
             public long paymentID { get; set; }
         }
         public class SponsorTypeQuery
@@ -59,39 +60,43 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //sponsor sponsor = new sponsor();
-                    //sponsor.firstName = x.firstName;
-                    //sponsor.lastName = x.lastName;
-                    //sponsor.company = x.company;
-                    //sponsor.email = x.email;
-                    //sponsor.logo = x.logo;
-                    //sponsor.phone = x.phone;
-                    //sponsor.sponsorType = x.sponsorType;
+                    address address = new address();
+                    address.city = x.city;
+                    address.country = x.country;
+                    address.state = x.state;
+                    address.zipcode = x.zipcode;
+                    address.line1 = x.line1;
+                    address.line2 = x.line2;
+                    context.addresses.Add(address);
+                    context.SaveChanges();
 
-                    //payment payment2 = new payment();
-                    //paymentbill bill = new paymentbill();
-                    //bill.AmountPaid =x.amount;
-                    //bill.creditCardNumber = x.card;
-                    //payment2.paymentTypeID = 1;
-                    //payment2.paymentbills.Add(bill);
+                    payment payment2 = new payment();
+                    payment2.paymentTypeID = 1;
+                    context.payments.Add(payment2);
+                    context.SaveChanges();
+                    
+                    paymentbill bill = new paymentbill();
+                    bill.AmountPaid = (double)x.amount;
+                    bill.paymentID = payment2.paymentID;
+                    bill.methodOfPayment = x.method;
+                    bill.transactionid = x.transactionID;
+                    context.paymentbills.Add(bill);
+                    context.SaveChanges();
 
+                  
+                    sponsor sponsor = new sponsor();
+                    sponsor.firstName = x.firstName;
+                    sponsor.lastName = x.lastName;
+                    sponsor.company = x.company;
+                    sponsor.email = x.email;
+                    sponsor.logo = x.logo;
+                    sponsor.phone = x.phone;
+                    sponsor.sponsorType = 1;
+                    sponsor.addressID = address.addressID;
+                    sponsor.paymentID = payment2.paymentID;
 
-
-                    //address address = new address();
-                    //address.city = x.city;
-                    //address.country = x.country;
-                    //address.state = x.state;
-                    //address.zipcode = x.zipcode;
-                    //address.line1 = x.line1;
-                    //address.line2 = x.line2;
-                    //context.sponsors.Add(sponsor);
-
-                    //address.sponsors.Add(sponsor);
-                    //payment2.sponsors.Add(sponsor);
-                    //context.addresses.Add(address);
-                    //context.payments.Add(payment2);
-
-                    //context.SaveChanges();
+                    context.sponsors.Add(sponsor);
+                    context.SaveChanges();
                    
                     return true;
                 }
@@ -118,7 +123,7 @@ namespace NancyService.Modules
                                    from type in context.sponsortypes
                                    from a in context.addresses
                                    from pay in context.paymentbills
-                                   where (s.sponsorType == type.sponsortypeID) &&(s.addressID == a.addressID) && (s.paymentID == pay.paymentID)                              
+                                   where (s.sponsorType == type.sponsortypeID) &&(s.addressID == a.addressID) && (s.paymentID == pay.paymentID) && (s.deleted ==false)                              
                                    select new SponsorQuery
                                {
                                    sponsorID = s.sponsorID,
@@ -138,9 +143,10 @@ namespace NancyService.Modules
                                    country = a.country,
                                    sponsorType = s.sponsorType,
                                    amount = pay.AmountPaid,
-                                   card =pay.creditCardNumber,
+                                   transactionID = pay.transactionid,
                                    paymentID = (long)pay.paymentID,
                                    method =pay.methodOfPayment,
+                                   typeName = type.name,
                                    
                                }).ToList();
                                   
@@ -188,27 +194,6 @@ namespace NancyService.Modules
 
         }
 
-        public bool deleteSponsor(int id)
-        {
-            try
-            {
-                using (conferenceadminContext context = new conferenceadminContext())
-                {
-                    var topic = (from s in context.topiccategories
-                                 where s.topiccategoryID == id
-                                 select s).First();
-                    context.topiccategories.Remove(topic);
-                    context.SaveChanges();
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.Write("AdminManager.deleteTopic error " + ex);
-                return false;
-            }
-        }
-
         public bool updateSponsor(SponsorQuery x)
         {
             try
@@ -217,33 +202,60 @@ namespace NancyService.Modules
                 {
                     var sponsor = (from s in context.sponsors
                                  where s.sponsorID == x.sponsorID
-                                 select s).First();
-                    sponsor.firstName = x.firstName;
-                    sponsor.lastName = x.lastName;
-                    sponsor.company = x.company;
-                    sponsor.email = x.email;
-                    sponsor.logo = x.logo;
-                    sponsor.phone = x.phone;
-                    sponsor.sponsorType = x.sponsorType;
+                                 select s).FirstOrDefault();
+                    if (sponsor != null)
+                    {
+                        sponsor.firstName = x.firstName;
+                        sponsor.lastName = x.lastName;
+                        sponsor.company = x.company;
+                        sponsor.email = x.email;
+                        sponsor.logo = x.logo;
+                        sponsor.phone = x.phone;
+                        sponsor.sponsorType = x.sponsorType;
 
-                    var payment = (from p in context.paymentbills
-                                   where (long)p.paymentID == x.paymentID
-                                   select p).First();
-                    payment.AmountPaid = x.amount;
-                    payment.creditCardNumber = x.card;
+                        var payment = (from p in context.paymentbills
+                                       where (long)p.paymentID == x.paymentID
+                                       select p).First();
+                        payment.AmountPaid = x.amount;
+                        payment.transactionid = x.transactionID;
 
-                    var address = (from a in context.addresses
-                                   where (a.addressID == x.addressID)
-                                   select a).First();
-                    address.city = x.city;
-                    address.country = x.country;
-                    address.state = x.state;
-                    address.zipcode = x.zipcode;
-                    address.line1 =x.line1;
-                    address.line2 =x.line2;
-                
+                        var address = (from a in context.addresses
+                                       where (a.addressID == x.addressID)
+                                       select a).First();
+                        address.city = x.city;
+                        address.country = x.country;
+                        address.state = x.state;
+                        address.zipcode = x.zipcode;
+                        address.line1 = x.line1;
+                        address.line2 = x.line2;
 
-                    context.SaveChanges();
+
+                        context.SaveChanges();
+                    }
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SponsorManager.updateTopic error " + ex);
+                return false;
+            }
+        }
+        public bool deleteSponsor(long x)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+
+                    var sponsor = (from s in context.sponsors
+                                   where s.sponsorID == x
+                                   select s).FirstOrDefault();
+                    if (sponsor != null)
+                    {
+                        sponsor.deleted = true;
+                        context.SaveChanges();
+                    }
                     return true;
                 }
             }

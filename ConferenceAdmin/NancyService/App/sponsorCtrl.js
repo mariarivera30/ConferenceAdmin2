@@ -19,33 +19,70 @@
         vm.addSponsor = _addSponsor;
         vm.getSponsors = _getSponsors;
         vm.getSponsorTypes = _getSponsorTypes;
-        vm.selectedSponsorUpdate = _selectedSponsorUpdate;
-        vm.selectedSponsorDelete = _selectedSponsorDelete;
+        vm.selectedSponsor = _selectedSponsor;
         vm.clearSponsor = _clearSponsor;
         vm.updateSponsor = _updateSponsor;
+        vm.deleteSponsor = _deleteSponsor;
+        vm.submitForm = _submitForm;
+        vm.addValues = _addValues;
+        vm.editValues = _editValues;
+        vm.viewValues = _viewValues;
         activate();
+        
         
                   
             // Functions
             function activate() {
                 _getSponsors();
                 _getSponsorTypes();
+              
             }
 
-            function _selectedSponsorUpdate(sponsor) {
-               vm.sponsor = sponsor;
+            function _selectedSponsor(sponsor, action) {
+                if (action === 'edit') {
+                    vm.edit = true;
+                    vm.headerModal = "Edit Sponsor";
+                }
+                vm.sponsor = sponsor;
+                vm.TYPE = vm.sponsorsTypeList[vm.sponsor.sponsorType];
               
             }
             function _clearSponsor() {
                 vm.sponsor = null;
+                vm.TYPE = vm.sponsorsTypeList[0];
 
             }
-
-            function _selectedSponsorDelete(id) {
-                vm.currentid = id;
+            function _addValues() {
+                vm.add = true;
+                vm.edit = false;
+                vm.view = false;
+                vm.headerModal = "Add Sponsor";
+                _clearSponsor();
             }
+            function _viewValues() {
+                vm.view = true;
+                vm.add = false;
+                vm.edit = false;
+                vm.headerModal = "View Sponsor";
+            }
+            function _editValues() {
+                vm.edit = true;
+                vm.add = false;
+                vm.view = false;
+                vm.headerModal = "Edit Sponsor";
+            }
+
+            function _submitForm () {
+
+                // check to make sure the form is completely valid
+              
+
+            };
+            
             
             function _addSponsor() {
+                vm.sponsor.sponsorType = vm.TYPE.sponsortypeID;
+                vm.sponsor.typeName = vm.TYPE.name;
                 restApi.postNewSponsor(vm.sponsor)
                     .success(function (data, status, headers, config) {
                         vm.sponsorsList.push(vm.sponsor);
@@ -86,7 +123,8 @@
 
             function _updateSponsor() {
                 if (true) {
-             
+                    vm.sponsor.sponsorType = vm.TYPE.sponsortypeID;
+                    vm.sponsor.typeName = vm.TYPE.name;
                     restApi.updateSponsor(vm.sponsor)
                     .success(function (data, status, headers, config) {
                         vm.sponsorsList.forEach(function (sponsor) {
@@ -94,15 +132,33 @@
                                 sponsor = vm.sponsor;
                             }
                             vm.sponsor = {};
+                            vm.edit = false;
+                            vm.headerModal = "Add Sponsor";
                         });
                     })
                     .error(function (data, status, headers, config) {
+                        vm.edit = false;
                     });
                 }
                 else {
                     alert("You must provide a valid name.");
                 }
               
+            }
+            function _deleteSponsor() {
+                if (vm.sponsor.sponsorID != undefined) {
+                    restApi.deleteSponsor(vm.sponsor.sponsorID)
+                    .success(function (data, status, headers, config) {
+                        vm.sponsorsList.forEach(function (sponsor,index) {
+                            if (sponsor.sponsorID == vm.sponsor.sponsorID) {
+                                vm.sponsorsList.splice(index, 1);
+                            }
+                            vm.sponsor = {};
+                        });
+                    })
+                    .error(function (data, status, headers, config) {
+                    });
+                }
             }
 
            

@@ -9,7 +9,8 @@
     function addrestApi($http) {
         var service = {
             getSponsorTypesList:_getSponsorTypesList,
-            updateSponsor:_updateSponsor,
+            updateSponsor: _updateSponsor,
+            deleteSponsor: _deleteSponsor,
             login: _login,
             postNewSponsor: _postNewSponsor,
             postUser: _postUser,
@@ -24,6 +25,9 @@
         function _updateSponsor(data) {
             return $http.put('/admin/updateSponsor',data);
         };
+        function _deleteSponsor(data) {
+            return $http.put('/admin/deleteSponsor/' , data);
+        };
 
         function _getSponsorTypesList() {
             return $http.get('/admin/getSponsorTypesList');
@@ -34,10 +38,8 @@
         };
 
         function _postNewSponsor(data) {
-            return $http.post('/admin/addsponsor', {
-                sponsorType: 1, firstName: data.firstName,
-                lastName: data.lastName, title: data.titleSponsor, company: data.company, logo: data.logo, email: data.email, phone: data.phone, addressID: 1
-            });
+            return $http.post('/admin/addsponsor', data)
+               
         };
 
         function _getSponsors() {

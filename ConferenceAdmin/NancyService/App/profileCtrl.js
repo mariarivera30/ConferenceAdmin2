@@ -28,9 +28,8 @@
         }
 
         function _tabViewControl() {
-            var list = [];
-            list.push($window.sessionStorage.getItem('claim-1'));
-            list.push($window.sessionStorage.getItem('claim-2'));
+            var list = JSON.parse(sessionStorage.getItem('claims'));
+           
                 list.forEach(function (claim) {
 
 
@@ -50,7 +49,7 @@
                         vm.authorization = false;
                         vm.receipt = true;
                         vm.evaluation = false;
-                        vm.evaluation = true;
+                       
                     }
 
                     if (claim.localeCompare('companion') == 0) {
@@ -62,7 +61,7 @@
                         vm.evaluation = true;
                     }
                     //Esto lo puedo quitar cuando se de unable al button de Profile.
-                    if (claim.localeCompare('admin') == 0 || claim.localeCompare('adminFinance') == 0 || claim.localeCompare('adminCommittee') == 0 )  {
+                    if (claim.localeCompare('adminFinance') == 0 || claim.localeCompare('adminCommittee') == 0 )  {
                         vm.generalInfo = false;
                         vm.application = false;
                         vm.receipt = false;

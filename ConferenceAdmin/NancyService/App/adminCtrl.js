@@ -41,13 +41,12 @@
         activate();
 
         function activate() {
-            //_tabViewControl();
+           // _tabViewControl();
         }
 
         function _tabViewControl() {
-            var list = [];
-            list.push($window.sessionStorage.getItem('claim-1'));
-            list.push($window.sessionStorage.getItem('claim-2'));
+            var list = JSON.parse(sessionStorage.getItem('claims'));
+       
             list.forEach(function (claim) {
 
 
