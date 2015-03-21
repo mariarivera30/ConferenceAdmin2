@@ -50,16 +50,12 @@
                 restApi.postNewTopic(vm.name)
                     .success(function (data, status, headers, config) {
                         vm.topicsList.push(data);
+                        clear();
                     })
-
                     .error(function (error) {
 
                     });
             }
-            else {
-                alert("You must provide a valid name.");
-            }
-            clear();
         }
 
         function _getTopics() {

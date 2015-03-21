@@ -45,11 +45,14 @@
                     <h4 class="modal-title" id="addTopicLabel">Add New Topic</h4>
                 </div>
                 <div class="modal-body">
-                    <h5 class="after-title-field">Topic Name:</h5>
-                    <input type="text" name="" ng-model="vm.name" /><br><br>
+                    <form name="addTopicForm" novalidate>
+                        <h5 class="after-title-field">Topic Name:</h5>
+                        <input type="text" name="name" ng-model="vm.name" required />
+                        <p ng-show="addTopicForm.name.$invalid && !addSTopicForm.name.$pristine" class="help-block">Topic name is required.</p>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addTopic()">Add</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addTopic()" ng-disabled="addTopicForm.$invalid">Add</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
@@ -64,11 +67,14 @@
                     <h4 class="modal-title" id="editTopicLabel">Edit Topic</h4>
                 </div>
                 <div class="modal-body">
-                    <h5 class="after-title-field">Topic Name:</h5>
-                    <input type="text" ng-model="vm.editname" /><br><br>
+                    <form name="editTopicForm" novalidate>
+                        <h5 class="after-title-field">Topic Name:</h5>
+                        <input type="text" name="name" ng-model="vm.editname" required />
+                        <p ng-show="editTopicForm.name.$invalid && !editTopicForm.name.$pristine" class="help-block">Topic name is required.</p>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.updateTopic()">Save</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.updateTopic()" ng-disabled="editTopicForm.$invalid">Save</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

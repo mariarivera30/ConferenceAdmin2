@@ -16,7 +16,7 @@ namespace NancyService.Modules
         public AdminModules(ITokenizer tokenizer)
             : base("/admin")
         {
-            AdminManager admin = new AdminManager();
+            TopicManager topicManager = new TopicManager();
             SponsorManager sponsorManager = new SponsorManager();
             List<sponsor> sponsorList = new List<sponsor>();
             RegistrationManager registration = new RegistrationManager();
@@ -99,18 +99,18 @@ namespace NancyService.Modules
             Post["/addTopic"] = parameters =>
             {
                 var topic = this.Bind<topiccategory>();
-                return Response.AsJson(admin.addTopic(topic));
+                return Response.AsJson(topicManager.addTopic(topic));
             };
 
             Get["/getTopic"] = parameters =>
             {
                 
-                return Response.AsJson(admin.getTopicList());
+                return Response.AsJson(topicManager.getTopicList());
             };
 
-            Delete["/deleteTopic/{topiccategoryID:int}"] = parameters =>
+            Put["/deleteTopic/{topiccategoryID:int}"] = parameters =>
             {
-                if (admin.deleteTopic(parameters.topiccategoryID))
+                if (topicManager.deleteTopic(parameters.topiccategoryID))
                 {
                     return HttpStatusCode.OK;
                 }
@@ -125,7 +125,7 @@ namespace NancyService.Modules
             {
                 var topic = this.Bind<topiccategory>();
 
-                if (admin.updateTopic(topic))
+                if (topicManager.updateTopic(topic))
                 {
                     return HttpStatusCode.OK;
                 }

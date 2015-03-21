@@ -77,7 +77,7 @@
         };
 
         function _deleteTopic(data) {
-            return $http.delete('/admin/deleteTopic/' + data);
+            return $http.put('/admin/deleteTopic/' + data);
         };
 
         function _updateTopic(data) {
