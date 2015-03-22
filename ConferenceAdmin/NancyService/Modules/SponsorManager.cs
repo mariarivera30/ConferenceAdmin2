@@ -74,7 +74,7 @@ namespace NancyService.Modules
                     payment2.paymentTypeID = 1;
                     context.payments.Add(payment2);
                     context.SaveChanges();
-                    
+
                     paymentbill bill = new paymentbill();
                     bill.AmountPaid = (double)x.amount;
                     bill.paymentID = payment2.paymentID;
@@ -83,7 +83,7 @@ namespace NancyService.Modules
                     context.paymentbills.Add(bill);
                     context.SaveChanges();
 
-                  
+
                     sponsor sponsor = new sponsor();
                     sponsor.firstName = x.firstName;
                     sponsor.lastName = x.lastName;
@@ -91,13 +91,15 @@ namespace NancyService.Modules
                     sponsor.email = x.email;
                     sponsor.logo = x.logo;
                     sponsor.phone = x.phone;
-                    sponsor.sponsorType = 1;
+                    sponsor.sponsorType = x.sponsorType;
                     sponsor.addressID = address.addressID;
                     sponsor.paymentID = payment2.paymentID;
+                    sponsor.deleted = false;
+
 
                     context.sponsors.Add(sponsor);
                     context.SaveChanges();
-                   
+
                     return true;
                 }
             }
@@ -108,49 +110,49 @@ namespace NancyService.Modules
             }
 
         }
-       
+
 
         public List<SponsorQuery> getSponsorList()
         {
             try
             {
-               
+
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                   
-                    
+
+
                     var sponsor = (from s in context.sponsors
                                    from type in context.sponsortypes
                                    from a in context.addresses
                                    from pay in context.paymentbills
-                                   where (s.sponsorType == type.sponsortypeID) &&(s.addressID == a.addressID) && (s.paymentID == pay.paymentID) && (s.deleted ==false)                              
+                                   where (s.sponsorType == type.sponsortypeID) && (s.addressID == a.addressID) && (s.paymentID == pay.paymentID) && (s.deleted == false)
                                    select new SponsorQuery
-                               {
-                                   sponsorID = s.sponsorID,
-                                   firstName = s.firstName,
-                                   lastName = s.lastName,
-                                   company = s.company,
-                                   title = s.title,
-                                   logo = s.logo,
-                                   phone = s.phone,
-                                   email = s.email,
-                                   addressID = (long)s.addressID,
-                                   city = a.city,
-                                   line1 = a.line1,
-                                   line2 = a.line2,
-                                   state = a.state,
-                                   zipcode = a.zipcode,
-                                   country = a.country,
-                                   sponsorType = s.sponsorType,
-                                   amount = pay.AmountPaid,
-                                   transactionID = pay.transactionid,
-                                   paymentID = (long)pay.paymentID,
-                                   method =pay.methodOfPayment,
-                                   typeName = type.name,
-                                   
-                               }).ToList();
-                                  
-                  
+                                   {
+                                       sponsorID = s.sponsorID,
+                                       firstName = s.firstName,
+                                       lastName = s.lastName,
+                                       company = s.company,
+                                       title = s.title,
+                                       logo = s.logo,
+                                       phone = s.phone,
+                                       email = s.email,
+                                       addressID = (long)s.addressID,
+                                       city = a.city,
+                                       line1 = a.line1,
+                                       line2 = a.line2,
+                                       state = a.state,
+                                       zipcode = a.zipcode,
+                                       country = a.country,
+                                       sponsorType = s.sponsorType,
+                                       amount = pay.AmountPaid,
+                                       transactionID = pay.transactionid,
+                                       paymentID = (long)pay.paymentID,
+                                       method = pay.methodOfPayment,
+                                       typeName = type.name,
+
+                                   }).ToList();
+
+
                     return sponsor;
                 }
 
@@ -170,16 +172,21 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     var types = (from s in context.sponsortypes
-                                 select new SponsorTypeQuery {sponsortypeID = s.sponsortypeID, name =s.name, amount = s.amount, benefit1=s.benefit1,
-                                                              benefit2 = s.benefit2,
-                                                              benefit3 = s.benefit3,
-                                                              benefit4 = s.benefit4,
-                                                              benefit5 = s.benefit5,
-                                                              benefit6 = s.benefit6,
-                                                              benefit7 = s.benefit7,
-                                                              benefit8 = s.benefit8,
-                                                              benefit9 = s.benefit9,
-                                                              benefit10 = s.benefit10,
+                                 select new SponsorTypeQuery
+                                 {
+                                     sponsortypeID = s.sponsortypeID,
+                                     name = s.name,
+                                     amount = s.amount,
+                                     benefit1 = s.benefit1,
+                                     benefit2 = s.benefit2,
+                                     benefit3 = s.benefit3,
+                                     benefit4 = s.benefit4,
+                                     benefit5 = s.benefit5,
+                                     benefit6 = s.benefit6,
+                                     benefit7 = s.benefit7,
+                                     benefit8 = s.benefit8,
+                                     benefit9 = s.benefit9,
+                                     benefit10 = s.benefit10,
 
                                  }).ToList();
                     return types;
@@ -201,8 +208,8 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     var sponsor = (from s in context.sponsors
-                                 where s.sponsorID == x.sponsorID
-                                 select s).FirstOrDefault();
+                                   where s.sponsorID == x.sponsorID
+                                   select s).FirstOrDefault();
                     if (sponsor != null)
                     {
                         sponsor.firstName = x.firstName;
@@ -228,7 +235,6 @@ namespace NancyService.Modules
                         address.zipcode = x.zipcode;
                         address.line1 = x.line1;
                         address.line2 = x.line2;
-
 
                         context.SaveChanges();
                     }

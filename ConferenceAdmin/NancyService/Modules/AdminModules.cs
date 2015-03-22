@@ -138,7 +138,7 @@ namespace NancyService.Modules
             };
 
 /* ----- Administrators -----*/
-
+/*
             Get["/getAdministrators"] = parameters =>
             {
                 try
@@ -163,7 +163,7 @@ namespace NancyService.Modules
                 }
             };
 
-            Post["/addAdmin"] = parameters =>
+           Post["/addAdmin"] = parameters =>
             {
                 var newAdmin = this.Bind<AdministratorPrivilege>();
                 return Response.AsJson(adminManager.addAdmin(newAdmin));
@@ -174,7 +174,7 @@ namespace NancyService.Modules
                 var editAdmin = this.Bind<AdministratorPrivilege>();
                 return Response.AsJson(adminManager.editAdministrator(editAdmin));
             };
-
+*/
 /* ----- Registration -----*/
 
             Get["/getRegistrations"] = parameters =>

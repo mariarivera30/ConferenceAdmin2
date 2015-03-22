@@ -37,9 +37,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.acceptanceStatus)
                 .HasMaxLength(45);
 
-            this.Property(t => t.isEvaluator)
-                .IsRequired()
-                .HasMaxLength(45);
+              
 
             // Table & Column Mappings
             this.ToTable("user", "conferenceadmin");

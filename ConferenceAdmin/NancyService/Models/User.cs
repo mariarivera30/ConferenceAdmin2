@@ -28,7 +28,7 @@ namespace NancyService.Models
         public string registrationStatus { get; set; }
         public Nullable<bool> hasApplied { get; set; }
         public string acceptanceStatus { get; set; }
-        public string isEvaluator { get; set; }
+        public bool isEvaluator { get; set; }
         public Nullable<short> deleted { get; set; }
         public virtual address address { get; set; }
         public virtual ICollection<claim> claims { get; set; }
