@@ -16,7 +16,7 @@ namespace NancyService.Modules
         public AdminModules(ITokenizer tokenizer)
             : base("/admin")
         {
-            TopicManager adminManager = new TopicManager();
+            AdminManager adminManager = new AdminManager();
             TopicManager topicManager = new TopicManager();
             SponsorManager sponsorManager = new SponsorManager();
             List<sponsor> sponsorList = new List<sponsor>();
@@ -138,7 +138,7 @@ namespace NancyService.Modules
             };
 
 /* ----- Administrators -----*/
-/*
+
             Get["/getAdministrators"] = parameters =>
             {
                 try
@@ -150,9 +150,21 @@ namespace NancyService.Modules
                 catch { return null; }
             };
 
-            Put["/deleteAdmin/{adminID:long}"] = parameters =>
+            Get["/getPrivilegesList"] = parameters =>
             {
-                if (adminManager.deleteAdministrator(parameters.adminID))
+                try
+                {
+                    //this.RequiresAuthentication();
+                    //this.RequiresClaims(new[] { "admin" });
+                    return Response.AsJson(adminManager.getPrivilegesList());
+                }
+                catch { return null; }
+            };
+
+            Put["/deleteAdmin"] = parameters =>
+            {
+                var delAdmin = this.Bind<AdministratorQuery>();
+                if (adminManager.deleteAdministrator(delAdmin))
                 {
                     return HttpStatusCode.OK;
                 }
@@ -163,18 +175,18 @@ namespace NancyService.Modules
                 }
             };
 
-           Post["/addAdmin"] = parameters =>
+            Post["/addAdmin"] = parameters =>
             {
-                var newAdmin = this.Bind<AdministratorPrivilege>();
+                var newAdmin = this.Bind<AdministratorQuery>();
                 return Response.AsJson(adminManager.addAdmin(newAdmin));
             };
 
             Put["/editAdmin"] = parameters =>
             {
-                var editAdmin = this.Bind<AdministratorPrivilege>();
+                var editAdmin = this.Bind<AdministratorQuery>();
                 return Response.AsJson(adminManager.editAdministrator(editAdmin));
             };
-*/
+
 /* ----- Registration -----*/
 
             Get["/getRegistrations"] = parameters =>

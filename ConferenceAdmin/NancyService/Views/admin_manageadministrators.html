@@ -1,0 +1,108 @@
+﻿<div ng-controller="administratorCtrl as vm">
+
+    <h3>Manage Administrators</h3><br>
+    <div class="col-lg-12 hide-until-loaded" id="body">
+        <table class="table row after-title-field">
+            <tr>
+                <td><b>Name</b></td>
+                <td><b>E-mail</b></td>
+                <td><b>Privilege</b></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr ng-repeat="admin in vm.adminList">
+                <td>{{admin.firstName}} {{admin.lastName}}</td>
+                <td>{{admin.email}}</td>
+                <td>{{admin.privilege}}</td>
+                <td>
+                    <a href="" data-toggle="modal" data-target="#editPrivilege" ng-click="vm.selectedAdminEdit(admin.userID, admin.privilegeID)">Edit</a>
+                </td>
+                <td>
+                    <a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedAdminDelete(admin.userID, admin.privilegeID)"><i class="glyphicon glyphicon-remove"></i></a>
+                </td>
+            </tr>
+        </table>
+        <button class="btn btn-ar btn-primary pull" data-toggle="modal" data-target="#addAdmin">Add Administrator</button> <a href=""><i class="fa fa-info-circle info-icon" title="Add an administrator"> </i></a>
+    </div>
+
+    <div class="col-lg-12">
+        <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
+    </div>
+
+    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="deleteLabel">Remove Administrator</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to remove the selection?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.deleteAdmin()">Remove</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editPrivilege" tabindex="-1" role="dialog" aria-labelledby="editPrivilegeLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="restorePrivilegeLabel">Edit Privileges</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="editPrivilegeForm" novalidate>
+                        <label class="after-title-field2">Select Privileges:</label>
+                        <div ng-repeat="privilege in vm.privilegeList">
+                            <input id="{{privilege.privilegeID}}" name="privileges" type="radio" ng-model="vm.privilegeID" value="{{privilege.privilegeID}}" required>{{privilege.name}}
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.editAdmin()" ng-disabled="editPrivilegeForm.$invalid">Save</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addAdmin" tabindex="-1" role="dialog" aria-labelledby="addAdminLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="addAdminLabel">Add Administrator</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="addPrivilegeForm" novalidate>
+                        <label class="after-title-field">Name:</label>
+                        <input name="name" type="text" ng-model="vm.firstName" required/>
+                        <label class="help-inline" ng-show="addPrivilegeForm.name.$invalid && !addPrivilegeForm.name.$pristine">Name is required.</label>
+                        <br />
+                        <label>Last Name:</label>
+                        <input name="lname" type="text" ng-model="vm.lastName" required/>
+                        <label class="help-inline" ng-show="addPrivilegeForm.lname.$invalid && !addPrivilegeForm.lname.$pristine">Last Name is required.</label>
+                        <br />
+                        <label>Email:</label>
+                        <input name="email" type="email" ng-model="vm.email" required/>
+                        <label class="help-inline" ng-show="addPrivilegeForm.email.$invalid && !addPrivilegeForm.email.$pristine">Email is required.</label>
+                        <br />
+                        <label>Select Privileges:</label><br />
+                        <div id="privileges" ng-repeat="privilege in vm.privilegeList">
+                            <input name="privileges" type="radio" ng-model="vm.privilegeID" value="{{privilege.privilegeID}}" required>{{privilege.name}}
+                        </div>
+                        <label class="help-inline" ng-show="addPrivilegeForm.privileges.$invalid && !addPrivilegeForm.privileges.$pristine">Select a privilege.</label>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addAdmin()" ng-disabled="addPrivilegeForm.$invalid">Add</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

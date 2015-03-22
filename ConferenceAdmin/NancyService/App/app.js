@@ -309,11 +309,11 @@
                 }
             }
         })
-        .state('administrator.managecommittee', {
-            url: "/ManageCommittee",
+        .state('administrator.manageadministrators', {
+            url: "/ManageAdministrators",
             views: {
                 'adminPage': {
-                    templateUrl: "views/admin_managecommittee.html"
+                    templateUrl: "views/admin_manageadministrators.html"
                 }
             }
         })
