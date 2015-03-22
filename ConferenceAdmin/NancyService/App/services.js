@@ -27,7 +27,12 @@
             getGuestList: _getGuestList,
             updateAcceptanceStatus: _updateAcceptanceStatus,
             displayAuthorizations: _displayAuthorizations,
-            rejectRegisteredGuest: _rejectRegisteredGuest
+            rejectRegisteredGuest: _rejectRegisteredGuest,
+            getAdministrators: _getAdministrators,
+            deleteAdmin: _deleteAdmin,
+            editAdmin: _editAdmin,
+            postNewAdmin: _postNewAdmin,
+            getPrivilegesList: _getPrivilegesList
         };
 
         return service;
@@ -93,19 +98,28 @@
             return $http.get('/admin/getAdministrators');
         };
 
-        function _deleteAdmin(data) {
-            return $http.put('/admin/deleteAdmin/' + data);
+        function _getPrivilegesList() {
+            return $http.get('/admin/getPrivilegesList');
         };
 
-        function _postNewAdmin(email, privilege) {
+        function _deleteAdmin(userid, privilegeid) {
+            return $http.put('/admin/deleteAdmin/', {
+                userID: userid,
+                privilegeID: privilegeid
+            });
+        };
+
+        function _postNewAdmin(data) {
             return $http.post('/admin/addAdmin', {
-                email: email,
-                privilegeID: privilege
+                firstName: data.firstName,
+                lastName: data.lastName,
+                email: data.email,
+                privilegeID: data.privilegeID,
             });
         };
 
         function _editAdmin(id, privilegeID) {
-            return $http.put('/admin/editAdmin/', { membershipID: id, privilegeID: privilegeID });
+            return $http.put('/admin/editAdmin/', { userID: id, privilegeID: privilegeID });
         };
 
         //-----------------------------------REGISTRATIONS-----------------------------------
