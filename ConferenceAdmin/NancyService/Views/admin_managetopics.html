@@ -1,6 +1,6 @@
 ﻿<h3>Manage Topics</h3><br>
 <div ng-controller="topicCtrl as vm">
-    <div class="col-lg-8 hide-until-loaded"  id="body">
+    <div class="col-lg-8 hide-until-loaded" id="body">
         <table ng-table="tableParams" class="table row">
             <tr>
                 <td><b>Topic Name</b></td>
@@ -13,7 +13,7 @@
                 <td><a href="" data-toggle="modal" data-target="#deleteTopic" ng-click="vm.selectedTopicDelete(topiccategory.topiccategoryID)"><i class="glyphicon glyphicon-remove"></i></a></td>
             </tr>
         </table>
-        <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" data-target="#addTopic">Add Topic</button> <a href=""><i class="fa fa-info-circle info-icon" title="Submission topics"> </i></a>
+        <button class="btn btn-ar btn-primary" data-toggle="modal" data-target="#addTopic">Add Topic</button> <a href=""><i class="fa fa-info-circle info-icon" title="Add a new topic"> </i></a>
         <br>
     </div>
     <div class="col-lg-12">
@@ -45,12 +45,15 @@
                     <h4 class="modal-title" id="addTopicLabel">Add New Topic</h4>
                 </div>
                 <div class="modal-body">
-                    <h5 class="after-title-field">Topic Name:</h5>
-                    <input type="text" name="" ng-model="vm.name" /><br><br>
+                    <form class="after-title-field" name="addTopicForm" novalidate>
+                        <label>Topic Name:</label>
+                        <input type="text" name="name" ng-model="vm.name" required />
+                        <p ng-show="addTopicForm.name.$invalid && !addTopicForm.name.$pristine" class="help-inline">Topic name is required.</p>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addTopic()">Add</button>
-                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addTopic()" ng-disabled="addTopicForm.$invalid">Add</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal" ng-click="vm.clear()">Cancel</button>
                 </div>
             </div>
         </div>
@@ -64,11 +67,14 @@
                     <h4 class="modal-title" id="editTopicLabel">Edit Topic</h4>
                 </div>
                 <div class="modal-body">
-                    <h5 class="after-title-field">Topic Name:</h5>
-                    <input type="text" ng-model="vm.editname" /><br><br>
+                    <form class="after-title-field" name="editTopicForm" novalidate>
+                        <label>Topic Name:</label>
+                        <input type="text" name="name" ng-model="vm.editname" required />
+                        <p ng-show="editTopicForm.name.$invalid && !editTopicForm.name.$pristine" class="help-inline">Topic name is required.</p>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.updateTopic()">Save</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.updateTopic()" ng-disabled="editTopicForm.$invalid">Save</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

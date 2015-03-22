@@ -16,7 +16,7 @@ namespace NancyService.Modules
         public AdminModules(ITokenizer tokenizer)
             : base("/admin")
         {
-            AdminManager adminManager = new AdminManager();
+            TopicManager adminManager = new TopicManager();
             TopicManager topicManager = new TopicManager();
             SponsorManager sponsorManager = new SponsorManager();
             List<sponsor> sponsorList = new List<sponsor>();

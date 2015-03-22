@@ -17,6 +17,7 @@
 
         // Functions
         vm.activate = activate;
+        vm.clear = _clear;
         vm.addTopic = _addTopic;
         vm.getTopics = _getTopics;
         vm.updateTopic = _updateTopic;
@@ -30,7 +31,7 @@
         function activate() {
         }
 
-        function clear() {
+        function _clear() {
             vm.name = "";
         }
 
@@ -50,39 +51,35 @@
                 restApi.postNewTopic(vm.name)
                     .success(function (data, status, headers, config) {
                         vm.topicsList.push(data);
+                        _clear();
                     })
-
                     .error(function (error) {
 
                     });
             }
-            else {
-                alert("You must provide a valid name.");
-            }
-            clear();
         }
 
         function _getTopics() {
-             restApi.getTopics()
-             .success(function (data, status, headers, config) {
-                 vm.topicsList = data;
-                 load();
-            })
-            .error(function (data, status, headers, config) {
+            restApi.getTopics()
+            .success(function (data, status, headers, config) {
                 vm.topicsList = data;
-            });    
+                load();
+            })
+           .error(function (data, status, headers, config) {
+               vm.topicsList = data;
+           });
         }
 
         function _updateTopic() {
             if (vm.currentid != undefined && vm.editname != null && vm.editname != "") {
-                var topic={topiccategoryID: vm.currentid, name: vm.editname}
+                var topic = { topiccategoryID: vm.currentid, name: vm.editname }
                 restApi.updateTopic(topic)
                 .success(function (data, status, headers, config) {
-                    vm.topicsList.forEach(function(topic, index){
-                    if(topic.topiccategoryID == vm.currentid){
-                        topic.name= vm.editname;
-                    }   
-                 });
+                    vm.topicsList.forEach(function (topic, index) {
+                        if (topic.topiccategoryID == vm.currentid) {
+                            topic.name = vm.editname;
+                        }
+                    });
                 })
                 .error(function (data, status, headers, config) {
                 });
@@ -90,7 +87,7 @@
             else {
                 alert("You must provide a valid name.");
             }
-            clear();
+            _clear();
         }
 
         function _deleteTopic() {
