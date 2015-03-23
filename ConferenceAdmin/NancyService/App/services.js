@@ -136,7 +136,7 @@
         };
 
         function _updateRegistration(data) {
-            return $http.put('/admin/updateRegistration', { registrationID: data.registrationID, firstname: data.firstname });
+            return $http.put('/admin/updateRegistration', { registrationID: data.registrationID, firstname: data.firstname, lastname: data.lastname, usertypeid: data.usertypeid, affiliationName: data.affiliationName, date1: data.date1, date2: data.date2, date3: data.date3 });
         };
 
         function _deleteRegistration(data) {
