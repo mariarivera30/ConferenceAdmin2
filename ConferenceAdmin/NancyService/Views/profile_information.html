@@ -1,25 +1,25 @@
 ﻿<div ng-controller="profileInformationCtrl as vm">
     <div ng-hide="vm.edit">
-        <h4 id="g-information">General Information </h4>
+        <h3 id="g-information">General Information <button ng-click="vm.toggleEdit()" class="btn btn-ar btn-primary right">Edit</button></h3>
         <div class="row">
             <div class="col-lg-1">
                 <h5 class="after-title-field">Title</h5>
-                <input type="text" value="Dr. "class="form-control">
+                <span class="profile-view">{{vm.title}}</span>
             </div>
             <div class="col-lg-3">
                 <h5 class="after-title-field">First Name</h5>
-                <input type="text" value="Randy" class="form-control">
+                <span class="profile-view">{{vm.firstName}}</span>
             </div>
             <div class="col-lg-4">
                 <h5 class="after-title-field">Last Name</h5>
-                <input type="text" value="Soto" class="form-control">            
+                <span class="profile-view">{{vm.lastName}}</span>
             </div>
         </div><br />
 
         <div class="row">
             <div class="col-lg-4">
                 <h5 class="after-title-field">Affiliation</h5>
-                <input type="text" value="University of Puerto Rico" class="form-control">                    
+                <span class="profile-view">{{vm.affiliationName}}</span>
             </div>
         </div>
 
@@ -27,32 +27,32 @@
         <div class="row">
             <div class="col-lg-6">
                 <h5 class="after-title-field">Line 1</h5>
-                <input type="text" value="P. Sherman 42 Wallaby Way" class="form-control">                                       
+                <span class="profile-view">{{vm.addressLine1}}</span>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-6 title-field">
                 <h5 class="after-title-field">Line 2</h5>
-                <input type="text" value="" class="form-control">
+                <span class="profile-view">{{vm.addressLine2}}</span>
             </div>
         </div>
         <br />
         <div class="row">
             <div class="col-lg-3">
                 <h5 class="after-title-field">City</h5>
-                <input type="text" value="Mayaguez" class="form-control">                    
+                <span class="profile-view">{{vm.city}}</span>
             </div>
             <div class="col-lg-3">
                 <h5 class="after-title-field">State</h5>
-                <input type="text" value="Puerto Rico" class="form-control">                   
-             </div>
+                <span class="profile-view">{{vm.state}}</span>
+            </div>
             <div class="col-lg-3">
                 <h5 class="after-title-field">Country</h5>
-                <input type="text" value="United States" class="form-control">                    
+                <span class="profile-view">{{vm.country}}</span>
             </div>
             <div class="col-lg-3">
                 <h5 class="after-title-field">Zip Code</h5>
-                <input type="text" value="00612" class="form-control">                    
+                <span class="profile-view">{{vm.zipcode}}</span>
             </div>
         </div>
 
@@ -60,110 +60,118 @@
         <div class="row">
             <div class="col-lg-6">
                 <h5 class="after-title-field">Email</h5>
-                <input type="text" value="randy.soto@upr.edu" class="form-control">                    
+                <span class="profile-view">{{vm.email}}</span>
             </div>
             <div class="col-lg-3">
                 <h5 class="after-title-field">Phone Number</h5>
-                <input type="text" value="787-123-4567" class="form-control">                    
+                <span class="profile-view">{{vm.phone}}</span>
             </div>
             <div class="col-lg-3">
                 <h5 class="after-title-field">Fax</h5>
-                <input type="text" value="" class="form-control">                    
+                <span class="profile-view">{{vm.userFax}}</span>
             </div>
         </div>
 
-        <h4>Participation Days</h4>
-        <div class="row">
+        <h4 ng-show="vm.hasApplied && vm.registrationStatus != 'Rejected' && vm.acceptanceStatus != 'Rejected'">Participation Days</h4>
+        <div class="row" ng-show="vm.hasApplied && vm.registrationStatus != 'Rejected' && vm.acceptanceStatus != 'Rejected'">
             <div class="col-lg-4">
-                <span class="block"> Day 1</span>
-                <span class="block"> Day 2</span>
+                <span class="block" ng-show="vm.date1">Day 1</span>
+                <span class="block" ng-show="vm.date2">Day 2</span>
+                <span class="block" ng-show="vm.date3">Day 3</span>
             </div>
         </div>
 
         <br />
-        <button class="btn btn-ar btn-primary">Save Changes</button>
-        <button class="btn btn-ar btn-default">Cancel</button>
 
     </div>
-</div>
 
 
 
 
-<div ng-controller="profileInformationCtrl as vm">
+
+
+
     <div ng-show="vm.edit">
-    <h3>General Information</h3>
-    <div class="row">
-        <div class="col-lg-1">
-            Title: <input type="text" class="form-control">
-        </div>
-        <div class="col-lg-3">
-            First Name: <input type="text" class="form-control">
-        </div>
-        <div class="col-lg-4">
-            Last Name: <input type="text" class="form-control">
-        </div>
-    </div><br />
+        <h3>
+            General Information
+            <button class="btn btn-ar btn-default right" ng-click="vm.toggleEdit()">Cancel</button>
+            <button class="btn btn-ar btn-primary right" ng-click="vm.updateProfileInfo()">Save Changes</button>
+        </h3>
+        <div class="row">
+            <div class="col-lg-1">
+                <h5 class="after-title-field">Title</h5>
+                <input type="text" ng-model="vm.title" class="form-control">
+            </div>
+            <div class="col-lg-3">
+                <h5 class="after-title-field">First Name</h5>
+                <input type="text" ng-model="vm.firstName" class="form-control">
+            </div>
+            <div class="col-lg-4">
+                <h5 class="after-title-field">Last Name</h5>
+                <input type="text" ng-model="vm.lastName" class="form-control">
+            </div>
+        </div><br />
 
-    <div class="row">
-        <div class="col-lg-4">
-            Affiliation: <input type="text" class="form-control">
+        <div class="row">
+            <div class="col-lg-4">
+                <h5 class="after-title-field">Affiliation</h5>
+                <input type="text" ng-model="vm.affiliationName" class="form-control">
+            </div>
         </div>
-    </div>
 
-    <h4>Mailing Address</h4>
-    <div class="row">
-        <div class="col-lg-6">
-            Line 1: <input type="text" class="form-control">
-        </div>        
-    </div>
-    <div class="row">
-        <div class="col-lg-6">
-            Line 2: <input type="text" class="form-control">
+        <h4>Mailing Address</h4>
+        <div class="row">
+            <div class="col-lg-6">
+                <h5 class="after-title-field">Line 1</h5>
+                <input type="text" ng-model="vm.addressLine1" class="form-control">
+            </div>
         </div>
-    </div>
-    <br />
-    <div class="row">
-        <div class="col-lg-2">
-            City: <input type="text" class="form-control">
+        <div class="row">
+            <div class="col-lg-6 title-field">
+                <h5 class="after-title-field">Line 2</h5>
+                <input type="text" ng-model="vm.addressLine2" class="form-control">
+            </div>
         </div>
-        <div class="col-lg-2">
-            State: <input type="text" class="form-control">
+        <br />
+        <div class="row">
+            <div class="col-lg-3">
+                <h5 class="after-title-field">City</h5>
+                <input type="text" ng-model="vm.city" class="form-control">
+            </div>
+            <div class="col-lg-3">
+                <h5 class="after-title-field">State</h5>
+                <input type="text" ng-model="vm.state" class="form-control">
+            </div>
+            <div class="col-lg-3">
+                <h5 class="after-title-field">Country</h5>
+                <input type="text" ng-model="vm.country" class="form-control">
+            </div>
+            <div class="col-lg-3">
+                <h5 class="after-title-field">Zip Code</h5>
+                <input type="text" ng-model="vm.zipcode" class="form-control">
+            </div>
         </div>
-        <div class="col-lg-2">
-            Country: <input type="text" class="form-control">
-        </div>
-        <div class="col-lg-2">
-            Zip Code: <input type="text" class="form-control">
-        </div>
-    </div>
 
-    <h4>Contact Information</h4>
-    <div class="row">
-        <div class="col-lg-4">
-           Email: <input type="text" class="form-control">
+        <h4>Contact Information</h4>
+        <div class="row">
+            <div class="col-lg-6">
+                <h5 class="after-title-field">Email</h5>
+                <input type="text" ng-model="vm.email" class="form-control">
+            </div>
+            <div class="col-lg-3">
+                <h5 class="after-title-field">Phone Number</h5>
+                <input type="text" ng-model="vm.phone" class="form-control">
+            </div>
+            <div class="col-lg-3">
+                <h5 class="after-title-field">Fax</h5>
+                <input type="text" ng-model="vm.userFax" class="form-control">
+            </div>
         </div>
-        <div class="col-lg-3">
-           Phone Number: <input type="text" class="form-control">
-        </div>
-        <div class="col-lg-3">
-            Fax: <input type="text" class="form-control">
-        </div>
-    </div>
 
-    <h4>Participation Days</h4>
-    <div class="row">
-        <div class="col-lg-4">
-            <span class="block"><input type="radio" name="days" value="1"> Day 1</span>
-            <span class="block"><input type="radio" name="days" value="2"> Day 2</span>
-            <span class="block"><input type="radio" name="days" value="2"> All</span>
-        </div>  
-    </div>
-
-    <br />
-    <button class="btn btn-ar btn-primary">Save Changes</button> 
-    <button class="btn btn-ar btn-default">Cancel</button>
+        <br />
+        <button class="btn btn-ar btn-primary" ng-click="vm.updateProfileInfo()">Save Changes</button>
+        <button class="btn btn-ar btn-default" ng-click="vm.toggleEdit()">Cancel</button>
 
     </div>
 </div>
-    
+

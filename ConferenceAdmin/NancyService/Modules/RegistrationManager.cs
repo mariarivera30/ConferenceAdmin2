@@ -27,7 +27,7 @@ namespace NancyService.Modules
                     user.title = "";
                     user.phone = "";
                     user.userFax = "";
-                    user.evaluatorStatus = "yes";
+                    //user.isEvaluator = false;
                     context.users.Add(user);
                     context.SaveChanges();
 
@@ -65,7 +65,8 @@ namespace NancyService.Modules
                         date1 = reg.date1,
                         date2 = reg.date2,
                         date3 = reg.date3,
-                        affiliationName = reg.user.affiliationName
+                        affiliationName = reg.user.affiliationName,
+                        byAdmin = reg.byAdmin
                     }).ToList();
 
                     return registrationList;
@@ -100,7 +101,7 @@ namespace NancyService.Modules
                 return null;
             }
         }
-        
+
 
         public bool deleteRegistration(int id)
         {
@@ -122,13 +123,24 @@ namespace NancyService.Modules
             }
         }
 
-        public bool updateRegistration(int id, string firstname)
+        public bool updateRegistration(RegisteredUser registeredUser)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-
+                    var registration = context.registrations.Where(reg => reg.registrationID == registeredUser.registrationID).FirstOrDefault();
+                    var temp = registration.userID;
+                    var user = context.users.Where(u => u.userID == registration.userID).FirstOrDefault();
+                    user.firstName = registeredUser.firstname;
+                    user.lastName = registeredUser.lastname;
+                    user.userTypeID = Convert.ToInt32(registeredUser.usertypeid);
+                    user.affiliationName = registeredUser.affiliationName;
+                    registration.user = user;
+                    registration.date1 = registeredUser.date1;
+                    registration.date2 = registeredUser.date2;
+                    registration.date3 = registeredUser.date3;
+                    context.SaveChanges();
                     return true;
                 }
             }
@@ -155,7 +167,7 @@ public class RegisteredUser
     public bool? date2;
     public bool? date3;
     public string affiliationName;
-
+    public bool? byAdmin;
 
     public RegisteredUser() { }
 

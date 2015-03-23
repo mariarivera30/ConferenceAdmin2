@@ -32,7 +32,10 @@
             deleteAdmin: _deleteAdmin,
             editAdmin: _editAdmin,
             postNewAdmin: _postNewAdmin,
-            getPrivilegesList: _getPrivilegesList
+            getPrivilegesList: _getPrivilegesList,
+            getProfileInfo: _getProfileInfo,
+            updateProfileInfo: _updateProfileInfo,
+            apply: _apply
         };
 
         return service;
@@ -163,6 +166,20 @@
         function _rejectRegisteredGuest(data) {
             return $http.put('admin/rejectRegisteredGuest/' + data);
         };
+
+        //-----------------------------------PROFILE-INFO-----------------------------------
+        function _getProfileInfo(data) {
+            return $http.get('profile/getProfileInfo/' + data);
+        }
+
+        function _updateProfileInfo(data) {
+            return $http.put('profile/updateProfileInfo/', data);
+        }
+
+        function _apply(data) {
+            return $http.put('profile/apply/', data);
+        }
+
     }
 }
 

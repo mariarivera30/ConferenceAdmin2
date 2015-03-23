@@ -2,10 +2,10 @@
 
     <h3>Registration List</h3><br>
     <div class="col-lg-12">
-        <table ng-table="tableParams" show-filter="true" class="table row">
+        <table ng-table="tableParams" class="table row">
             <thead>
                 <tr>
-                    <th colspan="2"><label class="left">Search: <input ng-model="searchText" /></label></th>
+                    <th colspan="3"><label class="left">Search: <input ng-model="searchText" /></label></th>
                     <!--<th>
                         <label class="left">Day1: <input type="checkbox" name="date" ng-model="searchText.date1" ng-checked="all"/></label>
                         <label class="left">Day1: <input type="checkbox" name="date" ng-model="searchText.date2" ng-checked="all"/></label>
@@ -22,7 +22,7 @@
                     <th><b>Day 1</b></th>
                     <th><b>Day 2</b></th>
                     <th><b>Day 3</b></th>
-                    <!-- <td></td> -->
+                    <th></th>
                     <th></th>
                 </tr>
             </thead>
@@ -33,12 +33,12 @@
                 <td><i class="fa fa-check" ng-show="{{reg.date1}}"></i></td>
                 <td><i class="fa fa-check" ng-show="{{reg.date2}}"></i></td>
                 <td><i class="fa fa-check" ng-show="{{reg.date3}}"></i></td>
-                <!-- <td data-toggle="modal" data-target="#editAttendee"><a href="" ng-click="vm.selectedRegistrationUpdate(reg.registrationID, reg.firstname, reg.usertype, reg.affiliation, reg.date1, reg.date2)">Edit</a></td> -->
+                <td><a href="" data-toggle="modal" data-target="#editAttendee" ng-show="reg.byAdmin" ng-click="vm.selectedRegistrationUpdate(reg.registrationID, reg.firstname, reg.lastname, reg.usertypeid, reg.affiliationName, reg.date1, reg.date2, reg.date3)">Edit</a></td>
                 <td><a href="" data-toggle="modal" data-target="#delete"><i class="glyphicon glyphicon-remove" ng-click="vm.selectedRegistrationDelete(reg.registrationID)"></i></a></td>
             </tr>
         </table>
         <div class="row">
-            <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" data-target="#register" ng-click="vm.clear();">Add Attendee</button> <a href=""><i class="fa fa-info-circle info-icon" title="Add to registration without paying fees."> </i></a>
+            <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" data-target="#register" ng-click="vm.clear">Add Attendee</button> <a href=""><i class="fa fa-info-circle info-icon" title="Add to registration without paying fees."> </i></a>
             <button class="btn btn-ar btn-primary right">Download Attendance List</button>
         </div>
     </div>
@@ -88,33 +88,26 @@
                             <input type="text" name="affiliationName" ng-model="vm.affiliationName" required />
                             <p ng-show="addRegistrationForm.affiliationName.$invalid" class="help-block">* Affiliation is required.</p>
                         </div>
-                        <!--<div class="col-md-6">
-                            <h5 class="after-title-field">Title</h5>
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" ng-model="vm.title" />
-                        </div>-->
                         <div class="col-md-6">
                             <h5 class="after-title-field">User Type</h5>
                             <select ng-model="vm.usertypeid" ng-options="usertype.userTypeName for usertype in vm.userTypesList" name="usertypeid" required></select>
                             <p ng-show="addRegistrationForm.usertypeid.$pristine" class="help-block">* User Type is required.</p>
                         </div>
-                    </form>
-                    <form name="participationDays">
+
                         <div class="col-md-12">
                             <h5 class=" after-title-field">
                                 Select Participation Days:
-                            </h5><p ng-show="participationDays.$pristine" class="help-block">* Participation Days required.</p>
-                            <input type="checkbox" name="participation1" value="1" ng-model="vm.date1" ng-checked="checkAll">&nbsp;&nbsp;Wednesday, February 26, 2014<br>
-                            <input type="checkbox" name="participation2" value="2" ng-model="vm.date2" ng-checked="checkAll">&nbsp;&nbsp;Thursday, February 27, 2014<br>
-                            <input type="checkbox" name="participation3" value="3" ng-model="vm.date3" ng-checked="checkAll">&nbsp;&nbsp;Friday, February 28, 2014<br>
-                            <input type="checkbox" name="participationAll" value="3" ng-model="checkAll">&nbsp;&nbsp;All
+                            </h5><p ng-show="participation1.$pristine && participation2.$pristine && participation2.$pristine" class="help-block">* Participation Days required.</p>
+                            <input type="checkbox" name="participation1" ng-model="vm.date1" ng-checked="checkAll">&nbsp;&nbsp;Wednesday, February 26, 2014<br>
+                            <input type="checkbox" name="participation2" ng-model="vm.date2" ng-checked="checkAll">&nbsp;&nbsp;Thursday, February 27, 2014<br>
+                            <input type="checkbox" name="participation3" ng-model="vm.date3" ng-checked="checkAll">&nbsp;&nbsp;Friday, February 28, 2014<br>
+                            <input type="checkbox" name="participationAll" value="3" ng-model="vm.checkAll">&nbsp;&nbsp;All
                         </div>
                     </form>
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addRegistration()" ng-disabled="addRegistrationForm.$invalid || participationDays.$pristine">Add</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addRegistration()" ng-disabled="addRegistrationForm.$invalid || (participation1.$pristine && participation2.$pristine && participation2.$pristine)">Add</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
@@ -126,23 +119,51 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="editAttendeeLabel">Add Attendee</h4>
+                    <h4 class="modal-title" id="editAttendeeLabel">Edit Attendee</h4>
                 </div>
                 <div class="modal-body">
-                    <h5 class="after-title-field">Name</h5>
-                    <input type="text" ng-model="vm.editfirstname" /><br>
-                    <h5 class="after-title-field">Affiliation</h5>
-                    <input type="text" /><br>
-                    <h5 class="after-title-field">Select Participation Days:</h5>
-                    <input type="checkbox" name="" value="">&nbsp;&nbsp;Wednesday, February 26, 2014<br>
-                    <input type="checkbox" name="" value="">&nbsp;&nbsp;Thursday, February 27, 2014<br>
-                    <input type="checkbox" name="" value="">&nbsp;&nbsp; Both days
+                    <form name="editRegistrationForm" novalidate>
+                        <div class="col-md-6">
+                            <h5 class="after-title-field">First Name</h5>
+                            <input type="text" name="firstname" ng-model="vm.editfirstname" required />
+                            <p ng-show="editRegistrationForm.firstname.$invalid" class="help-block">* First Name is required.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="after-title-field">Last Name</h5>
+                            <input type="text" name="lastname" ng-model="vm.editlastname" required />
+                            <p ng-show="editRegistrationForm.lastname.$invalid" class="help-block">* Last Name is required.</p>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <h5 class="after-title-field">Affiliation</h5>
+                            <input type="text" name="affiliationName" ng-model="vm.editaffiliationName" required />
+                            <p ng-show="editRegistrationForm.affiliationName.$invalid" class="help-block">* Affiliation is required.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="after-title-field">User Type</h5>
+                            <select ng-model="vm.editusertypeid" ng-options="usertype.userTypeName for usertype in vm.userTypesList" name="usertypeid" required></select>
+                            <p ng-show="editRegistrationForm.usertypeid.$pristine" class="help-block">* User Type is required.</p>
+                        </div>
+                    </form>
+                    <form name="participationDays">
+                        <div class="col-md-12">
+                            <h5 class=" after-title-field">
+                                Select Participation Days:
+                            </h5><p ng-show="participationDays.$pristine" class="help-block">* Participation Days required.</p>
+                            <input type="checkbox" name="participation1" ng-model="vm.editdate1" ng-checked="checkAll">&nbsp;&nbsp;Wednesday, February 26, 2014<br>
+                            <input type="checkbox" name="participation2" ng-model="vm.editdate2" ng-checked="checkAll">&nbsp;&nbsp;Thursday, February 27, 2014<br>
+                            <input type="checkbox" name="participation3" ng-model="vm.editdate3" ng-checked="checkAll">&nbsp;&nbsp;Friday, February 28, 2014<br>
+                            <input type="checkbox" name="participationAll" ng-model="vm.checkAll">&nbsp;&nbsp;All
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.updateRegistration()">Add</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.updateRegistration()">Save</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+

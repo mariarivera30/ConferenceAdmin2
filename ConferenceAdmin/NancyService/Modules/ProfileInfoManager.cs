@@ -1,0 +1,156 @@
+﻿using NancyService.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace NancyService.Modules
+{
+    public class ProfileInfoManager
+    {
+        public ProfileInfoManager()
+        {
+
+        }
+
+        public UserInfo getProfileInfo(UserInfo user)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    UserInfo userInfo = context.users.Where(u => u.userID == user.userID).Select(u => new UserInfo
+                    {
+                        userID = u.userID,
+                        firstName = u.firstName,
+                        lastName = u.lastName,
+                        affiliationName = u.affiliationName,
+                        addressLine1 = u.address.line1,
+                        addressLine2 = u.address.line2,
+                        city = u.address.city,
+                        state = u.address.state,
+                        country = u.address.country,
+                        zipcode = u.address.zipcode,
+                        email = u.membership.email,
+                        phone = u.phone,
+                        userFax = u.userFax,
+                        registrationStatus = u.registrationStatus,
+                        acceptanceStatus = u.acceptanceStatus,
+                        hasApplied = u.hasApplied
+                    }).FirstOrDefault();
+
+                    RegisteredUser reg = context.registrations.Where(r => r.userID == user.userID).Select(r => new RegisteredUser
+                    {
+                        date1 = r.date1,
+                        date2 = r.date2,
+                        date3 = r.date3
+                    }).FirstOrDefault();
+
+                    if (reg != null)
+                    {
+                        userInfo.date1 = reg.date1;
+                        userInfo.date2 = reg.date2;
+                        userInfo.date3 = reg.date3;
+                    }
+
+                    return userInfo;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("ProfileInfoManager.getProfileInfo error " + ex);
+                return null;
+            }
+        }
+
+        public bool updateProfileInfo(UserInfo user)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    user newUser = context.users.Where(u => u.userID == user.userID).FirstOrDefault();
+                    newUser.userID = user.userID;
+                    newUser.title = user.title;
+                    newUser.firstName = user.firstName;
+                    newUser.lastName = user.lastName;
+                    newUser.affiliationName = user.affiliationName;
+                    newUser.phone = user.phone;
+                    newUser.userFax = user.userFax;
+
+                    membership membership = context.memberships.Where(m => m.membershipID == newUser.membershipID).FirstOrDefault();
+                    membership.email = user.email;
+
+                    address address = context.addresses.Where(a => a.addressID == newUser.addressID).FirstOrDefault();
+                    address.line1 = user.addressLine1;
+                    address.line2 = user.addressLine2;
+                    address.city = user.city;
+                    address.state = user.state;
+                    address.country = user.country;
+                    address.zipcode = user.zipcode;
+
+                    registration reg = context.registrations.Where(r => r.userID == user.userID).FirstOrDefault();
+
+                    if (reg != null)
+                    {
+                        reg.date1 = user.date1;
+                        reg.date2 = user.date2;
+                        reg.date3 = user.date3;
+                    }
+
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool apply(UserInfo user)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    user newUser = context.users.Where(u => u.userID == user.userID).FirstOrDefault();
+                    newUser.hasApplied = true;
+
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+    }
+}
+
+
+public class UserInfo
+{
+    public long userID;
+    public string title;
+    public string firstName;
+    public string lastName;
+    public string affiliationName;
+    public string addressLine1;
+    public string addressLine2;
+    public string city;
+    public string state;
+    public string country;
+    public string zipcode;
+    public string email;
+    public string phone;
+    public string userFax;
+    public string registrationStatus;
+    public string acceptanceStatus;
+    public bool? hasApplied;
+    public bool? date1;
+    public bool? date2;
+    public bool? date3;
+}

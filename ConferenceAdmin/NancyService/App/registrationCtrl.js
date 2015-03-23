@@ -17,6 +17,7 @@
         vm.date1;
         vm.date2;
         vm.date3;
+        vm.checkAll;
 
         vm.registrationsList = {};
         vm.userTypesList = {};
@@ -24,14 +25,16 @@
         vm.lastname;
         vm.usertypeid;
         vm.affiliationName;
-        vm.title;
         vm.registrationstatus;
         vm.hasapplied;
         vm.acceptancestatus;
+        vm.byAdmin;
 
         vm.currentid;
         vm.editfirstname;
-
+        vm.editlastname;
+        vm.editusertypeid;
+        vm.editaffiliationName;
 
         // Functions
         vm.activate = activate;
@@ -73,15 +76,17 @@
             vm.registrationstatus = "";
             vm.hasapplied = false;
             vm.acceptancestatus = "";
-            date1 = false;
-            date2 = false;
-            date3 = false;
+            vm.date1 = false;
+            vm.date2 = false;
+            vm.date3 = false;
+            vm.checkAll = false;
+            vm.currentid = 0;
         }
 
         function _addRegistration() {
             var userTypeName = vm.usertypeid.userTypeName;
-            vm.usertypeid = vm.usertypeid.userTypeID;            
-            if (vm.firstname != null && vm.lastname != null && vm.usertypeid != 0 && vm.affiliationName != null && !(vm.date1 == false && vm.date2 == false) ) {
+            vm.usertypeid = vm.usertypeid.userTypeID;
+            if (vm.firstname != null && vm.lastname != null && vm.usertypeid != 0 && vm.affiliationName != null && !(vm.date1 == false && vm.date2 == false)) {
                 restApi.postNewRegistration(vm)
                     .success(function (data, status, headers, config) {
                         vm.usertypeid = userTypeName;
@@ -102,40 +107,58 @@
         function _getRegistrations() {
             restApi.getRegistrations().
                    success(function (data, status, headers, config) {
-                       // this callback will be called asynchronously
-                       // when the response is available
                        vm.registrationsList = data;
                    }).
                    error(function (data, status, headers, config) {
-                       // called asynchronously if an error occurs
-                       // or server returns response with an error status.
                        vm.registrationsList = data;
                    });
         }
 
 
 
-        function _selectedRegistrationUpdate(id, firstname, lastname, usertypeid, affiliation, date1, date2, date3) {
+        function _selectedRegistrationUpdate(id, firstname, lastname, usertypeid, affiliationName, date1, date2, date3) {
             vm.currentid = id;
             vm.editfirstname = firstname;
+            vm.editlastname = lastname;
+
+            for (var i = 1; i < vm.userTypesList.length; i++) {
+                if (vm.userTypesList[i].userTypeName == usertypeid) {
+                    vm.editusertypeid = i;
+                }
+            }
+
+            vm.editaffiliationName = affiliationName;
+            vm.editdate1 = date1;
+            vm.editdate2 = date2;
+            vm.editdate3 = date3;
         }
 
         function _updateRegistration() {
-            if (vm.currentid != undefined && vm.editfirstname != null && vm.editfirstname != "") {
-                var registration = { registrationID: vm.currentid, firstname: vm.editfirstname }
+            if (vm.currentid != undefined && vm.currentid != 0) {
+                var registration = { registrationID: vm.currentid, firstname: vm.editfirstname, lastname: vm.editlastname, usertypeid: vm.editusertypeid.userTypeID, affiliationName: vm.editaffiliationName, date1: vm.editdate1, date2: vm.editdate2, date3: vm.editdate3 }
                 restApi.updateRegistration(registration)
                 .success(function (data, status, headers, config) {
                     vm.registrationsList.forEach(function (registration, index) {
                         if (registration.registrationID == vm.currentid) {
-                            registration.firstname = vm.editfirstname;
+                            vm.firstname = vm.editfirstname;
+                            vm.lastname = vm.editlastname;
+                            vm.usertypeid = vm.editusertypeid.userTypeName;
+                            vm.affiliationName = vm.editaffiliationName;
+                            vm.date1 = vm.editdate1;
+                            vm.date2 = vm.editdate2;
+                            vm.date3 = vm.editdate3;
                         }
+                        else
+                            location.reload();
                     });
                 })
                 .error(function (data, status, headers, config) {
+                    alert("Failed to edit Registration.");
+                    location.reload();
                 });
             }
             else {
-                alert("You must provide a valid name.");
+                alert("There is information missing.");
             }
             clear();
         }

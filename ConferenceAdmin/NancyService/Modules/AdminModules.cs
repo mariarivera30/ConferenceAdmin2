@@ -201,30 +201,23 @@ namespace NancyService.Modules
                 return Response.AsJson(list);
             };
 
-            Put["/updateRegistration/{registrationID:int, firstname:string}"] = parameters =>
+            Put["/updateRegistration"] = parameters =>
             {
-                if (registration.updateRegistration(parameters.registrationID, parameters.firstname))
-                {
+                var registeredUser = this.Bind<RegisteredUser>();
+                if (registration.updateRegistration(registeredUser))
                     return HttpStatusCode.OK;
-                }
 
                 else
-                {
                     return HttpStatusCode.Conflict;
-                }
             };
 
             Delete["/deleteRegistration/{registrationID:int}"] = parameters =>
             {
                 if (registration.deleteRegistration(parameters.registrationID))
-                {
                     return HttpStatusCode.OK;
-                }
 
                 else
-                {
                     return HttpStatusCode.Conflict;
-                }
             };
 
             Post["/addRegistration"] = parameters =>
@@ -233,6 +226,7 @@ namespace NancyService.Modules
                 var reg = this.Bind<registration>();
                 return Response.AsJson(registration.addRegistration(reg: reg, user: user));
             };
+
             //-------------------------------------GUESTS---------------------------------------------
             //Guest list for admins
             Get["/getGuestList"] = parameters =>

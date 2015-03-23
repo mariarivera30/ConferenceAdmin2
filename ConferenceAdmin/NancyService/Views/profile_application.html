@@ -1,24 +1,30 @@
-﻿<div class="row" ng-controller="registrationCtrl as vm">
-    <h4 id="g-information">Application:</h4>
+﻿<div class="row" ng-controller="profileInformationCtrl as vm">
+    <h4 id="g-information">Application/Registration Status:</h4>
 
-    <div class="alert alert-warning">
-        <strong><i class="fa fa-info"></i></strong> You have not applied yet. Please click the Apply button below to begin.
+    <div class="alert alert-warning" ng-hide="vm.hasApplied">
+        <strong><i class="fa fa-info"></i></strong> You have not applied yet. Please click the Apply button below to request acceptance from the administrator.
     </div>
 
-    <div class="alert alert-danger">
+    <div class="alert alert-info" ng-show="vm.hasApplied && (vm.registrationStatus == '' || vm.registrationStatus == null) && (vm.acceptanceStatus == '' || vm.acceptanceStatus == null)">
+        <strong><i class="fa fa-refresh"></i></strong> Your application is currently being processed. You will be notified when your application is reviewed.
+    </div>
+
+    <div class="alert alert-danger" ng-show="vm.acceptanceStatus == 'Rejected'">
         <strong><i class="fa fa-times"></i></strong> Your application has been <strong>REJECTED</strong>.
     </div>
 
-    <div class="alert alert-info">
+    <div class="alert alert-danger" ng-show="vm.registrationStatus == 'Rejected'">
+        <strong><i class="fa fa-times"></i></strong> Your registration has been <strong>REJECTED</strong>.
+    </div>
+
+    <div class="alert alert-info" ng-show="vm.acceptanceStatus == 'Accepted' && (vm.registrationStatus == '' || vm.registrationStatus == null)">
         <strong><i class="fa fa-bullhorn"></i></strong> Your application has been <strong>APPROVED</strong>. Please proceed to fill out your Registration by clicking the Register button below.
     </div>
 
-    <div class="alert alert-success">
+    <div class="alert alert-success" ng-show="vm.registrationStatus == 'Accepted'">
         <strong><i class="fa fa-check"></i></strong> Your Registration process has been completed.
     </div>
 
-    <button class="btn btn-ar btn-primary" ng-hide="registration">Apply</button>
-    <button class="btn btn-ar btn-primary" ng-show="registration" disabled>Apply</button>
-    <button class="btn btn-ar btn-primary" ng-show="registration">Register</button>
-    <button class="btn btn-ar btn-primary" ng-hide="registration" disabled>Register</button>
+    <button class="btn btn-ar btn-primary" ng-disabled="vm.hasApplied" ng-click="vm.apply()">Apply</button>
+    <button class="btn btn-ar btn-primary" ng-disabled="vm.acceptanceStatus != 'Accepted' || !vm.hasApplied || (vm.registrationStatus != '' && vm.registrationStatus != null)">Register</button>
 </div>
