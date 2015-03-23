@@ -5,7 +5,7 @@
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$http', 'restApi','$window', layoutCtrl]);
+        ['$scope', '$http','$window', layoutCtrl]);
 
     function layoutCtrl($scope, $http, $window) {
         

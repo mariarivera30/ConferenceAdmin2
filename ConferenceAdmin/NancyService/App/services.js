@@ -8,9 +8,9 @@
 
     function addrestApi($http) {
         var service = {
+            deleteSponsor : _deleteSponsor,
             getSponsorTypesList:_getSponsorTypesList,
             updateSponsor: _updateSponsor,
-            deleteSponsor: _deleteSponsor,
             login: _login,
             postNewSponsor: _postNewSponsor,
             postUser: _postUser,
@@ -37,23 +37,23 @@
 
         return service;
         function _updateSponsor(data) {
-            return $http.put('/admin/updateSponsor',data);
+            return $http.put('/admin/updateSponsor', data);
         };
         function _deleteSponsor(data) {
-            return $http.put('/admin/deleteSponsor/' , data);
+            return $http.put('/admin/deleteSponsor/', data);
         };
 
         function _getSponsorTypesList() {
             return $http.get('/admin/getSponsorTypesList');
         };
 
-        function _login(data) {
-            return $http.post('/auth/login', { email: data.email, password: data.password });
-        };
-
         function _postNewSponsor(data) {
             return $http.post('/admin/addsponsor', data)
-               
+
+        };
+
+        function _login(data) {
+            return $http.post('/auth/login', { email: data.email, password: data.password });
         };
 
         function _getSponsors() {

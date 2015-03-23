@@ -6,15 +6,15 @@
                 <td><b>Name</b></td>
                 <td><b>Affiliation</b></td>
                 <td><b>Amount</b></td>
-                <td><b></b></td>
+
                 <td></td>
                 <td></td>
             </tr>
             <tr ng-repeat="sponsor in  vm.sponsorsList">
-                <td>{{sponsor.firstName}} {{sponsor.lastName}}</td>
+                <td data-toggle="modal" data-target="#viewSponsor" ng-click="vm.selectedSponsor(sponsor); vm.viewValues()"><a href="">{{sponsor.firstName}} {{sponsor.lastName}}</td>
                 <td>{{sponsor.company}}</td>
                 <td>{{sponsor.amount}}</td>
-                <td data-toggle="modal" data-target="#viewSponsor" ng-click="vm.selectedSponsor(sponsor); vm.viewValues()"><a href="">View</a></td>
+
                 <td data-toggle="modal" data-target="#addSponsor" ng-click="vm.selectedSponsor(sponsor);vm.editValues()"><a href="">Edit</a></td>
                 <td><a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedSponsor(sponsor)"><i class="glyphicon glyphicon-remove"></i></a></td>
             </tr>
@@ -129,9 +129,26 @@
 
                             <span class=" col-lg-6">
                                 <label>Logo:</label>
-                                <br />
-                                <input type="text" ng-model="vm.sponsor.logo" required />
-                                <input type="file"><br />
+
+
+                                <form action="" method="post" enctype="multipart/form-data">
+                                    <br><br>
+
+                                    <div class="upload">
+
+                                        <input class="glyphicon glyphicon glyphicon-picture" type="file" name="upload" file-model="myFile" on-read-file="showContent($fileContent)" />
+
+                                    </div>
+                                    <div class="col-sm-6 col-md-6">
+                                        <div ng-if="content">
+                                            <img class="img-responsive" src="{{content}}" />
+                                        </div>
+                                    </div>
+
+
+
+                                </form>
+
 
                             </span>
                         </div>
@@ -160,8 +177,8 @@
                         </div>
 
                         <div ng-hide=" vm.view" class="modal-footer">
-                            <button ng-show="vm.add" type="submit" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addSponsor()" ng-disabled="addSponsorForm.$invalid">Add</button>
-                            <button ng-show="vm.edit" type="submit" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.updateSponsor()" ng-disabled="addSponsorForm.$invalid">Save</button>
+                            <button ng-show="vm.add" type="submit" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addSponsor(myFile)" ng-disabled="addSponsorForm.$invalid">Add</button>
+                            <button ng-show="vm.edit" type="submit" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.updateSponsor(myFile)" ng-disabled="addSponsorForm.$invalid">Save</button>
                             <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                         </div>
 
@@ -239,8 +256,16 @@
                     <div class="row">
 
 
+                        <span class=" col-lg-6   ">
+                            <label>Logo:</label>
+                            <div>
+                                <img class="img-responsive" src="{{vm.sponsor.logo}}" />
+                            </div>
+                        </span>
                         <span class=" col-lg-6">
-                            <label>Logo:</label> {{vm.sponsor.logo}}
+                            <br /><br /><br /><br />
+                            <button type="submit" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.downloadLogo()">Download</button>
+
                         </span>
                     </div>
                     <div>
@@ -262,6 +287,8 @@
                     </div>
 
                     <div class="modal-footer">
+
+
 
                     </div>
 

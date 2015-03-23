@@ -13,11 +13,11 @@ namespace NancyService.Models.Mapping
             // Properties
             this.Property(t => t.documentFile)
                 .IsRequired()
-                .HasMaxLength(2000);
+                .HasMaxLength(1073741823);
 
             this.Property(t => t.documentName)
                 .IsRequired()
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             // Table & Column Mappings
             this.ToTable("authorizationsubmitted", "conferenceadmin");

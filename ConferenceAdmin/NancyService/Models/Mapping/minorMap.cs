@@ -11,17 +11,18 @@ namespace NancyService.Models.Mapping
             this.HasKey(t => t.minorsID);
 
             // Properties
+
+            // Relationships
+            this.HasRequired(t => t.user)
+                .WithMany(t => t.minors)
+                .HasForeignKey(d => d.userID);
+
             // Table & Column Mappings
             this.ToTable("minors", "conferenceadmin");
             this.Property(t => t.minorsID).HasColumnName("minorsID");
             this.Property(t => t.userID).HasColumnName("userID");
             this.Property(t => t.authorizationStatus).HasColumnName("authorizationStatus");
             this.Property(t => t.deleted).HasColumnName("deleted");
-
-            // Relationships
-            this.HasRequired(t => t.user)
-                .WithMany(t => t.minors)
-                .HasForeignKey(d => d.userID);
 
         }
     }

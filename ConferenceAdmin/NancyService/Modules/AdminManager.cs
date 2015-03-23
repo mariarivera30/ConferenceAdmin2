@@ -122,7 +122,7 @@ namespace NancyService.Modules
                         newUser.userTypeID = 4;
                         newUser.addressID = 1;
                         newUser.affiliationName = "";
-                        newUser.deleted = 0;
+                        newUser.deleted = false;
                         newUser.hasApplied = false;
                         newUser.title = "";
                         newUser.phone = "";

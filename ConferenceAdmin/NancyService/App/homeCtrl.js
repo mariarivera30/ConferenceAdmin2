@@ -5,7 +5,7 @@
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$http','restApi', homeCtrl]);
+        ['$scope', '$http', homeCtrl]);
 
     function homeCtrl($scope, $http) {
         var vm = this;

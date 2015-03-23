@@ -177,3 +177,17 @@ C:\Users\Jaimeiris\Documents\Conference_Admin_March19try\ConferenceAdmin\NancySe
 C:\Users\Jaimeiris\Documents\Conference_Admin_March19try\ConferenceAdmin\NancyService\obj\Debug\NancyService.dll
 C:\Users\Jaimeiris\Documents\Conference_Admin_March19try\ConferenceAdmin\NancyService\obj\Debug\NancyService.pdb
 C:\Users\Jaimeiris\Documents\Conference_Admin_March19try\ConferenceAdmin\NancyService\obj\Debug\ConferenceAdmin.csprojResolveAssemblyReference.cache
+C:\Users\Maria\Documents\Conference_Admin_DB\ConferenceAdmin\NancyService\obj\Debug\ConferenceAdmin.csprojResolveAssemblyReference.cache
+C:\Users\Maria\Documents\Conference_Admin_DB\ConferenceAdmin\NancyService\bin\NancyService.dll.config
+C:\Users\Maria\Documents\Conference_Admin_DB\ConferenceAdmin\NancyService\bin\NancyService.dll
+C:\Users\Maria\Documents\Conference_Admin_DB\ConferenceAdmin\NancyService\bin\NancyService.pdb
+C:\Users\Maria\Documents\Conference_Admin_DB\ConferenceAdmin\NancyService\bin\Nancy.Authentication.Forms.dll
+C:\Users\Maria\Documents\Conference_Admin_DB\ConferenceAdmin\NancyService\bin\Nancy.Authentication.Token.dll
+C:\Users\Maria\Documents\Conference_Admin_DB\ConferenceAdmin\NancyService\bin\Nancy.dll
+C:\Users\Maria\Documents\Conference_Admin_DB\ConferenceAdmin\NancyService\bin\Nancy.Hosting.Aspnet.dll
+C:\Users\Maria\Documents\Conference_Admin_DB\ConferenceAdmin\NancyService\bin\Nancy.xml
+C:\Users\Maria\Documents\Conference_Admin_DB\ConferenceAdmin\NancyService\bin\Nancy.Authentication.Forms.xml
+C:\Users\Maria\Documents\Conference_Admin_DB\ConferenceAdmin\NancyService\bin\Nancy.Authentication.Token.xml
+C:\Users\Maria\Documents\Conference_Admin_DB\ConferenceAdmin\NancyService\bin\Nancy.Hosting.Aspnet.xml
+C:\Users\Maria\Documents\Conference_Admin_DB\ConferenceAdmin\NancyService\obj\Debug\NancyService.dll
+C:\Users\Maria\Documents\Conference_Admin_DB\ConferenceAdmin\NancyService\obj\Debug\NancyService.pdb

@@ -24,10 +24,12 @@ namespace NancyService.Modules
             GuestManager guest = new GuestManager();
 
 
-/* ----- Sponsor -----*/
+
+            /* ----- Sponsor -----*/
 
             Post["/addsponsor"] = parameters =>
             {
+
                 var sponsor = this.Bind<NancyService.Modules.SponsorManager.SponsorQuery>();
 
                 if (sponsorManager.addSponsor(sponsor))
@@ -42,15 +44,15 @@ namespace NancyService.Modules
             };
 
             Get["/getSponsor"] = parameters =>
-             {
-                 try
-                 {    
+            {
+                try
+                {
                     // this.RequiresAuthentication();
                     // this.RequiresClaims(new[] { "minor" });
-                     return Response.AsJson(sponsorManager.getSponsorList());
-                 }
-                 catch { return null; }
-             };
+                    return Response.AsJson(sponsorManager.getSponsorList());
+                }
+                catch { return null; }
+            };
 
             Put["/updateSponsor"] = parameters =>
             {
@@ -65,7 +67,7 @@ namespace NancyService.Modules
                 {
                     return HttpStatusCode.Conflict;
                 }
-            };       
+            };
 
             Get["/getSponsorTypesList"] = parameters =>
             {
@@ -92,8 +94,6 @@ namespace NancyService.Modules
                     return HttpStatusCode.Conflict;
                 }
             };
-
-
 /* ----- Topic -----*/
 
 

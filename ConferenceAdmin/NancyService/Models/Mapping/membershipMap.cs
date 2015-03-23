@@ -30,6 +30,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.emailConfirmation).HasColumnName("emailConfirmation");
             this.Property(t => t.confirmationKey).HasColumnName("confirmationKey");
             this.Property(t => t.deleted).HasColumnName("deleted");
+
         }
     }
 }

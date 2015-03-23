@@ -12,16 +12,16 @@ namespace NancyService.Models.Mapping
 
             // Properties
             this.Property(t => t.duration)
-                .HasMaxLength(45);
+                .HasMaxLength(200);
 
             this.Property(t => t.delivery)
-                .HasMaxLength(45);
+                .HasMaxLength(8000);
 
             this.Property(t => t.plan)
-                .HasMaxLength(45);
+                .HasMaxLength(8000);
 
             this.Property(t => t.necessary_equipment)
-                .HasMaxLength(100);
+                .HasMaxLength(500);
 
             // Table & Column Mappings
             this.ToTable("workshops", "conferenceadmin");

@@ -38,6 +38,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.state).HasColumnName("state");
             this.Property(t => t.country).HasColumnName("country");
             this.Property(t => t.zipcode).HasColumnName("zipcode");
+
         }
     }
 }

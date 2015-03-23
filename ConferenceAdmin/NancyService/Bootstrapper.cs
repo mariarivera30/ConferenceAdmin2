@@ -33,5 +33,12 @@ namespace NancyService
             TokenAuthentication.Enable(pipelines, new TokenAuthenticationConfiguration(container.Resolve<ITokenizer>()));
            
         }
+
+        protected override void ApplicationStartup(Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines)
+        {
+            base.ApplicationStartup(container, pipelines);
+
+            Nancy.Json.JsonSettings.MaxJsonLength = int.MaxValue;
+        }
     }
 }

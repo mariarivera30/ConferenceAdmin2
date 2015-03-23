@@ -18,6 +18,7 @@ namespace NancyService.Models
 
         public DbSet<address> addresses { get; set; }
         public DbSet<authorizationsubmitted> authorizationsubmitteds { get; set; }
+        public DbSet<authorizationtemplate> authorizationtemplates { get; set; }
         public DbSet<claim> claims { get; set; }
         public DbSet<committeeinterface> committeeinterfaces { get; set; }
         public DbSet<companion> companions { get; set; }
@@ -27,6 +28,7 @@ namespace NancyService.Models
         public DbSet<evaluationsubmitted> evaluationsubmitteds { get; set; }
         public DbSet<evaluatiorsubmission> evaluatiorsubmissions { get; set; }
         public DbSet<evaluator> evaluators { get; set; }
+        public DbSet<interfacedocument> interfacedocuments { get; set; }
         public DbSet<interfaceinformation> interfaceinformations { get; set; }
         public DbSet<membership> memberships { get; set; }
         public DbSet<minor> minors { get; set; }
@@ -52,6 +54,7 @@ namespace NancyService.Models
         {
             modelBuilder.Configurations.Add(new addressMap());
             modelBuilder.Configurations.Add(new authorizationsubmittedMap());
+            modelBuilder.Configurations.Add(new authorizationtemplateMap());
             modelBuilder.Configurations.Add(new claimMap());
             modelBuilder.Configurations.Add(new committeeinterfaceMap());
             modelBuilder.Configurations.Add(new companionMap());
@@ -61,6 +64,7 @@ namespace NancyService.Models
             modelBuilder.Configurations.Add(new evaluationsubmittedMap());
             modelBuilder.Configurations.Add(new evaluatiorsubmissionMap());
             modelBuilder.Configurations.Add(new evaluatorMap());
+            modelBuilder.Configurations.Add(new interfacedocumentMap());
             modelBuilder.Configurations.Add(new interfaceinformationMap());
             modelBuilder.Configurations.Add(new membershipMap());
             modelBuilder.Configurations.Add(new minorMap());

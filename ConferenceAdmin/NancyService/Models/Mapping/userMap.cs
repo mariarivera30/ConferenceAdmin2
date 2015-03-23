@@ -37,7 +37,20 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.acceptanceStatus)
                 .HasMaxLength(45);
 
-              
+            this.Property(t => t.evaluatorStatus)
+                .HasMaxLength(45);
+
+
+            // Relationships
+            this.HasRequired(t => t.address)
+                .WithMany(t => t.users)
+                .HasForeignKey(d => d.addressID);
+            this.HasRequired(t => t.membership)
+                .WithMany(t => t.users)
+                .HasForeignKey(d => d.membershipID);
+            this.HasRequired(t => t.usertype)
+                .WithMany(t => t.users)
+                .HasForeignKey(d => d.userTypeID);
 
             // Table & Column Mappings
             this.ToTable("user", "conferenceadmin");
@@ -54,19 +67,8 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.registrationStatus).HasColumnName("registrationStatus");
             this.Property(t => t.hasApplied).HasColumnName("hasApplied");
             this.Property(t => t.acceptanceStatus).HasColumnName("acceptanceStatus");
-            this.Property(t => t.isEvaluator).HasColumnName("isEvaluator");
+            this.Property(t => t.evaluatorStatus).HasColumnName("evaluatorStatus");
             this.Property(t => t.deleted).HasColumnName("deleted");
-
-            // Relationships
-            this.HasRequired(t => t.address)
-                .WithMany(t => t.users)
-                .HasForeignKey(d => d.addressID);
-            this.HasRequired(t => t.membership)
-                .WithMany(t => t.users)
-                .HasForeignKey(d => d.membershipID);
-            this.HasRequired(t => t.usertype)
-                .WithMany(t => t.users)
-                .HasForeignKey(d => d.userTypeID);
 
         }
     }

@@ -27,7 +27,7 @@ namespace NancyService.Modules
                     user.title = "";
                     user.phone = "";
                     user.userFax = "";
-                    user.isEvaluator = true;
+                    user.evaluatorStatus = "yes";
                     context.users.Add(user);
                     context.SaveChanges();
 

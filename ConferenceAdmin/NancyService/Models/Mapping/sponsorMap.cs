@@ -33,7 +33,19 @@ namespace NancyService.Models.Mapping
                 .HasMaxLength(45);
 
             this.Property(t => t.logo)
-                .HasMaxLength(45);
+                .HasMaxLength(1073741823);
+
+
+            // Relationships
+            this.HasOptional(t => t.address)
+                .WithMany(t => t.sponsors)
+                .HasForeignKey(d => d.addressID);
+            this.HasRequired(t => t.payment)
+                .WithMany(t => t.sponsors)
+                .HasForeignKey(d => d.paymentID);
+            this.HasRequired(t => t.sponsortype1)
+                .WithMany(t => t.sponsors)
+                .HasForeignKey(d => d.sponsorType);
 
             // Table & Column Mappings
             this.ToTable("sponsor", "conferenceadmin");
@@ -49,18 +61,6 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.email).HasColumnName("email");
             this.Property(t => t.logo).HasColumnName("logo");
             this.Property(t => t.deleted).HasColumnName("deleted");
-
-            // Relationships
-            this.HasOptional(t => t.address)
-                .WithMany(t => t.sponsors)
-                .HasForeignKey(d => d.addressID);
-            this.HasRequired(t => t.payment)
-                .WithMany(t => t.sponsors)
-                .HasForeignKey(d => d.paymentID);
-            this.HasRequired(t => t.sponsortype1)
-                .WithMany(t => t.sponsors)
-                .HasForeignKey(d => d.sponsorType);
-
         }
     }
 }

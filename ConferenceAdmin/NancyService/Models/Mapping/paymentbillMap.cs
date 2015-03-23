@@ -13,11 +13,11 @@ namespace NancyService.Models.Mapping
             // Properties
             this.Property(t => t.transactionid)
                 .IsRequired()
-                .HasMaxLength(45);
+                .HasMaxLength(1000);
 
             this.Property(t => t.methodOfPayment)
                 .IsRequired()
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             this.Property(t => t.creditCardNumber)
                 .HasMaxLength(45);

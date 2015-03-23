@@ -12,7 +12,16 @@ namespace NancyService.Models.Mapping
 
             // Properties
             this.Property(t => t.note)
-                .HasMaxLength(300);
+                .HasMaxLength(500);
+
+
+            // Relationships
+            this.HasRequired(t => t.payment)
+                .WithMany(t => t.registrations)
+                .HasForeignKey(d => d.paymentID);
+            this.HasRequired(t => t.user)
+                .WithMany(t => t.registrations)
+                .HasForeignKey(d => d.userID);
 
             // Table & Column Mappings
             this.ToTable("registration", "conferenceadmin");
@@ -25,14 +34,6 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.byAdmin).HasColumnName("byAdmin");
             this.Property(t => t.deleted).HasColumnName("deleted");
             this.Property(t => t.note).HasColumnName("note");
-
-            // Relationships
-            this.HasRequired(t => t.payment)
-                .WithMany(t => t.registrations)
-                .HasForeignKey(d => d.paymentID);
-            this.HasRequired(t => t.user)
-                .WithMany(t => t.registrations)
-                .HasForeignKey(d => d.userID);
 
         }
     }

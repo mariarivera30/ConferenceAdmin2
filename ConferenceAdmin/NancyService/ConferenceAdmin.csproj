@@ -79,11 +79,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\adminCtrl.js" />
+    <Content Include="App\administratorCtrl.js" />
     <Content Include="App\app.js" />
     <Content Include="App\abstractCtrl.js" />
     <Content Include="App\committeeCtrl.js" />
     <Content Include="App\contactCtrl.js" />
     <Content Include="App\deadlinesCtrl.js" />
+    <Content Include="App\fileModel.js" />
     <Content Include="App\guestCtrl.js" />
     <Content Include="App\homeCtrl.js" />
     <Content Include="App\participationInformation.js" />
@@ -109,17 +111,9 @@
     <Content Include="App\workshopsCtrl.js" />
     <Content Include="bin\EntityFramework.dll" />
     <Content Include="bin\EntityFramework.SqlServer.dll" />
-    <Content Include="bin\EntityFramework.SqlServer.xml" />
-    <Content Include="bin\EntityFramework.xml" />
     <Content Include="bin\MySql.Data.Entity.EF6.dll" />
-    <Content Include="bin\Nancy.Authentication.Forms.dll" />
-    <Content Include="bin\Nancy.Authentication.Forms.xml" />
-    <Content Include="bin\Nancy.Authentication.Token.dll" />
-    <Content Include="bin\Nancy.Authentication.Token.xml" />
-    <Content Include="bin\Nancy.dll" />
-    <Content Include="bin\Nancy.Hosting.Aspnet.dll" />
-    <Content Include="bin\Nancy.Hosting.Aspnet.xml" />
-    <Content Include="bin\Nancy.xml" />
+    <Content Include="bin\NancyService.dll" />
+    <Content Include="bin\NancyService.pdb" />
     <Content Include="css\custom.css" />
     <Content Include="css\datepicker.css" />
     <Content Include="css\print.css" />
@@ -132,6 +126,7 @@
     <Content Include="Views\admin_deadlines.html" />
     <Content Include="Views\admin_evaluationsDetails.html" />
     <Content Include="Views\admin_generalInformation.html" />
+    <Content Include="Views\admin_manageadministrators.html" />
     <Content Include="Views\admin_managecommittee.html" />
     <Content Include="Views\admin_manageguests.html" />
     <Content Include="Views\admin_managesubmissions.html" />
@@ -1351,6 +1346,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Models\address.cs" />
     <Compile Include="Models\authorizationsubmitted.cs" />
+    <Compile Include="Models\authorizationtemplate.cs" />
     <Compile Include="Models\claim.cs" />
     <Compile Include="Models\committeeinterface.cs" />
     <Compile Include="Models\companion.cs" />
@@ -1361,9 +1357,11 @@
     <Compile Include="Models\evaluationsubmitted.cs" />
     <Compile Include="Models\evaluatiorsubmission.cs" />
     <Compile Include="Models\evaluator.cs" />
+    <Compile Include="Models\interfacedocument.cs" />
     <Compile Include="Models\interfaceinformation.cs" />
     <Compile Include="Models\Mapping\addressMap.cs" />
     <Compile Include="Models\Mapping\authorizationsubmittedMap.cs" />
+    <Compile Include="Models\Mapping\authorizationtemplateMap.cs" />
     <Compile Include="Models\Mapping\claimMap.cs" />
     <Compile Include="Models\Mapping\committeeinterfaceMap.cs" />
     <Compile Include="Models\Mapping\companionMap.cs" />
@@ -1373,6 +1371,7 @@
     <Compile Include="Models\Mapping\evaluationsubmittedMap.cs" />
     <Compile Include="Models\Mapping\evaluatiorsubmissionMap.cs" />
     <Compile Include="Models\Mapping\evaluatorMap.cs" />
+    <Compile Include="Models\Mapping\interfacedocumentMap.cs" />
     <Compile Include="Models\Mapping\interfaceinformationMap.cs" />
     <Compile Include="Models\Mapping\membershipMap.cs" />
     <Compile Include="Models\Mapping\minorMap.cs" />

@@ -8,6 +8,7 @@ namespace NancyService.Models
         public long evaluationsubmittedID { get; set; }
         public long evaluatiorSubmissionID { get; set; }
         public string evaluationFile { get; set; }
+        public string evaluationName { get; set; }
         public Nullable<int> score { get; set; }
         public string publicFeedback { get; set; }
         public string privateFeedback { get; set; }

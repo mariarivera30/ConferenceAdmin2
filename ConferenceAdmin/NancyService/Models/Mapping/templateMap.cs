@@ -17,7 +17,7 @@ namespace NancyService.Models.Mapping
 
             this.Property(t => t.document)
                 .IsRequired()
-                .HasMaxLength(2000);
+                .HasMaxLength(1073741823);
 
             // Table & Column Mappings
             this.ToTable("templates", "conferenceadmin");
@@ -25,6 +25,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.name).HasColumnName("name");
             this.Property(t => t.document).HasColumnName("document");
             this.Property(t => t.deleted).HasColumnName("deleted");
+
         }
     }
 }

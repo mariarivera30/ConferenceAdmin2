@@ -13,19 +13,23 @@ namespace NancyService.Models.Mapping
             // Properties
             this.Property(t => t.evaluationFile)
                 .IsRequired()
-                .HasMaxLength(2000);
+                .HasMaxLength(1073741823);
+
+            this.Property(t => t.evaluationName)
+                .HasMaxLength(100);
 
             this.Property(t => t.publicFeedback)
-                .HasMaxLength(1000);
+                .HasMaxLength(3000);
 
             this.Property(t => t.privateFeedback)
-                .HasMaxLength(1000);
+                .HasMaxLength(3000);
 
             // Table & Column Mappings
             this.ToTable("evaluationsubmitted", "conferenceadmin");
             this.Property(t => t.evaluationsubmittedID).HasColumnName("evaluationsubmittedID");
             this.Property(t => t.evaluatiorSubmissionID).HasColumnName("evaluatiorSubmissionID");
             this.Property(t => t.evaluationFile).HasColumnName("evaluationFile");
+            this.Property(t => t.evaluationName).HasColumnName("evaluationName");
             this.Property(t => t.score).HasColumnName("score");
             this.Property(t => t.publicFeedback).HasColumnName("publicFeedback");
             this.Property(t => t.privateFeedback).HasColumnName("privateFeedback");

@@ -21,6 +21,7 @@ namespace NancyService.Modules
             public string phone { get; set; }
             public string email { get; set; }
             public string logo { get; set; }
+            public string logoName { get; set; }
             public string city { get; set; }
             public string line1 { get; set; }
             public string line2 { get; set; }

@@ -61,6 +61,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.benefit9).HasColumnName("benefit9");
             this.Property(t => t.benefit10).HasColumnName("benefit10");
             this.Property(t => t.deleted).HasColumnName("deleted");
+
         }
     }
 }
