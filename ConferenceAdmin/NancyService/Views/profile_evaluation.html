@@ -1,37 +1,136 @@
 ﻿<div ng-controller="profileEvaluationCtrl as vm">
-   <!--  List of evaluation when select one aparece lo de abajo
-   <a href="#/EvaluateSubmission">Abstract / Bios</a> -->
+    <!--  List of evaluation when select one aparece lo de abajo
+    <a href="#/EvaluateSubmission">Abstract / Bios</a> -->
+    <div ng-hide="vm.evaluate">
+        <h4 id="g-information">Evaluations</h4>
 
-    <h4 id="g-information">Evaluations</h4>
+        <table ng-table="tableParams" show-filter="true" class="table row">
+            <tr>
+                <td><b>Submision Title</b></td>
+                <td><b>User Type</b></td>
+                <td><b>Topic</b></td>
+                <td><b>Is Evaluated</b></td>
+            </tr>
+            <tr ng-repeat="submission in vm.submissionlist">
+                <td data-title="'Title'">
+                    <a href="" ng-click="vm.showEvaluationScreen(submission.submissionID)">{{submission.submissionTitle}}</a>
+                </td>
 
-    <table ng-table="tableParams" show-filter="true" class="table row">
-        <tr>
-            <td><b>Submision Title</b></td>
-            <td><b>Category</b></td>
-            <td><b>Topic</b></td>
-            <td><b></b></td>
-        </tr>
-        <tr ng-repeat="user in vm.list">
-            <td data-title="'Title'">
-                Title of Submission <br /><a href=""> View</a>
-            </td>
+                <td>{{submission.userType}}</td>
 
-            <td>{{user.type}}</td>
+                <td>{{submission.topic}}</td>
 
-            <td>Robotics</td>
+                <td>
+                    <div ng-show="submission.isEvaluated"><i class="fa fa-check"> </i></div>
+                </td>
+            </tr>
+        </table>
+   </div>
+    <div class="container" ng-show="vm.evaluate">
+        <!-- build:include layout/header.html --><!-- /build -->
 
-            <td data-title="'Template'">
-                <!-- <select class="form-control" style="width: 300px; float: left;">
-                    <option>Document_1</option>
-                    <option>Document_2</option>
-                    <option>Document_3</option>
-                </select> -->
-                <a href="#evaluation"><button class="btn btn-ar btn-primary ng-scope eval-btn">Evaluate</button></a>
-            </td>
 
-        </tr>
-    </table>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Evaluation</div>
+            <div class="panel-body">
 
+                <form role="form" name="addEvaluationForm" novalidate>
+                    <div class="row ">
+                        <div class="form-group col-sm-5">
+
+                            <h4>Tittle: {{vm.modalsubmissionTitle}}</h4>
+                            <h4>Topic: {{vm.modaltopic}}</h4>
+                            <h4>Submission Type: {{vm.modalsubmissionType}}</h4>
+                            <div class="col-sm-7" ng-show="vm.modalevaluationFile">Download previous evaluation file????</div>
+                        </div>
+                        <div class="col-sm-5 agenda-list">
+                            <ul class="list-group list-group-striped" >
+                                <li class="list-group-item">Abstract<a href="" data-toggle="modal" data-target="#evaluationModal" ng-click="vm.getDocumentSubmitted(vm.modalsubmissionAbstract, 'Abstract')"><span class="right">Open</span></a></li>
+                                <li ng-show="vm.modalpanelistNames" class="list-group-item">Panelists' Names<a href="" data-toggle="modal" data-target="#evaluationModal" ng-click="vm.getDocumentSubmitted(vm.modalpanelistNames, 'Panelist Names')"><span class="right">Open</span></a></li>
+                                <li ng-show="vm.modalplan" class="list-group-item">Plan<a href="" data-toggle="modal" data-target="#evaluationModal" ng-click="vm.getDocumentSubmitted(vm.modalplan, 'Plan')"><span class="right">Open</span></a></li>
+                                <li ng-show="vm.modalguideQuestions" class="list-group-item">Guide Questions<a href="" data-toggle="modal" data-target="#evaluationModal" ng-click="vm.getDocumentSubmitted(vm.modalguideQuestions, 'Guide Questions')"><span class="right">Open</span></a></li>
+                                <li ng-show="vm.modalformat" class="list-group-item">Format<a href="" data-toggle="modal" data-target="#evaluationModal" ng-click="vm.getDocumentSubmitted(vm.modalformat, 'Format')"><span class="right">Open</span></a></li>
+                                <li ng-show="vm.modalequipment" class="list-group-item">Equipment<a href="" data-toggle="modal" data-target="#evaluationModal" ng-click="vm.getDocumentSubmitted(vm.modalequipment, 'Equipment')"><span class="right">Open</span></a></li>
+                                <li ng-show="vm.modalduration" class="list-group-item">Duration<a href="" data-toggle="modal" data-target="#evaluationModal" ng-click="vm.getDocumentSubmitted(vm.modalduration, 'Duration')"><span class="right">Open</span></a></li>
+                                <li ng-show="vm.modaldelivery" class="list-group-item">Delivery<a href="" data-toggle="modal" data-target="#evaluationModal" ng-click="vm.getDocumentSubmitted(vm.modaldelivery, 'Delivery')"><span class="right">Open</span></a></li>
+                                <li ng-repeat="file in vm.modalsubmissionFileList" class="list-group-item">{{file.documentName}} <a href="" data-toggle="modal" data-target="#evaluationModal" ng-click="vm.getDocumentSubmitted(file.document, file.documentName)"><span class="right">Open</span></a></li>
+                            </ul>
+
+                        </div>
+
+                        <div class="col-sm-2">
+                            <center>
+                                <h5 class="margin-fix">Evaluation Form</h5>
+                                <div class="row">
+                                    <button class="btn btn-ar btn-primary eval_btn"> <i class="fa fa-upload"> </i> Upload </button>
+                                </div><br />
+                                <div class="row">
+                                    <button class=" btn btn-ar btn-primary eval_btn"> <i class="fa fa-download"> </i> Download </button>
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Public Comment</label>
+                        <input class="form-control" type="text" name="modalpublicFeedback" ng-model="vm.modalpublicFeedback">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Private Comment</label>
+                        <input class="form-control" type="text" name="modalprivateFeedback" ng-model="vm.modalprivateFeedback" required>
+                        <p ng-show="addEvaluationForm.modalprivateFeedback.$invalid && !addEvaluationForm.modalprivateFeedback.$pristine" class="help-block">Private feedback is required.</p>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Score:&nbsp;</label>                   
+                            <input class="small-input form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" step="any" name="modalevaluationScore" ng-model="vm.modalevaluationScore" required>
+                            <p ng-show="addEvaluationForm.modalevaluationScore.$invalid && !addEvaluationForm.modalevaluationScore.$pristine" class="help-block">Score is required.</p>                        
+                        </div>
+
+                    </div><br />
+                    <button type="submit" data-toggle="modal" data-target="#addTopic" class="btn btn-ar btn-primary" ng-disabled="addEvaluationForm.$invalid">Submit</button>
+                    <button class="btn btn-ar btn-default" ng-click="vm.hideEvaluationForm()">Back</button>                    
+                </form>
+            </div>
+        </div> <!-- panel panel-primary -->
+
+    </div>
+
+
+    <div class="modal fade" id="evaluationModal" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="evaluationModalLabel">Title: {{vm.modalDocumentName}}</h4>
+                </div>
+                <div class="modal-body">
+                    {{vm.modalDocument}}
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addTopic" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="addTopicLabel">Add Evaluation</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to add/update the evaluation?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addEvaluation()">Add</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<div id="evaluation"></div>

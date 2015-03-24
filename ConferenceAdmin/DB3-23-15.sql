@@ -262,6 +262,7 @@ CREATE TABLE `documentssubmitted` (
 
 LOCK TABLES `documentssubmitted` WRITE;
 /*!40000 ALTER TABLE `documentssubmitted` DISABLE KEYS */;
+INSERT INTO `documentssubmitted` VALUES (1,1,'doc1','documentContent',0),(2,1,'doc2','documentContent2',0),(3,2,'doc2_1','documentContent2_1',0);
 /*!40000 ALTER TABLE `documentssubmitted` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -323,6 +324,7 @@ CREATE TABLE `evaluatiorsubmission` (
 
 LOCK TABLES `evaluatiorsubmission` WRITE;
 /*!40000 ALTER TABLE `evaluatiorsubmission` DISABLE KEYS */;
+INSERT INTO `evaluatiorsubmission` VALUES (1,1,1,'evaluationStatus',0),(2,1,2,'evalutionStatus2',0);
 /*!40000 ALTER TABLE `evaluatiorsubmission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -776,6 +778,7 @@ CREATE TABLE `submissions` (
 
 LOCK TABLES `submissions` WRITE;
 /*!40000 ALTER TABLE `submissions` DISABLE KEYS */;
+INSERT INTO `submissions` VALUES (1,1,2,1,'abstract','title','status','2000-01-01 00:00:00',1,0),(2,1,2,1,'abstract2','title2','status2','2000-01-01 00:00:00',1,0);
 /*!40000 ALTER TABLE `submissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -800,6 +803,7 @@ CREATE TABLE `submissiontype` (
 
 LOCK TABLES `submissiontype` WRITE;
 /*!40000 ALTER TABLE `submissiontype` DISABLE KEYS */;
+INSERT INTO `submissiontype` VALUES (1,'Paper','paperDescription'), (2,'Poster', 'poster description'), (3,'Pannel','pannel description');
 /*!40000 ALTER TABLE `submissiontype` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -825,6 +829,7 @@ CREATE TABLE `templates` (
 
 LOCK TABLES `templates` WRITE;
 /*!40000 ALTER TABLE `templates` DISABLE KEYS */;
+INSERT INTO `templates` VALUES (1,'templateName','templateDocument',0);
 /*!40000 ALTER TABLE `templates` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -854,6 +859,7 @@ CREATE TABLE `templatesubmission` (
 
 LOCK TABLES `templatesubmission` WRITE;
 /*!40000 ALTER TABLE `templatesubmission` DISABLE KEYS */;
+INSERT INTO `templatesubmission` VALUES (1,1,1,0), (2,1,2,0);
 /*!40000 ALTER TABLE `templatesubmission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -878,7 +884,7 @@ CREATE TABLE `topiccategory` (
 
 LOCK TABLES `topiccategory` WRITE;
 /*!40000 ALTER TABLE `topiccategory` DISABLE KEYS */;
-INSERT INTO `topiccategory` VALUES (2,'juan',0),(3,'loka',0);
+INSERT INTO `topiccategory` VALUES (2,'science',0),(3,'robotics',0);
 /*!40000 ALTER TABLE `topiccategory` ENABLE KEYS */;
 UNLOCK TABLES;
 

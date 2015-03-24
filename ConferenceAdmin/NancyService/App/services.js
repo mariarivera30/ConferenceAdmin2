@@ -36,7 +36,11 @@
             getProfileInfo: _getProfileInfo,
             updateProfileInfo: _updateProfileInfo,
             apply: _apply,
-            makePayment: _makePayment
+            makePayment: _makePayment,
+            getAssignedSubmissions: _getAssignedSubmissions,
+            getSubmission: _getSubmission,
+            postEvaluation: _postEvaluation,
+            editEvaluation: _editEvaluation
         };
 
         return service;
@@ -184,6 +188,23 @@
         function _makePayment(data) {
             return $http.put('profile/makePayment/', data);
         }
+        //----------------------------------SUBMISSIONS---------------------------
+        //get list of submissions assigned to the evalutor currently logged in
+        function _getAssignedSubmissions(data) {
+            return $http.get('profile/getAssignedSubmissions/' + data);
+        };
+        //get details of submission with ID submissionID
+        function _getSubmission(data) {
+            return $http.get('profile/getSubmission/' + data);
+        };
+        //add new evalution for a submission
+        function _postEvaluation(data) {
+            return $http.post('profile/addEvaluation', data);
+        };
+        //edit evaluation for a submission
+        function _editEvaluation(data) {
+            return $http.put('profile/editEvaluation', data)
+        };
 
     }
 }
