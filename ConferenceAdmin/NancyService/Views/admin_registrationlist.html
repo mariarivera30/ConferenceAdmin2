@@ -98,9 +98,9 @@
                             <h5 class=" after-title-field">
                                 Select Participation Days:
                             </h5><p ng-show="participation1.$pristine && participation2.$pristine && participation2.$pristine" class="help-block">* Participation Days required.</p>
-                            <input type="checkbox" name="participation1" ng-model="vm.date1" ng-checked="checkAll">&nbsp;&nbsp;Wednesday, February 26, 2014<br>
-                            <input type="checkbox" name="participation2" ng-model="vm.date2" ng-checked="checkAll">&nbsp;&nbsp;Thursday, February 27, 2014<br>
-                            <input type="checkbox" name="participation3" ng-model="vm.date3" ng-checked="checkAll">&nbsp;&nbsp;Friday, February 28, 2014<br>
+                            <input type="checkbox" name="participation1" ng-model="vm.date1" ng-checked="vm.checkAll">&nbsp;&nbsp;Wednesday, February 26, 2014<br>
+                            <input type="checkbox" name="participation2" ng-model="vm.date2" ng-checked="vm.checkAll">&nbsp;&nbsp;Thursday, February 27, 2014<br>
+                            <input type="checkbox" name="participation3" ng-model="vm.date3" ng-checked="vm.checkAll">&nbsp;&nbsp;Friday, February 28, 2014<br>
                             <input type="checkbox" name="participationAll" value="3" ng-model="vm.checkAll">&nbsp;&nbsp;All
                         </div>
                     </form>

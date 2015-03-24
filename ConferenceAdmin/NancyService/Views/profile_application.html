@@ -18,7 +18,7 @@
     </div>
 
     <div class="alert alert-info" ng-show="vm.acceptanceStatus == 'Accepted' && (vm.registrationStatus == '' || vm.registrationStatus == null)">
-        <strong><i class="fa fa-bullhorn"></i></strong> Your application has been <strong>APPROVED</strong>. Please proceed to fill out your Registration by clicking the Register button below.
+        <strong><i class="fa fa-bullhorn"></i></strong> Your application has been <strong>APPROVED</strong>. Please proceed with your Registration by clicking the Register button below.
     </div>
 
     <div class="alert alert-success" ng-show="vm.registrationStatus == 'Accepted'">
@@ -65,9 +65,15 @@
                                 <span class="block"><label>Phone:</label> {{vm.phone}}</span>
                                 <span class="block"><label>Fax:</label> {{vm.userFax}} </span>
                             </div>
+                            <div class="col-md-6">
+                                <h4>Select Participation Days:</h4>
+                                <input type="checkbox" name="participation1" ng-model="vm.date1" ng-checked="vm.checkAll">&nbsp;&nbsp;Wednesday, February 26, 2014<br>
+                                <input type="checkbox" name="participation2" ng-model="vm.date2" ng-checked="vm.checkAll">&nbsp;&nbsp;Thursday, February 27, 2014<br>
+                                <input type="checkbox" name="participation3" ng-model="vm.date3" ng-checked="vm.checkAll">&nbsp;&nbsp;Friday, February 28, 2014<br>
+                                <input type="checkbox" name="participationAll" ng-model="vm.checkAll">&nbsp;&nbsp;All
+                            </div>
                             
-
-                                <div class="col-md-9 right">
+                                <!--<div class="col-md-9 right">
                                     <table class="table table-box">
                                         <thead>
                                             <tr>
@@ -83,17 +89,15 @@
                                                 <td>{{type.registrationLateFee | currency}}</td>
                                             </tr>
                                         </tbody>
-                                    </table>
+                                    </table> 
+                                </div>-->
 
-
-                                    <div class="block">
-                                        <label>Amount to pay:</label> {{vm.userTypesList[vm.userTypeID].registrationCost | currency}}
-                                        <button class="btn btn-ar btn-primary right">Checkout</button>
-                                    </div>
-                                </div>
-
-
-
+                                <div class="col-md-12">
+                                    <br />
+                                    Your total amount to pay is <strong>{{vm.userTypesList[vm.userTypeID + 1].registrationCost | currency}}</strong>.
+                                    <a href="https://knowledgecenter.zuora.com/@api/deki/files/873/sample_page.png" target="_blank" class="btn btn-ar btn-primary right" ng-click="vm.makePayment()">Make Payment</a>
+                                    <br />Please proceed to <strong>Make Payment</strong> and fill the required form.
+                                </div>                                                           
 
                             </div>
                     </div>
@@ -106,6 +110,9 @@
             </div>
         </div>
     </div>
+
+
+
 
 
 </div>

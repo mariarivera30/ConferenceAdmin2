@@ -35,7 +35,8 @@
             getPrivilegesList: _getPrivilegesList,
             getProfileInfo: _getProfileInfo,
             updateProfileInfo: _updateProfileInfo,
-            apply: _apply
+            apply: _apply,
+            makePayment: _makePayment
         };
 
         return service;
@@ -178,6 +179,10 @@
 
         function _apply(data) {
             return $http.put('profile/apply/', data);
+        }
+        
+        function _makePayment(data) {
+            return $http.put('profile/makePayment/', data);
         }
 
     }

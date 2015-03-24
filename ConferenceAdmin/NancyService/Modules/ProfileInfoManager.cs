@@ -90,16 +90,7 @@ namespace NancyService.Modules
                     address.state = user.state;
                     address.country = user.country;
                     address.zipcode = user.zipcode;
-
-                    registration reg = context.registrations.Where(r => r.userID == user.userID).FirstOrDefault();
-
-                    if (reg != null)
-                    {
-                        reg.date1 = user.date1;
-                        reg.date2 = user.date2;
-                        reg.date3 = user.date3;
-                    }
-
+                    
                     context.SaveChanges();
                     return true;
                 }
@@ -109,6 +100,63 @@ namespace NancyService.Modules
                 return false;
             }
         }
+
+
+        public bool makePayment(UserInfo user)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    payment payment = new payment
+                    {
+                        paymentTypeID = 2,
+                        deleted = false,
+                        creationDate = DateTime.Now.Date
+                    };
+
+                    context.payments.Add(payment);
+                    context.SaveChanges();
+
+                    registration registration = new registration
+                    {
+                        userID = user.userID,
+                        paymentID = payment.paymentID,
+                        date1 = user.date1,
+                        date2 = user.date2,
+                        date3 = user.date3,
+                        byAdmin = false,
+                        deleted = false
+                    };                    
+
+                    user saveUser = context.users.Where(u => u.userID == user.userID).FirstOrDefault();
+                    saveUser.registrationStatus = "Accepted";
+
+                    paymentbill bill = new paymentbill
+                    {
+                        paymentID = payment.paymentID,
+                        addressID = saveUser.addressID,
+                        deleted = false,
+                        AmountPaid = (double)saveUser.usertype.registrationCost,
+                        // transaction fields
+                        transactionid = "1",
+                        methodOfPayment = "VISA",
+                        creditCardNumber = "123456789",
+                        cardExpirationDate = DateTime.Now.Date
+                    };
+
+                    context.registrations.Add(registration);
+                    context.paymentbills.Add(bill);
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
         public bool apply(UserInfo user)
         {

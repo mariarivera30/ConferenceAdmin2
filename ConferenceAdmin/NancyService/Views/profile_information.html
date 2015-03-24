@@ -1,5 +1,5 @@
 ﻿<div ng-controller="profileInformationCtrl as vm">
-    <div ng-hide="vm.edit">
+    <!--<div ng-hide="vm.edit">
         <h3 id="g-information">General Information <button ng-click="vm.toggleEdit()" class="btn btn-ar btn-primary right">Edit</button></h3>
         <div class="row">
             <div class="col-lg-1">
@@ -84,18 +84,18 @@
         <br />
 
     </div>
+-->
 
 
 
 
 
 
-
-    <div ng-show="vm.edit">
+    <div ><!--ng-show="vm.edit"-->
         <h3>
             General Information
-            <button class="btn btn-ar btn-default right" ng-click="vm.toggleEdit()">Cancel</button>
-            <button class="btn btn-ar btn-primary right" ng-click="vm.updateProfileInfo()">Save Changes</button>
+            <!--<button class="btn btn-ar btn-default right" ng-click="vm.toggleEdit()">Cancel</button>
+            <button class="btn btn-ar btn-primary right" ng-click="vm.updateProfileInfo()">Save Changes</button>-->
         </h3>
         <div class="row">
             <div class="col-lg-1">
@@ -168,10 +168,44 @@
             </div>
         </div>
 
+        <h4 ng-show="vm.date1 || vm.date2 || vm.date3">Participation Days</h4>
+        <div class="row" ng-show="vm.hasApplied && vm.registrationStatus != 'Rejected' && vm.acceptanceStatus != 'Rejected'">
+            <div class="col-lg-4">
+                <span class="block" ng-show="vm.date1">Day 1</span>
+                <span class="block" ng-show="vm.date2">Day 2</span>
+                <span class="block" ng-show="vm.date3">Day 3</span>
+            </div>
+        </div>
+
         <br />
-        <button class="btn btn-ar btn-primary" ng-click="vm.updateProfileInfo()">Save Changes</button>
-        <button class="btn btn-ar btn-default" ng-click="vm.toggleEdit()">Cancel</button>
+        <button class="btn btn-ar btn-primary" ng-click="vm.updateProfileInfo()" data-toggle="modal" data-target="#notificationModal">Save Changes</button>
+        <!--<button class="btn btn-ar btn-default" ng-click="vm.toggleEdit()">Cancel</button>-->
 
     </div>
+
+
+
+
+    <div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+
+                <div class="modal-body">
+
+                    <center class="black-label">Your changes have been saved.</center>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-ar btn-primary left">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 

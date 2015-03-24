@@ -84,6 +84,12 @@
         }
 
         function _addRegistration() {
+
+            if (vm.checkAll) {
+                vm.date1 = true;
+                vm.date2 = true;
+                vm.date3 = true;
+            }
             var userTypeName = vm.usertypeid.userTypeName;
             vm.usertypeid = vm.usertypeid.userTypeID;
             if (vm.firstname != null && vm.lastname != null && vm.usertypeid != 0 && vm.affiliationName != null && !(vm.date1 == false && vm.date2 == false)) {
@@ -91,6 +97,7 @@
                     .success(function (data, status, headers, config) {
                         vm.usertypeid = userTypeName;
                         vm.registrationsList.push(vm);
+                        location.reload();
                     })
 
                     .error(function (error) {
@@ -134,6 +141,11 @@
         }
 
         function _updateRegistration() {
+            if (vm.checkAll) {
+                vm.date1 = true;
+                vm.date2 = true;
+                vm.date3 = true;
+            }
             if (vm.currentid != undefined && vm.currentid != 0) {
                 var registration = { registrationID: vm.currentid, firstname: vm.editfirstname, lastname: vm.editlastname, usertypeid: vm.editusertypeid.userTypeID, affiliationName: vm.editaffiliationName, date1: vm.editdate1, date2: vm.editdate2, date3: vm.editdate3 }
                 restApi.updateRegistration(registration)

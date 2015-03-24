@@ -44,6 +44,16 @@ namespace NancyService.Modules
                     return HttpStatusCode.Conflict;
             };
 
+            Put["/makePayment"] = parameters =>
+            {
+                var user = this.Bind<UserInfo>();
+                if (profileInfo.makePayment(user))
+                    return HttpStatusCode.OK;
+
+                else
+                    return HttpStatusCode.Conflict;
+            };
+
         }
 
     }
