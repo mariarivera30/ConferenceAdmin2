@@ -89,7 +89,10 @@ namespace NancyService.Modules
                     userTypesList = context.usertypes.Select(u => new UserTypeName
                     {
                         userTypeID = u.userTypeID,
-                        userTypeName = u.userTypeName
+                        userTypeName = u.userTypeName,
+                        description = u.description,
+                        registrationCost = u.registrationCost,
+                        registrationLateFee = u.registrationLateFee
                     }).ToList();
 
                     return userTypesList;
@@ -177,4 +180,7 @@ public class UserTypeName
 {
     public int userTypeID;
     public string userTypeName;
+    public string description;
+    public double? registrationCost;
+    public double? registrationLateFee;
 }

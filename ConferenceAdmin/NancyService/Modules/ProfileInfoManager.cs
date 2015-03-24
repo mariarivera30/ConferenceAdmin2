@@ -22,6 +22,8 @@ namespace NancyService.Modules
                     UserInfo userInfo = context.users.Where(u => u.userID == user.userID).Select(u => new UserInfo
                     {
                         userID = u.userID,
+                        userTypeID = u.userTypeID,
+                        title = u.title,
                         firstName = u.firstName,
                         lastName = u.lastName,
                         affiliationName = u.affiliationName,
@@ -134,6 +136,7 @@ namespace NancyService.Modules
 public class UserInfo
 {
     public long userID;
+    public long userTypeID;
     public string title;
     public string firstName;
     public string lastName;

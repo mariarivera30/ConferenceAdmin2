@@ -35,14 +35,18 @@
         vm.acceptanceStatus;
         vm.registrationStatus;
         vm.hasApplied;
+        vm.userTypeID;
+        vm.userTypesList = {};
 
         // Function Definitions
         vm.toggleEdit = toggleEdit;
         vm.updateProfileInfo = _updateProfileInfo;
         vm.getProfileInfo = _getProfileInfo;
         vm.apply = _apply;
+        vm.getUserTypes = _getUserTypes;
 
         _getProfileInfo(vm.userID);
+        _getUserTypes();
 
         function activate() {
 
@@ -75,6 +79,7 @@
                        vm.hasApplied = data.hasApplied;
                        vm.acceptanceStatus = data.acceptanceStatus;
                        vm.registrationStatus = data.registrationStatus;
+                       vm.userTypeID = data.userTypeID;
                    }).
                    error(function (data, status, headers, config) {
                        alert("An error occurred trying to access your Profile Information.");
@@ -100,6 +105,16 @@
                     error(function (data, status, headers, config) {
                         alert("An error occurred");
                     });
+        }
+
+        function _getUserTypes() {
+            restApi.getUserTypes().
+                   success(function (data, status, headers, config) {
+                       vm.userTypesList = data;
+                   }).
+                   error(function (data, status, headers, config) {
+                       vm.userTypesList = data;
+                   });
         }
 
     }

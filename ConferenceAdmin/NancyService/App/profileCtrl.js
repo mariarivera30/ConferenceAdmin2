@@ -11,12 +11,12 @@
         var vm = this;
         //Website content tabs
         vm.activate = activate;
-        vm.generalInfo = false;
-        vm.application = false;
-        vm.submission = false;
-        vm.authorization = false;
-        vm.receipt = false;
-        vm.evaluation = false;
+        vm.generalInfo = true;
+        vm.application = true;
+        vm.submission = true;
+        vm.authorization = true;
+        vm.receipt = true;
+        vm.evaluation = true;
         
 
         // Functions

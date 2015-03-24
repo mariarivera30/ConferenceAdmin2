@@ -2,14 +2,14 @@
     <h4 id="g-information">Application/Registration Status:</h4>
 
     <div class="alert alert-warning" ng-hide="vm.hasApplied">
-        <strong><i class="fa fa-info"></i></strong> You have not applied yet. Please click the Apply button below to request acceptance from the administrator.
+        <strong><i class="fa fa-info"></i></strong> You have not applied yet. Please click the Apply button below to request acceptance from the administrator. Acceptance is subject to space availability.
     </div>
 
     <div class="alert alert-info" ng-show="vm.hasApplied && (vm.registrationStatus == '' || vm.registrationStatus == null) && (vm.acceptanceStatus == '' || vm.acceptanceStatus == null)">
         <strong><i class="fa fa-refresh"></i></strong> Your application is currently being processed. You will be notified when your application is reviewed.
     </div>
 
-    <div class="alert alert-danger" ng-show="vm.acceptanceStatus == 'Rejected'">
+    <div class="alert alert-danger" ng-show="vm.acceptanceStatus == 'Rejected' && vm.registrationStatus != 'Rejected'">
         <strong><i class="fa fa-times"></i></strong> Your application has been <strong>REJECTED</strong>.
     </div>
 
@@ -26,5 +26,86 @@
     </div>
 
     <button class="btn btn-ar btn-primary" ng-disabled="vm.hasApplied" ng-click="vm.apply()">Apply</button>
-    <button class="btn btn-ar btn-primary" ng-disabled="vm.acceptanceStatus != 'Accepted' || !vm.hasApplied || (vm.registrationStatus != '' && vm.registrationStatus != null)">Register</button>
+    <button class="btn btn-ar btn-primary" ng-disabled="vm.acceptanceStatus != 'Accepted' || !vm.hasApplied || (vm.registrationStatus != '' && vm.registrationStatus != null)" data-toggle="modal" data-target="#registerModal">Register</button>
+
+
+
+    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h2 class="modal-title">Registration</h2>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="p-lg black-label col-md-12">Make sure your information is correct before submitting your registration.</p>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <h4>General Information</h4>
+                                <span class="block"><label>Title:</label> {{vm.title}}</span>
+                                <span class="block"><label>Full name:</label> {{vm.firstName + ' ' + vm.lastName}}</span>
+                                <span class="block"><label>Affiliation:</label> {{vm.affiliationName}}</span>
+                            </div>                            
+                            <div class="col-md-6">
+                                <h4>Address</h4>
+                                <span class="block">{{vm.addressLine1}}</span>
+                                <span class="block">{{vm.addressLine2}}</span>
+                                <span class="block">{{vm.city + ', '+ vm.state + ' ' + vm.zipcode}}</span>
+                                <span class="block">{{vm.country}}</span>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>Contact Information</h4>
+                                <span class="block"><label>Email:</label> {{vm.email}}</span>
+                                <span class="block"><label>Phone:</label> {{vm.phone}}</span>
+                                <span class="block"><label>Fax:</label> {{vm.userFax}} </span>
+                            </div>
+                            
+
+                                <div class="col-md-9 right">
+                                    <table class="table table-box">
+                                        <thead>
+                                            <tr>
+                                                <th>Participant</th>
+                                                <th>Fee</th>
+                                                <th>After deadline fee</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="type in vm.userTypesList">
+                                                <td>{{type.userTypeName}}</td>
+                                                <td>{{type.registrationCost | currency}}</td>
+                                                <td>{{type.registrationLateFee | currency}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                    <div class="block">
+                                        <label>Amount to pay:</label> {{vm.userTypesList[vm.userTypeID].registrationCost | currency}}
+                                        <button class="btn btn-ar btn-primary right">Checkout</button>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>

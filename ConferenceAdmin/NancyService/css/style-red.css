@@ -7270,3 +7270,11 @@ div .agenda-division {
 .date-range-width {
     width:48.5%;
 }
+
+.block label {
+    margin: 0;
+}
+
+.table-box{
+    border: 1px solid #ccc;
+}
