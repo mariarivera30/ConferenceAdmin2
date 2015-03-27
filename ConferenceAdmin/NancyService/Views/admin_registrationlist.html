@@ -26,19 +26,19 @@
                     <th></th>
                 </tr>
             </thead>
-            <tr ng-repeat="reg in vm.registrationsList | filter:searchText | orderBy: ['firstname', 'lastname']">
+            <tr ng-repeat="reg in vm.registrationsList  | filter:searchText | orderBy: ['firstname', 'lastname']">
                 <td>{{reg.firstname + ' ' + reg.lastname}}</td>
                 <td>{{reg.usertypeid}}</td>
                 <td>{{reg.affiliationName}}</td>
                 <td><i class="fa fa-check" ng-show="{{reg.date1}}"></i></td>
                 <td><i class="fa fa-check" ng-show="{{reg.date2}}"></i></td>
                 <td><i class="fa fa-check" ng-show="{{reg.date3}}"></i></td>
-                <td><a href="" data-toggle="modal" data-target="#editAttendee" ng-show="reg.byAdmin" ng-click="vm.selectedRegistrationUpdate(reg.registrationID, reg.firstname, reg.lastname, reg.usertypeid, reg.affiliationName, reg.date1, reg.date2, reg.date3)">Edit</a></td>
+                <td><a href="" data-toggle="modal" data-target="#editAttendee" ng-show="reg.byAdmin" ng-click="vm.selectedRegistrationUpdate(reg.registrationID, reg.firstname, reg.lastname, reg.usertype, reg.affiliationName, reg.date1, reg.date2, reg.date3)">Edit</a></td>
                 <td><a href="" data-toggle="modal" data-target="#delete"><i class="glyphicon glyphicon-remove" ng-click="vm.selectedRegistrationDelete(reg.registrationID)"></i></a></td>
             </tr>
         </table>
         <div class="row">
-            <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" data-target="#register" ng-click="vm.clear">Add Attendee</button> <a href=""><i class="fa fa-info-circle info-icon" title="Add to registration without paying fees."> </i></a>
+            <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" data-target="#register" ng-click="vm.clear()">Add Attendee</button> <a href=""><i class="fa fa-info-circle info-icon" title="Add to registration without paying fees."> </i></a>
             <button class="btn btn-ar btn-primary right">Download Attendance List</button>
         </div>
     </div>
@@ -142,7 +142,12 @@
                         </div>
                         <div class="col-md-6">
                             <h5 class="after-title-field">User Type</h5>
-                            <select ng-model="vm.editusertypeid" ng-options="usertype.userTypeName for usertype in vm.userTypesList" name="usertypeid" required></select>
+                            <select ng-model="vm.TYPE"
+                                    ng-options="type as type.userTypeName for type in vm.userTypesList" class="form-control"></select>
+
+
+
+                            
                             <p ng-show="editRegistrationForm.usertypeid.$pristine" class="help-block">* User Type is required.</p>
                         </div>
                     </form>
@@ -150,11 +155,11 @@
                         <div class="col-md-12">
                             <h5 class=" after-title-field">
                                 Select Participation Days:
-                            </h5><p ng-show="participationDays.$pristine" class="help-block">* Participation Days required.</p>
-                            <input type="checkbox" name="participation1" ng-model="vm.editdate1" ng-checked="checkAll">&nbsp;&nbsp;Wednesday, February 26, 2014<br>
-                            <input type="checkbox" name="participation2" ng-model="vm.editdate2" ng-checked="checkAll">&nbsp;&nbsp;Thursday, February 27, 2014<br>
-                            <input type="checkbox" name="participation3" ng-model="vm.editdate3" ng-checked="checkAll">&nbsp;&nbsp;Friday, February 28, 2014<br>
-                            <input type="checkbox" name="participationAll" ng-model="vm.checkAll">&nbsp;&nbsp;All
+                            </h5><p ng-show="participation1.$pristine && participation2.$pristine && participation2.$pristine" class="help-block">* Participation Days required.</p>
+                            <input type="checkbox" name="participation1" ng-model="vm.editdate1" ng-checked="vm.checkAll">&nbsp;&nbsp;Wednesday, February 26, 2014<br>
+                            <input type="checkbox" name="participation2" ng-model="vm.editdate2" ng-checked="vm.checkAll">&nbsp;&nbsp;Thursday, February 27, 2014<br>
+                            <input type="checkbox" name="participation3" ng-model="vm.editdate3" ng-checked="vm.checkAll">&nbsp;&nbsp;Friday, February 28, 2014<br>
+                            <input type="checkbox" name="participationAll" ng-model="vm.checkAll" ng-checked="vm.editdate1 && vm.editdate2 && vm.editdate3">&nbsp;&nbsp;All
                         </div>
                     </form>
                 </div>

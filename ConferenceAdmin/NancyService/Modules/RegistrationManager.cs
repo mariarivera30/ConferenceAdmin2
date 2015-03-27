@@ -54,7 +54,7 @@ namespace NancyService.Modules
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
-                {
+                {                    
                     var registrationList = new List<RegisteredUser>();
                     registrationList = context.registrations.Where(reg => reg.deleted == false).Select(reg => new RegisteredUser
                     {
@@ -66,9 +66,10 @@ namespace NancyService.Modules
                         date2 = reg.date2,
                         date3 = reg.date3,
                         affiliationName = reg.user.affiliationName,
-                        byAdmin = reg.byAdmin
+                        byAdmin = reg.byAdmin,
+                        usertype = new UserTypeName { userTypeID = reg.user.usertype.userTypeID, userTypeName = reg.user.usertype.userTypeName }
                     }).ToList();
-
+                    
                     return registrationList;
                 }
             }
@@ -171,6 +172,7 @@ public class RegisteredUser
     public bool? date3;
     public string affiliationName;
     public bool? byAdmin;
+    public UserTypeName usertype;
 
     public RegisteredUser() { }
 

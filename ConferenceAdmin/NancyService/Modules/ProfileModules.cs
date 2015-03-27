@@ -18,6 +18,7 @@ namespace NancyService.Modules
         {
             ProfileInfoManager profileInfo = new ProfileInfoManager();
             SubmissionManager submission = new SubmissionManager();
+            ProfileAuthorizationManager profileAuthorization = new ProfileAuthorizationManager();
 
 
             Get["/getProfileInfo/{userID:long}"] = parameters =>
@@ -99,6 +100,23 @@ namespace NancyService.Modules
                 else return HttpStatusCode.Conflict;
             };
 
+
+            //------------------------AUTHORIZATION----------------------------------
+            Put["/uploadDocument"] = parameters =>
+            {
+                var doc = this.Bind<Authorization>();
+                var minor = this.Bind<MinorUser>();
+                if (profileAuthorization.uploadDocument(doc, minor))
+                    return HttpStatusCode.OK;
+
+                else
+                    return HttpStatusCode.Conflict;
+            };
+
+            Get["/getTemplates"] = parameters =>
+            {
+                return Response.AsJson(profileAuthorization.getTemplates());
+            };
         }
 
     }

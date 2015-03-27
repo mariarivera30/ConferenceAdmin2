@@ -1,14 +1,22 @@
-﻿<div ng-controller="profileAuthorizationCtrl">
+﻿<div ng-controller="profileAuthorizationCtrl as pa">
     <h4 id="g-information">Authorization</h4>
-    <label class="after-title-field">Photo Release Authorization:</label> Authorization for releasing pictures of minors.
-    <span class="block"><button class="btn  btn-ar btn-primary"><i class="fa fa-cloud-download"> </i> Download</button> &nbsp;&nbsp; <button class="btn  btn-ar btn-primary"><i class="fa fa-cloud-upload"> </i> Upload</button></span>
-    <label>Assistance Authorization:</label> Authorization for minors to assist to the conference.
-    <span class="block"><button class="btn  btn-ar btn-primary"><i class="fa fa-cloud-download"> </i> Download</button> &nbsp;&nbsp; <button class="btn  btn-ar btn-primary"><i class="fa fa-cloud-upload"> </i> Upload</button></span>
-    <label>Companion Authorization:</label> Authorization for minors to go to the conference with a companion that is not the parent.
-    <span class="block"><button class="btn  btn-ar btn-primary"><i class="fa fa-cloud-download"> </i> Download</button> &nbsp;&nbsp; <button class="btn  btn-ar btn-primary"><i class="fa fa-cloud-upload"> </i> Upload</button></span>
-    <label>Overnight Authorization:</label> Authorization for minors to stay the night at the hotel with the assigned companion.
-    <span class="block"><button class="btn  btn-ar btn-primary"><i class="fa fa-cloud-download"> </i> Download</button> &nbsp;&nbsp; <button class="btn  btn-ar btn-primary"><i class="fa fa-cloud-upload"> </i> Upload</button></span>    
-    <label>Companion Key:</label> To be accepted you need to provide the companion key of the registered adult that will be in charge of you.<br/>
+    Please <b>Download</b>, <b>Complete</b> and <b>Upload</b> the documents below.<br /><br />
+
+    <div ng-controller="profileAuthorizationCtrl as vm" ng-repeat="doc in pa.templatesList">
+        <label class="after-title-field">{{doc.authorizationnName}}</label>
+        <div class="full-width">
+            <button class="btn btn-ar btn-primary left" ng-click="vm.downloadTemplate(doc)"><i class="fa fa-cloud-download"> </i> Download</button>
+            <div class="input-group left upload-btn">
+                <div class="input-group-btn">
+                    <div class="btn btn-default btn-file"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="input-1a" type="file" class="file" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)"></div>
+                    <button type="submit" title="Upload selected files" class="btn btn-primary btn-ar kv-fileinput-upload fileinput-upload-button" ng-click="vm.uploadDocument()"><i class="glyphicon glyphicon-upload"></i> Upload</button>
+                </div>
+            </div> <input ng-show="vm.myFile.name" value="{{vm.myFile.name}}" readonly />
+        </div><br /><br />
+    </div>
+    
+
+    <label>Companion Key:</label> To be accepted you need to provide the companion key of the registered adult that will be accompany you.<br/>
     
     <button class="btn  btn-ar btn-primary" data-toggle="modal" data-target="#companionkey">&nbsp;&nbsp;Companion&nbsp;&nbsp; </button>
      <div class="modal fade" id="companionkey" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
@@ -27,10 +35,8 @@
                             </div>
                         </div>
                     </div>
-                  
-
-
                 </div>
+
                 <div class="modal-footer">
                     <button class="btn btn-ar btn-primary left" data-dismiss="modal">Save</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
@@ -39,6 +45,6 @@
         </div>
     </div>
     
-
+    
     
 </div>

@@ -40,7 +40,9 @@
             getAssignedSubmissions: _getAssignedSubmissions,
             getSubmission: _getSubmission,
             postEvaluation: _postEvaluation,
-            editEvaluation: _editEvaluation
+            editEvaluation: _editEvaluation,
+            uploadDocument: _uploadDocument,
+            getTemplates: _getTemplates
         };
 
         return service;
@@ -188,7 +190,8 @@
         function _makePayment(data) {
             return $http.put('profile/makePayment/', data);
         }
-        //----------------------------------SUBMISSIONS---------------------------
+
+        //---------------------------------PROFILE-SUBMISSIONS---------------------------
         //get list of submissions assigned to the evalutor currently logged in
         function _getAssignedSubmissions(data) {
             return $http.get('profile/getAssignedSubmissions/' + data);
@@ -205,6 +208,15 @@
         function _editEvaluation(data) {
             return $http.put('profile/editEvaluation', data)
         };
+
+        //-----------------------------------PROFILE-AUTHORIZATION-----------------------------------
+        function _uploadDocument(data) {
+            return $http.put('/profile/uploadDocument/', data);
+        };
+
+        function _getTemplates() {
+            return $http.get('profile/getTemplates');
+        }
 
     }
 }

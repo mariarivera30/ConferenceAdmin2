@@ -7278,3 +7278,8 @@ div .agenda-division {
 .table-box{
     border: 1px solid #ccc;
 }
+
+.upload-btn {
+    margin-left: 15px;
+    width: 200px;
+}

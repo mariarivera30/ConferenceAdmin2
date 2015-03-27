@@ -70,7 +70,7 @@
         function clear() {
             vm.firstname = "";
             vm.lastname = "";
-            vm.usertypeid = 0;
+            vm.usertypeid = "";
             vm.affiliationName = "";
             vm.title = "";
             vm.registrationstatus = "";
@@ -81,6 +81,19 @@
             vm.date3 = false;
             vm.checkAll = false;
             vm.currentid = 0;
+            vm.editfirstname = "";
+            vm.editlastname = "";
+            vm.editusertypeid = "";
+            vm.editaffiliationName = "";
+            vm.edittitle = "";
+            vm.editregistrationstatus = "";
+            vm.edithasapplied = false;
+            vm.editacceptancestatus = "";
+            vm.editdate1 = false;
+            vm.editdate2 = false;
+            vm.editdate3 = false;            
+            $scope.content = "";
+            $scope.$fileContent = "";
         }
 
         function _addRegistration() {
@@ -95,9 +108,9 @@
             if (vm.firstname != null && vm.lastname != null && vm.usertypeid != 0 && vm.affiliationName != null && !(vm.date1 == false && vm.date2 == false)) {
                 restApi.postNewRegistration(vm)
                     .success(function (data, status, headers, config) {
-                        vm.usertypeid = userTypeName;
-                        vm.registrationsList.push(vm);
-                        location.reload();
+                        vm.newReg = { firstname: vm.firstname, lastname: vm.lastname, affiliationName: vm.affiliationName, usertypeid: userTypeName, date1: vm.date1, date2: vm.date2, date3: vm.date3, byAdmin: true };
+                        vm.registrationsList.push(vm.newReg);
+                        clear();
                     })
 
                     .error(function (error) {
@@ -127,13 +140,7 @@
             vm.currentid = id;
             vm.editfirstname = firstname;
             vm.editlastname = lastname;
-
-            for (var i = 1; i < vm.userTypesList.length; i++) {
-                if (vm.userTypesList[i].userTypeName == usertypeid) {
-                    vm.editusertypeid = i;
-                }
-            }
-
+            vm.TYPE = vm.userTypesList[usertypeid.userTypeID - 1];
             vm.editaffiliationName = affiliationName;
             vm.editdate1 = date1;
             vm.editdate2 = date2;
@@ -142,26 +149,25 @@
 
         function _updateRegistration() {
             if (vm.checkAll) {
-                vm.date1 = true;
-                vm.date2 = true;
-                vm.date3 = true;
+                vm.editdate1 = true;
+                vm.editdate2 = true;
+                vm.editdate3 = true;
             }
             if (vm.currentid != undefined && vm.currentid != 0) {
-                var registration = { registrationID: vm.currentid, firstname: vm.editfirstname, lastname: vm.editlastname, usertypeid: vm.editusertypeid.userTypeID, affiliationName: vm.editaffiliationName, date1: vm.editdate1, date2: vm.editdate2, date3: vm.editdate3 }
+                var registration = { registrationID: vm.currentid, firstname: vm.editfirstname, lastname: vm.editlastname, usertypeid: vm.TYPE.userTypeID, affiliationName: vm.editaffiliationName, date1: vm.editdate1, date2: vm.editdate2, date3: vm.editdate3 }
                 restApi.updateRegistration(registration)
                 .success(function (data, status, headers, config) {
-                    vm.registrationsList.forEach(function (registration, index) {
-                        if (registration.registrationID == vm.currentid) {
-                            vm.firstname = vm.editfirstname;
-                            vm.lastname = vm.editlastname;
-                            vm.usertypeid = vm.editusertypeid.userTypeName;
-                            vm.affiliationName = vm.editaffiliationName;
-                            vm.date1 = vm.editdate1;
-                            vm.date2 = vm.editdate2;
-                            vm.date3 = vm.editdate3;
+                    vm.registrationsList.forEach(function (reg, index) {                        
+                        if (reg.registrationID == registration.registrationID) {
+                            
+                            registration.usertypeid = vm.TYPE.userTypeName;
+                            registration.byAdmin = true;
+                            vm.registrationsList.splice(index, 1);
+                            vm.registrationsList.push(registration);
+                            clear();
                         }
-                        else
-                            location.reload();
+                       // else
+                           // location.reload();
                     });
                 })
                 .error(function (data, status, headers, config) {
