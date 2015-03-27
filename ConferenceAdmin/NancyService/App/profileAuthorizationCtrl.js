@@ -48,7 +48,7 @@
         }
 
         function _downloadTemplate(doc) {
-            window.open(doc.authorizationFile);
+            window.open(doc.authorizationDocument);
         }
 
         function _uploadDocument() {

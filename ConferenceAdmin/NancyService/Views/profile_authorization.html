@@ -11,7 +11,7 @@
                     <div class="btn btn-default btn-file"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="input-1a" type="file" class="file" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)"></div>
                     <button type="submit" title="Upload selected files" class="btn btn-primary btn-ar kv-fileinput-upload fileinput-upload-button" ng-click="vm.uploadDocument()"><i class="glyphicon glyphicon-upload"></i> Upload</button>
                 </div>
-            </div> <input ng-show="vm.myFile.name" value="{{vm.myFile.name}}" readonly />
+            </div> <input class="upload-caption" ng-show="vm.myFile.name" value="{{vm.myFile.name}}" readonly />
         </div><br /><br />
     </div>
     
