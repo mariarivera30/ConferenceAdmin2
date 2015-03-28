@@ -117,6 +117,22 @@ namespace NancyService.Modules
             {
                 return Response.AsJson(profileAuthorization.getTemplates());
             };
+
+            Get["/getDocuments/{userID:long}"] = parameters =>
+            {
+                var user = this.Bind<UserInfo>();
+                return Response.AsJson(profileAuthorization.getDocuments(user));
+            };
+
+            Put["/deleteDocument"] = parameters =>
+            {
+                var doc = this.Bind<Authorization>();
+
+                if (profileAuthorization.deleteDocument(doc)) 
+                    return HttpStatusCode.OK;
+                else 
+                    return HttpStatusCode.Conflict;
+            };
         }
 
     }

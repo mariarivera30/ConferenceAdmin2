@@ -7285,5 +7285,15 @@ div .agenda-division {
 }
 
 .upload-caption {
-    height: 34px;
+    display: block; 
+    height: 50px; 
+    width: 100%; 
+    overflow: hidden; 
+    margin-top: 30px;
+}
+
+div .templates-list {
+    height: 150px; 
+    overflow-y: scroll; 
+    padding: 0px;
 }

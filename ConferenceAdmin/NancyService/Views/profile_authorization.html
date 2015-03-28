@@ -1,25 +1,59 @@
-﻿<div ng-controller="profileAuthorizationCtrl as pa">
+﻿<div ng-controller="profileAuthorizationCtrl as vm">
     <h4 id="g-information">Authorization</h4>
-    Please <b>Download</b>, <b>Complete</b> and <b>Upload</b> the documents below.<br /><br />
+    Please <b>Download</b>, <b>Complete</b> and <b>Upload</b> the documents below.<br />
 
-    <div ng-controller="profileAuthorizationCtrl as vm" ng-repeat="doc in pa.templatesList">
-        <label class="after-title-field">{{doc.authorizationnName}}</label>
-        <div class="full-width">
-            <button class="btn btn-ar btn-primary left" ng-click="vm.downloadTemplate(doc)"><i class="fa fa-cloud-download"> </i> Download</button>
-            <div class="input-group left upload-btn">
-                <div class="input-group-btn">
-                    <div class="btn btn-default btn-file"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="input-1a" type="file" class="file" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)"></div>
-                    <button type="submit" title="Upload selected files" class="btn btn-primary btn-ar kv-fileinput-upload fileinput-upload-button" ng-click="vm.uploadDocument()"><i class="glyphicon glyphicon-upload"></i> Upload</button>
-                </div>
-            </div> <input class="upload-caption" ng-show="vm.myFile.name" value="{{vm.myFile.name}}" readonly />
-        </div><br /><br />
+    <!--
+        <div ng-controller="profileAuthorizationCtrl as vm" ng-repeat="doc in pa.templatesList">
+            <label class="after-title-field">{{doc.authorizationnName}}</label>
+            <div class="full-width">
+                <button class="btn btn-ar btn-primary left" ng-click="vm.downloadTemplate(doc)"><i class="fa fa-cloud-download"> </i> Download</button>
+                <div class="input-group left upload-btn">
+                    <div class="input-group-btn">
+                        <div class="btn btn-default btn-file"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="input-1a" type="file" class="file" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)"></div>
+                        <button type="submit" title="Upload selected files" class="btn btn-primary btn-ar kv-fileinput-upload fileinput-upload-button" ng-click="vm.uploadDocument()"><i class="glyphicon glyphicon-upload"></i> Upload</button>
+                    </div>
+                </div> <input class="upload-caption" ng-show="vm.myFile.name" value="{{vm.myFile.name}}" readonly />
+            </div><br /><br />
+        </div>
+
+        <label>Companion Key:</label> To be accepted you need to provide the companion key of the registered adult that will be accompany you.<br/>
+        <button class="btn  btn-ar btn-primary" data-toggle="modal" data-target="#companionkey">&nbsp;&nbsp;Companion&nbsp;&nbsp; </button>
+    -->
+
+    <div class="col-lg-5">
+        <h5>Templates:</h5>
+
+        <div class="templates-list table-box">
+            <ul class="list-group list-group-striped">
+                <li ng-repeat="temp in vm.templatesList" class="list-group-item">{{temp.authorizationnName}} <a href="" ng-click="vm.downloadTemplate(temp)" class="right">Download</a></li>
+            </ul>
+        </div>
     </div>
-    
 
-    <label>Companion Key:</label> To be accepted you need to provide the companion key of the registered adult that will be accompany you.<br/>
-    
-    <button class="btn  btn-ar btn-primary" data-toggle="modal" data-target="#companionkey">&nbsp;&nbsp;Companion&nbsp;&nbsp; </button>
-     <div class="modal fade" id="companionkey" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
+    <div class="col-lg-2">
+        
+        <div class="left">
+            <div class="upload-caption">
+                <span ng-show="vm.myFile.name"><i class="fa fa-file-o"></i> {{vm.myFile.name}}</span>
+            </div>
+            <div class="input-group-btn">
+                <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="input-1a" type="file" class="file" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)"></div>
+                <br /><br /><button type="submit" title="Upload selected files" class="full-width btn btn-primary btn-ar kv-fileinput-upload fileinput-upload-button" ng-click="vm.uploadDocument()"><i class="glyphicon glyphicon-upload"></i> Upload</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-lg-5">
+        <h5>Uploaded Documents:</h5>
+        <div class="templates-list table-box">
+            <ul class="list-group list-group-striped">
+                <li ng-repeat="doc in vm.documentsList" class="list-group-item">{{doc.authorizationName}} <span class="right"><a href="" ng-click="vm.downloadDocument(doc)">View</a> | <a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedDocumentDelete(doc.authorizationID)">Delete</a></span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal fade" id="companionkey" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -44,7 +78,25 @@
             </div>
         </div>
     </div>
-    
-    
-    
+
+
+    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="deleteLabel">Remove Document Notice!</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to remove this Document?<br /> This action is irreversible.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.deleteDocument()">Remove</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>

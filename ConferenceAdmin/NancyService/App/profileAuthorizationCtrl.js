@@ -20,14 +20,21 @@
         vm.templateFile;
         vm.myFyle;
         vm.templatesList = {};
+        vm.documentsList = {};
+        vm.authorizationID;
 
         // function definitions
         vm.activate = activate;
         vm.uploadDocument = _uploadDocument;
         vm.getTemplates = _getTemplates;
         vm.downloadTemplate = _downloadTemplate;
+        vm.downloadDocument = _downloadDocument;
+        vm.getDocuments = _getDocuments;
+        vm.deleteDocument = _deleteDocument;
+        vm.selectedDocumentDelete = _selectedDocumentDelete;
 
         _getTemplates();
+        _getDocuments();
 
         function activate() {
 
@@ -54,21 +61,56 @@
         function _uploadDocument() {
             vm.authorizationFile = $scope.content;
             vm.authorizationName = vm.myFile.name;
+            vm.myFile = { authorizationFile: vm.authorizationFile, authorizationName: vm.authorizationName };
 
             restApi.uploadDocument(vm)
                      .success(function (data, status, headers, config) {
-                         alert("Success! :)");
+                         vm.documentsList.push(vm.myFile);
                      })
 
                      .error(function (error) {
-                         alert("Error! :(");
+                         alert("Something went wrong. Please try again.");
                      });
         }
 
 
-        function _downloadDocument() {
-
+        function _getDocuments() {
+            restApi.getDocuments(vm.userID).
+                   success(function (data, status, headers, config) {
+                       vm.documentsList = data;
+                   }).
+                   error(function (data, status, headers, config) {
+                       vm.documentsList = data;
+                   });
         }
+
+        function _downloadDocument(doc) {
+            window.open(doc.authorizationFile);
+        }
+
+
+        function _deleteDocument() {
+            if (vm.authorizationID != undefined) {
+                restApi.deleteDocument(vm)
+                .success(function (data, status, headers, config) {
+                    vm.documentsList.forEach(function (doc, index) {
+                        if (doc.authorizationID == vm.authorizationID) {
+                            vm.documentsList.splice(index, 1);
+                        }
+                    });
+                })
+
+                .error(function (error) {
+                    alert("Something went wrong. Please try again.");
+                });
+            }
+        }
+
+
+        function _selectedDocumentDelete(id) {
+            vm.authorizationID = id;
+        }
+
         
     }
 })();

@@ -42,7 +42,9 @@
             postEvaluation: _postEvaluation,
             editEvaluation: _editEvaluation,
             uploadDocument: _uploadDocument,
-            getTemplates: _getTemplates
+            getTemplates: _getTemplates,
+            getDocuments: _getDocuments,
+            deleteDocument: _deleteDocument
         };
 
         return service;
@@ -216,6 +218,14 @@
 
         function _getTemplates() {
             return $http.get('profile/getTemplates');
+        }
+
+        function _getDocuments(data) {
+            return $http.get('profile/getDocuments/'+ data);
+        }
+
+        function _deleteDocument(data) {
+            return $http.put('profile/deleteDocument/', data);
         }
 
     }
