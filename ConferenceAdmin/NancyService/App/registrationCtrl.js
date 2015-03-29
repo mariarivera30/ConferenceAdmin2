@@ -19,7 +19,7 @@
         vm.date3;
         vm.checkAll;
 
-        vm.registrationsList = {};
+        vm.registrationsList = [];
         vm.userTypesList = {};
         vm.firstname;
         vm.lastname;
