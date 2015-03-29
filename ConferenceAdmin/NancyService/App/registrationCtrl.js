@@ -105,7 +105,7 @@
             }
             var userTypeName = vm.usertypeid.userTypeName;
             vm.usertypeid = vm.usertypeid.userTypeID;
-            if (vm.firstname != null && vm.lastname != null && vm.usertypeid != 0 && vm.affiliationName != null && !(vm.date1 == false && vm.date2 == false)) {
+            
                 restApi.postNewRegistration(vm)
                     .success(function (data, status, headers, config) {
                         vm.newReg = { firstname: vm.firstname, lastname: vm.lastname, affiliationName: vm.affiliationName, usertypeid: userTypeName, date1: vm.date1, date2: vm.date2, date3: vm.date3, byAdmin: true };
@@ -116,11 +116,8 @@
                     .error(function (error) {
                         alert("Failed to add Registration.");
                     });
-            }
-            else {
-                alert("There is information missing.");
-            }
-            activate();
+            
+            //activate();
         }
 
 
@@ -140,7 +137,8 @@
             vm.currentid = id;
             vm.editfirstname = firstname;
             vm.editlastname = lastname;
-            vm.TYPE = vm.userTypesList[usertypeid.userTypeID - 1];
+            if(usertypeid != undefined)
+                vm.TYPE = vm.userTypesList[usertypeid.userTypeID - 1];
             vm.editaffiliationName = affiliationName;
             vm.editdate1 = date1;
             vm.editdate2 = date2;
