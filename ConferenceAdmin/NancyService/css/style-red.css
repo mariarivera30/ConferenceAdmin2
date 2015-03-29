@@ -7228,6 +7228,10 @@ div .agenda-division {
     width: 100%;
 }
 
+.half-width {
+    width: 50%;
+}
+
 .banner-style {
     height: 242px;
 }
@@ -7262,6 +7266,10 @@ div .agenda-division {
     padding: 0px 10px 10px 10px;
 }
 
+.padding-5 {
+    padding: 5px;
+}
+
 .btn-small {
     font-size:.8em;
     padding: 2px;
@@ -7285,5 +7293,24 @@ div .agenda-division {
 }
 
 .upload-caption {
-    height: 34px;
+    display: block; 
+    height: 25px; 
+    width: 131px; 
+    overflow: hidden; 
+    margin-top: 55px;
+    white-space: nowrap;
+}
+
+div .templates-list {
+    height: 150px; 
+    overflow-y: scroll; 
+    padding: 0px;
+}
+
+.big-text {
+    font-size: 2em;
+}
+
+.line-tall {
+    height: 25px;
 }

@@ -42,7 +42,11 @@
             postEvaluation: _postEvaluation,
             editEvaluation: _editEvaluation,
             uploadDocument: _uploadDocument,
-            getTemplates: _getTemplates
+            getTemplates: _getTemplates,
+            getDocuments: _getDocuments,
+            deleteDocument: _deleteDocument,
+            selectCompanion: _selectCompanion,
+            getCompanionKey: _getCompanionKey
         };
 
         return service;
@@ -218,6 +222,21 @@
             return $http.get('profile/getTemplates');
         }
 
+        function _getDocuments(data) {
+            return $http.get('profile/getDocuments/'+ data);
+        }
+
+        function _deleteDocument(data) {
+            return $http.put('profile/deleteDocument/', data);
+        }
+
+        function _selectCompanion(data) {
+            return $http.post('profile/selectCompanion/', data);
+        }
+
+        function _getCompanionKey(data) {
+            return $http.get('profile/getCompanionKey/' + data);
+        }
     }
 }
 
