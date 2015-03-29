@@ -13,6 +13,8 @@ namespace NancyService.Models
         public long templateID { get; set; }
         public string name { get; set; }
         public string document { get; set; }
+        public string topic { get; set; }
+        public string description { get; set; }
         public Nullable<bool> deleted { get; set; }
         public virtual ICollection<templatesubmission> templatesubmissions { get; set; }
     }

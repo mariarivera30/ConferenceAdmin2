@@ -21,6 +21,7 @@ namespace NancyService.Models
         public string phone { get; set; }
         public string email { get; set; }
         public string logo { get; set; }
+        public int quantityComplemetary { get; set; }
         public Nullable<bool> deleted { get; set; }
         public virtual address address { get; set; }
         public virtual ICollection<complementarykey> complementarykeys { get; set; }

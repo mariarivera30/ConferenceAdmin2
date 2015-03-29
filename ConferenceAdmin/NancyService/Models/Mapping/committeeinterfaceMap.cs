@@ -13,15 +13,15 @@ namespace NancyService.Models.Mapping
             // Properties
             this.Property(t => t.firstName)
                 .IsRequired()
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             this.Property(t => t.lastName)
                 .IsRequired()
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             this.Property(t => t.affiliation)
                 .IsRequired()
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             this.Property(t => t.description)
                 .IsRequired()

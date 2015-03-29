@@ -13,8 +13,13 @@ namespace NancyService.Models.Mapping
             // Properties
             this.Property(t => t.name)
                 .IsRequired()
-                .HasMaxLength(45);
-
+                .HasMaxLength(100);
+            this.Property(t => t.topic)
+                .IsRequired()
+                .HasMaxLength(100);
+            this.Property(t => t.description)
+                .IsRequired()
+                .HasMaxLength(500);
             this.Property(t => t.document)
                 .IsRequired()
                 .HasMaxLength(1073741823);
@@ -24,6 +29,8 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.templateID).HasColumnName("templateID");
             this.Property(t => t.name).HasColumnName("name");
             this.Property(t => t.document).HasColumnName("document");
+            this.Property(t => t.description).HasColumnName("description");
+            this.Property(t => t.topic).HasColumnName("topic");
             this.Property(t => t.deleted).HasColumnName("deleted");
 
         }

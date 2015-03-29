@@ -11,9 +11,9 @@ namespace NancyService.Models.Mapping
             this.HasKey(t => t.authorizationID);
 
             // Properties
-            this.Property(t => t.authorizationnName)
+            this.Property(t => t.authorizationName)
                 .IsRequired()
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             this.Property(t => t.authorizationDocument)
                 .IsRequired()
@@ -22,7 +22,7 @@ namespace NancyService.Models.Mapping
             // Table & Column Mappings
             this.ToTable("authorizationtemplates", "conferenceadmin");
             this.Property(t => t.authorizationID).HasColumnName("authorizationID");
-            this.Property(t => t.authorizationnName).HasColumnName("authorizationnName");
+            this.Property(t => t.authorizationName).HasColumnName("authorizationnName");
             this.Property(t => t.authorizationDocument).HasColumnName("authorizationDocument");
             this.Property(t => t.deleted).HasColumnName("deleted");
         }

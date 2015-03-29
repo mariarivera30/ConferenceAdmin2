@@ -10,12 +10,13 @@ namespace NancyService.Models
             this.documentssubmitteds = new List<documentssubmitted>();
             this.evaluatiorsubmissions = new List<evaluatiorsubmission>();
             this.panels = new List<panel>();
+            this.usersubmissions = new List<usersubmission>();
+            this.usersubmissions1 = new List<usersubmission>();
             this.templatesubmissions = new List<templatesubmission>();
             this.workshops = new List<workshop>();
         }
 
         public long submissionID { get; set; }
-        public long userID { get; set; }
         public int topicID { get; set; }
         public int submissionTypeID { get; set; }
         public string submissionAbstract { get; set; }
@@ -27,10 +28,11 @@ namespace NancyService.Models
         public virtual ICollection<documentssubmitted> documentssubmitteds { get; set; }
         public virtual ICollection<evaluatiorsubmission> evaluatiorsubmissions { get; set; }
         public virtual ICollection<panel> panels { get; set; }
+        public virtual ICollection<usersubmission> usersubmissions { get; set; }
+        public virtual ICollection<usersubmission> usersubmissions1 { get; set; }
         public virtual ICollection<templatesubmission> templatesubmissions { get; set; }
         public virtual submissiontype submissiontype { get; set; }
         public virtual ICollection<workshop> workshops { get; set; }
         public virtual topiccategory topiccategory { get; set; }
-        public virtual user user { get; set; }
     }
 }

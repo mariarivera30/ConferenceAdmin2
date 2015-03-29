@@ -5,7 +5,8 @@ namespace NancyService.Models.Mapping
 {
     public class userMap : EntityTypeConfiguration<user>
     {
-        public userMap()
+       
+      public userMap()
         {
             // Primary Key
             this.HasKey(t => t.userID);
@@ -13,17 +14,17 @@ namespace NancyService.Models.Mapping
             // Properties
             this.Property(t => t.firstName)
                 .IsRequired()
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             this.Property(t => t.lastName)
                 .IsRequired()
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             this.Property(t => t.title)
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             this.Property(t => t.affiliationName)
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             this.Property(t => t.phone)
                 .HasMaxLength(45);
@@ -39,18 +40,6 @@ namespace NancyService.Models.Mapping
 
             this.Property(t => t.evaluatorStatus)
                 .HasMaxLength(45);
-
-
-            // Relationships
-            this.HasRequired(t => t.address)
-                .WithMany(t => t.users)
-                .HasForeignKey(d => d.addressID);
-            this.HasRequired(t => t.membership)
-                .WithMany(t => t.users)
-                .HasForeignKey(d => d.membershipID);
-            this.HasRequired(t => t.usertype)
-                .WithMany(t => t.users)
-                .HasForeignKey(d => d.userTypeID);
 
             // Table & Column Mappings
             this.ToTable("user", "conferenceadmin");
@@ -69,6 +58,17 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.acceptanceStatus).HasColumnName("acceptanceStatus");
             this.Property(t => t.evaluatorStatus).HasColumnName("evaluatorStatus");
             this.Property(t => t.deleted).HasColumnName("deleted");
+
+            // Relationships
+            this.HasRequired(t => t.address)
+                .WithMany(t => t.users)
+                .HasForeignKey(d => d.addressID);
+            this.HasRequired(t => t.membership)
+                .WithMany(t => t.users)
+                .HasForeignKey(d => d.membershipID);
+            this.HasRequired(t => t.usertype)
+                .WithMany(t => t.users)
+                .HasForeignKey(d => d.userTypeID);
 
         }
     }

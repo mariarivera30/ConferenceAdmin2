@@ -5,7 +5,7 @@ namespace NancyService.Models
 {
     public partial class workshop
     {
-        public int workshopID { get; set; }
+        public long workshopID { get; set; }
         public long submissionID { get; set; }
         public string duration { get; set; }
         public string delivery { get; set; }

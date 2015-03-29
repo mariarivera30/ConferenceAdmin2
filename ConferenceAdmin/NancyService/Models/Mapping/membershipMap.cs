@@ -13,7 +13,7 @@ namespace NancyService.Models.Mapping
             // Properties
             this.Property(t => t.email)
                 .IsRequired()
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             this.Property(t => t.password)
                 .IsRequired()

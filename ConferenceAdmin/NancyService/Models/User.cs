@@ -12,7 +12,7 @@ namespace NancyService.Models
             this.evaluators = new List<evaluator>();
             this.minors = new List<minor>();
             this.registrations = new List<registration>();
-            this.submissions = new List<submission>();
+            this.usersubmissions = new List<usersubmission>();
         }
 
         public long userID { get; set; }
@@ -37,7 +37,7 @@ namespace NancyService.Models
         public virtual membership membership { get; set; }
         public virtual ICollection<minor> minors { get; set; }
         public virtual ICollection<registration> registrations { get; set; }
-        public virtual ICollection<submission> submissions { get; set; }
+        public virtual ICollection<usersubmission> usersubmissions { get; set; }
         public virtual usertype usertype { get; set; }
     }
 }

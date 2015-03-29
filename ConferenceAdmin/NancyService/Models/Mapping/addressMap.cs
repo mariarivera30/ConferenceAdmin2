@@ -12,19 +12,19 @@ namespace NancyService.Models.Mapping
 
             // Properties
             this.Property(t => t.line1)
-                .HasMaxLength(80);
+                .HasMaxLength(200);
 
             this.Property(t => t.line2)
-                .HasMaxLength(80);
+                .HasMaxLength(200);
 
             this.Property(t => t.city)
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             this.Property(t => t.state)
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             this.Property(t => t.country)
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             this.Property(t => t.zipcode)
                 .HasMaxLength(45);

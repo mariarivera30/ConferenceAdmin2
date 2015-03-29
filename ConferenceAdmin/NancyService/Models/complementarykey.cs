@@ -7,6 +7,7 @@ namespace NancyService.Models
     {
         public long complementarykeyID { get; set; }
         public long sponsorID { get; set; }
+        public string key { get; set; }
         public Nullable<bool> isUsed { get; set; }
         public Nullable<bool> deleted { get; set; }
         public virtual paymentcomplementary paymentcomplementary { get; set; }

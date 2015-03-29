@@ -13,24 +13,24 @@ namespace NancyService.Models.Mapping
             // Properties
             this.Property(t => t.firstName)
                 .IsRequired()
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             this.Property(t => t.lastName)
                 .IsRequired()
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             this.Property(t => t.title)
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             this.Property(t => t.company)
                 .IsRequired()
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             this.Property(t => t.phone)
                 .HasMaxLength(45);
 
             this.Property(t => t.email)
-                .HasMaxLength(45);
+                .HasMaxLength(100);
 
             this.Property(t => t.logo)
                 .HasMaxLength(1073741823);
@@ -61,6 +61,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.email).HasColumnName("email");
             this.Property(t => t.logo).HasColumnName("logo");
             this.Property(t => t.deleted).HasColumnName("deleted");
+            this.Property(t => t.quantityComplemetary).HasColumnName("quantityComplemetary");
         }
     }
 }
