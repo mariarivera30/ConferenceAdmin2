@@ -24,6 +24,7 @@
         vm.authorizationID;
         vm.companionKey;
         vm.wrongKey;
+        vm.hasApplied;
 
         // function definitions
         vm.activate = activate;
@@ -36,13 +37,26 @@
         vm.selectedDocumentDelete = _selectedDocumentDelete;
         vm.selectCompanion = _selectCompanion;
         vm.getCompanionKey = _getCompanionKey;
+        vm.apply = _apply;
+        vm.getProfileInfo = _getProfileInfo;
 
         _getTemplates();
         _getDocuments();
         _getCompanionKey();
+        _getProfileInfo(vm.userID);
 
         function activate() {
 
+        }
+
+        function _getProfileInfo(userID) {
+            restApi.getProfileInfo(userID).
+                   success(function (data, status, headers, config) {
+                       vm.hasApplied = data.hasApplied;
+                   }).
+                   error(function (data, status, headers, config) {
+                       alert("An error occurred trying to access your Profile Information.");
+                   });
         }
 
         $scope.showContent = function ($fileContent) {
@@ -139,6 +153,16 @@
             .error(function (error) {
                 vm.hasKey = false;
             });
+        }
+
+        function _apply() {
+            restApi.apply(vm).
+                    success(function (data, status, headers, config) {
+                        vm.hasApplied = true;
+                    }).
+                    error(function (data, status, headers, config) {
+                        alert("An error occurred");
+                    });
         }
     }
 })();

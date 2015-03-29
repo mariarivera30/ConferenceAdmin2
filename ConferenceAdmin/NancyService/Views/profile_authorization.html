@@ -47,7 +47,8 @@
 
     <div class="col-lg-12"><br /><br />
         <b class=" big-text">③</b> Apply to the conference.<br /><br />
-        <button class="btn btn-ar btn-primary" ng-disabled="vm.wrongKey || vm.documentsList.length != vm.templatesList.length || !vm.correctKey">Apply</button>
+        <button class="btn btn-ar btn-primary" ng-click="vm.apply()" ng-disabled="vm.wrongKey || vm.documentsList.length != vm.templatesList.length || !vm.correctKey || vm.hasApplied">Apply</button>
+        <span ng-show="vm.hasApplied" class="padding-5 alert-success half-width">Successfully applied.</span>
     </div>
 
 
