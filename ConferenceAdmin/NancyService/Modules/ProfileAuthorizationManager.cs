@@ -31,20 +31,6 @@ namespace NancyService.Modules
 
         public List<Authorization> getDocuments(UserInfo user)
         {
-            /*try
-            {
-                using (conferenceadminContext context = new conferenceadminContext())
-                {
-                    minor minor = context.minors.Where(m => m.userID == user.userID).FirstOrDefault();
-                    List<authorizationsubmitted> documents = context.authorizationsubmitteds.Where(t => t.minorID == minor.id == minor.minorsID && t.deleted != true).ToList();
-                    return documents;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.Write("ProfileAuthorizationManager.getDocument error " + ex);
-                return null;
-            }*/
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
@@ -114,6 +100,58 @@ namespace NancyService.Modules
             }
         }
 
+        public CompanionKey getCompanionKey(UserInfo user)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    companionminor companionminor = context.companionminors.Where(cm => cm.minor.userID == user.userID).FirstOrDefault();
+                    if (companionminor != null)
+                    {
+                        string key = companionminor.companion.companionKey;
+                        return new CompanionKey { companionKey = key };
+                    }
+
+                    else return new CompanionKey();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("ProfileAuthorizationManager.getCompanionKey error " + ex);
+                return null;
+            }
+        }
+
+        public bool selectCompanion(UserInfo user, companion companion)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    companion = context.companions.Where(c => c.companionKey == companion.companionKey).FirstOrDefault();
+                    minor minor = context.minors.Where(m => m.userID == user.userID).FirstOrDefault();
+
+                    if (companion != null){
+                        companionminor companionminor = new companionminor
+                        {
+                            companionID = companion.companionID,
+                            minorID = minor.minorsID,
+                            deleted = false
+                        };
+                        context.companionminors.Add(companionminor);
+                        context.SaveChanges();
+                    }
+
+                    return companion != null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("ProfileAuthorizationManager.selectCompanion error " + ex);
+                return false;
+            }
+        }
 
 
     }
@@ -140,4 +178,9 @@ public class Template
     public int templateID;
     public string templateName;
     public string templateFile;
+}
+
+public class CompanionKey
+{
+    public string companionKey;
 }

@@ -22,6 +22,8 @@
         vm.templatesList = {};
         vm.documentsList = {};
         vm.authorizationID;
+        vm.companionKey;
+        vm.wrongKey;
 
         // function definitions
         vm.activate = activate;
@@ -32,9 +34,12 @@
         vm.getDocuments = _getDocuments;
         vm.deleteDocument = _deleteDocument;
         vm.selectedDocumentDelete = _selectedDocumentDelete;
+        vm.selectCompanion = _selectCompanion;
+        vm.getCompanionKey = _getCompanionKey;
 
         _getTemplates();
         _getDocuments();
+        _getCompanionKey();
 
         function activate() {
 
@@ -111,6 +116,29 @@
             vm.authorizationID = id;
         }
 
+        function _selectCompanion(companionKey) {
+            vm.companionKey = companionKey;
+            restApi.selectCompanion(vm)
+            .success(function (data, status, headers, config) {
+                vm.wrongKey = false;
+                vm.correctKey = true;
+            })
+            .error(function (error) {
+                vm.wrongKey = true;
+                vm.correctKey = false;
+            });
+        }
         
+        function _getCompanionKey() {
+            restApi.getCompanionKey(vm.userID)
+            .success(function (data, status, headers, config) {
+                vm.companionKey = data.companionKey;
+                if (vm.companionKey != null)
+                    vm.hasKey = true;
+            })
+            .error(function (error) {
+                vm.hasKey = false;
+            });
+        }
     }
 })();

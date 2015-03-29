@@ -44,7 +44,9 @@
             uploadDocument: _uploadDocument,
             getTemplates: _getTemplates,
             getDocuments: _getDocuments,
-            deleteDocument: _deleteDocument
+            deleteDocument: _deleteDocument,
+            selectCompanion: _selectCompanion,
+            getCompanionKey: _getCompanionKey
         };
 
         return service;
@@ -228,6 +230,13 @@
             return $http.put('profile/deleteDocument/', data);
         }
 
+        function _selectCompanion(data) {
+            return $http.post('profile/selectCompanion/', data);
+        }
+
+        function _getCompanionKey(data) {
+            return $http.get('profile/getCompanionKey/' + data);
+        }
     }
 }
 

@@ -133,6 +133,24 @@ namespace NancyService.Modules
                 else 
                     return HttpStatusCode.Conflict;
             };
+
+            Post["/selectCompanion"] = parameters =>
+            {
+                var user = this.Bind<UserInfo>();
+                var companion = this.Bind<companion>();
+
+                if (profileAuthorization.selectCompanion(user, companion))
+                    return HttpStatusCode.OK;
+                else
+                    return HttpStatusCode.Conflict;
+            };
+
+            Get["/getCompanionKey/{userID:long}"] = parameters =>
+            {
+                var user = this.Bind<UserInfo>();
+                return Response.AsJson(profileAuthorization.getCompanionKey(user));
+            };
+
         }
 
     }
