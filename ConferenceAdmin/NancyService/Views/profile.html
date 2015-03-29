@@ -7,25 +7,25 @@
             <div class="vertical-tab-list noPrint">
                 <h5 class="title-centered">Settings</h5>
                 <ul class="nav">
-                    <li ng-show="{{vm.generalInfo}}" >
+                    <li ng-show="{{vm.generalInfo}}" ng-click="selectedTab='generalInfo';" ng-class="{active: selectedTab=='generalInfo'}">
                         <a href="#/Profile/GeneralInformation"><i class="fa fa-pencil"> </i> General Information</a>
                     </li>
-                    <li ng-show="{{vm.application}}">
+                    <li ng-show="{{vm.application}}" ng-click="selectedTab='application';" ng-class="{active: selectedTab=='application'}">
                         <a href="#/Profile/Application"><i class="fa fa-newspaper-o"> </i> Application</a>
                     </li>
 
-                    <li ng-show="{{vm.submission}}">
+                    <li ng-show="{{vm.submission}}" ng-click="selectedTab='submission';" ng-class="{active: selectedTab=='submission'}">
                         <a href="#/Profile/Submissions"><i class="fa fa-newspaper-o"> </i> Submissions</a>
                     </li>
                      
-                    <li ng-show="{{vm.authorization}}">
+                    <li ng-show="{{vm.authorization}}" ng-click="selectedTab='authorization';" ng-class="{active: selectedTab=='authorization'}">
                         <a href="#/Profile/Authorization"><i class="fa fa-plus-square-o"> </i> Authorization</a>
                     </li>
                    
-                    <li ng-show={{vm.receipt}}>
+                    <li ng-show={{vm.receipt}} ng-click="selectedTab='receipt';" ng-class="{active: selectedTab=='receipt'}">
                         <a href="#/Profile/ReceiptInformation"><i class="fa fa-money"></i> Receipt Information</a>
                     </li>
-                    <li ng-show="{{vm.evaluation}}">
+                    <li ng-show="{{vm.evaluation}}" ng-click="selectedTab='evaluation';" ng-class="{active: selectedTab=='evaluation'}">
                         <a href="#/Profile/Evaluations"><i class="fa fa-check-square-o"></i> Evaluations</a>
                     </li>
 

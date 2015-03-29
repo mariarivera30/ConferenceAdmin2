@@ -25,7 +25,7 @@
         <strong><i class="fa fa-check"></i></strong> Your Registration process has been completed.
     </div>
 
-    <button class="btn btn-ar btn-primary" ng-disabled="vm.hasApplied" ng-click="vm.apply()">Apply</button>
+    <button class="btn btn-ar btn-primary" ng-disabled="vm.hasApplied" ng-click="vm.apply()" ng-hide="vm.userTypeID == 1">Apply</button>
     <button class="btn btn-ar btn-primary" ng-disabled="vm.acceptanceStatus != 'Accepted' || !vm.hasApplied || (vm.registrationStatus != '' && vm.registrationStatus != null)" data-toggle="modal" data-target="#registerModal">Register</button>
 
 
