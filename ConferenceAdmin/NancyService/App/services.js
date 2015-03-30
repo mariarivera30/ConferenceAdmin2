@@ -301,7 +301,7 @@
         };
         //get details of submission with ID submissionID
         function _getSubmissionDetails(data) {
-            return $http.get('profile/getSubmission/' + data);
+            return $http.get('profile/getSubmission/' + data.submissionID + '/' + data.evaluatorID);
         };
         //add new evalution for a submission
         function _postEvaluation(data) {

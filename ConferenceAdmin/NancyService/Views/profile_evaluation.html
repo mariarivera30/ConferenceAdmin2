@@ -26,11 +26,7 @@
             </tr>
         </table>
     </div>
-    <div class="container" ng-show="vm.evaluate">
-        <!-- build:include layout/header.html --><!-- /build -->
-        <div>
-            <!--<div class="panel-heading">Evaluation</div>-->
-            <div class="panel-body">
+    <div ng-show="vm.evaluate">
 
                 <form role="form" name="addEvaluationForm" novalidate>
                     <div class="row ">
@@ -39,7 +35,7 @@
                             <label>Tittle:</label> {{vm.modalsubmissionTitle}}<br />
                             <label>Topic:</label> {{vm.modaltopic}}<br />
                             <label>Submission Type:</label> {{vm.modalsubmissionType}}<br /><br />
-                            <span class="upload-caption" ng-show="vm.modalevaluationFile != null || vm.modalevaluationFile != undefined">Evaluation File: <a href="" ng-click="vm.downloadEvaluationFile()"><br /> <i class="fa fa-file"> </i> {{vm.modalevaluationName}}</a></span>
+                            <span class="document-name" ng-show="vm.modalevaluationFile != null || vm.modalevaluationFile != undefined">Evaluation File: <a href="" ng-click="vm.downloadEvaluationFile()"> <i class="fa fa-file"> </i> {{vm.modalevaluationName}}</a></span>
                         </div>
                         <div class="col-sm-5 agenda-list">
                             <ul class="list-group">
@@ -93,8 +89,7 @@
                     <button type="submit" data-toggle="modal" data-target="#addTopic" class="btn btn-ar btn-primary" ng-disabled="addEvaluationForm.modalprivateFeedback.$invalid || addEvaluationForm.modalevaluationScore.$invalid">Submit</button>
                     <button class="btn btn-ar btn-default" ng-click="vm.hideEvaluationForm()">Back</button>
                 </form>
-            </div>
-        </div> <!-- panel panel-primary -->
+        <!-- panel panel-primary -->
 
     </div>
 

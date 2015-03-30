@@ -7314,3 +7314,12 @@ div .templates-list {
 .line-tall {
     height: 25px;
 }
+
+.document-name {
+    margin: 0;
+    padding: 0;
+    height: 25px; 
+    width: 100%; 
+    overflow: hidden;
+    white-space: nowrap;
+}

@@ -127,38 +127,38 @@
                   success(function (data, status, headers, config) {
                       // this callback will be called asynchronously
                       // when the response is available                      
-                      vm.modalsubmissionID = data.submissionID;
-                      vm.modalevaluationsubmittedID = data.evaluationsubmittedID;
-                              vm.modaluserType = data.userType;
-                              vm.modalevaluatorID = data.evaluatorID;
-                              vm.modalsubmissionTitle = data.submissionTitle;
-                              vm.modaltopic = data.topic;
-                              vm.modalsubmitterFirstName = data.submitterFirstName;
-                              vm.modalsubmitterLastName = data.submitterLastName;
-                              vm.modalsubmissionAbstract = data.submissionAbstract;
-                              vm.modalsubmissionFileList = data.submissionFileList;
-                              vm.modalsubmissionType = data.submissionType;
-                              vm.modalevaluationTemplate = data.evaluationTemplate;
-                              vm.modalpanelistNames = data.panelistNames;
-                              vm.modalplan = data.plan;
-                              vm.modalguideQuestions = data.guideQuestions;
-                              vm.modalformat = data.format;
-                              vm.modalequipment = data.equipment;
-                              vm.modalduration = data.duration;
-                              vm.modaldelivery = data.delivery;
-                              vm.modalevaluatiorSubmissionID = data.evaluatiorSubmissionID;
-                              vm.modalevaluationName = data.evaluationName;
-                              vm.modalevaluationFile = data.evaluationFile;
-                              vm.modalevaluationScore = data.evaluationScore;
-                              vm.modalpublicFeedback = data.publicFeedback;
-                              vm.modalprivateFeedback = data.privateFeedback;
-                              vm.modalsubIsEvaluated = data.subIsEvaluated;
-                              if (vm.modalevaluationFile == undefined || vm.modalevaluationFile == null) {
-                                  vm.modalhasFile = false;
-                              }
-                              else {
-                                  vm.modalhasFile = true;
-                              }
+                    vm.modalsubmissionID = data.submissionID;
+                    vm.modalevaluationsubmittedID = data.evaluationsubmittedID;
+                    vm.modaluserType = data.userType;
+                    vm.modalevaluatorID = data.evaluatorID;
+                    vm.modalsubmissionTitle = data.submissionTitle;
+                    vm.modaltopic = data.topic;
+                    vm.modalsubmitterFirstName = data.submitterFirstName;
+                    vm.modalsubmitterLastName = data.submitterLastName;
+                    vm.modalsubmissionAbstract = data.submissionAbstract;
+                    vm.modalsubmissionFileList = data.submissionFileList;
+                    vm.modalsubmissionType = data.submissionType;
+                    vm.modalevaluationTemplate = data.evaluationTemplate;
+                    vm.modalpanelistNames = data.panelistNames;
+                    vm.modalplan = data.plan;
+                    vm.modalguideQuestions = data.guideQuestions;
+                    vm.modalformat = data.format;
+                    vm.modalequipment = data.equipment;
+                    vm.modalduration = data.duration;
+                    vm.modaldelivery = data.delivery;
+                    vm.modalevaluatiorSubmissionID = data.evaluatiorSubmissionID;
+                    vm.modalevaluationName = data.evaluationName;
+                    vm.modalevaluationFile = data.evaluationFile;
+                    vm.modalevaluationScore = data.evaluationScore;
+                    vm.modalpublicFeedback = data.publicFeedback;
+                    vm.modalprivateFeedback = data.privateFeedback;
+                    vm.modalsubIsEvaluated = data.subIsEvaluated;
+                    if (vm.modalevaluationFile == undefined || vm.modalevaluationFile == null) {
+                        vm.modalhasFile = false;
+                    }
+                    else {
+                        vm.modalhasFile = true;
+                    }
                   }).
                   error(function (data, status, headers, config) {
                       // called asynchronously if an error occurs
@@ -178,11 +178,11 @@
                 evaluation.evaluationFile =  vm.content;
                 evaluation.evaluationName = myFile.name;
             }
-            else {
-                alert("An file must be uploaded before submitting an evaluation.");
-            }
             //if evaluating for the first time
             if (vm.modalsubIsEvaluated == false) {
+                if (myFile == undefined) {
+                    alert("A file must be uploaded before submitting an evaluation.");
+                }
                 restApi.postEvaluation(evaluation)
                         .success(function (data, status, headers, config) {
                            vm.submissionlist.forEach(function (submission, index) {
@@ -195,8 +195,11 @@
                                     submission.evaluationFile = vm.modalevaluationFile;
                                     submission.evaluationName = vm.modalevaluationName;
                                 }
-                            }
-                            )
+                           })
+                           if (myFile != undefined) {
+                               vm.modalevaluationFile = vm.content;
+                               vm.modalevaluationName = myFile.name;
+                           }
                         })
                         .error(function (error) {
 
