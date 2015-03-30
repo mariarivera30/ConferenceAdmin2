@@ -1,42 +1,79 @@
-﻿<h3>Manage Usher Code</h3><br>
-<div class="col-lg-12">
-    <input type="text" value="U5H3R-C0D3"></>
-    <button class="btn btn-ar btn-primary">Update Usher Code</button> &nbsp;&nbsp;<a href=""><i class="fa fa-info-circle info-icon" title="This code will be used when Ushers register."> </i></a><br>
-</div>
+﻿<div ng-controller="ushersCtrl as vm">
+    <h3 class="br-top">Manage Ushers Complementary Codes</h3>
 
-<h3 class="br-top">Manage Complementary Codes</h3>
-<div class="col-lg-12 title-field">
-    <table ng-table="tableParams" show-filter="true" class="table row">
-        <tr>
-            <td><b>Key Code</b></td>
-            <td><b>Status</b></td>
-            <td><b>Used by</b></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>1928739287</td>
-            <td>Used</td>
-            <td>Amanda Santiago</td>
-            <td><a href="">Deactivate</a></td>
-        </tr>
-    </table>
-    <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" data-target="#addCode">Generate New Code</button> <a href=""><i class="fa fa-info-circle info-icon" title="Codes waive registration fee."></i></a>
-</div>
-<div class="modal fade" id="addCode" tabindex="-1" role="dialog" aria-labelledby="addCodeLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="addTopicLabel">Generate New Code</h4>
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div ng-hide="vm.loadingComp" class="col-lg-10">
+            <table id="keys" ng-table="tableParams" class="table row">
+                <tr>
+                    <td><b>Key Code</b></td>
+                    <td><b>Used</b></td>
+                    <td><b>Used by</b></td>
+                    <td><b> <a href="" ng-click="vm.deleteSponsorComplemetaryKey()">Remove All</b></td>
+                </tr>
+                <tr ng-repeat="key in  vm.sponsorKeys">
+                    <td>{{key.key}}</td>
+                    <td>{{key.isUsed}}</td>
+                    <td>{{key.name}}</td>
+                    <td><a href="" ng-click="vm.selectedKey(key);vm.deleteComplemetaryKey()" ng-hide="key.isUsed">Deactivate</a></td>
+                </tr>
+            </table><br /><br />
+            <div class="col-lg-12" ng-show="vm.loadingRemovingComp">
+                <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Removing</h3>
             </div>
-            <div class="modal-body">
-                <h5 class="after-title-field">Number of complimentary codes to generate:</h5><br>
-                <input type="number" />
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-ar btn-primary left"  data-dismiss="modal">Add</button>
-                <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
-            </div>
+
         </div>
+        <div class="col-lg-12" ng-show="vm.loadingComp">
+            <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-1"></div>
+            <div ng-hide="vm.loadingRemovingComp" class="col-lg-10">
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading panel-heading-link">
+                            <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" aria-expanded="false" class="collapsed">
+                                Add Complementary keys
+                            </a>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-lg-1"></div>
+                                    <label>Quantity of Complementary Keys</label>
+                                </div>
+                                <div ng-hide="vm.uploadingComp" class="row">
+                                    <div class="col-lg-1"></div>
+                                    <form name="addComple" novalidate>
+                                        <div class="col-lg-2">
+
+                                            <input type="number" ng-model="vm.quantity" required>
+                                        </div>
+
+                                        <div class="col-lg-8"><button class="btn btn-ar btn-primary right" ng-disabled="addComple.$invalid" ng-click="vm.addComplementaryKey()">Add</button></div>
+
+
+                                    </form>
+
+                                </div>
+                                <div class="col-lg-12" ng-show="vm.uploadingComp">
+                                    <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>Creating</h3>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-1"></div>
+
+        </div>
+
     </div>
 </div>

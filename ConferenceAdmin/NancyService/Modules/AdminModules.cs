@@ -24,19 +24,126 @@ namespace NancyService.Modules
             List<sponsor> sponsorList = new List<sponsor>();
             RegistrationManager registration = new RegistrationManager();
             GuestManager guest = new GuestManager();
+            TemplateManager templateManager = new TemplateManager();
 
 
 
-            /* ----- Sponsor -----*/
+            /* ----- Template -----*/
 
+
+            Post["/addTemplate"] = parameters =>
+            {
+                var temp = this.Bind<TemplateManager.templateQuery>();
+                return Response.AsJson(templateManager.addTemplate(temp));
+            };
+
+            Get["/getTemplatesAdmin"] = parameters =>
+            {
+
+                return Response.AsJson(templateManager.getTemplates());
+            };
+
+            Put["/deleteTemplate"] = parameters =>
+            {
+                var id = this.Bind<long>();
+                if (templateManager.deleteTemplate(id))
+                {
+                    return HttpStatusCode.OK;
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+            };
+
+            Put["/updateTemplate"] = parameters =>
+            {
+                var template = this.Bind<template>();
+
+                if (templateManager.updateTemplate(template))
+                {
+                    return HttpStatusCode.OK;
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+            };
+
+            /* ----- Sponsor Complementary-----*/
+            Post["/addSponsorComplementaryKeys"] = parameters =>
+            {
+
+                var obj = this.Bind<NancyService.Modules.SponsorManager.addComplementary>();
+                List<SponsorManager.ComplementaryQuery> list = sponsorManager.addKeysTo(obj);
+                if (list != null)
+                {
+                    return Response.AsJson(list);
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+            };
+            Put["/deleteComplementaryKey"] = parameters =>
+            {
+                var id = this.Bind<long>();
+                if (sponsorManager.deleteComplementary(id))
+                {
+                    return HttpStatusCode.OK;
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+            };
+            Put["/deleteSponsorComplementaryKey"] = parameters =>
+            {
+                var id = this.Bind<long>();
+                List<SponsorManager.ComplementaryQuery> list = sponsorManager.deleteComplementarySponsor(id);
+                if (list != null)
+                {
+                    return list;
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+            };
+            Get["/getComplementaryKeys"] = parameters =>
+            {
+                try
+                {
+                    // this.RequiresAuthentication();
+                    // this.RequiresClaims(new[] { "minor" });
+                    return Response.AsJson(sponsorManager.getComplementaryList());
+                }
+                catch { return null; }
+            };
+            Get["/getSponsorComplementaryKeys/{id:long}"] = parameters =>
+            {
+                try
+                {
+                    long id = parameters.id;
+                    return Response.AsJson(sponsorManager.getSponsorComplentaryList(id));
+                }
+                catch { return null; }
+            };
+
+            //--------------------------------------------Sponsor----------------------------
             Post["/addsponsor"] = parameters =>
             {
 
                 var sponsor = this.Bind<NancyService.Modules.SponsorManager.SponsorQuery>();
-
-                if (sponsorManager.addSponsor(sponsor))
+                SponsorManager.SponsorQuery added = sponsorManager.addSponsor(sponsor);
+                if (added != null)
                 {
-                    return HttpStatusCode.Created;
+                    return Response.AsJson(added);
                 }
 
                 else
@@ -55,6 +162,19 @@ namespace NancyService.Modules
                 }
                 catch { return null; }
             };
+
+            Get["/getSponsorbyID/{id:long}"] = parameters =>
+            {
+                try
+                {
+                    // this.RequiresAuthentication();
+                    // this.RequiresClaims(new[] { "minor" });
+                    long id = parameters.id;
+                    return Response.AsJson(sponsorManager.getSponsorbyID(id));
+                }
+                catch { return null; }
+            };
+
 
             Put["/updateSponsor"] = parameters =>
             {

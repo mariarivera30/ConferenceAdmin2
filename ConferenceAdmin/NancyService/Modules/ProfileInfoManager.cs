@@ -142,7 +142,7 @@ namespace NancyService.Modules
                         transactionid = "1",
                         methodOfPayment = "VISA",
                         creditCardNumber = "123456789",
-                        cardExpirationDate = DateTime.Now.Date
+                       // cardExpirationDate = DateTime.Now.Date
                     };
 
                     context.registrations.Add(registration);

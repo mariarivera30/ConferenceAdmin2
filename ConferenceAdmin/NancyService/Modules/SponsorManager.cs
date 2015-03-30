@@ -3,11 +3,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.IO;
+using Nancy;
+
 
 namespace NancyService.Modules
 {
     public class SponsorManager
     {
+        public class addComplementary
+        {
+            public long sponsorID { get; set; }
+            public string company { get; set; }
+            public int quantity { get; set; }
+
+        }
         public class SponsorQuery
         {
             public long sponsorID { get; set; }
@@ -32,6 +42,8 @@ namespace NancyService.Modules
             public string method { get; set; }
             public string typeName { get; set; }
             public long paymentID { get; set; }
+
+
         }
         public class SponsorTypeQuery
         {
@@ -50,12 +62,56 @@ namespace NancyService.Modules
             public string benefit10 { get; set; }
         }
 
-        public SponsorManager()
+        public class ComplementaryQuery
         {
-
+            public long complementarykeyID { get; set; }
+            public long userID { get; set; }
+            public string key { get; set; }
+            public bool isUsed { get; set; }
+            public long sponsorID { get; set; }
+            public int quantity { get; set; }
+            public string company { get; set; }
+            public string name { get; set; }
         }
 
-        public bool addSponsor(SponsorQuery x)
+
+        //public static string getComplementaryPDF()
+        //{
+
+        //    var uploadDirectory = Path.Combine(pathProvider.GetRootPath(), "Content", "uploads");
+
+        //    if (!Directory.Exists(uploadDirectory))
+        //    {
+        //        Directory.CreateDirectory(uploadDirectory);
+        //    }
+
+        //    foreach (var file in Request.Files)
+        //    {
+        //        var filename = Path.Combine(uploadDirectory, file.Name);
+        //        using (FileStream fileStream = new FileStream(filename, FileMode.Create))
+        //        {
+        //            file.Value.CopyTo(fileStream);
+        //        }
+        //    }
+
+        //    Document doc = new Document(iTextSharp.text.PageSize.LETTER, 10, 10, 42, 35);
+        //    PdfWriter wri = PdfWriter.GetInstance(doc, new FileStream("Test.pdf", FileMode.Create));
+        //    Paragraph par = new Paragraph("Test\n\n");
+        //    doc.Add(par);
+        //    doc.Close();
+
+        //    System.IO.MemoryStream memoryStream = new System.IO.MemoryStream();
+
+
+        //    PdfWriter writer = PdfWriter.GetInstance(doc, memoryStream);
+
+        //    byte[] bytes = memoryStream.ToArray();
+
+        //    String stringToStore = Convert.ToBase64String(bytes,Base64FormattingOptions.InsertLineBreaks);
+        //    return stringToStore;
+        //}
+
+        public SponsorQuery addSponsor(SponsorQuery x)
         {
             try
             {
@@ -100,23 +156,29 @@ namespace NancyService.Modules
 
                     context.sponsors.Add(sponsor);
                     context.SaveChanges();
-
-                    return true;
+                    x.sponsorID = sponsor.sponsorID;
+                    x.paymentID = payment2.paymentID;
+                    x.addressID = address.addressID;
+                    return x;
                 }
+
+
             }
             catch (Exception ex)
             {
                 Console.Write("AdminManager.addSponsor error " + ex);
-                return false;
+                return null;
             }
 
         }
+
 
 
         public List<SponsorQuery> getSponsorList()
         {
             try
             {
+                //string f = this.getComplementaryPDF();
 
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
@@ -166,6 +228,63 @@ namespace NancyService.Modules
             }
 
         }
+
+        public SponsorQuery getSponsorbyID(long x)
+        {
+            try
+            {
+
+
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+
+
+                    var sponsor = (from s in context.sponsors
+                                   from type in context.sponsortypes
+                                   from a in context.addresses
+                                   from pay in context.paymentbills
+                                   where (s.sponsorID == x && s.sponsorType == type.sponsortypeID) && (s.addressID == a.addressID) && (s.paymentID == pay.paymentID) && (s.deleted == false)
+                                   select new SponsorQuery
+                                   {
+                                       sponsorID = s.sponsorID,
+                                       firstName = s.firstName,
+                                       lastName = s.lastName,
+                                       company = s.company,
+                                       title = s.title,
+                                       logo = s.logo,
+                                       phone = s.phone,
+                                       email = s.email,
+                                       addressID = (long)s.addressID,
+                                       city = a.city,
+                                       line1 = a.line1,
+                                       line2 = a.line2,
+                                       state = a.state,
+                                       zipcode = a.zipcode,
+                                       country = a.country,
+                                       sponsorType = s.sponsorType,
+                                       amount = pay.AmountPaid,
+                                       transactionID = pay.transactionid,
+                                       paymentID = (long)pay.paymentID,
+                                       method = pay.methodOfPayment,
+                                       typeName = type.name,
+
+                                   }).FirstOrDefault();
+
+
+                    return sponsor;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SponsorManager.getSponsor error " + ex);
+                return null;
+            }
+
+        }
+
+
         public List<SponsorTypeQuery> getSponsorTypesList()
         {
             try
@@ -222,7 +341,7 @@ namespace NancyService.Modules
                         sponsor.sponsorType = x.sponsorType;
 
                         var payment = (from p in context.paymentbills
-                                       where (long)p.paymentID == x.paymentID
+                                       where p.paymentID == x.paymentID
                                        select p).First();
                         payment.AmountPaid = x.amount;
                         payment.transactionid = x.transactionID;
@@ -268,9 +387,209 @@ namespace NancyService.Modules
             }
             catch (Exception ex)
             {
-                Console.Write("SponsorManager.updateTopic error " + ex);
+                Console.Write("SponsorManager.deleteSponsor error " + ex);
                 return false;
             }
+        }
+        public List<ComplementaryQuery> getComplementaryList()
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+
+                    var keysUsed = (from s in context.complementarykeys
+                                    from pay in context.paymentcomplementaries
+                                    from k in context.payments
+                                    from r in context.registrations
+                                    from u in context.users
+                                    where s.isUsed == true && s.deleted == false && pay.paymentID == k.paymentID &&
+                                    s.complementarykeyID == pay.complementaryKeyID && r.paymentID == k.paymentID &&
+                                    r.userID == u.userID
+                                    select new ComplementaryQuery
+                                    {
+                                        complementarykeyID = s.complementarykeyID,
+                                        key = s.key,
+                                        isUsed = (bool)s.isUsed,
+                                        sponsorID = s.sponsorID,
+                                        userID = r.userID,
+                                        name = u.firstName + " " + u.lastName,
+
+
+
+                                    }).ToList();
+
+                    var keysUnused = (from s in context.complementarykeys
+                                      from pay in context.paymentcomplementaries
+                                      where s.isUsed == true && s.deleted == false
+                                      select new ComplementaryQuery
+                                      {
+                                          complementarykeyID = s.complementarykeyID,
+                                          key = s.key,
+                                          isUsed = (bool)s.isUsed,
+                                          userID = 0,
+                                          name = "",
+                                      }).ToList();
+
+                    List<ComplementaryQuery> allKeys = (List<ComplementaryQuery>)keysUnused.Concat(keysUnused);
+
+                    return allKeys;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SponsorManager.getSponsorType error " + ex);
+                return null;
+            }
+
+        }
+        public List<ComplementaryQuery> getSponsorComplentaryList(long id)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+
+                    var keysUsed = (from s in context.complementarykeys
+                                    from pay in context.paymentcomplementaries
+                                    from k in context.payments
+                                    from r in context.registrations
+                                    from u in context.users
+                                    where s.sponsorID == id && s.isUsed == true && s.deleted == false && pay.paymentID == k.paymentID &&
+                                    s.complementarykeyID == pay.complementaryKeyID && r.paymentID == k.paymentID &&
+                                    r.userID == u.userID
+                                    select new ComplementaryQuery
+                                    {
+                                        complementarykeyID = s.complementarykeyID,
+                                        key = s.key,
+                                        isUsed = (bool)s.isUsed,
+                                        sponsorID = s.sponsorID,
+                                        userID = r.userID,
+                                        name = u.firstName + " " + u.lastName,
+
+
+
+                                    }).ToList();
+
+                    var keysUnused = (from s in context.complementarykeys
+                                      from pay in context.paymentcomplementaries
+                                      where s.sponsorID == id && s.isUsed == false && s.deleted == false
+                                      select new ComplementaryQuery
+                                      {
+                                          complementarykeyID = s.complementarykeyID,
+                                          key = s.key,
+                                          isUsed = (bool)s.isUsed,
+                                          userID = 0,
+                                          name = "",
+                                      }).ToList();
+
+                    var list = keysUnused.Concat(keysUsed).ToList();
+                    return list;
+
+
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SponsorManager.getSponsorType error " + ex);
+                return null;
+            }
+
+        }
+
+
+
+        public bool deleteComplementary(long x)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    //delete si nadie ha pagado con el hasta este momento. 
+                    var key = (from s in context.complementarykeys
+                               where s.complementarykeyID == x && s.isUsed == false
+                               select s).FirstOrDefault();
+
+                    key.deleted = true;
+                    context.SaveChanges();
+                    return true;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SponsorManager.Deletekey error " + ex);
+                return false;
+            }
+
+
+        }
+
+        public List<ComplementaryQuery> deleteComplementarySponsor(long x)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    //delete si nadie ha pagado con el hasta este momento. 
+                    context.complementarykeys
+                               .Where(s => s.sponsorID == x && s.isUsed == false)
+                               .ToList().ForEach(s => { s.deleted = true; });
+
+                    context.SaveChanges();
+                    return getSponsorComplentaryList(x);
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SponsorManager.Deletekey error " + ex);
+                return null;
+            }
+
+
+        }
+
+        public List<ComplementaryQuery> addKeysTo(addComplementary obj)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+
+
+                    for (int i = 0; i < obj.quantity; i++)
+                    {
+                        complementarykey c = new complementarykey();
+                        c.sponsorID = obj.sponsorID;
+                        c.isUsed = false;
+                        c.deleted = false;
+                        c.key = "CCWIC-" + obj.company + "-" + GenerateComplementary(30);
+                        context.complementarykeys.Add(c);
+                    }
+
+                    context.SaveChanges();
+
+
+                    return getSponsorComplentaryList(obj.sponsorID);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SponsorManager.CoplementarykeyGenerator error " + ex);
+                return null;
+            }
+
+
+        }
+
+        private string GenerateComplementary(int length)
+        {
+            return Guid.NewGuid().ToString().Substring(0, 9);
         }
     }
 }

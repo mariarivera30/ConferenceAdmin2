@@ -202,4 +202,3 @@ C:\Users\Jaimeiris\Documents\Conference_Admin_March24\ConferenceAdmin\NancyServi
 C:\Users\Jaimeiris\Documents\Conference_Admin_March24\ConferenceAdmin\NancyService\obj\Debug\ConferenceAdmin.csprojResolveAssemblyReference.cache
 C:\Users\Jaimeiris\Documents\Conference_Admin_March24\ConferenceAdmin\NancyService\obj\Debug\NancyService.dll
 C:\Users\Jaimeiris\Documents\Conference_Admin_March24\ConferenceAdmin\NancyService\obj\Debug\NancyService.pdb
-C:\Users\Maria\Documents\CapstoneEllos\ConferenceAdmin\NancyService\bin\MySql.Data.Entity.EF6.dll

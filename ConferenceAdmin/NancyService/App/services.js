@@ -8,14 +8,26 @@
 
     function addrestApi($http) {
         var service = {
+            checkEmail: _checkEmail,
+            requestPass:_requestPass,
+            accountConfirmation: _accountConfirmation,
+            createUser:_createUser,
+            deleteSponsorComplemetaryKey: _deleteSponsorComplemetaryKey,
+            deleteComplemetaryKey: _deleteComplemetaryKey,
+            addComplementaryKey: _addComplementaryKey,
+            getSponsorComplementaryKeys: _getSponsorComplementaryKeys,
+            getComplemetnaryKeys: _getComplemetnaryKeys,
+            deleteTemplate : _deleteTemplate,
+            getTemplatesAdmin:_getTemplatesAdmin,
+            updateTemplate: _updateTemplate,
+            addTemplate: _addTemplate,
+            getSponsorbyID:_getSponsorbyID,
             deleteSponsor : _deleteSponsor,
             getSponsorTypesList:_getSponsorTypesList,
             updateSponsor: _updateSponsor,
             login: _login,
             postNewSponsor: _postNewSponsor,
-            postUser: _postUser,
             getSponsors: _getSponsors,
-            postNewTopic: _postNewTopic,
             getTopics: _getTopics,
             deleteTopic: _deleteTopic,
             updateTopic: _updateTopic,
@@ -81,6 +93,30 @@
         };
 
         return service;
+        //-----------------------------------Sponsor Complementary-----------------------------------
+
+
+        function _deleteSponsorComplemetaryKey(data) {
+            return $http.put('/admin/deleteSponsorComplementaryKey', data);
+        };
+
+        function _deleteComplemetaryKey(data) {
+            return $http.put('/admin/deleteComplementaryKey', data);
+        };
+
+        function _getComplemetnaryKeys() {
+            return $http.get('/admin/getComplementaryKeys');
+        };
+
+        function _addComplementaryKey(data) {
+            return $http.post('/admin/addSponsorComplementaryKeys', data)
+
+        };
+        function _getSponsorComplementaryKeys(data) {
+            return $http.get('/admin/getSponsorComplementaryKeys/' + data);
+        };
+
+        //-----------------------------------Sponsor-----------------------------------
         function _updateSponsor(data) {
             return $http.put('/admin/updateSponsor', data);
         };
@@ -88,6 +124,9 @@
             return $http.put('/admin/deleteSponsor/', data);
         };
 
+        function _getSponsorbyID(data) {
+            return $http.get('/admin/getSponsorbyID/' + data);
+        };
         function _getSponsorTypesList() {
             return $http.get('/admin/getSponsorTypesList');
         };
@@ -96,27 +135,48 @@
             return $http.post('/admin/addsponsor', data)
 
         };
-
-        function _login(data) {
-            return $http.post('/auth/login', { email: data.email, password: data.password });
-        };
-
         function _getSponsors() {
             return $http.get('/admin/getSponsor');
         };
 
-        function _postUser(newUser) {
-            return $http.post('/addNewUser', { email: newUser.email, password: newUser.password }).
-                 success(function (data, status, headers, config) {
-                     // this callback will be called asynchronously
-                     // when the response is available
-                 }).
-                 error(function (data, status, headers, config) {
-                     // called asynchronously if an error occurs
-                     // or server returns response with an error status.
-                 });
+        //-----------------------------------Templates-------------------------------
+        function _updateTemplate(data) {
+            return $http.put('/admin/updateTemplate', data);
+        };
+        function _deleteTemplate(data) {
+            return $http.put('/admin/deleteTemplate/', data);
         };
 
+        function _getTemplatesAdmin() {
+            return $http.get('/admin/getTemplatesAdmin');
+        };
+
+        function _addTemplate(data) {
+            return $http.post('/admin/addTemplate', data)
+
+        };
+
+        //-----------------------------------LOGIN-----------------------------------
+        function _login(data) {
+            return $http.post('/auth/login', { email: data.email, password: data.password });
+        };
+        //-----------------------------------SignUp-----------------------------------
+        function _createUser(data) {
+            return $http.post('/auth/createUser', data);
+        };
+        function _accountConfirmation(data) {
+            return $http.get('/auth/accountConfirmation/' + data);
+        };
+        //----------------------------------RecoverPass--------------------------------
+        function _checkEmail(data) {
+            return $http.get('/auth/checkEmail', data);
+        };
+        function _requestPass(data) {
+            return $http.get('/auth/requestPass/' + data);
+        };
+        function _changePass(data) {
+            return $http.get('/auth/changePass/' + data);
+        };
         //-----------------------------------TOPICS-----------------------------------
 
         function _getTopics() {

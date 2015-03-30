@@ -81,12 +81,16 @@
   <ItemGroup>
     <Content Include="App\adminCtrl.js" />
     <Content Include="App\administratorCtrl.js" />
+    <Content Include="App\adminTemplateCtrl.js" />
     <Content Include="App\app.js" />
     <Content Include="App\abstractCtrl.js" />
     <Content Include="App\committeeCtrl.js" />
+    <Content Include="App\committeeCtrl2.js" />
     <Content Include="App\contactCtrl.js" />
     <Content Include="App\deadlinesCtrl.js" />
+    <Content Include="App\evaluatorCtrl.js" />
     <Content Include="App\fileModel.js" />
+    <Content Include="App\generalInfoCtrl.js" />
     <Content Include="App\guestCtrl.js" />
     <Content Include="App\homeCtrl.js" />
     <Content Include="App\participationInformation.js" />
@@ -103,11 +107,14 @@
     <Content Include="App\profileSubmissionsCtrl.js" />
     <Content Include="App\registerCtrl.js" />
     <Content Include="App\registrationCtrl.js" />
+    <Content Include="App\registrationWebCtrl.js" />
     <Content Include="App\scheduleCtrl.js" />
     <Content Include="App\scholarshipCtrl.js" />
     <Content Include="App\services.js" />
     <Content Include="App\sponsorCtrl.js" />
-    <Content Include="App\sponsorsKey.js" />
+    <Content Include="App\sponsorInterfaceCtrl.js" />
+    <Content Include="App\sponsorInterfaceCtrl2.js" />
+    <Content Include="App\ushersCtrl.js" />
     <Content Include="App\topicCtrl.js" />
     <Content Include="App\venueCtrl.js" />
     <Content Include="App\workshopsCtrl.js" />
@@ -118,7 +125,9 @@
     <Content Include="bin\NancyService.pdb" />
     <Content Include="css\custom.css" />
     <Content Include="css\datepicker.css" />
+    <Content Include="css\fileinput.css" />
     <Content Include="css\print.css" />
+    <Content Include="js\fileinput.js" />
     <Content Include="obj\Debug\ConferenceAdmin.csproj.FileListAbsolute.txt" />
     <Content Include="obj\Debug\NancyService.csproj.FileListAbsolute.txt" />
     <Content Include="Views\abstracts.html" />
@@ -128,8 +137,10 @@
     <Content Include="Views\admin_deadlines.html" />
     <Content Include="Views\admin_evaluationsDetails.html" />
     <Content Include="Views\admin_generalInformation.html" />
+    <Content Include="Views\admin_home.html" />
     <Content Include="Views\admin_manageadministrators.html" />
     <Content Include="Views\admin_managecommittee.html" />
+    <Content Include="Views\admin_manageevaluators.html" />
     <Content Include="Views\admin_manageguests.html" />
     <Content Include="Views\admin_managesubmissions.html" />
     <Content Include="Views\admin_participation.html" />
@@ -1417,6 +1428,7 @@
     <Compile Include="Models\workshop.cs" />
     <Compile Include="Modules\AdminManager.cs" />
     <Compile Include="Modules\AdminModules.cs" />
+    <Compile Include="Modules\EvaluatorManager.cs" />
     <Compile Include="Modules\GuestManager.cs" />
     <Compile Include="Modules\IndexModule.cs" />
     <Compile Include="Modules\LoginAuthenticateManager.cs" />
@@ -1425,10 +1437,13 @@
     <Compile Include="Modules\ProfileInfoManager.cs" />
     <Compile Include="Modules\ProfileModules.cs" />
     <Compile Include="Modules\RegistrationManager.cs" />
+    <Compile Include="Modules\SignUpManager.cs" />
     <Compile Include="Modules\SponsorManager.cs" />
     <Compile Include="Modules\SubmissionManager.cs" />
+    <Compile Include="Modules\TemplateManager.cs" />
     <Compile Include="Modules\TopicManager.cs" />
     <Compile Include="Modules\UserIdentity.cs" />
+    <Compile Include="Modules\WebManager.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />

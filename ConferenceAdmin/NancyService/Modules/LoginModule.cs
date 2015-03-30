@@ -13,10 +13,11 @@ namespace NancyService.Modules
     public class LoginModule : NancyModule
     {
 
+
         public LoginModule(conferenceadminContext context, ITokenizer tokenizer)
             : base("/auth")
         {
-
+            SignUpManager signUp = new SignUpManager();
             Post["/login"] = parameters =>
             {
                 var paramuser = this.Bind<membership>();
@@ -41,7 +42,67 @@ namespace NancyService.Modules
 
 
             };
+            Get["/accountConfirmation/{key}"] = parameters =>
+            {
+                string key = parameters.key;
+                return Response.AsJson(signUp.confirmAccount(key));
 
+            };
+            Get["/checkEmail/{email}"] = parameters =>
+            {
+                string email = parameters.email;
+                return Response.AsJson(signUp.checkEmail(email));
+
+            };
+            Get["/requestPass/{email}"] = parameters =>
+            {
+                string email = parameters.email;
+                return Response.AsJson(signUp.requestPass(email));
+
+            };
+
+            Post["/changePassword"] = parameters =>
+            {
+
+                NancyService.Modules.SignUpManager.UserCreation member = this.Bind<NancyService.Modules.SignUpManager.UserCreation>();
+
+                if (member == null)
+                {
+                    return HttpStatusCode.Conflict;
+                }
+                else
+                {
+                    if (signUp.changePassword(member) == null)
+                        return HttpStatusCode.Created;
+                    else
+                    {
+                        return HttpStatusCode.Conflict;
+                    }
+                }
+
+            };
+            Post["/createUser"] = parameters =>
+            {
+                var user = this.Bind<user>();
+                var member = this.Bind<membership>();
+                var address = this.Bind<address>();
+
+
+                if (user == null)
+                {
+                    return HttpStatusCode.Conflict;
+                }
+                else
+                {
+                    if (signUp.createUser(user, member, address))
+                        return HttpStatusCode.Created;
+                    else
+                    {
+                        return HttpStatusCode.InternalServerError;
+                    }
+                }
+
+            };
         }
     }
 }
