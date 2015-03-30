@@ -1,22 +1,179 @@
-﻿<h3>General</h3>
-<div class="row">
-    <div class="col-lg-10">
+﻿<div class="row" ng-controller="generalInfoCtrl as vm">
+
+    <h3>General</h3>
+
+    <!-- General Conference Information -->
+    <div class="col-lg-10 hide-until-loaded" id="body">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group">
                     <h5 class="after-title-field">Conference Name</h5>
-                    <input type="text" class="form-control" >
+                    <input type="text" class="form-control" ng-model="vm.conferenceName">
                 </div>
             </div>
         </div>
-        <h5 class="after-title-field">About Conference</h5>
-        <textarea class="form-control" rows="5"></textarea>
-        <h5>Logo</h5>
-        <input type="text" value="ccwic_logo.jpg" />
-        <input type="file"><br />
+
+        <h5 class="after-title-field2">Conference Logo</h5><br />
+        <form action="" method="post" enctype="multipart/form-data">
+            <div class="upload">
+                <input type="file" name="upload" file-model="myFile" on-read-file="saveImg($fileContent)" />
+            </div>
+            <div class="col-sm-6 col-md-6 title-field" ng-show="vm.imgExist">
+                <p>Current Image:</p>
+                <div ng-if="content">
+                    <img class="img-responsive" src="{{content}}" />
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-6 title-field" ng-show="vm.show">
+                <p>New Image:</p>
+                <div>
+                    <img class="img-responsive" src="{{img}}" />
+                </div>
+            </div>
+            <div class="col-lg-12" ng-show="vm.imgExist">
+                <div data-toggle="modal" data-target="#delete"><a href="#">Remove</a></div>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="col-lg-10"><br />
+                <h5 class="after-title-field2">Conference Days</h5>
+                <label>From: </label>
+                <input type="date" ng-model="vm.dateFrom" />
+                <label>To:</label>
+                <input type="date" ng-model="vm.dateTo" />
+            </div>
+        </div>
+        <br />
+
         <div class="row">
             <div class="col-lg-10">
-                <button class="btn btn-ar btn-primary">Save</button>
+                <button class="btn btn-ar btn-primary" ng-click="vm.saveGeneralInfo()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Do you want to delete? -->
+    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="deleteLabel">General Information</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Are you sure you want to delete the image?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.removeImage()">Yes!</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Delete Confirmation -->
+    <div class="modal fade" id="deleteImgConfirm" tabindex="-1" role="dialog" aria-labelledby="deleteImgConfirmLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="deleteImgConfirmLabel">Image</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The image has been removed.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Delete Error -->
+    <div class="modal fade" id="deleteImgError" tabindex="-1" role="dialog" aria-labelledby="deleteImgErrorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="deleteImgErrorLabel">Image</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The image could not be removed at this moment.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Confirmation -->
+    <div class="modal fade" id="updateConfirm" tabindex="-1" role="dialog" aria-labelledby="updateConfirmLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="updateConfirmLabel">General Update</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The information has been updated.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Error -->
+    <div class="modal fade" id="updateError" tabindex="-1" role="dialog" aria-labelledby="updateErrorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="updateErrorLabel">General Update Error</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The information could not be updated.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Error: Dates -->
+    <div class="modal fade" id="updateError2" tabindex="-1" role="dialog" aria-labelledby="updateError2Label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="updateError2Label">General Update Error</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The information could not be updated.
+                    </p>
+                    <ul>
+                        <li>Check the selected dates, and try again. The dates of the conference must not exceed three days.</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
             </div>
         </div>
     </div>

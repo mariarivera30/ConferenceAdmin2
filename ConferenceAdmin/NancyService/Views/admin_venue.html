@@ -1,14 +1,86 @@
-﻿<h3>Venue</h3>
-<div class="row">
-    <div class="col-lg-10">
-            <h5 class="after-title-field">Description</h5>
-            <textarea class="form-control" rows="5"></textarea>
-            <h5>Directions</h5>
-            <textarea class="form-control" rows="5"></textarea><br>
-            <div class="row">
-                <div class="col-lg-10">
-                    <button class="btn btn-ar btn-primary">Save</button>
+﻿<div class="row" ng-controller="venueCtrl as vm">
+
+    <h3>Venue</h3>
+
+    <div class="col-lg-10 hide-until-loaded" id="body">
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <h5 class="after-title-field">Title 1</h5>
+                    <input ng-model="vm.venueTitle1" type="text" class="form-control">
                 </div>
             </div>
+        </div>
+
+        <h5 class="after-title-field">Paragraph 1</h5>
+        <textarea ng-model="vm.venueParagraph1" class="form-control" rows="5"></textarea><br />
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <h5 class="after-title-field">Title 2</h5>
+                    <input ng-model="vm.venueTitle2" type="text" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <h5 class="after-title-field">Paragraph 2</h5>
+        <textarea ng-model="vm.venueParagraph2" class="form-control" rows="5"></textarea><br>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <h5 class="after-title-field">Title Box</h5>
+                    <input ng-model="vm.venueTitleBox" type="text" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <h5 class="after-title-field">Content Box</h5>
+        <textarea ng-model="vm.venueParagraphContentBox" class="form-control" rows="5"></textarea><br>
+        <div class="row">
+            <div class="col-lg-10">
+                <button class="btn btn-ar btn-primary" ng-click="vm.saveVenue()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateConfirm" tabindex="-1" role="dialog" aria-labelledby="updateConfirmLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="updateConfirmLabel">Venue Update</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The information has been updated.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateError" tabindex="-1" role="dialog" aria-labelledby="updateErrorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="updateErrorLabel">Venue Update Error</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The information could not be updated.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

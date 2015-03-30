@@ -7,16 +7,150 @@
     angular.module('app').controller(controllerId,
         ['$scope', '$http', 'restApi', deadlinesCtrl]);
 
-    function deadlinesCtrl($scope, $http) {
+    function deadlinesCtrl($scope, $http, restApi) {
         var vm = this;
-
         vm.activate = activate;
         vm.title = 'deadlinesCtrl';
+
+        //Admin
+        vm.deadline1;
+        vm.deadlineDate1;
+        vm.deadline2;
+        vm.deadlineDate2;
+        vm.deadline3;
+        vm.deadlineDate3;
+        vm.deadline4;
+        vm.deadlineDate4;
+        vm.deadline5;
+        vm.deadlineDate5;
+
+        //Interface
+        vm.ideadline1;
+        vm.ideadlineDate1;
+        vm.ideadline2;
+        vm.ideadlineDate2;
+        vm.ideadline3;
+        vm.ideadlineDate3;
+        vm.ideadline4;
+        vm.ideadlineDate4;
+        vm.ideadline5;
+        vm.ideadlineDate5;
+
+        //Functions
+        vm.getDeadlines = _getDeadlines;
+        vm.saveDeadlines = _saveDeadlines;
+
+        _getDeadlines();
 
         function activate() {
 
         }
 
+        function _getDeadlines() {
+            restApi.getDeadlines()
+            .success(function (data, status, headers, config) {
+                if (data != null) {
+
+                    vm.ideadline1 = data.deadline1;
+                    vm.ideadlineDate1 = data.deadlineDate1;
+                    vm.ideadline2 = data.deadline2;
+                    vm.ideadlineDate2 = data.deadlineDate2;
+                    vm.ideadline3 = data.deadline3;
+                    vm.ideadlineDate3 = data.deadlineDate3;
+                    vm.ideadline4 = data.deadline4;
+                    vm.ideadlineDate4 = data.deadlineDate4;
+                    vm.ideadline5 = data.deadline5;
+                    vm.ideadlineDate5 = data.deadlineDate5;
+
+                    vm.deadline1 = data.deadline1;
+                    vm.deadlineDate1 = new Date(data.deadlineDate1);
+                    vm.deadline2 = data.deadline2;
+                    vm.deadlineDate2 = new Date(data.deadlineDate2);
+                    vm.deadline3 = data.deadline3;
+                    vm.deadlineDate3 = new Date(data.deadlineDate3);
+                    vm.deadline4 = data.deadline4;
+                    vm.deadlineDate4 = new Date(data.deadlineDate4);
+                    vm.deadline5 = data.deadline5;
+                    vm.deadlineDate5 = new Date(data.deadlineDate5);
+
+                    load();
+                }
+            })
+
+            .error(function (error) {
+
+            });
+        }
+
+        function _saveDeadlines() {
+
+            var d1 = ""; var d2 = ""; var d3 = ""; var d4 = ""; var d5 = "";
+
+            if (vm.deadlineDate1 == null || vm.deadlineDate1 == "Invalid Date") {
+                vm.deadlineDate1 = new Date("");
+            }
+            else {
+                d1 = (vm.deadlineDate1.getUTCMonth() + 1) + "/" + vm.deadlineDate1.getUTCDate() + "/" + vm.deadlineDate1.getUTCFullYear();
+            }
+
+            if (vm.deadlineDate2 == null || vm.deadlineDate2 == "Invalid Date") {
+                vm.deadlineDate2 = new Date("");
+            }
+            else {
+                d2 = (vm.deadlineDate2.getUTCMonth() + 1) + "/" + vm.deadlineDate2.getUTCDate() + "/" + vm.deadlineDate2.getUTCFullYear();
+            }
+
+            if (vm.deadlineDate3 == null || vm.deadlineDate3 == "Invalid Date") {
+                vm.deadlineDate3 = new Date("");
+            }
+            else {
+                d3 = (vm.deadlineDate3.getUTCMonth() + 1) + "/" + vm.deadlineDate3.getUTCDate() + "/" + vm.deadlineDate3.getUTCFullYear();
+            }
+
+            if (vm.deadlineDate4 == null || vm.deadlineDate4 == "Invalid Date") {
+                vm.deadlineDate4 = new Date("");
+            }
+            else {
+                d4 = (vm.deadlineDate4.getUTCMonth() + 1) + "/" + vm.deadlineDate4.getUTCDate() + "/" + vm.deadlineDate4.getUTCFullYear();
+            }
+
+            if (vm.deadlineDate5 == null || vm.deadlineDate5 == "Invalid Date") {
+                vm.deadlineDate5 = new Date("");
+            }
+            else {
+                d5 = (vm.deadlineDate5.getUTCMonth() + 1) + "/" + vm.deadlineDate5.getUTCDate() + "/" + vm.deadlineDate5.getUTCFullYear();
+            }
+
+            var newDeadlines = {
+                deadline1: vm.deadline1,
+                deadlineDate1: d1,
+                deadline2: vm.deadline2,
+                deadlineDate2: d2,
+                deadline3: vm.deadline3,
+                deadlineDate3: d3,
+                deadline4: vm.deadline4,
+                deadlineDate4: d4,
+                deadline5: vm.deadline5,
+                deadlineDate5: d5,
+            }
+            //alert(vm.deadlineDate1.toLocaleDateString());
+            //alert((vm.deadlineDate1.getUTCMonth()+1) + "/" + vm.deadlineDate1.getUTCDate() + "/" + vm.deadlineDate1.getUTCFullYear());
+
+            restApi.saveDeadlines(newDeadlines)
+            .success(function (data, status, headers, config) {
+                if (data != null) {
+                    $("#updateConfirm").modal('show');
+                }
+            })
+            .error(function (error) {
+                $("#updateError").modal('show');
+            });
+        }
+
+        //Avoid flashing when page loads
+        var load = function () {
+            document.getElementById("body").style.visibility = "visible";
+        };
 
     }
 })();

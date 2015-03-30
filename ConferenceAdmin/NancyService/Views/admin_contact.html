@@ -1,12 +1,80 @@
-﻿<h3>Contact</h3>
+﻿<div class="row" ng-controller="contactCtrl as vm">
 
-<div class="row">
-    <div class="col-lg-10">
-            <textarea class="form-control" rows="5"></textarea><br>
-            <div class="row">
-                <div class="col-lg-10">
-                    <button class="btn btn-ar btn-primary">Save</button>
+    <h3>Contact</h3>
+
+    <div class="col-lg-10 hide-until-loaded" id="body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <h5 class="after-title-field">Contact Name</h5>
+                    <input type="text" class="form-control" ng-model="vm.contactName">
                 </div>
-            </div>     
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <h5 class="after-title-field">Contact Phone</h5>
+                    <input type="text" class="form-control" ng-model="vm.contactPhone">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <h5 class="after-title-field">Contact Email</h5>
+                    <input type="text" class="form-control" ng-model="vm.contactEmail">
+                </div>
+            </div>
+        </div>
+
+        <h5 class="after-title-field2">Additional Information</h5>
+        <textarea class="form-control" rows="4" ng-model="vm.contactAdditionalInfo"></textarea>
+        <br />
+        <div class="row">
+            <div class="col-lg-10">
+                <button class="btn btn-ar btn-primary" ng-click="vm.saveContact()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateConfirm" tabindex="-1" role="dialog" aria-labelledby="updateConfirmLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="updateConfirmLabel">Home Update</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The information has been updated.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateError" tabindex="-1" role="dialog" aria-labelledby="updateErrorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="updateErrorLabel">Home Update Error</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The information could not be updated.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

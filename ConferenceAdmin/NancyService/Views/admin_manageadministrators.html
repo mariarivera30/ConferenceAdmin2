@@ -1,34 +1,103 @@
 ﻿<div ng-controller="administratorCtrl as vm">
 
     <h3>Manage Administrators</h3><br>
+
     <div class="col-lg-12 hide-until-loaded" id="body">
-        <table class="table row after-title-field">
-            <tr>
-                <td><b>Name</b></td>
-                <td><b>E-mail</b></td>
-                <td><b>Privilege</b></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr ng-repeat="admin in vm.adminList">
-                <td>{{admin.firstName}} {{admin.lastName}}</td>
-                <td>{{admin.email}}</td>
-                <td>{{admin.privilege}}</td>
-                <td>
-                    <a href="" data-toggle="modal" data-target="#editPrivilege" ng-click="vm.selectedAdminEdit(admin.userID, admin.privilegeID)">Edit</a>
-                </td>
-                <td>
-                    <a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedAdminDelete(admin.userID, admin.privilegeID)"><i class="glyphicon glyphicon-remove"></i></a>
-                </td>
-            </tr>
-        </table>
+
+        <!-- Show message if the list of administrators contains zero users. -->
+        <div ng-hide="vm.adminList.length">
+            <p class="after-title-field">No administradors have been added.</p><br />
+        </div>
+
+        <div class="pdiv right" ng-show="vm.adminList.length"><p class="psearch"> Search:</p><input ng-model="vm.search"></div>
+
+        <!-- Table containing list of administrators. The table is hidden until the system has retrieved the list. -->
+        <div class="atable">
+            <table class="table row after-title-field" ng-show="vm.adminList.length">
+                <tr>
+                    <td><b>Name</b></td>
+                    <td><b>E-mail</b></td>
+                    <td><b>Privilege</b></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr ng-repeat="admin in vm.adminList | filter: vm.search">
+                    <td>{{admin.firstName}} {{admin.lastName}}</td>
+                    <td>{{admin.email}}</td>
+                    <td>{{admin.privilege}}</td>
+                    <td>
+                        <!-- Every time the user selects a name of the list, the controller saves the current id and privilegeID of the user for future use. -->
+                        <a href="" data-toggle="modal" data-target="#editPrivilege" ng-click="vm.selectedAdminEdit(admin.userID, admin.privilegeID)">Edit</a>
+                    </td>
+                    <td>
+                        <!-- Every time the user selects a name of the list, the controller saves the current id and privilegeID of the user for future use. -->
+                        <a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedAdminDelete(admin.userID, admin.privilegeID)"><i class="glyphicon glyphicon-remove"></i></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
         <button class="btn btn-ar btn-primary pull" data-toggle="modal" data-target="#addAdmin">Add Administrator</button> <a href=""><i class="fa fa-info-circle info-icon" title="Add an administrator"> </i></a>
     </div>
 
+    <!-- Loading icon, appearing while table is loading its contents. -->
     <div class="col-lg-12">
         <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
     </div>
 
+    <!-- Admin Modal: Input:Email, Privilege -->
+    <div class="modal fade" id="addAdmin" tabindex="-1" role="dialog" aria-labelledby="addAdminLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="addAdminLabel">Add Administrator</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="addPrivilegeForm" novalidate>
+                        <label>Email:</label>
+                        <input id="email" name="email" type="email" ng-model="vm.email" required />
+                        <label class="help-inline" ng-show="addPrivilegeForm.email.$invalid && !addPrivilegeForm.email.$pristine">Email is required.</label>
+                        <br />
+                        <label>Select Privileges:</label><br />
+                        <div ng-repeat="privilege in vm.privilegeList">
+                            <input name="privilegesAdd" type="radio" ng-model="vm.privilegeID" value="{{privilege.privilegeID}}" required>{{privilege.name}}
+                        </div>
+                        <label class="help-inline" ng-show="addPrivilegeForm.privilegesAdd.$invalid && !addPrivilegeForm.privilegesAdd.$pristine">Select a privilege.</label>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" ng-click="vm.next()" ng-disabled="addPrivilegeForm.$invalid">Add</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal" ng-click="vm.clear()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal: Input:Privilege -->
+    <div class="modal fade" id="editPrivilege" tabindex="-1" role="dialog" aria-labelledby="editPrivilegeLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="editPrivilegeLabel">Edit Privileges</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="editPrivilegeForm" novalidate>
+                        <label class="after-title-field">Select Privileges:</label>
+                        <div ng-repeat="privilege in vm.privilegeList">
+                            <input id="{{privilege.privilegeID}}" name="privilegesEdit" type="radio" ng-model="vm.privilegeID" value="{{privilege.privilegeID}}" required>{{privilege.name}}
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.editAdmin()" ng-disabled="editPrivilegeForm.$invalid">Save</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Delete Modal-->
     <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -47,60 +116,166 @@
         </div>
     </div>
 
-    <div class="modal fade" id="editPrivilege" tabindex="-1" role="dialog" aria-labelledby="editPrivilegeLabel" aria-hidden="true">
+    <!-- Confirmation that a new administrator was added. -->
+    <div class="modal fade" id="addConfirm" tabindex="-1" role="dialog" aria-labelledby="addConfirmLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="restorePrivilegeLabel">Edit Privileges</h4>
+                    <h4 class="modal-title" id="addConfirmLabel">Administrator Confirmation</h4>
                 </div>
                 <div class="modal-body">
-                    <form name="editPrivilegeForm" novalidate>
-                        <label class="after-title-field2">Select Privileges:</label>
-                        <div ng-repeat="privilege in vm.privilegeList">
-                            <input id="{{privilege.privilegeID}}" name="privileges" type="radio" ng-model="vm.privilegeID" value="{{privilege.privilegeID}}" required>{{privilege.name}}
-                        </div>
-                    </form>
+                    <p>
+                        The administrator has been added.
+                    </p>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.editAdmin()" ng-disabled="editPrivilegeForm.$invalid">Save</button>
-                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="addAdmin" tabindex="-1" role="dialog" aria-labelledby="addAdminLabel" aria-hidden="true">
+    <!-- Confirmation that an administrator privilege has been updated. -->
+    <div class="modal fade" id="editConfirm" tabindex="-1" role="dialog" aria-labelledby="editConfirmLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="addAdminLabel">Add Administrator</h4>
+                    <h4 class="modal-title" id="editConfirmLabel">Administrator Confirmation</h4>
                 </div>
                 <div class="modal-body">
-                    <form name="addPrivilegeForm" novalidate>
-                        <label class="after-title-field">Name:</label>
-                        <input name="name" type="text" ng-model="vm.firstName" required/>
-                        <label class="help-inline" ng-show="addPrivilegeForm.name.$invalid && !addPrivilegeForm.name.$pristine">Name is required.</label>
-                        <br />
-                        <label>Last Name:</label>
-                        <input name="lname" type="text" ng-model="vm.lastName" required/>
-                        <label class="help-inline" ng-show="addPrivilegeForm.lname.$invalid && !addPrivilegeForm.lname.$pristine">Last Name is required.</label>
-                        <br />
-                        <label>Email:</label>
-                        <input name="email" type="email" ng-model="vm.email" required/>
-                        <label class="help-inline" ng-show="addPrivilegeForm.email.$invalid && !addPrivilegeForm.email.$pristine">Email is required.</label>
-                        <br />
-                        <label>Select Privileges:</label><br />
-                        <div id="privileges" ng-repeat="privilege in vm.privilegeList">
-                            <input name="privileges" type="radio" ng-model="vm.privilegeID" value="{{privilege.privilegeID}}" required>{{privilege.name}}
-                        </div>
-                        <label class="help-inline" ng-show="addPrivilegeForm.privileges.$invalid && !addPrivilegeForm.privileges.$pristine">Select a privilege.</label>
-                    </form>
+                    <p>
+                        The administrator has been updated.
+                    </p>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addAdmin()" ng-disabled="addPrivilegeForm.$invalid">Add</button>
-                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation that an administrator has been removed from the list. -->
+    <div class="modal fade" id="deleteConfirm" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="deleteConfirmLabel">Administrator Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The administrator has been removed.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error: Email provided during 'AddAdmin' already has another privilege in the system. -->
+    <div class="modal fade" id="addError" tabindex="-1" role="dialog" aria-labelledby="addErrorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="addErrorLabel">Administrator not added</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The administrator could not be added with the specified privilege:
+                        <ul>
+                            <li>The email provided has already a privilege assigned. OR:</li>
+                            <li>The user cannot be added as administrator at this moment.</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error: Email provided was not found in the system.-->
+    <div class="modal fade" id="addError2" tabindex="-1" role="dialog" aria-labelledby="addError2Label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="addError2Label">Administrator not added</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The administrator could not be added:
+                        <ul><li>The email provided was not found in the system. Request the administrator to create an account or try another email.</li></ul>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Error: Unknown. Try again? -->
+    <div class="modal fade" id="addError3" tabindex="-1" role="dialog" aria-labelledby="addError3Label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="addError3Label">Administrator not added</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The administrator could not be added with the specified privilege. Try again later.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Error: Unknown. Try again? -->
+    <div class="modal fade" id="editError" tabindex="-1" role="dialog" aria-labelledby="editErrorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="editErrorLabel">Administrator not updated</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The administrator could not be updated with the specified privilege. Try again later.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Error: Unknown. Try again? -->
+    <div class="modal fade" id="deleteError" tabindex="-1" role="dialog" aria-labelledby="deleteErrorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="deleteErrorLabel">Administrator not deleted</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The administrator could not be deleted. Try again later.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
                 </div>
             </div>
         </div>

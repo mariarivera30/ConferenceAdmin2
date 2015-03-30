@@ -16,7 +16,9 @@ namespace NancyService.Modules
         public AdminModules(ITokenizer tokenizer)
             : base("/admin")
         {
+            WebManager webManager = new WebManager();
             AdminManager adminManager = new AdminManager();
+            EvaluatorManager evaluatorManager = new EvaluatorManager();
             TopicManager topicManager = new TopicManager();
             SponsorManager sponsorManager = new SponsorManager();
             List<sponsor> sponsorList = new List<sponsor>();
@@ -96,30 +98,16 @@ namespace NancyService.Modules
             };
 /* ----- Topic -----*/
 
+            Get["/getTopic"] = parameters =>
+            {
+
+                return Response.AsJson(topicManager.getTopicList());
+            };
 
             Post["/addTopic"] = parameters =>
             {
                 var topic = this.Bind<topiccategory>();
                 return Response.AsJson(topicManager.addTopic(topic));
-            };
-
-            Get["/getTopic"] = parameters =>
-            {
-                
-                return Response.AsJson(topicManager.getTopicList());
-            };
-
-            Put["/deleteTopic/{topiccategoryID:int}"] = parameters =>
-            {
-                if (topicManager.deleteTopic(parameters.topiccategoryID))
-                {
-                    return HttpStatusCode.OK;
-                }
-
-                else
-                {
-                    return HttpStatusCode.Conflict;
-                }
             };
 
             Put["/updateTopic"] = parameters =>
@@ -137,7 +125,17 @@ namespace NancyService.Modules
                 }
             };
 
+            Put["/deleteTopic/{topiccategoryID:int}"] = parameters =>
+            {
+                return topicManager.deleteTopic(parameters.topiccategoryID);
+            };
+
 /* ----- Administrators -----*/
+
+            Get["/getNewAdmin/{email}"] = parameters =>
+            {
+                return adminManager.checkNewAdmin(parameters.email);
+            };
 
             Get["/getAdministrators"] = parameters =>
             {
@@ -161,20 +159,6 @@ namespace NancyService.Modules
                 catch { return null; }
             };
 
-            Put["/deleteAdmin"] = parameters =>
-            {
-                var delAdmin = this.Bind<AdministratorQuery>();
-                if (adminManager.deleteAdministrator(delAdmin))
-                {
-                    return HttpStatusCode.OK;
-                }
-
-                else
-                {
-                    return HttpStatusCode.Conflict;
-                }
-            };
-
             Post["/addAdmin"] = parameters =>
             {
                 var newAdmin = this.Bind<AdministratorQuery>();
@@ -185,6 +169,47 @@ namespace NancyService.Modules
             {
                 var editAdmin = this.Bind<AdministratorQuery>();
                 return Response.AsJson(adminManager.editAdministrator(editAdmin));
+            };
+
+            Put["/deleteAdmin"] = parameters =>
+            {
+                var delAdmin = this.Bind<AdministratorQuery>();
+                return adminManager.deleteAdministrator(delAdmin);
+            };
+
+/*------ Evaluators -----*/
+
+            Get["/getEvaluatorList"] = parameters =>
+            {
+                return Response.AsJson(evaluatorManager.getEvaluatorList());
+            };
+
+            Get["/getPendingList"] = parameters =>
+            {
+                return Response.AsJson(evaluatorManager.getPendingList());
+            };
+
+            Get["/getNewEvaluator/{email}"] = parameters =>
+            {
+                return evaluatorManager.checkNewEvaluator(parameters.email);
+            };
+
+            Post["/addEvaluator/{email}"] = parameters =>
+            {
+                return evaluatorManager.addEvaluator(parameters.email);
+            };
+
+            Put["/updateEvaluatorAcceptanceStatus"] = parameters =>
+            {
+                var updateEvaluator = this.Bind<EvaluatorQuery>();
+                if (evaluatorManager.updateAcceptanceStatus(updateEvaluator))
+                {
+                    return HttpStatusCode.OK;
+                }
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
             };
 
 /* ----- Registration -----*/
@@ -267,6 +292,144 @@ namespace NancyService.Modules
                 var authorizations = guest.getMinorAuthorizations(id);
 
                 return Response.AsJson(authorizations);
+            };
+
+            //-----------------------------------------WEBSITE CONTENT ----------------------------------------
+
+            Get["/getHome"] = parameters =>
+            {
+                return Response.AsJson(webManager.getHome());
+            };
+
+            Put["/saveHome"] = parameters =>
+            {
+                var home = this.Bind<HomeQuery>();
+                return webManager.saveHome(home);
+            };
+
+            Put["/removeImage/{data}"] = parameters =>
+            {
+                return webManager.removeImage(parameters.data);
+            };
+
+            Get["/getVenue"] = parameters =>
+            {
+                return Response.AsJson(webManager.getVenue());
+            };
+
+            Put["/saveVenue"] = parameters =>
+            {
+                var venue = this.Bind<VenueQuery>();
+                return webManager.saveVenue(venue);
+            };
+
+            Get["/getContact"] = parameters =>
+            {
+                return Response.AsJson(webManager.getContact());
+            };
+
+            Put["/saveContact"] = parameters =>
+            {
+                var contact = this.Bind<ContactQuery>();
+                return webManager.saveContact(contact);
+            };
+
+            Get["/getParticipation"] = parameters =>
+            {
+                return Response.AsJson(webManager.getParticipation());
+            };
+
+            Put["/saveParticipation"] = parameters =>
+            {
+                var participation = this.Bind<ParticipationQuery>();
+                return webManager.saveParticipation(participation);
+            };
+
+            Get["/getRegistrationInfo"] = parameters =>
+            {
+                return Response.AsJson(webManager.getRegistrationInfo());
+            };
+
+            Put["/saveRegistrationInfo"] = parameters =>
+            {
+                var registrationInfo = this.Bind<RegistrationQuery>();
+                return webManager.saveRegistrationInfo(registrationInfo);
+            };
+
+            Get["/getDeadlines"] = parameters =>
+            {
+                return Response.AsJson(webManager.getDeadlines());
+            };
+
+            Put["/saveDeadlines"] = parameters =>
+            {
+                var deadlines = this.Bind<DeadlinesQuery>();
+                return webManager.saveDeadlines(deadlines);
+            };
+
+            Get["/getPlanningCommittee"] = parameters =>
+            {
+                return Response.AsJson(webManager.getPlanningCommittee());
+            };
+
+            Post["/addNewCommittee"] = parameters =>
+            {
+                var committee = this.Bind<PlanningCommitteeQuery>();
+                return Response.AsJson(webManager.addCommittee(committee));
+            };
+
+            Put["/editCommittee"] = parameters =>
+            {
+                var committee = this.Bind<PlanningCommitteeQuery>();
+                return webManager.editCommittee(committee);
+            };
+
+            Put["/deleteCommittee"] = parameters =>
+            {
+                var committee = this.Bind<PlanningCommitteeQuery>();
+                return webManager.deleteCommittee(committee);
+            };
+
+            Get["/getCommitteeInterface"] = parameters =>
+            {
+                return Response.AsJson(webManager.getCommitteeInterface());
+            };
+
+            Get["/getAdminSponsorBenefits/{data}"] = parameters =>
+            {
+                return webManager.getAdminSponsorBenefits(parameters.data);
+            };
+
+            Put["/saveAdminSponsorBenefits"] = parameters =>
+            {
+                var sponsor = this.Bind<SaveSponsorQuery>();
+                return webManager.saveSponsorBenefits(sponsor);
+            };
+
+            Put["/saveInstructions/{data}"] = parameters =>
+            {
+                return webManager.saveInstructions(parameters.data);
+            };
+
+            Get["/getSponsorInstructions"] = parameters =>
+            {
+                return Response.AsJson(webManager.getInstructions());
+            };
+
+            Get["/getAllSponsorBenefits"] = parameters =>
+            {
+                return Response.AsJson(webManager.getAllSponsorBenefits());
+            };
+
+            Get["/getGeneralInfo"] = parameters =>
+            {
+                return Response.AsJson(webManager.getGeneralInfo());
+            };
+
+            Put["/saveGeneralInfo"] = parameters =>
+            {
+                var info = this.Bind<GeneralInfoQuery>();
+                return webManager.saveGeneralInfo(info);
             };
 
         }

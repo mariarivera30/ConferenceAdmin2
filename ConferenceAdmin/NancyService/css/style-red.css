@@ -3194,7 +3194,7 @@ textarea.form-control:focus {
   font-family: FontAwesome;
 }
 .dropdown > a:after {
-  top: 18px;
+  top: 15px;
   right: 15px;
   content: "\f107";
 }

@@ -1,42 +1,41 @@
-﻿<h3>Manage Topics</h3><br>
-<div ng-controller="topicCtrl as vm">
+﻿<div ng-controller="topicCtrl as vm">
+
+    <h3>Manage Topics</h3><br>
+
     <div class="col-lg-8 hide-until-loaded" id="body">
-        <table ng-table="tableParams" class="table row">
-            <tr>
-                <td><b>Topic Name</b></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr ng-repeat="topiccategory in vm.topicsList">
-                <td>{{topiccategory.name}}</td>
-                <td data-toggle="modal" data-target="#editTopic" ng-click="vm.selectedTopicUpdate(topiccategory.topiccategoryID, topiccategory.name)"><a href="">Edit</a></td>
-                <td><a href="" data-toggle="modal" data-target="#deleteTopic" ng-click="vm.selectedTopicDelete(topiccategory.topiccategoryID)"><i class="glyphicon glyphicon-remove"></i></a></td>
-            </tr>
-        </table>
+
+        <!-- Show message if the list of topics contains zero topics. -->
+        <div ng-hide="vm.topicsList.length">
+            <p class="after-title-field">No topics have been added.</p><br />
+        </div>
+
+        <div class="pdiv right" ng-show="vm.topicsList.length"><p class="psearch"> Search:</p><input ng-model="vm.search"></div>
+
+        <!-- Topics Table -->
+        <div class="atable">
+            <table ng-table="tableParams" class="table row" ng-show="vm.topicsList.length">
+                <tr>
+                    <td><b>Topic Name</b></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr ng-repeat="topiccategory in vm.topicsList | filter: vm.search">
+                    <td>{{topiccategory.name}}</td>
+                    <td data-toggle="modal" data-target="#editTopic" ng-click="vm.selectedTopicUpdate(topiccategory.topiccategoryID, topiccategory.name)"><a href="">Edit</a></td>
+                    <td><a href="" data-toggle="modal" data-target="#deleteTopic" ng-click="vm.selectedTopicDelete(topiccategory.topiccategoryID)"><i class="glyphicon glyphicon-remove"></i></a></td>
+                </tr>
+            </table>
+        </div>
         <button class="btn btn-ar btn-primary" data-toggle="modal" data-target="#addTopic">Add Topic</button> <a href=""><i class="fa fa-info-circle info-icon" title="Add a new topic"> </i></a>
         <br>
     </div>
+
+    <!-- Loading icon -->
     <div class="col-lg-12">
         <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
     </div>
-    <div class="modal fade" id="deleteTopic" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="deleteLabel">Remove Topic</h4>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to remove the selection?
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.deleteTopic()">Remove</button>
-                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
+    <!-- Add Topic Modal -->
     <div class="modal fade" id="addTopic" tabindex="-1" role="dialog" aria-labelledby="addTopicLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -59,6 +58,7 @@
         </div>
     </div>
 
+    <!-- Edit Topic Modal -->
     <div class="modal fade" id="editTopic" tabindex="-1" role="dialog" aria-labelledby="editTopicLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -76,6 +76,126 @@
                 <div class="modal-footer">
                     <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.updateTopic()" ng-disabled="editTopicForm.$invalid">Save</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Topic Modal -->
+    <div class="modal fade" id="deleteTopic" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="deleteLabel">Remove Topic</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to remove the selection?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.deleteTopic()">Remove</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Confirmation Modal-->
+    <div class="modal fade" id="addConfirm" tabindex="-1" role="dialog" aria-labelledby="addConfirmLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="addConfirmLabel">Topic Add Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Topic has been added.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Confirmation Modal -->
+    <div class="modal fade" id="editConfirm" tabindex="-1" role="dialog" aria-labelledby="editConfirmLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="editConfirmLabel">Topic Add Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Topic has been updated.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteConfirm" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="editConfirmLabel">Delete Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Topic has been removed.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Error -->
+    <div class="modal fade" id="addError" tabindex="-1" role="dialog" aria-labelledby="addErrorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="addErrorLabel">Topic not added</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The topic has not been added. Try again later.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Error -->
+    <div class="modal fade" id="deleteError" tabindex="-1" role="dialog" aria-labelledby="deleteErrorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="deleteErrorLabel">Topic not deleted</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The topic has not been deleted.
+                        <ul><li>There are submissions submitted under this topic category.</li></ul>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
                 </div>
             </div>
         </div>

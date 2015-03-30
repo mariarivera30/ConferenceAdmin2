@@ -228,6 +228,16 @@
                 }
             }
         })
+
+        .state('administrator.home', {
+            url: "/Home",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_home.html"
+                }
+            }
+        })
+
         .state('administrator.managetopics', {
             url: "/ManageTopics",
             views: {
@@ -317,6 +327,16 @@
                 }
             }
         })
+
+        .state('administrator.manageevaluators', {
+            url: "/ManageEvaluators",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_manageevaluators.html"
+                }
+            }
+        })
+
         .state('administrator.planningcommittee', {
             url: "/PlanningCommittee",
             views: {

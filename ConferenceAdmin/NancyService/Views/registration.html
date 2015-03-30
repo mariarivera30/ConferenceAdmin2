@@ -1,10 +1,10 @@
-﻿<div class="container" ng-controller="registrationCtrl as vm">
-    <div class="row">
+﻿<div class="container" ng-controller="registrationWebCtrl as vm">
+    <div class="row hide-until-loaded" id="body">
         <div class="col-md-12">
             <h2 class="section-title no-margin-top">Registration Fees</h2>
-            <h4>The deadline for registration is: December 10, 2015. <br> Registration is subject to approval. </h4>
-            <h5 class="black-label">General Instructions:</h5>
-            <p class="p-lg">Please create an account to apply for a space in the conference. If you are submitting a paper, you do not need to apply. </p>
+            <h4>{{vm.iregistrationNotes}} </h4>
+            <h5 class="black-label">{{vm.iregistrationTitle1}}</h5>
+            <p class="p-lg">{{vm.iregistrationParagraph1}}</p>
         </div>
 
         <div class="col-md-8">
@@ -17,7 +17,7 @@
 
                         <th>Participant</th>
 
-                        <th>Fee</th>
+                        <th>Cost</th>
 
                         <th>After deadline fee</th>
 
@@ -27,33 +27,63 @@
 
                 <tbody>
 
-                    <tr>
+                    <tr ng-show="vm.iundergraduateStudentFee">
 
-                        <td>University Student</td>
+                        <td>Undergraduate Student</td>
 
-                        <td>$25</td>
+                        <td>${{vm.iundergraduateStudentFee}}</td>
 
-                        <td>$40</td>
+                        <td>${{vm.iundergraduateStudentLateFee}}</td>
 
                     </tr>
 
-                    <tr>
+                    <tr ng-show="vm.igraduateStudentFee">
+
+                        <td>Graduate Student</td>
+
+                        <td>${{vm.igraduateStudentFee}}</td>
+
+                        <td>${{vm.igraduateStudentLateFee}}</td>
+
+                    </tr>
+
+                    <tr ng-show="vm.ihighSchoolStudentFee">
 
                         <td>High School Student</td>
 
-                        <td>$20</td>
+                        <td>${{vm.ihighSchoolStudentFee}}</td>
 
-                        <td>$30</td>
+                        <td>${{vm.ihighSchoolStudentFee}}</td>
 
                     </tr>
 
-                    <tr>
+                    <tr ng-show="vm.icompanionStudentFee">
 
-                        <td>Professional</td>
+                        <td>High School Student Companion</td>
 
-                        <td>$50</td>
+                        <td>${{vm.icompanionStudentFee}}</td>
 
-                        <td>$60</td>
+                        <td>${{vm.icompanionStudentLateFee}}</td>
+
+                    </tr>
+
+                    <tr ng-show="vm.iprofessionalAcademyFee">
+
+                        <td>Professional Academia</td>
+
+                        <td>${{vm.iprofessionalAcademyFee}}</td>
+
+                        <td>${{vm.iprofessionalAcademyLateFee}}</td>
+
+                    </tr>
+
+                    <tr ng-show="vm.professionalIndustryFee">
+
+                        <td>Professional Industry</td>
+
+                        <td>${{vm.iprofessionalIndustryFee}}</td>
+
+                        <td>${{vm.iprofessionalIndustryLateFee}}</td>
 
                     </tr>
 
@@ -61,6 +91,50 @@
 
             </table>
         </div>
+
+        <div class="col-md-12">
+            <h5 class="black-label">{{vm.iregistrationTitle2}}</h5>
+            <p class="p-lg">{{vm.iregistrationParagraph2}}</p>
+        </div>
+
     </div>
-    
+
+    <div class="modal fade" id="updateConfirm" tabindex="-1" role="dialog" aria-labelledby="updateConfirmLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="updateConfirmLabel">Registration Update</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The information has been updated.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateError" tabindex="-1" role="dialog" aria-labelledby="updateErrorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="updateErrorLabel">Registration Update Error</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The information could not be updated.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

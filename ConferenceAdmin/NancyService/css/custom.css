@@ -2,13 +2,30 @@
     padding-top:20px;
 }
 
+.paragraph-field{
+    padding-top:10px;
+}
+
 .title-centered{
     text-align:center;
+}
+
+.loading-right{
+    text-align:right;
 }
 
 .after-title-field{
     padding-top:0px; 
     margin:0px;
+}
+
+.registration-boxes{
+    padding-left:0px;
+}
+
+.after-title-field2{
+    padding-top:0px;
+    margin-bottom:0px; 
 }
 
 .collapse-body{
@@ -41,6 +58,33 @@
     visibility:hidden;
 }
 
+.etable{
+    max-height:300px; 
+    width:100%; 
+    overflow-y:auto;
+    margin-bottom:20px;
+}
+
+.atable{
+    max-height:80%; 
+    width:100%; 
+    overflow-y:auto;
+    margin-bottom:10px;
+}
+
+.psearch{
+    display:inline;
+    padding-right:1em;
+}
+
+.pdiv{
+    padding-bottom:10px;
+}
+
+#ebody{
+    padding-bottom:20px;
+    margin-bottom:20px;
+}
 .glyphicon-refresh-animate {
     -animation: spin .7s infinite linear;
     -webkit-animation: spin2 .7s infinite linear;
@@ -54,4 +98,19 @@
 @keyframes spin {
     from { transform: scale(1) rotate(0deg);}
     to { transform: scale(1) rotate(360deg);}
+}
+
+#deadlinetable,
+#deadlinetable th,
+#deadlinetable tr,
+#deadlinetable td { border: 0; }
+
+
+#benefitstable,
+#benefitstable th,
+#benefitstable tr,
+#benefitstable td { border: 0; }
+
+.inputSize{
+    width:90%;
 }

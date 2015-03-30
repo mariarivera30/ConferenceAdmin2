@@ -1,8 +1,7 @@
-﻿<div ng-controller="administratorCtrl as vm">
-
+﻿<div>
     <h3>Manage Submissions</h3><br>
     <div class="col-lg-12">
-        <table ng-table="tableParams" show-filter="true" class="table row">
+        <table ng-table="tableParams" class="table row">
             <tr>
                 <td><b>Submision Title</b></td>
                 <td><b>Type</b></td>
@@ -21,7 +20,7 @@
                     <a href="" data-toggle="modal" data-target="#evalDetail">Manage Evaluations</a>
                 </td>
                 <td>
-                    <center>{{user.average}}</center>                    
+                    <center></center>
                 </td>
                 <td data-title="''">
                     <select>
@@ -33,7 +32,7 @@
                 </td>
             </tr>
         </table>
-        
+
     </div>
 </div>
 
@@ -59,7 +58,7 @@
 
 
 
-<div class="modal fade" id="evalDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="administratorCtrl as vm">
+<div class="modal fade" id="evalDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -68,7 +67,7 @@
             </div>
             <div class="modal-body">
                 <label>Submission Title: Title</label><br />
-                <label>Evaluation Template:</label> 
+                <label>Evaluation Template:</label>
                 <select>
                     <option>Template_1</option>
                     <option>Template_2</option>
@@ -77,7 +76,7 @@
                 <button class="btn btn-ar btn-primary">Add New</button> <br /><br />
 
 
-                <table ng-table="tableParams" show-filter="true" class="table row">
+                <table ng-table="tableParams" class="table row">
                     <thead>
                         <tr>
                             <td>Evaluator</td>
@@ -88,10 +87,10 @@
                     <tbody>
                         <tr ng-repeat="user in vm.list">
                             <td>
-                                {{user.name}}
+                                
                             </td>
                             <td>
-                                {{user.average}}
+                               
                             </td>
                             <td>
                                 <a href="">View</a>
@@ -102,7 +101,7 @@
                 </table>
                 <br />
                 <select>
-                    <option ng-repeat="user in vm.list">{{user.name}}</option>
+                    <option ng-repeat="user in vm.list"></option>
                 </select>
                 <button class="btn btn-ar btn-primary">Assign <i class="fa fa-arrow-up"> </i></button>
 

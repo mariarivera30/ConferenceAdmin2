@@ -20,13 +20,14 @@ namespace NancyService.Modules
 
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    var administrators = context.claims.Where(admin => admin.deleted != true && admin.privilege.privilegestType !="Evaluator").Select(admin => new AdministratorQuery
+                    //ANADIR CONDICION PARA QUE NO SALGA EL MISMO ADMINISTRADOR EN LA LISTA QUE DEVUELVE
+                    var administrators = context.claims.Where(admin => admin.deleted != true && admin.privilege.privilegestType != "Evaluator").Select(admin => new AdministratorQuery
                     {
                         userID = (long)admin.userID,
-                        firstName= admin.user.firstName,
-                        lastName= admin.user.lastName,
+                        firstName = admin.user.firstName,
+                        lastName = admin.user.lastName,
                         email = admin.user.membership.email,
-                        privilege=admin.privilege.privilegestType,
+                        privilege = admin.privilege.privilegestType,
                         privilegeID = (int)admin.privilegesID
 
                     }).ToList();
@@ -41,6 +42,32 @@ namespace NancyService.Modules
             }
         }
 
+        public bool checkNewAdmin(String email)
+        {
+            try
+            {
+
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    var result = (from user in context.users
+                                  where user.membership.email == email
+                                  select user.userID).Count();
+
+                    if (result > 0)
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("AdminManager.checkNewAdmin error " + ex);
+                return false;
+            }
+        }
+
         public List<PrivilegeQuery> getPrivilegesList()
         {
             try
@@ -51,7 +78,7 @@ namespace NancyService.Modules
                     var privileges = context.privileges.Where(privilege => privilege.privilegestType != "Evaluator").Select(privilege => new PrivilegeQuery()
                     {
                         privilegeID = privilege.privilegesID,
-                        name= privilege.privilegestType,
+                        name = privilege.privilegestType,
 
                     }).ToList();
 
@@ -65,113 +92,74 @@ namespace NancyService.Modules
             }
         }
 
-        public bool deleteAdministrator(AdministratorQuery delAdmin)
+        public AdministratorQuery addAdmin(AdministratorQuery s)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    var admin = (from s in context.claims
-                                 where s.userID == delAdmin.userID && s.privilegesID == delAdmin.privilegeID
-                                 select s).First();
-                    admin.deleted = true;
-                    context.SaveChanges();
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.Write("AdminManager.deleteAdministrator error " + ex);
-                return false;
-            }
-        }
+                    //Get privilege name
+                    s.privilege = (from p in context.privileges
+                                   where p.privilegesID == s.privilegeID
+                                   select p.privilegestType).FirstOrDefault();
 
-        public AdministratorQuery addAdmin(AdministratorQuery s)
-        { 
-            try
-            {
-                using (conferenceadminContext context = new conferenceadminContext())
-                {
-                    //Get Privilege Name
-                    s.privilege = (from privilege in context.privileges
-                                   where privilege.privilegesID == s.privilegeID
-                                   select privilege.privilegestType).FirstOrDefault();
+                    //Check if user is Member. Note: In the administrator tab the user has already been checked for membership.
+                    var userInfo = (from user in context.users
+                                    where user.membership.email == s.email
+                                    select user).FirstOrDefault();
 
-                    //Check if user is Member
-                    s.userID = (from user in context.users
-                                        where user.membership.email == s.email
-                                        select user.userID).FirstOrDefault();
-
-                    if (s.userID == 0)
+                    if (userInfo != null && s.privilege != null)
                     {
-                        //Add member
-                        membership newMember = new membership();
-                        newMember.email = s.email;
-                        newMember.deleted = false;
-                        newMember.emailConfirmation = false;
-                        newMember.password = "root"; //password generator?
-                        context.memberships.Add(newMember);
-                        context.SaveChanges();
+                        //User exists
+                        s.userID = userInfo.userID;
+                        s.firstName = userInfo.firstName;
+                        s.lastName = userInfo.lastName;
 
-                        //Add user
-                        user newUser = new user();
-                        newUser.membershipID = newMember.membershipID;
-                        newUser.firstName = s.firstName;
-                        newUser.lastName = s.lastName;
-                        newUser.acceptanceStatus = "N/A";
-                        newUser.userTypeID = 4;
-                        newUser.addressID = 1;
-                        newUser.affiliationName = "";
-                        newUser.deleted = false;
-                        newUser.hasApplied = false;
-                        newUser.title = "";
-                        newUser.phone = "";
-                        newUser.userFax = "";
-                        context.users.Add(newUser);
-                        context.SaveChanges();
-
-                        //Add admin 
-                        claim newAdmin = new claim();
-                        newAdmin.privilegesID = s.privilegeID;
-                        newAdmin.deleted = false;
-                        newAdmin.userID = newUser.userID; 
-                        context.claims.Add(newAdmin);
-                        context.SaveChanges();
-
-                        s.userID= newUser.userID;
-                    }
-
-                    else
-                    {
-                        //Check if newAdmin can add the selected privilege
+                        //Check if newAdmin has already a privilege
                         var checkAdmin = (from admin in context.claims
-                                          where admin.userID == s.userID && admin.privilege.privilegestType != "Evaluator"
-                                          select admin.userID).Count();
+                                          where admin.userID == s.userID && admin.privilege.privilegestType != "Evaluator" && admin.deleted != true
+                                          select admin).FirstOrDefault();
 
-                        if (checkAdmin == 0)
-                        {
-                            //Add admin 
-                            claim newAdmin = new claim();
-                            newAdmin.privilegesID = s.privilegeID;
-                            newAdmin.deleted = false;
-                            newAdmin.userID = s.userID;
-                            context.claims.Add(newAdmin);
-                            context.SaveChanges();
-                        }
-                        else
+                        if (checkAdmin != null)
                         {
                             return null;
                         }
 
+                        else
+                        {
+                            //Check if user has had the privilege before
+                            var adminPrivilege = (from admin in context.claims
+                                                  where admin.userID == s.userID && admin.privilege.privilegestType == s.privilege
+                                                  select admin).FirstOrDefault();
+
+                            if (adminPrivilege != null)
+                            {
+                                adminPrivilege.deleted = false;
+                                context.SaveChanges();
+                            }
+
+                            else
+                            {
+                                //Add admin 
+                                claim newAdmin = new claim();
+                                newAdmin.privilegesID = s.privilegeID;
+                                newAdmin.deleted = false;
+                                newAdmin.userID = s.userID;
+                                context.claims.Add(newAdmin);
+                                context.SaveChanges();
+                            }
+                        }
+
+                        return s;
                     }
 
-                    return s;
+                    return null;
                 }
             }
             catch (Exception ex)
             {
                 Console.Write("AdminManager.addAdmin error " + ex);
-                return s;
+                return null;
             }
 
         }
@@ -182,30 +170,69 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                   String privilege = (from p in context.privileges
-                                   where p.privilegesID == editAdmin.privilegeID
-                                   select p.privilegestType).FirstOrDefault();
+                    //Get privilege name
+                    String privilege = (from p in context.privileges
+                                        where p.privilegesID == editAdmin.privilegeID
+                                        select p.privilegestType).FirstOrDefault();
 
+                    //Check if admin had the privilege before
                     var admin = (from s in context.claims
-                                 where s.userID == editAdmin.userID
-                                 select s).First();
+                                 where s.userID == editAdmin.userID && s.privilegesID == editAdmin.privilegeID
+                                 select s).FirstOrDefault();
 
-                    if (admin != null)
+                    //Get current--soon to be old privilege--- information
+                    var oldAdmin = (from s in context.claims
+                                    where s.userID == editAdmin.userID && s.privilegesID == editAdmin.oldPrivilegeID && s.deleted != true
+                                    select s).FirstOrDefault();
+
+                    if (oldAdmin != null && privilege != null)
                     {
-                        admin.privilegesID = editAdmin.privilegeID;
+                        if (admin != null && admin.claimsID != oldAdmin.claimsID)
+                        {
+                            admin.deleted = false;
+                            oldAdmin.deleted = true;
+                        }
+
+                        else
+                        {
+                            oldAdmin.privilegesID = editAdmin.privilegeID;
+                        }
+
                         context.SaveChanges();
                         return privilege;
                     }
-                    else
-                    {
-                        return null;
-                    }
+                    return null;
                 }
             }
             catch (Exception ex)
             {
                 Console.Write("AdminManager.editAdministrator error " + ex);
                 return null;
+            }
+        }
+
+        public bool deleteAdministrator(AdministratorQuery delAdmin)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    //Check que otro admin no pueda quitar privilegio a Nayda
+                    var admin = (from s in context.claims
+                                 where s.userID == delAdmin.userID && s.privilegesID == delAdmin.privilegeID && s.deleted != true
+                                 select s).FirstOrDefault();
+                    if (admin != null)
+                    {
+                        admin.deleted = true;
+                    }
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("AdminManager.deleteAdministrator error " + ex);
+                return false;
             }
         }
 
@@ -219,6 +246,7 @@ namespace NancyService.Modules
         public String email;
         public String privilege;
         public int privilegeID;
+        public int oldPrivilegeID;
 
         public AdministratorQuery()
         {

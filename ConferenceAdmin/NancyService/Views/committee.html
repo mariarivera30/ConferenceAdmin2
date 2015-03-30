@@ -1,32 +1,47 @@
-﻿<div class="container" ng-controller="abstractCtrl as vm">
-    <div class="row">
-        <div class="col-md-12">
+﻿<div class="container" ng-controller="committeeCtrl as vm">
+    <div class="row hide-until-loaded" id="body">
+        <div class="col-md-12" ng-show="vm.conferenceChairList.length">
             <h2 class="section-title">Planning Committee</h2>
             <h3>Conference Chair</h3>
-            <p class ="p-lg">Nayda Santiago <br />University of Puerto Rico- Mayagüez</p>
+            <div ng-repeat="committee in vm.conferenceChairList">
+                <p class="p-lg">{{committee.firstName}} {{committee.lastName}}<br />{{committee.affiliation}}</p>
+            </div>
             <hr class="dotted">
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" ng-show="vm.conferenceCoChairList.length">
             <h3>Conference Co-Chairs</h3>
-            <p class ="p-lg">Lizdabel Morales <br />University of Puerto Rico- Mayagüez</p>
-            <p class="p-lg">Gladys Omayra Ducoudray<br />University of Puerto Rico- Mayagüez</p>
+            <div ng-repeat="committee in vm.conferenceCoChairList">
+                <p class="p-lg">{{committee.firstName}} {{committee.lastName}}<br />{{committee.affiliation}}</p>
+            </div>
             <hr class="dotted">
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" ng-show="vm.conferenceTreasurerList.length">
             <h3>Treasurer</h3>
-            <p class ="p-lg">Awilda Valle <br />University of Puerto Rico- Mayagüez</p><hr class="dotted">
+            <div ng-repeat="committee in vm.conferenceTreasurerList">
+                <p class="p-lg">{{committee.firstName}} {{committee.lastName}}<br />{{committee.affiliation}}</p>
+            </div>
+            <hr class="dotted">
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" ng-show="vm.conferenceCoordinatorList.length">
             <h3>Conference Coordinator</h3>
-            <p class="p-lg">Maribel Feliciano <br />University of Puerto Rico- Mayagüez</p><hr class="dotted">
+            <div ng-repeat="committee in vm.conferenceCoordinatorList">
+                <p class="p-lg">{{committee.firstName}} {{committee.lastName}}<br />{{committee.affiliation}}</p>
+            </div>
+            <hr class="dotted">
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" ng-show="vm.conferenceAssistantList.length">
             <h3>Conference Assistant</h3>
-            <p class="p-lg">Evelyn Guzmán <br />University of Puerto Rico- Mayagüez</p><hr class="dotted">
+            <div ng-repeat="committee in vm.conferenceAssistantList">
+                <p class="p-lg">{{committee.firstName}} {{committee.lastName}}<br />{{committee.affiliation}}</p>
+            </div>
+            <hr class="dotted">
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" ng-show="vm.conferenceAccountantList.length">
             <h3>Conference Accountant</h3>
-            <p class="p-lg">Soliris Maldonado <br />University of Puerto Rico- Mayagüez</p><br>
+            <div ng-repeat="committee in vm.conferenceAccountantList">
+                <p class="p-lg">{{committee.firstName}} {{committee.lastName}}<br />{{committee.affiliation}}</p>
+            </div>
+            <br>
         </div>
     </div> <!-- row -->
 </div>

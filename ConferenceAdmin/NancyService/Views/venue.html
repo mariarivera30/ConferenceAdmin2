@@ -1,21 +1,20 @@
 ﻿<div class="container" ng-controller="venueCtrl as vm">
-    <div class="row">
+    <div class="row hide-until-loaded" id="body">
         <div class="col-md-9">
             <h2 class="section-title">Venue</h2>
             <section>
-                <h3>Courtyard Marriott Aguadilla</h3>
-                <p class="p-lg">Address: West Parade/Belt Road, Ramey Base · Aguadilla, Puerto Rico 00603</p>
-                <p>Phone: 1-787-658-8000 <br /> Fax: 1-787-658-8020 </p>
-                <h3>Reservations</h3>
-                <p class="p-lg">Click here to make reservations. Please book your hotel rooms early.</p>
+                <h3>{{vm.ivenueTitle1}}</h3>
+                <p class="p-lg">{{vm.ivenueParagraph1}}</p>
+                <h3>{{vm.ivenueTitle2}}</h3>
+                <p class="p-lg">{{vm.ivenueParagraph2}}</p>
             </section>
         </div>
         <div class="col-md-3">
-            <h2 class="section-title no-top-margin">Contact</h2>
+            <h2 class="section-title no-top-margin">{{vm.ivenueTitleBox}}</h2>
             <div class="row">
                 <div class="col-md-12 col-sm-4">
                     <div class="home-news-box">
-                       <p>Phone: 1-787-658-8000 <br /> Fax: 1-787-658-8020 </p>
+                        <p>{{vm.ivenueParagraphContentBox}}</p>
                     </div>
                 </div>
             </div>

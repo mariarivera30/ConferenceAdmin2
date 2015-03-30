@@ -1,119 +1,147 @@
-﻿<h3>Sponsors</h3>
-
-<div class="row">
-    <div class="col-lg-10">
-        <h5 class="after-title-field">Instructions for Sponsors and Donations</h5>
-        <textarea class="form-control" rows="5"></textarea><br>
+﻿<div ng-controller="sponsorInterfaceCtrl as vm">
+    <h3>Sponsors</h3>
+    <div class="row">
+        <div class="col-lg-10">
+            <h5 class="after-title-field">Instructions for Sponsors and Donations</h5>
+            <textarea class="form-control" rows="5" ng-model="vm.instructions"></textarea><br>
+            <h5 class="after-title-field">Sponsor Pricing and Benefits</h5><br />
+        </div>
     </div>
-</div>
 
-<div class="row after-title-field">
-    <div class="colg-lg-12">
-        <section>
-            <div class="col-lg-3 col-sm-6">
-                <div class="pricing-box">
-                    <div class="pricing-box-header platinum">
-                        <h2>Platinum</h2>
-                        <p>Pricing & Benefits</p>
-                    </div>
-                    <div class="pricing-box-price">
-                        <h3>$ <input class="med-input" /></h3>
-                    </div>
-                    <div class="pricing-box-content">
-                        <ul>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                        </ul>
-                    </div>
+    <div class="row center-block" id="body">
+        <div class="col-lg-6">
+            <table class="table row after-title-field">
+                <tr>
+                    <td><b>Sponsor Type</b></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Platinum</td>
+                    <td>
+                        <a href="" ng-click="vm.selectedSponsor('Platinum')">Edit Pricing & Benefits</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Gold</td>
+                    <td>
+                        <a href="" ng-click="vm.selectedSponsor('Gold')">Edit Pricing & Benefits</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Silver</td>
+                    <td>
+                        <a href="" ng-click="vm.selectedSponsor('Silver')">Edit Pricing & Benefits</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Bronze</td>
+                    <td>
+                        <a href="" ng-click="vm.selectedSponsor('Bronze')">Edit Pricing & Benefits</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-10 title-field">
+            <button class="btn btn-ar btn-primary" ng-click="vm.saveInstructions()">Save</button>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editSponsorBenefits" tabindex="-1" role="dialog" aria-labelledby="editSponsorBenefitsLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Edit {{vm.sponsorType}}</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="editSponsorForm">
+                        <label class="after-title-field">Pricing:</label>
+                        <input name="cost" type="number" ng-model="vm.amount" /><br />
+                        <label>Benefits:</label><p class="after-title-field2">You can specify up to 10 benefits.</p>
+                        <table class="table after-title-field" id="benefitstable">
+                            <thead>
+                                <tr>
+                                    <th class="text-left"></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td class="text-left"><input class="inputSize" type="text" ng-model="vm.benefits.benefit1" /></td>
+                                    <td class="text-left"><input class="inputSize" type="text" ng-model="vm.benefits.benefit2" /></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="text-left"><input class="inputSize" type="text" ng-model="vm.benefits.benefit3" /></td>
+                                    <td class="text-left"><input class="inputSize" type="text" ng-model="vm.benefits.benefit4" /></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="text-left"><input class="inputSize" type="text" ng-model="vm.benefits.benefit5" /></td>
+                                    <td class="text-left"><input class="inputSize" type="text" ng-model="vm.benefits.benefit6" /></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="text-left"><input class="inputSize" type="text" ng-model="vm.benefits.benefit7" /></td>
+                                    <td class="text-left"><input class="inputSize" type="text" ng-model="vm.benefits.benefit8" /></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="text-left"><input class="inputSize" type="text" ng-model="vm.benefits.benefit9" /></td>
+                                    <td class="text-left"><input class="inputSize" type="text" ng-model="vm.benefits.benefit10" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.saveBenefits()">Save</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal" ng-click="vm.clear()">Cancel</button>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="col-lg-3 col-sm-6">
-                <div class="pricing-box">
-                    <div class="pricing-box-header gold">
-                        <h2>Gold</h2>
-                        <p>Pricing & Benefits</p>
-                    </div>
-                    <div class="pricing-box-price">
-                        <h3>$ <input class="med-input" /></h3>
-                    </div>
-                    <div class="pricing-box-content">
-                        <ul>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                        </ul>
-                    </div>
+    <div class="modal fade" id="updateConfirm" tabindex="-1" role="dialog" aria-labelledby="updateConfirmLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="updateConfirmLabel">Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The information has been updated.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="col-lg-3 col-sm-6">
-                <div class="pricing-box">
-                    <div class="pricing-box-header silver">
-                        <h2>Silver</h2>
-                        <p>Pricing & Benefits</p>
-                    </div>
-                    <div class="pricing-box-price">
-                        <h3>$ <input class="med-input" /></h3>
-                    </div>
-                    <div class="pricing-box-content">
-                        <ul>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                        </ul>
-                    </div>
+    <div class="modal fade" id="updateError" tabindex="-1" role="dialog" aria-labelledby="updateErrorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="updateErrorLabel">Information Error</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The information has not been updated.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
                 </div>
             </div>
-
-            <div class="col-lg-3 col-sm-6">
-                <div class="pricing-box">
-                    <div class="pricing-box-header bronze">
-                        <h2>Bronze</h2>
-                        <p>Pricing & Benefits</p>
-                    </div>
-                    <div class="pricing-box-price">
-                        <h3>$ <input class="med-input" /></h3>
-                    </div>
-                    <div class="pricing-box-content">
-                        <ul>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-sm-6">
-                <div class="pricing-box">
-                    <div class="pricing-box-header">
-                        <h2>Supporter</h2>
-                        <p>Pricing & Benefits</p>
-                    </div>
-                    <div class="pricing-box-price">
-                        <h3>$ <input class="med-input" /></h3>
-                    </div>
-                    <div class="pricing-box-content">
-                        <ul>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                            <li> <center><input class="big-input" /></center></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
+        </div>
     </div>
 </div>

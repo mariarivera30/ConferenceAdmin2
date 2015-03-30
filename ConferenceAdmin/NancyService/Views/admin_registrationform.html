@@ -1,114 +1,135 @@
-﻿<h3>Registration</h3>
+﻿<div class="row" ng-controller="registrationWebCtrl as vm">
 
-<div class="row">
+    <h3>Registration</h3>
 
-    
-    <div class="col-lg-12">
-        <h6 class="after-title-field">
-            Instructions for Registration</h6>
-            <textarea class="form-control" rows="5"></textarea>
+    <div class="col-lg-10 hide-until-loaded" id="body">
+
+        <h5 class="after-title-field">Highlight Notes</h5>
+        <textarea class="form-control" rows="5" ng-model="vm.registrationNotes"></textarea><br />
+
+        <div class="row">
+            <div class="col-md-7">
+                <div class="form-group">
+                    <h5 class="after-title-field">Title 1</h5>
+                    <input type="text" class="form-control" ng-model="vm.registrationTitle1">
+                </div>
+            </div>
+        </div>
+
+        <h5 class="after-title-field">Paragraph 1</h5>
+        <textarea class="form-control" rows="5" ng-model="vm.registrationParagraph1"></textarea><br />
+
+        <div class="col-md-10">
+            <table class="table after-title-field">
+                <colgroup>
+                    <col span="1" style="width: 50%;">
+                    <col span="1" style="width: 25%;">
+                    <col span="1" style="width: 25%;">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Participant</th>
+                        <th>Cost</th>
+                        <th>After deadline fee</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Undergraduate Student</td>
+                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.undergraduateStudentFee"></td>
+                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.undergraduateStudentLateFee"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Graduate Student</td>
+                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.graduateStudentFee"></td>
+                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.graduateStudentLateFee"></td>
+                    </tr>
+
+                    <tr>
+                        <td>High School Student</td>
+                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.highSchoolStudentFee"></td>
+                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.highSchoolStudentLateFee"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Student Companion</td>
+                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.companionStudentFee"></td>
+                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.companionStudentLateFee"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Professional- Academy</td>
+                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.professionalAcademyFee"></td>
+                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.professionalAcademyLateFee"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Professional- Industry</td>
+                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.professionalIndustryFee"></td>
+                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.professionalIndustryLateFee"></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row">
+            <div class="col-md-7">
+                <div class="form-group">
+                    <br />
+                    <h5 class="after-title-field">Title 2</h5>
+                    <input type="text" class="form-control" ng-model="vm.registrationTitle2">
+                </div>
+            </div>
+        </div>
+
+        <h5 class="after-title-field">Paragraph 2</h5>
+        <textarea class="form-control" rows="5" ng-model="vm.registrationParagraph2"></textarea><br />
+
+        <div class="row">
+            <div class="col-lg-10">
+                <button class="btn btn-ar btn-primary" ng-click="vm.saveRegistrationInfo()">Save</button>
+            </div>
+        </div>
     </div>
-    <div class="col-lg-6">
-        <h6>Deadline to pay fee without fee increase</h6>
-        <input type="date" class="form-control" />
+
+    <div class="modal fade" id="updateConfirm" tabindex="-1" role="dialog" aria-labelledby="updateConfirmLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="updateConfirmLabel">Registration Update</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The information has been updated.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-lg-6">
-        <h6>Amount to pay in case of fee increase</h6>
-        <input class="form-control" placeholder="$" />
+
+    <div class="modal fade" id="updateError" tabindex="-1" role="dialog" aria-labelledby="updateErrorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="updateErrorLabel">Registration Update Error</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The information could not be updated.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-lg-12">
-        <h6>Days of participation for conference</h6>
-        <input type="date" class="date-range-width" />&nbsp;&nbsp;to <input type="date" class="date-range-width right" /><br>
-    </div>
-    <div class="col-lg-12">
-        <h6>Cancellation Policy</h6>
-        <textarea rows="3" class="form-control"></textarea>
-    </div>
-    
 </div>
-
-<div class="row">
-    <div class="col-md-4">
-        <div class="content-box box-default">
-
-            <h5 class="content-box-title">High School Student</h5>
-            <div class="row" style="text-align:left;">
-                <h6>Description of type of user</h6>
-                <textarea rows="3" class="form-control"></textarea>
-                <h6>Amount to Pay</h6>
-                <input class="form-control" placeholder="$" />                
-            </div>
-        </div>
-    </div>
-
-
-    <div class="col-md-4">
-        <div class="content-box box-default">
-            <h5 class="content-box-title">Student Companion</h5>
-            <div class="row" style="text-align:left;">
-                <h6>Description of type of user</h6>
-                <textarea rows="3" class="form-control"></textarea>
-                <h6>Amount to Pay</h6>
-                <input class="form-control" placeholder="$" />                
-            </div>
-        </div>
-    </div>
-
-
-    <div class="col-md-4">
-        <div class="content-box box-default">
-            <h5 class="content-box-title">Graduate Student</h5>
-            <div class="row" style="text-align:left;">
-                <h6>Description of type of user</h6>
-                <textarea rows="3" class="form-control"></textarea>
-                <h6>Amount to Pay</h6>
-                <input class="form-control" placeholder="$" />
-            </div>
-        </div>
-    </div>
-<br />
-
-    
-
-        <div class="col-md-4">
-            <div class="content-box box-default">
-                <h5 class="content-box-title">Undergraduate Student</h5>
-                <div class="row" style="text-align:left;">
-                    <h6>Description of type of user</h6>
-                    <textarea rows="3" class="form-control"></textarea>
-                    <h6>Amount to Pay</h6>
-                    <input class="form-control" placeholder="$" />
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-md-4">
-            <div class="content-box box-default">
-                <h5 class="content-box-title">Professional - Academy</h5>
-                <div class="row" style="text-align:left;">
-                    <h6>Description of type of user</h6>
-                    <textarea rows="3" class="form-control"></textarea>
-                    <h6>Amount to Pay</h6>
-                    <input class="form-control" placeholder="$" />
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-md-4">
-            <div class="content-box box-default">
-                <h5 class="content-box-title">Professional - Industry</h5>
-                <div class="row" style="text-align:left;">
-                    <h6>Description of type of user</h6>
-                    <textarea rows="3" class="form-control"></textarea>
-                    <h6>Amount to Pay</h6>
-                    <input class="form-control" placeholder="$" />
-                </div>
-            </div>
-        </div>
-   
-</div>
-
-
-

@@ -1,5 +1,5 @@
 ﻿<div class="container" ng-controller="contactCtrl as vm">
-    <div class="row">
+    <div class="row hide-until-loaded" id="body">
         <div class="col-md-12">
             <h2 class="section-title">Send Message</h2>
         </div>
@@ -38,9 +38,9 @@
                     <div class="panel-heading"><i class="fa fa-envelope-o"></i>Additional Information</div>
                     <div class="panel-body">
                         <h4>Contact</h4>
-                            <strong>Maribel Feliciano</strong><br>
-                            Phone:(123) 456-7890 <br>
-                            Mail: <a href="#">support@cccwic.com</a>
+                        <strong>{{vm.contactName}}</strong><br>
+                        Phone: {{vm.contactPhone}} <br>
+                        Mail: <a href="#">{{vm.contactEmail}}</a>
                     </div>
                 </div>
             </section>

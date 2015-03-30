@@ -1,28 +1,35 @@
-﻿<div class="container" ng-controller="venueCtrl as vm">
+﻿<div class="container" ng-controller="sponsorInterfaceCtrl2 as vm">
 
-    <h2 class="section-title">Sponsors <a href="#/SponsorRegistration"><button class="btn btn-ar btn-default right">Become a Sponsor</button></a></h2>
+    <h2 class="section-title">Sponsors<a href="#/SponsorRegistration" class="btn btn-ar btn-primary right">Become a Sponsor</a></h2>
 
     <!-- <div class="pricing-box animated fadeInUp animation-delay-1"> (for donations page) -->
 
-    <section>
+    <section class="hide-until-loaded" id="body">
         <div class="row">
-
-            <div class="col-lg-3 col-sm-6">
+            <div class="col-lg-12">
+                <p>{{vm.instructions}}</p><br />
+            </div>
+            <div class="col-lg-3 col-sm-6" ng-show="vm.iplatinumAmount">
                 <div class="pricing-box animated fadeInUp animation-delay-1">
                     <div class="pricing-box-header platinum">
                         <h2>Platinum</h2>
                         <p>Pricing & Benefits</p>
                     </div>
                     <div class="pricing-box-price">
-                        <h3>$ 6,000</h3>
+                        <h3>$ {{vm.iplatinumAmount}}</h3>
                     </div>
                     <div class="pricing-box-content">
                         <ul>
-                            <li> <center>Panel Speaker</center></li>
-                            <li> <center>Swag in bags</center></li>
-                            <li> <center>Name in press release</center></li>
-                            <li> <center>3 free company bookings</center></li>
-                            <li> <center>Booth Table</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit1"><center>{{vm.iplatinumBenefits.benefit1}}</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit2"><center>{{vm.iplatinumBenefits.benefit2}}</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit3"><center>{{vm.iplatinumBenefits.benefit3}}</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit4"><center>{{vm.iplatinumBenefits.benefit4}}</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit5"><center>{{vm.iplatinumBenefits.benefit5}}</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit6"><center>{{vm.iplatinumBenefits.benefit6}}</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit7"><center>{{vm.iplatinumBenefits.benefit7}}</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit8"><center>{{vm.iplatinumBenefits.benefit8}}</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit9"><center>{{vm.iplatinumBenefits.benefit9}}</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit10"><center>{{vm.iplatinumBenefits.benefit10}}</center></li>
                         </ul>
                     </div>
                 </div>
@@ -35,15 +42,20 @@
                         <p>Pricing & Benefits</p>
                     </div>
                     <div class="pricing-box-price">
-                        <h3>$ 3,000</h3>
+                        <h3>$ {{vm.igoldAmount}}</h3>
                     </div>
                     <div class="pricing-box-content">
                         <ul>
-                            <li> <center>Swag in bags</center></li>
-                            <li> <center>Name in press release</center></li>
-                            <li> <center>2 free company bookings</center></li>
-                            <li> <center>Booth Table</center></li>
-                            <li>&nbsp;</li>
+                            <li ng-show="vm.igoldBenefits.benefit1"><center>{{vm.igoldBenefits.benefit1}}</center></li>
+                            <li ng-show="vm.igoldBenefits.benefit2"><center>{{vm.igoldBenefits.benefit2}}</center></li>
+                            <li ng-show="vm.igoldBenefits.benefit3"><center>{{vm.igoldBenefits.benefit3}}</center></li>
+                            <li ng-show="vm.igoldBenefits.benefit4"><center>{{vm.igoldBenefits.benefit4}}</center></li>
+                            <li ng-show="vm.igoldBenefits.benefit5"><center>{{vm.igoldBenefits.benefit5}}</center></li>
+                            <li ng-show="vm.igoldBenefits.benefit6"><center>{{vm.igoldBenefits.benefit6}}</center></li>
+                            <li ng-show="vm.igoldBenefits.benefit7"><center>{{vm.igoldBenefits.benefit7}}</center></li>
+                            <li ng-show="vm.igoldBenefits.benefit8"><center>{{vm.igoldBenefits.benefit8}}</center></li>
+                            <li ng-show="vm.igoldBenefits.benefit9"><center>{{vm.igoldBenefits.benefit9}}</center></li>
+                            <li ng-show="vm.igoldBenefits.benefit10"><center>{{vm.igoldBenefits.benefit10}}</center></li>
                         </ul>
                     </div>
                 </div>
@@ -56,15 +68,20 @@
                         <p>Pricing & Benefits</p>
                     </div>
                     <div class="pricing-box-price">
-                        <h3>$ 1,500</h3>
+                        <h3>$ {{vm.isilverAmount}}</h3>
                     </div>
                     <div class="pricing-box-content">
                         <ul>
-                            <li> <center>Swag in bags</center></li>
-                            <li> <center>Name in press release</center></li>
-                            <li> <center>1 free company booking</center></li>
-                            <li> <center>Booth Table</center></li>
-                            <li>&nbsp;</li>
+                            <li ng-show="vm.isilverBenefits.benefit1"><center>{{vm.isilverBenefits.benefit1}}</center></li>
+                            <li ng-show="vm.isilverBenefits.benefit2"><center>{{vm.isilverBenefits.benefit2}}</center></li>
+                            <li ng-show="vm.isilverBenefits.benefit3"><center>{{vm.isilverBenefits.benefit3}}</center></li>
+                            <li ng-show="vm.isilverBenefits.benefit4"><center>{{vm.isilverBenefits.benefit4}}</center></li>
+                            <li ng-show="vm.isilverBenefits.benefit5"><center>{{vm.isilverBenefits.benefit5}}</center></li>
+                            <li ng-show="vm.isilverBenefits.benefit6"><center>{{vm.isilverBenefits.benefit6}}</center></li>
+                            <li ng-show="vm.isilverBenefits.benefit7"><center>{{vm.isilverBenefits.benefit7}}</center></li>
+                            <li ng-show="vm.isilverBenefits.benefit8"><center>{{vm.isilverBenefits.benefit8}}</center></li>
+                            <li ng-show="vm.isilverBenefits.benefit9"><center>{{vm.isilverBenefits.benefit9}}</center></li>
+                            <li ng-show="vm.isilverBenefits.benefit10"><center>{{vm.isilverBenefits.benefit10}}</center></li>
                         </ul>
                     </div>
                 </div>
@@ -77,42 +94,24 @@
                         <p>Pricing & Benefits</p>
                     </div>
                     <div class="pricing-box-price">
-                        <h3>$ 1,000</h3>
+                        <h3>$ {{vm.ibronzeAmount}}</h3>
                     </div>
                     <div class="pricing-box-content">
                         <ul>
-                            <li> <center>Swag in bags</center></li>
-                            <li> <center>Name in press release</center></li>
-                            <li>&nbsp;</li>
-                            <li>&nbsp;</li>
-                            <li>&nbsp;</li>
+                            <li ng-show="vm.ibronzeBenefits.benefit1"><center>{{vm.ibronzeBenefits.benefit1}}</center></li>
+                            <li ng-show="vm.ibronzeBenefits.benefit2"><center>{{vm.ibronzeBenefits.benefit2}}</center></li>
+                            <li ng-show="vm.ibronzeBenefits.benefit3"><center>{{vm.ibronzeBenefits.benefit3}}</center></li>
+                            <li ng-show="vm.ibronzeBenefits.benefit4"><center>{{vm.ibronzeBenefits.benefit4}}</center></li>
+                            <li ng-show="vm.ibronzeBenefits.benefit5"><center>{{vm.ibronzeBenefits.benefit5}}</center></li>
+                            <li ng-show="vm.ibronzeBenefits.benefit6"><center>{{vm.ibronzeBenefits.benefit6}}</center></li>
+                            <li ng-show="vm.ibronzeBenefits.benefit7"><center>{{vm.ibronzeBenefits.benefit7}}</center></li>
+                            <li ng-show="vm.ibronzeBenefits.benefit8"><center>{{vm.ibronzeBenefits.benefit8}}</center></li>
+                            <li ng-show="vm.ibronzeBenefits.benefit9"><center>{{vm.ibronzeBenefits.benefit9}}</center></li>
+                            <li ng-show="vm.ibronzeBenefits.benefit10"><center>{{vm.ibronzeBenefits.benefit10}}</center></li>
                         </ul>
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-3 col-sm-6">
-                <div class="pricing-box animated fadeInUp animation-delay-7">
-                    <div class="pricing-box-header">
-                        <h2>Supporter</h2>
-                        <p>Pricing & Benefits</p>
-                    </div>
-                    <div class="pricing-box-price">
-                        <h3>$100</h3>
-                    </div>
-                    <div class="pricing-box-content">
-                        <ul>
-                            <li> <center>Swag in bags</center></li>
-                            <li>&nbsp;</li>
-                            <li>&nbsp;</li>
-                            <li>&nbsp;</li>
-                            <li>&nbsp;</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </section>
-
 </div>

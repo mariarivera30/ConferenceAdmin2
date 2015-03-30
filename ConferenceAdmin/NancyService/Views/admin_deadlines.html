@@ -1,15 +1,91 @@
-﻿<h3>Deadlines</h3>
+﻿<div class="row" ng-controller="deadlinesCtrl as vm">
 
-<div class="row">
-    <div class="col-lg-10">
-            Paper Submission Deadline:  &nbsp;&nbsp;&nbsp;&nbsp;<input type="date" value="10-10-2015" /><br /><br>
-            Paper Acceptance/Rejection Deadline:  &nbsp;&nbsp;&nbsp;&nbsp;<input type="date" value="01-10-2016" /><br><br>
-            Ready Paper Submission Deadline:  &nbsp;&nbsp;<input type="date" value="02-10-2016" />
-            <br>
-            <div class="row">
-                <div class="col-lg-10" id="deadline-save">
-                    <button class="btn btn-ar btn-primary">Save</button>
+    <h3>Deadlines</h3>
+
+    <div class="col-lg-8 hide-until-loaded" id="body">
+        <table class="table after-title-field">
+            <colgroup>
+                <col span="1" style="width: 75%;">
+                <col span="1" style="width: 25%;">
+
+            </colgroup>
+            <thead>
+                <tr>
+                    <th class="text-left">Deadline</th>
+                    <th class="text-left">Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td><input type="text" class="form-control" ng-model="vm.deadline1"></td>
+                    <td><input type="date" class="form-control" ng-model="vm.deadlineDate1"></td>
+                </tr>
+
+                <tr>
+                    <td><input type="text" class="form-control" ng-model="vm.deadline2"></td>
+                    <td><input type="date" class="form-control" ng-model="vm.deadlineDate2"></td>
+                </tr>
+
+                <tr>
+                    <td><input type="text" class="form-control" ng-model="vm.deadline3"></td>
+                    <td><input type="date" class="form-control" ng-model="vm.deadlineDate3"></td>
+                </tr>
+
+                <tr>
+                    <td><input type="text" class="form-control" ng-model="vm.deadline4"></td>
+                    <td><input type="date" class="form-control" ng-model="vm.deadlineDate4"></td>
+                </tr>
+
+                <tr>
+                    <td><input type="text" class="form-control" ng-model="vm.deadline5"></td>
+                    <td><input type="date" class="form-control" ng-model="vm.deadlineDate5"></td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <div class="row">
+            <div class="col-lg-10" id="deadline-save">
+                <button class="btn btn-ar btn-primary" ng-click="vm.saveDeadlines()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateConfirm" tabindex="-1" role="dialog" aria-labelledby="updateConfirmLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="updateConfirmLabel">Deadlines Update</h4>
                 </div>
-            </div>    
+                <div class="modal-body">
+                    <p>
+                        The information has been updated.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateError" tabindex="-1" role="dialog" aria-labelledby="updateErrorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="updateErrorLabel">Deadlines Update Error</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The information could not be updated.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

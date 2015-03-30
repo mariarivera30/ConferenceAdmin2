@@ -13,13 +13,14 @@
         vm.name;
         vm.editname;
         vm.currentid;
-        vm.topicsList = {};
+        vm.topicsList = [];
+        vm.search;
 
         // Functions
         vm.activate = activate;
         vm.clear = _clear;
-        vm.addTopic = _addTopic;
         vm.getTopics = _getTopics;
+        vm.addTopic = _addTopic;
         vm.updateTopic = _updateTopic;
         vm.deleteTopic = _deleteTopic;
         vm.selectedTopicUpdate = _selectedTopicUpdate;
@@ -45,20 +46,6 @@
             vm.currentid = id;
         }
 
-        function _addTopic() {
-            var topicname = vm.name;
-            if (topicname != null && topicname != "") {
-                restApi.postNewTopic(vm.name)
-                    .success(function (data, status, headers, config) {
-                        vm.topicsList.push(data);
-                        _clear();
-                    })
-                    .error(function (error) {
-
-                    });
-            }
-        }
-
         function _getTopics() {
             restApi.getTopics()
             .success(function (data, status, headers, config) {
@@ -70,8 +57,23 @@
            });
         }
 
+        function _addTopic() {
+            var topicname = vm.name;
+            if (topicname != null && topicname != "") {
+                restApi.postNewTopic(vm.name)
+                    .success(function (data, status, headers, config) {
+                        vm.topicsList.push(data);
+                        _clear();
+                        $("#addConfirm").modal('show');
+                    })
+                    .error(function (error) {
+                        $("#addError").modal('show');
+                    });
+            }
+        }
+
         function _updateTopic() {
-            if (vm.currentid != undefined && vm.editname != null && vm.editname != "") {
+            if (vm.currentid != undefined && vm.currentid != "" && vm.editname != null && vm.editname != "") {
                 var topic = { topiccategoryID: vm.currentid, name: vm.editname }
                 restApi.updateTopic(topic)
                 .success(function (data, status, headers, config) {
@@ -80,25 +82,29 @@
                             topic.name = vm.editname;
                         }
                     });
+                    _clear();
+                    $("#editConfirm").modal('show');
                 })
                 .error(function (data, status, headers, config) {
                 });
             }
-            else {
-                alert("You must provide a valid name.");
-            }
-            _clear();
         }
 
         function _deleteTopic() {
-            if (vm.currentid != undefined) {
+            if (vm.currentid != undefined && vm.currentid != "") {
                 restApi.deleteTopic(vm.currentid)
                 .success(function (data, status, headers, config) {
-                    vm.topicsList.forEach(function (topic, index) {
-                        if (topic.topiccategoryID == vm.currentid) {
-                            vm.topicsList.splice(index, 1);
-                        }
-                    });
+                    if (data) {
+                        vm.topicsList.forEach(function (topic, index) {
+                            if (topic.topiccategoryID == vm.currentid) {
+                                vm.topicsList.splice(index, 1);
+                            }
+                        });
+                        $("#deleteConfirm").modal('show');
+                    }
+                    else {
+                        $("#deleteError").modal('show');
+                    }
                 })
                 .error(function (data, status, headers, config) {
                 });
@@ -108,8 +114,7 @@
         //Avoid flashing when page loads
         var load = function () {
             document.getElementById("loading-icon").style.visibility = "hidden";
-            var body = document.getElementById("body");
-            body.style.visibility = "visible";
+            document.getElementById("body").style.visibility = "visible";
         };
     }
 })();

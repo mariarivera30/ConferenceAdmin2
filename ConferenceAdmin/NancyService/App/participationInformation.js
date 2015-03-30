@@ -7,34 +7,111 @@
     angular.module('app').controller(controllerId,
         ['$scope', '$http', 'restApi', participationCtrl]);
 
-    function participationCtrl($scope, $http) {
+    function participationCtrl($scope, $http, restApi) {
         var vm = this;
-
         vm.activate = activate;
         vm.title = 'participationCtrl';
-        vm.list = [{
-            name: "Poster Instructions",
-            description: "Consider attending the first day of the conference where activities for female High School students will take place (hands on activities, presentations on computing, talk to females studying computing, attend the Puerto Rico Aspirations in Computing Award ceremony). Every high school student must be accompanied by a responsible adult (21 years or older).",
-            elegibility: "Must be undergraduate or graduate student",
-        },         {
-            name: "Paper Instructions",
-            description: "Consider attending the first day of the conference where activities for female High School students will take place (hands on activities, presentations on computing, talk to females studying computing, attend the Puerto Rico Aspirations in Computing Award ceremony). Every high school student must be accompanied by a responsible adult (21 years or older).",
-            elegibility: "Must be undergraduate or graduate student",
-        },
-        {
-            name: "BoF Instructions",
-            description: "Consider attending the first day of the conference where activities for female High School students will take place (hands on activities, presentations on computing, talk to females studying computing, attend the Puerto Rico Aspirations in Computing Award ceremony). Every high school student must be accompanied by a responsible adult (21 years or older).",
-            elegibility: "Must be undergraduate or graduate student",
-        },
-        {
-            name: "Workshop Instructions",
-            description: "Consider attending the first day of the conference where activities for female High School students will take place (hands on activities, presentations on computing, talk to females studying computing, attend the Puerto Rico Aspirations in Computing Award ceremony). Every high school student must be accompanied by a responsible adult (21 years or older).",
-            elegibility: "Must be undergraduate or graduate student",
-        }];
+
+        //Admin
+        vm.participationTitle1;
+        vm.participationTitle2;
+        vm.participationTitle3;
+        vm.participationTitle4;
+        vm.participationTitle5;
+
+        vm.participationParagraph1;
+        vm.participationParagraph2;
+        vm.participationParagraph3;
+        vm.participationParagraph4;
+        vm.participationParagraph5;
+
+        //Interface
+        vm.iparticipationTitle1;
+        vm.iparticipationTitle2;
+        vm.iparticipationTitle3;
+        vm.iparticipationTitle4;
+        vm.iparticipationTitle5;
+
+        vm.iparticipationParagraph1;
+        vm.iparticipationParagraph2;
+        vm.iparticipationParagraph3;
+        vm.iparticipationParagraph4;
+        vm.iparticipationParagraph5;
+
+        //Functions
+        vm.getParticipation = _getParticipation;
+        vm.saveParticipation = _saveParticipation;
+
+        _getParticipation();
+
         function activate() {
 
         }
 
+        function _getParticipation() {
+            restApi.getParticipation()
+            .success(function (data, status, headers, config) {
+                if (data != null) {
 
+                    vm.iparticipationTitle1 = data.participationTitle1;
+                    vm.iparticipationTitle2 = data.participationTitle2;
+                    vm.iparticipationTitle3 = data.participationTitle3;
+                    vm.iparticipationTitle4 = data.participationTitle4;
+                    vm.iparticipationTitle5 = data.participationTitle5;
+                    vm.iparticipationParagraph1 = data.participationParagraph1;
+                    vm.iparticipationParagraph2 = data.participationParagraph2;
+                    vm.iparticipationParagraph3 = data.participationParagraph3;
+                    vm.iparticipationParagraph4 = data.participationParagraph4;
+                    vm.iparticipationParagraph5 = data.participationParagraph4;
+
+                    vm.participationTitle1 = data.participationTitle1;
+                    vm.participationTitle2 = data.participationTitle2;
+                    vm.participationTitle3 = data.participationTitle3;
+                    vm.participationTitle4 = data.participationTitle4;
+                    vm.participationTitle5 = data.participationTitle5;
+                    vm.participationParagraph1 = data.participationParagraph1;
+                    vm.participationParagraph2 = data.participationParagraph2;
+                    vm.participationParagraph3 = data.participationParagraph3;
+                    vm.participationParagraph4 = data.participationParagraph4;
+                    vm.participationParagraph5 = data.participationParagraph4;
+
+                    load();
+                }
+            })
+
+            .error(function (error) {
+
+            });
+        }
+
+        function _saveParticipation() {
+            var newParticipation = {
+                participationTitle1: vm.participationTitle1,
+                participationTitle2: vm.participationTitle2,
+                participationTitle3: vm.participationTitle3,
+                participationTitle4: vm.participationTitle4,
+                participationTitle5: vm.participationTitle5,
+                participationParagraph1: vm.participationParagraph1,
+                participationParagraph2: vm.participationParagraph2,
+                participationParagraph3: vm.participationParagraph3,
+                participationParagraph4: vm.participationParagraph4,
+                participationParagraph5: vm.participationParagraph4
+            }
+            restApi.saveParticipation(newParticipation)
+            .success(function (data, status, headers, config) {
+                if (data != null) {
+                    $("#updateConfirm").modal('show');
+                }
+            })
+            .error(function (error) {
+                $("#updateError").modal('show');
+            });
+        }
+
+        //Avoid flashing when page loads
+        var load = function () {
+            var body = document.getElementById("body");
+            body.style.visibility = "visible";
+        };
     }
 })();

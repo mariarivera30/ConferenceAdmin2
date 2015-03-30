@@ -1,10 +1,41 @@
 ﻿<div class="container" ng-controller="deadlinesCtrl as vm">
-        <h2 class="section-title">Deadlines</h2>
-        <div class="col-md-8">
-            <ul class="list-group">
-                <li class="list-group-item"><span class="pull-right">October 10, 2015</span>Paper Submission</li>
-                <li class="list-group-item"><span class="pull-right">January 10, 2016</span>Paper Acceptance/Rejection</li>
-                <li class="list-group-item"><span class="pull-right">February 10, 2016</span>Ready Paper Submission</li>
-            </ul>
-        </div>
+    <h2 class="section-title">Deadlines</h2>
+    <div class="col-md-6 hide-until-loaded" id="body">
+
+        <table class="table after-title-field" id="deadlinetable">
+            <thead>
+                <tr>
+                    <th class="text-left">Deadline</th>
+                    <th class="text-left">Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-show="vm.ideadline1">
+                    <td class="text-left"><h5 class="after-title-field">{{vm.ideadline1}}</h5></td>
+                    <td class="text-left">{{vm.ideadlineDate1}}</td>
+                </tr>
+
+                <tr ng-show="vm.ideadline2">
+                    <td class="text-left"><h5 class="after-title-field">{{vm.ideadline2}}</h5></td>
+                    <td class="text-left">{{vm.ideadlineDate2}}</td>
+                </tr>
+
+                <tr ng-show="vm.ideadline3">
+                    <td class="text-left"><h5 class="after-title-field">{{vm.ideadline3}}</h5></td>
+                    <td class="text-left">{{vm.ideadlineDate3}}</td>
+                </tr>
+
+                <tr ng-show="vm.ideadline4">
+                    <td class="text-left"><h5 class="after-title-field">{{vm.ideadline4}}</h5></td>
+                    <td class="text-left">{{vm.ideadlineDate4}}</td>
+                </tr>
+
+                <tr ng-show="vm.ideadline5">
+                    <td class="text-left"><h5 class="after-title-field">{{vm.ideadline5}}</h5></td>
+                    <td class="text-left">{{vm.ideadlineDate5}}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+</div>
