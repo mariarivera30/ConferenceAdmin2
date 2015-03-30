@@ -17,7 +17,7 @@ namespace NancyService.Modules
             : base("/profile")
         {
             ProfileInfoManager profileInfo = new ProfileInfoManager();
-           // SubmissionManager submission = new SubmissionManager();
+            SubmissionManager submission = new SubmissionManager();
             ProfileAuthorizationManager profileAuthorization = new ProfileAuthorizationManager();
 
 
@@ -57,49 +57,92 @@ namespace NancyService.Modules
                     return HttpStatusCode.Conflict;
             };
 
-            //------------------------SUBMISSIONS-------------------------------------------
+            //------------------------EVALUATOR - SUBMISSIONS-------------------------------------------
             //Gets the list of submissions assigned to the evaluator currently logged in to the system
-            //Get["/getAssignedSubmissions/{id}"] = parameters =>
-            //{
-            //    long evaluatorUserID = parameters.id; //ID of the evaluator that is currently signed in
-            //    List<Submission> assignedSubmissions = submission.getAssignedSubmissions(evaluatorUserID);
-            //    if (assignedSubmissions == null)
-            //    {
-            //        assignedSubmissions = new List<Submission>();
-            //    }
-            //    return Response.AsJson(assignedSubmissions);
-            //};
+            Get["/getAssignedSubmissions/{id}"] = parameters =>
+            {
+                long evaluatorUserID = parameters.id; //ID of the evaluator that is currently signed in
+                List<Submission> assignedSubmissions = submission.getAssignedSubmissions(evaluatorUserID);
+                if (assignedSubmissions == null)
+                {
+                    assignedSubmissions = new List<Submission>();
+                }
+                return Response.AsJson(assignedSubmissions);
+            };
 
-            ////Get the info of a submission
-            //Get["/getSubmission/{id}"] = parameters =>
-            //{
-            //    long submissionID = parameters.id;
-            //    AssignedSubmission sub = submission.getSubmission(submissionID);
-            //    if (sub == null)
-            //    {
-            //        sub = new AssignedSubmission();
-            //    }
-            //    return Response.AsJson(sub);
-            //};
+            //Get the info of a submission
+            Get["/getSubmission/{submissionID:long}/{evaluatorID:long}"] = parameters =>
+            {
+                long submissionID = parameters.submissionID;
+                long evaluatorID = parameters.evaluatorID;
+                AssignedSubmission sub = submission.getSubmission(submissionID, evaluatorID);
+                if (sub == null)
+                {
+                    sub = new AssignedSubmission();
+                }
+                return Response.AsJson(sub);
+            };
 
-            ////Post new evaluation for a submission
-            //Post["/addEvaluation"] = parameters =>
-            //{
-            //    var evaluation = this.Bind<evaluationsubmitted>();
+            //Post new evaluation for a submission
+            Post["/addEvaluation"] = parameters =>
+            {
+                var evaluation = this.Bind<evaluationsubmitted>();
 
-            //    if (submission.addEvaluation(evaluation)) return HttpStatusCode.OK;
-            //    else return HttpStatusCode.Conflict;
-            //};
+                if (submission.addEvaluation(evaluation)) return HttpStatusCode.OK;
+                else return HttpStatusCode.Conflict;
+            };
 
-            ////Edit evaluation for a submission
-            //Put["/editEvaluation"] = parameters =>
-            //{
-            //    var evaluation = this.Bind<evaluationsubmitted>();
+            //Edit evaluation for a submission
+            Put["/editEvaluation"] = parameters =>
+            {
+                var evaluation = this.Bind<evaluationsubmitted>();
 
-            //    if (submission.editEvaluation(evaluation)) return HttpStatusCode.OK;
-            //    else return HttpStatusCode.Conflict;
-            //};
+                if (submission.editEvaluation(evaluation)) return HttpStatusCode.OK;
+                else return HttpStatusCode.Conflict;
+            };
+            //------------------------------------USER SUBMISSIONS---------------------------------
+            Get["/getUserSubmissionList/{id}"] = parameters =>
+            {
+                long userID = parameters.id; //ID of the evaluator that is currently signed in
+                List<Submission> userSubmissions = submission.getUserSubmissions(userID);
+                if (userSubmissions == null)
+                {
+                    userSubmissions = new List<Submission>();
+                }
 
+                return Response.AsJson(userSubmissions);
+            };
+            //get single user submission
+            Get["/getUserSubmission/{id}"] = parameters =>
+            {
+                long submissionID = parameters.id;
+                AssignedSubmission sub = submission.getUserSubmission(submissionID);
+                if (sub == null)
+                {
+                    sub = new AssignedSubmission();
+                }
+                return Response.AsJson(sub);
+            };
+            //get submission types
+            Get["/getSubmissionTypes"] = parameters =>
+            {
+                List<SubmissionType> subTypes = submission.getSubmissionTypes();
+                if (subTypes == null)
+                {
+                    subTypes = new List<SubmissionType>();
+                }
+                return Response.AsJson(subTypes);
+            };
+            //Delete a submission
+            Delete["/deleteSubmission/{id}"] = parameters =>
+            {
+                long submissionID = parameters.id;
+                if (submission.deleteSubmission(submissionID))
+                    return HttpStatusCode.OK;
+
+                else
+                    return HttpStatusCode.Conflict;
+            };
 
             //------------------------AUTHORIZATION----------------------------------
             Put["/uploadDocument"] = parameters =>

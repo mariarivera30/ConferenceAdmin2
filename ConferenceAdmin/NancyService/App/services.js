@@ -50,7 +50,7 @@
             apply: _apply,
             makePayment: _makePayment,
             getAssignedSubmissions: _getAssignedSubmissions,
-            getSubmission: _getSubmission,
+            getSubmissionDetails: _getSubmissionDetails,
             postEvaluation: _postEvaluation,
             editEvaluation: _editEvaluation,
             uploadDocument: _uploadDocument,
@@ -89,7 +89,11 @@
             getAllSponsorBenefits: _getAllSponsorBenefits,
             getGeneralInfo: _getGeneralInfo,
             saveGeneralInfo: _saveGeneralInfo,
-            getPendingList: _getPendingList
+            getPendingList: _getPendingList,
+            getUserSubmissionList: _getUserSubmissionList,
+            getUserSubmission: _getUserSubmission,
+            getSubmissionTypes: _getSubmissionTypes,
+            deleteSubmission: _deleteSubmission
         };
 
         return service;
@@ -455,6 +459,23 @@
 
         function _saveGeneralInfo(data) {
             return $http.put('/admin/saveGeneralInfo', data);
+        };
+        //----------------------------------USER SUBMISSIONS----------------------------------
+        //gets the submissions of the user currently logged in
+        function _getUserSubmissionList(data) {
+            return $http.get('profile/getUserSubmissionList/' + data);
+        };
+        //get a specific user submission
+        function _getUserSubmission(data) {
+            return $http.get('profile/getUserSubmission/' + data);
+        };
+        //get list of submission types
+        function _getSubmissionTypes() {
+            return $http.get('profile/getSubmissionTypes');
+        };
+        //delete a submission
+        function _deleteSubmission(data) {
+            return $http.delete('profile/deleteSubmission/' + data);
         };
     }
 }

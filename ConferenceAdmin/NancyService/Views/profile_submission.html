@@ -1,167 +1,232 @@
-﻿<div ng-controller="profileSubmissionCtrl">
-    <h4 id="g-information">My Submissions</h4>
+﻿<div ng-controller="profileSubmissionCtrl as vm">
+    <div ng-show="vm.view == 'Add'">
+        <h4 id="g-information">My Submissions</h4>
+        <table ng-table="tableParams" show-filter="true" class="table row">
+            <tr>
+                <td><b>Title</b></td>
+                <td><b>Type</b></td>
+                <td><b>Manage</b></td>
+                <td><b>Status</b></td>
+            </tr>
+            <tr ng-repeat="submission in vm.submissionlist">
 
-    <table ng-table="tableParams" show-filter="true" class="table row">
-        <tr>
-            <td><b>Title</b></td>
-            <td><b>Type</b></td>
-            <td><b>Manage</b></td>
-            <td><b>Statuss</b></td>
-        </tr>
+                <td class="text-left"><i class="fa fa-file-text-o"> </i><a href="" data-toggle="modal" data-target="#viewSubmission" ng-click="vm.viewTheView(submission.submissionTypeName, submission.submissionID)"> {{submission.submissionTitle}}</a></td>
+                <td>{{submission.submissionTypeName}}</td>
+                <td>
+                    <a ng-hide="submission.isEvaluated" href="" data-toggle="modal" data-target="#editSubmission" ng-click="vm.viewEditForm(submission.submissionTypeName)">Edit </a><span ng-hide="submission.isEvaluated"> | </span>
+                    <a ng-hide="submission.isEvaluated" href="" data-toggle="modal" data-target="#deleteSubmission" ng-click="vm.deleteSelectedSubmission(submission.submissionID)">Delete</a>
+                </td>
+                <td>
+                    <span ng-show="submission.status == 'Accepted'" class="accepted"><i class="fa fa-check"> </i> Accepted</span>
+                    <span ng-show="submission.status == 'Pending'" class="pending"><i class="fa fa-refresh"> </i> Pending</span>
+                    <span ng-show="submission.status == 'Rejected'" class="rejected"><i class="glyphicon glyphicon-remove"></i> Rejected</span>
+                </td>
+            </tr>
+        </table>
 
-        <tr>
-            <td><i class="fa fa-file-text-o"> </i> Submission_1_Title</td>
-            <td>Paper</td>
-            <td>
-                <a href="" data-toggle="modal" data-target="#viewSubmission">View</a> |
-                <a href="" data-toggle="modal" data-target="#editSubmission">Edit</a>
-            </td>
-            <td><span class="accepted"><i class="fa fa-check"> </i> Accepted</span></td>
-        </tr>
+        <br />
+        <!-------------------------------------------------ADD SUBMISSION---------------------------------------------------->
+        <select ng-model="vm.submissiontype" ng-options="submissiontype.submissionTypeName for submissiontype in vm.submissionTypeList" name="submissiontypeid" required></select>
+        <button data-toggle="modal" data-target="#evaluationModal" class="btn btn-ar btn-primary">Add New</button>
 
-        <tr>
-            <td><i class="fa fa-file-text-o"> </i> Submission_2_Title</td>
-            <td>Poster</td>
-            <td>
-                <a href="" data-toggle="modal" data-target="#viewSubmission">View</a> |
-                <a href="" data-toggle="modal" data-target="#editSubmission">Edit</a>
-            </td>
-            <td><span class="pending"><i class="fa fa-refresh"> </i> Pending</span></td>
-        </tr>
-    </table>
+        <!--<select ng-model="vm.submissionType"
+                ng-options="submissionType for submissionType in vm.submissionTypeList"></select>
+        <button data-toggle="modal" data-target="#evaluationModal" class="btn btn-ar btn-primary">Add New</button>-->
+    </div>
+    <div class="modal fade" id="evaluationModal" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="evaluationModalLabel">Title: {{vm.modalDocumentName}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div ng-show="vm.submissionType.submissionTypeName == 'Extended Paper'" class="panel panel-default padding-10">
+                        <form name="addPaperForm" novalidate>
+                            <h5>Extended Paper</h5>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    Topic category
+                                    <select ng-model="vm.submissiontypeid" ng-options="subtype.submissionTypeName for subtype in vm.submissionTypeList" name="usertypeid" required></select>
+                                    <p ng-show="addPaperForm.submissiontypeid.$pristine" class="help-block">* User Type is required.</p>
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-md-8">
+                                    Abstract <textarea class="form-control abstract"></textarea>
+                                </div>
+                            </div><br />
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    PDF file <input type="file" class="form-control">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
+                <div ng-show="vm.submissionType.submissionTypeName == 'Poster'" class="row panel panel-default padding-10">
+                    <h5>Poster</h5>
+                    Topic category <input type="text" class="form-control">
+                    Abstract <textarea class="form-control abstract"></textarea>
+                    PDF file <input type="text" class="form-control">
+                </div>
 
-    
-    <br />
-  
-            <select>
-                <option>
-                    Extended Paper
-                </option>
-                <option>
-                    Poster
-                </option>
-                <option>
-                    Pannel
-                </option>
-                <option>
-                    BoF
-                </option>
-                <option>
-                    Workshop
-                </option>
-            </select>
-            &nbsp;<button class="btn btn-ar btn-primary">Add New</button>
-  
+                <div ng-show="vm.submissionType.submissionTypeName == 'Pannel'" class="row panel panel-default padding-10">
+                    <h5>Pannel</h5>
+                    Topic category <input type="text" class="form-control">
+                    List of panelists with their biographies <input type="text" class="form-control">
+                    Abstract <textarea class="form-control abstract"></textarea>
+                    Plan <input type="text" class="form-control">
+                    Guiding Questions <input type="text" class="form-control">
+                    Format Description <input type="text" class="form-control">
+                    PDF file(s) <input type="text" class="form-control">
+                    Necessary Equipment <input type="text" class="form-control">
+                </div>
 
-    <br /><br />
-    <div class="panel panel-default padding-10">
-        <h5>Extended Paper</h5>
-        <div class="row">
-            <div class="col-md-4">
-                Topic category 
-                <select class="form-control">
-                    <option>Select</option>                    
-                    <option>Topic 1</option>
-                    <option>Topic 2</option>
-                    <option>Topic 3</option>
-                </select>
-            </div>
-        </div><br />
-        <div class="row">
-            <div class="col-md-8">
-                Abstract <textarea class="form-control abstract"></textarea>
-            </div>
-        </div><br />
-        <div class="row">
-            <div class="col-lg-3">
-                PDF file <input type="file" class="form-control">
+                <div ng-show="vm.submissionType.submissionTypeName == 'BoF'" class="row panel panel-default padding-10">
+                    <h5>BoF</h5>
+                    Title (topic) <input type="text" class="form-control">
+                    Description <textarea class="form-control abstract"></textarea>
+                </div>
+
+                <div ng-show="vm.submissionType.submissionTypeName == 'Workshop'" class="row panel panel-default padding-10">
+                    <h5>Workshop</h5>
+                    Abstract <textarea class="form-control abstract"></textarea>
+                    Duration <input type="text" class="form-control">
+                    Delivery <input type="text" class="form-control">
+                    Plan <input type="text" class="form-control">
+                    PDF presentations <input type="text" class="form-control">
+                    Necessary equipment <input type="text" class="form-control">
+                </div>
+                <button class="btn btn-ar btn-primary left">Submit</button>
             </div>
         </div>
-    </div>
-    <!--
-    <div class="row panel panel-default padding-10">
-        <h5>Poster</h5>
-        Topic category <input type="text" class="form-control">
-        Abstract <textarea class="form-control abstract"></textarea>
-        PDF file <input type="text" class="form-control">        
-    </div>
-    
-    <div class="row panel panel-default padding-10">
-        <h5>Pannel</h5>        
-        Topic category <input type="text" class="form-control">
-        List of panelists with their biographies <input type="text" class="form-control">
-        Abstract <textarea class="form-control abstract"></textarea>
-        Plan <input type="text" class="form-control">
-        Guiding Questions <input type="text" class="form-control">
-        Format Description <input type="text" class="form-control">
-        PDF file(s) <input type="text" class="form-control">
-        Necessary Equipment <input type="text" class="form-control">
-    </div>
+        <div class="modal-footer">
 
-    <div class="row panel panel-default padding-10">
-        <h5>BoF</h5>
-        Title (topic) <input type="text" class="form-control">
-        Description <textarea class="form-control abstract"></textarea>        
-    </div>
-
-    <div class="row panel panel-default padding-10">
-        <h5>Workshop</h5>
-        Abstract <textarea class="form-control abstract"></textarea>
-        Duration <input type="text" class="form-control">
-        Delivery <input type="text" class="form-control">
-        Plan <input type="text" class="form-control">
-        PDF presentations <input type="text" class="form-control">
-        Necessary equipment <input type="text" class="form-control">
-    </div>
-    -->
-
-
-    <button class="btn btn-ar btn-primary left">Submit</button>
-
-
-</div>
-
-
-
-<div class="modal fade" id="viewSubmission" tabindex="-1" role="dialog" aria-labelledby="addTemplateLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="addTemplateLabel"><b>Title:</b> Robotics is the Future</h4>
-            </div>
-            <div class="modal-body">
-                
-                <label>Name of submitter:</label> Randy Soto<br />
-                <label>Submission Type:</label> Paper<br />
-                <label>Topic category:</label> Robotics<br />
-                <label>Abstract: </label><br />
-                Lorem ipsum dolor sit amet, cubilia proin. Posuere viverra fusce. Nonummy magna dui. Elementum sed, nulla elit potenti, a hac dolor. Vivamus felis tellus. Bibendum consectetuer, ac suspendisse pede, ultrices vitae nulla. Sapien dictum elit, nulla ac ultrices.<br />  
-                <label>Uploaded File:</label><br />
-                <img src="http://typophile.com/files/lorem-ipsum.jpg" class="full-width"/><br />
-                <label>Feedback:</label> Lorem ipsum dolor sit amet, in id ut, leo sem nullam, sociis eu. Urna lectus urna. Enim phasellus, nulla ante. Porttitor facilisi vestibulum, mauris amet, sodales ornare. Enim sodales.<br />
-
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-ar btn-default left" data-dismiss="modal">Close</button>
-            </div>
         </div>
     </div>
-</div>
 
+    <!---------------------------------------------------------------add submission end---------------------------------------->
+    <!--------------------------------VIEW START------------------------------------------------------------------------------->
+    <div ng-show="vm.view == 'View'" class="container">
+        <div class="panel-body">
+            <h4>Title: {{vm.modalsubmissionTitle}}</h4>
 
-
-
-<div class="modal fade" id="editSubmission" tabindex="-1" role="dialog" aria-labelledby="addTemplateLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="addTemplateLabel"><b>Title:</b> Robotics is the Future</h4>
+            <div ng-show="vm.itemSubmissionType == 'Extended Paper'" class="padding-10">
+                <div class="row">
+                    <label>Extended Paper</label>
+                </div>
+                <div class="row">
+                    <label>Topic category</label><br />{{vm.modaltopic}}
+                </div>
+                <div class="row">
+                    <label>Abstract</label><br />{{vm.modalsubmissionAbstract}}
+                </div>
+                <div class="row">
+                    <label>PDF file(s) </label><br />
+                    <div ng-repeat="file in vm.modalsubmissionFileList">
+                        {{file.documentName}}: {{file.document}}
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-                                
+
+            <div ng-show="vm.itemSubmissionType == 'Poster'" class="padding-10">
+                <h5>Poster</h5>
+                <div class="row">
+                    <label>Topic category </label><br />{{vm.modaltopic}}
+                </div>
+                <div class="row">
+                    <label>Abstract</label><br />{{vm.modalsubmissionAbstract}}
+                </div>
+                <div class="row">
+                    <label>PDF file(s) </label><br />
+                    <div ng-repeat="file in vm.modalsubmissionFileList">
+                        {{file.documentName}}: {{file.document}}
+                    </div>
+                </div>
+            </div>
+            <div ng-show="vm.itemSubmissionType == 'Pannel'" class="padding-10">
+                <h5>Pannel</h5>
+                <div class="row">
+                    <label>Topic category </label><br />{{vm.modaltopic}}
+                </div>
+                <div class="row">
+                    <label>List of panelists with their biographies</label><br />{{vm.modalpanelistNames}}
+                </div>
+                <div class="row">
+                    <label>Abstract</label><br />{{vm.modalsubmissionAbstract}}
+                </div>
+                <div class="row">
+                    <label>Plan </label><br />{{vm.modalplan}}
+                </div>
+                <div class="row">
+                    <label>Guiding Questions</label><br />{{vm.modalguideQuestions}}
+                </div>
+                <div class="row">
+                    <label>Format Description</label><br />{{vm.modalformat}}
+                </div>
+                <div class="row">
+                    <label>Necessary Equipment</label><br />{{vm.modalequipment}}
+                </div>
+                <div class="row">
+                    <label>PDF file(s) </label><br />
+                    <div ng-repeat="file in vm.modalsubmissionFileList">
+                        {{file.documentName}}: {{file.document}}
+                    </div>
+                </div>
+
+            </div>
+
+            <div ng-show="vm.itemSubmissionType == 'BoF'" class="padding-10">
+                <h5>Birds of a Feather</h5>
+                <div class="row">
+                    <label>Topic category</label><br />{{vm.modaltopic}}
+                </div>
+                <div class="row">
+                    <label>Abstract</label><br />{{vm.modalsubmissionAbstract}}
+                </div>
+            </div>
+
+            <div ng-show="vm.itemSubmissionType == 'Workshop'" class="padding-10">
+                <h5>Workshop</h5>
+                <div class="row">
+                    <label>Abstract</label><br />{{vm.modalsubmissionAbstract}}
+                </div>
+                <div class="row">
+                    <label>Duration</label><br />{{vm.modalduration}}
+                </div>
+                <div class="row">
+                    <label>Delivery</label><br />{{vm.modaldelivery}}
+                </div>
+                <div class="row">
+                    <label>Plan</label><br />{{vm.modalplan}}
+                </div>
+                <div class="row">
+                    <label>Necessary Equipment</label><br />{{vm.modalequipment}}
+                </div>
+                <div class="row">
+                    <label>PDF file(s) </label><br />
+                    <div ng-repeat="file in vm.modalsubmissionFileList">
+                        <a href="" class="col-sm-7" ng-show="file.document" ng-click="vm.downloadPDFFile(file.document)"> {{file.documentName}}</a>
+                    </div>
+                </div>
+
+            </div>
+            <div ng-show="vm.modalsubIsEvaluated" class="padding-10 row">
+                <label>Evaluation Feedback </label><br />{{vm.modalpublicFeedback}}
+            </div>
+            <button class="btn btn-ar btn-primary left">Submit</button>
+            <button class="btn btn-ar btn-default" ng-click="vm.backToList()">Back</button>
+        </div>
+    </div>
+    <!----------------------------------------------------VIEW END--------------------------------------------------------->
+    <!----------------------------------------------------EDIT START------------------------------------------------------->
+    <div ng-show="vm.view == 'Edit'" class="container">
+        <div class="panel-body">
+            <h4>Title: {{vm.modalDocumentName}}</h4>
+
+            <div ng-show="vm.itemSubmissionType == 'Extended Paper'" class="panel panel-default padding-10">
                 <h5>Extended Paper</h5>
                 <div class="row">
                     <div class="col-md-4">
@@ -180,16 +245,69 @@
                     </div>
                 </div><br />
                 <div class="row">
-                    <div class="col-lg-5">
+                    <div class="col-lg-3">
                         PDF file <input type="file" class="form-control">
                     </div>
                 </div>
-
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-ar btn-primary left" data-dismiss="modal">Save</button>
-                <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+
+            <div ng-show="vm.itemSubmissionType == 'Poster'" class="row panel panel-default padding-10">
+                <h5>Poster</h5>
+                Topic category <input type="text" class="form-control">
+                Abstract <textarea class="form-control abstract"></textarea>
+                PDF file <input type="text" class="form-control">
+            </div>
+
+            <div ng-show="vm.itemSubmissionType == 'Pannel'" class="row panel panel-default padding-10">
+                <h5>Pannel</h5>
+                Topic category <input type="text" class="form-control">
+                List of panelists with their biographies <input type="text" class="form-control">
+                Abstract <textarea class="form-control abstract"></textarea>
+                Plan <input type="text" class="form-control">
+                Guiding Questions <input type="text" class="form-control">
+                Format Description <input type="text" class="form-control">
+                PDF file(s) <input type="text" class="form-control">
+                Necessary Equipment <input type="text" class="form-control">
+            </div>
+
+            <div ng-show="vm.itemSubmissionType == 'BoF'" class="row panel panel-default padding-10">
+                <h5>BoF</h5>
+                Title (topic) <input type="text" class="form-control">
+                Description <textarea class="form-control abstract"></textarea>
+            </div>
+
+            <div ng-show="vm.itemSubmissionType == 'Workshop'" class="row panel panel-default padding-10">
+                <h5>Workshop</h5>
+                Abstract <textarea class="form-control abstract"></textarea>
+                Duration <input type="text" class="form-control">
+                Delivery <input type="text" class="form-control">
+                Plan <input type="text" class="form-control">
+                PDF presentations <input type="text" class="form-control">
+                Necessary equipment <input type="text" class="form-control">
+            </div>
+            <button class="btn btn-ar btn-primary left">Submit</button>
+            <button class="btn btn-ar btn-default" ng-click="vm.backToList()">Back</button>
+        </div>
+    </div>
+    <!---------------------------------------------------EDIT END----------------------------------------------------->
+    <!-----------------------------------------------DELETE START------------------------------------------------->
+    <div class="modal fade" id="deleteSubmission" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="deleteLabel">Remove Submission Notice!</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to remove this Submission?<br /> This action is irreversible.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.deleteSubmission()">Remove</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                </div>
             </div>
         </div>
     </div>
+    <!------------------------------------------------delete end-------------------------------------------------->
 </div>
+
