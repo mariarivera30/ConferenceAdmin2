@@ -300,7 +300,7 @@
             return $http.get('profile/getAssignedSubmissions/' + data);
         };
         //get details of submission with ID submissionID
-        function _getSubmission(data) {
+        function _getSubmissionDetails(data) {
             return $http.get('profile/getSubmission/' + data);
         };
         //add new evalution for a submission
