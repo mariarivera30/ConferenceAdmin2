@@ -22,7 +22,7 @@ namespace NancyService.Models.Mapping
             // Table & Column Mappings
             this.ToTable("authorizationtemplates", "conferenceadmin");
             this.Property(t => t.authorizationID).HasColumnName("authorizationID");
-            this.Property(t => t.authorizationName).HasColumnName("authorizationnName");
+            this.Property(t => t.authorizationName).HasColumnName("authorizationName");
             this.Property(t => t.authorizationDocument).HasColumnName("authorizationDocument");
             this.Property(t => t.deleted).HasColumnName("deleted");
         }

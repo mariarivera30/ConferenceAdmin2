@@ -7,13 +7,13 @@
 
         <div class="templates-list table-box">
             <ul class="list-group list-group-striped">
-                <li ng-repeat="temp in vm.templatesList" class="list-group-item">{{temp.authorizationnName}} <a href="" ng-click="vm.downloadTemplate(temp)" class="right">Download</a></li>
+                <li ng-repeat="temp in vm.templatesList" class="list-group-item">{{temp.authorizationName}} <a href="" ng-click="vm.downloadTemplate(temp)" class="right">Download</a></li>
             </ul>
         </div>
     </div>
 
     <div class="col-lg-2">
-        
+
         <div class="left">
             <div class="upload-caption">
                 <span ng-show="vm.myFile.name"><i class="fa fa-file-o"></i> {{vm.myFile.name}}</span>
@@ -38,37 +38,39 @@
         </div>
     </div>
 
-    <div class="col-lg-12"><br />
+    <div class="col-lg-12">
+        <br />
         <b class="big-text">②</b> Enter the <b>Companion Key</b> of the adult in charge.<br /><br />
-        <input type="text" name="key" ng-model="vm.companionKey" ng-readonly="vm.hasKey" required/> <button class="btn btn-ar btn-primary" ng-click="vm.selectCompanion(vm.companionKey)" ng-disabled="vm.hasKey || vm.correctKey">Submit</button> 
+        <input type="text" name="key" ng-model="vm.companionKey" ng-readonly="vm.hasKey" required /> <button class="btn btn-ar btn-primary" ng-click="vm.selectCompanion(vm.companionKey)" ng-disabled="vm.hasKey || vm.correctKey">Submit</button>
         <span ng-show="vm.wrongKey" class="padding-5 alert-danger half-width">The key you have provided is incorrect.</span>
         <span ng-show="vm.correctKey" class="padding-5 alert-success half-width">Successfully added key.</span>
     </div>
 
-    <div class="col-lg-12"><br /><br />
+    <div class="col-lg-12">
+        <br /><br />
         <b class=" big-text">③</b> Apply to the conference.<br /><br />
         <button class="btn btn-ar btn-primary" ng-click="vm.apply()" ng-disabled="vm.wrongKey || vm.documentsList.length != vm.templatesList.length || !vm.correctKey || vm.hasApplied">Apply</button>
         <span ng-show="vm.hasApplied" class="padding-5 alert-success half-width">Successfully applied.</span>
     </div>
 
 
-        <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title" id="deleteLabel">Remove Document Notice!</h4>
-                    </div>
-                    <div class="modal-body">
-                        Are you sure you want to remove this Document?<br /> This action is irreversible.
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.deleteDocument()">Remove</button>
-                        <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
-                    </div>
+    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="deleteLabel">Remove Document Notice!</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to remove this Document?<br /> This action is irreversible.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.deleteDocument()">Remove</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
-
-
     </div>
+
+
+</div>

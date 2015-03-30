@@ -1,118 +1,174 @@
-﻿<div class="row" ng-controller="profileInformationCtrl as vm">
-    <h4 id="g-information">Application/Registration Status:</h4>
+﻿<div ng-controller="registrationCtrl as vm">
 
-    <div class="alert alert-warning" ng-hide="vm.hasApplied">
-        <strong><i class="fa fa-info"></i></strong> You have not applied yet. Please click the Apply button below to request acceptance from the administrator. Acceptance is subject to space availability.
+    <h3>Registration List</h3><br>
+    <div class="col-lg-12">
+        <table ng-table="tableParams" class="table row">
+            <thead>
+                <tr>
+                    <th colspan="3"><label class="left">Search: <input ng-model="searchText" /></label></th>
+                    <!--<th>
+                        <label class="left">Day1: <input type="checkbox" name="date" ng-model="searchText.date1" ng-checked="all"/></label>
+                        <label class="left">Day1: <input type="checkbox" name="date" ng-model="searchText.date2" ng-checked="all"/></label>
+                        <label class="left">Day1: <input type="checkbox" name="date" ng-model="all" /></label>
+                    </th>-->
+                    <th colspan="3"><b>Participation Days</b></th>
+                    <th colspan="2"></th>
+                </tr>
+
+                <tr>
+                    <th><b>Name</b></th>
+                    <th><b>Type of User</b></th>
+                    <th><b>Affiliation</b></th>
+                    <th><b>Day 1</b></th>
+                    <th><b>Day 2</b></th>
+                    <th><b>Day 3</b></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tr ng-repeat="reg in vm.registrationsList  | filter:searchText | orderBy: ['firstname', 'lastname']">
+                <td>{{reg.firstname + ' ' + reg.lastname}}</td>
+                <td>{{reg.usertypeid}}</td>
+                <td>{{reg.affiliationName}}</td>
+                <td><i class="fa fa-check" ng-show="{{reg.date1}}"></i></td>
+                <td><i class="fa fa-check" ng-show="{{reg.date2}}"></i></td>
+                <td><i class="fa fa-check" ng-show="{{reg.date3}}"></i></td>
+                <td><a href="" data-toggle="modal" data-target="#editAttendee" ng-show="reg.byAdmin" ng-click="vm.selectedRegistrationUpdate(reg.registrationID, reg.firstname, reg.lastname, reg.usertype, reg.affiliationName, reg.date1, reg.date2, reg.date3)">Edit</a></td>
+                <td><a href="" data-toggle="modal" data-target="#delete"><i class="glyphicon glyphicon-remove" ng-click="vm.selectedRegistrationDelete(reg.registrationID)"></i></a></td>
+            </tr>
+        </table>
+        <div class="row">
+            <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" data-target="#register" ng-click="vm.clear()">Add Attendee</button> <a href=""><i class="fa fa-info-circle info-icon" title="Add to registration without paying fees."> </i></a>
+            <button class="btn btn-ar btn-primary right">Download Attendance List</button>
+        </div>
     </div>
 
-    <div class="alert alert-info" ng-show="vm.hasApplied && (vm.registrationStatus == '' || vm.registrationStatus == null) && (vm.acceptanceStatus == '' || vm.acceptanceStatus == null)">
-        <strong><i class="fa fa-refresh"></i></strong> Your application is currently being processed. You will be notified when your application is reviewed.
-    </div>
 
-    <div class="alert alert-danger" ng-show="vm.acceptanceStatus == 'Rejected' && vm.registrationStatus != 'Rejected'">
-        <strong><i class="fa fa-times"></i></strong> Your application has been <strong>REJECTED</strong>.
-    </div>
-
-    <div class="alert alert-danger" ng-show="vm.registrationStatus == 'Rejected'">
-        <strong><i class="fa fa-times"></i></strong> Your registration has been <strong>REJECTED</strong>.
-    </div>
-
-    <div class="alert alert-info" ng-show="vm.acceptanceStatus == 'Accepted' && (vm.registrationStatus == '' || vm.registrationStatus == null)">
-        <strong><i class="fa fa-bullhorn"></i></strong> Your application has been <strong>APPROVED</strong>. Please proceed with your Registration by clicking the Register button below.
-    </div>
-
-    <div class="alert alert-success" ng-show="vm.registrationStatus == 'Accepted'">
-        <strong><i class="fa fa-check"></i></strong> Your Registration process has been completed.
-    </div>
-
-    <button class="btn btn-ar btn-primary" ng-disabled="vm.hasApplied" ng-click="vm.apply()" ng-hide="vm.userTypeID == 1">Apply</button>
-    <button class="btn btn-ar btn-primary" ng-disabled="vm.acceptanceStatus != 'Accepted' || !vm.hasApplied || (vm.registrationStatus != '' && vm.registrationStatus != null)" data-toggle="modal" data-target="#registerModal">Register</button>
-
-
-
-    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h2 class="modal-title">Registration</h2>
+                    <h4 class="modal-title" id="deleteLabel">Remove Attendee Notice!</h4>
                 </div>
-
                 <div class="modal-body">
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p class="p-lg black-label col-md-12">Make sure your information is correct before submitting your registration.</p>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="col-md-6">
-                                <h4>General Information</h4>
-                                <span class="block"><label>Title:</label> {{vm.title}}</span>
-                                <span class="block"><label>Full name:</label> {{vm.firstName + ' ' + vm.lastName}}</span>
-                                <span class="block"><label>Affiliation:</label> {{vm.affiliationName}}</span>
-                            </div>                            
-                            <div class="col-md-6">
-                                <h4>Address</h4>
-                                <span class="block">{{vm.addressLine1}}</span>
-                                <span class="block">{{vm.addressLine2}}</span>
-                                <span class="block">{{vm.city + ', '+ vm.state + ' ' + vm.zipcode}}</span>
-                                <span class="block">{{vm.country}}</span>
-                            </div>
-                            <div class="col-md-6">
-                                <h4>Contact Information</h4>
-                                <span class="block"><label>Email:</label> {{vm.email}}</span>
-                                <span class="block"><label>Phone:</label> {{vm.phone}}</span>
-                                <span class="block"><label>Fax:</label> {{vm.userFax}} </span>
-                            </div>
-                            <div class="col-md-6">
-                                <h4>Select Participation Days:</h4>
-                                <input type="checkbox" name="participation1" ng-model="vm.date1" ng-checked="vm.checkAll">&nbsp;&nbsp;Wednesday, February 26, 2014<br>
-                                <input type="checkbox" name="participation2" ng-model="vm.date2" ng-checked="vm.checkAll">&nbsp;&nbsp;Thursday, February 27, 2014<br>
-                                <input type="checkbox" name="participation3" ng-model="vm.date3" ng-checked="vm.checkAll">&nbsp;&nbsp;Friday, February 28, 2014<br>
-                                <input type="checkbox" name="participationAll" ng-model="vm.checkAll">&nbsp;&nbsp;All
-                            </div>
-                            
-                                <!--<div class="col-md-9 right">
-                                    <table class="table table-box">
-                                        <thead>
-                                            <tr>
-                                                <th>Participant</th>
-                                                <th>Fee</th>
-                                                <th>After deadline fee</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="type in vm.userTypesList">
-                                                <td>{{type.userTypeName}}</td>
-                                                <td>{{type.registrationCost | currency}}</td>
-                                                <td>{{type.registrationLateFee | currency}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table> 
-                                </div>-->
-
-                                <div class="col-md-12">
-                                    <br />
-                                    Your total amount to pay is <strong>{{vm.userTypesList[vm.userTypeID + 1].registrationCost | currency}}</strong>.
-                                    <a href="https://knowledgecenter.zuora.com/@api/deki/files/873/sample_page.png" target="_blank" class="btn btn-ar btn-primary right" ng-click="vm.makePayment()">Make Payment</a>
-                                    <br />Please proceed to <strong>Make Payment</strong> and fill the required form.
-                                </div>                                                           
-
-                            </div>
-                    </div>
-
+                    Are you sure you want to remove this Registration?<br /> This action is irreversible.
                 </div>
-
                 <div class="modal-footer">
-
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.deleteRegistration()">Remove</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="registerTemplate" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="registerTemplate">Add Attendee</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="addRegistrationForm" novalidate>
+                        <div class="col-md-6">
+                            <h5 class="after-title-field">First Name</h5>
+                            <input type="text" name="firstname" ng-model="vm.firstname" required />
+                            <p ng-show="addRegistrationForm.firstname.$invalid" class="help-block">* First Name is required.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="after-title-field">Last Name</h5>
+                            <input type="text" name="lastname" ng-model="vm.lastname" required />
+                            <p ng-show="addRegistrationForm.lastname.$invalid" class="help-block">* Last Name is required.</p>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <h5 class="after-title-field">Affiliation</h5>
+                            <input type="text" name="affiliationName" ng-model="vm.affiliationName" required />
+                            <p ng-show="addRegistrationForm.affiliationName.$invalid" class="help-block">* Affiliation is required.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="after-title-field">User Type</h5>
+                            <select ng-model="vm.usertypeid" ng-options="usertype.userTypeName for usertype in vm.userTypesList" name="usertypeid" required></select>
+                            <p ng-show="addRegistrationForm.usertypeid.$pristine" class="help-block">* User Type is required.</p>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h5 class=" after-title-field">
+                                Select Participation Days:
+                            </h5><p ng-show="participation1.$pristine && participation2.$pristine && participation2.$pristine" class="help-block">* Participation Days required.</p>
+                            <input type="checkbox" name="participation1" ng-model="vm.date1" ng-checked="vm.checkAll">&nbsp;&nbsp;Wednesday, February 26, 2014<br>
+                            <input type="checkbox" name="participation2" ng-model="vm.date2" ng-checked="vm.checkAll">&nbsp;&nbsp;Thursday, February 27, 2014<br>
+                            <input type="checkbox" name="participation3" ng-model="vm.date3" ng-checked="vm.checkAll">&nbsp;&nbsp;Friday, February 28, 2014<br>
+                            <input type="checkbox" name="participationAll" value="3" ng-model="vm.checkAll">&nbsp;&nbsp;All
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addRegistration()" ng-disabled="addRegistrationForm.$invalid || (participation1.$pristine && participation2.$pristine && participation2.$pristine)">Add</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editAttendee" tabindex="-1" role="dialog" aria-labelledby="editAttendeeLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="editAttendeeLabel">Edit Attendee</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="editRegistrationForm" novalidate>
+                        <div class="col-md-6">
+                            <h5 class="after-title-field">First Name</h5>
+                            <input type="text" name="firstname" ng-model="vm.editfirstname" required />
+                            <p ng-show="editRegistrationForm.firstname.$invalid" class="help-block">* First Name is required.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="after-title-field">Last Name</h5>
+                            <input type="text" name="lastname" ng-model="vm.editlastname" required />
+                            <p ng-show="editRegistrationForm.lastname.$invalid" class="help-block">* Last Name is required.</p>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <h5 class="after-title-field">Affiliation</h5>
+                            <input type="text" name="affiliationName" ng-model="vm.editaffiliationName" required />
+                            <p ng-show="editRegistrationForm.affiliationName.$invalid" class="help-block">* Affiliation is required.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="after-title-field">User Type</h5>
+                            <select ng-model="vm.TYPE"
+                                    ng-options="type as type.userTypeName for type in vm.userTypesList" class="form-control"></select>
 
 
 
 
+                            <p ng-show="editRegistrationForm.usertypeid.$pristine" class="help-block">* User Type is required.</p>
+                        </div>
+                    </form>
+                    <form name="participationDays">
+                        <div class="col-md-12">
+                            <h5 class=" after-title-field">
+                                Select Participation Days:
+                            </h5><p ng-show="participation1.$pristine && participation2.$pristine && participation2.$pristine" class="help-block">* Participation Days required.</p>
+                            <input type="checkbox" name="participation1" ng-model="vm.editdate1" ng-checked="vm.checkAll">&nbsp;&nbsp;Wednesday, February 26, 2014<br>
+                            <input type="checkbox" name="participation2" ng-model="vm.editdate2" ng-checked="vm.checkAll">&nbsp;&nbsp;Thursday, February 27, 2014<br>
+                            <input type="checkbox" name="participation3" ng-model="vm.editdate3" ng-checked="vm.checkAll">&nbsp;&nbsp;Friday, February 28, 2014<br>
+                            <input type="checkbox" name="participationAll" ng-model="vm.checkAll" ng-checked="vm.editdate1 && vm.editdate2 && vm.editdate3">&nbsp;&nbsp;All
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.updateRegistration()">Save</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+

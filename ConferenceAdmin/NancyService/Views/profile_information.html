@@ -1,133 +1,134 @@
 ﻿<div ng-controller="profileInformationCtrl as vm">
     <!--<div ng-hide="vm.edit">
-        <h3 id="g-information">General Information <button ng-click="vm.toggleEdit()" class="btn btn-ar btn-primary right">Edit</button></h3>
-        <div class="row">
-            <div class="col-lg-1">
-                <h5 class="after-title-field">Title</h5>
-                <span class="profile-view">{{vm.title}}</span>
-            </div>
-            <div class="col-lg-3">
-                <h5 class="after-title-field">First Name</h5>
-                <span class="profile-view">{{vm.firstName}}</span>
-            </div>
-            <div class="col-lg-4">
-                <h5 class="after-title-field">Last Name</h5>
-                <span class="profile-view">{{vm.lastName}}</span>
-            </div>
-        </div><br />
+            <h3 id="g-information">General Information <button ng-click="vm.toggleEdit()" class="btn btn-ar btn-primary right">Edit</button></h3>
+            <div class="row">
+                <div class="col-lg-1">
+                    <h5 class="after-title-field">Title</h5>
+                    <span class="profile-view">{{vm.title}}</span>
+                </div>
+                <div class="col-lg-3">
+                    <h5 class="after-title-field">First Name</h5>
+                    <span class="profile-view">{{vm.firstName}}</span>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="after-title-field">Last Name</h5>
+                    <span class="profile-view">{{vm.lastName}}</span>
+                </div>
+            </div><br />
 
-        <div class="row">
-            <div class="col-lg-4">
-                <h5 class="after-title-field">Affiliation</h5>
-                <span class="profile-view">{{vm.affiliationName}}</span>
+            <div class="row">
+                <div class="col-lg-4">
+                    <h5 class="after-title-field">Affiliation</h5>
+                    <span class="profile-view">{{vm.affiliationName}}</span>
+                </div>
             </div>
+
+            <h4>Mailing Address</h4>
+            <div class="row">
+                <div class="col-lg-6">
+                    <h5 class="after-title-field">Line 1</h5>
+                    <span class="profile-view">{{vm.addressLine1}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 title-field">
+                    <h5 class="after-title-field">Line 2</h5>
+                    <span class="profile-view">{{vm.addressLine2}}</span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5 class="after-title-field">City</h5>
+                    <span class="profile-view">{{vm.city}}</span>
+                </div>
+                <div class="col-lg-3">
+                    <h5 class="after-title-field">State</h5>
+                    <span class="profile-view">{{vm.state}}</span>
+                </div>
+                <div class="col-lg-3">
+                    <h5 class="after-title-field">Country</h5>
+                    <span class="profile-view">{{vm.country}}</span>
+                </div>
+                <div class="col-lg-3">
+                    <h5 class="after-title-field">Zip Code</h5>
+                    <span class="profile-view">{{vm.zipcode}}</span>
+                </div>
+            </div>
+
+            <h4>Contact Information</h4>
+            <div class="row">
+                <div class="col-lg-6">
+                    <h5 class="after-title-field">Email</h5>
+                    <span class="profile-view">{{vm.email}}</span>
+                </div>
+                <div class="col-lg-3">
+                    <h5 class="after-title-field">Phone Number</h5>
+                    <span class="profile-view">{{vm.phone}}</span>
+                </div>
+                <div class="col-lg-3">
+                    <h5 class="after-title-field">Fax</h5>
+                    <span class="profile-view">{{vm.userFax}}</span>
+                </div>
+            </div>
+
+            <h4 ng-show="vm.hasApplied && vm.registrationStatus != 'Rejected' && vm.acceptanceStatus != 'Rejected'">Participation Days</h4>
+            <div class="row" ng-show="vm.hasApplied && vm.registrationStatus != 'Rejected' && vm.acceptanceStatus != 'Rejected'">
+                <div class="col-lg-4">
+                    <span class="block" ng-show="vm.date1">Day 1</span>
+                    <span class="block" ng-show="vm.date2">Day 2</span>
+                    <span class="block" ng-show="vm.date3">Day 3</span>
+                </div>
+            </div>
+
+            <br />
+
         </div>
-
-        <h4>Mailing Address</h4>
-        <div class="row">
-            <div class="col-lg-6">
-                <h5 class="after-title-field">Line 1</h5>
-                <span class="profile-view">{{vm.addressLine1}}</span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 title-field">
-                <h5 class="after-title-field">Line 2</h5>
-                <span class="profile-view">{{vm.addressLine2}}</span>
-            </div>
-        </div>
-        <br />
-        <div class="row">
-            <div class="col-lg-3">
-                <h5 class="after-title-field">City</h5>
-                <span class="profile-view">{{vm.city}}</span>
-            </div>
-            <div class="col-lg-3">
-                <h5 class="after-title-field">State</h5>
-                <span class="profile-view">{{vm.state}}</span>
-            </div>
-            <div class="col-lg-3">
-                <h5 class="after-title-field">Country</h5>
-                <span class="profile-view">{{vm.country}}</span>
-            </div>
-            <div class="col-lg-3">
-                <h5 class="after-title-field">Zip Code</h5>
-                <span class="profile-view">{{vm.zipcode}}</span>
-            </div>
-        </div>
-
-        <h4>Contact Information</h4>
-        <div class="row">
-            <div class="col-lg-6">
-                <h5 class="after-title-field">Email</h5>
-                <span class="profile-view">{{vm.email}}</span>
-            </div>
-            <div class="col-lg-3">
-                <h5 class="after-title-field">Phone Number</h5>
-                <span class="profile-view">{{vm.phone}}</span>
-            </div>
-            <div class="col-lg-3">
-                <h5 class="after-title-field">Fax</h5>
-                <span class="profile-view">{{vm.userFax}}</span>
-            </div>
-        </div>
-
-        <h4 ng-show="vm.hasApplied && vm.registrationStatus != 'Rejected' && vm.acceptanceStatus != 'Rejected'">Participation Days</h4>
-        <div class="row" ng-show="vm.hasApplied && vm.registrationStatus != 'Rejected' && vm.acceptanceStatus != 'Rejected'">
-            <div class="col-lg-4">
-                <span class="block" ng-show="vm.date1">Day 1</span>
-                <span class="block" ng-show="vm.date2">Day 2</span>
-                <span class="block" ng-show="vm.date3">Day 3</span>
-            </div>
-        </div>
-
-        <br />
-
-    </div>
--->
+    -->
 
 
 
 
 
 
-    <div ><!--ng-show="vm.edit"-->
+    <div>
+        <!--ng-show="vm.edit"-->
         <h3>
             General Information
             <!--<button class="btn btn-ar btn-default right" ng-click="vm.toggleEdit()">Cancel</button>
             <button class="btn btn-ar btn-primary right" ng-click="vm.updateProfileInfo()">Save Changes</button>-->
         </h3>
         <div class="row">
-            <div class="col-lg-1">
-                <h5 class="after-title-field">Title</h5>
-                <input type="text" ng-model="vm.title" class="form-control">
-            </div>
-            <div class="col-lg-3">
+            <div class="col-lg-6">
                 <h5 class="after-title-field">First Name</h5>
                 <input type="text" ng-model="vm.firstName" class="form-control">
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <h5 class="after-title-field">Last Name</h5>
                 <input type="text" ng-model="vm.lastName" class="form-control">
             </div>
         </div><br />
 
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <h5 class="after-title-field">Affiliation</h5>
                 <input type="text" ng-model="vm.affiliationName" class="form-control">
+            </div>
+            <div class="col-lg-6">
+                <h5 class="after-title-field">Title</h5>
+                <input type="text" ng-model="vm.title" class="form-control">
             </div>
         </div>
 
         <h4>Mailing Address</h4>
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <h5 class="after-title-field">Line 1</h5>
                 <input type="text" ng-model="vm.addressLine1" class="form-control">
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-6 title-field">
+            <div class="col-lg-12 title-field">
                 <h5 class="after-title-field">Line 2</h5>
                 <input type="text" ng-model="vm.addressLine2" class="form-control">
             </div>
