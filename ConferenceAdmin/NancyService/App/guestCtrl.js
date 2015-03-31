@@ -38,10 +38,9 @@
         vm.day3;
         vm.companionFirstName;
         vm.companionLastName;
-        vm.participantAuth;
-        vm.companionAuth;
-        vm.overnightAuth;
-        vm.photoAuth;
+        vm.authorizations = {};
+        vm.documentName;
+        vm.documentFile;
         vm.authFirstName;
         vm.authLastName;
         vm.isRegistered;
@@ -58,6 +57,7 @@
         vm.displayAuthorizations = _displayAuthorizations;
         vm.rejectRegisteredGuest = _rejectRegisteredGuest;
         vm.rejectedSelectedGuest = _rejectedSelectedGuest;
+        vm.downloadPDFFile = _downloadPDFFile;
 
         _getGuestList();
 
@@ -97,20 +97,14 @@
                    success(function (data, status, headers, config) {
                        // this callback will be called asynchronously
                        // when the response is available
-                       vm.companionAuth = data.companionAuth;
-                       vm.overnightAuth = data.overnightAuth;
-                       vm.photoAuth = data.photoAuth;
-                       vm.participantAuth = data.participantAuth;
+                       vm.authorizations = data;
                        vm.authFirstName = firstName;
-                       vm.authLastName = lastName
+                       vm.authLastName = lastName;
                    }).
                    error(function (data, status, headers, config) {
                        // called asynchronously if an error occurs
                        // or server returns response with an error status.
-                       vm.companionAuth = data.companionAuth;
-                       vm.overnightAuth = data.overnightAuth;
-                       vm.photoAuth = data.photoAuth;
-                       vm.participantAuth = data.participantAuth;
+                       vm.authorizations = data;
                    });
         }
 
@@ -164,6 +158,10 @@
 
                 });
             }
+        }
+
+        function _downloadPDFFile(document) {
+            window.open(document);
         }
     }
 })();

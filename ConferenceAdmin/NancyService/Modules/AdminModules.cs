@@ -409,8 +409,11 @@ namespace NancyService.Modules
             Get["/displayAuthorizations/{id}"] = parameters =>
             {
                 int id = parameters.id;
-                var authorizations = guest.getMinorAuthorizations(id);
-
+                List<MinorAuthorizations> authorizations = guest.getMinorAuthorizations(id);
+                if (authorizations == null)
+                {
+                    authorizations = new List<MinorAuthorizations>();
+                }
                 return Response.AsJson(authorizations);
             };
 

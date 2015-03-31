@@ -76,7 +76,8 @@
         vm.addEvaluation = _addEvaluation;
         vm.getAbstract = _getAbstract;
         vm.downloadEvaluationTemplate = _downloadEvaluationTemplate;
-        vm.downloadEvaluationFile = _downloadEvaluationFile;        
+        vm.downloadEvaluationFile = _downloadEvaluationFile;
+        vm.openDocumentSubmitted = _openDocumentSubmitted;
 
         _getAssignedSubmissions(currentUserID);
 
@@ -99,8 +100,13 @@
         function _getAbstract() {
             vm.modalAbstract = vm.modalsubmissionAbstract;
         }
-
+        //gets documents like abstract to show en modal only
         function _getDocumentSubmitted(document, documentName) {
+            vm.modalDocument = document;
+            vm.modalDocumentName = documentName;            
+        }
+        //opens the documents in another screen
+        function _openDocumentSubmitted(document, documentName) {
             vm.modalDocument = document;
             vm.modalDocumentName = documentName;
             window.open(vm.modalDocument);

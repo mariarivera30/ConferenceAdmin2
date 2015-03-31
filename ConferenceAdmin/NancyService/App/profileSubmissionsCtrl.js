@@ -21,6 +21,23 @@
         vm.status;
         vm.isEvaluated;
         vm.view = "Add";
+        //for previous submissions
+        vm.hasPrevVersion;
+        vm.prevSubmissionID;
+        vm.prevSubmissionTitle;
+        vm.prevTopic;
+        vm.prevSubmissionAbstract;
+        vm.prevSubmissionFileList;
+        vm.prevSubmissionType;
+        vm.prevPanelistNames;
+        vm.prevPlan;
+        vm.prevGuideQuestions;
+        vm.prevFormat;
+        vm.prevEquipment;
+        vm.prevDuration;
+        vm.prevDelivery;
+        vm.prevSubIsEvaluated;
+        vm.prevPublicFeedback;
 
         vm.submissionlist = {};
         vm.submissionTypeList = {}; //= ['Extended Paper', 'Poster', 'Pannel', 'BoF', 'Workshop'];
@@ -70,6 +87,23 @@
                       vm.modaldelivery = data.delivery;
                       vm.modalsubIsEvaluated = data.subIsEvaluated;
                       vm.modalpublicFeedback = data.publicFeedback;
+                      //for previous submissions
+                      vm.modalhasPrevVersion = data.hasPrevVersion;
+                      vm.modalprevSubmissionID = data.prevSubmissionID;
+                      vm.modalprevSubmissionTitle = data.prevSubmissionTitle;
+                      vm.modalprevTopic = data.prevTopic;
+                      vm.modalprevSubmissionAbstract = data.prevSubmissionAbstract;
+                      vm.modalprevSubmissionFileList = data.prevSubmissionFileList;
+                      vm.modalprevSubmissionType = data.prevSubmissionType;
+                      vm.modalprevPanelistNames = data.prevPanelistNames;
+                      vm.modalprevPlan = data.prevPlan;
+                      vm.modalprevGuideQuestions = data.prevGuideQuestions;
+                      vm.modalprevFormat = data.prevFormat;
+                      vm.modalprevEquipment = data.prevEquipment;
+                      vm.modalprevDuration = data.prevDuration;
+                      vm.modalprevDelivery = data.prevDelivery;
+                      vm.modalprevSubIsEvaluated = data.prevSubIsEvaluated;
+                      vm.modalprevPublicFeedback = data.prevPublicFeedback;
                   }).
                   error(function (data, status, headers, config) {
                       // called asynchronously if an error occurs
