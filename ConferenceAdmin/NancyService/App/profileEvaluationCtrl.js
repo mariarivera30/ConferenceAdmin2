@@ -103,6 +103,7 @@
         function _getDocumentSubmitted(document, documentName) {
             vm.modalDocument = document;
             vm.modalDocumentName = documentName;
+            window.open(vm.modalDocument);
         }
 
         function _getAssignedSubmissions(currentUserID) {
