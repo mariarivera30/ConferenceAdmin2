@@ -35,7 +35,8 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    List<Authorization> documents = context.authorizationsubmitteds.Where(d => d.deleted != true && d.minorID == 1).Select(d => new Authorization 
+                    minor minor = context.minors.Where(m => m.userID == user.userID).FirstOrDefault();
+                    List<Authorization> documents = context.authorizationsubmitteds.Where(d => d.deleted != true && d.minorID == minor.minorsID).Select(d => new Authorization 
                     { 
                         minor = new MinorUser{ userID = user.userID },
                         authorizationID = d.authorizationSubmittedID,
@@ -67,7 +68,8 @@ namespace NancyService.Modules
                         deleted = false
                     };
                     context.authorizationsubmitteds.Add(authorization);
-                    
+
+                    minor.authorizationStatus = true;
 
                     context.SaveChanges();
                     return true;
