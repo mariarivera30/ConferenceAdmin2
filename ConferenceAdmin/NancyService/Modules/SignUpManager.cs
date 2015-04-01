@@ -58,9 +58,29 @@ namespace NancyService.Modules
                     user.hasApplied = false;
                     user.registrationStatus = "Pending";
                     user.evaluatorStatus = user.evaluatorStatus;
-
+                    
                     context.users.Add(user);
                     context.SaveChanges();
+
+                    if (user.userTypeID == 1)
+                    {
+                        minor minor = new minor();
+                        minor.authorizationStatus = false;
+                        minor.deleted = false;
+                        minor.userID = user.userID;
+                        context.minors.Add(minor);
+                        context.SaveChanges();
+
+                    }
+                    else if (user.userTypeID == 6)
+                    {
+                        companion companion = new companion();
+                        companion.deleted = false;
+                        companion.userID = user.userID;
+                        context.companions.Add(companion);
+                        context.SaveChanges();
+
+                    }
 
                     sendEmailConfirmation(member.email, member.confirmationKey);
 
