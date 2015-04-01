@@ -31,6 +31,7 @@ namespace NancyService.Modules
             public long membershipID { get; set; }
             public string newPass { get; set; }
 
+
         }
        
        
@@ -56,7 +57,7 @@ namespace NancyService.Modules
                     user.deleted = false;
                     user.hasApplied = false;
                     user.registrationStatus = "Pending";
-                    user.evaluatorStatus = "";
+                    user.evaluatorStatus = user.evaluatorStatus;
 
                     context.users.Add(user);
                     context.SaveChanges();

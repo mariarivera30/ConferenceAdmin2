@@ -147,6 +147,7 @@
         }
 
         function _signUp() {
+            vm.creatingUser = true;
             restApi.checkEmail(vm.user.email).
                    success(function (data, status, headers, config) {
                        if (data) {
@@ -161,7 +162,8 @@
 
                    }).
                    error(function (data, status, headers, config) {
-
+                       alert("ERROR: Server please try again.")
+                       vm.creatingUser = false
                    });
         }
 
@@ -173,7 +175,9 @@
                    success(function (data, status, headers, config) {
                        // this callback will be called asynchronously
                        // when the response is available
-                       vm.message = "Next step confirm your email account";
+                       vm.creatingUser = false;
+                       alert("Next step confirm your email account");
+                      
                        $location.path('/Login/Log');
 
 
@@ -181,6 +185,7 @@
                    error(function (data, status, headers, config) {
                        // called asynchronously if an error occurs
                        // or server returns response with an error status.
+                       alert("Server Error please try again.");
 
                    });
         }
