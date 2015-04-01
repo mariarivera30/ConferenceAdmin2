@@ -18,6 +18,10 @@
             addComplementaryKey: _addComplementaryKey,
             getSponsorComplementaryKeys: _getSponsorComplementaryKeys,
             getComplemetnaryKeys: _getComplemetnaryKeys,
+            deleteAuthTemplate : _deleteAuthTemplate,
+            getAuthTemplatesAdmin:_getAuthTemplatesAdmin,
+            updateAuthTemplate: _updateAuthTemplate,
+            addAuthTemplate: _addAuthTemplate,
             deleteTemplate : _deleteTemplate,
             getTemplatesAdmin:_getTemplatesAdmin,
             updateTemplate: _updateTemplate,
@@ -159,6 +163,23 @@
 
         function _addTemplate(data) {
             return $http.post('/admin/addTemplate', data)
+
+        };
+
+        //-----------------------------------Authorization Templates-------------------------------
+        function _updateAuthTemplate(data) {
+            return $http.put('/admin/updateAuthTemplate', data);
+        };
+        function _deleteAuthTemplate(data) {
+            return $http.put('/admin/deleteAuthTemplate', data);
+        };
+
+        function _getAuthTemplatesAdmin() {
+            return $http.get('/admin/getAuthTemplatesAdmin');
+        };
+
+        function _addAuthTemplate(data) {
+            return $http.post('/admin/addAuthTemplate', data)
 
         };
 

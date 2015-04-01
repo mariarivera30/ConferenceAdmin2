@@ -425,6 +425,14 @@
                 }
             }
         })
+            .state('administrator.manageAuthtemplates', {
+                url: "/ManageAuthTemplates",
+                views: {
+                    'adminPage': {
+                        templateUrl: "views/admin_manageAuthorizationTemplate.html"
+                    }
+                }
+            })
         .state('administrator.guests', {
             url: "/ManageGuests",
             views: {

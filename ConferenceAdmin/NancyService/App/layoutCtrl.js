@@ -5,22 +5,50 @@
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$http','$window','$location', layoutCtrl]);
+        ['$scope', '$rootScope','$http','$window','$location', layoutCtrl]);
 
-    function layoutCtrl($scope, $http, $window, $location) {
+    function layoutCtrl($scope,$rootScope, $http, $window, $location) {
         
         var vm = this;
 
         vm.activate = activate;
         vm.title = 'layoutCtrl';
         vm.tabViewControl = _tabViewControl;
+        vm.logout = _logout;
       
         activate();
 
+        $rootScope.$on('Login', function (data) {
+
+            vm.showProfile = true;
+            if ($window.sessionStorage.length == 0) {
+              
+            }
+            else {
+             
+                vm.messageLogOut = $window.sessionStorage.getItem('email').substring(1, $window.sessionStorage.getItem('email').length - 1);
+
+            }
+
+        });
+
+        $rootScope.$on('Logout', function (data) {
+
+            vm.showProfile = false;
+
+        });
+         
         function activate() {
           
             _tabViewControl();
-          
+            if ($window.sessionStorage.length == 0) {
+                vm.showProfile = false;
+            }
+            else {
+                vm.showProfile = true;
+                vm.messageLogOut = $window.sessionStorage.getItem('email').substring(1, $window.sessionStorage.getItem('email').length - 1);
+
+            }
 
         }
         
@@ -44,6 +72,15 @@
 
 
         };
+
+        function _logout() {
+            $rootScope.$emit('Logout', { hideAlias: true });
+
+            $window.sessionStorage.clear();
+            vm.loged = false;
+            $location.path('/Home');
+
+        }
 
       
 

@@ -1,7 +1,7 @@
 ﻿
 <dv ng-controller="loginCtrl as vm" class="tab-pane active" id="home">
     <form name="loginForm" novalidate>
-        <div ng-hide="vm.loged" class="form-group">
+        <div  class="form-group">
             <div class="input-group login-input">
                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
                 <input type="email" name="email" class="form-control" placeholder="Email" ng-model="vm.email" required>
@@ -22,17 +22,6 @@
          
         </div>
 
-        <div ng-show="vm.loged" class="row">
-            <div class="col-lg-2"></div>
-
-            <div class="top-nav-social hidden-sm col-lg-7 ">
-
-                <a href="" ng-click="vm.logout()"><i class="fa fa-user"></i> Logout</a><label> {{vm.messageLogOut}}</label>
-
-            </div>
-            <div class="col-lg-3"></div>
-
-        </div>
-
+      
     </form>
 </div>

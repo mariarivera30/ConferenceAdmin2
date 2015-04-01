@@ -25,7 +25,7 @@ namespace NancyService.Modules
             RegistrationManager registration = new RegistrationManager();
             GuestManager guest = new GuestManager();
             TemplateManager templateManager = new TemplateManager();
-
+            AuthTemplateManager authTemplateManager = new AuthTemplateManager();
 
 
             /* ----- Template -----*/
@@ -62,6 +62,49 @@ namespace NancyService.Modules
                 var template = this.Bind<template>();
 
                 if (templateManager.updateTemplate(template))
+                {
+                    return HttpStatusCode.OK;
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+            };
+            /* ----- Auth Template -----*/
+
+
+            Post["/addAuthTemplate"] = parameters =>
+            {
+                var temp = this.Bind<AuthTemplateManager.templateQuery>();
+                return Response.AsJson(authTemplateManager.addTemplate(temp));
+            };
+
+            Get["/getAuthTemplatesAdmin"] = parameters =>
+            {
+
+                return Response.AsJson(authTemplateManager.getTemplates());
+            };
+
+            Put["/deleteAuthTemplate"] = parameters =>
+            {
+                var id = this.Bind<int>();
+                if (authTemplateManager.deleteTemplate(id))
+                {
+                    return HttpStatusCode.OK;
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+            };
+
+            Put["/updateAuthTemplate"] = parameters =>
+            {
+                var template = this.Bind<authorizationtemplate>();
+
+                if (authTemplateManager.updateTemplate(template))
                 {
                     return HttpStatusCode.OK;
                 }

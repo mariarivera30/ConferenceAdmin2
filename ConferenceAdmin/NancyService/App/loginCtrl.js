@@ -46,6 +46,8 @@
             }
         }
         function _logout() {
+            $rootScope.$emit('Logout', { hideAlias: true });
+       
             $window.sessionStorage.clear();
             vm.loged = false;
             $location.path('/Home');
@@ -92,13 +94,17 @@
         function _login() {
             restApi.login(vm)
                    .success(function (data, status, headers, config) {
+
+                       // emit the new hideAlias value
+                       $rootScope.$emit('Login', { hideAlias: true });
+                     
                        $http.defaults.headers.common.Authorization = 'Token ' + data.token;
                        //localStorageService.set('token', data.token);
                        $window.sessionStorage.setItem('token', data.token);
                        $window.sessionStorage.setItem('claims', JSON.stringify(data.userClaims));
                        $window.sessionStorage.setItem('userID', JSON.stringify(data.userID));
                        $window.sessionStorage.setItem('email', JSON.stringify(data.email));
-                
+                       
                        data.userClaims.forEach(function (claim) {
                            if (claim.localeCompare('adminFinance') == 0 || claim.localeCompare('adminCommittee') == 0) {
                                if (claim.localeCompare('adminCommittee') == 0)

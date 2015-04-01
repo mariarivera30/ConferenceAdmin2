@@ -77,6 +77,7 @@
     <script src="/App/adminTemplateCtrl.js"></script>
     <script src="/App/ushersCtrl.js"></script>
     <script src="/App/requestPassCtrl.js"></script>
+    <script src="/App/adminAuthTemplatesCtrl.js"></script>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -106,12 +107,17 @@
                             <!-- <li><a href="#" class="animated fadeIn animation-delay-9 instagram"><i class="fa fa-instagram"></i></a></li> -->
                         </ul>
                         <div  class="top-nav-social hidden-sm">
-                            <a href="#/Login/Log"><i class="fa fa-user"></i> Login | Register</a>
+                            <a ng-hide="vm.showProfile" href="#/Login/Log"><i class="fa fa-user"></i> Login | Register</a>
                         </div>
-                       
-                        <div  class="top-nav-social hidden-sm">
-                            <a href="#/Profile/GeneralInformation"><i class="fa fa-user"></i> My Profile</a>
+                        <div class="top-nav-social hidden-sm">
+                            <a ng-show="vm.showProfile" href="#/Profile/GeneralInformation"><i class="fa fa-user"></i> My Profile</a>
                         </div>
+                        <div class="top-nav-social hidden-sm">
+                            <a ng-show="vm.showProfile"  href="#/Home" ng-click="vm.logout()"><i class="fa fa-user"></i> Logout</a><label> {{vm.messageLogOut}}</label>
+                        </div>
+                        
+
+                        
                     </nav>
                 </div> <!-- container -->
             </header> <!-- header-full -->

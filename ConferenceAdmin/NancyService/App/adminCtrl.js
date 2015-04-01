@@ -32,6 +32,7 @@
         vm.submissions = false;//committe,admin,
         vm.sponsors = false;
         vm.templates = false;//committe,admin,
+        vm.authTemplates = false;//committe,admin,
         vm.keyCodes = false;
         vm.reports = false;
         vm.isAdmin = false;
@@ -73,6 +74,7 @@
                     vm.submissions = true;//committe,admin,
                     vm.sponsors = true;
                     vm.templates = true;//committe,admin,
+                    vm.authTemplates = true;
                     vm.keyCodes = true;
                     vm.reports = true;
                     vm.isAdmin = true;
@@ -96,6 +98,7 @@
                     vm.submissions = false;//committe,admin,
                     vm.sponsors = true;
                     vm.templates = false;//committe,admin,
+                    vm.authTemplates = false;
                     vm.keyCodes = true;
                     vm.reports = true;
                     vm.isAdmin = true;
@@ -104,6 +107,7 @@
                 if (claim.localeCompare('CommitteEvaluator') == 0) {
                     vm.submissions = true;//committe,admin,
                     vm.templates = true;//committe,admin,
+                    vm.authTemplates = true;
                     vm.topic = true; //committe,admin,
                     vm.participation = false;
                     vm.isAdmin = true;
