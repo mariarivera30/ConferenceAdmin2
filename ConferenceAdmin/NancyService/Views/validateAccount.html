@@ -1,0 +1,36 @@
+﻿<div ng-controller="loginCtrl as vm">
+    <div class="login-form-full">
+        <div class="fix-box">
+            <div class="text-center title-logo animated fadeInDown animation-delay-5"><span>CCWiC</span></div>
+            <div class="transparent-div no-padding animated fadeInUp animation-delay-8">
+                <ul class="nav nav-tabs nav-tabs-transparent">
+                    <li><a href="#/Login/Recover" data-toggle="tab">Account Confirmation</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+
+                    <div class="tab-pane active" id="home">
+                        <form role="form" name="validateForm" novalidate>
+                            <div class="form-group">
+                                <div class="tab-pane" id="recover">
+                                    
+                                        <div class="form-group">
+                                            <label for="InputEmail">Enter your Confirmation Key<sup>*</sup></label>
+                                            <input type="text" class="form-control" id="InputEmail" name="key" ng-model="vm.keyConfirmation" required>
+                                            <p ng-show="validateForm.key.$invalid && !validateForm.key.$pristine" class="help-block">
+</div>
+                                    {{vm.message}}
+                                    <button type="submit" class="btn btn-ar btn-primary pull-right" ng-click="vm.validate()"  ng-disabled="validateForm.$invalid">Confirm</button>
+                                   
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

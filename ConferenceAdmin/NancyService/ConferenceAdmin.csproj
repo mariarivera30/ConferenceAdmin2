@@ -84,6 +84,7 @@
     <Content Include="App\adminTemplateCtrl.js" />
     <Content Include="App\app.js" />
     <Content Include="App\abstractCtrl.js" />
+    <Content Include="App\changePassCtrl.js" />
     <Content Include="App\committeeCtrl.js" />
     <Content Include="App\committeeCtrl2.js" />
     <Content Include="App\contactCtrl.js" />
@@ -108,6 +109,7 @@
     <Content Include="App\registerCtrl.js" />
     <Content Include="App\registrationCtrl.js" />
     <Content Include="App\registrationWebCtrl.js" />
+    <Content Include="App\requestPassCtrl.js" />
     <Content Include="App\scheduleCtrl.js" />
     <Content Include="App\scholarshipCtrl.js" />
     <Content Include="App\services.js" />
@@ -163,7 +165,9 @@
     <Content Include="Views\admin_managekeycodes.html" />
     <Content Include="Views\admin_planningcommittee.html" />
     <Content Include="Views\admin_managesponsors.html" />
+    <Content Include="Views\login2.html" />
     <Content Include="Views\profile_application.html" />
+    <Content Include="Views\changePassword.html" />
     <Content Include="Views\registration_form.html" />
     <Content Include="Views\login.html" />
     <Content Include="Views\participation_Information.html" />
@@ -176,9 +180,10 @@
     <Content Include="Views\profile_evaluation.html" />
     <Content Include="Views\profile_status.html" />
     <Content Include="Views\profile_submission.html" />
-    <Content Include="Views\ResetPassword.html" />
+    <Content Include="Views\requestPass.html" />
     <Content Include="Views\schedule.html" />
     <Content Include="Views\scholarship.html" />
+    <Content Include="Views\signup.html" />
     <Content Include="Views\sponsorRegistration.html" />
     <Content Include="Views\sponsors.html" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -1349,6 +1354,7 @@
     <Content Include="js\wow.min.js" />
     <Content Include="Views\registration.html" />
     <Content Include="Views\sponsorsKeyList.html" />
+    <Content Include="Views\validateAccount.html" />
     <Content Include="Views\venue.html" />
     <Content Include="Views\workshops.html" />
     <Content Include="Web.config">

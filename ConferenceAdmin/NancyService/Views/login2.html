@@ -1,0 +1,38 @@
+﻿
+<dv ng-controller="loginCtrl as vm" class="tab-pane active" id="home">
+    <form name="loginForm" novalidate>
+        <div ng-hide="vm.loged" class="form-group">
+            <div class="input-group login-input">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input type="email" name="email" class="form-control" placeholder="Email" ng-model="vm.email" required>
+            
+            </div>
+            <p ng-show="loginForm.email.$invalid && !loginForm.email.$pristine" class="help-block">Email is required.</p>
+            <br>
+            <div class="input-group login-input">
+                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                <input type="password" name="password" class="form-control" placeholder="Password" ng-model="vm.password" required />
+            </div>
+            <p ng-show="loginForm.password.$invalid && !loginForm.password.$pristine" class="help-block">Password is required.</p>
+            <br />
+            {{vm.message}}
+            <button type="submit" class="btn btn-ar btn-primary pull-right" ng-click="vm.loginIfEmail()" ng-disabled="loginForm.$invalid">Login</button>
+
+            <div class="clearfix"></div>
+         
+        </div>
+
+        <div ng-show="vm.loged" class="row">
+            <div class="col-lg-2"></div>
+
+            <div class="top-nav-social hidden-sm col-lg-7 ">
+
+                <a href="" ng-click="vm.logout()"><i class="fa fa-user"></i> Logout</a><label> {{vm.messageLogOut}}</label>
+
+            </div>
+            <div class="col-lg-3"></div>
+
+        </div>
+
+    </form>
+</div>

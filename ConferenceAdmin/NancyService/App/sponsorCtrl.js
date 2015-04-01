@@ -43,6 +43,7 @@
         activate();
 
         $scope.showContent = function ($fileContent) {
+
             $scope.content = $fileContent;
 
 

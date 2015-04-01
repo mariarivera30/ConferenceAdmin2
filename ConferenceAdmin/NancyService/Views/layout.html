@@ -38,6 +38,7 @@
     <script src="/App/abstractCtrl.js"></script>
     <script src="/App/administratorCtrl.js"></script>
     <script src="/App/adminCtrl.js"></script>
+    <script src="/App/changePassCtrl.js"></script>
     <script src="/App/committeeCtrl.js"></script>
     <script src="/App/committeeCtrl2.js"></script>
     <script src="/App/contactCtrl.js"></script>
@@ -75,6 +76,7 @@
     <script src="/App/fileModel.js"></script>
     <script src="/App/adminTemplateCtrl.js"></script>
     <script src="/App/ushersCtrl.js"></script>
+    <script src="/App/requestPassCtrl.js"></script>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -96,18 +98,19 @@
                         <h1 class="animated fadeInRight"><a href="index.html"><span>CCWiC</span></a></h1>
                         <p class="animated fadeInRight">Caribbean Celebration of Women in Computing</p>
                     </div>
-                    <nav  class="top-nav">
+                    <nav class="top-nav">
                         <ul class="top-nav-social hidden-sm">
                             <li><a href="https://twitter.com/hashtag/ccwic" class="animated fadeIn animation-delay-7 twitter" target="_blank" title="Twitter"><i class="fa fa-twitter"></i></a></li>
                             <li><a href="https://www.facebook.com/ccwic2014" class="animated fadeIn animation-delay-8 facebook" target="_blank" title="Facebook"><i class="fa fa-facebook"></i></a></li>
                             <li><a href="https://plus.google.com/s/ccwic" class="animated fadeIn animation-delay-9 google-plus" target="_blank" title="Google Plus"><i class="fa fa-google-plus"></i></a></li>
                             <!-- <li><a href="#" class="animated fadeIn animation-delay-9 instagram"><i class="fa fa-instagram"></i></a></li> -->
                         </ul>
-                        <div class="top-nav-social hidden-sm">
-                            <a href="#/Login"><i class="fa fa-user"></i> Login | Register</a>
+                        <div  class="top-nav-social hidden-sm">
+                            <a href="#/Login/Log"><i class="fa fa-user"></i> Login | Register</a>
                         </div>
-                        <div class="top-nav-social hidden-sm">
-                            <a  href="#/Profile"><i class="fa fa-user"></i> My Profile</a>
+                       
+                        <div  class="top-nav-social hidden-sm">
+                            <a href="#/Profile/GeneralInformation"><i class="fa fa-user"></i> My Profile</a>
                         </div>
                     </nav>
                 </div> <!-- container -->
@@ -158,9 +161,7 @@
                             <li>
                                 <a href="#/Contact">Contact</a>
                             </li>
-                            <li>
-                                <a href="#/Administrator" class="right">Administrator</a>
-                            </li>
+                            
                         </ul>
                     </div><!-- navbar-collapse -->
                 </div><!-- container -->
@@ -173,8 +174,8 @@
                     <!-- section -->
                 </div>
 
-                <div ng-app="app" id="content" class="noPrint">
-                    <h2 class="section-title">Our Sponsors</h2>
+                <div  id="content" class="noPrint">
+                
                     <div ui-view="banner" autoscroll="false" class="margin-fix-banner">
                     </div>
                 </div>
@@ -204,7 +205,12 @@
     <script src="js/syntaxhighlighter/shBrushXml.js"></script>
     <script src="js/syntaxhighlighter/shBrushJScript.js"></script>
     <script src="js/app.js"></script>
-     <!-- <script src="Scripts/ng-table/ng-table.min.js"></script>-->
+    <!-- <script src="Scripts/ng-table/ng-table.min.js"></script>-->
     <script src="Scripts/ng-table/ng-table.js"></script>
+
 </body>
+
+
+   
+
 </html>

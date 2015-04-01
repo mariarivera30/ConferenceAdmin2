@@ -5,14 +5,14 @@
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$http', 'restApi', profileInformationCtrl]);
+        ['$scope', '$http', 'restApi','$window', profileInformationCtrl]);
 
-    function profileInformationCtrl($scope, $http, restApi) {
+    function profileInformationCtrl($scope, $http, restApi, $window) {
         var vm = this;
         vm.edit = false;
         vm.activate = activate;
 
-        vm.userID = 1;
+        vm.userID = $window.sessionStorage.getItem('userID');
 
         // User Attributes
         vm.title;
@@ -46,9 +46,10 @@
         vm.getUserTypes = _getUserTypes;
         vm.makePayment = _makePayment;
         vm.checkAll;
-
-        _getProfileInfo(vm.userID);
-        _getUserTypes();
+        if (vm.userID != null) {
+            _getProfileInfo(vm.userID);
+            _getUserTypes();
+        }
 
         function activate() {
 

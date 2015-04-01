@@ -8,6 +8,7 @@
 
     function addrestApi($http) {
         var service = {
+            changePassword:_changePassword,
             checkEmail: _checkEmail,
             requestPass:_requestPass,
             accountConfirmation: _accountConfirmation,
@@ -27,6 +28,7 @@
             updateSponsor: _updateSponsor,
             login: _login,
             postNewSponsor: _postNewSponsor,
+            postNewTopic:_postNewTopic,
             getSponsors: _getSponsors,
             getTopics: _getTopics,
             deleteTopic: _deleteTopic,
@@ -169,13 +171,13 @@
         };
         //----------------------------------RecoverPass--------------------------------
         function _checkEmail(data) {
-            return $http.get('/auth/checkEmail', data);
+            return $http.get('/auth/checkEmail/' + data);
         };
         function _requestPass(data) {
             return $http.get('/auth/requestPass/' + data);
         };
-        function _changePass(data) {
-            return $http.get('/auth/changePass/' + data);
+        function _changePassword(data) {
+            return $http.post('/auth/changePassword/', data);
         };
         //-----------------------------------TOPICS-----------------------------------
 

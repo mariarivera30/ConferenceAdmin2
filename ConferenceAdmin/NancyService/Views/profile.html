@@ -3,6 +3,12 @@
         <h2 class="section-title">My Profile</h2>
     </div>
     <div class="row">
+       
+            <a ng-show="vm.isAdmin" href="#/Administrator/GeneralInformation" class="right">Go to Administrator Settings</a>
+       
+    </div>
+  
+    <div class="row">
         <div class="vertical-tabs-left">
             <div class="vertical-tab-list noPrint">
                 <h5 class="title-centered">Settings</h5>
@@ -22,7 +28,7 @@
                         <a href="#/Profile/Submissions"><i class="fa fa-newspaper-o"> </i> Submissions</a>
                     </li>                    
                    
-                    <!--<li ng-show={{vm.receipt}} ng-click="selectedTab='receipt';" ng-class="{active: selectedTab=='receipt'}">
+                    <!--li ng-show={{vm.receipt}} ng-click="selectedTab='receipt';" ng-class="{active: selectedTab=='receipt'}">
                         <a href="#/Profile/ReceiptInformation"><i class="fa fa-money"></i> Receipt Information</a>
                     </li>-->
                     <li ng-show="{{vm.evaluation}}" ng-click="selectedTab='evaluation';" ng-class="{active: selectedTab=='evaluation'}">

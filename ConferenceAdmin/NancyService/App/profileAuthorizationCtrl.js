@@ -5,12 +5,12 @@
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$http', 'restApi', profileAuthorizationCtrl]);
+        ['$scope', '$http', 'restApi','$window', profileAuthorizationCtrl]);
 
-    function profileAuthorizationCtrl($scope, $http, restApi) {
+    function profileAuthorizationCtrl($scope, $http, restApi, $window) {
         var vm = this;
 
-        vm.userID = 1;
+        vm.userID = $window.sessionStorage.getItem('userID');
         vm.authorizationStatus;
         vm.authorization;
         vm.authorizationName;

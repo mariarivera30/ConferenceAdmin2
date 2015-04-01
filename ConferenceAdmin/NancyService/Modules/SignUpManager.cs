@@ -29,8 +29,11 @@ namespace NancyService.Modules
             public string country { get; set; }
             public string zipcode { get; set; }
             public long membershipID { get; set; }
-        }
+            public string newPass { get; set; }
 
+        }
+       
+       
         public bool createUser(user user, membership member, address address)
         {
             try
@@ -87,7 +90,7 @@ namespace NancyService.Modules
 
 
             mail.Subject = "Caribbean Celebration of Women in Computing Account Confirmation!";
-            mail.Body = "Please click the link to confirm your account. \n\n " + "http://localhost:12029/#/Login/Validate" + "\n Your key is" + key;
+            mail.Body = "Please click the link to confirm your account. \n\n " + "http://localhost:12029/#/Validate" + "\n Your key is " + key;
 
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";
@@ -107,7 +110,7 @@ namespace NancyService.Modules
 
 
             mail.Subject = "Caribbean Celebration of Women Temporary Password!";
-            mail.Body = "Login using this password " + pass + ".\n Change toy password as soon as possible.\n";
+            mail.Body = "Login using this password " + pass + ".\n Change your password as soon as possible.\n Visit us: http://localhost:12029/#/ChangePassword";
 
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";
@@ -175,7 +178,7 @@ namespace NancyService.Modules
                         u.email = member.email;
                         u.membershipID = member.membershipID;
                         context.SaveChanges();
-                        sendTemporaryPassword(u.email, u.password);
+                        sendTemporaryPassword(u.email, tempPass);
                         return u;
                     }
 
@@ -234,13 +237,13 @@ namespace NancyService.Modules
 
                 try
                 {
-                    string tempPass = generateEmailConfirmationKey().Substring(0, 9); ;
+                    
                     var member = (from m in context.memberships
-                                  where (m.email.Equals(u.email) && m.deleted == false)
-                                  select m).FirstOrDefault();
+                                  where (m.email.Equals(u.email) && m.password== u.password && m.deleted == false)
+                                  select m).FirstOrDefault(); 
                     if (member != null)
                     {
-                        member.password = u.password;
+                        member.password = u.newPass;
                         u.membershipID = member.membershipID;
                         context.SaveChanges();
                         return u;

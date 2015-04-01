@@ -1,0 +1,169 @@
+﻿
+<div ng-controller="loginCtrl as vm" class="tab-pane" id="signup">
+    <form name="signForm" novalidate>
+        <h3>General Information</h3>
+        <div class="row">
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="after-title-field black-label" for="InputUserName">First Name<sup>*</sup></label>
+                    <input type="text" class="form-control" name="firstName" ng-model="vm.user.firstName" required>
+                    <p ng-show="signForm.firstName.$invalid && !signForm.firstName.$pristine" class="help-block">Title is required.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="after-title-field black-label" for="InputFirstName">Last Name<sup>*</sup></label>
+                    <input type="text" class="form-control" name="lastName" ng-model="vm.user.lastName" required>
+                    <p ng-show="signForm.lastName.$invalid && !signForm.lastName.$pristine" class="help-block">Title is required.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="black-label" for="InputUserName">Title<sup>*</sup></label>
+                    <input type="text" class="form-control" name="title" required ng-model="vm.user.title">
+                    <p ng-show="signForm.title.$invalid && !signForm.title.$pristine" class="help-block">Title is required.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="InputFirstName" class="black-label">Affiliation<sup>*</sup></label>
+                    <input type="text" class="form-control" name="affiliation" ng-model="vm.user.affiliation" required>
+                    <p ng-show="signForm.affiliation.$invalid && !signForm.affiliation.$pristine" class="help-block">Affiliation is required.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="InputLastName" class="black-label">Type of User<sup>*</sup></label><br />
+                    <select ng-model="vm.TYPE"
+                            ng-options="type as type.userTypeName for type in vm.userTypeList" class="form-control"></select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <br /><br />
+                    <label class="checkbox-inline after-title-field black-label">
+                        <input type="checkbox" ng-model="vm.evaluator"> Participate as Evaluator.
+                    </label>
+                </div>
+            </div>
+
+
+           
+        </div>
+
+        <div class="row title-field">
+            <div class="col-md-6">
+                <h3>Mailing Address</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="after-title-field black-label" for="">Line 1<sup>*</sup></label>
+                    <input type="text" class="form-control" name="line1" ng-model="vm.user.line1" required>
+                    <p ng-show="signForm.line1.$invalid && !signForm.line1.$pristine" class="help-block">Line1 is required.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="" class="black-label">Line 2<sup>*</sup></label>
+                    <input type="text" class="form-control" name="title" ng-model="vm.user.line2">
+                    <p ng-show="signForm.line2.$invalid && !signForm.line2.$pristine" class="help-block">Line2 is required.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" class="black-label">City<sup>*</sup></label>
+                    <input type="text" class="form-control" name="city" ng-model="vm.user.city" required>
+                    <p ng-show="signForm.city.$invalid && !signForm.firstName.$pristine" class="help-block">City is required.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" class="black-label">State<sup>*</sup></label>
+                    <input type="text" class="form-control" name="state" ng-model="vm.user.state" required>
+                    <p ng-show="signForm.state.$invalid && !signForm.state.$pristine" class="help-block">State is required.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" class="black-label">Country<sup>*</sup></label>
+                    <input type="text" class="form-control" name="country" ng-model="vm.user.country" required>
+                    <p ng-show="signForm.country.$invalid && !signForm.country.$pristine" class="help-block">Country is required.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="" class="black-label">ZipCode<sup>*</sup></label>
+                    <input type="number" class="form-control" name="zipcode" ng-model="vm.user.zipcode" required>
+                    <p ng-show="signForm.zipcode.$invalid && !signForm.zipcode.$pristine" class="help-block">Zipcode is required.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="after-title-field black-label" for="">Phone Number<sup>*</sup></label>
+                    <input type="number" class="form-control" name="phone" ng-model="vm.user.phone" required>
+                    <p ng-show="signForm.phone.$invalid && !signForm.phone.$pristine" class="help-block">Phone is required.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="after-title-field black-label" for="">Fax</label>
+                    <input type="number" class="form-control" name="fax" ng-model="vm.user.userFax">
+                    <p ng-show="signForm.fax.$invalid && !signForm.fax.$pristine" class="help-block">Fax is required.</p>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <h3>Email Account </h3>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="after-title-field black-label" for="">Email<sup>*</sup></label>
+                    <input type="email" class="form-control" name="email" ng-model="vm.user.email" required>
+                    <p ng-show="signForm.email.$invalid && !signForm.email.$pristine" class="help-block">Email is required.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="after-title-field black-label" for="">Password<sup>*</sup></label>
+                    <input type="password" class="form-control" name="password" ng-model="vm.user.password" required>
+                    <p ng-show="signForm.password.$invalid && !signForm.password.$pristine" class="help-block">Password is required.</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="after-title-field black-label" for="">Confirm Password<sup>*</sup></label>
+                    <input type="password" class="form-control" name="Confirm" ng-model="vm.user.confirm" required>
+                    <p ng-show="vm.user.confirm != vm.user.password">Passwords do not match.</p>
+                    <p ng-show="signForm.Confirm.$invalid && !signForm.Confirm.$pristine" class="help-block">Password confirmation is required.</p>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="modal-footer">
+            {{vm.message}}<br />
+            <button type="submit" class="btn btn-ar btn-primary pull-right"  ng-click="vm.signUp()" ng-disabled="signForm.$invalid ||vm.user.confirm != vm.user.password">Create Account</button>
+
+        </div>
+    </form>
+</div>

@@ -38,6 +38,7 @@ namespace NancyService.Modules
                     userID = user.userID,
                     userClaims = userIdentity.Claims,
                     Token = token,
+                    email = user.email,
                 };
 
 
@@ -72,12 +73,8 @@ namespace NancyService.Modules
                 }
                 else
                 {
-                    if (signUp.changePassword(member) == null)
-                        return HttpStatusCode.Created;
-                    else
-                    {
-                        return HttpStatusCode.Conflict;
-                    }
+                    return Response.AsJson(signUp.changePassword(member));
+                
                 }
 
             };
@@ -86,7 +83,7 @@ namespace NancyService.Modules
                 var user = this.Bind<user>();
                 var member = this.Bind<membership>();
                 var address = this.Bind<address>();
-
+                
 
                 if (user == null)
                 {

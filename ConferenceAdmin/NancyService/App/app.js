@@ -24,7 +24,29 @@
 
         }]);
 
-  /*  app.factory('AuthInterceptor', function ($window, $q) {
+//    $rootscope.$on( "$statechangestart", function(event, next, current) {
+//        if ($rootscope.loggedinuser == null) {
+//            // no logged user, redirect to /login
+//            if (next.templateurl === "adminusers.html"  || next.templateurl === "adminsettings.html"|| next.templateurl === "adminitems.html" || next.templateurl === "admincomment.html" || 
+//                current.templateurl === "adminusers.html"  || current.templateurl === "adminsettings.html"|| current.templateurl === "adminitems.html" || current.templateurl === "admincomment.html") {
+        		
+//                event.preventdefault();
+//                $state.transitionto('form.admin.login');
+        		
+//            } 
+
+//        }
+//        else if(next.templateurl === "adminlogin.html"){
+//            event.preventdefault();
+//            $state.transitionto('form.admin.users');
+//        }
+
+     
+
+//    });
+//});
+
+   app.factory('AuthInterceptor', function ($window, $q) {
         return {
             request: function (config) {
                 config.headers = config.headers || {};
@@ -40,11 +62,12 @@
                 return response || $q.when(response);
             }
         };
-    });*/
+   });
+
     app.config(function ($stateProvider, $urlRouterProvider,$httpProvider) {
         //
         // For any unmatched url, redirect to /state1
-    // $httpProvider.interceptors.push('AuthInterceptor');
+       $httpProvider.interceptors.push('AuthInterceptor');
        $urlRouterProvider.otherwise("/Home");
         //
         // Now set up the states
@@ -196,18 +219,67 @@
 
              }
          }
-         ).state('login', {
+         )
+              .state('changePassword', {
+                  url: "/ChangePassword",
+                  views: {
+                      'dynamic': {
+                          templateUrl: "views/changePassword.html"
+                      },
+
+
+                  }
+              }).state('login', {
              url: "/Login",
              views: {
                  'dynamic': {
                      templateUrl: "views/login.html"
                  },
-                 'banner': {
-                     templateUrl: "views/abstracts.html"
-                 }
+
+
+             }
+
+         }).state('login.log', {
+             url: "/Log",
+             views: {
+                 'login': {
+                     templateUrl: "views/login2.html"
+                 },
+
 
              }
          })
+         .state('login.signup', {
+               url: "/Signup",
+               views: {
+                   'login': {
+                       templateUrl: "views/signup.html"
+                   },
+
+
+               }
+           })
+            .state('validate', {
+                url: "/Validate",
+                views: {
+                    'dynamic': {
+                        templateUrl: "views/validateAccount.html"
+                    },
+
+
+                }
+            })
+             .state('login.request', {
+                 url: "/RequestPass",
+                 views: {
+                     'login': {
+                         templateUrl: "views/requestPass.html"
+                     },
+
+
+                 }
+             })
+
         .state('administrator', {
              url: "/Administrator",
              views: {

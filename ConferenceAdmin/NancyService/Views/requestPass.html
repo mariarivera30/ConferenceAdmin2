@@ -1,0 +1,13 @@
+﻿<div ng-controller="requestPassCtrl as vm" class="tab-pane" id="recover">
+    <form name="requestForm" id="requestForm" novalidate>
+        <div class="input-group login-input">
+            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+            <input type="email" name="email" class="form-control" placeholder="Email" ng-model="vm.email" required>
+            
+        </div>
+        <p ng-show="requestForm.email.$invalid && !requestForm.email.$pristine" class="help-block">Email is required.</p>
+        <br />
+        {{vm.message}} <button type="submit" ng-click="vm.checkEmail()" class="btn btn-ar btn-primary pull-right" ng-disabled="requestForm.$invalid ">Request Password</button>
+    </form>
+    
+</div>
