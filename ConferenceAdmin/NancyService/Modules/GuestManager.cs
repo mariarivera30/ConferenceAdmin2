@@ -78,19 +78,19 @@ namespace NancyService.Modules
             }
         }
 
-        public object getMinorAuthorizations(int id)
+        public List<MinorAuthorizations> getMinorAuthorizations(int id)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    var auth = context.authorizationsubmitteds.Where(c => c.minor.userID == id);
-                    String photoAuth = auth.Where(c => c.documentName == "Photo Realease Authorization").Select(d => d.documentFile).FirstOrDefault();
-                    String overnightAuth = auth.Where(c => c.documentName == "Overnight Authorization").Select(d => d.documentFile).FirstOrDefault();
-                    String participantAuth = auth.Where(c => c.documentName == "Participation Authorization").Select(d => d.documentFile).FirstOrDefault();
-                    String companionAuth = auth.Where(c => c.documentName == "Companion Authorization").Select(d => d.documentFile).FirstOrDefault();
-                    MinorAuthorizations authorizations = new MinorAuthorizations(participantAuth, companionAuth, overnightAuth, photoAuth);
-
+                    List<MinorAuthorizations> authorizations = new List<MinorAuthorizations>();
+                    authorizations = context.authorizationsubmitteds.Where(c => c.minor.userID == id && c.deleted == false).
+                        Select(i => new MinorAuthorizations{
+                            documentName = i.documentName,
+                            documentFile = i.documentFile
+                        }).ToList();                    
+                   
                     return authorizations;
                 }
             }
@@ -124,17 +124,12 @@ namespace NancyService.Modules
 
     public class MinorAuthorizations
     {
-        public String participantAuth;
-        public String companionAuth;
-        public String overnightAuth;
-        public String photoAuth;
+        public String documentName;
+        public String documentFile;        
 
-        public MinorAuthorizations(String participantAuth, String companionAuth, String overnightAuth, String photoAuth)
+        public MinorAuthorizations()
         {
-            this.companionAuth = companionAuth;
-            this.participantAuth = participantAuth;
-            this.overnightAuth = overnightAuth;
-            this.photoAuth = photoAuth;
+            
         }
     }
 

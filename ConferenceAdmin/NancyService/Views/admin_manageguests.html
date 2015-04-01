@@ -140,17 +140,8 @@
                 <div class="modal-body">
                     <h3>Authorizations</h3>
                     <div class="row">
-                        <div class="col-lg-6">
-                            <label>Participation Authorization: </label> {{vm.participantAuth}}
-                        </div>
-                        <div class="col-lg-6">
-                            <label>Photo Release Authorization:</label> {{vm.photoAuth}}
-                        </div>
-                        <div class="col-lg-6">
-                            <label>Companion Authorization:</label> {{vm.companionAuth}}
-                        </div>
-                        <div class="col-lg-6">
-                            <label>Overnight Authorization:</label> {{vm.overnightAuth}}
+                        <div ng-repeat="auth in vm.authorizations">
+                            <a href="" class="col-sm-7" ng-click="vm.downloadPDFFile(auth.documentFile)"> {{auth.documentName}}</a>
                         </div>
                     </div><br />
                 </div>

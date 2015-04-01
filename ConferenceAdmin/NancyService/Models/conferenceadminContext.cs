@@ -1,6 +1,7 @@
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using NancyService.Models.Mapping;
+using NancyService.Modules.Models.Mapping;
 
 namespace NancyService.Models
 {
@@ -47,6 +48,7 @@ namespace NancyService.Models
         public DbSet<templatesubmission> templatesubmissions { get; set; }
         public DbSet<topiccategory> topiccategories { get; set; }
         public DbSet<user> users { get; set; }
+        public DbSet<usersubmission> usersubmission { get; set; }
         public DbSet<usertype> usertypes { get; set; }
         public DbSet<workshop> workshops { get; set; }
 
@@ -83,6 +85,7 @@ namespace NancyService.Models
             modelBuilder.Configurations.Add(new templatesubmissionMap());
             modelBuilder.Configurations.Add(new topiccategoryMap());
             modelBuilder.Configurations.Add(new userMap());
+            modelBuilder.Configurations.Add(new usersubmissionMap());
             modelBuilder.Configurations.Add(new usertypeMap());
             modelBuilder.Configurations.Add(new workshopMap());
         }
