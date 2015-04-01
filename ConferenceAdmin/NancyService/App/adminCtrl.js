@@ -110,12 +110,12 @@
                 }
 
 
-                if (!vm.isAdmin) {
-                    $location.path('/Home');
-                }
+               
 
             });
-
+            if (!vm.isAdmin) {
+                $location.path('/Home');
+            }
 
 
         };
