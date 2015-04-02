@@ -112,8 +112,8 @@
                         <div class="top-nav-social hidden-sm">
                             <a ng-show="vm.showProfile" href="#/Profile/GeneralInformation"><i class="fa fa-user"></i> My Profile</a>
                         </div>
-                        <div class="top-nav-social hidden-sm">
-                            <a ng-show="vm.showProfile" href="#/Home" ng-click="vm.logout()"><i class="fa fa-user"></i> Logout</a><label> {{vm.messageLogOut}}</label>
+                        <div ng-show="vm.showProfile" class="top-nav-social hidden-sm">
+                            <a href="#/Home" ng-click="vm.logout()"><i class="fa fa-user"></i> Logout</a><label> {{vm.messageLogOut}}</label>
                         </div>
 
 

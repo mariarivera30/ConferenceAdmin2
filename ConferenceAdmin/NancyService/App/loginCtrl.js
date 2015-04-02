@@ -96,7 +96,7 @@
                    .success(function (data, status, headers, config) {
 
                        // emit the new hideAlias value
-                       $rootScope.$emit('Login', { hideAlias: true });
+
 
                        $http.defaults.headers.common.Authorization = 'Token ' + data.token;
                        //localStorageService.set('token', data.token);
@@ -104,6 +104,7 @@
                        $window.sessionStorage.setItem('claims', JSON.stringify(data.userClaims));
                        $window.sessionStorage.setItem('userID', JSON.stringify(data.userID));
                        $window.sessionStorage.setItem('email', JSON.stringify(data.email));
+                       $rootScope.$emit('Login', { hideAlias: true });
 
                        data.userClaims.forEach(function (claim) {
                            if (claim.localeCompare('adminFinance') == 0 || claim.localeCompare('adminCommittee') == 0) {

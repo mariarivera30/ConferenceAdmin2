@@ -20,21 +20,16 @@
 
         $rootScope.$on('Login', function (data) {
 
+
+            vm.messageLogOut = $window.sessionStorage.getItem('email').substring(1, $window.sessionStorage.getItem('email').length - 1);
             vm.showProfile = true;
-            if ($window.sessionStorage.length == 0) {
-
-            }
-            else {
-
-                vm.messageLogOut = $window.sessionStorage.getItem('email').substring(1, $window.sessionStorage.getItem('email').length - 1);
-
-            }
 
         });
 
         $rootScope.$on('Logout', function (data) {
 
             vm.showProfile = false;
+            vm.messageLogOut = "";
 
         });
 
