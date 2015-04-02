@@ -50,6 +50,7 @@ namespace NancyService.Modules
             authorizationtemplate template = new authorizationtemplate();
             template.authorizationID = t.authorizationID;
             template.authorizationName = t.authorizationName;
+            template.authorizationDocument = t.authorizationDocument;
             template.deleted = false;
           
             try

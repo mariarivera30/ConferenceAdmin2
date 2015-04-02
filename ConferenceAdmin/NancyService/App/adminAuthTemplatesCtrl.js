@@ -17,8 +17,11 @@
         vm.edit;
         vm.view;
         vm.loading = true;
-        vm.template;
-      
+        vm.template = {authorizationID:0,
+            authorizationName:"",
+            authorizationDocument:""
+        };
+           
 
 
         // Functions
@@ -80,7 +83,7 @@
             vm.add = false;
             vm.edit = false;
             vm.headerModal = "Download Authorization Template";
-            $scope.content = vm.template.document;
+            $scope.content = vm.template.authorizationDocument;
 
         }
         function _editValues() {
@@ -89,17 +92,10 @@
             vm.add = false;
             vm.view = false;
             vm.headerModal = "Edit Authorization Template";
-            $scope.content = vm.template.document;
+            $scope.content = vm.template.authorizationDocument;
 
             vm.newTempName = "Empty";
-            vm.topicsList.forEach(function (topic) {
-                if (topic.name == vm.template.topic) {
-                    vm.topicObj = JSON.parse(JSON.stringify(topic));
-
-                }
-
-
-            });
+           
 
         }
 
@@ -111,7 +107,7 @@
                    
 
         function _addTemplate(File) {
-            vm.template.document = $scope.content;
+            vm.template.authorizationDocument = $scope.content;
             if ($scope.content != "" && $scope.content != undefined) {
                 vm.template.authorizationName = File.name;
               
