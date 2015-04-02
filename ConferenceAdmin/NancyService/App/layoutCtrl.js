@@ -5,27 +5,27 @@
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$rootScope','$http','$window','$location', layoutCtrl]);
+        ['$scope', '$rootScope', '$http', '$window', '$location', layoutCtrl]);
 
-    function layoutCtrl($scope,$rootScope, $http, $window, $location) {
-        
+    function layoutCtrl($scope, $rootScope, $http, $window, $location) {
+
         var vm = this;
 
         vm.activate = activate;
         vm.title = 'layoutCtrl';
         vm.tabViewControl = _tabViewControl;
         vm.logout = _logout;
-      
+
         activate();
 
         $rootScope.$on('Login', function (data) {
 
             vm.showProfile = true;
             if ($window.sessionStorage.length == 0) {
-              
+
             }
             else {
-             
+
                 vm.messageLogOut = $window.sessionStorage.getItem('email').substring(1, $window.sessionStorage.getItem('email').length - 1);
 
             }
@@ -37,9 +37,9 @@
             vm.showProfile = false;
 
         });
-         
+
         function activate() {
-          
+
             _tabViewControl();
             if ($window.sessionStorage.length == 0) {
                 vm.showProfile = false;
@@ -51,24 +51,24 @@
             }
 
         }
-        
+
 
         function _tabViewControl() {
-            
-            
+
+
             if ($window.sessionStorage.length != 0) {
-               
+
                 var list = JSON.parse(sessionStorage.getItem('claims'));
                 list.forEach(function (claim) {
 
                     if (claim.localeCompare('admin') == 0 || claim.localeCompare('master') == 0 ||
                         claim.localeCompare('adminFinance') == 0 || claim.localeCompare('adminCommittee') == 0) {
-                       
+
                     }
-                
+
                 });
             }
-            else { vm.loged = false;}
+            else { vm.loged = false; }
 
 
         };
@@ -82,7 +82,7 @@
 
         }
 
-      
+
 
     }
 })();
