@@ -183,7 +183,7 @@
             });
         }
         function _addComplementaryKey() {
-            vm.addComplementaryObj.sponsorID = vm.sponsor.sponsorID;
+            vm.addComplementaryObj.sponsorID = vm.CCWICSponsorID;
             vm.addComplementaryObj.quantity = vm.quantity;
             vm.addComplementaryObj.company = vm.sponsor.company;
             vm.uploadingComp = true;

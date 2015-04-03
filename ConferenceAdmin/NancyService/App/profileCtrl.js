@@ -65,7 +65,7 @@
                         vm.generalInfo = true;
                         vm.application = true;
                         vm.receipt = true;
-                        vm.authorization = true;
+                        vm.authorization = false;
                         vm.submission = true;
                         vm.isAdmin = true;
 

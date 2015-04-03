@@ -424,7 +424,7 @@ namespace NancyService.Modules
                                     }).ToList();
 
                     var keysUnused = (from s in context.complementarykeys
-                                      where s.isUsed == true && s.deleted == false
+                                      where s.isUsed == false && s.deleted == false
                                       select new ComplementaryQuery
                                       {
                                           complementarykeyID = s.complementarykeyID,
