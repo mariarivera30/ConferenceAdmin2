@@ -8,7 +8,7 @@
                     <ul class="nav">
 
                         <li ng-show="vm.general" ng-click="selectedTab='general';" ng-class="{active: selectedTab=='general'}"><a href="#/Administrator/GeneralInformation">General</a></li>
-                        <li ng-show=" vm.administrator" ng-click=" selectedtab='home' ;" ng-class="{active: selectedTab=='home'}"><a href="#/Administrator/Home">Home</a></li>
+                        <li ng-hide="vm.administrator" ng-click=" selectedtab='home' ;" ng-class="{active: selectedTab=='home'}"><a href="#/Administrator/Home">Home</a></li>
                         <li ng-show="vm.planning" ng-click="selectedTab='planning';" ng-class="{active: selectedTab=='planning'}"><a href="#/Administrator/PlanningCommittee">Planning Committee</a></li>
                         <li ng-show="vm.venue" ng-click="selectedTab='venue';" ng-class="{active: selectedTab=='venue'}"><a href="#/Administrator/Venue">Venue</a></li>
                         <li ng-show="vm.deadline" ng-click="selectedTab='deadline';" ng-class="{active: selectedTab=='deadline'}"><a href="#/Administrator/Deadlines">Deadlines</a></li>

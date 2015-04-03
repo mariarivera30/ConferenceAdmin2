@@ -21,7 +21,50 @@
         vm.template;
         vm.topicObj = null;
 
+        vm.obj = {
+            title: "",
+            message1: "",
+            message2: "",
+            label: "",
+            okbutton: false,
+            okbuttonText: "",
+            cancelbutton: false,
+            cancelbuttoText: "Cancel",
+        };
+        vm.okFunc;
+        vm.cancelFunc;
 
+
+        vm.toggleModal = function (action) {
+         
+
+            if (action === "missingDoc") {
+
+                vm.obj.title = "Document Requiered",
+                vm.obj.message1 = "A template selection is necessary.",
+
+                vm.obj.message2 = vm.keyPop,
+                vm.obj.label = "",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "OK",
+                vm.obj.cancelbutton = false,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.showConfirmModal = !vm.showConfirmModal;
+                vm.okFunc;
+                vm.cancelFunc;
+
+            }
+            else if (action == "error")
+                vm.obj.title = "Server Error",
+               vm.obj.message1 = "Please refresh the page and try again.",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+        };
         // Functions
         vm.addTemplate = _addTemplate;
         vm.getTemplates = _getTemplates;
@@ -106,11 +149,13 @@
 
         //Download Document
         function _download() {
-            window.open($scope.content);
+            if($scope.content != umdefined && $scope.conten != "")
+                window.open($scope.content);
         }
 
 
         function _addTemplate(File) {
+          
             vm.template.document = $scope.content;
             if ($scope.content !="" && $scope.content != undefined) {
                 vm.template.name = File.name;
@@ -121,7 +166,7 @@
 
                 restApi.addTemplate(vm.template)
                          .success(function (data, status, headers, config) {
-                             if (data != null) {
+                          
                                  vm.template.templateID = data.templateID;
                                  vm.templatesList.push(vm.template);
                                  vm.loadingUpload = false;
@@ -129,12 +174,7 @@
                                  $('#addTemplate').modal('hide');
                                 
 
-                             }
-                             else {
-                                 vm.loadingUpload = false;
-                                 alert("add un alert sexy");
-
-                             }
+                         
 
                          })
 
@@ -142,14 +182,14 @@
                              vm.loadingUpload = false;
                              $('#addTemplate').modal('hide');
                              _clear();
-                             alert("add un aler sexy");
+                             vm.toggleModal('error');
 
                          });
 
             }
 
             else {
-                alert("Añade un template");
+                vm.toggleModal('missingDoc');
             }
 
         }
@@ -162,7 +202,7 @@
                    }).
                    error(function (data, status, headers, config) {
                        vm.templatesList = data;
-                       alert("add un aler sexy");
+                       vm.toggleModal('error');
                        _clear();
                    });
         }
@@ -193,7 +233,7 @@
             }
             )
             .error(function (data, status, headers, config) {
-                alert("add un aler sexy");
+                vm.toggleModal('error');
                 _clear();
                 vm.edit = false;
             });
@@ -215,7 +255,7 @@
             })
 
             .error(function (data, status, headers, config) {
-                alert("add un aler sexy");
+                vm.toggleModal('error');
                 vm.loadingRemoving = false;
                 $('#delete').modal('hide');
             });

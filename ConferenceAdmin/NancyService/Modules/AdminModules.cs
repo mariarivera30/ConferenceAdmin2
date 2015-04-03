@@ -34,7 +34,17 @@ namespace NancyService.Modules
             Post["/addTemplate"] = parameters =>
             {
                 var temp = this.Bind<TemplateManager.templateQuery>();
-                return Response.AsJson(templateManager.addTemplate(temp));
+                TemplateManager.templateQuery result = templateManager.addTemplate(temp);
+                if (result != null)
+                {
+                    return Response.AsJson(result);
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+               
             };
 
             Get["/getTemplatesAdmin"] = parameters =>
@@ -77,7 +87,17 @@ namespace NancyService.Modules
             Post["/addAuthTemplate"] = parameters =>
             {
                 var temp = this.Bind<AuthTemplateManager.templateQuery>();
-                return Response.AsJson(authTemplateManager.addTemplate(temp));
+                AuthTemplateManager.templateQuery result = authTemplateManager.addTemplate(temp);
+                if (result != null)
+                {
+                    return Response.AsJson(result);
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+              
             };
 
             Get["/getAuthTemplatesAdmin"] = parameters =>
