@@ -5,22 +5,29 @@
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$http', 'restApi', profileSubmissionCtrl]);
+        ['$scope', '$http', 'restApi', '$window', profileSubmissionCtrl]);
 
-    function profileSubmissionCtrl($scope, $http, restApi) {
+    function profileSubmissionCtrl($scope, $http, restApi, $window) {
         var vm = this;
 
         vm.activate = activate;
         vm.title = 'profileSubmissionCtrl';
-        var currentUserID = 1;
+        var currentUserID = $window.sessionStorage.getItem('userID');
+        vm.submission;
         vm.submissionID;
         vm.submissionType;
         vm.submissionTypeID;
         vm.submissionTypeName;
         vm.submissionTitle;
+        vm.topiccategoryID;
         vm.status;
+        vm.topicsList;
         vm.isEvaluated;
-        vm.view = "Add";
+        vm.isFinalSubmission;
+        vm.finalSubmissionAllowed;
+        vm.view = "Home";
+        vm.topicObj = null;
+        vm.content;
         //for previous submissions
         vm.hasPrevVersion;
         vm.prevSubmissionID;
@@ -39,6 +46,7 @@
         vm.prevSubIsEvaluated;
         vm.prevPublicFeedback;
 
+
         vm.submissionlist = {};
         vm.submissionTypeList = {}; //= ['Extended Paper', 'Poster', 'Pannel', 'BoF', 'Workshop'];
 
@@ -50,19 +58,87 @@
         vm.deleteSelectedSubmission = _deleteSelectedSubmission;
         vm.deleteSubmission = _deleteSubmission;
         vm.downloadPDFFile = _downloadPDFFile;
+        vm.getTopics = _getTopics;
+        vm.selectedSubmission = _selectedSubmission;
+        vm.viewAdd = _viewAdd;
+        vm.addSubmission = _addSubmission;
 
         _getUserSubmissions(currentUserID);
         _getSubmissionTypes();
+        _getTopics();
 
         //Functions:
-
         function activate() {
-
+            
+        }
+        function _viewAdd() {
+            vm.viewModal = "Add";
+            vm.modalsubmissionID = null;
+            vm.modaluserType = null;
+            vm.modalsubmissionTitle = null;
+            vm.modaltopic = null;
+            vm.modaltopiccategoryID = null;
+            vm.modalsubmissionAbstract = null;
+            vm.modalsubmissionFileList = null;
+            vm.modalsubmissionTypeName = null;
+            vm.modalsubmissionTypeID = null;
+            vm.modalpanelistNames = null;
+            vm.modalplan = null;
+            vm.modalguideQuestions = null;
+            vm.modalformat = null;
+            vm.modalequipment = null;
+            vm.modalduration = null;
+            vm.modaldelivery = null;
+            vm.modalsubIsEvaluated = null;
+            vm.modalpublicFeedback = null;
+            vm.CTYPE = vm.topicsList[0];
+            vm.content = "";
+            $scope.$fileContent = "";
+            if (document.getElementById("documentFile") != undefined) {
+                document.getElementById("documentFile").value = "";
+            }
+            
+            
+            
         }
 
-        function _viewEditForm(submissionTypeName) {
-            vm.view = "Edit";
-            vm.itemSubmissionType = submissionTypeName;
+        function _selectedSubmission(topiccategoryID, action) {
+            vm.topicsList.forEach(function (topic, index) {
+                if (topic.topiccategoryID == topiccategoryID) {
+                    vm.CTYPE = topic;
+                }
+            })            
+        }
+
+        function _viewEditForm(submissionID) {
+            vm.viewModal = "Edit";
+            //vm.itemSubmissionType = submissionTypeName;
+            restApi.getUserSubmission(submissionID).
+                  success(function (data, status, headers, config) {
+                      vm.modalsubmissionID = data.submissionID;
+                      vm.modaluserType = data.userType;
+                      vm.modalsubmissionTitle = data.submissionTitle;
+                      vm.modaltopic = data.topic;
+                      vm.modaltopiccategoryID = data.topiccategoryID;
+                      vm.modalsubmissionAbstract = data.submissionAbstract;
+                      vm.modalsubmissionFileList = data.submissionFileList;
+                      vm.modalsubmissionTypeName = data.submissionType;
+                      vm.modalsubmissionTypeID = data.submissionTypeID;
+                      vm.modalpanelistNames = data.panelistNames;
+                      vm.modalplan = data.plan;
+                      vm.modalguideQuestions = data.guideQuestions;
+                      vm.modalformat = data.format;
+                      vm.modalequipment = data.equipment;
+                      vm.modalduration = data.duration;
+                      vm.modaldelivery = data.delivery;
+                      vm.modalsubIsEvaluated = data.subIsEvaluated;
+                      vm.modalpublicFeedback = data.publicFeedback;      
+              }).
+              error(function (data, status, headers, config) {
+                  // called asynchronously if an error occurs
+                  // or server returns response with an error status.
+                  vm.submissionlist = data;
+              });
         }
 
         function _viewTheView(submissionTypeName, submissionID) {
@@ -74,9 +150,10 @@
                       vm.modaluserType = data.userType;
                       vm.modalsubmissionTitle = data.submissionTitle;
                       vm.modaltopic = data.topic;
+                      vm.modaltopiccategoryID = data.topiccategoryID;
                       vm.modalsubmissionAbstract = data.submissionAbstract;
                       vm.modalsubmissionFileList = data.submissionFileList;
-                      vm.modalsubmissionTypeName = data.submissionTypeName;
+                      vm.modalsubmissionTypeName = data.submissionType;
                       vm.modalsubmissionTypeID = data.submissionTypeID;
                       vm.modalpanelistNames = data.panelistNames;
                       vm.modalplan = data.plan;
@@ -112,7 +189,94 @@
                   });
         }
         function _backToList() {
-            vm.view = "Add";
+            vm.view = "Home";
+        }
+
+        //para preview la imagen
+        $scope.showContent = function ($fileContent) {
+            vm.content = $fileContent;
+        };
+       
+        function _addSubmission(myFile) {           
+            //if evaluating for the first time
+            if (vm.viewModal == "Add") {
+                if (vm.TYPE.submissionTypeID == 1 || vm.TYPE.submissionTypeID == 2 || vm.TYPE.submissionTypeID == 4) {//if paper, poster o bof
+                    var submission = {
+                        submissionID: vm.modalsubmissionID,
+                        userID: currentUserID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
+                        submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle
+                    }
+                }
+                else if (vm.TYPE.submissionTypeID == 3) {//if pannel
+                    var submission = {
+                        submissionID: vm.modalsubmissionID,
+                        userID: currentUserID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
+                        submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, panelistNames: vm.modalpanelistNames,
+                        plan: vm.modalplan, guideQuestion: vm.modalguideQuestions, formatDescription: vm.modalformat, necessaryEquipment: vm.modalequipment
+                    }
+                }
+                else if (vm.TYPE.submissionTypeID == 5) {//if workshops
+                    var submission = {
+                        submissionID: vm.modalsubmissionID,
+                        userID: currentUserID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
+                        submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, plan: vm.modalplan, duration: vm.modalduration,
+                        delivery: vm.modaldelivery, necessary_equipment: vm.modalequipment
+                    }
+                }
+                if (myFile != undefined) {
+                    submission.document = vm.content;
+                    submission.documentName = myFile.name;
+                }
+                restApi.postSubmission(submission)
+                        .success(function (data, status, headers, config) {
+                            vm.submissionlist.push(data);
+                            myFile = null;
+                        })
+                        .error(function (error) {
+
+                        });
+            }
+            else if (vm.viewModal == 'Edit') { //if updating evaluation
+                if (vm.modalsubmissionTypeID == 1 || vm.modalsubmissionTypeID == 2 || vm.modalsubmissionTypeID == 4) {//if paper, poster o bof
+                    var submission = {
+                        submissionID: vm.modalsubmissionID,
+                        userID: currentUserID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.modalsubmissionTypeID,
+                        submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle
+                    }
+                }
+                else if (vm.modalsubmissionTypeID == 3) {//if pannel
+                    var submission = {
+                        submissionID: vm.modalsubmissionID,
+                        userID: currentUserID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.modalsubmissionTypeID,
+                        submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, panelistNames: vm.modalpanelistNames,
+                        plan: vm.modalplan, guideQuestion: vm.modalguideQuestions, formatDescription: vm.modalformat, necessaryEquipment: vm.modalequipment
+                    }
+                }
+                else if (vm.modalsubmissionTypeID == 5) {//if workshops
+                    var submission = {
+                        submissionID: vm.modalsubmissionID,
+                        userID: currentUserID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.modalsubmissionTypeID,
+                        submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, plan: vm.modalplan, duration: vm.modalduration,
+                        delivery: vm.modaldelivery, necessary_equipment: vm.modalequipment
+                    }
+                }
+                if (myFile != undefined) {
+                    submission.document = vm.content;
+                    submission.documentName = myFile.name;
+                }
+                restApi.editSubmission(submission)
+                       .success(function (data, status, headers, config) {
+                           vm.submissionlist.forEach(function (submission, index) {
+                               if (submission.submissionID == vm.modalsubmissionID) {
+                                   submission.submissionTitle = data.submissionTitle;
+                                   myFile = null;
+                               }                               
+                           }
+                       )
+                       })
+                       .error(function (error) {
+                       });
+            }
         }
 
         function getSubmission() {
@@ -138,16 +302,18 @@
         }
 
         function _getUserSubmissions(currentUserID) {
+            vm.uploadingComp = true;
             restApi.getUserSubmissionList(currentUserID).
                    success(function (data, status, headers, config) {
                        // this callback will be called asynchronously
                        // when the response is available
-
+                       vm.uploadingComp = false;
                        vm.submissionlist = data;
                    }).
                    error(function (data, status, headers, config) {
                        // called asynchronously if an error occurs
                        // or server returns response with an error status.
+                       vm.uploadingComp = false;
                        vm.submissionlist = data;
                    });
         }
@@ -156,13 +322,24 @@
             restApi.getSubmissionTypes().
                    success(function (data, status, headers, config) {
                        vm.submissionTypeList = data;
-                       //vm.submissionTypeID = 1
-                       //vm.submissionTypeName = 'Extended Paper';
-                       vm.submissionType = vm.submissionTypeList[0];
+                       if (data != null)
+                           vm.TYPE = vm.submissionTypeList[0];                      
                    }).
                    error(function (data, status, headers, config) {
-                       vm.submissionTypeList = data;
+                       alert("add un alert de submission type list");
                    });
+        }
+
+        function _getTopics() {
+            restApi.getTopics()
+            .success(function (data, status, headers, config) {
+                vm.topicsList = data;
+                if (data != null)
+                    vm.CTYPE = vm.topicsList[0];
+            })
+           .error(function (data, status, headers, config) {
+               alert("add un alert sexy");
+           });
         }
 
         function _downloadPDFFile(document) {

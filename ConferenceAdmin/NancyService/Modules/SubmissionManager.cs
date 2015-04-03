@@ -163,12 +163,12 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     //gets all the evaluations assigned to the given evaluator
-                    List<Submission> assignedSubmissions = context.evaluatiorsubmissions.Where(c => c.evaluator.userID == userID && c.deleted == false).
+                    List<Submission> assignedSubmissions = context.evaluatiorsubmissions.Where(c => c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions1.FirstOrDefault() != null).
                         Select(i => new Submission
                         {
                             submissionID = i.submissionID,
                             evaluatorID = i.evaluatorID,
-                            userType = i.submission.usersubmissions.FirstOrDefault() == null ? null : i.submission.usersubmissions.FirstOrDefault().user.usertype.userTypeName,
+                            userType = i.submission.usersubmissions1.FirstOrDefault() == null ? null : i.submission.usersubmissions1.FirstOrDefault().user.usertype.userTypeName,
                             submissionTitle = i.submission.title,
                             topic = i.submission.topiccategory.name,
                             isEvaluated = (i.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true)
@@ -252,8 +252,10 @@ namespace NancyService.Modules
                             submissionTypeName = i.submission == null ? null : i.submission.submissiontype.name,
                             submissionTypeID = i.submission == null ? -1 : i.submission.submissionTypeID,
                             submissionTitle = i.submission == null ? null : i.submission.title,
+                            topiccategoryID = i.submission == null ? -1 : i.submission.topicID,
                             status = i.submission == null ? null : i.submission.status,
-                            isEvaluated = (i.submission.evaluatiorsubmissions.FirstOrDefault() == null ? null : i.submission.evaluatiorsubmissions.FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false
+                            isEvaluated = (i.submission.evaluatiorsubmissions.FirstOrDefault() == null ? null : i.submission.evaluatiorsubmissions.FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
+                            isFinalSubmission = true
 
                         }).ToList();
                     //get all submissions that do no have a final submission
@@ -264,9 +266,11 @@ namespace NancyService.Modules
                             submissionTypeName = i.submission1 == null ? null : i.submission1.submissiontype.name,
                             submissionTypeID = i.submission1 == null ? -1 : i.submission1.submissionTypeID,
                             submissionTitle = i.submission1 == null ? null : i.submission1.title,
+                            topiccategoryID = i.submission1 == null ? -1 : i.submission1.topicID,
                             status = i.submission1 == null ? null : i.submission1.status,
-                            isEvaluated = (i.submission1.evaluatiorsubmissions.FirstOrDefault() == null ? null : i.submission.evaluatiorsubmissions.FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false
-
+                            isEvaluated = (i.submission1.evaluatiorsubmissions.FirstOrDefault() == null ? null : i.submission1.evaluatiorsubmissions.FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
+                            isFinalSubmission = false,
+                            finalSubmissionAllowed = (i.allowFinalVersion == null ? false : i.allowFinalVersion) == false ? false : true
                         }).ToList();
                     foreach (Submission final in userFinalSubmissions)
                     {
@@ -300,6 +304,7 @@ namespace NancyService.Modules
                             submissionID = sub.submissionID,
                             submissionTitle = sub.title,
                             topic = sub.topiccategory.name,
+                            topiccategoryID = sub.topiccategory.topiccategoryID,
                             submissionAbstract = sub.submissionAbstract,
                             submissionFileList = sub.documentssubmitteds.Where(u => u.deleted == false).
                                 Select(c => new SubmissionDocument
@@ -311,6 +316,7 @@ namespace NancyService.Modules
                                     deleted = c.deleted
                                 }).ToList(),
                             submissionType = sub.submissiontype.name,
+                            submissionTypeID = sub.submissionTypeID,
                             panelistNames = null,
                             plan = null,
                             guideQuestions = null,
@@ -363,6 +369,7 @@ namespace NancyService.Modules
                             submissionID = sub.submissionID,
                             submissionTitle = sub.title,
                             topic = sub.topiccategory.name,
+                            topiccategoryID = sub.topiccategory.topiccategoryID,
                             submissionAbstract = sub.submissionAbstract,
                             submissionFileList = sub.documentssubmitteds.Where(u => u.deleted == false).
                                 Select(c => new SubmissionDocument
@@ -374,6 +381,7 @@ namespace NancyService.Modules
                                     deleted = c.deleted
                                 }).ToList(),
                             submissionType = sub.submissiontype.name,
+                            submissionTypeID = sub.submissionTypeID,
                             panelistNames = (sub.panels.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.panels.Where(y => y.deleted == false).FirstOrDefault().panelistNames),
                             plan = (sub.panels.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.panels.Where(y => y.deleted == false).FirstOrDefault().plan),
                             guideQuestions = (sub.panels.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.panels.Where(y => y.deleted == false).FirstOrDefault().guideQuestion),
@@ -436,6 +444,7 @@ namespace NancyService.Modules
                             submissionID = sub.submissionID,
                             submissionTitle = sub.title,
                             topic = sub.topiccategory.name,
+                            topiccategoryID = sub.topiccategory.topiccategoryID,
                             submissionAbstract = sub.submissionAbstract,
                             submissionFileList = sub.documentssubmitteds.Where(u => u.deleted == false).
                                 Select(c => new SubmissionDocument
@@ -447,6 +456,7 @@ namespace NancyService.Modules
                                     deleted = c.deleted
                                 }).ToList(),
                             submissionType = sub.submissiontype.name,
+                            submissionTypeID = sub.submissionTypeID,
                             panelistNames = null,
                             plan = (sub.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.workshops.Where(y => y.deleted == false).FirstOrDefault().plan),
                             guideQuestions = null,
@@ -583,7 +593,169 @@ namespace NancyService.Modules
                 return false;
             }
         }
+
+        //este metodo no toma en consideracion cuando un admin sube un submission!
+        public Submission addSubmission(usersubmission usersubTA, submission submissionToAdd, documentssubmitted submissionDocuments, panel pannelToAdd, workshop workshopToAdd)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    submission sub = new submission();
+                    //for all types of submissions
+                    //table submission
+                        sub.topicID = submissionToAdd.topicID;
+                        sub.submissionTypeID = submissionToAdd.submissionTypeID;
+                        sub.submissionAbstract = submissionToAdd.submissionAbstract;
+                        sub.title = submissionToAdd.title;
+                        sub.status = "Pending";
+                        sub.creationDate = DateTime.Now;
+                        sub.deleted = false;
+                        sub.byAdmin = false;
+                        context.submissions.Add(sub);
+                        context.SaveChanges();
+                    //table usersubmission
+                        long submissionID = sub.submissionID;
+                        usersubmission usersub = new usersubmission();
+                        usersub.userID = usersubTA.userID;
+                        usersub.initialSubmissionID = submissionID;
+                        usersub.allowFinalVersion = false;
+                        usersub.deleted = false;
+                        usersub.finalSubmissionID = null;
+                        context.usersubmission.Add(usersub);
+                        context.SaveChanges();
+                    //table documents submitted
+                        if (submissionToAdd.submissionTypeID != 4 && submissionDocuments != null)
+                        {
+                            documentssubmitted subDocs = new documentssubmitted();
+                            subDocs.submissionID = submissionID;
+                            subDocs.documentName = submissionDocuments.documentName;
+                            subDocs.document = submissionDocuments.document;
+                            subDocs.deleted = false;
+                            context.documentssubmitteds.Add(subDocs);
+                            context.SaveChanges();
+                        }
+                    //table pannels
+                        if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
+                        {
+                            panel subPanel = new panel();
+                            subPanel.submissionID = submissionID;
+                            subPanel.panelistNames = pannelToAdd.panelistNames;
+                            subPanel.plan = pannelToAdd.plan;
+                            subPanel.guideQuestion = pannelToAdd.guideQuestion;
+                            subPanel.formatDescription = pannelToAdd.formatDescription;
+                            subPanel.necessaryEquipment = pannelToAdd.necessaryEquipment;
+                            subPanel.deleted = false;
+                            context.panels.Add(subPanel);
+                            context.SaveChanges();
+                        }
+                    //table workshop
+                        if (submissionToAdd.submissionTypeID == 5 && workshopToAdd != null)
+                    {
+                        workshop subWorkshop = new workshop();
+                        subWorkshop.submissionID = submissionID;
+                        subWorkshop.duration = workshopToAdd.duration;
+                        subWorkshop.delivery = workshopToAdd.delivery;
+                        subWorkshop.plan = workshopToAdd.plan;
+                        subWorkshop.necessary_equipment = workshopToAdd.necessary_equipment;
+                        subWorkshop.deleted = false;
+                        context.workshops.Add(subWorkshop);
+                        context.SaveChanges();
+                    }
+
+                        Submission addedSub = new Submission 
+                        {
+                            submissionID = submissionID,
+                            submissionTypeName = getSubmissionTypeName(sub.submissionTypeID),
+                            submissionTypeID = sub.submissionTypeID,
+                            submissionTitle = sub.title,
+                            topiccategoryID = sub.topicID,
+                            status = sub.status,
+                            isEvaluated = false,
+                            isFinalSubmission = false
+                        };
+                        return addedSub;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.addSubmission error " + ex);
+                return null;
+            }
+        }
+
+        public Submission editSubmission(submission submissionToEdit, panel pannelToEdit, workshop workshopToEdit)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+
+                    submission sub = context.submissions.Where(c => c.submissionID == submissionToEdit.submissionID).FirstOrDefault();                    
+                    //for all types of submissions
+                    //table submission
+                    sub.topicID = submissionToEdit.topicID;                    
+                    sub.submissionAbstract = submissionToEdit.submissionAbstract;
+                    sub.title = submissionToEdit.title;                    
+                    context.SaveChanges();                   
+                    //table pannels
+                    if (sub.submissionTypeID == 3 && pannelToEdit != null)
+                    {
+                        panel subPanel = context.panels.Where(c => c.submissionID == sub.submissionID).FirstOrDefault();
+                        subPanel.panelistNames = pannelToEdit.panelistNames;
+                        subPanel.plan = pannelToEdit.plan;
+                        subPanel.guideQuestion = pannelToEdit.guideQuestion;
+                        subPanel.formatDescription = pannelToEdit.formatDescription;
+                        subPanel.necessaryEquipment = pannelToEdit.necessaryEquipment;
+                        context.SaveChanges();
+                    }
+                    //table workshop
+                    if (sub.submissionTypeID == 5 && workshopToEdit != null)
+                    {
+                        workshop subWorkshop = context.workshops.Where(c => c.submissionID == sub.submissionID).FirstOrDefault();
+                        subWorkshop.duration = workshopToEdit.duration;
+                        subWorkshop.delivery = workshopToEdit.delivery;
+                        subWorkshop.plan = workshopToEdit.plan;
+                        subWorkshop.necessary_equipment = workshopToEdit.necessary_equipment;
+                        context.SaveChanges();
+                    }
+                    Submission editedSub = new Submission
+                    {
+                        submissionID = sub.submissionID,
+                        submissionTypeName = getSubmissionTypeName(sub.submissionTypeID),
+                        submissionTypeID = sub.submissionTypeID,
+                        submissionTitle = sub.title,
+                        topiccategoryID = sub.topicID
+                    };
+                    return editedSub;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.addEvaluation error " + ex);
+                return null;
+            }
+        }
+
+        public String getSubmissionTypeName(long submissionTypeID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    String submissionTypeName = context.submissiontypes.Where(c => c.submissiontypeID == submissionTypeID).Select(i => i.name).FirstOrDefault();
+                    return submissionTypeName;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.editSubmission error " + ex);
+                return null;
+            }
+        }
     }
+
+
 
     public class SubmissionDocument
     {
@@ -608,8 +780,11 @@ namespace NancyService.Modules
         public int submissionTypeID;
         public String submissionTypeName;
         public String submissionTitle;
+        public int topiccategoryID;
         public String status;
         public bool isEvaluated;
+        public bool isFinalSubmission;
+        public bool finalSubmissionAllowed;
 
         public Submission()
         {
@@ -625,11 +800,13 @@ namespace NancyService.Modules
         public long evaluatorID;
         public String submissionTitle;
         public String topic;
+        public int topiccategoryID;
         public String submitterFirstName;
         public String submitterLastName;
         public String submissionAbstract;
         public List<SubmissionDocument> submissionFileList;
         public String submissionType;
+        public int submissionTypeID;
         public String evaluationTemplate;
         public String panelistNames;
         public String plan;

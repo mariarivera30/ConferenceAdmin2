@@ -5,7 +5,7 @@
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$http', 'restApi','$window', profileEvaluationCtrl]);
+        ['$scope', '$http', 'restApi', '$window', profileEvaluationCtrl]);
 
     function profileEvaluationCtrl($scope, $http, restApi, $window) {
         var vm = this;
@@ -37,11 +37,8 @@
         vm.publicFeedback;
         vm.isEvaluated;
         vm.subIsEvaluated;
-
-        var currentUserID = $window.sessionStorage.getItem('userID');
-
         vm.content;
-
+        var currentUserID = $window.sessionStorage.getItem('userID');
 
 
         vm.modalsubmissionID;

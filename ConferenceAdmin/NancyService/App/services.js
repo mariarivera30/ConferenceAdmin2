@@ -102,6 +102,8 @@
             getUserSubmission: _getUserSubmission,
             getSubmissionTypes: _getSubmissionTypes,
             deleteSubmission: _deleteSubmission,
+            postSubmission: _postSubmission,
+            editSubmission: _editSubmission,
             getProgram: _getProgram,
             saveProgram: _saveProgram,
             getProgramDocument: _getProgramDocument,
@@ -530,6 +532,14 @@
         //delete a submission
         function _deleteSubmission(data) {
             return $http.delete('profile/deleteSubmission/' + data);
+        };
+        //add a submission
+        function _postSubmission(data) {
+            return $http.post('profile/postSubmission', data)
+        };
+
+        function _editSubmission(data) {
+            return $http.put('profile/editSubmission', data)
         };
     }
 }
