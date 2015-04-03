@@ -25,11 +25,9 @@
         activate();
 
         $rootScope.$on('Login', function (data) {
-
-
             vm.messageLogOut = $window.sessionStorage.getItem('email').substring(1, $window.sessionStorage.getItem('email').length - 1);
             vm.showProfile = true;
-
+            vm.showAdminsitrator = data;
         });
 
         $rootScope.$on('Logout', function (data) {
@@ -72,7 +70,7 @@
 
                     if (claim.localeCompare('admin') == 0 || claim.localeCompare('master') == 0 ||
                         claim.localeCompare('adminFinance') == 0 || claim.localeCompare('adminCommittee') == 0) {
-
+                        vm.showAdminsitrator = true;
                     }
 
                 });

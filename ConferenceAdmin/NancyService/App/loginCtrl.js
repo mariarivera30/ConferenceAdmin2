@@ -167,7 +167,8 @@
                        $window.sessionStorage.setItem('claims', JSON.stringify(data.userClaims));
                        $window.sessionStorage.setItem('userID', JSON.stringify(data.userID));
                        $window.sessionStorage.setItem('email', JSON.stringify(data.email));
-                       $rootScope.$emit('Login', { hideAlias: true });
+
+                     
                        vm.uploadingComp = false;
                        data.userClaims.forEach(function (claim) {
                            if (claim.localeCompare('adminFinance') == 0 || claim.localeCompare('adminCommittee') == 0) {
@@ -176,11 +177,14 @@
                                else {
                                    $location.path('/Administrator/GeneralInformation');
                                }
-
+                               vm.isAdmin = true;
+                               $rootScope.$emit('Login', event, isAdmin);
                            }
 
                            else if (claim.localeCompare('minor') == 0 || claim.localeCompare('companion') == 0 || claim.localeCompare('participant') == 0 || claim.localeCompare('evaluator') == 0) {
                                $location.path('/Profile/GeneralInformation');
+                               vm.isAdmin = false;
+                               $rootScope.$emit('Login', event, isAdmin);
                                return;
                            }
 
