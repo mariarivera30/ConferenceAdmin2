@@ -321,7 +321,7 @@ namespace NancyService.Modules
 
         }
 
-        public bool updateSponsor(SponsorQuery x)
+        public SponsorQuery updateSponsor(SponsorQuery x)
         {
             try
             {
@@ -357,14 +357,18 @@ namespace NancyService.Modules
                         address.line2 = x.line2;
 
                         context.SaveChanges();
+                        x.addressID = address.addressID;
+                        x.paymentID = payment.paymentID;
+
                     }
-                    return true;
+                 
+                    return x;
                 }
             }
             catch (Exception ex)
             {
                 Console.Write("SponsorManager.updateTopic error " + ex);
-                return false;
+                return null;
             }
         }
         public bool deleteSponsor(long x)
@@ -420,7 +424,6 @@ namespace NancyService.Modules
                                     }).ToList();
 
                     var keysUnused = (from s in context.complementarykeys
-                                      from pay in context.paymentcomplementaries
                                       where s.isUsed == true && s.deleted == false
                                       select new ComplementaryQuery
                                       {

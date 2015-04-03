@@ -4,31 +4,31 @@
             <h2 class="section-title">Administrator Settings</h2>
             <div class="vertical-tabs-left">
                 <div class="vertical-tab-list">
-                    <h5 ng-show="{{vm.reports}}" class="title-centered">Website Content</h5>
+                    <h5 ng-show="vm.reports" class="title-centered">Website Content</h5>
                     <ul class="nav">
-                        <li ng-show="{{vm.general}}" ng-click="selectedTab='general';" ng-class="{active: selectedTab=='general'}"><a href="#/Administrator/GeneralInformation">General</a></li>
-                        <li ng-click="selectedTab='home';" ng-class="{active: selectedTab=='home'}"><a href="#/Administrator/Home">Home</a></li>
-                        <li ng-show="{{vm.planning}}" ng-click="selectedTab='planning';" ng-class="{active: selectedTab=='planning'}"><a href="#/Administrator/PlanningCommittee">Planning Committee</a></li>
-                        <li ng-show="{{vm.venue}}" ng-click="selectedTab='venue';" ng-class="{active: selectedTab=='venue'}"><a href="#/Administrator/Venue">Venue</a></li>
-                        <li ng-show="{{vm.deadline}}" ng-click="selectedTab='deadline';" ng-class="{active: selectedTab=='deadline'}"><a href="#/Administrator/Deadlines">Deadlines</a></li>
-                        <li ng-show="{{vm.registrationInt}}" ng-click="selectedTab='registrationInt';" ng-class="{active: selectedTab=='registrationInt'}"><a href="#/Administrator/RegistrationForm">Registration</a></li>
-                        <li ng-show="{{vm.participation}}" ng-click="selectedTab='participation';" ng-class="{active: selectedTab=='participation'}"><a href="#/Administrator/Participation">Call for Participation</a></li>
-                        <li ng-show="{{vm.sponsorsInt}}" ng-click="selectedTab='sponsorsInt';" ng-class="{active: selectedTab=='sponsorsInt'}"><a href="#/Administrator/Sponsors">Sponsors</a></li>
-                        <li ng-show="{{vm.contact}}" ng-click="selectedTab='contact';" ng-class="{active: selectedTab=='contact'}"><a href="#/Administrator/Contact">Contact</a></li>
+                        <li ng-show="vm.general" ng-click="selectedTab='general';" ng-class="{active: selectedTab=='general'}"><a href="#/Administrator/GeneralInformation">General</a></li>
+                        <li ng-show=" vm.administrator" ng-click=" selectedtab='home' ;" ng-class="{active: selectedTab=='home'}"><a href="#/Administrator/Home">Home</a></li>
+                        <li ng-show="vm.planning" ng-click="selectedTab='planning';" ng-class="{active: selectedTab=='planning'}"><a href="#/Administrator/PlanningCommittee">Planning Committee</a></li>
+                        <li ng-show="vm.venue" ng-click="selectedTab='venue';" ng-class="{active: selectedTab=='venue'}"><a href="#/Administrator/Venue">Venue</a></li>
+                        <li ng-show="vm.deadline" ng-click="selectedTab='deadline';" ng-class="{active: selectedTab=='deadline'}"><a href="#/Administrator/Deadlines">Deadlines</a></li>
+                        <li ng-show="vm.registrationInt" ng-click="selectedTab='registrationInt';" ng-class="{active: selectedTab=='registrationInt'}"><a href="#/Administrator/RegistrationForm">Registration</a></li>
+                        <li ng-show="vm.participation" ng-click="selectedTab='participation';" ng-class="{active: selectedTab=='participation'}"><a href="#/Administrator/Participation">Call for Participation</a></li>
+                        <li ng-show="vm.sponsorsInt" ng-click="selectedTab='sponsorsInt';" ng-class="{active: selectedTab=='sponsorsInt'}"><a href="#/Administrator/Sponsors">Sponsors</a></li>
+                        <li ng-show="vm.contact" ng-click="selectedTab='contact';" ng-class="{active: selectedTab=='contact'}"><a href="#/Administrator/Contact">Contact</a></li>
                     </ul>
                     <h5 class="title-centered">Conference Management</h5>
                     <ul class="nav">
-                        <li ng-show="{{vm.committeeManage}}" ng-click="selectedTab='committeeManage';" ng-class="{active: selectedTab=='committeeManage'}"><a href="#/Administrator/ManageAdministrators">Administrators</a></li>
-                        <li ng-click="selectedTab='evaluators';" ng-class="{active: selectedTab=='evaluators'}"><a href="#/Administrator/ManageEvaluators">Evaluators</a></li>
-                        <li ng-show="{{vm.topic}}" ng-click="selectedTab='topic';" ng-class="{active: selectedTab=='topic'}"><a href="#/Administrator/ManageTopics">Topics</a></li>
-                        <li ng-show="{{vm.registrationList}}" ng-click="selectedTab='registrationList';" ng-class="{active: selectedTab=='registrationList'}"><a href="#/Administrator/RegistrationList">Registration List</a></li>
-                        <li ng-show="{{vm.guest}}" ng-click="selectedTab='guest';" ng-class="{active: selectedTab=='guest'}"><a href="#/Administrator/ManageGuests">Guests</a></li>
-                        <li ng-show="{{vm.submissions}}" ng-click="selectedTab='submissions';" ng-class="{active: selectedTab=='submissions'}"><a href="#/Administrator/ManageSubmissions">Submissions</a></li>
-                        <li ng-show="{{vm.sponsors}}" ng-click="selectedTab='sponsors';" ng-class="{active: selectedTab=='sponsors'}"><a href="#/Administrator/ManageSponsors">Sponsors</a></li>
-                        <li ng-show="{{vm.templates}}" ng-click="selectedTab='templates';" ng-class="{active: selectedTab=='templates'}"><a href="#/Administrator/ManageTemplates">Templates</a></li>
-                        <li ng-show="{{vm.authTemplates}}" ng-click="selectedTab='authTemplates';" ng-class="{active: selectedTab=='authTemplates'}"><a href="#/Administrator/ManageAuthTemplates">Authorization Templates</a></li>
-                        <li ng-show="{{vm.keyCodes}}" ng-click="selectedTab='keyCodes';" ng-class="{active: selectedTab=='keyCodes'}"><a href="#/Administrator/ManageKeyCodes">Key Codes</a></li>
-                        <li ng-show="{{vm.reports}}" ng-click="selectedTab='reports';" ng-class="{active: selectedTab=='reports'}"><a href="#/Administrator/Reports">Reports</a></li>
+                        <li ng-show="vm.committeeManage" ng-click="selectedTab='committeeManage';" ng-class="{active: selectedTab=='committeeManage'}"><a href="#/Administrator/ManageAdministrators">Administrators</a></li>
+                        <li ng-show=" vm.evaluators" ng-click=" selectedtab='evaluators' ;" ng-class="{active: selectedTab=='evaluators'}"><a href="#/Administrator/ManageEvaluators">Evaluators</a></li>
+                        <li ng-show="vm.topic" ng-click="selectedTab='topic';" ng-class="{active: selectedTab=='topic'}"><a href="#/Administrator/ManageTopics">Topics</a></li>
+                        <li ng-show="vm.registrationList" ng-click="selectedTab='registrationList';" ng-class="{active: selectedTab=='registrationList'}"><a href="#/Administrator/RegistrationList">Registration List</a></li>
+                        <li ng-show="vm.guest" ng-click="selectedTab='guest';" ng-class="{active: selectedTab=='guest'}"><a href="#/Administrator/ManageGuests">Guests</a></li>
+                        <li ng-show="vm.submissions" ng-click="selectedTab='submissions';" ng-class="{active: selectedTab=='submissions'}"><a href="#/Administrator/ManageSubmissions">Submissions</a></li>
+                        <li ng-show="vm.sponsors" ng-click="selectedTab='sponsors';" ng-class="{active: selectedTab=='sponsors'}"><a href="#/Administrator/ManageSponsors">Sponsors</a></li>
+                        <li ng-show="vm.templates" ng-click="selectedTab='templates';" ng-class="{active: selectedTab=='templates'}"><a href="#/Administrator/ManageTemplates">Templates</a></li>
+                        <li ng-show="vm.authTemplates" ng-click="selectedTab='authTemplates';" ng-class="{active: selectedTab=='authTemplates'}"><a href="#/Administrator/ManageAuthTemplates">Authorization Templates</a></li>
+                        <li ng-show="vm.keyCodes" ng-click="selectedTab='keyCodes';" ng-class="{active: selectedTab=='keyCodes'}"><a href="#/Administrator/ManageKeyCodes">Key Codes</a></li>
+                        <li ng-show="vm.reports" ng-click="selectedTab='reports';" ng-class="{active: selectedTab=='reports'}"><a href="#/Administrator/Reports">Reports</a></li>
                     </ul>
 
                 </div> <!-- vertical-tab-list -->

@@ -181,7 +181,7 @@ namespace NancyService.Modules
         }
 
 
-        public UserCreation requestPass(string email)
+        public String requestPass(string email)
         {
             using (conferenceadminContext context = new conferenceadminContext())
             {
@@ -200,12 +200,12 @@ namespace NancyService.Modules
                         u.membershipID = member.membershipID;
                         context.SaveChanges();
                         sendTemporaryPassword(u.email, tempPass);
-                        return u;
+                        return "changed";
                     }
 
                     else
                     {
-                        return null;
+                        return "";
                     }
 
 
@@ -219,7 +219,7 @@ namespace NancyService.Modules
 
         }
 
-        public bool checkEmail(string email)
+        public string checkEmail(string email)
         {
 
 
@@ -229,23 +229,29 @@ namespace NancyService.Modules
                 try
                 {
                     var user = (from m in context.memberships
-                                where (m.email.Equals(email) && m.deleted == false)
+                                where (m.email.Equals(email)  && m.deleted == false)
                                 select m).FirstOrDefault();
                     if (user != null)
                     {
-                        return true;
+                        if (user.emailConfirmation == true)
+                        {
+                            return "confirmed";
+                        }
+                        else 
+                        {
+                            sendEmailConfirmation(user.email, user.confirmationKey);
+                            return "notconfirmed";
+                        }
+
                     }
 
-                    else
-                    {
-                        return false;
-                    }
+                    else { return ""; }
 
                 }
                 catch (Exception ex)
                 {
                     Console.Write("SponsorManager.getSponsor error " + ex);
-                    return false;
+                    return null;
                 }
             }
 

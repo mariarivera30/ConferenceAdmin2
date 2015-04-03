@@ -79,6 +79,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App\adminAuthTemplatesCtrl.js" />
     <Content Include="App\adminCtrl.js" />
     <Content Include="App\administratorCtrl.js" />
     <Content Include="App\adminTemplateCtrl.js" />
@@ -94,6 +95,7 @@
     <Content Include="App\generalInfoCtrl.js" />
     <Content Include="App\guestCtrl.js" />
     <Content Include="App\homeCtrl.js" />
+    <Content Include="App\modalController-Directive.js" />
     <Content Include="App\participationInformation.js" />
     <Content Include="App\profileEvaluationCtrl.js" />
     <Content Include="App\profileStatusCtrl.js" />
@@ -141,6 +143,7 @@
     <Content Include="Views\admin_generalInformation.html" />
     <Content Include="Views\admin_home.html" />
     <Content Include="Views\admin_manageadministrators.html" />
+    <Content Include="Views\admin_manageAuthorizationTemplate.html" />
     <Content Include="Views\admin_managecommittee.html" />
     <Content Include="Views\admin_manageevaluators.html" />
     <Content Include="Views\admin_manageguests.html" />
@@ -166,6 +169,8 @@
     <Content Include="Views\admin_planningcommittee.html" />
     <Content Include="Views\admin_managesponsors.html" />
     <Content Include="Views\login2.html" />
+    <Content Include="Views\Modal.html" />
+    <Content Include="Views\modalButtons.html" />
     <Content Include="Views\profile_application.html" />
     <Content Include="Views\changePassword.html" />
     <Content Include="Views\registration_form.html" />
@@ -1434,6 +1439,7 @@
     <Compile Include="Models\workshop.cs" />
     <Compile Include="Modules\AdminManager.cs" />
     <Compile Include="Modules\AdminModules.cs" />
+    <Compile Include="Modules\AuthTemplateManager.cs" />
     <Compile Include="Modules\EvaluatorManager.cs" />
     <Compile Include="Modules\GuestManager.cs" />
     <Compile Include="Modules\IndexModule.cs" />
@@ -1500,7 +1506,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:12031/</IISUrl>
+          <IISUrl>http://localhost:12036/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -142,8 +142,8 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="after-title-field black-label" for="">Password<sup>*</sup></label>
-                    <input type="password" class="form-control" name="password" ng-model="vm.user.password" required>
-                    <p ng-show="signForm.password.$invalid && !signForm.password.$pristine" class="help-block">Password is required.</p>
+                    <input type="password" class="form-control" name="password" ng-model="vm.user.password" ng-minlength="8" ng-maxlength="15" required>
+                    <p ng-show="signForm.password.$invalid && !signForm.password.$pristine" class="help-block">Password is required minimun Lenght 8 and maximun lenght 15 characters.</p>
                 </div>
             </div>
 
@@ -152,9 +152,9 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="after-title-field black-label" for="">Confirm Password<sup>*</sup></label>
-                    <input type="password" class="form-control" name="Confirm" ng-model="vm.user.confirm" required>
-                    <p ng-show="vm.user.confirm != vm.user.password">Passwords do not match.</p>
-                    <p ng-show="signForm.Confirm.$invalid && !signForm.Confirm.$pristine" class="help-block">Password confirmation is required.</p>
+                    <input type="password" class="form-control" name="Confirm" ng-model="vm.user.confirm" ng-minlength="8" ng-maxlength="15" required>
+                    <p ng-show=" vm.user.confirm !=vm.user.password">Passwords do not match.</p>
+                    <p ng-show="signForm.Confirm.$invalid && !signForm.Confirm.$pristine" class="help-block" >Password confirmation is required.</p>
                 </div>
             </div>
 
@@ -173,4 +173,7 @@
             </div>
         </div>
     </form>
+    <div class="col-lg-6">
+        <modal source="vm.obj" visible="vm.showConfirmModal"></modal>
+    </div>
 </div>

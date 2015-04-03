@@ -222,10 +222,10 @@ namespace NancyService.Modules
             Put["/updateSponsor"] = parameters =>
             {
                 var sponsor = this.Bind<NancyService.Modules.SponsorManager.SponsorQuery>();
-
-                if (sponsorManager.updateSponsor(sponsor))
+               SponsorManager.SponsorQuery s =sponsorManager.updateSponsor(sponsor);
+                if (s != null)
                 {
-                    return HttpStatusCode.OK;
+                    return Response.AsJson(s); 
                 }
 
                 else

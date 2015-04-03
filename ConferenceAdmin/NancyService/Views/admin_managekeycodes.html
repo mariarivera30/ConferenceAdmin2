@@ -9,13 +9,13 @@
                     <td><b>Key Code</b></td>
                     <td><b>Used</b></td>
                     <td><b>Used by</b></td>
-                    <td><b> <a href="" ng-click="vm.deleteSponsorComplemetaryKey()">Remove All</b></td>
+                    <td><b> <a href="" ng-click="vm.toggleModal('removeKeys');" >Remove All</b></td>
                 </tr>
                 <tr ng-repeat="key in  vm.sponsorKeys">
                     <td>{{key.key}}</td>
                     <td>{{key.isUsed}}</td>
                     <td>{{key.name}}</td>
-                    <td><a href="" ng-click="vm.selectedKey(key);vm.deleteComplemetaryKey()" ng-hide="key.isUsed">Deactivate</a></td>
+                    <td><a href="" ng-click="vm.selectedKey(key); vm.toggleModal('removeKey');" ng-hide="key.isUsed">Deactivate</a></td>
                 </tr>
             </table><br /><br />
             <div class="col-lg-12" ng-show="vm.loadingRemovingComp">
@@ -75,5 +75,8 @@
 
         </div>
 
+    </div>
+    <div class="col-lg-6">
+        <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
     </div>
 </div>

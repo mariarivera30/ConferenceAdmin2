@@ -46,19 +46,47 @@ namespace NancyService.Modules
             Get["/accountConfirmation/{key}"] = parameters =>
             {
                 string key = parameters.key;
-                return Response.AsJson(signUp.confirmAccount(key));
+                NancyService.Modules.SignUpManager.UserCreation result = signUp.confirmAccount(key);
+
+                if (result != null)
+                    return Response.AsJson(result);
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+               
 
             };
             Get["/checkEmail/{email}"] = parameters =>
             {
                 string email = parameters.email;
-                return Response.AsJson(signUp.checkEmail(email));
+                String result = signUp.checkEmail(email);
+
+                if (result != null) 
+                     return Response.AsJson(result);
+
+                else { 
+                    return HttpStatusCode.Conflict; 
+                }
 
             };
+
+            
             Get["/requestPass/{email}"] = parameters =>
             {
                 string email = parameters.email;
-                return Response.AsJson(signUp.requestPass(email));
+
+                String result = signUp.requestPass(email);
+
+                if (result != null)
+                    return Response.AsJson(result);
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+               
 
             };
 

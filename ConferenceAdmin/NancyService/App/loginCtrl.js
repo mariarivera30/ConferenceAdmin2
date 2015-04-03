@@ -19,6 +19,16 @@
         vm.password;
         vm.token;
         vm.profileButton = false;
+        vm.obj = {
+            title: "",
+            message1: "",
+            message2: "",
+            label: "",
+            okbutton: false,
+            okbuttonText: "",
+            cancelbutton: false,
+            cancelbuttoText: "Cancel",
+        };
 
 
 
@@ -31,6 +41,48 @@
         vm.logout = _logout;
         vm.signUp = _signUp;
         vm.loginIfEmail = _loginIfEmail;
+
+        //alerts Directive
+ 
+
+        vm.toggleModal = function (action) {
+            if (action ==="confirm") {
+              
+                vm.obj.title ="Account Confirmation",
+                vm.obj.message1 = "Congratulation your account was confirmed!",
+                vm.obj.message2 = "",
+                vm.obj.label = "",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "OK",
+                vm.obj.cancelbutton = false,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.showConfirmModal = !vm.showConfirmModal;
+
+            }
+            if (action === "makeConfirmation") {
+
+                vm.obj.title = "Next Step Account Confirmation",
+                vm.obj.message1 = "Please check you email to confirm your account!",
+                vm.obj.message2 = vm.user.email,
+                vm.obj.label = "Email",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "OK",
+                vm.obj.cancelbutton = false,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.showConfirmModal = !vm.showConfirmModal;
+
+            }
+            else if (action == "error")
+                vm.obj.title = "Server Error",
+               vm.obj.message1 = "Please refresh the page and try again.",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+        };
 
         activate();
 
@@ -47,7 +99,8 @@
         }
         function _logout() {
             $rootScope.$emit('Logout', { hideAlias: true });
-
+           
+            
             $window.sessionStorage.clear();
             vm.loged = false;
             $location.path('/Home');
@@ -59,21 +112,30 @@
                        if (data == "") {
                            vm.message = "Please verify your confirmation Key.";
                            vm.keyConfirmation = "";
+                     
+                          
                        }
                        else {
-                           alert("Congratulations your account has been confirmed");
+                           vm.toggleModal("confirm");
                            $location.path("/Login/Log");
                        }
                    }).
                    error(function (data, status, headers, config) {
-
+                       vm.toggleModal("error");
                    });
         }
         function _loginIfEmail() {
+            vm.uploadingComp = true;
             restApi.checkEmail(vm.email).
                   success(function (data, status, headers, config) {
-                      if (!data) {
+                      if (data =="") {
                           vm.message = "This email is not registered.";
+                          vm.uploadingComp = false;
+                          return;
+                      }
+                      else if (data == "notconfirmed") {
+                          vm.message = "Please verify your email to confirm your account before login.";
+                          vm.uploadingComp = false;
                           return;
                       }
                       else {
@@ -85,18 +147,19 @@
 
                   }).
                   error(function (data, status, headers, config) {
-
+                      vm.toggleModal("error");
+                      vm.uploadingComp = false;
                   });
 
         }
 
 
         function _login() {
+          
             restApi.login(vm)
                    .success(function (data, status, headers, config) {
 
                        // emit the new hideAlias value
-
 
                        $http.defaults.headers.common.Authorization = 'Token ' + data.token;
                        //localStorageService.set('token', data.token);
@@ -105,7 +168,7 @@
                        $window.sessionStorage.setItem('userID', JSON.stringify(data.userID));
                        $window.sessionStorage.setItem('email', JSON.stringify(data.email));
                        $rootScope.$emit('Login', { hideAlias: true });
-
+                       vm.uploadingComp = false;
                        data.userClaims.forEach(function (claim) {
                            if (claim.localeCompare('adminFinance') == 0 || claim.localeCompare('adminCommittee') == 0) {
                                if (claim.localeCompare('adminCommittee') == 0)
@@ -123,7 +186,7 @@
 
 
                        });
-
+                     
 
                    })
 
@@ -134,6 +197,7 @@
                        vm.message = "Wrong email or password please try again";
                        vm.email = "";
                        vm.password = "";
+                       vm.uploadingComp = false;
                    });
 
         }
@@ -157,8 +221,8 @@
             vm.creatingUser = true;
             restApi.checkEmail(vm.user.email).
                    success(function (data, status, headers, config) {
-                       if (data) {
-                           vm.message = "This email is registered";
+                       if (data != "") {
+                           vm.message = "This email is used.";
                        }
                        else {
 
@@ -169,7 +233,8 @@
 
                    }).
                    error(function (data, status, headers, config) {
-                       alert("ERROR: Server please try again.")
+                       vm.toggleModal();
+                       vm.toggleModal("error");
                        vm.creatingUser = false
                    });
         }
@@ -183,8 +248,7 @@
                        // this callback will be called asynchronously
                        // when the response is available
                        vm.creatingUser = false;
-                       alert("Next step confirm your email account");
-
+                       vm.toggleModal("makeConfirmation");
                        $location.path('/Login/Log');
 
 
@@ -192,7 +256,7 @@
                    error(function (data, status, headers, config) {
                        // called asynchronously if an error occurs
                        // or server returns response with an error status.
-                       alert("Server Error please try again.");
+                       vm.toggleModal("error");
 
                    });
         }

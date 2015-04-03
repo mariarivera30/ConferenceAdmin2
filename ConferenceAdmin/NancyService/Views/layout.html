@@ -78,6 +78,8 @@
     <script src="/App/ushersCtrl.js"></script>
     <script src="/App/requestPassCtrl.js"></script>
     <script src="/App/adminAuthTemplatesCtrl.js"></script>
+    <script src="/App/modalController-Directive.js"></script>
+  
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -97,7 +99,7 @@
                 <div class="container">
                     <div class="header-full-title">
                         <h1 class="animated fadeInRight"><a href="index.html"><span>CCWiC</span></a></h1>
-                        <p class="animated fadeInRight">Caribbean Celebration of Women in Computing</p>
+                        <p class="animated fadeInRight">{{vm.header}}</p>
                     </div>
                     <nav class="top-nav">
                         <ul class="top-nav-social hidden-sm">
@@ -173,21 +175,25 @@
                 </div><!-- container -->
             </nav>
 
-            <div id="content" class="container">
+            <div id="content" class="container" >
 
+                <div class="row " style="min-height:550px">
 
-                <div ui-view="dynamic" autoscroll="false">
-                    <!-- section -->
+                    <div ui-view=" dynamic" autoscroll=" false">
+                        <!-- section -->
+
+                    </div>
                 </div>
+                <div class="row ">
+                    <div id="content" class="noPrint ">
 
-                <div id="content" class="noPrint">
-
-                    <div ui-view="banner" autoscroll="false" class="margin-fix-banner">
+                        <div ui-view="banner" autoscroll="false" class="margin-fix-banner ">
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <footer id="footer" class="noPrint">
+            <footer id="footer" class="noPrint row">
                 <p>&copy; 2014 <a href="#">Artificial Reason</a>, inc. All rights reserved.</p>
             </footer>
 

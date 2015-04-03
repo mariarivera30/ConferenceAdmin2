@@ -35,6 +35,7 @@
         vm.authTemplates = false;//committe,admin,
         vm.keyCodes = false;
         vm.reports = false;
+        vm.administrator = false;
         vm.isAdmin = false;
 
 
@@ -52,9 +53,11 @@
        
             list.forEach(function (claim) {
 
+                if (claim.localeCompare('Master') == 0) {
+                    vm.administrator = true;
+                }
 
-
-                if (claim.localeCompare('Admin') == 0) {
+                if (claim.localeCompare('Admin') == 0 || claim.localeCompare('Master') == 0) {
                     //Website content tabs
                     vm.participation = true;
                     vm.general = true;
@@ -78,6 +81,7 @@
                     vm.keyCodes = true;
                     vm.reports = true;
                     vm.isAdmin = true;
+                    vm.evaluators = true;
 
                 }
                 if (claim.localeCompare('Finance') == 0) {
@@ -111,6 +115,7 @@
                     vm.topic = true; //committe,admin,
                     vm.participation = false;
                     vm.isAdmin = true;
+                    vm.evaluators = true;
                 }
 
 

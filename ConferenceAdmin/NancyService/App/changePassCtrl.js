@@ -18,7 +18,56 @@
             newPassConfirm: "",
             email: ""
         };
+        vm.obj = {
+            title: "",
+            message1: "",
+            message2: "",
+            label: "",
+            okbutton: false,
+            okbuttonText: "",
+            cancelbutton: false,
+            cancelbuttoText: "Cancel",
+        };
 
+        vm.toggleModal = function (action) {
+          
+            if (action === "changed") {
+
+                vm.obj.title = "Your Password was changed!",
+                vm.obj.message1 = "Please Login!",
+                vm.obj.message2 = vm.credentials,
+                vm.obj.label = "Email",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "OK",
+                vm.obj.cancelbutton = false,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.showConfirmModal = !vm.showConfirmModal;
+
+            }
+            if (action === "notchanged") {
+
+                vm.obj.title = "Your Password cannot be changed!",
+                vm.obj.message1 = "Please Login!",
+                vm.obj.message2 = vm.credentials,
+                vm.obj.label = "Email",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "OK",
+                vm.obj.cancelbutton = false,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.showConfirmModal = !vm.showConfirmModal;
+
+            }
+            else if (action == "error")
+                vm.obj.title = "Server Error",
+               vm.obj.message1 = "Please refresh the page and try again.",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+        };
         //Functions
         vm.changePassword= _changePassword;
 
@@ -31,13 +80,13 @@
             restApi.changePassword(vm.credentials)
             .success(function (data, status, headers, config) {
                 if (data != null && data != "") {
-                    alert("Your Password was changed!");
+                    vm.toggleModal('changed');
                     $location.path("/Login/Log");
                     //_login();
                 }
 
                 else {
-                    alert("Your Password cannot be changed please verify your email acccount!");
+                    vm.toggleModal('notchanged');
                     //hacer login automatico
 
 
@@ -47,7 +96,7 @@
             })
 
             .error(function (data, status, headers, config) {
-                alert("Server ERROR: Please try again.");
+                vm.toggleModal('error');
               
 
             });

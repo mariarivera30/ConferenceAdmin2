@@ -22,7 +22,44 @@
         vm.message = "";
 
 
+        vm.obj = {
+            title: "",
+            message1: "",
+            message2: "",
+            label: "",
+            okbutton: false,
+            okbuttonText: "",
+            cancelbutton: false,
+            cancelbuttoText: "Cancel",
+        };
 
+        vm.toggleModal = function (action) {
+
+            if (action == "changed") {
+
+                vm.obj.title = "Reset Password",
+                vm.obj.message1 = "Your temporary Password was send to your email!",
+                vm.obj.message2 = vm.email,
+                vm.obj.label = "Email",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "OK",
+                vm.obj.cancelbutton = false,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.showConfirmModal = !vm.showConfirmModal;
+
+            }
+       
+            else if (action == "error")
+                vm.obj.title = "Server Error",
+               vm.obj.message1 = "Please refresh the page and try again.",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+        };
 
         // Functions
 
@@ -38,20 +75,24 @@
         function _checkEmail() {
             restApi.checkEmail(vm.email).
                    success(function (data, status, headers, config) {
-                       if (data == false) {
-                          vm.message ="This email is not registered."
+                       if (data == "") {
+                           vm.message = "This email is not registered."
                            vm.emailExist = false;
-                          
                        }
-                       else {
+                       else if (data == "confirmed") {
                            vm.emailExist = true;
                            _requestPass();
+                       }
+                       else if (data == "notconfirmed") {
+                           vm.emailExist = true;
+                           vm.message = "You account need to be confirmed."
+                          
+                       }
                        
-                        }
 
                    }).
                    error(function (data, status, headers, config) {
-
+                       vm.toggleModal('error');
                    });
         }
 
@@ -60,11 +101,12 @@
             if (vm.emailExist) {
                 restApi.requestPass(vm.email).
                        success(function (data, status, headers, config) {
-                           alert("Your temporary password has been sent to " + vm.email);
+                           vm.toggleModal('changed');
+                     
                            $location.path("/Login/Log");
                        }).
                        error(function (data, status, headers, config) {
-
+                           vm.toggleModal('error');
                        });
             }
 
@@ -84,6 +126,7 @@
                        // called asynchronously if an error occurs
                        // or server returns response with an error status.
                        vm.userTypeList = data;
+                       vm.toggleModal('error');
                    });
         }
 

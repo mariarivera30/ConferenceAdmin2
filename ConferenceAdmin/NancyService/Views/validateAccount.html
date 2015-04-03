@@ -4,7 +4,7 @@
             <div class="text-center title-logo animated fadeInDown animation-delay-5"><span>CCWiC</span></div>
             <div class="transparent-div no-padding animated fadeInUp animation-delay-8">
                 <ul class="nav nav-tabs nav-tabs-transparent">
-                    <li><a href="#/Login/Recover" data-toggle="tab">Account Confirmation</a></li>
+                    <li><a >Account Confirmation</a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -21,8 +21,8 @@
                                             <p ng-show="validateForm.key.$invalid && !validateForm.key.$pristine" class="help-block">
 </div>
                                     {{vm.message}}
-                                    <button type="submit" class="btn btn-ar btn-primary pull-right" ng-click="vm.validate()"  ng-disabled="validateForm.$invalid">Confirm</button>
-                                   
+                                    <button type="submit" class="btn btn-ar btn-primary pull-right" ng-click="vm.validate();" ng-disabled="validateForm.$invalid">Confirm</button>
+ 
                                 </div>
                             </div>
                         </form>
@@ -31,6 +31,13 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-6">
+            <modal source="vm.obj" visible="vm.showConfirmModal"></modal>
+        </div>
+
     </div>
 </div>
 

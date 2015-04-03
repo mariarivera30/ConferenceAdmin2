@@ -33,6 +33,14 @@
 
         });
 
+        $rootScope.$on('headerPage', function (event,hideAlias) {
+
+            vm.conferenceName = hideAlias;
+           
+
+        });
+
+
         function activate() {
 
             _tabViewControl();

@@ -18,7 +18,7 @@
 
                 <td data-toggle="modal" data-target="#addSponsor" ng-click="vm.selectedSponsor(sponsor);vm.editValues()"><a href="">Edit</a></td>
                 <td data-toggle="modal" data-target="#complementary" ng-click="vm.complementaryValues(sponsor)"><a href="">Complementary Keys</a></td>
-                <td><a href="" ng-hide="sponsor.sponsorID == 1" data-toggle="modal" data-target="#delete" ng-click="vm.selectedSponsor(sponsor)"><i ng-hide="sponsor.sponsorID == 1" class="glyphicon glyphicon-remove"></i></a></td>
+                <td><a href="" ng-hide="sponsor.sponsorID == 1" data-toggle="modal" ng-click="vm.selectedSponsor(sponsor);vm.toggleModal('remove');"><i ng-hide="sponsor.sponsorID == 1" class="glyphicon glyphicon-remove"></i></a></td>
             </tr>
 
         </table>
@@ -28,7 +28,7 @@
     <div class="col-lg-12" ng-show="vm.loading">
         <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
     </div>
-    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+    <!--<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -49,7 +49,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
+
+
 
     <div class="modal fade" id="addSponsor" tabindex="-1" role="dialog" aria-labelledby="addSponsorLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -83,7 +85,9 @@
                                 <label>Sponsor Type:</label>
                                 <br />
                                 <select ng-model="vm.TYPE"
-                                        ng-options="type as type.name for type in vm.sponsorsTypeList" class="form-control"></select>
+                                        ng-options="type as type.name for type in vm.sponsorsTypeList" class="form-control">
+                                        <pre>{{vm.TYPE | json}}</pre>
+                                </select>
                             </span>
                         </div>
                         <div class="row">
@@ -148,7 +152,7 @@
                                 <div class="col-sm-6 col-md-6">
                                     <div ng-if="content">
                                         <br />
-                                        <img class="img-responsive" src="{{content}}" />
+                                        <img class="img-responsive" ng-src="{{content}}" />
                                     </div>
                                 </div>
 
@@ -328,13 +332,13 @@
                                     <td><b>Key Code</b></td>
                                     <td><b>Used</b></td>
                                     <td><b>Used by</b></td>
-                                    <td><b> <a href="" ng-click="vm.deleteSponsorComplemetaryKey()">Remove All</b></td>
+                                    <td><b> <a href="" ng-click="vm.toggleModal('removeKeys')">Remove All</b></td>
                                 </tr>
                                 <tr ng-repeat="key in  vm.sponsorKeys">
                                     <td>{{key.key}}</td>
                                     <td>{{key.isUsed}}</td>
                                     <td>{{key.name}}</td>
-                                    <td><a href="" ng-click="vm.selectedKey(key);vm.deleteComplemetaryKey()" ng-hide="key.isUsed">Deactivate</a></td>
+                                    <td><a href="" ng-click="vm.selectedKey(key);vm.toggleModal('removeKey');" ng-hide="key.isUsed">Deactivate</a></td>
                                 </tr>
                             </table><br /><br />
                             <div class="col-lg-12" ng-show="vm.loadingRemovingComp">
@@ -401,7 +405,9 @@
                 </div>
             </div>
         </div>
+        
     </div>
-
-
+    <div class="col-lg-6">
+        <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
+        
 </div>

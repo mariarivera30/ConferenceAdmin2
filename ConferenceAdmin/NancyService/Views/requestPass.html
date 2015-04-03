@@ -9,5 +9,8 @@
         <br />
         {{vm.message}} <button type="submit" ng-click="vm.checkEmail()" class="btn btn-ar btn-primary pull-right" ng-disabled="requestForm.$invalid ">Request Password</button>
     </form>
+    <div class="col-lg-6">
+        <modal source="vm.obj" visible="vm.showConfirmModal"></modal>
+    </div>
     
 </div>
