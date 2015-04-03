@@ -1,6 +1,6 @@
 ﻿<div ng-controller="profileAuthorizationCtrl as vm">
     <h4 id="g-information">Authorization</h4>
-    <div class="col-lg-12"><b class="big-text">①</b> <b>Download</b>, <b>Complete</b> and <b>Upload</b> the documents provided below.<br /></div>
+    <div class="col-lg-12"><b>Download</b>, <b>Complete</b> and <b>Upload</b> the documents provided below.<br /></div>
 
     <div class="col-lg-5">
         <h5>Templates:</h5>
@@ -38,18 +38,11 @@
         </div>
     </div>
 
-    <div class="col-lg-12">
-        <br />
-        <b class="big-text">②</b> Enter the <b>Companion Key</b> of the adult in charge.<br /><br />
-        <input type="text" name="key" ng-model="vm.companionKey" ng-readonly="vm.hasKey" required /> <button class="btn btn-ar btn-primary" ng-click="vm.selectCompanion(vm.companionKey)" ng-disabled="vm.hasKey || vm.correctKey">Submit</button>
-        <span ng-show="vm.wrongKey" class="padding-5 alert-danger half-width">The key you have provided is incorrect.</span>
-        <span ng-show="vm.correctKey" class="padding-5 alert-success half-width">Successfully added key.</span>
-    </div>
 
     <div class="col-lg-12">
-        <br /><br />
-        <b class=" big-text">③</b> Apply to the conference.<br /><br />
-        <button class="btn btn-ar btn-primary" ng-click="vm.apply()" ng-disabled="vm.wrongKey || vm.documentsList.length != vm.templatesList.length || !vm.correctKey || vm.hasApplied">Apply</button>
+        <br />
+        Apply to the conference.<br /><br />
+        <button class="btn btn-ar btn-primary" ng-click="vm.apply()" ng-disabled="vm.documentsList.length != vm.templatesList.length || vm.hasApplied">Apply</button>
         <span ng-show="vm.hasApplied" class="padding-5 alert-success half-width">Successfully applied.</span>
     </div>
 

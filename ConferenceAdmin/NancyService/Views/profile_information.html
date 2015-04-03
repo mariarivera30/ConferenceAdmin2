@@ -170,11 +170,18 @@
         </div>
 
         <h4 ng-show="vm.date1 || vm.date2 || vm.date3">Participation Days</h4>
-        <div class="row" ng-show="vm.hasApplied && vm.registrationStatus != 'Rejected' && vm.acceptanceStatus != 'Rejected'">
+        <div class="row" ng-show="vm.date1 || vm.date2 || vm.date3">
             <div class="col-lg-4">
                 <span class="block" ng-show="vm.date1">Day 1</span>
                 <span class="block" ng-show="vm.date2">Day 2</span>
                 <span class="block" ng-show="vm.date3">Day 3</span>
+            </div>
+        </div>
+
+        <h4 ng-show="vm.notes != null && vm.notes != ''">Notes</h4>
+        <div class="row" ng-show="vm.notes != null && vm.notes != ''">            
+            <div class="col-lg-8">
+                {{vm.notes}}
             </div>
         </div>
 

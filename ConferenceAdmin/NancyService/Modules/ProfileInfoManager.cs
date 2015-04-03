@@ -45,7 +45,8 @@ namespace NancyService.Modules
                     {
                         date1 = r.date1,
                         date2 = r.date2,
-                        date3 = r.date3
+                        date3 = r.date3,
+                        notes = r.note
                     }).FirstOrDefault();
 
                     if (reg != null)
@@ -53,6 +54,7 @@ namespace NancyService.Modules
                         userInfo.date1 = reg.date1;
                         userInfo.date2 = reg.date2;
                         userInfo.date3 = reg.date3;
+                        userInfo.notes = reg.notes;
                     }
 
                     return userInfo;
@@ -126,7 +128,8 @@ namespace NancyService.Modules
                         date2 = user.date2,
                         date3 = user.date3,
                         byAdmin = false,
-                        deleted = false
+                        deleted = false,
+                        note = user.notes
                     };                    
 
                     user saveUser = context.users.Where(u => u.userID == user.userID).FirstOrDefault();
@@ -158,6 +161,61 @@ namespace NancyService.Modules
         }
 
 
+
+        public bool complementaryPayment(UserInfo user, string key)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    payment payment = new payment
+                    {
+                        paymentTypeID = 1,
+                        deleted = false,
+                        creationDate = DateTime.Now.Date
+                    };
+
+                    context.payments.Add(payment);
+                    context.SaveChanges();
+
+                    registration registration = new registration
+                    {
+                        userID = user.userID,
+                        paymentID = payment.paymentID,
+                        date1 = user.date1,
+                        date2 = user.date2,
+                        date3 = user.date3,
+                        byAdmin = false,
+                        deleted = false,
+                        note = user.notes
+                    };
+
+                    user saveUser = context.users.Where(u => u.userID == user.userID).FirstOrDefault();
+                    saveUser.registrationStatus = "Accepted";
+
+                    complementarykey complementaryKey = context.complementarykeys.Where(k => k.key == key).FirstOrDefault();
+                    complementaryKey.isUsed = true;
+
+                    /*paymentcomplementary complementaryPay = new paymentcomplementary
+                    {
+                        paymentID = payment.paymentID,
+                        deleted = false,
+                        complementaryKeyID = complementaryKey.complementarykeyID
+                    };*/
+
+                    context.registrations.Add(registration);
+                    //context.paymentcomplementaries.Add(complementaryPay);
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
         public bool apply(UserInfo user)
         {
             try
@@ -173,6 +231,24 @@ namespace NancyService.Modules
             }
             catch
             {
+                return false;
+            }
+        }
+
+        public bool checkComplementaryKey(string key)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    complementarykey complementaryKey = context.complementarykeys.Where(ck => ck.key == key && ck.isUsed == false && ck.deleted == false).FirstOrDefault();
+                    
+                    return complementaryKey != null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("ProfileAuthorizationManager.selectCompanion error " + ex);
                 return false;
             }
         }
@@ -204,4 +280,6 @@ public class UserInfo
     public bool? date1;
     public bool? date2;
     public bool? date3;
+    public string notes;
+    public string key;
 }

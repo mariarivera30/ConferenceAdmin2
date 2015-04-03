@@ -55,6 +55,7 @@
             updateProfileInfo: _updateProfileInfo,
             apply: _apply,
             makePayment: _makePayment,
+            complementaryPayment: _complementaryPayment,
             getAssignedSubmissions: _getAssignedSubmissions,
             getSubmissionDetails: _getSubmissionDetails,
             postEvaluation: _postEvaluation,
@@ -65,6 +66,7 @@
             deleteDocument: _deleteDocument,
             selectCompanion: _selectCompanion,
             getCompanionKey: _getCompanionKey,
+            checkComplementaryKey: _checkComplementaryKey,
             getNewAdmin: _getNewAdmin,
             getEvaluatorList: _getEvaluatorList,
             updateEvaluatorAcceptanceStatus: _updateEvaluatorAcceptanceStatus,
@@ -316,9 +318,17 @@
         function _apply(data) {
             return $http.put('profile/apply/', data);
         };
-        
+
         function _makePayment(data) {
             return $http.put('profile/makePayment/', data);
+        };
+
+        function _complementaryPayment(data) {
+            return $http.put('profile/complementaryPayment/', data);
+        };
+
+        function _checkComplementaryKey(data) {
+            return $http.get('profile/checkComplementaryKey/' + data);
         };
 
         //---------------------------------PROFILE-SUBMISSIONS---------------------------

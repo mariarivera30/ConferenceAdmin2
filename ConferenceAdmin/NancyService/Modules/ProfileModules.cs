@@ -57,6 +57,27 @@ namespace NancyService.Modules
                     return HttpStatusCode.Conflict;
             };
 
+            Put["/complementaryPayment"] = parameters =>
+            {
+                var user = this.Bind<UserInfo>();
+                if (profileInfo.complementaryPayment(user, user.key))
+                    return HttpStatusCode.OK;
+
+                else
+                    return HttpStatusCode.Conflict;
+            };
+
+            Get["/checkComplementaryKey/{complementaryKey}"] = parameters =>
+            {
+                var key = parameters.complementaryKey;
+
+                if (profileInfo.checkComplementaryKey(key))
+                    return HttpStatusCode.OK;
+                else
+                    return HttpStatusCode.Conflict;
+            };
+
+
             //------------------------EVALUATOR - SUBMISSIONS-------------------------------------------
             //Gets the list of submissions assigned to the evaluator currently logged in to the system
             Get["/getAssignedSubmissions/{id}"] = parameters =>
