@@ -121,13 +121,13 @@
 
                             <li><a ng-show="vm.showAdminsitrator" href="#/Administrator/GeneralInformation"><i class="fa fa-gear"></i> Administrator </a></li>   
 
-                            <li></li> <li></li><li></li><li></li>
+                            <li></li> <li></li>
                        
                              <!-- <li><a href="#" class="animated fadeIn animation-delay-9 instagram"><i class="fa fa-instagram"></i></a></li> -->
                       </ul>
-                        <ul class="top-nav-social hidden-sm">
-                            <li><a ng-show="vm.showProfile" href="#/Home" ng-click="vm.logout()">Logout</a> | {{vm.messageLogOut.split('@')[0]}}</li>
-                            </ul>
+                        <ul ng-show="vm.showProfile" class="top-nav-social hidden-sm">
+                            <li ng-show="vm.showProfile"><a href="#/Home" ng-click="vm.logout()">Logout | {{vm.messageLogOut.split('@')[0]}}</a></li>
+                        </ul>
 
 
 

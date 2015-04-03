@@ -105,7 +105,7 @@
             $window.sessionStorage.clear();
             vm.loged = false;
             $location.path('/Home');
-
+            vm.showAdminsitrator = false;
         }
         function _validate() {
             restApi.accountConfirmation(vm.keyConfirmation).
