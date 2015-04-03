@@ -82,8 +82,8 @@ namespace NancyService.Modules
                     newUser.phone = user.phone;
                     newUser.userFax = user.userFax;
 
-                    membership membership = context.memberships.Where(m => m.membershipID == newUser.membershipID).FirstOrDefault();
-                    membership.email = user.email;
+                    /*membership membership = context.memberships.Where(m => m.membershipID == newUser.membershipID).FirstOrDefault();
+                    membership.email = user.email;*/
 
                     address address = context.addresses.Where(a => a.addressID == newUser.addressID).FirstOrDefault();
                     address.line1 = user.addressLine1;

@@ -7321,3 +7321,7 @@ div .templates-list {
     overflow: hidden;
     white-space: nowrap;
 }
+
+.disabled, .readonly, .readonly:hover, disabled:hover {
+    cursor: default;
+}
