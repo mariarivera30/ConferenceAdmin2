@@ -1,5 +1,7 @@
 ﻿using NancyService.Models;
 using System;
+using System.IO;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -1289,10 +1291,24 @@ namespace NancyService.Modules
                 else if (info.dateFrom != "" && info.dateTo != "")
                 {
                     //check distance between dates
-                    DateTime dateFrom = Convert.ToDateTime(info.dateFrom);
-                    DateTime dateTo = Convert.ToDateTime(info.dateTo);
 
-                    int differenceDays = DateTime.Compare(dateTo, dateFrom);
+                    string from = Convert.ToDateTime(info.dateFrom).Date.ToString();
+                    string to = Convert.ToDateTime(info.dateTo).Date.ToString();
+
+                    var fromDay = Convert.ToInt32(from.Substring(3, 2));
+                    var fromMonth = Convert.ToInt32(from.Substring(0, 2));
+                    var fromYear = Convert.ToInt32(from.Substring(6, 4));
+
+                    var toDay = Convert.ToInt32(to.Substring(3, 2));
+                    var toMonth = Convert.ToInt32(to.Substring(0, 2));
+                    var toYear = Convert.ToInt32(to.Substring(6, 4));
+
+                    // Constructor (Year, Month, Day)
+
+                    DateTime dateFrom = new DateTime(fromYear, fromMonth, fromDay);
+                    DateTime dateTo = new DateTime(toYear, toMonth, toDay);
+
+                    double differenceDays = dateTo.Subtract(dateFrom).TotalDays;
 
                     if (differenceDays < 0 || differenceDays >= 3)
                     {
