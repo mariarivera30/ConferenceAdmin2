@@ -164,6 +164,53 @@ namespace NancyService.Modules
                 else
                     return HttpStatusCode.Conflict;
             };
+            //Add a submission
+            Post["/postSubmission"] = parameters =>
+            {
+                panel pannelToAdd = null;
+                workshop workshopToAdd = null;
+                submission submissionToAdd = this.Bind<submission>();
+                documentssubmitted submissionDocuments = this.Bind<documentssubmitted>();
+                usersubmission usersubTA = this.Bind<usersubmission>();
+
+                int submissionTypeID = submissionToAdd.submissionTypeID;
+                if (submissionDocuments.document == null && submissionDocuments.documentName == null)
+                {
+                    submissionDocuments = null;
+                }
+                if (submissionTypeID == 3)
+                {
+                    pannelToAdd = this.Bind<panel>();
+                }
+                else if (submissionTypeID == 5)
+                {
+                    workshopToAdd = this.Bind<workshop>();
+                }
+                Submission newSubmission =
+                    submission.addSubmission(usersubTA, submissionToAdd, submissionDocuments, pannelToAdd, workshopToAdd);
+                return Response.AsJson(newSubmission);
+
+            };
+            //edit submission
+            Put["/editSubmission"] = parameters =>
+            {
+                panel pannelToEdit = null;
+                workshop workshopToEdit = null;
+                submission submissionToEdit = this.Bind<submission>();
+
+                int submissionTypeID = submissionToEdit.submissionTypeID;
+                if (submissionTypeID == 3)
+                {
+                    pannelToEdit = this.Bind<panel>();
+                }
+                else if (submissionTypeID == 5)
+                {
+                    workshopToEdit = this.Bind<workshop>();
+                }
+                Submission editedSubmission =
+                    submission.editSubmission(submissionToEdit, pannelToEdit, workshopToEdit);
+                return Response.AsJson(editedSubmission);
+            };
 
             //------------------------AUTHORIZATION----------------------------------
             Put["/uploadDocument"] = parameters =>
