@@ -476,7 +476,6 @@ namespace NancyService.Modules
                                     }).ToList();
 
                     var keysUnused = (from s in context.complementarykeys
-                                      from pay in context.paymentcomplementaries
                                       where s.sponsorID == id && s.isUsed == false && s.deleted == false
                                       select new ComplementaryQuery
                                       {
