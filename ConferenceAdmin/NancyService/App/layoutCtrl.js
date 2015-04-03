@@ -34,7 +34,7 @@
 
             vm.showProfile = false;
             vm.messageLogOut = "";
-
+            vm.showAdminsitrator = false;
         });
 
         $rootScope.$on('headerPage', function (event,hideAlias) {
@@ -85,6 +85,7 @@
             $window.sessionStorage.clear();
             vm.loged = false;
             vm.showAdminsitrator = false;
+            vm.showProfile = false;
             $location.path('/Home');
 
         }
