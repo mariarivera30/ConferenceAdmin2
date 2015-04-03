@@ -1329,8 +1329,7 @@ namespace NancyService.Modules
                     {
                         conferenceDay1 = info.dateFrom;
                         conferenceDay2 = dateFrom.AddDays(1).ToShortDateString();
-                        conferenceDay3 = dateFrom.AddDays(2).ToShortDateString();
-
+                        conferenceDay3 = info.dateTo;
                     }
 
                 }
