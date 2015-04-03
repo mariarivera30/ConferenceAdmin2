@@ -43,7 +43,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     member.deleted = false;
-                    member.emailConfirmation = true;
+                    member.emailConfirmation = false;
                     member.deleted = false;
                     member.confirmationKey = key;
                     context.memberships.Add(member);
