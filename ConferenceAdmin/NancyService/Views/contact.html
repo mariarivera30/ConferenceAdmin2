@@ -5,6 +5,7 @@
         </div>
         <div class="col-md-8">
             <section>
+                <p ng-show="vm.icontactAdditionalInfo">{{vm.icontactAdditionalInfo}}</p>
                 <form role="form">
                     <div class="row">
                         <div class="form-group col-md-4">
@@ -33,14 +34,14 @@
         </div>
 
         <div class="col-md-4">
-            <section>
+            <section ng-show="vm.icontactName || vm.icontactPhone || vm.icontactEmail">
                 <div class="panel panel-primary">
                     <div class="panel-heading"><i class="fa fa-envelope-o"></i>Additional Information</div>
                     <div class="panel-body">
                         <h4>Contact</h4>
-                        <strong>{{vm.contactName}}</strong><br>
-                        Phone: {{vm.contactPhone}} <br>
-                        Mail: <a href="#">{{vm.contactEmail}}</a>
+                        <strong ng-show="vm.icontactName">{{vm.icontactName}}<br></strong>
+                        <p ng-show="vm.icontactPhone">Phone: {{vm.icontactPhone}}<br></p>
+                        <p ng-show="vm.icontactEmail">Email: <a href="#">{{vm.icontactEmail}}</a></p>
                     </div>
                 </div>
             </section>

@@ -20,8 +20,7 @@ namespace NancyService.Modules
 
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //ANADIR CONDICION PARA QUE NO SALGA EL MISMO ADMINISTRADOR EN LA LISTA QUE DEVUELVE
-                    var administrators = context.claims.Where(admin => admin.deleted != true && admin.privilege.privilegestType != "Evaluator").Select(admin => new AdministratorQuery
+                    var administrators = context.claims.Where(admin => admin.deleted != true && admin.privilege.privilegestType != "Master" && admin.privilege.privilegestType != "Evaluator").Select(admin => new AdministratorQuery
                     {
                         userID = (long)admin.userID,
                         firstName = admin.user.firstName,
@@ -75,7 +74,7 @@ namespace NancyService.Modules
 
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    var privileges = context.privileges.Where(privilege => privilege.privilegestType != "Evaluator").Select(privilege => new PrivilegeQuery()
+                    var privileges = context.privileges.Where(privilege => privilege.privilegestType != "Master" && privilege.privilegestType != "Evaluator").Select(privilege => new PrivilegeQuery()
                     {
                         privilegeID = privilege.privilegesID,
                         name = privilege.privilegestType,
@@ -98,7 +97,7 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //Get privilege name
+                    //Get privilege name ////////Ver como eliminar
                     s.privilege = (from p in context.privileges
                                    where p.privilegesID == s.privilegeID
                                    select p.privilegestType).FirstOrDefault();
@@ -170,7 +169,7 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //Get privilege name
+                    //Get privilege name                ///VER COMO ELIMINAR
                     String privilege = (from p in context.privileges
                                         where p.privilegesID == editAdmin.privilegeID
                                         select p.privilegestType).FirstOrDefault();

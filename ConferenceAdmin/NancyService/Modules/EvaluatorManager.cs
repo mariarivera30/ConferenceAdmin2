@@ -102,16 +102,14 @@ namespace NancyService.Modules
                     var updateUser = (from s in context.users
                                       where s.userID == e.userID
                                       select s).FirstOrDefault();
-
                     if (updateUser != null)
                     {
-                        updateUser.evaluatorStatus = e.acceptanceStatus;
-
                         if (e.acceptanceStatus == "Rejected")
                         {
+                            updateUser.evaluatorStatus = e.acceptanceStatus;
                             //Remove from claim table
                             var updateClaim = (from s in context.claims
-                                               where s.userID == e.userID && s.privilegesID == 4
+                                               where s.userID == e.userID && s.privilege.privilegestType == "Evaluator"
                                                select s).FirstOrDefault();
 
                             if (updateClaim != null)
@@ -157,14 +155,13 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    var e = (from user in context.users
-                             where user.membership.email == email
-                             select user).FirstOrDefault();
-
+                    var e = (from u in context.users
+                             where u.membership.email == email
+                             select u).FirstOrDefault();
                     if (e != null)
                     {
                         var check = (from s in context.evaluators
-                                     where s.user.userID == e.userID
+                                     where s.userID == e.userID
                                      select s).FirstOrDefault();
 
                         if (check != null)
@@ -175,7 +172,7 @@ namespace NancyService.Modules
                                 e.evaluatorStatus = "Accepted";
                                 check.deleted = false;
                                 var claims = (from s in context.claims
-                                              where s.userID == e.userID && s.privilegesID == 4
+                                              where s.userID == e.userID && s.privilege.privilegestType == "Evaluator"
                                               select s).FirstOrDefault();
                                 if (claims != null)
                                 {
@@ -191,7 +188,6 @@ namespace NancyService.Modules
                         {
                             //Change status in table user
                             e.evaluatorStatus = "Accepted";
-
                             EvaluatorQuery newEvaluator = new EvaluatorQuery();
                             newEvaluator.userID = e.userID;
                             newEvaluator.firstName = e.firstName;

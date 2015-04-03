@@ -3,7 +3,6 @@
     <h3>Registration</h3>
 
     <div class="col-lg-10 hide-until-loaded" id="body">
-
         <h5 class="after-title-field">Highlight Notes</h5>
         <textarea class="form-control" rows="5" ng-model="vm.registrationNotes"></textarea><br />
 
@@ -18,61 +17,68 @@
 
         <h5 class="after-title-field">Paragraph 1</h5>
         <textarea class="form-control" rows="5" ng-model="vm.registrationParagraph1"></textarea><br />
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table after-title-field">
+                    <colgroup>
+                        <col span="1" style="width: 50%;">
+                        <col span="1" style="width: 25%;">
+                        <col span="1" style="width: 25%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Participant</th>
+                            <th>Cost</th>
+                            <th>After deadline fee</th>
+                        </tr>
+                    </thead>
 
-        <div class="col-md-10">
-            <table class="table after-title-field">
-                <colgroup>
-                    <col span="1" style="width: 50%;">
-                    <col span="1" style="width: 25%;">
-                    <col span="1" style="width: 25%;">
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th>Participant</th>
-                        <th>Cost</th>
-                        <th>After deadline fee</th>
-                    </tr>
-                </thead>
+                    <tbody>
+                        <tr>
+                            <td>Undergraduate Student</td>
+                            <td><form name="costForm1"><input type="number" class="form-control" placeholder="$" ng-model="vm.undergraduateStudentFee"></form></td>
+                            <td><form name="costForm2"><input type="number" class="form-control" placeholder="$" ng-model="vm.undergraduateStudentLateFee"></form></td>
+                        </tr>
 
-                <tbody>
-                    <tr>
-                        <td>Undergraduate Student</td>
-                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.undergraduateStudentFee"></td>
-                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.undergraduateStudentLateFee"></td>
-                    </tr>
+                        <tr>
+                            <td>Graduate Student</td>
+                            <td><form name="costForm3"><input type="number" class="form-control" placeholder="$" ng-model="vm.graduateStudentFee"></form></td>
+                            <td><form name="costForm4"><input type="number" class="form-control" placeholder="$" ng-model="vm.graduateStudentLateFee"></form></td>
+                        </tr>
 
-                    <tr>
-                        <td>Graduate Student</td>
-                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.graduateStudentFee"></td>
-                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.graduateStudentLateFee"></td>
-                    </tr>
+                        <tr>
+                            <td>High School Student</td>
+                            <td><form name="costForm5"><input type="number" class="form-control" placeholder="$" ng-model="vm.highSchoolStudentFee"></form></td>
+                            <td><form name="costForm6"><input type="number" class="form-control" placeholder="$" ng-model="vm.highSchoolStudentLateFee"></form></td>
+                        </tr>
 
-                    <tr>
-                        <td>High School Student</td>
-                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.highSchoolStudentFee"></td>
-                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.highSchoolStudentLateFee"></td>
-                    </tr>
+                        <tr>
+                            <td>Student Companion</td>
+                            <td><form name="costForm7"><input type="number" class="form-control" placeholder="$" ng-model="vm.companionStudentFee"></form></td>
+                            <td><form name="costForm8"><input type="number" class="form-control" placeholder="$" ng-model="vm.companionStudentLateFee"></form></td>
+                        </tr>
 
-                    <tr>
-                        <td>Student Companion</td>
-                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.companionStudentFee"></td>
-                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.companionStudentLateFee"></td>
-                    </tr>
+                        <tr>
+                            <td>Professional- Academy</td>
+                            <td><form name="costForm9"><input type="number" class="form-control" placeholder="$" ng-model="vm.professionalAcademyFee"></form></td>
+                            <td><form name="costForm10"><input type="number" class="form-control" placeholder="$" ng-model="vm.professionalAcademyLateFee"></form></td>
+                        </tr>
 
-                    <tr>
-                        <td>Professional- Academy</td>
-                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.professionalAcademyFee"></td>
-                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.professionalAcademyLateFee"></td>
-                    </tr>
+                        <tr>
+                            <td>Professional- Industry</td>
+                            <td><form name="costForm11"><input type="number" class="form-control" placeholder="$" ng-model="vm.professionalIndustryFee"></form></td>
+                            <td><form name="costForm12"><input type="number" class="form-control" placeholder="$" ng-model="vm.professionalIndustryLateFee"></form></td>
+                        </tr>
 
-                    <tr>
-                        <td>Professional- Industry</td>
-                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.professionalIndustryFee"></td>
-                        <td><input type="number" class="form-control" placeholder="$" ng-model="vm.professionalIndustryLateFee"></td>
-                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                </tbody>
-            </table>
+            <div class="col-md-4">
+                <br /><br />
+                <b>Remember the registration costs must be numbers!</b>
+            </div>
+
         </div>
 
         <div class="row">
@@ -90,7 +96,8 @@
 
         <div class="row">
             <div class="col-lg-10">
-                <button class="btn btn-ar btn-primary" ng-click="vm.saveRegistrationInfo()">Save</button>
+                <button class="btn btn-ar btn-primary" ng-disabled="costForm1.$invalid || costForm2.$invalid ||costForm3.$invalid || costForm4.$invalid || costForm5.$invalid || costForm6.$invalid || costForm7.$invalid || costForm8.$invalid || costForm9.$invalid || costForm10.$invalid || costForm11.$invalid || costForm12.$invalid" ng-click="vm.saveRegistrationInfo()">Save</button>
+                <label class="help-inline" ng-show="costForm1.$invalid || costForm2.$invalid ||costForm3.$invalid || costForm4.$invalid || costForm5.$invalid || costForm6.$invalid || costForm7.$invalid || costForm8.$invalid || costForm9.$invalid || costForm10.$invalid || costForm11.$invalid || costForm12.$invalid">Check the registration costs. They must be numbers.</label>
             </div>
         </div>
     </div>

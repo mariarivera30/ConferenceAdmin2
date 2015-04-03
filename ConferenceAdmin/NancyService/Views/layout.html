@@ -46,9 +46,12 @@
     <script src="/App/generalInfoCtrl.js"></script>
     <script src="/App/evaluatorCtrl.js"></script>
     <script src="/App/homeCtrl.js"></script>
+    <script src="/App/homeCtrl2.js"></script>
     <script src="/App/layoutCtrl.js"></script>
     <script src="/App/loginCtrl.js"></script>
     <script src="/App/papersCtrl.js"></script>
+    <script src="/App/programCtrl.js"></script>
+    <script src="/App/programCtrl2.js"></script>
     <script src="/App/registrationCtrl.js"></script>
     <script src="/App/registrationWebCtrl.js"></script>
     <script src="/App/sponsorInterfaceCtrl.js"></script>
@@ -94,10 +97,10 @@
     <div id="sb-site">
         <div class="boxed">
             <header id="header-full-top" class="hidden-xs header-full noPrint">
-                <div class="container">
-                    <div class="header-full-title">
-                        <h1 class="animated fadeInRight"><a href="index.html"><span>CCWiC</span></a></h1>
-                        <p class="animated fadeInRight">Caribbean Celebration of Women in Computing</p>
+                <div class="container" id="conferenceName">
+                    <div class="header-full-title" ng-style="vm.conferenceLogo != '' && {'background-image':'url('+vm.conferenceLogo+')'}">
+                        <h1 class="animated fadeInRight"><a href="#/Home"><span ng-bind="vm.conferenceAcronym"></span></a></h1>
+                        <p class="animated fadeInRight" ng-bind="vm.conferenceName"></p>
                     </div>
                     <nav class="top-nav">
                         <ul class="top-nav-social hidden-sm">
@@ -110,14 +113,15 @@
                             <a ng-hide="vm.showProfile" href="#/Login/Log"><i class="fa fa-user"></i> Login | Register</a>
                         </div>
                         <div class="top-nav-social hidden-sm">
-                            <a ng-show="vm.showProfile" href="#/Profile/GeneralInformation"><i class="fa fa-user"></i> My Profile</a>
+                            <a ng-show="vm.showProfile" href="#/Profile/GeneralInformation"><i class="fa fa-user"></i> Profile</a>
+                        </div>
+                        <div class="top-nav-social hidden-sm">
+                            <a href="#/Administrator/GeneralInformation">Settings</a>
                         </div>
                         <div ng-show="vm.showProfile" class="top-nav-social hidden-sm">
-                            <a href="#/Home" ng-click="vm.logout()"><i class="fa fa-user"></i> Logout</a><label> {{vm.messageLogOut}}</label>
+                            <a href="#/Home" ng-click="vm.logout()">Logout</a>
                         </div>
-
-
-
+                        <div ng-show="vm.showProfile" class="hidden-sm right email-login"><p> {{vm.messageLogOut}}</p></div>
                     </nav>
                 </div> <!-- container -->
             </header> <!-- header-full -->
@@ -130,7 +134,7 @@
                             <span class="sr-only">Toggle navigation</span>
                             <i class="fa fa-bars"></i>
                         </button>
-                        <a class="navbar-brand hidden-lg hidden-md hidden-sm" href="index.html"><span>CCWiC</span></a>
+                        <a class="navbar-brand hidden-lg hidden-md hidden-sm" href="#/Home"><span>CCWiC</span></a>
                     </div> <!-- navbar-header -->
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -154,13 +158,14 @@
                                 <a href="#/Participation">Call for Participation</a>
                             </li>
 
-                            <li class="dropdown">
+                            <li class="dropdown" ng-controller="programCtrl2 as vm">
                                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Program</a>
                                 <ul class="dropdown-menu dropdown-menu-left">
-                                    <li><a href="#/Schedule">Program Schedule</a></li>
-                                    <li><a href="#/Abstracts">Abstract / Bios</a></li>
+                                    <li><a href="" ng-click="vm.viewProgram()">Program Schedule</a></li>
+                                    <li><a href="" ng-click="vm.viewAbstract()">Abstracts / Bios</a></li>
                                 </ul>
                             </li>
+
                             <li>
                                 <a href="#/Sponsors">Sponsors</a>
                             </li>
@@ -181,7 +186,6 @@
                 </div>
 
                 <div id="content" class="noPrint">
-
                     <div ui-view="banner" autoscroll="false" class="margin-fix-banner">
                     </div>
                 </div>

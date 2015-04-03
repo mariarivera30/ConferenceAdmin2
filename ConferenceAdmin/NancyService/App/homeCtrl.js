@@ -13,9 +13,9 @@
         vm.activate = activate;
         vm.title = 'homeCtrl';
         vm.show = false;
+        vm.disabled = false;
 
         //From Admin Website
-        vm.conferenceName;
         vm.homeMainTitle;
         vm.homeTitle1;
         vm.homeParagraph1;
@@ -23,19 +23,11 @@
         vm.homeParagraph2;
         vm.img;
 
-        //InterfaceElements
-        vm.iconferenceName;
-        vm.ihomeMainTitle;
-        vm.ihomeTitle1;
-        vm.ihomeParagraph1;
-        vm.ihomeTitle2;
-        vm.ihomeParagraph2;
-        vm.iimg;
-
         //Functions
         vm.getHome = _getHome;
         vm.saveHome = _saveHome;
         vm.removeImage = _removeImage;
+        vm.clear = _clear();
 
         _getHome();
         activate();
@@ -44,30 +36,30 @@
 
         }
 
+        function _clear() {
+            if (document.getElementById("imageFile") != undefined) {
+                document.getElementById("imageFile").value = "";
+            }
+            $scope.img = "";
+        }
+
         $scope.saveImg = function ($fileContent) {
-            $scope.img = $fileContent;
+            if ($fileContent != null) {
+                $scope.img = $fileContent;
+            }
         };
 
         $scope.showContent = function (data) {
-            $scope.content = data;
-            vm.show = true;
+            if (data != null) {
+                $scope.content = data;
+                vm.show = true;
+            }
         };
-
-        function _downloadLogo() {
-            window.open(vm.img);
-        }
 
         function _getHome() {
             restApi.getHome()
             .success(function (data, status, headers, config) {
                 if (data != null) {
-                    vm.ihomeMainTitle = data.homeMainTitle;
-                    vm.ihomeTitle1 = data.homeTitle1;
-                    vm.ihomeParagraph1 = data.homeParagraph1;
-                    vm.ihomeTitle2 = data.homeTitle2;
-                    vm.ihomeParagraph2 = data.homeParagraph2;
-                    vm.iimg = data.image;
-
                     vm.homeMainTitle = data.homeMainTitle;
                     vm.homeTitle1 = data.homeTitle1;
                     vm.homeParagraph1 = data.homeParagraph1;
@@ -92,27 +84,22 @@
         }
 
         function _saveHome() {
-
-            vm.img = $scope.img;
-
+            vm.disabled = true;
             var newHome = {
                 homeMainTitle: vm.homeMainTitle,
                 homeTitle1: vm.homeTitle1,
                 homeParagraph1: vm.homeParagraph1,
                 homeTitle2: vm.homeTitle2,
                 homeParagraph2: vm.homeParagraph2,
-                image: vm.img
+                image: $scope.img
             }
             restApi.saveHome(newHome)
             .success(function (data, status, headers, config) {
                 if (data != null) {
-                    if (vm.img != "" && vm.img != undefined) {
+                    if (newHome.image != "" && newHome.image != undefined) {
+                        vm.img = newHome.image;
                         $scope.showContent(vm.img);
-                        $scope.img = "";
-                        $scope.$fileContent = "";
-                    }
-                    else {
-                        vm.show = false;
+                        _clear();
                     }
                     $("#updateConfirm").modal('show');
                 }
@@ -120,10 +107,12 @@
             .error(function (error) {
                 $("#updateError").modal('show');
             });
+
+            vm.disabled = false;
         }
 
         function _removeImage() {
-            restApi.removeImage("homeImage")
+            restApi.removeFile("homeImage")
            .success(function (data, status, headers, config) {
                if (data) {
                    vm.img = "";

@@ -1,41 +1,55 @@
 ﻿<div class="container" ng-controller="deadlinesCtrl as vm">
     <h2 class="section-title">Deadlines</h2>
-    <div class="col-md-6 hide-until-loaded" id="body">
+    <div class="col-md-9">
+        <div class="col-md-9 hide-until-loaded" id="body">
+            <p ng-hide="vm.ideadline1 || vm.ideadlineDate1 || vm.ideadline2 || vm.ideadlineDate2 || vm.ideadline3 || vm.ideadlineDate3 || vm.ideadline4 || vm.ideadlineDate4 || vm.ideadline5 || vm.ideadlineDate5">No content to display.</p>
+            <table class="table after-title-field" id="deadlinetable" ng-show="vm.ideadline1 || vm.ideadlineDate1 || vm.ideadline2 || vm.ideadlineDate2 || vm.ideadline3 || vm.ideadlineDate3 || vm.ideadline4 || vm.ideadlineDate4 || vm.ideadline5 || vm.ideadlineDate5">
+                <thead>
+                    <tr>
+                        <th class="text-left">Deadline</th>
+                        <th class="text-left">Date (mm/dd/yyyy)</th>
+                    </tr>
+                </thead>
 
-        <table class="table after-title-field" id="deadlinetable">
-            <thead>
-                <tr>
-                    <th class="text-left">Deadline</th>
-                    <th class="text-left">Date</th>
-                </tr>
-            </thead>
+                <tbody>
+                    <tr ng-show="vm.ideadline1">
+                        <td class="text-left"><h5 class="after-title-field">{{vm.ideadline1}}</h5></td>
+                        <td class="text-left">{{vm.ideadlineDate1}}</td>
+                    </tr>
 
-            <tbody>
-                <tr ng-show="vm.ideadline1">
-                    <td class="text-left"><h5 class="after-title-field">{{vm.ideadline1}}</h5></td>
-                    <td class="text-left">{{vm.ideadlineDate1}}</td>
-                </tr>
+                    <tr ng-show="vm.ideadline2">
+                        <td class="text-left"><h5 class="after-title-field">{{vm.ideadline2}}</h5></td>
+                        <td class="text-left">{{vm.ideadlineDate2}}</td>
+                    </tr>
 
-                <tr ng-show="vm.ideadline2">
-                    <td class="text-left"><h5 class="after-title-field">{{vm.ideadline2}}</h5></td>
-                    <td class="text-left">{{vm.ideadlineDate2}}</td>
-                </tr>
+                    <tr ng-show="vm.ideadline3">
+                        <td class="text-left"><h5 class="after-title-field">{{vm.ideadline3}}</h5></td>
+                        <td class="text-left">{{vm.ideadlineDate3}}</td>
+                    </tr>
 
-                <tr ng-show="vm.ideadline3">
-                    <td class="text-left"><h5 class="after-title-field">{{vm.ideadline3}}</h5></td>
-                    <td class="text-left">{{vm.ideadlineDate3}}</td>
-                </tr>
+                    <tr ng-show="vm.ideadline4">
+                        <td class="text-left"><h5 class="after-title-field">{{vm.ideadline4}}</h5></td>
+                        <td class="text-left">{{vm.ideadlineDate4}}</td>
+                    </tr>
 
-                <tr ng-show="vm.ideadline4">
-                    <td class="text-left"><h5 class="after-title-field">{{vm.ideadline4}}</h5></td>
-                    <td class="text-left">{{vm.ideadlineDate4}}</td>
-                </tr>
+                    <tr ng-show="vm.ideadline5">
+                        <td class="text-left"><h5 class="after-title-field">{{vm.ideadline5}}</h5></td>
+                        <td class="text-left">{{vm.ideadlineDate5}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-3" ng-controller="generalInfoCtrl as vm">
+        <section class="right" ng-show="vm.idateFrom">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Conference Days</div>
+                <div class="panel-body">
+                    <p ng-show="vm.idateFrom && vm.idateTo"><br />{{vm.idateFrom}} - {{vm.idateTo}}</p>
+                    <p ng-show="vm.idateFrom && !vm.idateTo"><br />{{vm.idateFrom}}</p>
 
-                <tr ng-show="vm.ideadline5">
-                    <td class="text-left"><h5 class="after-title-field">{{vm.ideadline5}}</h5></td>
-                    <td class="text-left">{{vm.ideadlineDate5}}</td>
-                </tr>
-            </tbody>
-        </table>
+                </div>
+            </div>
+        </section>
     </div>
 </div>

@@ -60,7 +60,8 @@
                 <div class="modal-body">
                     <form name="editSponsorForm">
                         <label class="after-title-field">Pricing:</label>
-                        <input name="cost" type="number" ng-model="vm.amount" /><br />
+                        <input name="cost" type="number" ng-model="vm.amount" />
+                        <label class="help-inline" ng-show="editSponsorForm.cost.$invalid">Invalid cost.</label><br />
                         <label>Benefits:</label><p class="after-title-field2">You can specify up to 10 benefits.</p>
                         <table class="table after-title-field" id="benefitstable">
                             <thead>
@@ -100,7 +101,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.saveBenefits()">Save</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-disabled="editSponsorForm.$invalid" ng-click="vm.saveBenefits()">Save</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal" ng-click="vm.clear()">Cancel</button>
                 </div>
             </div>

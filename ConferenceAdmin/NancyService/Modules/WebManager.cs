@@ -55,8 +55,8 @@ namespace NancyService.Modules
                 {
 
                     var img = (from s in context.interfacedocuments
-                                where s.attibuteName == "homeImage"
-                                select s).FirstOrDefault();
+                               where s.attibuteName == "homeImage"
+                               select s).FirstOrDefault();
 
                     if (img != null)
                     {
@@ -114,10 +114,10 @@ namespace NancyService.Modules
                         homeParagraph2.content = newHome.homeParagraph2;
 
                     var img = (from s in context.interfacedocuments
-                                where s.attibuteName == "homeImage"
-                                select s).FirstOrDefault();
+                               where s.attibuteName == "homeImage"
+                               select s).FirstOrDefault();
 
-                    if (img != null)
+                    if (img != null && newHome.image != null && newHome.image != "")
                         img.content = newHome.image;
 
                     context.SaveChanges();
@@ -131,12 +131,12 @@ namespace NancyService.Modules
             }
         }
 
-        public bool removeImage(String src)
+        public bool removeFile(String src)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
-                {   
+                {
                     var img = (from s in context.interfacedocuments
                                where s.attibuteName == src
                                select s).FirstOrDefault();
@@ -581,7 +581,7 @@ namespace NancyService.Modules
                     if (professionalAcademyFee != null)
                     {
                         professionalAcademyFee.registrationCost = newRegistration.professionalAcademyFee;
-                        professionalAcademyFee.registrationLateFee = newRegistration.professionalIndustryLateFee;
+                        professionalAcademyFee.registrationLateFee = newRegistration.professionalAcademyLateFee;
                     }
 
                     context.SaveChanges();
@@ -1236,6 +1236,7 @@ namespace NancyService.Modules
             try
             {
                 GeneralInfoQuery info = new GeneralInfoQuery();
+                info.conferenceAcronym = this.getInterfaceElement("conferenceAcronym").content;
                 info.conferenceName = this.getInterfaceElement("conferenceName").content;
                 info.dateFrom = this.getInterfaceElement("conferenceDay1").content;
                 info.dateTo = this.getInterfaceElement("conferenceDay3").content;
@@ -1291,8 +1292,7 @@ namespace NancyService.Modules
                     DateTime dateFrom = Convert.ToDateTime(info.dateFrom);
                     DateTime dateTo = Convert.ToDateTime(info.dateTo);
 
-                    TimeSpan ts = dateTo - dateFrom;
-                    int differenceDays = ts.Days;
+                    int differenceDays = DateTime.Compare(dateTo, dateFrom);
 
                     if (differenceDays < 0 || differenceDays >= 3)
                     {
@@ -1321,6 +1321,12 @@ namespace NancyService.Modules
 
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    var conferenceAcronym = (from s in context.interfaceinformations
+                                             where s.attribute == "conferenceAcronym"
+                                             select s).FirstOrDefault();
+                    if (conferenceAcronym != null)
+                        conferenceAcronym.content = info.conferenceAcronym;
+
                     var conferenceName = (from s in context.interfaceinformations
                                           where s.attribute == "conferenceName"
                                           select s).FirstOrDefault();
@@ -1349,11 +1355,11 @@ namespace NancyService.Modules
                         d3.content = conferenceDay3;
 
                     var logo = (from s in context.interfacedocuments
-                              where s.attibuteName == "logo"
-                              select s).FirstOrDefault();
+                                where s.attibuteName == "logo"
+                                select s).FirstOrDefault();
 
-                    if (logo != null)
-                        logo.content = info.logo; 
+                    if (logo != null && info.logo != null && info.logo != "")
+                        logo.content = info.logo;
 
                     context.SaveChanges();
                     return true;
@@ -1362,6 +1368,133 @@ namespace NancyService.Modules
             catch (Exception ex)
             {
                 Console.Write("WebManger.saveGeneralInfo error " + ex);
+                return false;
+            }
+        }
+
+        public ProgramQuery getProgram()
+        {
+            try
+            {
+                ProgramQuery programInfo = new ProgramQuery();
+
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+
+                    var program = (from s in context.interfacedocuments
+                                   where s.attibuteName == "agendaPDF"
+                                   select s).FirstOrDefault();
+
+                    if (program != null)
+                    {
+                        programInfo.program = program.content;
+                        programInfo.pattribute = "agendaPDF";
+                    }
+
+                    var abstracts = (from s in context.interfacedocuments
+                                     where s.attibuteName == "abstractPdf"
+                                     select s).FirstOrDefault();
+
+                    if (abstracts != null)
+                    {
+                        programInfo.abstracts = abstracts.content;
+                        programInfo.aattribute = "abstractPdf";
+                    }
+                }
+
+                return programInfo;
+            }
+            catch (Exception ex)
+            {
+                Console.Write("WebManager.getProgram error " + ex);
+                return null;
+            }
+        }
+
+        public ProgramQuery getProgramDocument()
+        {
+
+            try
+            {
+                ProgramQuery programInfo = new ProgramQuery();
+
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+
+                    var program = (from s in context.interfacedocuments
+                                   where s.attibuteName == "agendaPDF"
+                                   select s).FirstOrDefault();
+
+                    if (program != null)
+                    {
+                        programInfo.program = program.content;
+                    }
+                }
+
+                return programInfo;
+            }
+            catch (Exception ex)
+            {
+                Console.Write("WebManager.getProgramDocument error " + ex);
+                return null;
+            }
+        }
+
+        public ProgramQuery getAbstractDocument()
+        {
+            try
+            {
+                ProgramQuery programInfo = new ProgramQuery();
+
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+
+                    var abstracts = (from s in context.interfacedocuments
+                                     where s.attibuteName == "abstractPdf"
+                                     select s).FirstOrDefault();
+
+                    if (abstracts != null)
+                    {
+                        programInfo.abstracts = abstracts.content;
+                    }
+                }
+
+                return programInfo;
+            }
+            catch (Exception ex)
+            {
+                Console.Write("WebManager.getAbstractDocument error " + ex);
+                return null;
+            }
+        }
+
+        public bool saveProgram(ProgramQuery programInfo)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    var program = (from s in context.interfacedocuments
+                                   where s.attibuteName == "agendaPDF"
+                                   select s).FirstOrDefault();
+
+                    if (program != null && programInfo.program != null && programInfo.program != "")
+                        program.content = programInfo.program;
+
+                    var abstracts = (from s in context.interfacedocuments
+                                     where s.attibuteName == "abstractPdf"
+                                     select s).FirstOrDefault();
+
+                    if (abstracts != null && programInfo.abstracts != null && programInfo.abstracts != "")
+                        abstracts.content = programInfo.abstracts;
+
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("WebManger.saveProgram error " + ex);
                 return false;
             }
         }
@@ -1396,6 +1529,7 @@ namespace NancyService.Modules
 
     public class GeneralInfoQuery
     {
+        public String conferenceAcronym;
         public String conferenceName;
         public String dateFrom;
         public String dateTo;
@@ -1567,6 +1701,19 @@ namespace NancyService.Modules
         public SponsorBenefitsQuery benefits;
 
         public SaveSponsorQuery()
+        {
+
+        }
+    }
+
+    public class ProgramQuery
+    {
+        public String program;
+        public String pattribute;
+        public String abstracts;
+        public String aattribute;
+
+        public ProgramQuery()
         {
 
         }

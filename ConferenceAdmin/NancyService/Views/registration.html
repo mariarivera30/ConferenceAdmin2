@@ -2,6 +2,7 @@
     <div class="row hide-until-loaded" id="body">
         <div class="col-md-12">
             <h2 class="section-title no-margin-top">Registration Fees</h2>
+            <p ng-hide="vm.registrationNotes || vm.registrationTitle1 || vm.registrationParagraph1 || vm.registrationTitle2 || vm.registrationParagraph2 || vm.undergraduateStudentFee || vm.undergraduateStudentLateFee || vm.graduateStudentFee || vm.graduateStudentLateFee || vm.highSchoolStudentFee || vm.highSchoolStudentLateFee || vm.companionStudentFee || vm.companionStudentLateFee || vm.professionalAcademyFee || vm.professionalAcademyLateFee || vm.professionalIndustryFee || vm.professionalIndustryLateFee">No content to display.</p>
             <h4>{{vm.iregistrationNotes}} </h4>
             <h5 class="black-label">{{vm.iregistrationTitle1}}</h5>
             <p class="p-lg">{{vm.iregistrationParagraph1}}</p>
@@ -9,7 +10,7 @@
 
         <div class="col-md-8">
 
-            <table class="table">
+            <table class="table" ng-show="vm.undergraduateStudentFee || vm.undergraduateStudentLateFee || vm.graduateStudentFee || vm.graduateStudentLateFee || vm.highSchoolStudentFee || vm.highSchoolStudentLateFee || vm.companionStudentFee || vm.companionStudentLateFee || vm.professionalAcademyFee || vm.professionalAcademyLateFee || vm.professionalIndustryFee || vm.professionalIndustryLateFee">
 
                 <thead>
 
@@ -53,7 +54,7 @@
 
                         <td>${{vm.ihighSchoolStudentFee}}</td>
 
-                        <td>${{vm.ihighSchoolStudentFee}}</td>
+                        <td>${{vm.ihighSchoolStudentLateFee}}</td>
 
                     </tr>
 

@@ -473,9 +473,9 @@ namespace NancyService.Modules
                 return webManager.saveHome(home);
             };
 
-            Put["/removeImage/{data}"] = parameters =>
+            Put["/removeFile/{data}"] = parameters =>
             {
-                return webManager.removeImage(parameters.data);
+                return webManager.removeFile(parameters.data);
             };
 
             Get["/getVenue"] = parameters =>
@@ -572,6 +572,11 @@ namespace NancyService.Modules
                 return webManager.saveSponsorBenefits(sponsor);
             };
 
+            Put["/saveInstructions"] = parameters =>
+            {
+                return webManager.saveInstructions("");
+            };
+
             Put["/saveInstructions/{data}"] = parameters =>
             {
                 return webManager.saveInstructions(parameters.data);
@@ -596,6 +601,27 @@ namespace NancyService.Modules
             {
                 var info = this.Bind<GeneralInfoQuery>();
                 return webManager.saveGeneralInfo(info);
+            };
+
+            Get["/getProgram"] = parameters =>
+            {
+                return Response.AsJson(webManager.getProgram());
+            };
+
+            Get["/getAbstractDocument"] = parameters =>
+            {
+                return Response.AsJson(webManager.getAbstractDocument());
+            };
+
+            Get["/getProgramDocument"] = parameters =>
+            {
+                return Response.AsJson(webManager.getProgramDocument());
+            };
+
+            Put["/saveProgram"] = parameters =>
+            {
+                var info = this.Bind<ProgramQuery>();
+                return webManager.saveProgram(info);
             };
 
         }

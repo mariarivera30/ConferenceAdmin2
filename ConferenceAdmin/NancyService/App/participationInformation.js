@@ -62,7 +62,7 @@
                     vm.iparticipationParagraph2 = data.participationParagraph2;
                     vm.iparticipationParagraph3 = data.participationParagraph3;
                     vm.iparticipationParagraph4 = data.participationParagraph4;
-                    vm.iparticipationParagraph5 = data.participationParagraph4;
+                    vm.iparticipationParagraph5 = data.participationParagraph5;
 
                     vm.participationTitle1 = data.participationTitle1;
                     vm.participationTitle2 = data.participationTitle2;
@@ -73,7 +73,7 @@
                     vm.participationParagraph2 = data.participationParagraph2;
                     vm.participationParagraph3 = data.participationParagraph3;
                     vm.participationParagraph4 = data.participationParagraph4;
-                    vm.participationParagraph5 = data.participationParagraph4;
+                    vm.participationParagraph5 = data.participationParagraph5;
 
                     load();
                 }
@@ -95,7 +95,7 @@
                 participationParagraph2: vm.participationParagraph2,
                 participationParagraph3: vm.participationParagraph3,
                 participationParagraph4: vm.participationParagraph4,
-                participationParagraph5: vm.participationParagraph4
+                participationParagraph5: vm.participationParagraph5
             }
             restApi.saveParticipation(newParticipation)
             .success(function (data, status, headers, config) {

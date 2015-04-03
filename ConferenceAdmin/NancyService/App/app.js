@@ -350,6 +350,16 @@
                 }
             }
         })
+
+        .state('administrator.program', {
+            url: "/Program",
+            views: {
+                'adminPage': {
+                    templateUrl: "views/admin_program.html"
+                }
+            }
+        })
+
         .state('administrator.registration', {
             url: "/RegistrationForm",
             views: {

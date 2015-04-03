@@ -1,7 +1,8 @@
 ﻿<div class="container" ng-controller="committeeCtrl as vm">
     <div class="row hide-until-loaded" id="body">
+        <h2 class="section-title">Planning Committee</h2>
+        <div ng-hide="vm.conferenceChairList.length"><p>No content to display.</p></div>
         <div class="col-md-12" ng-show="vm.conferenceChairList.length">
-            <h2 class="section-title">Planning Committee</h2>
             <h3>Conference Chair</h3>
             <div ng-repeat="committee in vm.conferenceChairList">
                 <p class="p-lg">{{committee.firstName}} {{committee.lastName}}<br />{{committee.affiliation}}</p>

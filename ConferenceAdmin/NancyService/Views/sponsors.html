@@ -7,6 +7,7 @@
     <section class="hide-until-loaded" id="body">
         <div class="row">
             <div class="col-lg-12">
+                <p ng-hide="vm.instructions || vm.iplatinumAmount || vm.igoldAmount || vm.isilverAmount || vm.ibronzeAmount">No content to display.</p>
                 <p>{{vm.instructions}}</p><br />
             </div>
             <div class="col-lg-3 col-sm-6" ng-show="vm.iplatinumAmount">
@@ -35,7 +36,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-sm-6">
+            <div class="col-lg-3 col-sm-6" ng-show="vm.igoldAmount">
                 <div class="pricing-box animated fadeInUp animation-delay-3">
                     <div class="pricing-box-header gold">
                         <h2>Gold</h2>
@@ -61,7 +62,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-sm-6">
+            <div class="col-lg-3 col-sm-6" ng-show="vm.isilverAmount">
                 <div class="pricing-box animated fadeInUp animation-delay-5">
                     <div class="pricing-box-header silver">
                         <h2>Silver</h2>
@@ -87,7 +88,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-sm-6">
+            <div class="col-lg-3 col-sm-6" ng-show="vm.ibronzeAmount">
                 <div class="pricing-box animated fadeInUp animation-delay-7">
                     <div class="pricing-box-header bronze">
                         <h2>Bronze</h2>

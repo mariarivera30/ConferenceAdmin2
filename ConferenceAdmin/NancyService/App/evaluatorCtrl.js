@@ -112,7 +112,6 @@
         function _updateAcceptanceStatus(evaluator) {
 
             vm.evaluator = JSON.parse(JSON.stringify(evaluator));
-
             if (vm.evaluator.optionStatus == "Accept") {
                 vm.acceptanceStatus = "Accepted";
             }

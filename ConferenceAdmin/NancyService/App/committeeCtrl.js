@@ -14,8 +14,8 @@
         vm.conferenceCoChairList = {};
         vm.conferenceCoordinatorList = {};
         vm.conferenceTreasurerList = {};
-        vm.conferenceAssistant = {};
-        vm.conferenceAccountant = {};
+        vm.conferenceAssistantList = {};
+        vm.conferenceAccountantList = {};
 
         //Functions
         vm.getCommitteeInterface = _getCommitteeInterface;
@@ -33,8 +33,8 @@
                vm.conferenceCoChairList = data.conferenceCoChairList;
                vm.conferenceCoordinatorList = data.conferenceCoordinatorList;
                vm.conferenceTreasurerList = data.conferenceTreasurerList;
-               vm.conferenceAssistant = data.conferenceAssistant;
-               vm.conferenceAccountant = data.conferenceAccountant;
+               vm.conferenceAssistantList = data.conferenceAssistantList;
+               vm.conferenceAccountantList = data.conferenceAccountantList;
 
                load();
            })

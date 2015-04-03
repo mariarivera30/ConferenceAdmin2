@@ -1,72 +1,42 @@
-﻿<div class="row" ng-controller="generalInfoCtrl as vm">
+﻿<div class="row" ng-controller="programCtrl as vm">
+    <h3>Conference Program</h3>
 
-    <div class="row">
-        <div class="col-lg-6"><h3>General</h3></div>
-        <!-- Loading icon, appearing while table is loading its contents. -->
-        <div class="col-lg-6 loading-right">
-            <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
-        </div>
-    </div>
+    <!--Conference Program Information -->
+    <div class="col-lg-10" id="body">
 
-    <!-- General Conference Information -->
-    <div class="col-lg-10 hide-until-loaded" id="body">
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <h5 class="after-title-field">Conference Acronym</h5>
-                    <input type="text" class="form-control" ng-model="vm.conferenceAcronym">
+        <div class="col-lg-5">
+            <div class="row">
+                <h5 class="after-title-field2">Program Schedule</h5>
+                <div class="upload">
+                    <input type="file" id="programFile" name="upload" file-model="vm.myFile" on-read-file="saveProgramFile($fileContent)" />
                 </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <h5 class="after-title-field">Conference Name</h5>
-                    <input type="text" class="form-control" ng-model="vm.conferenceName">
+            <div class="row">
+                <h5 class="after-title-field2">Abstracts / Bios</h5>
+                <div class="upload">
+                    <input type="file" id="abstractFile" name="upload" file-model="vm.myFile2" on-read-file="saveAbstractFile($fileContent)" />
                 </div>
             </div>
+
         </div>
 
-        <h5 class="after-title-field2">Conference Logo</h5><br />
-        <form action="" method="post" enctype="multipart/form-data">
-            <div class="upload">
-                <input type="file" id="imageFile" name="upload" file-model="myFile" on-read-file="saveImg($fileContent)" />
-            </div>
-            <div class="col-sm-6 col-md-6 title-field" ng-show="vm.imgExist">
-                <p>Current Image:</p>
-                <div ng-if="content">
-                    <img class="img-size img-responsive" ng-src="{{content}}" />
+        <div class="col-lg-5">
+            <div class="row">
+                <h5>Saved Documents</h5>
+                <div class="templates-list table-box after-title-field">
+                    <ul class="list-group list-group-striped">
+                        <li ng-repeat="doc in vm.documentsList" class="list-group-item">{{doc.name}}<span class="right"><a href="" ng-click="vm.viewDocument(doc.file)">View</a>|<a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedFile(doc.name, doc.db)">Delete</a></span></li>
+                        <li ng-hide="vm.documentsList.length">No documents to display.</li>
+                    </ul>
                 </div>
-            </div>
-
-            <div class="col-sm-6 col-md-6 title-field" ng-show="vm.show">
-                <p>New Image:</p>
-                <div ng-if="img">
-                    <img class="img-size img-responsive" ng-src="{{img}}" />
-                </div>
-            </div>
-            <div class="col-lg-12" ng-show="vm.imgExist">
-                <div><a href="" data-toggle="modal" data-target="#delete">Remove</a></div>
-            </div>
-        </form>
-
-        <div class="row">
-            <div class="col-lg-10">
-                <br />
-                <h5 class="after-title-field2">Conference Days</h5>
-                <label>From: </label>
-                <input type="date" ng-model="vm.dateFrom" />
-                <label>To:</label>
-                <input type="date" ng-model="vm.dateTo" />
             </div>
         </div>
         <br />
 
         <div class="row">
             <div class="col-lg-10">
-                <button class="btn btn-ar btn-primary" ng-disabled="vm.disabled" ng-click="vm.saveGeneralInfo()">Save</button>
+                <button class="btn btn-ar btn-primary" ng-disabled="vm.disabled" ng-click="vm.saveProgram()">Save</button>
             </div>
         </div>
     </div>
@@ -77,32 +47,33 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="deleteLabel">General Information</h4>
+                    <h4 class="modal-title" id="deleteLabel">Program Information</h4>
                 </div>
                 <div class="modal-body">
                     <p>
-                        Are you sure you want to delete the image?
+                        Are you sure you want to delete the file selected?
                     </p>
+                    <ul><li>{{vm.file}}</li></ul>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.removeImage()">Yes!</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.removeFile()">Yes!</button>
                     <button class="btn btn-ar btn-primary left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Image Delete Confirmation -->
-    <div class="modal fade" id="deleteImgConfirm" tabindex="-1" role="dialog" aria-labelledby="deleteImgConfirmLabel" aria-hidden="true">
+    <!-- Delete Confirmation -->
+    <div class="modal fade" id="deleteFileConfirm" tabindex="-1" role="dialog" aria-labelledby="deleteFileConfirmLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="deleteImgConfirmLabel">Image</h4>
+                    <h4 class="modal-title" id="deleteFileConfirmLabel">File</h4>
                 </div>
                 <div class="modal-body">
                     <p>
-                        The image has been removed.
+                        The file has been removed.
                     </p>
                 </div>
                 <div class="modal-footer">
@@ -113,16 +84,16 @@
     </div>
 
     <!-- Image Delete Error -->
-    <div class="modal fade" id="deleteImgError" tabindex="-1" role="dialog" aria-labelledby="deleteImgErrorLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteFileError" tabindex="-1" role="dialog" aria-labelledby="deleteFileErrorLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="deleteImgErrorLabel">Image</h4>
+                    <h4 class="modal-title" id="deleteFileErrorLabel">File</h4>
                 </div>
                 <div class="modal-body">
                     <p>
-                        The image could not be removed at this moment.
+                        The file could not be removed at this moment.
                     </p>
                 </div>
                 <div class="modal-footer">
@@ -138,7 +109,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="updateConfirmLabel">General Update</h4>
+                    <h4 class="modal-title" id="updateConfirmLabel">Program Update</h4>
                 </div>
                 <div class="modal-body">
                     <p>
@@ -158,7 +129,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="updateErrorLabel">General Update Error</h4>
+                    <h4 class="modal-title" id="updateErrorLabel">Program Update Error</h4>
                 </div>
                 <div class="modal-body">
                     <p>
@@ -178,16 +149,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="updateError2Label">General Update Error</h4>
+                    <h4 class="modal-title" id="updateError2Label">Program Update Error</h4>
                 </div>
                 <div class="modal-body">
                     <p>
-                        The information could not be updated. Check the selected dates, and try again.
+                        The information could not be updated. Try again later.
                     </p>
-                    <ul>
-                        <li>The dates of the conference must not exceed three days.</li>
-                        <li>The start date must be before the selected end date for the conference.</li>
-                    </ul>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
