@@ -111,24 +111,20 @@
                             <li><a href="https://twitter.com/hashtag/ccwic" class="animated fadeIn animation-delay-7 twitter" target="_blank" title="Twitter"><i class="fa fa-twitter"></i></a></li>
                             <li><a href="https://www.facebook.com/ccwic2014" class="animated fadeIn animation-delay-8 facebook" target="_blank" title="Facebook"><i class="fa fa-facebook"></i></a></li>
                             <li><a href="https://plus.google.com/s/ccwic" class="animated fadeIn animation-delay-9 google-plus" target="_blank" title="Google Plus"><i class="fa fa-google-plus"></i></a></li>
-                           
+                            <li></li><li></li><li></li><li></li>
+
+                            <!-- <li><a href="#" class="animated fadeIn animation-delay-9 instagram"><i class="fa fa-instagram"></i></a></li> -->
+                        </ul>
+                        <ul class="top-nav-social hidden-sm">
                             <li><a ng-hide="vm.showProfile" href="#/Login/Log"><i class="fa fa-user"></i> Login | Register</a></li>
                             <li><a ng-show="vm.showProfile" href="#/Profile/GeneralInformation"><i class="fa fa-user"></i> Profile</a></li>
                             <li><a ng-show="vm.showProfile" href="#/Administrator/GeneralInformation"><i class="fa fa-setting"></i> Administrator </a></li>   
-                        
-                            <li></li>
-                             <li>
-                                
-                            </li>
-                            
-                            <li></li>
-                            
-                            <li></li>
+                            <li></li> <li></li><li></li><li></li>
                        
                              <!-- <li><a href="#" class="animated fadeIn animation-delay-9 instagram"><i class="fa fa-instagram"></i></a></li> -->
-</ul>
+                      </ul>
                         <ul class="top-nav-social hidden-sm">
-                            <li><a ng-show="vm.showProfile" href="#/Home" ng-click="vm.logout()">Logout</a><label>{{vm.messageLogOut}}</label></li>
+                            <li><a ng-show="vm.showProfile" href="#/Home" ng-click="vm.logout()">Logout</a>{{vm.messageLogOut}}</li>
                             </ul>
 
 
