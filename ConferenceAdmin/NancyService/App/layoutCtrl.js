@@ -5,17 +5,23 @@
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$rootScope', '$http', '$window', '$location', layoutCtrl]);
+        ['$scope', '$rootScope', '$http', '$window', '$location', 'restApi',layoutCtrl]);
 
-    function layoutCtrl($scope, $rootScope, $http, $window, $location) {
+    function layoutCtrl($scope, $rootScope, $http, $window, $location, restApi) {
 
         var vm = this;
 
         vm.activate = activate;
         vm.title = 'layoutCtrl';
+        vm.conferenceName;
+        vm.conferenceLogo;
+
+        //Functions
+        vm.getGeneralInfo = _getGeneralInfo;
         vm.tabViewControl = _tabViewControl;
         vm.logout = _logout;
 
+        _getGeneralInfo();
         activate();
 
         $rootScope.$on('Login', function (data) {
@@ -85,7 +91,30 @@
 
         }
 
+        $rootScope.$on('ConferenceAcronym', function (event, data) {
+            vm.conferenceAcronym = data;
+        });
 
+        $rootScope.$on('ConferenceName', function (event, data) {
+            vm.conferenceName = data;
+        });
 
+        $rootScope.$on('ConferenceLogo', function (event, data) {
+            vm.conferenceLogo = data;
+        });
+
+        function _getGeneralInfo() {
+            restApi.getGeneralInfo()
+            .success(function (data, status, headers, config) {
+                if (data != null) {
+                    vm.conferenceAcronym = data.conferenceAcronym;
+                    vm.conferenceName = data.conferenceName;
+                    vm.conferenceLogo = data.logo;
+                }
+            })
+            .error(function (error) {
+
+            });
+        }
     }
 })();

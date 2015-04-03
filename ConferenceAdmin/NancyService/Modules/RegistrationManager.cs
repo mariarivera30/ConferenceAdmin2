@@ -173,7 +173,7 @@ public class RegisteredUser
     public string affiliationName;
     public bool? byAdmin;
     public UserTypeName usertype;
-
+    public string notes;
     public RegisteredUser() { }
 
 }

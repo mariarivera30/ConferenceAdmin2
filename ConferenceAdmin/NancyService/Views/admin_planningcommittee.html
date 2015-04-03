@@ -1,8 +1,9 @@
 ﻿<div ng-controller="committeeCtrl2 as vm">
     <h3>Planning Committee</h3><br>
 
+    <div ng-hide="vm.planningCommitteeList.length"><p>No committee member has been added.</p><br /></div>
     <div class="col-lg-12 hide-until-loaded" id="body">
-        <table ng-table="tableParams" class="table row">
+        <table ng-table="tableParams" class="table row" ng-show="vm.planningCommitteeList.length">
             <tr>
                 <td><b>Name</b></td>
                 <td><b>Affiliation</b></td>

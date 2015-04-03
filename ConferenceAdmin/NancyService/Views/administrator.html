@@ -6,6 +6,7 @@
                 <div class="vertical-tab-list">
                     <h5 ng-show="vm.reports" class="title-centered">Website Content</h5>
                     <ul class="nav">
+
                         <li ng-show="vm.general" ng-click="selectedTab='general';" ng-class="{active: selectedTab=='general'}"><a href="#/Administrator/GeneralInformation">General</a></li>
                         <li ng-show=" vm.administrator" ng-click=" selectedtab='home' ;" ng-class="{active: selectedTab=='home'}"><a href="#/Administrator/Home">Home</a></li>
                         <li ng-show="vm.planning" ng-click="selectedTab='planning';" ng-class="{active: selectedTab=='planning'}"><a href="#/Administrator/PlanningCommittee">Planning Committee</a></li>
@@ -15,6 +16,7 @@
                         <li ng-show="vm.participation" ng-click="selectedTab='participation';" ng-class="{active: selectedTab=='participation'}"><a href="#/Administrator/Participation">Call for Participation</a></li>
                         <li ng-show="vm.sponsorsInt" ng-click="selectedTab='sponsorsInt';" ng-class="{active: selectedTab=='sponsorsInt'}"><a href="#/Administrator/Sponsors">Sponsors</a></li>
                         <li ng-show="vm.contact" ng-click="selectedTab='contact';" ng-class="{active: selectedTab=='contact'}"><a href="#/Administrator/Contact">Contact</a></li>
+
                     </ul>
                     <h5 class="title-centered">Conference Management</h5>
                     <ul class="nav">

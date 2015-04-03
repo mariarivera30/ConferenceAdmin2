@@ -55,6 +55,7 @@
             updateProfileInfo: _updateProfileInfo,
             apply: _apply,
             makePayment: _makePayment,
+            complementaryPayment: _complementaryPayment,
             getAssignedSubmissions: _getAssignedSubmissions,
             getSubmissionDetails: _getSubmissionDetails,
             postEvaluation: _postEvaluation,
@@ -65,6 +66,7 @@
             deleteDocument: _deleteDocument,
             selectCompanion: _selectCompanion,
             getCompanionKey: _getCompanionKey,
+            checkComplementaryKey: _checkComplementaryKey,
             getNewAdmin: _getNewAdmin,
             getEvaluatorList: _getEvaluatorList,
             updateEvaluatorAcceptanceStatus: _updateEvaluatorAcceptanceStatus,
@@ -72,7 +74,7 @@
             postNewEvaluator: _postNewEvaluator,
             getHome: _getHome,
             saveHome: _saveHome,
-            removeImage: _removeImage,
+            removeFile: _removeFile,
             getVenue: _getVenue,
             saveVenue: _saveVenue,
             getContact: _getContact,
@@ -99,7 +101,11 @@
             getUserSubmissionList: _getUserSubmissionList,
             getUserSubmission: _getUserSubmission,
             getSubmissionTypes: _getSubmissionTypes,
-            deleteSubmission: _deleteSubmission
+            deleteSubmission: _deleteSubmission,
+            getProgram: _getProgram,
+            saveProgram: _saveProgram,
+            getProgramDocument: _getProgramDocument,
+            getAbstractDocument: _getAbstractDocument
         };
 
         return service;
@@ -312,9 +318,17 @@
         function _apply(data) {
             return $http.put('profile/apply/', data);
         };
-        
+
         function _makePayment(data) {
             return $http.put('profile/makePayment/', data);
+        };
+
+        function _complementaryPayment(data) {
+            return $http.put('profile/complementaryPayment/', data);
+        };
+
+        function _checkComplementaryKey(data) {
+            return $http.get('profile/checkComplementaryKey/' + data);
         };
 
         //---------------------------------PROFILE-SUBMISSIONS---------------------------
@@ -392,8 +406,8 @@
             return $http.put('/admin/saveHome', data);
         };
 
-        function _removeImage(data) {
-            return $http.put('admin/removeImage/' + data);
+        function _removeFile(data) {
+            return $http.put('/admin/removeFile/' + data);
         };
 
         function _getVenue() {
@@ -483,6 +497,23 @@
         function _saveGeneralInfo(data) {
             return $http.put('/admin/saveGeneralInfo', data);
         };
+
+        function _getProgram() {
+            return $http.get('/admin/getProgram');
+        };
+
+        function _getAbstractDocument() {
+            return $http.get('/admin/getAbstractDocument');
+        };
+
+        function _getProgramDocument() {
+            return $http.get('/admin/getProgramDocument');
+        };
+
+        function _saveProgram(data) {
+            return $http.put('/admin/saveProgram', data);
+        };
+
         //----------------------------------USER SUBMISSIONS----------------------------------
         //gets the submissions of the user currently logged in
         function _getUserSubmissionList(data) {

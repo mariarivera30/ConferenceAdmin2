@@ -31,6 +31,11 @@
         vm.date1;
         vm.date2;
         vm.date3;
+        vm.notes;
+        vm.companionKey;
+        vm.key;
+        vm.wrongKey;
+        vm.hasKey = false;
         // Application Attributes
         vm.acceptanceStatus;
         vm.registrationStatus;
@@ -45,10 +50,18 @@
         vm.apply = _apply;
         vm.getUserTypes = _getUserTypes;
         vm.makePayment = _makePayment;
+        vm.complementaryPayment = _complementaryPayment;
+        vm.selectCompanion = _selectCompanion;
+        vm.getCompanionKey = _getCompanionKey;
+        vm.checkComplementaryKey = _checkComplementaryKey;
         vm.checkAll;
+
+        
+
         if (vm.userID != null) {
             _getProfileInfo(vm.userID);
             _getUserTypes();
+            _getCompanionKey();
         }
 
         function activate() {
@@ -83,6 +96,7 @@
                        vm.acceptanceStatus = data.acceptanceStatus;
                        vm.registrationStatus = data.registrationStatus;
                        vm.userTypeID = data.userTypeID;
+                       vm.notes = data.notes;
                    }).
                    error(function (data, status, headers, config) {
                        alert("An error occurred trying to access your Profile Information.");
@@ -99,6 +113,51 @@
                     });
             vm.edit = false;
         }
+
+        //if not Minor
+        function _checkComplementaryKey(complementaryKey) {
+            restApi.checkComplementaryKey(complementaryKey)
+            .success(function (data, status, headers, config) {
+                vm.wrongKey = false;
+                vm.correctComplementaryKey = true;
+                vm.hasKey = true;
+            })
+            .error(function (error) {
+                vm.wrongKey = true;
+                vm.correctComplementaryKey = false;
+                vm.hasKey = false;
+            });
+        }
+
+        //if Minor
+        function _selectCompanion(companionKey) {
+            vm.companionKey = companionKey;
+            restApi.selectCompanion(vm)
+            .success(function (data, status, headers, config) {
+                vm.wrongKey = false;
+                vm.correctKey = true;
+                vm.hasKey = true;
+            })
+            .error(function (error) {
+                vm.wrongKey = true;
+                vm.correctKey = false;
+                vm.hasKey = false;
+            });
+        }
+
+        //if Minor
+        function _getCompanionKey() {
+            restApi.getCompanionKey(vm.userID)
+            .success(function (data, status, headers, config) {
+                vm.companionKey = data.companionKey;
+                if (vm.companionKey != null)
+                    vm.hasKey = true;
+            })
+            .error(function (error) {
+                vm.hasKey = false;
+            });
+        }
+
 
         function _apply() {
             restApi.apply(vm).
@@ -127,12 +186,27 @@
                 vm.date3 = true;
             }
             restApi.makePayment(vm).
-                    success(function (data, status, headers, config) {
-                        vm.registrationStatus = "Accepted";
-                    }).
-                    error(function (data, status, headers, config) {
-                        alert("An error occurred");
-                    });
+                success(function (data, status, headers, config) {
+                    vm.registrationStatus = "Accepted";
+                }).
+                error(function (data, status, headers, config) {
+                    alert("An error occurred");
+                });
+        }
+
+        function _complementaryPayment() {
+            if (vm.checkAll) {
+                vm.date1 = true;
+                vm.date2 = true;
+                vm.date3 = true;
+            }
+            restApi.complementaryPayment(vm).
+                success(function (data, status, headers, config) {
+                    vm.registrationStatus = "Accepted";
+                }).
+                error(function (data, status, headers, config) {
+                    alert("An error occurred");
+                });
         }
 
     }

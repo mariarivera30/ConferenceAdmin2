@@ -2,6 +2,7 @@
     <div class="row hide-until-loaded" id="body">
         <div class="col-md-9">
             <h2 class="section-title">Venue</h2>
+            <p ng-hide="vm.ivenueTitle1 || vm.ivenueParagraph1 || vm.ivenueTitle2 || vm.ivenueParagraph2">No content to display.</p>
             <section>
                 <h3>{{vm.ivenueTitle1}}</h3>
                 <p class="p-lg">{{vm.ivenueParagraph1}}</p>
@@ -10,9 +11,10 @@
             </section>
         </div>
         <div class="col-md-3">
-            <h2 class="section-title no-top-margin">{{vm.ivenueTitleBox}}</h2>
+            <h2 ng-show="vm.ivenueTitleBox" class="section-title no-top-margin">{{vm.ivenueTitleBox}}</h2>
             <div class="row">
                 <div class="col-md-12 col-sm-4">
+                    <p ng-hide="vm.ivenueParagraphContentBox">No content to display.</p>
                     <div class="home-news-box">
                         <p>{{vm.ivenueParagraphContentBox}}</p>
                     </div>

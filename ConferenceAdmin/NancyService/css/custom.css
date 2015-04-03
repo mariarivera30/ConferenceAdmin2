@@ -19,6 +19,11 @@
     margin:0px;
 }
 
+.img-size{
+    max-height:300px;
+    max-width:300px;
+}
+
 .registration-boxes{
     padding-left:0px;
 }
@@ -26,6 +31,10 @@
 .after-title-field2{
     padding-top:0px;
     margin-bottom:0px; 
+}
+
+.late-load{
+    display:none;
 }
 
 .collapse-body{
@@ -70,6 +79,11 @@
     width:100%; 
     overflow-y:auto;
     margin-bottom:10px;
+}
+
+.email-login{
+    padding:10px; 
+    margin-left:20px;
 }
 
 .psearch{

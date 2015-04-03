@@ -2,44 +2,46 @@
     <div class="row hide-until-loaded" id="body">
         <div class="col-md-12">
             <h2 class="section-title">Participate</h2>
-            <div class="row" ng-show="vm.iparticipationParagraph1">
+            <div class="row" ng-show="vm.iparticipationTitle1 || vm.iparticipationParagraph1">
                 <div class="col-md-12">
                     <h4 class="content-box-title margin-small">{{vm.iparticipationTitle1}}</h4>
                     <p class="p-lg paragraph-field">{{vm.iparticipationParagraph1}}</p>
-                    <hr class="dotted">
                 </div>
             </div>
-            <div class="row" ng-show="vm.iparticipationParagraph2">
+            <hr ng-show="vm.iparticipationParagraph1" class="dotted">
+
+            <div class="row" ng-show="vm.iparticipationTitle2 || vm.iparticipationParagraph2">
                 <div class="col-md-12">
                     <h4 class="content-box-title margin-small">{{vm.iparticipationTitle2}}</h4>
                     <p class="p-lg paragraph-field">{{vm.iparticipationParagraph2}}</p>
-                    <hr class="dotted">
                 </div>
             </div>
+            <hr ng-show="vm.iparticipationParagraph2" class="dotted">
 
             <div class="row">
-                <div class="col-md-12" ng-show="vm.iparticipationParagraph3">
+                <div class="col-md-12" ng-show="vm.iparticipationTitle3 || vm.iparticipationParagraph3">
                     <h4 class="content-box-title margin-small">{{vm.iparticipationTitle3}}</h4>
                     <p class="p-lg paragraph-field">{{vm.iparticipationParagraph3}}</p>
-                    <hr class="dotted">
                 </div>
             </div>
+            <hr ng-show="vm.iparticipationParagraph3" class="dotted">
 
             <div class="row">
-                <div class="col-md-12" ng-show="vm.iparticipationParagraph4">
+                <div class="col-md-12" ng-show="vm.iparticipationTitle4 || vm.iparticipationParagraph4">
                     <h4 class="content-box-title margin-small">{{vm.iparticipationTitle4}}</h4>
                     <p class="p-lg paragraph-field">{{vm.iparticipationParagraph4}}</p>
-                    <hr class="dotted">
                 </div>
             </div>
+            <hr ng-show="vm.iparticipationParagraph4" class="dotted">
+
 
             <div class="row">
-                <div class="col-md-12" ng-show="vm.iparticipationParagraph5">
+                <div class="col-md-12" ng-show="vm.iparticipationTitle5 || vm.iparticipationParagraph5">
                     <h4 class="content-box-title margin-small">{{vm.iparticipationTitle5}}</h4>
                     <p class="p-lg paragraph-field">{{vm.iparticipationParagraph5}}</p>
-                    <hr class="dotted">
                 </div>
             </div>
+            <hr ng-show="vm.iparticipationParagraph5" class="dotted">
             <button type="submit" class="btn btn-ar btn-primary">Apply</button>
         </div>
     </div>
