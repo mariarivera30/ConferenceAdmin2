@@ -68,23 +68,23 @@
                 var list = JSON.parse(sessionStorage.getItem('claims'));
                 list.forEach(function (claim) {
 
-                    if (claim.localeCompare('admin') == 0 || claim.localeCompare('master') == 0 ||
-                        claim.localeCompare('adminFinance') == 0 || claim.localeCompare('adminCommittee') == 0) {
+                    if (claim.localeCompare('Admin') == 0 || claim.localeCompare('Master') == 0 ||
+                        claim.localeCompare('Finance') == 0 || claim.localeCompare('CommitteEvaluator') == 0) {
                         vm.showAdminsitrator = true;
                     }
 
                 });
             }
-            else { vm.loged = false; }
+            else { vm.loged = false; vm.showAdminsitrator = false; }
 
 
         };
 
         function _logout() {
-            $rootScope.$emit('Logout', { hideAlias: true });
-
+     
             $window.sessionStorage.clear();
             vm.loged = false;
+            vm.showAdminsitrator = false;
             $location.path('/Home');
 
         }

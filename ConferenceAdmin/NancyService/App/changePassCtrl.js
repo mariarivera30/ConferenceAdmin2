@@ -35,7 +35,7 @@
 
                 vm.obj.title = "Your Password was changed!",
                 vm.obj.message1 = "Please Login!",
-                vm.obj.message2 = vm.credentials,
+                vm.obj.message2 = vm.credentials.email,
                 vm.obj.label = "Email",
                 vm.obj.okbutton = true,
                 vm.obj.okbuttonText = "OK",
@@ -47,8 +47,8 @@
             if (action === "notchanged") {
 
                 vm.obj.title = "Your Password cannot be changed!",
-                vm.obj.message1 = "Please Login!",
-                vm.obj.message2 = vm.credentials,
+                vm.obj.message1 = "Verify your credentials and try again",
+                vm.obj.message2 = vm.credentials.email,
                 vm.obj.label = "Email",
                 vm.obj.okbutton = true,
                 vm.obj.okbuttonText = "OK",
