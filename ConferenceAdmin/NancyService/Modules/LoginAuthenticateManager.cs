@@ -40,7 +40,7 @@ namespace NancyService.Modules
                     claims = (
                               from c in context.claims 
                               join p in context.privileges on c.privilegesID equals p.privilegesID
-                              where this.userID == c.userID
+                              where this.userID == c.userID && c.deleted == false
                               select p.privilegestType).ToList();
                 }             
        
@@ -84,7 +84,7 @@ namespace NancyService.Modules
                
                 UserAuth user = (from g in contx.memberships
                                  join u in contx.users on g.membershipID equals u.membershipID
-                                 where g.email == param.email && g.password == param.password
+                                 where g.email == param.email && g.password == param.password && g.deleted==false && u.deleted ==false
                                  select new UserAuth { userID = u.userID ,memberID = g.membershipID, password = g.password, email = g.email, userType = u.userTypeID }).FirstOrDefault();
 
                 if (user == null)

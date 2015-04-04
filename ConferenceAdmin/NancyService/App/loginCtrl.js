@@ -172,25 +172,30 @@
                      
                        vm.uploadingComp = false;
                        data.userClaims.forEach(function (claim) {
-                           if (claim.localeCompare('adminFinance') == 0 || claim.localeCompare('adminCommittee') == 0) {
-                               if (claim.localeCompare('adminCommittee') == 0)
-                                   $location.path('/Administrator/ManageSubmissions');
-                               else {
-                                   $location.path('/Administrator/GeneralInformation');
-                               }
+                           if (claim.localeCompare('Finance') == 0 || claim.localeCompare('Committee') == 0 || claim.localeCompare('Committee') == 0 || claim.localeCompare('Master') == 0) {
                                vm.isAdmin = true;
-                               $rootScope.$emit('Login', event, vm.isAdmin);
+                               
+                               $rootScope.$emit('Login', vm.isAdmin);
+                               $location.path('/Administrator/GeneralInformation');
+                               v
+                         
                            }
-
-                           else if (claim.localeCompare('minor') == 0 || claim.localeCompare('companion') == 0 || claim.localeCompare('participant') == 0 || claim.localeCompare('evaluator') == 0) {
-                               $location.path('/Profile/GeneralInformation');
-                               vm.isAdmin = false;
-                               $rootScope.$emit('Login', event, vm.isAdmin);
-                               return;
-                           }
-
-
                        });
+
+                       if (!vm.isAdmin) {
+                           data.userClaims.forEach(function (claim) {
+                               if (claim.localeCompare('minor') == 0 || claim.localeCompare('companion') == 0 || claim.localeCompare('participant') == 0 || claim.localeCompare('evaluator') == 0) {
+
+                                   vm.isAdmin = false;
+                                   $rootScope.$emit('Login', vm.isAdmin);
+                                   $location.path('/Profile/GeneralInformation');
+                                   return;
+                               }
+                           });
+                       }
+                    
+
+                      
                      
 
                    })
