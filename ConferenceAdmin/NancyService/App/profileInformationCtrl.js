@@ -120,9 +120,16 @@
         function _checkComplementaryKey(complementaryKey) {
             restApi.checkComplementaryKey(complementaryKey)
             .success(function (data, status, headers, config) {
-                vm.wrongKey = false;
-                vm.correctComplementaryKey = true;
-                vm.hasKey = true;
+                if (data) {
+                    vm.wrongKey = false;
+                    vm.correctComplementaryKey = true;
+                    vm.hasKey = true;
+                }
+                else {
+                    vm.wrongKey = true;
+                    vm.correctComplementaryKey = false;
+                    vm.hasKey = false;
+                }
             })
             .error(function (error) {
                 vm.wrongKey = true;
@@ -139,6 +146,10 @@
                 vm.wrongKey = false;
                 vm.correctKey = true;
                 vm.hasKey = true;
+                if (data == "Accepted")
+                    vm.companionRegistered = true;
+                else
+                    vm.companionRegistered = false;
             })
             .error(function (error) {
                 vm.wrongKey = true;
@@ -154,6 +165,10 @@
                 vm.companionKey = data.companionKey;
                 if (vm.companionKey != null)
                     vm.hasKey = true;
+                if (data == "Accepted")
+                    vm.companionRegistered = true;
+                else
+                    vm.companionRegistered = false;
             })
             .error(function (error) {
                 vm.hasKey = false;

@@ -53,7 +53,7 @@ namespace NancyService.Modules
             }
         }
 
-        public bool uploadDocument(Authorization auth, MinorUser minor)
+        public int uploadDocument(Authorization auth, MinorUser minor)
         {
             try
             {
@@ -72,13 +72,13 @@ namespace NancyService.Modules
                     minor.authorizationStatus = true;
 
                     context.SaveChanges();
-                    return true;
+                    return authorization.authorizationSubmittedID;
                 }
             }
             catch (Exception ex)
             {
                 Console.Write("ProfileAuthorizationManager.uploadDocument error " + ex);
-                return false;
+                return 0;
             }
         }
 
@@ -125,7 +125,7 @@ namespace NancyService.Modules
             }
         }
 
-        public bool selectCompanion(UserInfo user, companion companion)
+        public string selectCompanion(UserInfo user, companion companion)
         {
             try
             {
@@ -141,17 +141,21 @@ namespace NancyService.Modules
                             minorID = minor.minorsID,
                             deleted = false
                         };
-                        context.companionminors.Add(companionminor);
-                        context.SaveChanges();
+                        context.companionminors.Add(companionminor);                        
                     }
 
-                    return companion != null;
+                    var status = context.users.Where(u => u.userID == companion.userID).FirstOrDefault().registrationStatus;
+                    
+                    if(status == "Accepted")
+                        context.SaveChanges();
+
+                    return status;
                 }
             }
             catch (Exception ex)
             {
                 Console.Write("ProfileAuthorizationManager.selectCompanion error " + ex);
-                return false;
+                return null;
             }
         }
 

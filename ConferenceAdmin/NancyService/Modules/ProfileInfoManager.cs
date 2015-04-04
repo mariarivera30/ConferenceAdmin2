@@ -197,15 +197,15 @@ namespace NancyService.Modules
                     complementarykey complementaryKey = context.complementarykeys.Where(k => k.key == key).FirstOrDefault();
                     complementaryKey.isUsed = true;
 
-                    /*paymentcomplementary complementaryPay = new paymentcomplementary
+                    paymentcomplementary complementaryPay = new paymentcomplementary
                     {
                         paymentID = payment.paymentID,
                         deleted = false,
                         complementaryKeyID = complementaryKey.complementarykeyID
-                    };*/
+                    };
 
                     context.registrations.Add(registration);
-                    //context.paymentcomplementaries.Add(complementaryPay);
+                    context.paymentcomplementaries.Add(complementaryPay);
                     context.SaveChanges();
                     return true;
                 }
@@ -249,7 +249,7 @@ namespace NancyService.Modules
             }
             catch (Exception ex)
             {
-                Console.Write("ProfileAuthorizationManager.selectCompanion error " + ex);
+                Console.Write("ProfileAuthorizationManager.checkComplementaryKey error " + ex);
                 return false;
             }
         }

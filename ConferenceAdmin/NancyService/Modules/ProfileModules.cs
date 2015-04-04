@@ -71,10 +71,7 @@ namespace NancyService.Modules
             {
                 var key = parameters.complementaryKey;
 
-                if (profileInfo.checkComplementaryKey(key))
-                    return HttpStatusCode.OK;
-                else
-                    return HttpStatusCode.Conflict;
+                return (profileInfo.checkComplementaryKey(key)) ;
             };
 
 
@@ -217,11 +214,7 @@ namespace NancyService.Modules
             {
                 var doc = this.Bind<Authorization>();
                 var minor = this.Bind<MinorUser>();
-                if (profileAuthorization.uploadDocument(doc, minor))
-                    return HttpStatusCode.OK;
-
-                else
-                    return HttpStatusCode.Conflict;
+                return Response.AsJson(profileAuthorization.uploadDocument(doc, minor));
             };
 
             Get["/getTemplates"] = parameters =>
@@ -250,8 +243,9 @@ namespace NancyService.Modules
                 var user = this.Bind<UserInfo>();
                 var companion = this.Bind<companion>();
 
-                if (profileAuthorization.selectCompanion(user, companion))
-                    return HttpStatusCode.OK;
+                var status = profileAuthorization.selectCompanion(user, companion);
+                if (status != null)
+                    return status;
                 else
                     return HttpStatusCode.Conflict;
             };
