@@ -38,7 +38,8 @@ namespace NancyService.Modules
                         userFax = u.userFax,
                         registrationStatus = u.registrationStatus,
                         acceptanceStatus = u.acceptanceStatus,
-                        hasApplied = u.hasApplied
+                        hasApplied = u.hasApplied,
+                        key = context.companions.Where(c => c.userID == user.userID).FirstOrDefault().companionKey
                     }).FirstOrDefault();
 
                     RegisteredUser reg = context.registrations.Where(r => r.userID == user.userID).Select(r => new RegisteredUser

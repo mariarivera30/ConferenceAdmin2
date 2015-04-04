@@ -98,6 +98,7 @@
                        vm.registrationStatus = data.registrationStatus;
                        vm.userTypeID = data.userTypeID;
                        vm.notes = data.notes;
+                       vm.key = data.key;
                    }).
                    error(function (data, status, headers, config) {
                        alert("An error occurred trying to access your Profile Information.");
