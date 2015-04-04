@@ -16,7 +16,7 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    var guests = context.users.Where(c => c.hasApplied == true).Select(i => new GuestList
+                    var guests = context.users.Where(c => c.hasApplied == true && c.deleted != true).Select(i => new GuestList
                     {
                         userID = (int)i.userID,
                         firstName = i.firstName,
