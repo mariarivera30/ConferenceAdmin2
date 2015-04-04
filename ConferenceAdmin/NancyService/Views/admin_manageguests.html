@@ -8,7 +8,8 @@
                 <td><b>Name</b></td>
                 <td><b>User Type</b></td>
                 <td><b>Authorization Doc.</b></td>
-                <td><b>Acceptance Status</b></td>
+                <td><b>Status</b></td>
+                <td><b>Update</b></td>
                 <td><b>Registration Status</b></td>
             </tr>
             <tr ng-repeat="guest in vm.guestList">
@@ -24,10 +25,11 @@
                 </td>
                 <td>{{guest.userTypeName}}</td>
                 <td><a ng-show="guest.authorizationStatus" href="" data-toggle="modal" data-target="#authorizations" ng-click="vm.displayAuthorizations(guest.userID, guest.firstName, guest.lastName)">View</a></td>
+                <td>{{guest.acceptanceStatus}}</td>
                 <td>
-                    <select ng-disabled="guest.isRegistered" ng-model="guest.acceptanceStatus"
+                    <select ng-disabled="guest.isRegistered" ng-model="guest.optionStatus"
                             ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
-                    <button ng-disabled="guest.isRegistered" data-toggle="modal" data-target="#confirmAcceptanceChange" class="btn btn-ar btn-primary" ng-click="vm.updateAcceptanceStatus(guest.userID, guest.acceptanceStatus)">Apply</button>
+                    <button ng-disabled="guest.isRegistered" data-toggle="modal" data-target="#confirmAcceptanceChange" class="btn btn-ar btn-primary" ng-click="vm.updateAcceptanceStatus(guest.userID, guest.optionStatus)">Apply</button>
                 </td>
 
                 <td>
@@ -114,9 +116,9 @@
                     <h4>Participation Days</h4>
                     <div class="row">
                         <div class="col-lg-6">
-                            <span> Day 1&nbsp;&nbsp;<i ng-show="vm.modalDay1" class="fa fa-check"></i></span>
-                            <span class="block"> Day 2 &nbsp;&nbsp;<i ng-show="vm.modalDay2" class="fa fa-check"></i></span>
-                            <span class="block"> Day 3&nbsp;&nbsp;<i ng-show="vm.modalDay3" class="fa fa-check"></i></span>
+                            <span ng-show="vm.date1"> {{vm.date1}}&nbsp;&nbsp;<i ng-show="vm.modalDay1" class="fa fa-check"></i></span>
+                            <span ng-show="vm.date2" class="block"> {{vm.date2}} &nbsp;&nbsp;<i ng-show="vm.modalDay2" class="fa fa-check"></i></span>
+                            <span ng-show="vm.date3" class="block"> {{vm.date3}}&nbsp;&nbsp;<i ng-show="vm.modalDay3" class="fa fa-check"></i></span>
                         </div>
                     </div>
                 </div>
@@ -180,7 +182,7 @@
                     <h4 class="modal-title" id="rejectLabel">Reject Guest</h4>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to rejected the registration for this guest?
+                    Are you sure you want to reject the registration for this guest?
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.rejectRegisteredGuest()">Reject</button>

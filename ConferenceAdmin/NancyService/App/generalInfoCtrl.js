@@ -77,9 +77,9 @@
                     vm.idateTo = data.dateTo;
                     vm.conferenceAcronym = data.conferenceAcronym;
                     vm.conferenceName = data.conferenceName;
-                    //Format Date: mm/dd/yyyy if the field is blank "", new Date returns "Invalid Date"
-                    vm.dateFrom = new Date(data.dateFrom.split('/')[2], data.dateFrom.split('/')[1] - 1, data.dateFrom.split('/')[0]); //Date(yyyy,mm-1,dd)
-                    vm.dateTo = new Date(data.dateTo.split('/')[2], data.dateTo.split('/')[1] - 1, data.dateTo.split('/')[0]);
+                    vm.dateFrom = new Date(data.dateFrom.split('/')[2], data.dateFrom.split('/')[0] - 1, data.dateFrom.split('/')[1]); //Date(yyyy,mm-1,dd)
+                    vm.dateTo = new Date(data.dateTo.split('/')[2], data.dateTo.split('/')[0] - 1, data.dateTo.split('/')[1]);
+
                     vm.logo = data.logo;
 
                     if (vm.logo != "" && vm.logo != undefined) {

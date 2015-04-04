@@ -1289,7 +1289,7 @@ namespace NancyService.Modules
                 }
 
                 else if (info.dateFrom != "" && info.dateTo != "")
-                {
+                {                  
                     //check distance between dates
 
                     string from = Convert.ToDateTime(info.dateFrom).ToShortDateString();
@@ -1317,22 +1317,22 @@ namespace NancyService.Modules
 
                     else if (differenceDays == 0)
                     {
-                        conferenceDay1 = dateFrom.ToShortDateString();
+                        conferenceDay1 = info.dateFrom;
                     }
 
                     else if (differenceDays == 1)
                     {
-                        conferenceDay1 = dateFrom.ToShortDateString();
-                        conferenceDay2 = dateTo.ToShortDateString();
+                        conferenceDay1 = info.dateFrom;
+                        conferenceDay2 = info.dateTo;
                     }
                     else if (differenceDays == 2)
                     {
-                        conferenceDay1 = dateFrom.ToShortDateString();
-                        conferenceDay2 = dateFrom.AddDays(1).ToShortDateString();
-                        conferenceDay3 = dateFrom.AddDays(2).ToShortDateString();
-
+                        conferenceDay1 = info.dateFrom;
+                        DateTime d2 = dateFrom.AddDays(1);
+                        var month = d2.Month; var day = d2.Day; var year = d2.Year;
+                        conferenceDay2 = month + "/" + day + "/" + year;
+                        conferenceDay3 = info.dateTo;
                     }
-
                 }
 
                 using (conferenceadminContext context = new conferenceadminContext())

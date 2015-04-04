@@ -17,7 +17,7 @@
         vm.date1;
         vm.date2;
         vm.date3;
-        vm.checkAll;
+        //vm.checkAll;
 
         vm.registrationsList = [];
         vm.datesList = {};
@@ -82,7 +82,7 @@
             vm.date1 = false;
             vm.date2 = false;
             vm.date3 = false;
-            vm.checkAll = false;
+            //vm.checkAll = false;
             vm.currentid = 0;
             vm.editfirstname = "";
             vm.editlastname = "";
@@ -100,12 +100,12 @@
         }
 
         function _addRegistration() {
-
+            /*
             if (vm.checkAll) {
                 vm.date1 = true;
                 vm.date2 = true;
                 vm.date3 = true;
-            }
+            }*/
             var userTypeName = vm.usertypeid.userTypeName;
             vm.usertypeid = vm.usertypeid.userTypeID;
 
@@ -149,11 +149,11 @@
         }
 
         function _updateRegistration() {
-            if (vm.checkAll) {
+            /*if (vm.checkAll) {
                 vm.editdate1 = true;
                 vm.editdate2 = true;
                 vm.editdate3 = true;
-            }
+            }*/
             if (vm.currentid != undefined && vm.currentid != 0) {
                 var registration = { registrationID: vm.currentid, firstname: vm.editfirstname, lastname: vm.editlastname, usertypeid: vm.TYPE.userTypeID, affiliationName: vm.editaffiliationName, date1: vm.editdate1, date2: vm.editdate2, date3: vm.editdate3 }
                 restApi.updateRegistration(registration)

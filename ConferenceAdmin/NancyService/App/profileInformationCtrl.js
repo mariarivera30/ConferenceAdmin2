@@ -42,6 +42,7 @@
         vm.hasApplied;
         vm.userTypeID;
         vm.userTypesList = {};
+        vm.datesList = {};
 
         // Function Definitions
         vm.toggleEdit = toggleEdit;
@@ -54,9 +55,9 @@
         vm.selectCompanion = _selectCompanion;
         vm.getCompanionKey = _getCompanionKey;
         vm.checkComplementaryKey = _checkComplementaryKey;
-        vm.checkAll;
+        //vm.checkAll;
 
-        
+        _getDates();
 
         if (vm.userID != null) {
             _getProfileInfo(vm.userID);
@@ -180,11 +181,11 @@
         }
 
         function _makePayment() {
-            if (vm.checkAll) {
+            /*if (vm.checkAll) {
                 vm.date1 = true;
                 vm.date2 = true;
                 vm.date3 = true;
-            }
+            }*/
             restApi.makePayment(vm).
                 success(function (data, status, headers, config) {
                     vm.registrationStatus = "Accepted";
@@ -195,11 +196,11 @@
         }
 
         function _complementaryPayment() {
-            if (vm.checkAll) {
+            /*if (vm.checkAll) {
                 vm.date1 = true;
                 vm.date2 = true;
                 vm.date3 = true;
-            }
+            }*/
             restApi.complementaryPayment(vm).
                 success(function (data, status, headers, config) {
                     vm.registrationStatus = "Accepted";
@@ -207,6 +208,16 @@
                 error(function (data, status, headers, config) {
                     alert("An error occurred");
                 });
+        }
+
+        function _getDates() {
+            restApi.getDates().
+                   success(function (data, status, headers, config) {
+                       vm.datesList = data;
+                   }).
+                   error(function (data, status, headers, config) {
+                       vm.datesList = data;
+                   });
         }
 
     }
