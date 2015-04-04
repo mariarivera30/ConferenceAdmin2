@@ -19,9 +19,7 @@
                     <th><b>Name</b></th>
                     <th><b>Type of User</b></th>
                     <th><b>Affiliation</b></th>
-                    <th><b>Day 1</b></th>
-                    <th><b>Day 2</b></th>
-                    <th><b>Day 3</b></th>
+                    <th ng-repeat="day in vm.datesList"><b>{{day.split(',')[1]}}</b></th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -30,9 +28,9 @@
                 <td>{{reg.firstname + ' ' + reg.lastname}}</td>
                 <td>{{reg.usertypeid}}</td>
                 <td>{{reg.affiliationName}}</td>
-                <td><i class="fa fa-check" ng-show="{{reg.date1}}"></i></td>
-                <td><i class="fa fa-check" ng-show="{{reg.date2}}"></i></td>
-                <td><i class="fa fa-check" ng-show="{{reg.date3}}"></i></td>
+                <td ng-show="vm.datesList[0] != null && vm.datesList[0] != ''"><i class="fa fa-check" ng-show="{{reg.date1}}"></i></td>
+                <td ng-show="vm.datesList[1] != null && vm.datesList[1] != ''"><i class="fa fa-check" ng-show="{{reg.date2}}"></i></td>
+                <td ng-show="vm.datesList[2] != null && vm.datesList[2] != ''"><i class="fa fa-check" ng-show="{{reg.date3}}"></i></td>
                 <td><a href="" data-toggle="modal" data-target="#editAttendee" ng-show="reg.byAdmin" ng-click="vm.selectedRegistrationUpdate(reg.registrationID, reg.firstname, reg.lastname, reg.usertype, reg.affiliationName, reg.date1, reg.date2, reg.date3)">Edit</a></td>
                 <td><a href="" data-toggle="modal" data-target="#delete"><i class="glyphicon glyphicon-remove" ng-click="vm.selectedRegistrationDelete(reg.registrationID)"></i></a></td>
             </tr>
@@ -101,7 +99,7 @@
                             <input type="checkbox" name="participation1" ng-model="vm.date1" ng-checked="vm.checkAll">&nbsp;&nbsp;Wednesday, February 26, 2014<br>
                             <input type="checkbox" name="participation2" ng-model="vm.date2" ng-checked="vm.checkAll">&nbsp;&nbsp;Thursday, February 27, 2014<br>
                             <input type="checkbox" name="participation3" ng-model="vm.date3" ng-checked="vm.checkAll">&nbsp;&nbsp;Friday, February 28, 2014<br>
-                            <input type="checkbox" name="participationAll" ng-model="vm.checkAll" ng-checked="vm.date1 && vm.date2 && vm.date3">&nbsp;&nbsp;All
+                            <!--<input type="checkbox" name="participationAll" ng-model="vm.checkAll" ng-checked="vm.date1 && vm.date2 && vm.date3">&nbsp;&nbsp;All-->
                         </div>
                     </form>
 
@@ -159,7 +157,7 @@
                             <input type="checkbox" name="participation1" ng-model="vm.editdate1" ng-checked="vm.checkAll" ng-show="vm.datesList[0] != null && vm.datesList[0] != ''">&nbsp;&nbsp;{{vm.datesList[0]}}<br>
                             <input type="checkbox" name="participation2" ng-model="vm.editdate2" ng-checked="vm.checkAll" ng-show="vm.datesList[1] != null && vm.datesList[1] != ''">&nbsp;&nbsp;{{vm.datesList[1]}}<br>
                             <input type="checkbox" name="participation3" ng-model="vm.editdate3" ng-checked="vm.checkAll" ng-show="vm.datesList[2] != null && vm.datesList[2] != ''">&nbsp;&nbsp;{{vm.datesList[2]}}<br>
-                            <input type="checkbox" name="participationAll" ng-model="vm.checkAll" ng-checked="vm.editdate1 && vm.editdate2 && vm.editdate3">&nbsp;&nbsp;All
+                            <!--<input type="checkbox" name="participationAll" ng-model="vm.checkAll" ng-checked="vm.editdate1 && vm.editdate2 && vm.editdate3">&nbsp;&nbsp;All-->
                         </div>
                     </form>
                 </div>

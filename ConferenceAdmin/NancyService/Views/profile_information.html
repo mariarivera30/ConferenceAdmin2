@@ -172,9 +172,9 @@
         <h4 ng-show="vm.date1 || vm.date2 || vm.date3">Participation Days</h4>
         <div class="row" ng-show="vm.date1 || vm.date2 || vm.date3">
             <div class="col-lg-4">
-                <span class="block" ng-show="vm.date1">Day 1</span>
-                <span class="block" ng-show="vm.date2">Day 2</span>
-                <span class="block" ng-show="vm.date3">Day 3</span>
+                <span class="block" ng-show="vm.date1">{{vm.datesList[0]}}</span>
+                <span class="block" ng-show="vm.date2">{{vm.datesList[1]}}</span>
+                <span class="block" ng-show="vm.date3">{{vm.datesList[2]}}</span>
             </div>
         </div>
 
