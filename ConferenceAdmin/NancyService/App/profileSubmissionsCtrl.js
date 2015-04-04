@@ -62,6 +62,7 @@
         vm.selectedSubmission = _selectedSubmission;
         vm.viewAdd = _viewAdd;
         vm.addSubmission = _addSubmission;
+        vm.clear = _clear;
 
         _getUserSubmissions(currentUserID);
         _getSubmissionTypes();
@@ -71,8 +72,8 @@
         function activate() {
             
         }
-        function _viewAdd() {
-            vm.viewModal = "Add";
+
+        function _clear() {
             vm.modalsubmissionID = null;
             vm.modaluserType = null;
             vm.modalsubmissionTitle = null;
@@ -91,15 +92,17 @@
             vm.modaldelivery = null;
             vm.modalsubIsEvaluated = null;
             vm.modalpublicFeedback = null;
-            vm.CTYPE = vm.topicsList[0];
+            //vm.CTYPE = vm.topicsList[0];
             vm.content = "";
             $scope.$fileContent = "";
             if (document.getElementById("documentFile") != undefined) {
                 document.getElementById("documentFile").value = "";
             }
-            
-            
-            
+        }
+
+        function _viewAdd() {
+            vm.viewModal = "Add";
+            _clear();   
         }
 
         function _selectedSubmission(topiccategoryID, action) {
@@ -111,6 +114,7 @@
         }
 
         function _viewEditForm(submissionID) {
+            _clear();
             vm.viewModal = "Edit";
             //vm.itemSubmissionType = submissionTypeName;
             restApi.getUserSubmission(submissionID).
@@ -132,7 +136,13 @@
                       vm.modalduration = data.duration;
                       vm.modaldelivery = data.delivery;
                       vm.modalsubIsEvaluated = data.subIsEvaluated;
-                      vm.modalpublicFeedback = data.publicFeedback;      
+                      vm.modalpublicFeedback = data.publicFeedback;
+                      vm.topicsList.forEach(function (topic, index) {
+                          if (topic.topiccategoryID == data.topiccategoryID) {
+                              vm.CTYPE = vm.topicsList[index];
+                              myFile = null;
+                          }                               
+                      })     
               }).
               error(function (data, status, headers, config) {
                   // called asynchronously if an error occurs
