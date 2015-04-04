@@ -73,6 +73,7 @@
 
         }
         function _checkEmail() {
+          
             restApi.checkEmail(vm.email).
                    success(function (data, status, headers, config) {
                        if (data == "") {
@@ -98,15 +99,17 @@
 
 
         function _requestPass() {
+            vm.uploadingComp = true;
             if (vm.emailExist) {
                 restApi.requestPass(vm.email).
                        success(function (data, status, headers, config) {
                            vm.toggleModal('changed');
-                     
+                           vm.uploadingComp = false;
                            $location.path("/Login/Log");
                        }).
                        error(function (data, status, headers, config) {
-                           vm.toggleModal('error');
+                           vm.uploadingComp = false;
+                           vm.message = "An eeror occurr please refresh the page";
                        });
             }
 

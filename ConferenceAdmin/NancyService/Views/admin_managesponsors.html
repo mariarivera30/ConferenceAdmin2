@@ -16,7 +16,7 @@
                 <td>{{sponsor.company}}</td>
                 <td>{{sponsor.amount}}</td>
 
-                <td data-toggle="modal" data-target="#addSponsor" ng-click="vm.selectedSponsor(sponsor);vm.editValues()"><a href="">Edit</a></td>
+                <td data-toggle="modal" ng-click="vm.selectedSponsor(sponsor);vm.editValues()" data-target="#addSponsor"><a href="">Edit</a></td>
                 <td data-toggle="modal" data-target="#complementary" ng-click="vm.complementaryValues(sponsor)"><a href="">Complementary Keys</a></td>
                 <td><a href="" ng-hide="sponsor.sponsorID == 1" data-toggle="modal" ng-click="vm.selectedSponsor(sponsor);vm.toggleModal('remove');"><i ng-hide="sponsor.sponsorID == 1" class="glyphicon glyphicon-remove"></i></a></td>
             </tr>
@@ -84,10 +84,10 @@
                             <span class=" col-lg-6">
                                 <label>Sponsor Type:</label>
                                 <br />
-                                <select ng-model="vm.TYPE"
-                                        ng-options="type as type.name for type in vm.sponsorsTypeList" class="form-control">
-                                        
-                                </select>
+                               
+
+                                <select ng-model="vm.sponsor.sponsorType"
+                                        ng-options="type.sponsortypeID as type.name for type in vm.sponsorsTypeList" class="form-control"></select>   
                                 
                             </span>
                         </div>

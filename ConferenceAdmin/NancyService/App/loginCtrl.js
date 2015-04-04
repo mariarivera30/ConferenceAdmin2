@@ -20,6 +20,7 @@
         vm.token;
         vm.profileButton = false;
         vm.conferenceLogo;
+
         vm.obj = {
             title: "",
             message1: "",
@@ -31,23 +32,26 @@
             cancelbuttoText: "Cancel",
         };
 
+
         // Functions
         vm.login = _login;
         vm.getUserTypes = _getUserTypes;
         vm.createUser = _createUser;
         vm.validate = _validate;
-        vm.logout = _logout;
+        //  vm.logout = _logout;
         vm.signUp = _signUp;
         vm.loginIfEmail = _loginIfEmail;
         vm.getGeneralInfo = _getGeneralInfo;
 
-        //alerts Directive
 
+        //alerts Directive
+        function _goToHome() { $location.path("/Login/Log"); }
 
         vm.toggleModal = function (action) {
-            if (action ==="confirm") {
-              
-                vm.obj.title ="Account Confirmation",
+
+            if (action === "confirm") {
+
+                vm.obj.title = "Account Confirmation",
                 vm.obj.message1 = "Congratulation your account was confirmed!",
                 vm.obj.message2 = "",
                 vm.obj.label = "",
@@ -72,7 +76,7 @@
 
             }
             else if (action == "error")
-                vm.obj.title = "Server Error",
+               vm.obj.title = "Server Error",
                vm.obj.message1 = "Please refresh the page and try again.",
                vm.obj.message2 = "",
                vm.obj.label = "",
@@ -82,10 +86,22 @@
                vm.obj.cancelbuttoText = "Cancel",
                vm.showConfirmModal = !vm.showConfirmModal;
         };
-
         _getGeneralInfo();
         activate();
 
+        function activate() {
+            _getUserTypes()
+            if ($window.sessionStorage.length == 0) {
+                vm.loged = false;
+            }
+            else {
+                vm.loged = true;
+                vm.messageLogOut = $window.sessionStorage.getItem('email').substring(1, $window.sessionStorage.getItem('email').length - 1);
+
+            }
+        }
+
+    
         $rootScope.$on('ConferenceLogo', function (event, data) {
             vm.conferenceLogo = data;
         });
@@ -102,35 +118,14 @@
             });
         }
 
-        function activate() {
-            _getUserTypes()
-            if ($window.sessionStorage.length == 0) {
-                vm.loged = false;
-            }
-            else {
-                vm.loged = true;
-                vm.messageLogOut = $window.sessionStorage.getItem('email').substring(1, $window.sessionStorage.getItem('email').length - 1);
-
-            }
-        }
-        function _logout() {
-            vm.isAdmin = false;
-            $rootScope.$emit('Login', event, vm.isAdmin);
-           
-            
-            $window.sessionStorage.clear();
-            vm.loged = false;
-            $location.path('/Home');
-            vm.showAdminsitrator = false;
-        }
         function _validate() {
             restApi.accountConfirmation(vm.keyConfirmation).
                    success(function (data, status, headers, config) {
                        if (data == "") {
                            vm.message = "Please verify your confirmation Key.";
                            vm.keyConfirmation = "";
-                     
-                          
+
+
                        }
                        else {
                            vm.toggleModal("confirm");
@@ -141,18 +136,19 @@
                        vm.toggleModal("error");
                    });
         }
+
         function _loginIfEmail() {
-            vm.uploadingComp = true;
+            vm.creatingUser = true;
             restApi.checkEmail(vm.email).
                   success(function (data, status, headers, config) {
-                      if (data =="") {
+                      if (data == "") {
                           vm.message = "This email is not registered.";
-                          vm.uploadingComp = false;
+                          vm.creatingUser = false;
                           return;
                       }
                       else if (data == "notconfirmed") {
                           vm.message = "Please verify your email to confirm your account before login.";
-                          vm.uploadingComp = false;
+                          vm.creatingUser = false;
                           return;
                       }
                       else {
@@ -169,10 +165,9 @@
                   });
 
         }
-
-
+        
         function _login() {
-          
+
             restApi.login(vm)
                    .success(function (data, status, headers, config) {
 
@@ -185,7 +180,7 @@
                        $window.sessionStorage.setItem('userID', JSON.stringify(data.userID));
                        $window.sessionStorage.setItem('email', JSON.stringify(data.email));
 
-                     
+
                        vm.uploadingComp = false;
                        //data.userClaims.forEach(function (claim) {
                        //    if (claim.localeCompare('Finance') == 0 || claim.localeCompare('Committee') == 0 || claim.localeCompare('Committee') == 0 || claim.localeCompare('Master') == 0) {
@@ -212,7 +207,7 @@
                        // or server returns response with an error status.
                        $window.sessionStorage.removeItem('token');
                        vm.message = "Wrong email or password please try again";
-                     
+
                        vm.password = "";
                        vm.uploadingComp = false;
                    });
@@ -250,7 +245,7 @@
 
                    }).
                    error(function (data, status, headers, config) {
-                       vm.toggleModal();
+                   
                        vm.toggleModal("error");
                        vm.creatingUser = false
                    });
@@ -274,6 +269,7 @@
                        // called asynchronously if an error occurs
                        // or server returns response with an error status.
                        vm.toggleModal("error");
+                       vm.creatingUser = false;
 
                    });
         }

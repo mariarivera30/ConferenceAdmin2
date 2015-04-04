@@ -15,6 +15,7 @@
         vm.sponsor;
         vm.loading;
         vm.addComplementaryObj = { sponsorID: 0, quantity: 0, company: "" };
+        vm.TYPE = {};
         vm.obj = {
             title: "",
             message1: "",
@@ -132,7 +133,7 @@
         function _selectedSponsor(sponsor, action) {
 
             vm.sponsor = JSON.parse(JSON.stringify(sponsor));
-            vm.TYPE = vm.sponsorsTypeList[vm.sponsor.sponsorType - 1];
+          //  vm.typeID = sponsor.sponsorType ;
 
         }
 
@@ -171,9 +172,8 @@
             vm.view = false;
             vm.headerModal = "Edit Sponsor";
             $scope.content = vm.sponsor.logo;
-            vm.TYPE = vm.sponsorsTypeList[vm.sponsor.sponsorType - 1];
-           
-
+          //  vm.typeID = vm.sponsor.sponsorType;
+  
 
         }
         function _complementaryValues(sponsor) {
@@ -275,7 +275,8 @@
 
         //---------------------------Sponsor-------------------------------------------------
         function _addSponsor(File) {
-            vm.sponsor.sponsorType = vm.TYPE.sponsortypeID;
+       
+            vm.TYPE = vm.sponsorsTypeList[vm.sponsor.sponsorType];
             vm.sponsor.typeName = vm.TYPE.name;
             if (File != undefined) {
                 vm.sponsor.logo = $scope.content;
@@ -311,7 +312,8 @@
                    success(function (data, status, headers, config) {
                        vm.sponsorsTypeList = data;
                        if (data != null)
-                           vm.TYPE = vm.sponsorsTypeList[0];
+                          vm.typeID =0;
+                      
                    }).
                    error(function (data, status, headers, config) {
                        vm.toggleModal('error');
@@ -334,8 +336,9 @@
 
 
         function _updateSponsor(myFile) {
-
-            vm.sponsor.sponsorType = vm.TYPE.sponsortypeID;
+            
+            
+            vm.TYPE = vm.sponsorsTypeList[vm.sponsor.sponsorType-1];
             vm.sponsor.typeName = vm.TYPE.name;
 
             if (myFile != undefined) {
@@ -349,7 +352,7 @@
             .success(function (data, status, headers, config) {
                 vm.sponsorsList.forEach(function (sponsor, index) {
                     if (sponsor.sponsorID == vm.sponsor.sponsorID) {
-                        vm.sponsorsList[index] = JSON.parse(JSON.stringify(vm.sponsor));
+                        vm.sponsorsList[index] = JSON.parse(JSON.stringify(data));
                     }
                     vm.loadingUploading = false;
                     $('#addSponsor').modal('hide');

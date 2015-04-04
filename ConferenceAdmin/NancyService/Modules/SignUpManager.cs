@@ -111,7 +111,7 @@ namespace NancyService.Modules
 
 
             mail.Subject = "Caribbean Celebration of Women in Computing Account Confirmation!";
-            mail.Body = "Please click the link to confirm your account. \n\n " + "http://localhost:12029/#/Validate" + "\n Your key is " + key;
+            mail.Body = "Please click the link to confirm your account. \n\n " + "http://localhost:12036/#/Validate" + "\n Your key is " + key;
 
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";
@@ -131,7 +131,7 @@ namespace NancyService.Modules
 
 
             mail.Subject = "Caribbean Celebration of Women Temporary Password!";
-            mail.Body = "Login using this password " + pass + ".\n Change your password as soon as possible.\n Visit us: http://localhost:12029/#/ChangePassword";
+            mail.Body = "Login using this password " + pass + ".\n Change your password as soon as possible.\n Visit us: http://localhost:12036/#/ChangePassword";
 
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";
@@ -188,7 +188,8 @@ namespace NancyService.Modules
 
                 try
                 {
-                    string tempPass = generateEmailConfirmationKey().Substring(0, 7); 
+                    string tempPass = generateEmailConfirmationKey().Substring(0, 9);
+                    tempPass = tempPass.Replace("-", "");
                     var member = (from m in context.memberships
                                   where (m.email.Equals(email) && m.deleted == false)
                                   select m).FirstOrDefault();
