@@ -243,8 +243,9 @@ namespace NancyService.Modules
                 var user = this.Bind<UserInfo>();
                 var companion = this.Bind<companion>();
 
-                if (profileAuthorization.selectCompanion(user, companion))
-                    return HttpStatusCode.OK;
+                var status = profileAuthorization.selectCompanion(user, companion);
+                if (status != null)
+                    return status;
                 else
                     return HttpStatusCode.Conflict;
             };

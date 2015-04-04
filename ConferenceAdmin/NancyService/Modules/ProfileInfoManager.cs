@@ -249,7 +249,7 @@ namespace NancyService.Modules
             }
             catch (Exception ex)
             {
-                Console.Write("ProfileAuthorizationManager.selectCompanion error " + ex);
+                Console.Write("ProfileAuthorizationManager.checkComplementaryKey error " + ex);
                 return false;
             }
         }
