@@ -12,20 +12,20 @@ namespace NancyService.Models.Mapping
 
             // Properties
             this.Property(t => t.key)
-               .IsRequired()
-               .HasMaxLength(100);
+                .HasMaxLength(100);
+
             // Table & Column Mappings
             this.ToTable("complementarykey", "conferenceadmin");
             this.Property(t => t.complementarykeyID).HasColumnName("complementarykeyID");
             this.Property(t => t.sponsorID).HasColumnName("sponsorID");
+            this.Property(t => t.key).HasColumnName("key");
             this.Property(t => t.isUsed).HasColumnName("isUsed");
             this.Property(t => t.deleted).HasColumnName("deleted");
-            this.Property(t => t.key).HasColumnName("key");
+
             // Relationships
             this.HasRequired(t => t.sponsor)
                 .WithMany(t => t.complementarykeys)
                 .HasForeignKey(d => d.sponsorID);
-
         }
     }
 }

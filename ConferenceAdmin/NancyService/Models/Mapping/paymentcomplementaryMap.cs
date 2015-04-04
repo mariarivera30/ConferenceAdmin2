@@ -11,20 +11,20 @@ namespace NancyService.Models.Mapping
             this.HasKey(t => t.paymentcomplementaryID);
 
             // Properties
-
-            // Relationships
-            this.HasRequired(t => t.complementarykey)
-                .WithOptional(t => t.paymentcomplementary);
-            this.HasRequired(t => t.payment)
-                .WithMany(t => t.paymentcomplementaries)
-                .HasForeignKey(d => d.paymentID);
-
             // Table & Column Mappings
             this.ToTable("paymentcomplementary", "conferenceadmin");
             this.Property(t => t.paymentcomplementaryID).HasColumnName("paymentcomplementaryID");
             this.Property(t => t.paymentID).HasColumnName("paymentID");
             this.Property(t => t.complementaryKeyID).HasColumnName("complementaryKeyID");
             this.Property(t => t.deleted).HasColumnName("deleted");
+
+            // Relationships
+            this.HasRequired(t => t.complementarykey)
+                .WithMany(t => t.paymentcomplementaries)
+                .HasForeignKey(d => d.complementaryKeyID);
+            this.HasOptional(t => t.payment)
+                .WithMany(t => t.paymentcomplementaries)
+                .HasForeignKey(d => d.paymentID);
 
         }
     }
