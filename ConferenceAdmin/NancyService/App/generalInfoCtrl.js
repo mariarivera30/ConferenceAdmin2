@@ -80,6 +80,7 @@
                     //Format Date: mm/dd/yyyy if the field is blank "", new Date returns "Invalid Date"
                     vm.dateFrom = new Date(data.dateFrom);
                     vm.dateTo = new Date(data.dateTo);
+
                     vm.logo = data.logo;
 
                     if (vm.logo != "" && vm.logo != undefined) {
