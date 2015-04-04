@@ -86,8 +86,9 @@
                                 <br />
                                 <select ng-model="vm.TYPE"
                                         ng-options="type as type.name for type in vm.sponsorsTypeList" class="form-control">
-                                        <pre>{{vm.TYPE | json}}</pre>
+                                        
                                 </select>
+                                
                             </span>
                         </div>
                         <div class="row">
@@ -128,7 +129,7 @@
                             </span>
                             <span class="col-lg-6">
                                 <label>Zip Code:</label>
-                                <input class="form-control" type="text" name="zipcode" ng-model="vm.sponsor.zipcode" required>
+                                <input class="form-control" type="text" name="zipcode" ng-model="vm.sponsor.zipcode" ng-minlength="5" ng-maxlength="5" required>
                                 <p ng-show="addSponsorForm.zipcode.$invalid && !addSponsorForm.zipcode.$pristine" class="help-block">Zip code is required.</p>
                             </span>
 
@@ -138,7 +139,7 @@
                         <div class="row">
                             <span class=" col-lg-6">
                                 <label>Phone Number:</label>
-                                <input class="form-control" type="text" name="phone" ng-model="vm.sponsor.phone" required>
+                                <input class="form-control" type="text" name="phone" ng-model="vm.sponsor.phone" ng-minlength="9" ng-maxlength="10" required>
                                 <p ng-show="addSponsorForm.phone.$invalid && !addSponsorForm.phone.$pristine" class="help-block">Phone number is required.</p>
                             </span>
 

@@ -188,7 +188,7 @@ namespace NancyService.Modules
 
                 try
                 {
-                    string tempPass = generateEmailConfirmationKey().Substring(0, 9); ;
+                    string tempPass = generateEmailConfirmationKey().Substring(0, 7); 
                     var member = (from m in context.memberships
                                   where (m.email.Equals(email) && m.deleted == false)
                                   select m).FirstOrDefault();
