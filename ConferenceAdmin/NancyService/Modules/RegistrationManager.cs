@@ -167,25 +167,31 @@ namespace NancyService.Modules
                     var date2 = context.interfaceinformations.Where(i => i.attribute == "conferenceDay2").FirstOrDefault().content;
                     var date3 = context.interfaceinformations.Where(i => i.attribute == "conferenceDay3").FirstOrDefault().content;
 
-                    // Constructor (Year, Month, Day)
-                    DateTime confDate1 = new DateTime(
-                        Convert.ToInt32(date1.Split('/')[2]),
-                        Convert.ToInt32(date1.Split('/')[1]),
-                        Convert.ToInt32(date1.Split('/')[0]));
+                    if (date1 != null && date1 != "") {                    
+                        DateTime confDate1 = new DateTime( // Constructor (Year, Month, Day)
+                            Convert.ToInt32(date1.Split('/')[2]),
+                            Convert.ToInt32(date1.Split('/')[1]),
+                            Convert.ToInt32(date1.Split('/')[0]));
+                        dates.Add(confDate1.DayOfWeek + ", " + confDate1.ToString("MMMM", CultureInfo.InvariantCulture) + " " + confDate1.Day + ", " + confDate1.Year);
+                    }
 
-                    DateTime confDate2 = new DateTime(
-                        Convert.ToInt32(date2.Split('/')[2]),
-                        Convert.ToInt32(date2.Split('/')[1]),
-                        Convert.ToInt32(date2.Split('/')[0]));
+                    if (date2 != null && date2 != "")
+                    {
+                        DateTime confDate2 = new DateTime( // Constructor (Year, Month, Day)
+                            Convert.ToInt32(date2.Split('/')[2]),
+                            Convert.ToInt32(date2.Split('/')[1]),
+                            Convert.ToInt32(date2.Split('/')[0]));
+                        dates.Add(confDate2.DayOfWeek + ", " + confDate2.ToString("MMMM", CultureInfo.InvariantCulture) + " " + confDate2.Day + ", " + confDate2.Year);
+                    }
 
-                    DateTime confDate3 = new DateTime(
-                        Convert.ToInt32(date3.Split('/')[2]),
-                        Convert.ToInt32(date3.Split('/')[1]),
-                        Convert.ToInt32(date3.Split('/')[0]));
-
-                    dates.Add(confDate1.DayOfWeek + ", " + confDate1.ToString("MMMM", CultureInfo.InvariantCulture) + " " + confDate1.Day + ", " + confDate1.Year);
-                    dates.Add(confDate2.DayOfWeek + ", " + confDate2.ToString("MMMM", CultureInfo.InvariantCulture) + " " + confDate2.Day + ", " + confDate2.Year);
-                    dates.Add(confDate3.DayOfWeek + ", " + confDate3.ToString("MMMM", CultureInfo.InvariantCulture) + " " + confDate3.Day + ", " + confDate3.Year);
+                    if (date3 != null && date3 != "")
+                    {
+                        DateTime confDate3 = new DateTime( // Constructor (Year, Month, Day)
+                            Convert.ToInt32(date3.Split('/')[2]),
+                            Convert.ToInt32(date3.Split('/')[1]),
+                            Convert.ToInt32(date3.Split('/')[0]));
+                        dates.Add(confDate3.DayOfWeek + ", " + confDate3.ToString("MMMM", CultureInfo.InvariantCulture) + " " + confDate3.Day + ", " + confDate3.Year);
+                    }                        
 
                     return dates;
                 }
