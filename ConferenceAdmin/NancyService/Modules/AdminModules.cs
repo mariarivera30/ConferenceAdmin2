@@ -44,7 +44,7 @@ namespace NancyService.Modules
                 {
                     return HttpStatusCode.Conflict;
                 }
-               
+
             };
 
             Get["/getTemplatesAdmin"] = parameters =>
@@ -97,7 +97,7 @@ namespace NancyService.Modules
                 {
                     return HttpStatusCode.Conflict;
                 }
-              
+
             };
 
             Get["/getAuthTemplatesAdmin"] = parameters =>
@@ -242,10 +242,10 @@ namespace NancyService.Modules
             Put["/updateSponsor"] = parameters =>
             {
                 var sponsor = this.Bind<NancyService.Modules.SponsorManager.SponsorQuery>();
-               SponsorManager.SponsorQuery s =sponsorManager.updateSponsor(sponsor);
+                SponsorManager.SponsorQuery s = sponsorManager.updateSponsor(sponsor);
                 if (s != null)
                 {
-                    return Response.AsJson(s); 
+                    return Response.AsJson(s);
                 }
 
                 else
@@ -279,7 +279,7 @@ namespace NancyService.Modules
                     return HttpStatusCode.Conflict;
                 }
             };
-/* ----- Topic -----*/
+            /* ----- Topic -----*/
 
             Get["/getTopic"] = parameters =>
             {
@@ -313,7 +313,7 @@ namespace NancyService.Modules
                 return topicManager.deleteTopic(parameters.topiccategoryID);
             };
 
-/* ----- Administrators -----*/
+            /* ----- Administrators -----*/
 
             Get["/getNewAdmin/{email}"] = parameters =>
             {
@@ -360,7 +360,7 @@ namespace NancyService.Modules
                 return adminManager.deleteAdministrator(delAdmin);
             };
 
-/*------ Evaluators -----*/
+            /*------ Evaluators -----*/
 
             Get["/getEvaluatorList"] = parameters =>
             {
@@ -395,7 +395,7 @@ namespace NancyService.Modules
                 }
             };
 
-/* ----- Registration -----*/
+            /* ----- Registration -----*/
 
             Get["/getRegistrations"] = parameters =>
             {
@@ -433,6 +433,12 @@ namespace NancyService.Modules
                 var user = this.Bind<user>();
                 var reg = this.Bind<registration>();
                 return Response.AsJson(registration.addRegistration(reg: reg, user: user));
+            };
+
+            Get["/getDates"] = parameters =>
+            {
+                List<string> list = registration.getDates();
+                return Response.AsJson(list);
             };
 
             //-------------------------------------GUESTS---------------------------------------------

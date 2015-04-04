@@ -20,6 +20,7 @@
         vm.checkAll;
 
         vm.registrationsList = [];
+        vm.datesList = {};
         vm.userTypesList = {};
         vm.firstname;
         vm.lastname;
@@ -45,11 +46,13 @@
         vm.selectedRegistrationUpdate = _selectedRegistrationUpdate;
         vm.selectedRegistrationDelete = _selectedRegistrationDelete;
         vm.getUserTypes = _getUserTypes;
+        vm.getDates = _getDates;
         vm.clear = clear;
 
 
         _getRegistrations();
         _getUserTypes();
+        _getDates();
 
 
 
@@ -91,7 +94,7 @@
             vm.editacceptancestatus = "";
             vm.editdate1 = false;
             vm.editdate2 = false;
-            vm.editdate3 = false;            
+            vm.editdate3 = false;
             $scope.content = "";
             $scope.$fileContent = "";
         }
@@ -105,18 +108,18 @@
             }
             var userTypeName = vm.usertypeid.userTypeName;
             vm.usertypeid = vm.usertypeid.userTypeID;
-            
-                restApi.postNewRegistration(vm)
-                    .success(function (data, status, headers, config) {
-                        vm.newReg = { firstname: vm.firstname, lastname: vm.lastname, affiliationName: vm.affiliationName, usertypeid: userTypeName, date1: vm.date1, date2: vm.date2, date3: vm.date3, byAdmin: true };
-                        vm.registrationsList.push(vm.newReg);
-                        clear();
-                    })
 
-                    .error(function (error) {
-                        alert("Failed to add Registration.");
-                    });
-            
+            restApi.postNewRegistration(vm)
+                .success(function (data, status, headers, config) {
+                    vm.newReg = { firstname: vm.firstname, lastname: vm.lastname, affiliationName: vm.affiliationName, usertypeid: userTypeName, date1: vm.date1, date2: vm.date2, date3: vm.date3, byAdmin: true };
+                    vm.registrationsList.push(vm.newReg);
+                    clear();
+                })
+
+                .error(function (error) {
+                    alert("Failed to add Registration.");
+                });
+
             //activate();
         }
 
@@ -137,7 +140,7 @@
             vm.currentid = id;
             vm.editfirstname = firstname;
             vm.editlastname = lastname;
-            if(usertypeid != undefined)
+            if (usertypeid != undefined)
                 vm.TYPE = vm.userTypesList[usertypeid.userTypeID - 1];
             vm.editaffiliationName = affiliationName;
             vm.editdate1 = date1;
@@ -155,17 +158,17 @@
                 var registration = { registrationID: vm.currentid, firstname: vm.editfirstname, lastname: vm.editlastname, usertypeid: vm.TYPE.userTypeID, affiliationName: vm.editaffiliationName, date1: vm.editdate1, date2: vm.editdate2, date3: vm.editdate3 }
                 restApi.updateRegistration(registration)
                 .success(function (data, status, headers, config) {
-                    vm.registrationsList.forEach(function (reg, index) {                        
+                    vm.registrationsList.forEach(function (reg, index) {
                         if (reg.registrationID == registration.registrationID) {
-                            
+
                             registration.usertypeid = vm.TYPE.userTypeName;
                             registration.byAdmin = true;
                             vm.registrationsList.splice(index, 1);
                             vm.registrationsList.push(registration);
                             clear();
                         }
-                       // else
-                           // location.reload();
+                        // else
+                        // location.reload();
                     });
                 })
                 .error(function (data, status, headers, config) {
@@ -208,6 +211,16 @@
                    }).
                    error(function (data, status, headers, config) {
                        vm.userTypesList = data;
+                   });
+        }
+
+        function _getDates() {
+            restApi.getDates().
+                   success(function (data, status, headers, config) {
+                       vm.datesList = data;
+                   }).
+                   error(function (data, status, headers, config) {
+                       vm.datesList = data;
                    });
         }
 

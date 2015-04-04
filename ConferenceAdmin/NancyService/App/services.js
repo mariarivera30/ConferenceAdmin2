@@ -8,31 +8,31 @@
 
     function addrestApi($http) {
         var service = {
-            changePassword:_changePassword,
+            changePassword: _changePassword,
             checkEmail: _checkEmail,
-            requestPass:_requestPass,
+            requestPass: _requestPass,
             accountConfirmation: _accountConfirmation,
-            createUser:_createUser,
+            createUser: _createUser,
             deleteSponsorComplemetaryKey: _deleteSponsorComplemetaryKey,
             deleteComplemetaryKey: _deleteComplemetaryKey,
             addComplementaryKey: _addComplementaryKey,
             getSponsorComplementaryKeys: _getSponsorComplementaryKeys,
             getComplemetnaryKeys: _getComplemetnaryKeys,
-            deleteAuthTemplate : _deleteAuthTemplate,
-            getAuthTemplatesAdmin:_getAuthTemplatesAdmin,
+            deleteAuthTemplate: _deleteAuthTemplate,
+            getAuthTemplatesAdmin: _getAuthTemplatesAdmin,
             updateAuthTemplate: _updateAuthTemplate,
             addAuthTemplate: _addAuthTemplate,
-            deleteTemplate : _deleteTemplate,
-            getTemplatesAdmin:_getTemplatesAdmin,
+            deleteTemplate: _deleteTemplate,
+            getTemplatesAdmin: _getTemplatesAdmin,
             updateTemplate: _updateTemplate,
             addTemplate: _addTemplate,
-            getSponsorbyID:_getSponsorbyID,
-            deleteSponsor : _deleteSponsor,
-            getSponsorTypesList:_getSponsorTypesList,
+            getSponsorbyID: _getSponsorbyID,
+            deleteSponsor: _deleteSponsor,
+            getSponsorTypesList: _getSponsorTypesList,
             updateSponsor: _updateSponsor,
             login: _login,
             postNewSponsor: _postNewSponsor,
-            postNewTopic:_postNewTopic,
+            postNewTopic: _postNewTopic,
             getSponsors: _getSponsors,
             getTopics: _getTopics,
             deleteTopic: _deleteTopic,
@@ -107,7 +107,8 @@
             getProgram: _getProgram,
             saveProgram: _saveProgram,
             getProgramDocument: _getProgramDocument,
-            getAbstractDocument: _getAbstractDocument
+            getAbstractDocument: _getAbstractDocument,
+            getDates: _getDates
         };
 
         return service;
@@ -286,6 +287,10 @@
 
         function _postNewRegistration(data) {
             return $http.post('/admin/addRegistration', data);
+        };
+
+        function _getDates() {
+            return $http.get('/admin/getDates');
         };
         //-----------------------------------GUESTS-----------------------------------
         //get guest list for admin

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Globalization;
 
 namespace NancyService.Modules
 {
@@ -54,7 +55,7 @@ namespace NancyService.Modules
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
-                {                    
+                {
                     var registrationList = new List<RegisteredUser>();
                     registrationList = context.registrations.Where(reg => reg.deleted == false).Select(reg => new RegisteredUser
                     {
@@ -69,7 +70,7 @@ namespace NancyService.Modules
                         byAdmin = reg.byAdmin,
                         usertype = new UserTypeName { userTypeID = reg.user.usertype.userTypeID, userTypeName = reg.user.usertype.userTypeName }
                     }).ToList();
-                    
+
                     return registrationList;
                 }
             }
@@ -152,6 +153,47 @@ namespace NancyService.Modules
             {
                 Console.Write("AdminManager.updateRegistration error " + ex);
                 return false;
+            }
+        }
+
+        public List<string> getDates()
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    List<string> dates = new List<string>();
+                    var date1 = context.interfaceinformations.Where(i => i.attribute == "conferenceDay1").FirstOrDefault().content;
+                    var date2 = context.interfaceinformations.Where(i => i.attribute == "conferenceDay2").FirstOrDefault().content;
+                    var date3 = context.interfaceinformations.Where(i => i.attribute == "conferenceDay3").FirstOrDefault().content;
+
+                    // Constructor (Year, Month, Day)
+                    DateTime confDate1 = new DateTime(
+                        Convert.ToInt32(date1.Split('/')[2]),
+                        Convert.ToInt32(date1.Split('/')[1]),
+                        Convert.ToInt32(date1.Split('/')[0]));
+
+                    DateTime confDate2 = new DateTime(
+                        Convert.ToInt32(date2.Split('/')[2]),
+                        Convert.ToInt32(date2.Split('/')[1]),
+                        Convert.ToInt32(date2.Split('/')[0]));
+
+                    DateTime confDate3 = new DateTime(
+                        Convert.ToInt32(date3.Split('/')[2]),
+                        Convert.ToInt32(date3.Split('/')[1]),
+                        Convert.ToInt32(date3.Split('/')[0]));
+
+                    dates.Add(confDate1.DayOfWeek + ", " + confDate1.ToString("MMMM", CultureInfo.InvariantCulture) + " " + confDate1.Day + ", " + confDate1.Year);
+                    dates.Add(confDate2.DayOfWeek + ", " + confDate2.ToString("MMMM", CultureInfo.InvariantCulture) + " " + confDate2.Day + ", " + confDate2.Year);
+                    dates.Add(confDate3.DayOfWeek + ", " + confDate3.ToString("MMMM", CultureInfo.InvariantCulture) + " " + confDate3.Day + ", " + confDate3.Year);
+
+                    return dates;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("RegistrationManager.getDates error " + ex);
+                return null;
             }
         }
 
