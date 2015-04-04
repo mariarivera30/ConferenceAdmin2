@@ -170,8 +170,8 @@ namespace NancyService.Modules
                     if (date1 != null && date1 != "") {                    
                         DateTime confDate1 = new DateTime( // Constructor (Year, Month, Day)
                             Convert.ToInt32(date1.Split('/')[2]),
-                            Convert.ToInt32(date1.Split('/')[1]),
-                            Convert.ToInt32(date1.Split('/')[0]));
+                            Convert.ToInt32(date1.Split('/')[0]),
+                            Convert.ToInt32(date1.Split('/')[1]));
                         dates.Add(confDate1.DayOfWeek + ", " + confDate1.ToString("MMMM", CultureInfo.InvariantCulture) + " " + confDate1.Day + ", " + confDate1.Year);
                     }
 
@@ -179,8 +179,8 @@ namespace NancyService.Modules
                     {
                         DateTime confDate2 = new DateTime( // Constructor (Year, Month, Day)
                             Convert.ToInt32(date2.Split('/')[2]),
-                            Convert.ToInt32(date2.Split('/')[1]),
-                            Convert.ToInt32(date2.Split('/')[0]));
+                            Convert.ToInt32(date2.Split('/')[0]),
+                            Convert.ToInt32(date2.Split('/')[1]));
                         dates.Add(confDate2.DayOfWeek + ", " + confDate2.ToString("MMMM", CultureInfo.InvariantCulture) + " " + confDate2.Day + ", " + confDate2.Year);
                     }
 
@@ -188,8 +188,8 @@ namespace NancyService.Modules
                     {
                         DateTime confDate3 = new DateTime( // Constructor (Year, Month, Day)
                             Convert.ToInt32(date3.Split('/')[2]),
-                            Convert.ToInt32(date3.Split('/')[1]),
-                            Convert.ToInt32(date3.Split('/')[0]));
+                            Convert.ToInt32(date3.Split('/')[0]),
+                            Convert.ToInt32(date3.Split('/')[1]));
                         dates.Add(confDate3.DayOfWeek + ", " + confDate3.ToString("MMMM", CultureInfo.InvariantCulture) + " " + confDate3.Day + ", " + confDate3.Year);
                     }                        
 
