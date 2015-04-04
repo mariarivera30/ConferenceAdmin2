@@ -20,8 +20,8 @@
 }
 
 .img-size{
-    max-height:300px;
-    max-width:300px;
+    max-height:250px;
+    max-width:250px;
 }
 
 .registration-boxes{
@@ -33,7 +33,7 @@
     margin-bottom:0px; 
 }
 
-.late-load{
+.late-load, .info-update{
     display:none;
 }
 

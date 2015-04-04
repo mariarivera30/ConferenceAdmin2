@@ -97,7 +97,8 @@
             General Information
             <!--<button class="btn btn-ar btn-default right" ng-click="vm.toggleEdit()">Cancel</button>
             <button class="btn btn-ar btn-primary right" ng-click="vm.updateProfileInfo()">Save Changes</button>-->
-        </h3>
+            <span class="right" ng-show="vm.userTypeID == 6">Companion Key: <b>{{vm.key}}</b></span>
+        </h3><br ng-show="vm.userTypeID == 6" />
         <div class="row">
             <div class="col-lg-6">
                 <h5 class="after-title-field">First Name</h5>

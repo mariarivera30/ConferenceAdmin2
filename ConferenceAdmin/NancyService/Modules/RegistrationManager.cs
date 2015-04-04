@@ -14,7 +14,7 @@ namespace NancyService.Modules
 
         }
 
-        public bool addRegistration(registration reg, user user)
+        public string addRegistration(registration reg, user user)
         {/*int type, string firstname, string lastname, string affiliationName, bool registrationstatus, bool hasapplied, bool acceptancestatus*/
             try
             {
@@ -28,7 +28,7 @@ namespace NancyService.Modules
                     user.title = "";
                     user.phone = "";
                     user.userFax = "";
-                    //user.isEvaluator = false;
+                    user.deleted = false;
                     context.users.Add(user);
                     context.SaveChanges();
 
@@ -39,13 +39,14 @@ namespace NancyService.Modules
                     context.registrations.Add(reg);
 
                     context.SaveChanges();
-                    return true;
+
+                    return reg.registrationID + "," + user.userTypeID;
                 }
             }
             catch (Exception ex)
             {
                 Console.Write("AdminManager.addRegistration error " + ex);
-                return false;
+                return null;
             }
 
         }
@@ -116,6 +117,9 @@ namespace NancyService.Modules
                 {
                     var registration = context.registrations.Where(reg => reg.registrationID == id).FirstOrDefault();
                     registration.deleted = true;
+                    
+                    context.users.Where(u => u.userID == registration.userID).FirstOrDefault().deleted = true;
+
                     context.SaveChanges();
 
                     return true;

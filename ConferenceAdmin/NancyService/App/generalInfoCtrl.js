@@ -146,6 +146,7 @@
 
                     _clear();
                     $("#updateConfirm").modal('show');
+                    //$("#update").fadeIn(300).delay(1000).fadeOut(300);
                 }
                 else {
                     _clear();

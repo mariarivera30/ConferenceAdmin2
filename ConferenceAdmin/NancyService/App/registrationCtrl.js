@@ -111,9 +111,11 @@
 
             restApi.postNewRegistration(vm)
                 .success(function (data, status, headers, config) {
-                    vm.newReg = { firstname: vm.firstname, lastname: vm.lastname, affiliationName: vm.affiliationName, usertypeid: userTypeName, date1: vm.date1, date2: vm.date2, date3: vm.date3, byAdmin: true };
+                    vm.newReg = { registrationID: parseInt(data.split(",")[0]), firstname: vm.firstname, lastname: vm.lastname, affiliationName: vm.affiliationName, usertypeid: userTypeName, date1: vm.date1, date2: vm.date2, date3: vm.date3, byAdmin: true };
                     vm.registrationsList.push(vm.newReg);
                     clear();
+                    vm.recoverType = parseInt(data.split(",")[1]);
+                    vm.recoverID = parseInt(data.split(",")[0]);
                 })
 
                 .error(function (error) {
@@ -137,11 +139,14 @@
 
 
         function _selectedRegistrationUpdate(id, firstname, lastname, usertypeid, affiliationName, date1, date2, date3) {
-            vm.currentid = id;
+            vm.currentid = id;            
             vm.editfirstname = firstname;
             vm.editlastname = lastname;
             if (usertypeid != undefined)
                 vm.TYPE = vm.userTypesList[usertypeid.userTypeID - 1];
+            if (id == vm.recoverID) {
+                vm.TYPE = vm.userTypesList[vm.recoverType - 1];
+            }
             vm.editaffiliationName = affiliationName;
             vm.editdate1 = date1;
             vm.editdate2 = date2;
@@ -166,6 +171,7 @@
                             vm.registrationsList.splice(index, 1);
                             vm.registrationsList.push(registration);
                             clear();
+                            $('#editAttendee').modal('hide');
                         }
                         // else
                         // location.reload();
