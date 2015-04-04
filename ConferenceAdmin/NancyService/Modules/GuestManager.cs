@@ -27,6 +27,7 @@ namespace NancyService.Modules
                         isRegistered = (i.registrationStatus == "Accepted" ? true : false),
                         registrationStatus = i.registrationStatus,
                         acceptanceStatus = i.acceptanceStatus,
+                        optionStatus = "Accepted",
                         authorizationStatus = i.minors.FirstOrDefault().authorizationStatus,
                         line1 = i.address.line1,
                         line2 = i.address.line2,
@@ -110,6 +111,7 @@ namespace NancyService.Modules
                     var guest = context.users.Where(c => c.userID == id).FirstOrDefault();
                     guest.registrationStatus = "Rejected";
                     guest.acceptanceStatus = "Rejected";
+                    guest.registrations.FirstOrDefault().deleted = true;
                     context.SaveChanges();
                     return true;
                 }
@@ -157,6 +159,7 @@ namespace NancyService.Modules
         public bool? day1;
         public bool? day2;
         public bool? day3;
+        public String optionStatus;
         public String companionFirstName;
         public String companionLastName;
         public int companionID;

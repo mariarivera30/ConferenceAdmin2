@@ -48,7 +48,7 @@
         vm.currentid;
 
         vm.guestList = {};
-        vm.acceptanceStatusList = ['Accepted', 'Rejected', ''];
+        vm.acceptanceStatusList = ['Accepted', 'Rejected'];
 
         //Functions
         vm.getGuestList = _getGuestList;
@@ -58,12 +58,30 @@
         vm.rejectRegisteredGuest = _rejectRegisteredGuest;
         vm.rejectedSelectedGuest = _rejectedSelectedGuest;
         vm.downloadPDFFile = _downloadPDFFile;
+        vm.getDates = _getDates;
 
         _getGuestList();
+        _getDates();
 
         //Functions:
         function activate() {
 
+        }
+
+        function _getDates() {
+            restApi.getDates().
+                   success(function (data, status, headers, config) {
+                       vm.datesList = data;
+                       vm.date1 = vm.datesList[0];
+                       vm.date2 = vm.datesList[1];
+                       vm.date3 = vm.datesList[2];
+                   }).
+                   error(function (data, status, headers, config) {
+                       vm.datesList = data;
+                       vm.date1 = vm.datesList[0];
+                       vm.date2 = vm.datesList[1];
+                       vm.date3 = vm.datesList[2];
+                   });
         }
 
         function _displayGuest(userID, firstName, lastName, acceptanceStatus, isRegistered, authorizationStatus, title, affiliationName,
@@ -126,7 +144,11 @@
             var localGuest = { ID: userID, status: acceptanceStatus };
             restApi.updateAcceptanceStatus(localGuest)
                 .success(function (data, status, headers, config) {
-
+                    vm.guestList.forEach(function (guest, index) {
+                        if (guest.userID == userID) {
+                            guest.acceptanceStatus = acceptanceStatus;
+                        }
+                    })
                 })
 
                 .error(function (error) {
