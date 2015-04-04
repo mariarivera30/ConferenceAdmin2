@@ -82,7 +82,7 @@
                 vm.obj.cancelbutton = true,
                 vm.obj.cancelbuttoText = "Cancel",
                 vm.showConfirmModal = !vm.showConfirmModal;
-                vm.okFunc = vm.deleteSponsor();
+                vm.okFunc = vm.deleteSponsor;
                 vm.cancelFunc;
 
             }
@@ -213,6 +213,7 @@
         function _deleteComplemetaryKey() {
 
             vm.loadingRemovingComp = true;
+          
             restApi.deleteComplemetaryKey(vm.key.complementarykeyID)
             .success(function (data, status, headers, config) {
                 vm.sponsorKeys.forEach(function (key, index) {

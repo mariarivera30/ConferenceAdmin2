@@ -29,7 +29,12 @@
             vm.showProfile = true;
             vm.showAdminsitrator = data;
         });
-
+        
+        $rootScope.$on('Loginpart', function (data) {
+            vm.messageLogOut = $window.sessionStorage.getItem('email').substring(1, $window.sessionStorage.getItem('email').length - 1);
+            vm.showProfile = true;
+           
+        });
         $rootScope.$on('Logout', function (data) {
 
             vm.showProfile = false;
@@ -50,6 +55,7 @@
             _tabViewControl();
             if ($window.sessionStorage.length == 0) {
                 vm.showProfile = false;
+                vm.showAdminsitrator = false;
             }
             else {
                 vm.showProfile = true;

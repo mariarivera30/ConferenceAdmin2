@@ -149,7 +149,7 @@
 
         //Download Document
         function _download() {
-            if($scope.content != umdefined && $scope.conten != "")
+            if($scope.content != undefined && $scope.conten != "")
                 window.open($scope.content);
         }
 

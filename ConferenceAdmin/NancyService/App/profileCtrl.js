@@ -5,9 +5,9 @@
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$http', 'restApi', '$window', '$location', profileCtrl]);
+        ['$scope', '$http', 'restApi', '$window', '$location','$rootScope', profileCtrl]);
 
-    function profileCtrl($scope, $http, restApi, $window, $location) {
+    function profileCtrl($scope, $http, restApi, $window, $location, $rootScope) {
         var vm = this;
         //Website content tabs
         vm.activate = activate;
@@ -37,8 +37,8 @@
                         vm.generalInfo = true;
                         vm.application = true;
                         vm.submission = true;
-                        
                         vm.receipt = true;
+                        $rootScope.$emit('Loginpart');
 
                     }
 
@@ -48,12 +48,14 @@
                         vm.submission = false;
                         vm.authorization = true;
                         vm.receipt = true;
+                        $rootScope.$emit('Login', event, vm.isAdmin);
 
                     }
 
                     if (claim.localeCompare('companion') == 0) {
                         vm.generalInfo = true;
                         vm.application = true;
+                        $rootScope.$emit('Login', event, vm.isAdmin);
 
                     }
                     if (claim.localeCompare('Evaluator') == 0) {
@@ -68,6 +70,7 @@
                         vm.authorization = false;
                         vm.submission = true;
                         vm.isAdmin = true;
+                        $rootScope.$emit('Login', event, vm.isAdmin);
 
                     }
                 });
