@@ -19,6 +19,7 @@
         vm.password;
         vm.token;
         vm.profileButton = false;
+        vm.conferenceLogo;
         vm.obj = {
             title: "",
             message1: "",
@@ -30,9 +31,6 @@
             cancelbuttoText: "Cancel",
         };
 
-
-
-
         // Functions
         vm.login = _login;
         vm.getUserTypes = _getUserTypes;
@@ -41,10 +39,9 @@
         vm.logout = _logout;
         vm.signUp = _signUp;
         vm.loginIfEmail = _loginIfEmail;
+        vm.getGeneralInfo = _getGeneralInfo;
 
         //alerts Directive
-
-
         vm.toggleModal = function (action) {
             if (action === "confirm") {
 
@@ -84,7 +81,24 @@
                vm.showConfirmModal = !vm.showConfirmModal;
         };
 
+        _getGeneralInfo();
         activate();
+
+        $rootScope.$on('ConferenceLogo', function (event, data) {
+            vm.conferenceLogo = data;
+        });
+
+        function _getGeneralInfo() {
+            restApi.getGeneralInfo()
+            .success(function (data, status, headers, config) {
+                if (data != null) {
+                    vm.conferenceLogo = data.logo;
+                }
+            })
+            .error(function (error) {
+
+            });
+        }
 
         function activate() {
             _getUserTypes()
