@@ -96,16 +96,21 @@
                             <h5 class=" after-title-field">
                                 Select Participation Days:
                             </h5><p ng-show="participation1.$pristine && participation2.$pristine && participation2.$pristine" class="help-block">* Participation Days required.</p>
-                            <input type="checkbox" name="participation1" ng-model="vm.date1" ng-checked="vm.checkAll">&nbsp;&nbsp;Wednesday, February 26, 2014<br>
-                            <input type="checkbox" name="participation2" ng-model="vm.date2" ng-checked="vm.checkAll">&nbsp;&nbsp;Thursday, February 27, 2014<br>
-                            <input type="checkbox" name="participation3" ng-model="vm.date3" ng-checked="vm.checkAll">&nbsp;&nbsp;Friday, February 28, 2014<br>
+                            <input type="checkbox" name="participation1" ng-model="vm.date1" ng-checked="vm.checkAll" ng-show="vm.datesList[0] != null && vm.datesList[0] != ''">&nbsp;&nbsp;{{vm.datesList[0]}}<br>
+                            <input type="checkbox" name="participation2" ng-model="vm.date2" ng-checked="vm.checkAll" ng-show="vm.datesList[1] != null && vm.datesList[1] != ''">&nbsp;&nbsp;{{vm.datesList[1]}}<br>
+                            <input type="checkbox" name="participation3" ng-model="vm.date3" ng-checked="vm.checkAll" ng-show="vm.datesList[2] != null && vm.datesList[2] != ''">&nbsp;&nbsp;{{vm.datesList[2]}}<br>
                             <!--<input type="checkbox" name="participationAll" ng-model="vm.checkAll" ng-checked="vm.date1 && vm.date2 && vm.date3">&nbsp;&nbsp;All-->
                         </div>
                     </form>
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addRegistration()" ng-disabled="addRegistrationForm.$invalid || (participation1.$pristine && participation2.$pristine && participation2.$pristine)">Add</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addRegistration()" ng-disabled="addRegistrationForm.$invalid
+                            || (vm.datesList.length==3 && (vm.date3==false && vm.date2==false && vm.date1==false))
+                            || (vm.datesList.length==2 && (vm.date2==false && vm.date1==false))
+                            || (vm.datesList.length==1 && (vm.date1==false))">
+                        Add
+                    </button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
@@ -140,12 +145,7 @@
                         </div>
                         <div class="col-md-6">
                             <h5 class="after-title-field">User Type</h5>
-                            <select ng-model="vm.TYPE"
-                                    ng-options="type as type.userTypeName for type in vm.userTypesList" class="form-control"></select>
-
-
-
-
+                            <select ng-model="vm.TYPE" ng-options="type as type.userTypeName for type in vm.userTypesList" class="form-control"></select>
                             <p ng-show="editRegistrationForm.usertypeid.$pristine" class="help-block">* User Type is required.</p>
                         </div>
                     </form>
@@ -162,7 +162,12 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.updateRegistration()">Save</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.updateRegistration()" ng-disabled="editRegistrationForm.$invalid
+                            || (vm.datesList.length == 3 && (vm.editdate3 == false && vm.editdate2 == false && vm.editdate1 == false))
+                            || (vm.datesList.length == 2 && (vm.editdate2 == false && vm.editdate1 == false))
+                            || (vm.datesList.length == 1 && (vm.editdate1 == false))">
+                        Save
+                    </button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
