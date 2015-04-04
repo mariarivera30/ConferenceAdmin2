@@ -1289,13 +1289,11 @@ namespace NancyService.Modules
                 }
 
                 else if (info.dateFrom != "" && info.dateTo != "")
-                {                  
-                    //check distance between dates
+                {
+                    /*
+                     //check distance between dates
 
-                    DateTime dateFrom = Convert.ToDateTime(info.dateFrom);
-                    DateTime dateTo = Convert.ToDateTime(info.dateTo);
-
-                    /*string from = Convert.ToDateTime(info.dateFrom).ToShortDateString();
+                    string from = Convert.ToDateTime(info.dateFrom).ToShortDateString();
                     string to = Convert.ToDateTime(info.dateTo).ToShortDateString();
 
                     var fromDay = Convert.ToInt32(from.Split('/')[1]);
@@ -1309,8 +1307,39 @@ namespace NancyService.Modules
                     // Constructor (Year, Month, Day)
 
                     DateTime dateFrom = new DateTime(fromYear, fromMonth, fromDay);
-                    DateTime dateTo = new DateTime(toYear, toMonth, toDay);*/
+                    DateTime dateTo = new DateTime(toYear, toMonth, toDay);
 
+                    double differenceDays = dateTo.Subtract(dateFrom).TotalDays;
+
+                    if (differenceDays < 0 || differenceDays >= 3)
+                    {
+                        return false;
+                    }
+
+                    else if (differenceDays == 0)
+                    {
+                        conferenceDay1 = dateFrom.ToShortDateString();
+                    }
+
+                    else if (differenceDays == 1)
+                    {
+                        conferenceDay1 = dateFrom.ToShortDateString();
+                        conferenceDay2 = dateTo.ToShortDateString();
+                    }
+                    else if (differenceDays == 2)
+                    {
+                        conferenceDay1 = dateFrom.ToShortDateString();
+                        conferenceDay2 = dateFrom.AddDays(1).ToShortDateString();
+                        conferenceDay3 = dateFrom.AddDays(2).ToShortDateString();
+
+                    } ////////////// end of chunk
+                     */                    
+
+                    //check distance between dates
+                    
+                    DateTime dateFrom = Convert.ToDateTime(info.dateFrom);
+                    DateTime dateTo = Convert.ToDateTime(info.dateTo);
+                    
                     double differenceDays = dateTo.Subtract(dateFrom).TotalDays;
 
                     if (differenceDays < 0 || differenceDays >= 3)
@@ -1333,7 +1362,7 @@ namespace NancyService.Modules
                         conferenceDay1 = info.dateFrom;
                         conferenceDay2 = dateFrom.AddDays(1).ToShortDateString();
                         conferenceDay3 = info.dateTo;
-                    }
+                    } ////////////// end of chunk
                 }
 
                 using (conferenceadminContext context = new conferenceadminContext())
