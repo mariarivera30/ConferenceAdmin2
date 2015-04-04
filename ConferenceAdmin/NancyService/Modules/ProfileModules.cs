@@ -71,10 +71,7 @@ namespace NancyService.Modules
             {
                 var key = parameters.complementaryKey;
 
-                if (profileInfo.checkComplementaryKey(key))
-                    return HttpStatusCode.OK;
-                else
-                    return HttpStatusCode.Conflict;
+                return (profileInfo.checkComplementaryKey(key)) ;
             };
 
 

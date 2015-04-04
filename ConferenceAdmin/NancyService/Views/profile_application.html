@@ -70,9 +70,9 @@
 
                             <div class="col-md-6">
                                 <h4>Select Participation Days:</h4>
-                                <input type="checkbox" name="participation1" ng-model="vm.date1" ng-checked="vm.checkAll">&nbsp;&nbsp;{{vm.datesList[0]}}<br>
-                                <input type="checkbox" name="participation2" ng-model="vm.date2" ng-checked="vm.checkAll">&nbsp;&nbsp;{{vm.datesList[1]}}<br>
-                                <input type="checkbox" name="participation3" ng-model="vm.date3" ng-checked="vm.checkAll">&nbsp;&nbsp;{{vm.datesList[2]}}<br>
+                                <input type="checkbox" name="participation1" ng-model="vm.date1" ng-checked="vm.checkAll" ng-show="vm.datesList[0]">&nbsp;&nbsp;{{vm.datesList[0]}}<br>
+                                <input type="checkbox" name="participation2" ng-model="vm.date2" ng-checked="vm.checkAll" ng-show="vm.datesList[1]">&nbsp;&nbsp;{{vm.datesList[1]}}<br>
+                                <input type="checkbox" name="participation3" ng-model="vm.date3" ng-checked="vm.checkAll" ng-show="vm.datesList[2]">&nbsp;&nbsp;{{vm.datesList[2]}}<br>
                                 <!--<input type="checkbox" name="participationAll" ng-model="vm.checkAll" ng-checked="vm.date3 && vm.date3 && vm.date3">&nbsp;&nbsp;All-->
                             </div>                                
 
@@ -100,8 +100,15 @@
                             <div class="col-md-12">
                                 <br />
                                 Your total amount to pay is <strong ng-hide="vm.correctComplementaryKey">{{vm.userTypesList[vm.userTypeID + 1].registrationCost | currency}}</strong> <strong ng-show="vm.correctComplementaryKey">$0.00</strong>.
-                                <a ng-hide="vm.correctComplementaryKey" href="https://knowledgecenter.zuora.com/@api/deki/files/873/sample_page.png" target="_blank" class="btn btn-ar btn-primary right" ng-click="vm.makePayment()" ng-disabled="vm.userTypeID == 1 && vm.hasKey == false">Make Payment</a>
-                                <a ng-show="vm.correctComplementaryKey" href="" data-dismiss="modal" class="btn btn-ar btn-primary right" ng-click="vm.complementaryPayment()">Register</a>
+                                <a ng-hide="vm.correctComplementaryKey" href="https://knowledgecenter.zuora.com/@api/deki/files/873/sample_page.png" target="_blank" class="btn btn-ar btn-primary right" ng-click="vm.makePayment()"
+                                   ng-disabled="(vm.userTypeID == 1 && vm.hasKey == false)
+                                    || (vm.datesList.length==3 && (vm.date3!=true && vm.date2!=true && vm.date1!=true))
+                                    || (vm.datesList.length==2 && (vm.date2!=true && vm.date1!=true))
+                                    || (vm.datesList.length==1 && (vm.date1!=true))">Make Payment</a>
+                                <a ng-show="vm.correctComplementaryKey" href="" data-dismiss="modal" class="btn btn-ar btn-primary right" ng-click="vm.complementaryPayment()"
+                                   ng-disabled="(vm.datesList.length==3 && (vm.date3!=true && vm.date2!=true && vm.date1!=true))
+                                    || (vm.datesList.length==2 && (vm.date2!=true && vm.date1!=true))
+                                    || (vm.datesList.length==1 && (vm.date1!=true))">Register</a>
                                 <br />Please proceed to 
                                 <span ng-hide="vm.correctComplementaryKey"><strong>Make Payment</strong> and fill the required form.</span>
                                 <span ng-show="vm.correctComplementaryKey"><strong>Register</strong> to complete the process.</span>
