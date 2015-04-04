@@ -5,7 +5,7 @@
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$rootScope', '$http', '$window', '$location', 'restApi',layoutCtrl]);
+        ['$scope', '$rootScope', '$http', '$window', '$location', 'restApi', layoutCtrl]);
 
     function layoutCtrl($scope, $rootScope, $http, $window, $location, restApi) {
 
@@ -29,11 +29,11 @@
             vm.showProfile = true;
             vm.showAdminsitrator = data;
         });
-        
+
         $rootScope.$on('Loginpart', function (data) {
             vm.messageLogOut = $window.sessionStorage.getItem('email').substring(1, $window.sessionStorage.getItem('email').length - 1);
             vm.showProfile = true;
-           
+
         });
         $rootScope.$on('Logout', function (data) {
 
@@ -42,10 +42,10 @@
             vm.showAdminsitrator = false;
         });
 
-        $rootScope.$on('headerPage', function (event,hideAlias) {
+        $rootScope.$on('headerPage', function (event, hideAlias) {
 
             vm.conferenceName = hideAlias;
-           
+
 
         });
 
@@ -87,7 +87,7 @@
         };
 
         function _logout() {
-     
+
             $window.sessionStorage.clear();
             vm.loged = false;
             vm.showAdminsitrator = false;

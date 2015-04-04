@@ -43,12 +43,12 @@
         vm.loginIfEmail = _loginIfEmail;
 
         //alerts Directive
- 
+
 
         vm.toggleModal = function (action) {
-            if (action ==="confirm") {
-              
-                vm.obj.title ="Account Confirmation",
+            if (action === "confirm") {
+
+                vm.obj.title = "Account Confirmation",
                 vm.obj.message1 = "Congratulation your account was confirmed!",
                 vm.obj.message2 = "",
                 vm.obj.label = "",
@@ -100,8 +100,8 @@
         function _logout() {
             vm.isAdmin = false;
             $rootScope.$emit('Login', event, vm.isAdmin);
-           
-            
+
+
             $window.sessionStorage.clear();
             vm.loged = false;
             $location.path('/Home');
@@ -113,8 +113,8 @@
                        if (data == "") {
                            vm.message = "Please verify your confirmation Key.";
                            vm.keyConfirmation = "";
-                     
-                          
+
+
                        }
                        else {
                            vm.toggleModal("confirm");
@@ -129,7 +129,7 @@
             vm.uploadingComp = true;
             restApi.checkEmail(vm.email).
                   success(function (data, status, headers, config) {
-                      if (data =="") {
+                      if (data == "") {
                           vm.message = "This email is not registered.";
                           vm.uploadingComp = false;
                           return;
@@ -156,7 +156,7 @@
 
 
         function _login() {
-          
+
             restApi.login(vm)
                    .success(function (data, status, headers, config) {
 
@@ -169,7 +169,7 @@
                        $window.sessionStorage.setItem('userID', JSON.stringify(data.userID));
                        $window.sessionStorage.setItem('email', JSON.stringify(data.email));
 
-                     
+
                        vm.uploadingComp = false;
                        //data.userClaims.forEach(function (claim) {
                        //    if (claim.localeCompare('Finance') == 0 || claim.localeCompare('Committee') == 0 || claim.localeCompare('Committee') == 0 || claim.localeCompare('Master') == 0) {

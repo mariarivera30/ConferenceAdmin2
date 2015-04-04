@@ -48,14 +48,14 @@
                         vm.submission = false;
                         vm.authorization = true;
                         vm.receipt = true;
-                        $rootScope.$emit('Login', event, vm.isAdmin);
+                        $rootScope.$emit('Loginpart');
 
                     }
 
                     if (claim.localeCompare('companion') == 0) {
                         vm.generalInfo = true;
                         vm.application = true;
-                        $rootScope.$emit('Login', event, vm.isAdmin);
+                        $rootScope.$emit('Loginpart');
 
                     }
                     if (claim.localeCompare('Evaluator') == 0) {
