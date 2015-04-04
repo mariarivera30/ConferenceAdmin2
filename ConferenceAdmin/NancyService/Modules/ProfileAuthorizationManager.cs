@@ -53,7 +53,7 @@ namespace NancyService.Modules
             }
         }
 
-        public bool uploadDocument(Authorization auth, MinorUser minor)
+        public int uploadDocument(Authorization auth, MinorUser minor)
         {
             try
             {
@@ -72,13 +72,13 @@ namespace NancyService.Modules
                     minor.authorizationStatus = true;
 
                     context.SaveChanges();
-                    return true;
+                    return authorization.authorizationSubmittedID;
                 }
             }
             catch (Exception ex)
             {
                 Console.Write("ProfileAuthorizationManager.uploadDocument error " + ex);
-                return false;
+                return 0;
             }
         }
 

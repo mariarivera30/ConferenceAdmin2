@@ -214,11 +214,7 @@ namespace NancyService.Modules
             {
                 var doc = this.Bind<Authorization>();
                 var minor = this.Bind<MinorUser>();
-                if (profileAuthorization.uploadDocument(doc, minor))
-                    return HttpStatusCode.OK;
-
-                else
-                    return HttpStatusCode.Conflict;
+                return Response.AsJson(profileAuthorization.uploadDocument(doc, minor));
             };
 
             Get["/getTemplates"] = parameters =>
