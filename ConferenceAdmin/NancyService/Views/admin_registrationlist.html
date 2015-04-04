@@ -156,7 +156,7 @@
                             <h5 class=" after-title-field">
                                 Select Participation Days:
                             </h5><p ng-show="participation1.$pristine && participation2.$pristine && participation2.$pristine" class="help-block">* Participation Days required.</p>
-                            <input type="checkbox" name="participation1" ng-model="vm.editdate1" ng-checked="vm.checkAll">&nbsp;&nbsp;Wednesday, February 26, 2014<br>
+                            <input type="checkbox" name="participation1" ng-model="vm.editdate1" ng-checked="vm.checkAll">&nbsp;&nbsp;{{vm.datesList[0]}}<br>
                             <input type="checkbox" name="participation2" ng-model="vm.editdate2" ng-checked="vm.checkAll">&nbsp;&nbsp;Thursday, February 27, 2014<br>
                             <input type="checkbox" name="participation3" ng-model="vm.editdate3" ng-checked="vm.checkAll">&nbsp;&nbsp;Friday, February 28, 2014<br>
                             <input type="checkbox" name="participationAll" ng-model="vm.checkAll" ng-checked="vm.editdate1 && vm.editdate2 && vm.editdate3">&nbsp;&nbsp;All
