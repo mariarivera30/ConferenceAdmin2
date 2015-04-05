@@ -113,7 +113,7 @@ namespace NancyService.Modules
                 {
                     payment payment = new payment
                     {
-                        paymentTypeID = 2,
+                        paymentTypeID = 1,
                         deleted = false,
                         creationDate = DateTime.Now.Date
                     };
@@ -171,7 +171,7 @@ namespace NancyService.Modules
                 {
                     payment payment = new payment
                     {
-                        paymentTypeID = 1,
+                        paymentTypeID = 2,
                         deleted = false,
                         creationDate = DateTime.Now.Date
                     };
