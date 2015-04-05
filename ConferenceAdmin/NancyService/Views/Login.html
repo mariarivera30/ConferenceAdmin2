@@ -1,7 +1,7 @@
 ﻿<div ng-controller="loginCtrl as vm">
     <div class="login-form-full">
         <div class="fix-box">
-            <div class="text-center title-logo animated fadeInDown animation-delay-5"><span>CCWiC</span></div>
+            <div class="text-center title-logo animated fadeInDown animation-delay-5" ng-style="vm.conferenceLogo != '' && {'background-image':'url('+vm.conferenceLogo+')'}"><span>CCWiC</span></div>
             <div class="transparent-div no-padding animated fadeInUp animation-delay-8">
                 <ul class="nav nav-tabs nav-tabs-transparent">
                     <li><a href="#/Login/Log" >Login</a></li>
