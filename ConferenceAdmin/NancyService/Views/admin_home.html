@@ -21,8 +21,9 @@
 
         <h5 class="after-title-field">Home Picture</h5>
         <form action="" method="post" enctype="multipart/form-data">
-            <div class="upload">
+            <div class="upload col-lg-4 input-group">
                 <input type="file" id="imageFile" name="upload" file-model="myFile" on-read-file="saveImg($fileContent)" />
+                <span ng-disabled="!myFile" class="input-group-addon btn" ng-click="vm.clear()">Clear</span>
             </div>
         </form>
         <div ng-show="vm.show"><a href="" data-toggle="modal" data-target="#viewImg">View Image on File</a></div>

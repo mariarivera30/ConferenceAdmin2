@@ -27,7 +27,7 @@
         vm.getHome = _getHome;
         vm.saveHome = _saveHome;
         vm.removeImage = _removeImage;
-        vm.clear = _clear();
+        vm.clear = _clear;
 
         _getHome();
         activate();
@@ -39,6 +39,7 @@
         function _clear() {
             if (document.getElementById("imageFile") != undefined) {
                 document.getElementById("imageFile").value = "";
+                $scope.myFile = "";
             }
             $scope.img = "";
         }

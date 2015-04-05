@@ -45,6 +45,8 @@
         function _clear() {
             if (document.getElementById("imageFile") != undefined) {
                 document.getElementById("imageFile").value = "";
+                $scope.myFile = "";
+                vm.show = false;
             }
             $scope.img = "";
         }
