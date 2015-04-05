@@ -79,9 +79,11 @@
     <script src="/App/fileModel.js"></script>
     <script src="/App/adminTemplateCtrl.js"></script>
     <script src="/App/ushersCtrl.js"></script>
+    <script src="/App/signUpCtrl.js"></script>
     <script src="/App/requestPassCtrl.js"></script>
     <script src="/App/adminAuthTemplatesCtrl.js"></script>
     <script src="/App/modalController-Directive.js"></script>
+    <script src="/App/validateCtrl.js"></script>
   
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -211,7 +213,12 @@
                         </div>
 
                     </div>
+                 
                 </div>
+                
+            </div>
+            <div class="col-lg-6">
+                <modal source="vm.obj" okcallback="vm.goTo(vm.goPath);" visible="vm.showConfirmModal"></modal>
             </div>
 
             <footer id="footer" class="noPrint row">

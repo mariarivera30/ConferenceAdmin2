@@ -46,11 +46,11 @@ namespace NancyService.Modules
             Get["/accountConfirmation/{key}"] = parameters =>
             {
                 string key = parameters.key;
-                NancyService.Modules.SignUpManager.UserCreation result = signUp.confirmAccount(key);
+                String result = signUp.confirmAccount(key);
 
                 if (result != null)
                     return Response.AsJson(result);
-
+            
                 else
                 {
                     return HttpStatusCode.Conflict;

@@ -15,14 +15,112 @@
         vm.title = 'layoutCtrl';
         vm.conferenceName;
         vm.conferenceLogo;
+        vm.obj = {
+            title: "",
+            message1: "",
+            message2: "",
+            label: "",
+            okbutton: false,
+            okbuttonText: "",
+            cancelbutton: false,
+            cancelbuttoText: "Cancel",
+        };
 
         //Functions
         vm.getGeneralInfo = _getGeneralInfo;
         vm.tabViewControl = _tabViewControl;
         vm.logout = _logout;
+        vm.goTo = _goTo;
 
         _getGeneralInfo();
         activate();
+
+        //////Alerts/////
+        function _goTo(path)
+        { $location.path(path); }
+
+        vm.toggleModal = function (action) {
+            if (action == "changed") {
+
+                vm.obj.title = "Reset Password";
+                vm.obj.message1 = "Your temporary Password was send to your email!";
+                vm.obj.message2 = "";
+                vm.obj.label = "";
+                vm.obj.okbutton = true;
+                vm.obj.okbuttonText = "OK";
+                vm.obj.cancelbutton = false;
+                vm.obj.cancelbuttoText = "Cancel";
+                vm.goPath = '/Login/Log';
+                vm.showConfirmModal = !vm.showConfirmModal;
+
+            }
+
+            if (action == "confirm") {
+
+                vm.obj.title = "Account Confirmation";
+                vm.obj.message1 = "Congratulation your account was confirmed!";
+                vm.obj.message2 = "";
+                vm.obj.label = "";
+                vm.obj.okbutton = true;
+                vm.obj.okbuttonText = "OK";
+                vm.obj.cancelbutton = false;
+                vm.obj.cancelbuttoText = "Cancel";
+                vm.goPath = '/Login/Log';
+                vm.showConfirmModal = !vm.showConfirmModal;
+
+            }
+            if (action == "makeConfirmation") {
+
+                vm.obj.title = "Next Step Account Confirmation",
+                vm.obj.message1 = "Please check you email to confirm your account!",
+                vm.obj.message2 ="",
+                vm.obj.label = "",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "OK",
+                vm.obj.cancelbutton = false,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.goPath = '/Validate';
+                vm.showConfirmModal = !vm.showConfirmModal;
+
+            }
+            else if (action == "error")
+                vm.obj.title = "Server Error",
+                vm.obj.message1 = "Please refresh the page and try again.",
+                vm.obj.message2 = "",
+                vm.obj.label = "",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "OK",
+                vm.obj.cancelbutton = false,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.showConfirmModal = !vm.showConfirmModal;
+        };
+
+        ////
+
+        $rootScope.$on('popUp', function (event, data) {
+            if (data == "requestedPass") {
+                vm.toggleModal('changed');
+                vm.showConfirmModal = data;
+                
+
+            }
+            else if (data == "error") {
+                vm.toggleModal('error');
+                vm.showConfirmModal = data;
+
+            }
+            else if (data == "confirm") {
+                vm.toggleModal('confirm');
+                vm.showConfirmModal = data;
+
+            } 
+            else if (data == 'makeConfirmation') {
+                vm.toggleModal('makeConfirmation');
+                vm.showConfirmModal = data;
+            }
+
+        });
+
 
         $rootScope.$on('Login', function (event, data) {
             vm.messageLogOut = $window.sessionStorage.getItem('email').substring(1, $window.sessionStorage.getItem('email').length - 1);

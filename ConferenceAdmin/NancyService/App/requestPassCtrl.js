@@ -5,9 +5,9 @@
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$http', 'restApi', '$window', '$location', requestPassCtrl]);
+        ['$scope', '$http', 'restApi', '$window', '$location','$rootScope', requestPassCtrl]);
 
-    function requestPassCtrl($scope, $http, restApi, $window, $location) {
+    function requestPassCtrl($scope, $http, restApi, $window, $location, $rootScope) {
         var vm = this;
 
         vm.activate = activate;
@@ -20,46 +20,6 @@
         vm.token;
         vm.profileButton = false;
         vm.message = "";
-
-
-        vm.obj = {
-            title: "",
-            message1: "",
-            message2: "",
-            label: "",
-            okbutton: false,
-            okbuttonText: "",
-            cancelbutton: false,
-            cancelbuttoText: "Cancel",
-        };
-
-        vm.toggleModal = function (action) {
-
-            if (action == "changed") {
-
-                vm.obj.title = "Reset Password",
-                vm.obj.message1 = "Your temporary Password was send to your email!",
-                vm.obj.message2 = vm.email,
-                vm.obj.label = "Email",
-                vm.obj.okbutton = true,
-                vm.obj.okbuttonText = "OK",
-                vm.obj.cancelbutton = false,
-                vm.obj.cancelbuttoText = "Cancel",
-                vm.showConfirmModal = !vm.showConfirmModal;
-
-            }
-       
-            else if (action == "error")
-                vm.obj.title = "Server Error",
-               vm.obj.message1 = "Please refresh the page and try again.",
-               vm.obj.message2 = "",
-               vm.obj.label = "",
-               vm.obj.okbutton = true,
-               vm.obj.okbuttonText = "OK",
-               vm.obj.cancelbutton = false,
-               vm.obj.cancelbuttoText = "Cancel",
-               vm.showConfirmModal = !vm.showConfirmModal;
-        };
 
         // Functions
 
@@ -93,7 +53,7 @@
 
                    }).
                    error(function (data, status, headers, config) {
-                       vm.toggleModal('error');
+                       $rootScope.$emit('popUp', 'error');
                    });
         }
 
@@ -103,13 +63,14 @@
             if (vm.emailExist) {
                 restApi.requestPass(vm.email).
                        success(function (data, status, headers, config) {
-                           vm.toggleModal('changed');
+                         //  vm.toggleModal('changed');
                            vm.uploadingComp = false;
-                           $location.path("/Login/Log");
+                           $rootScope.$emit('popUp', 'requestedPass');
+
                        }).
                        error(function (data, status, headers, config) {
                            vm.uploadingComp = false;
-                           vm.message = "An eeror occurr please refresh the page";
+                           $rootScope.$emit('popUp', 'error');
                        });
             }
 
@@ -129,7 +90,7 @@
                        // called asynchronously if an error occurs
                        // or server returns response with an error status.
                        vm.userTypeList = data;
-                       vm.toggleModal('error');
+                       $rootScope.$emit('popUp', 'error');
                    });
         }
 

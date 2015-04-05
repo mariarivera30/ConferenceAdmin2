@@ -30,6 +30,7 @@ namespace NancyService.Modules
             public string zipcode { get; set; }
             public long membershipID { get; set; }
             public string newPass { get; set; }
+            public bool emailConfirmation { get; set; }
 
 
         }
@@ -144,7 +145,7 @@ namespace NancyService.Modules
 
             smtp.Send(mail);
         }
-        public UserCreation confirmAccount(string key)
+        public String confirmAccount(string key)
         {
 
 
@@ -161,16 +162,31 @@ namespace NancyService.Modules
                                              firstName = u.firstName,
                                              lastName = u.lastName,
                                              email = m.email,
-                                             membershipID = m.membershipID
+                                             membershipID = m.membershipID,
+                                             emailConfirmation = (bool) m.emailConfirmation,
                                          }).FirstOrDefault();
+
+
                     if (user != null)
                     {
-                        context.memberships
-                              .Where(s => s.membershipID == user.membershipID && s.deleted == false)
-                              .ToList().ForEach(s => { s.emailConfirmation = true; });
-                        context.SaveChanges();
+                        if (user.emailConfirmation)
+                        {
+                            return "wasValidated";
+                        }
+                        else
+                        {
+                            context.memberships
+                                .Where(s => s.membershipID == user.membershipID && s.deleted == false)
+                                .ToList().ForEach(s => { s.emailConfirmation = true; });
+                            context.SaveChanges();
+                            return "validated";
+                        }
+                       
                     }
-                    return user;
+                    else{
+                         return "";
+                    }
+                   
                 }
                 catch (Exception ex)
                 {
