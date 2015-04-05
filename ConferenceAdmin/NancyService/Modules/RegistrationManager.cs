@@ -69,6 +69,7 @@ namespace NancyService.Modules
                         date3 = reg.date3,
                         affiliationName = reg.user.affiliationName,
                         byAdmin = reg.byAdmin,
+                        notes = reg.note,
                         usertype = new UserTypeName { userTypeID = reg.user.usertype.userTypeID, userTypeName = reg.user.usertype.userTypeName }
                     }).ToList();
 
@@ -149,6 +150,7 @@ namespace NancyService.Modules
                     registration.date1 = registeredUser.date1;
                     registration.date2 = registeredUser.date2;
                     registration.date3 = registeredUser.date3;
+                    registration.note = registeredUser.notes;
                     context.SaveChanges();
                     return true;
                 }

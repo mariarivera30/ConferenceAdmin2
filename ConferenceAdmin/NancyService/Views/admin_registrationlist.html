@@ -32,8 +32,8 @@
                 <td ng-show="vm.datesList[1] != null && vm.datesList[1] != ''"><i class="fa fa-check" ng-show="{{reg.date2}}"></i></td>
                 <td ng-show="vm.datesList[2] != null && vm.datesList[2] != ''"><i class="fa fa-check" ng-show="{{reg.date3}}"></i></td>
                 <td>
-                    <a href="" data-toggle="modal" data-target="#editAttendee" ng-show="reg.byAdmin" ng-click="vm.selectedRegistrationUpdate(reg.registrationID, reg.firstname, reg.lastname, reg.usertype, reg.affiliationName, reg.date1, reg.date2, reg.date3); vm.viewing = false;">Edit</a>
-                    <a href="" data-toggle="modal" data-target="#editAttendee" ng-hide="reg.byAdmin" ng-click="vm.selectedRegistrationUpdate(reg.registrationID, reg.firstname, reg.lastname, reg.usertype, reg.affiliationName, reg.date1, reg.date2, reg.date3); vm.viewing = true;">View</a>
+                    <a href="" data-toggle="modal" data-target="#editAttendee" ng-show="reg.byAdmin" ng-click="vm.selectedRegistrationUpdate(reg.registrationID, reg.firstname, reg.lastname, reg.usertype, reg.affiliationName, reg.date1, reg.date2, reg.date3, reg.notes); vm.viewing = false;">Edit</a>
+                    <a href="" data-toggle="modal" data-target="#editAttendee" ng-hide="reg.byAdmin" ng-click="vm.selectedRegistrationUpdate(reg.registrationID, reg.firstname, reg.lastname, reg.usertype, reg.affiliationName, reg.date1, reg.date2, reg.date3, reg.notes); vm.viewing = true;">View</a>
                 </td>
                 <td><a href="" data-toggle="modal" data-target="#delete"><i class="glyphicon glyphicon-remove" ng-click="vm.selectedRegistrationDelete(reg.registrationID)"></i></a></td>
             </tr>
@@ -96,13 +96,18 @@
                         </div>
 
                         <div class="col-md-12">
-                            <h5 class=" after-title-field">
+                            <h5 class=" after-title-field"><br />
                                 Select Participation Days:
                             </h5><p ng-show="participation1.$pristine && participation2.$pristine && participation2.$pristine" class="help-block">* Participation Days required.</p>
                             <input type="checkbox" name="participation1" ng-model="vm.date1" ng-checked="vm.checkAll" ng-show="vm.datesList[0] != null && vm.datesList[0] != ''">&nbsp;&nbsp;{{vm.datesList[0]}}<br>
                             <input type="checkbox" name="participation2" ng-model="vm.date2" ng-checked="vm.checkAll" ng-show="vm.datesList[1] != null && vm.datesList[1] != ''">&nbsp;&nbsp;{{vm.datesList[1]}}<br>
-                            <input type="checkbox" name="participation3" ng-model="vm.date3" ng-checked="vm.checkAll" ng-show="vm.datesList[2] != null && vm.datesList[2] != ''">&nbsp;&nbsp;{{vm.datesList[2]}}<br>
+                            <input type="checkbox" name="participation3" ng-model="vm.date3" ng-checked="vm.checkAll" ng-show="vm.datesList[2] != null && vm.datesList[2] != ''">&nbsp;&nbsp;{{vm.datesList[2]}}
                             <!--<input type="checkbox" name="participationAll" ng-model="vm.checkAll" ng-checked="vm.date1 && vm.date2 && vm.date3">&nbsp;&nbsp;All-->
+                        </div>
+
+                        <div class="col-md-12">
+                            <h5 class=" after-title-field">Notes of Restrictions(if any)</h5>
+                            <textarea ng-model="vm.note" class="full-width"></textarea><br /><br />
                         </div>
                     </form>
 
@@ -153,15 +158,21 @@
                             <p ng-show="editRegistrationForm.usertypeid.$pristine" class="help-block">* User Type is required.</p>
                         </div>
                     </form>
+
                     <form name="participationDays">
                         <div class="col-md-12">
-                            <h5 class=" after-title-field">
+                            <h5 class=" after-title-field"><br />
                                 Select Participation Days:
                             </h5><p ng-show="participation1.$pristine && participation2.$pristine && participation2.$pristine" class="help-block">* Participation Days required.</p>
                             <input type="checkbox" name="participation1" ng-model="vm.editdate1" ng-checked="vm.checkAll" ng-show="vm.datesList[0] != null && vm.datesList[0] != ''" ng-disabled="vm.viewing" class="readonly">&nbsp;&nbsp;{{vm.datesList[0]}}<br>
                             <input type="checkbox" name="participation2" ng-model="vm.editdate2" ng-checked="vm.checkAll" ng-show="vm.datesList[1] != null && vm.datesList[1] != ''" ng-disabled="vm.viewing" class="readonly">&nbsp;&nbsp;{{vm.datesList[1]}}<br>
-                            <input type="checkbox" name="participation3" ng-model="vm.editdate3" ng-checked="vm.checkAll" ng-show="vm.datesList[2] != null && vm.datesList[2] != ''" ng-disabled="vm.viewing" class="readonly">&nbsp;&nbsp;{{vm.datesList[2]}}<br>
+                            <input type="checkbox" name="participation3" ng-model="vm.editdate3" ng-checked="vm.checkAll" ng-show="vm.datesList[2] != null && vm.datesList[2] != ''" ng-disabled="vm.viewing" class="readonly">&nbsp;&nbsp;{{vm.datesList[2]}}
                             <!--<input type="checkbox" name="participationAll" ng-model="vm.checkAll" ng-checked="vm.editdate1 && vm.editdate2 && vm.editdate3">&nbsp;&nbsp;All-->
+                        </div>
+
+                        <div class="col-md-12">
+                            <h5 class=" after-title-field"> Notes of Restrictions (if any)</h5>
+                            <textarea ng-model="vm.editnote" class="full-width"></textarea><br /><br />
                         </div>
                     </form>
                 </div>

@@ -17,6 +17,7 @@
         vm.date1;
         vm.date2;
         vm.date3;
+        vm.note;
         //vm.checkAll;
 
         vm.registrationsList = [];
@@ -36,6 +37,7 @@
         vm.editlastname;
         vm.editusertypeid;
         vm.editaffiliationName;
+        vm.editnote;
 
         // Functions
         vm.activate = activate;
@@ -82,6 +84,7 @@
             vm.date1 = false;
             vm.date2 = false;
             vm.date3 = false;
+            vm.note = "";
             //vm.checkAll = false;
             vm.currentid = 0;
             vm.editfirstname = "";
@@ -95,6 +98,7 @@
             vm.editdate1 = false;
             vm.editdate2 = false;
             vm.editdate3 = false;
+            vm.editnote = "";
             $scope.content = "";
             $scope.$fileContent = "";
         }
@@ -111,7 +115,7 @@
 
             restApi.postNewRegistration(vm)
                 .success(function (data, status, headers, config) {
-                    vm.newReg = { registrationID: parseInt(data.split(",")[0]), firstname: vm.firstname, lastname: vm.lastname, affiliationName: vm.affiliationName, usertypeid: userTypeName, date1: vm.date1, date2: vm.date2, date3: vm.date3, byAdmin: true };
+                    vm.newReg = { registrationID: parseInt(data.split(",")[0]), firstname: vm.firstname, lastname: vm.lastname, affiliationName: vm.affiliationName, usertypeid: userTypeName, date1: vm.date1, date2: vm.date2, date3: vm.date3, byAdmin: true, notes: vm.note};
                     vm.registrationsList.push(vm.newReg);
                     clear();
                     vm.recoverType = parseInt(data.split(",")[1]);
@@ -138,7 +142,7 @@
 
 
 
-        function _selectedRegistrationUpdate(id, firstname, lastname, usertypeid, affiliationName, date1, date2, date3) {
+        function _selectedRegistrationUpdate(id, firstname, lastname, usertypeid, affiliationName, date1, date2, date3, note) {
             vm.currentid = id;            
             vm.editfirstname = firstname;
             vm.editlastname = lastname;
@@ -151,6 +155,7 @@
             vm.editdate1 = date1;
             vm.editdate2 = date2;
             vm.editdate3 = date3;
+            vm.editnote = note;
         }
 
         function _updateRegistration() {
@@ -160,7 +165,7 @@
                 vm.editdate3 = true;
             }*/
             if (vm.currentid != undefined && vm.currentid != 0) {
-                var registration = { registrationID: vm.currentid, firstname: vm.editfirstname, lastname: vm.editlastname, usertypeid: vm.TYPE.userTypeID, affiliationName: vm.editaffiliationName, date1: vm.editdate1, date2: vm.editdate2, date3: vm.editdate3 }
+                var registration = { registrationID: vm.currentid, firstname: vm.editfirstname, lastname: vm.editlastname, usertypeid: vm.TYPE.userTypeID, affiliationName: vm.editaffiliationName, date1: vm.editdate1, date2: vm.editdate2, date3: vm.editdate3, notes: vm.editnote};
                 restApi.updateRegistration(registration)
                 .success(function (data, status, headers, config) {
                     vm.registrationsList.forEach(function (reg, index) {
