@@ -104,11 +104,11 @@
                                 <label>PDF file</label><br />
                                 <div>
                                     <div class="document-name">
-                                        <span ng-show="myFile != undefined"><i class="fa fa-file-o"></i> {{myFile.name}}</span>
+                                        <span ng-show="vm.myFile.name"><i class="fa fa-file-o"></i> {{vm.myFile.name}}</span>
                                     </div>
 
                                     <div class="input-group-btn">
-                                        <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="documentFile" type="file" class="file" ng-model="vm.modalevaluationFile" class="form-control" name="upload" file-model="myFile" on-read-file="showContent($fileContent)" required></div>
+                                        <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="documentFile" type="file" class="file" ng-model="vm.modalevaluationFile" class="form-control" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)" required></div>
                                     </div>
                                 </div>
                             </div>

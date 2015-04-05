@@ -92,7 +92,9 @@
             vm.modaldelivery = null;
             vm.modalsubIsEvaluated = null;
             vm.modalpublicFeedback = null;
-            //vm.CTYPE = vm.topicsList[0];
+            if (vm.myFile != undefined) {
+                vm.myFile = undefined;
+            }
             vm.content = "";
             $scope.$fileContent = "";
             if (document.getElementById("documentFile") != undefined) {
@@ -207,7 +209,7 @@
             vm.content = $fileContent;
         };
        
-        function _addSubmission(myFile) {           
+        function _addSubmission() {           
             //if evaluating for the first time
             if (vm.viewModal == "Add") {
                 if (vm.TYPE.submissionTypeID == 1 || vm.TYPE.submissionTypeID == 2 || vm.TYPE.submissionTypeID == 4) {//if paper, poster o bof
@@ -233,14 +235,15 @@
                         delivery: vm.modaldelivery, necessary_equipment: vm.modalequipment
                     }
                 }
-                if (myFile != undefined) {
+                if (vm.myFile != undefined) {
                     submission.document = vm.content;
-                    submission.documentName = myFile.name;
+                    submission.documentName = vm.myFile.name;
+                    vm.myFile.name = "";
                 }
                 restApi.postSubmission(submission)
                         .success(function (data, status, headers, config) {
                             vm.submissionlist.push(data);
-                            myFile = null;
+                            //myFile = null;
                         })
                         .error(function (error) {
 
@@ -270,16 +273,17 @@
                         delivery: vm.modaldelivery, necessary_equipment: vm.modalequipment
                     }
                 }
-                if (myFile != undefined) {
+                if (vm.myFile != undefined) {
                     submission.document = vm.content;
-                    submission.documentName = myFile.name;
+                    submission.documentName = vm.myFile.name;
+                    vm.myFile.name = "";
                 }
                 restApi.editSubmission(submission)
                        .success(function (data, status, headers, config) {
                            vm.submissionlist.forEach(function (submission, index) {
                                if (submission.submissionID == vm.modalsubmissionID) {
                                    submission.submissionTitle = data.submissionTitle;
-                                   myFile = null;
+                                   //myFile = null;
                                }                               
                            }
                        )
