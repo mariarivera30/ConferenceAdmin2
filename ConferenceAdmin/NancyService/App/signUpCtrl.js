@@ -178,7 +178,6 @@
                        // this callback will be called asynchronously
                        // when the response is available
                        vm.creatingUser = false;
-
                        $rootScope.$emit('popUp', 'makeConfirmation');
 
 

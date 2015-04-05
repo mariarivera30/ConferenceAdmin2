@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
+
 namespace NancyService.Modules
 {
     public class LoginAuthenticateManager
@@ -84,7 +85,7 @@ namespace NancyService.Modules
                
                 UserAuth user = (from g in contx.memberships
                                  join u in contx.users on g.membershipID equals u.membershipID
-                                 where g.email == param.email && g.password == param.password && g.deleted==false && u.deleted ==false
+                                 where g.email == param.email  && g.password.Equals(param.password) && g.deleted == false && u.deleted == false
                                  select new UserAuth { userID = u.userID ,memberID = g.membershipID, password = g.password, email = g.email, userType = u.userTypeID }).FirstOrDefault();
 
                 if (user == null)
@@ -94,7 +95,11 @@ namespace NancyService.Modules
                               
                 else
                 {
-                   return user;
+                   if( string.Equals(param.password, user.password, StringComparison.Ordinal))
+                        return user;
+                   else{
+                       return null;
+                   }
                     
                 }
      
