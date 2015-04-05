@@ -105,8 +105,9 @@ namespace NancyService.Modules
             Post["/addEvaluation"] = parameters =>
             {
                 var evaluation = this.Bind<evaluationsubmitted>();
+                usersubmission usersub = this.Bind<usersubmission>();
 
-                if (submission.addEvaluation(evaluation)) return HttpStatusCode.OK;
+                if (submission.addEvaluation(evaluation, usersub)) return HttpStatusCode.OK;
                 else return HttpStatusCode.Conflict;
             };
 
@@ -114,8 +115,9 @@ namespace NancyService.Modules
             Put["/editEvaluation"] = parameters =>
             {
                 var evaluation = this.Bind<evaluationsubmitted>();
+                usersubmission usersub = this.Bind<usersubmission>();
 
-                if (submission.editEvaluation(evaluation)) return HttpStatusCode.OK;
+                if (submission.editEvaluation(evaluation, usersub)) return HttpStatusCode.OK;
                 else return HttpStatusCode.Conflict;
             };
             //------------------------------------USER SUBMISSIONS---------------------------------

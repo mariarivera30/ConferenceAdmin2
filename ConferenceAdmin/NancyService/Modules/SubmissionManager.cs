@@ -59,8 +59,10 @@ namespace NancyService.Modules
                             evaluationScore = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.score).FirstOrDefault(),
                             publicFeedback = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.publicFeedback).FirstOrDefault(),
                             privateFeedback = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.privateFeedback).FirstOrDefault(),
-                            subIsEvaluated = (sub.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true)
-
+                            subIsEvaluated = (sub.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true),
+                            allowFinalVersion = ((sub.submission.usersubmissions1.FirstOrDefault() == null ?
+                            null : sub.submission.usersubmissions1.FirstOrDefault().allowFinalVersion) == null ?
+                            false : sub.submission.usersubmissions1.FirstOrDefault().allowFinalVersion) == false ? false : true
                         };
                     }
                     else if (sub.submission.submissionTypeID == 3)
@@ -101,8 +103,10 @@ namespace NancyService.Modules
                             evaluationScore = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.score).FirstOrDefault(),
                             publicFeedback = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.publicFeedback).FirstOrDefault(),
                             privateFeedback = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.privateFeedback).FirstOrDefault(),
-                            subIsEvaluated = (sub.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true)
-
+                            subIsEvaluated = (sub.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true),
+                            allowFinalVersion = ((sub.submission.usersubmissions1.FirstOrDefault() == null ?
+                            null : sub.submission.usersubmissions1.FirstOrDefault().allowFinalVersion) == null ?
+                            false : sub.submission.usersubmissions1.FirstOrDefault().allowFinalVersion) == false ? false : true
                         };
                     }
                     else if (sub.submission.submissionTypeID == 5)
@@ -143,7 +147,10 @@ namespace NancyService.Modules
                             evaluationScore = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.score).FirstOrDefault(),
                             publicFeedback = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.publicFeedback).FirstOrDefault(),
                             privateFeedback = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.privateFeedback).FirstOrDefault(),
-                            subIsEvaluated = (sub.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true)
+                            subIsEvaluated = (sub.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true),
+                            allowFinalVersion = ((sub.submission.usersubmissions1.FirstOrDefault() == null ?
+                            null : sub.submission.usersubmissions1.FirstOrDefault().allowFinalVersion) == null ?
+                            false : sub.submission.usersubmissions1.FirstOrDefault().allowFinalVersion) == false ? false : true
                         };
                     }
                     return subs;
@@ -183,7 +190,7 @@ namespace NancyService.Modules
             }
         }
 
-        public bool addEvaluation(evaluationsubmitted evaluation)
+        public bool addEvaluation(evaluationsubmitted evaluation, usersubmission usersubIn)
         {
             try
             {
@@ -193,6 +200,9 @@ namespace NancyService.Modules
                     context.evaluationsubmitteds.Add(evaluation);
                     context.SaveChanges();
                     context.evaluatiorsubmissions.Where(c => c.evaluationsubmissionID == evaluation.evaluatiorSubmissionID).FirstOrDefault().statusEvaluation = "Evaluated";
+                    context.SaveChanges();
+                    usersubmission userSub = context.usersubmission.Where(c => c.initialSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault();
+                    userSub.allowFinalVersion = true;
                     context.SaveChanges();
                     return true;
                 }
@@ -204,7 +214,7 @@ namespace NancyService.Modules
             }
         }
 
-        public bool editEvaluation(evaluationsubmitted evaluation)
+        public bool editEvaluation(evaluationsubmitted evaluation, usersubmission userSubIn)
         {
             try
             {
@@ -225,7 +235,8 @@ namespace NancyService.Modules
                     {
                         dbEvaluation.evaluatiorsubmission.statusEvaluation = "Evaluated";
                     }
-
+                    usersubmission userSub = context.usersubmission.Where(c => c.initialSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault();
+                    userSub.allowFinalVersion = userSubIn.allowFinalVersion;
                     context.SaveChanges();
                     return true;
                 }
@@ -815,6 +826,7 @@ namespace NancyService.Modules
         public String equipment;
         public String duration;
         public String delivery;
+        public bool allowFinalVersion;
         public long evaluatiorSubmissionID;
         public String evaluationName;
         public String evaluationFile;

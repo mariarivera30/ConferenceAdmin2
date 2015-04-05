@@ -17,6 +17,7 @@
         vm.submissionTitle;
         vm.userType;
         vm.topic;
+        vm.allowFinalVersion;
         vm.submitterFirstName;
         vm.submitterLastName;
         vm.submissionAbstract;
@@ -39,7 +40,6 @@
         vm.subIsEvaluated;
         vm.content;
         var currentUserID = $window.sessionStorage.getItem('userID');
-
 
         vm.modalsubmissionID;
         vm.modaluserType;
@@ -160,6 +160,7 @@
                     vm.modalpublicFeedback = data.publicFeedback;
                     vm.modalprivateFeedback = data.privateFeedback;
                     vm.modalsubIsEvaluated = data.subIsEvaluated;
+                    vm.modalAllowFinalVersion = data.allowFinalVersion;
                     if (vm.modalevaluationFile == undefined || vm.modalevaluationFile == null) {
                         vm.modalhasFile = false;
                     }
@@ -180,7 +181,11 @@
         };
 
         function _addEvaluation(myFile) {            
-            var evaluation = { evaluationsubmittedID: vm.modalevaluationsubmittedID, evaluatiorSubmissionID: vm.modalevaluatiorSubmissionID, score: vm.modalevaluationScore, publicFeedback: vm.modalpublicFeedback, privateFeedback: vm.modalprivateFeedback }
+            var evaluation = {
+                evaluationsubmittedID: vm.modalevaluationsubmittedID, evaluatiorSubmissionID: vm.modalevaluatiorSubmissionID,
+                score: vm.modalevaluationScore, publicFeedback: vm.modalpublicFeedback, privateFeedback: vm.modalprivateFeedback,
+                allowFinalVersion: vm.modalAllowFinalVersion, initialSubmissionID: vm.modalsubmissionID
+            }
             if (myFile != undefined) {
                 evaluation.evaluationFile =  vm.content;
                 evaluation.evaluationName = myFile.name;
@@ -201,6 +206,7 @@
                                     submission.evaluationsubmittedID = vm.modalevaluationsubmittedID;
                                     submission.evaluationFile = vm.modalevaluationFile;
                                     submission.evaluationName = vm.modalevaluationName;
+                                    submission.allowFinalVersion = vm.modalAllowFinalVersion;
                                 }
                            })
                            if (myFile != undefined) {
