@@ -1,4 +1,5 @@
-﻿(function () {
+﻿/// <reference path="../Views/administrator.html" />
+(function () {
     'use strict';
 
     var controllerId = 'adminCtrl';
@@ -87,6 +88,7 @@
 
                         }
                         if (claim.localeCompare('Finance') == 0) {
+                            vm.participation = true;
                             vm.general = true;
                             vm.planning = true;
                             vm.venue = true;
@@ -94,7 +96,6 @@
                             vm.registrationInt = true;
                             vm.sponsorsInt = true;
                             vm.contact = true;
-                            vm.participation = true;
 
                             //Conference Manage tabs
                             vm.committeeManage = false; //committe,admin,
@@ -115,7 +116,7 @@
                             vm.templates = true;//committe,admin,
                             vm.authTemplates = true;
                             vm.topic = true; //committe,admin,
-                            vm.participation = false;
+                            vm.participation = true;
                             vm.isAdmin = true;
                             vm.evaluators = true;
                         }
