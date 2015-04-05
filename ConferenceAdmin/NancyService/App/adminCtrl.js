@@ -24,6 +24,7 @@
         vm.participation = false;
         vm.sponsorsInt = false;
         vm.contact = false;
+        vm.administrator = false;
 
         //Conference Manage tabs
         vm.committeeManage = false; //committe,admin,
@@ -37,6 +38,7 @@
         vm.keyCodes = false;
         vm.reports = false;
         vm.administrator = false;
+        vm.program = false;
         vm.isAdmin = false;
 
 
@@ -63,6 +65,7 @@
                         if (claim.localeCompare('Admin') == 0 || claim.localeCompare('Master') == 0) {
                             //Website content tabs
                             vm.participation = true;
+                            vm.administrator = true;
                             vm.general = true;
                             vm.planning = true;
                             vm.venue = true;
@@ -70,6 +73,9 @@
                             vm.registrationInt = true;
                             vm.sponsorsInt = true;
                             vm.contact = true;
+                            vm.home = true;
+                            vm.program = true;
+                            
 
                             //Conference Manage tabs
 
@@ -96,6 +102,8 @@
                             vm.registrationInt = true;
                             vm.sponsorsInt = true;
                             vm.contact = true;
+                            vm.program = true;
+                            vm.home = true;
 
                             //Conference Manage tabs
                             vm.committeeManage = false; //committe,admin,
@@ -105,18 +113,31 @@
                             vm.submissions = false;//committe,admin,
                             vm.sponsors = true;
                             vm.templates = false;//committe,admin,
-                            vm.authTemplates = false;
+                            vm.authTemplates = true;
                             vm.keyCodes = true;
                             vm.reports = true;
                             vm.isAdmin = true;
                         }
 
                         if (claim.localeCompare('CommitteEvaluator') == 0) {
+                           
+                            vm.home = false;
+                            vm.general = false;
+                            vm.planning = false;
+                            vm.venue = false;
+                            vm.deadline = false;
+                            vm.registrationInt = false;
+                            vm.participation = false;
+                            vm.sponsorsInt = false;
+                            vm.contact = false;
+                            vm.administrator = false;
+                            vm.program = false;
+
                             vm.submissions = true;//committe,admin,
                             vm.templates = true;//committe,admin,
                             vm.authTemplates = true;
                             vm.topic = true; //committe,admin,
-                            vm.participation = true;
+                          
                             vm.isAdmin = true;
                             vm.evaluators = true;
                         }
