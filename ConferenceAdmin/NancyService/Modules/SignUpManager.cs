@@ -77,6 +77,7 @@ namespace NancyService.Modules
                         companion companion = new companion();
                         companion.deleted = false;
                         companion.userID = user.userID;
+                        companion.companionKey = "Companion "+ user.userID + generateEmailConfirmationKey().Substring(0, 9);
                         context.companions.Add(companion);
                         context.SaveChanges();
 
