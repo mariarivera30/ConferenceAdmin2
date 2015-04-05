@@ -1,13 +1,13 @@
 ﻿(function () {
     'use strict';
 
-    var controllerId = 'loginCtrl';
+    var controllerId = 'signUPCtrl';
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$rootScope', '$http', 'restApi', '$window', '$location', loginCtrl]);
+        ['$scope', '$rootScope', '$http', 'restApi', '$window', '$location', signUPCtrl]);
 
-    function loginCtrl($scope, $rootScope, $http, restApi, $window, $location) {
+    function signUPCtrl($scope, $rootScope, $http, restApi, $window, $location) {
         var vm = this;
 
         vm.activate = activate;
@@ -21,74 +21,20 @@
         vm.profileButton = false;
         vm.conferenceLogo;
 
-        vm.obj = {
-            title: "",
-            message1: "",
-            message2: "",
-            label: "",
-            okbutton: false,
-            okbuttonText: "",
-            cancelbutton: false,
-            cancelbuttoText: "Cancel",
-        };
-
+       
 
         // Functions
         vm.login = _login;
         vm.getUserTypes = _getUserTypes;
         vm.createUser = _createUser;
-        vm.validate = _validate;
+       
         //  vm.logout = _logout;
         vm.signUp = _signUp;
         vm.loginIfEmail = _loginIfEmail;
-        vm.getGeneralInfo = _getGeneralInfo;
-
-
-        //alerts Directive
-        function _goToLogin() { $location.path("/Login/Log"); }
-
-        vm.toggleModal = function (action) {
-            if (action == "changed") {
-
-                vm.obj.title = "Reset Password",
-                vm.obj.message1 = "Your temporary Password was send to your email!",
-                vm.obj.message2 = "",
-                vm.obj.label = "",
-                vm.obj.okbutton = true,
-                vm.obj.okbuttonText = "OK",
-                vm.obj.cancelbutton = false,
-                vm.obj.cancelbuttoText = "Cancel",
-                vm.obj.okfunc = _goToLogin;
-                vm.showConfirmModal = !vm.showConfirmModal;
-
-            }
-
-            if (action === "confirm") {
-
-                vm.obj.title = "Account Confirmation",
-                vm.obj.message1 = "Congratulation your account was confirmed!",
-                vm.obj.message2 = "",
-                vm.obj.label = "",
-                vm.obj.okbutton = true,
-                vm.obj.okbuttonText = "OK",
-                vm.obj.cancelbutton = false,
-                vm.obj.cancelbuttoText = "Cancel",
-                vm.showConfirmModal = !vm.showConfirmModal;
-
-            }
      
-            else if (action == "error")
-               vm.obj.title = "Server Error",
-               vm.obj.message1 = "Please refresh the page and try again.",
-               vm.obj.message2 = "",
-               vm.obj.label = "",
-               vm.obj.okbutton = true,
-               vm.obj.okbuttonText = "OK",
-               vm.obj.cancelbutton = false,
-               vm.obj.cancelbuttoText = "Cancel",
-               vm.showConfirmModal = !vm.showConfirmModal;
-        };
-        _getGeneralInfo();
+
+
+       
         activate();
 
         function activate() {
@@ -103,48 +49,8 @@
             }
         }
 
-    
-        $rootScope.$on('ConferenceLogo', function (event, data) {
-            vm.conferenceLogo = data;
-        });
 
-        function _getGeneralInfo() {
-            restApi.getGeneralInfo()
-            .success(function (data, status, headers, config) {
-                if (data != null) {
-                    vm.conferenceLogo = data.logo;
-                }
-            })
-            .error(function (error) {
-
-            });
-        }
-
-        function _validate() {
-            restApi.accountConfirmation(vm.keyConfirmation).
-                   success(function (data, status, headers, config) {
-                       if (data == "") {
-                           vm.message = "Please verify your confirmation Key.";
-                           vm.keyConfirmation = "";
-
-
-                       }
-                       else if (data == "wasValidated") {
-                           vm.message = "This account is already validated.";
-                           vm.keyConfirmation = "";
-                          
-
-                       }
-                       else {
-                           $rootScope.$emit('popUp', 'requestedPass');
-                       //    vm.toggleModal("confirm");
-                        //   $location.path("/Login/Log");
-                       }
-                   }).
-                   error(function (data, status, headers, config) {
-                       $rootScope.$emit('popUp', 'error');
-                   });
-        }
+       
 
         function _loginIfEmail() {
             vm.creatingUser = true;
@@ -171,11 +77,11 @@
                   error(function (data, status, headers, config) {
                       vm.uploadingComp = false;
                       $rootScope.$emit('popUp', 'error');
-                    
+
                   });
 
         }
-        
+
         function _login() {
 
             restApi.login(vm)
@@ -236,7 +142,7 @@
                        // called asynchronously if an error occurs
                        // or server returns response with an error status.
                        $rootScope.$emit('popUp', 'error');
-                      
+
                    });
         }
 
@@ -251,13 +157,13 @@
                        else {
 
                            _createUser();
-                           $rootScope.$emit('popUp', 'requestedPass');
+                        
 
                        }
 
                    }).
                    error(function (data, status, headers, config) {
-                   
+
                        vm.creatingUser = false;
                        $rootScope.$emit('popUp', 'error');
                    });
@@ -272,21 +178,21 @@
                        // this callback will be called asynchronously
                        // when the response is available
                        vm.creatingUser = false;
-                       
-                      // $rootScope.$emit('popUp', 'makeConfirmation');
-                     
+
+                       $rootScope.$emit('popUp', 'makeConfirmation');
+
 
 
                    }).
                    error(function (data, status, headers, config) {
                        // called asynchronously if an error occurs
                        // or server returns response with an error status.
-                      
+
                        vm.creatingUser = false;
                        $rootScope.$emit('popUp', 'error');
                    });
         }
-    
+
 
     }
 })();

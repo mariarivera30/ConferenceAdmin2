@@ -1,5 +1,5 @@
 ﻿
-<div ng-controller="loginCtrl as vm" class="tab-pane" id="signup">
+<div ng-controller="signUPCtrl as vm" class="tab-pane" id="signup">
     <form name="signForm" novalidate>
         <h3>General Information</h3>
         <div class="row">
@@ -53,7 +53,7 @@
             </div>
 
 
-           
+
         </div>
 
         <div class="row title-field">
@@ -107,8 +107,8 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="" class="black-label">ZipCode<sup>*</sup></label>
-                    <input type="number" class="form-control" name="zipcode" ng-model="vm.user.zipcode" required>
-                    <p ng-show="signForm.zipcode.$invalid && !signForm.zipcode.$pristine" class="help-block" ng-minlength="5" ng-maxlength="5">Zipcode is required 5 characters.</p>
+                    <input type="number" class="form-control" name="zipcode" ng-model="vm.user.zipcode" ng-minlength="5" ng-maxlength="5" required>
+                    <p ng-show="signForm.zipcode.$invalid && !signForm.zipcode.$pristine" class="help-block">Zipcode is required 5 characters.</p>
                 </div>
             </div>
 
@@ -123,7 +123,7 @@
                 <div class="form-group">
                     <label class="after-title-field black-label" for="">Fax</label>
                     <input type="number" class="form-control" name="fax" ng-model="vm.user.userFax" ng-minlength="9" ng-maxlength="10">
-                    <p ng-show="signForm.fax.$invalid && !signForm.fax.$pristine" class="help-block">Fax is required.</p>
+
                 </div>
             </div>
         </div>
@@ -143,10 +143,10 @@
                 <div class="form-group">
                     <label class="after-title-field black-label" for="">Password<sup>*</sup></label>
                     <input type="password" class="form-control" name="password" ng-model="vm.user.password" ng-minlength="8" ng-maxlength="15" required>
-                    <p ng-show="signForm.password.$invalid && !signForm.password.$pristine" class="help-block" >Password is required minimun Lenght 8 and maximun lenght 15 characters.</p>
+                    <p ng-show="signForm.password.$invalid && !signForm.password.$pristine" class="help-block">Password is required minimun Lenght 8 and maximun lenght 15 characters.</p>
                 </div>
             </div>
-            
+
 
 
 
@@ -157,7 +157,7 @@
                     <label class="after-title-field black-label" for="">Confirm Password<sup>*</sup></label>
                     <input type="password" class="form-control" name="Confirm" ng-model="vm.user.confirm" ng-minlength="8" ng-maxlength="15" pw-check="vm.user.password" required>
                     <p ng-show="vm.user.confirm !==vm.user.password">Passwords do not match.</p>
-                    <p ng-show="signForm.Confirm.$invalid && !signForm.Confirm.$pristine" class="help-block" >Password confirmation is required.</p>
+                    <p ng-show="signForm.Confirm.$invalid && !signForm.Confirm.$pristine" class="help-block">Password confirmation is required.</p>
 
                 </div>
             </div>
@@ -165,19 +165,17 @@
 
         </div>
         <div class="modal-footer row ">
-            
-                <div class="col-lg-2" ng-show="vm.creatingUser">
-                    <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Creating</h3>
-                </div>
-            
+
+            <div class="col-lg-2" ng-show="vm.creatingUser">
+                <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Creating</h3>
+            </div>
+
 
             <div class="col-lg-12">
-                {{vm.message}}<br />
+                {{vm.message}}
                 <button type="submit" class="btn btn-ar btn-primary pull-right" ng-click="vm.signUp()" ng-disabled="vm.uploadingComp || signForm.$invalid ||vm.user.confirm != vm.user.password || vm.creatingUser">Create Account</button>
             </div>
         </div>
     </form>
-    <div class="col-lg-6">
-        <modal source="vm.obj" visible="vm.showConfirmModal"></modal>
-    </div>
+
 </div>

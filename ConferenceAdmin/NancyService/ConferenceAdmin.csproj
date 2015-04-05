@@ -115,11 +115,13 @@
     <Content Include="App\scheduleCtrl.js" />
     <Content Include="App\scholarshipCtrl.js" />
     <Content Include="App\services.js" />
+    <Content Include="App\signUpCtrl.js" />
     <Content Include="App\sponsorCtrl.js" />
     <Content Include="App\sponsorInterfaceCtrl.js" />
     <Content Include="App\sponsorInterfaceCtrl2.js" />
     <Content Include="App\ushersCtrl.js" />
     <Content Include="App\topicCtrl.js" />
+    <Content Include="App\validateCtrl.js" />
     <Content Include="App\venueCtrl.js" />
     <Content Include="App\workshopsCtrl.js" />
     <Content Include="bin\EntityFramework.dll" />

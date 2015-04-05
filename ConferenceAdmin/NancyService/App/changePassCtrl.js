@@ -18,6 +18,8 @@
             newPassConfirm: "",
             email: ""
         };
+
+        vm.goTo = _goTo;
         vm.obj = {
             title: "",
             message1: "",
@@ -28,12 +30,14 @@
             cancelbutton: false,
             cancelbuttoText: "Cancel",
         };
+        function _goTo()
+        { $location.path('/Login/Log'); }
 
         vm.toggleModal = function (action) {
           
-            if (action === "changed") {
+            if (action == "changed") {
 
-                vm.obj.title = "Your Password was changed!",
+                vm.obj.title = "Your Password was changed!";
                 vm.obj.message1 = "Please Login!",
                 vm.obj.message2 = vm.credentials.email,
                 vm.obj.label = "Email",
@@ -42,9 +46,9 @@
                 vm.obj.cancelbutton = false,
                 vm.obj.cancelbuttoText = "Cancel",
                 vm.showConfirmModal = !vm.showConfirmModal;
-
+                
             }
-            if (action === "notchanged") {
+            if (action == "notchanged") {
 
                 vm.obj.title = "Your Password cannot be changed!",
                 vm.obj.message1 = "Verify your credentials and try again",
@@ -81,17 +85,12 @@
             .success(function (data, status, headers, config) {
                 if (data != null && data != "") {
                     vm.toggleModal('changed');
-                    $location.path("/Login/Log");
-                    //_login();
+                 
                 }
 
                 else {
                     vm.toggleModal('notchanged');
-                    //hacer login automatico
-
-
-
-                }
+                  }
 
             })
 
