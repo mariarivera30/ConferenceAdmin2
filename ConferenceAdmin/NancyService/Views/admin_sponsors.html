@@ -60,7 +60,7 @@
                 <div class="modal-body">
                     <form name="editSponsorForm">
                         <label class="after-title-field">Pricing:</label>
-                        <input name="cost" type="number" ng-model="vm.amount" />
+                        <input name="cost" type="number" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" step="any" ng-model="vm.amount" />
                         <label class="help-inline" ng-show="editSponsorForm.cost.$invalid">Invalid cost.</label><br />
                         <label>Benefits:</label><p class="after-title-field2">You can specify up to 10 benefits.</p>
                         <table class="table after-title-field" id="benefitstable">

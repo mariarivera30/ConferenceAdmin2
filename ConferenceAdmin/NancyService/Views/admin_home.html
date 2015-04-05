@@ -23,6 +23,7 @@
         <form action="" method="post" enctype="multipart/form-data">
             <div class="upload">
                 <input type="file" id="imageFile" name="upload" file-model="myFile" on-read-file="saveImg($fileContent)" />
+                <a style="float:left" href="">x</a>
             </div>
         </form>
         <div ng-show="vm.show"><a href="" data-toggle="modal" data-target="#viewImg">View Image on File</a></div>
@@ -180,4 +181,30 @@
         </div>
     </div>
 
+    <!-- File Error: Extension -->
+    <div class="modal fade" id="fileExtError" tabindex="-1" role="dialog" aria-labelledby="fileExtErrorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="fileExtErrorLabel">Image Extension Error</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The image must be in a valid image format:<br />
+                        <ul class="list-unstyled list-inline">
+                            <li>.jpg</li>
+                            <li>.jpeg</li>
+                            <li>.png</li>
+                            <li>.pic</li>
+                            <li>.pict</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -51,8 +51,22 @@
 
         $scope.saveImg = function ($fileContent) {
             if ($fileContent != undefined) {
-                $scope.img = $fileContent;
-                vm.show = true;
+                var fileName = $scope.myFile.name;
+                if (fileName != undefined) {
+                    var ext = fileName.split(".", 2)[1];
+                    if (ext == "png" || ext == "jpg" || ext == "gif" || ext == "jpeg" || ext == "pic" || ext == "pict") {
+                        vm.show = true;
+                        $scope.img = $fileContent;
+                    }
+                    else {
+                        $("#fileExtError").modal('show');
+                        if (document.getElementById("imageFile") != undefined) {
+                            document.getElementById("imageFile").value = "";
+                        }
+                        $scope.img = "";
+                        vm.show = false;
+                    }
+                }
             }
         };
 

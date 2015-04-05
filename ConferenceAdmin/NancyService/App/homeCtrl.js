@@ -44,8 +44,21 @@
         }
 
         $scope.saveImg = function ($fileContent) {
-            if ($fileContent != null) {
-                $scope.img = $fileContent;
+            if ($fileContent != undefined) {
+                var fileName = $scope.myFile.name;
+                if (fileName != undefined) {
+                    var ext = fileName.split(".", 2)[1];
+                    if (ext == "png" || ext == "jpg" || ext == "gif" || ext == "jpeg" || ext == "pic" || ext == "pict") {
+                        $scope.img = $fileContent;
+                    }
+                    else {
+                        $("#fileExtError").modal('show');
+                        if (document.getElementById("imageFile") != undefined) {
+                            document.getElementById("imageFile").value = "";
+                        }
+                        $scope.img = "";
+                    }
+                }
             }
         };
 
