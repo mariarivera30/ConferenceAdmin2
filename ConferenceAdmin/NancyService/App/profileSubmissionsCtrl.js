@@ -92,6 +92,7 @@
             vm.modaldelivery = null;
             vm.modalsubIsEvaluated = null;
             vm.modalpublicFeedback = null;
+            vm.CTYPE = vm.topicsList[0];
             if (vm.myFile != undefined) {
                 vm.myFile = undefined;
             }
