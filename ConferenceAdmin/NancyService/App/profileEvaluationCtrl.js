@@ -95,6 +95,9 @@
 
         function _hideEvaluationForm() {
             vm.evaluate = false;
+            vm.myFile = null;
+            //var input = $("#browseButton");
+            //input.replaceWith(input = input.clone(true));
         }
 
         function _getAbstract() {
@@ -180,19 +183,19 @@
             vm.content = $fileContent;
         };
 
-        function _addEvaluation(myFile) {            
+        function _addEvaluation() {            
             var evaluation = {
                 evaluationsubmittedID: vm.modalevaluationsubmittedID, evaluatiorSubmissionID: vm.modalevaluatiorSubmissionID,
                 score: vm.modalevaluationScore, publicFeedback: vm.modalpublicFeedback, privateFeedback: vm.modalprivateFeedback,
                 allowFinalVersion: vm.modalAllowFinalVersion, initialSubmissionID: vm.modalsubmissionID
             }
-            if (myFile != undefined) {
+            if (vm.myFile != undefined) {
                 evaluation.evaluationFile =  vm.content;
-                evaluation.evaluationName = myFile.name;
+                evaluation.evaluationName = vm.myFile.name;
             }
             //if evaluating for the first time
             if (vm.modalsubIsEvaluated == false) {
-                if (myFile == undefined) {
+                if (vm.myFile == undefined) {
                     alert("A file must be uploaded before submitting an evaluation.");
                 }
                 restApi.postEvaluation(evaluation)
@@ -209,9 +212,9 @@
                                     submission.allowFinalVersion = vm.modalAllowFinalVersion;
                                 }
                            })
-                           if (myFile != undefined) {
+                           if (vm.myFile != undefined) {
                                vm.modalevaluationFile = vm.content;
-                               vm.modalevaluationName = myFile.name;
+                               vm.modalevaluationName = vm.myFile.name;
                            }
                         })
                         .error(function (error) {
@@ -228,14 +231,14 @@
                                    submission.privateFeedback = vm.modalprivateFeedback;
                                    submission.score = vm.modalevaluationScore;
                                    submission.evaluationsubmittedID = vm.modalevaluationsubmittedID;
-                                   if (myFile != undefined) {
+                                   if (vm.myFile != undefined) {
                                        submission.evaluationFile = vm.content;
-                                       submission.evaluationName = myFile.name;
+                                       submission.evaluationName = vm.myFile.name;
                                    }
                                }
-                               if (myFile != undefined) {
+                               if (vm.myFile != undefined) {
                                    vm.modalevaluationFile = vm.content;
-                                   vm.modalevaluationName = myFile.name;
+                                   vm.modalevaluationName = vm.myFile.name;
                                }
                            }
                        )})

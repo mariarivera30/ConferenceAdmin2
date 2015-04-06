@@ -13,8 +13,8 @@
                 <td class="text-left"><i class="fa fa-file-text-o"> </i><a href="" data-toggle="modal" data-target="#viewSubmission" ng-click="vm.viewTheView(submission.submissionTypeName, submission.submissionID)"> {{submission.submissionTitle}}</a></td>
                 <td>{{submission.submissionTypeName}}</td>
                 <td>
-                    <a ng-hide="submission.isEvaluated || submission.isFinalSubmission" href="" data-toggle="modal" data-target="#editSubmissionModal" ng-click="vm.selectedSubmission(submission.topiccategoryID); vm.viewEditForm(submission.submissionID)">Edit </a><span ng-hide="submission.isEvaluated || submission.isFinalSubmission"> | </span>
-                    <a ng-hide="submission.isEvaluated || submission.isFinalSubmission" href="" data-toggle="modal" data-target="#deleteSubmission" ng-click="vm.deleteSelectedSubmission(submission.submissionID)">Delete</a>
+                    <a ng-hide="submission.isEvaluated || submission.isFinalSubmission || submission.status != 'Pending'" href="" data-toggle="modal" data-target="#editSubmissionModal" ng-click="vm.selectedSubmission(submission.topiccategoryID); vm.viewEditForm(submission.submissionID)">Edit </a><span ng-hide="submission.isEvaluated || submission.isFinalSubmission || submission.status != 'Pending'"> | </span>
+                    <a ng-hide="submission.isEvaluated || submission.isFinalSubmission || submission.status != 'Pending'" href="" data-toggle="modal" data-target="#deleteSubmission" ng-click="vm.deleteSelectedSubmission(submission.submissionID)">Delete</a>
                     <a ng-show="submission.finalSubmissionAllowed && submission.isEvaluated && !submission.isFinalSubmission" href="" data-toggle="modal" data-target="">Add final version</a>
                     
                 </td>

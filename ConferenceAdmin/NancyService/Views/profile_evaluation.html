@@ -68,12 +68,14 @@
                         
                         <div class="col-lg-3">
                             <div class="document-name">
-                                <span ng-show="myFile != undefined"><i class="fa fa-file-o"></i> {{myFile.name}}</span>
+                                <span ng-show="vm.myFile != undefined"><i class="fa fa-file-o"></i> {{vm.myFile.name}}</span>
                             </div>
 
                             <div class="input-group-btn">
-                                <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input type="file" class="file" ng-model="vm.modalevaluationFile" class="form-control" name="upload" file-model="myFile" on-read-file="showContent($fileContent)" required></div>
+                                <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="browseButton" type="file" class="file" ng-model="vm.modalevaluationFile" class="form-control" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)" required></div>
+                               
                             </div>
+                            <p ng-show="vm.myFile == undefined && !vm.modalsubIsEvaluated" class="help-block">Evaluation file is required.</p>
                         </div>
                     </div>
 
@@ -100,7 +102,7 @@
                     </div><br />
 
                     <div class="col-lg-12"><br />
-                        <button type="submit" data-toggle="modal" data-target="#addTopic" class="btn btn-ar btn-primary" ng-disabled="addEvaluationForm.modalprivateFeedback.$invalid || addEvaluationForm.modalevaluationScore.$invalid">Submit</button>
+                        <button type="submit" data-toggle="modal" data-target="#addTopic" class="btn btn-ar btn-primary" ng-disabled="addEvaluationForm.modalprivateFeedback.$invalid || addEvaluationForm.modalevaluationScore.$invalid || (vm.myFile == undefined && !vm.modalsubIsEvaluated)">Submit</button>
                         <button class="btn btn-ar btn-default" ng-click="vm.hideEvaluationForm()">Back</button>
                     </div>
                 </form>
@@ -137,7 +139,7 @@
                     Are you sure you want to submit the evaluation?
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addEvaluation(myFile)">Submit</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addEvaluation()">Submit</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
