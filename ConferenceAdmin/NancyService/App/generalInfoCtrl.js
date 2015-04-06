@@ -18,6 +18,7 @@
         vm.disabled = false;
 
         //From Admin Website
+        vm.temp;
         vm.conferenceAcronym;
         vm.conferenceName;
         vm.dateFrom;
@@ -35,11 +36,24 @@
         vm.saveGeneralInfo = _saveGeneralInfo;
         vm.removeImage = _removeImage;
         vm.clear = _clear;
+        vm.reset = _reset;
 
         _getGeneralInfo();
 
         function activate() {
 
+        }
+
+        function _reset() {
+            if (vm.temp != null) {
+
+                vm.conferenceAcronym = vm.temp.conferenceAcronym;
+                vm.conferenceName = vm.temp.conferenceName;
+                vm.dateFrom = new Date(vm.temp.dateFrom.split('/')[2], vm.temp.dateFrom.split('/')[0] - 1, vm.temp.dateFrom.split('/')[1]); //Date(yyyy,mm-1,dd)
+                vm.dateTo = new Date(vm.temp.dateTo.split('/')[2], vm.temp.dateTo.split('/')[0] - 1, vm.temp.dateTo.split('/')[1]);
+                vm.logo = vm.temp.logo;
+                _clear();
+            }
         }
 
         function _clear() {
@@ -87,6 +101,7 @@
             restApi.getGeneralInfo()
             .success(function (data, status, headers, config) {
                 if (data != null) {
+                    vm.temp = data;
                     vm.iconferenceAcronym = data.conferenceAcronym;
                     vm.iconferenceName = data.conferenceName;
                     vm.idateFrom = data.dateFrom;
@@ -143,7 +158,15 @@
             restApi.saveGeneralInfo(info)
             .success(function (data, status, headers, config) {
                 if (data) {
+
                     vm.show = false;
+
+                    //Update temp
+                    vm.temp.conferenceAcronym= info.conferenceAcronym;
+                    vm.temp.conferenceName = info.conferenceName;
+                    vm.temp.dateFrom = info.dateFrom;
+                    vm.temp.dateTo = info.dateTo;
+
                     if (vm.iconferenceName != vm.conferenceName) {
                         vm.iconferenceName = vm.conferenceName;
                         $rootScope.$emit('ConferenceName', vm.conferenceName);
@@ -156,6 +179,7 @@
 
                     if (info.logo != "" && info.logo != undefined) {
                         vm.logo = info.logo;
+                        vm.temp.logo = info.logo;
                         $scope.showContent(vm.logo);
                         $rootScope.$emit('ConferenceLogo', vm.logo);
                     }
@@ -181,6 +205,7 @@
            .success(function (data, status, headers, config) {
                if (data) {
                    vm.logo = "";
+                   vm.temp.logo = "";
                    $scope.content = "";
                    vm.imgExist = false;
                    $rootScope.$emit('ConferenceLogo', vm.logo);

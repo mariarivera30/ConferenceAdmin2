@@ -16,6 +16,7 @@
         vm.disabled = false;
 
         //From Admin Website
+        vm.temp;
         vm.homeMainTitle;
         vm.homeTitle1;
         vm.homeParagraph1;
@@ -28,12 +29,25 @@
         vm.saveHome = _saveHome;
         vm.removeImage = _removeImage;
         vm.clear = _clear;
+        vm.reset = _reset;
 
         _getHome();
         activate();
 
         function activate() {
 
+        }
+
+        function _reset() {
+            if (vm.temp != null) {
+                vm.homeMainTitle = vm.temp.homeMainTitle;
+                vm.homeTitle1 = vm.temp.homeTitle1;
+                vm.homeParagraph1 = vm.temp.homeParagraph1;
+                vm.homeTitle2 = vm.temp.homeTitle2;
+                vm.homeParagraph2 = vm.temp.homeParagraph2;
+                vm.img = vm.temp.image;
+                _clear();
+            }
         }
 
         function _clear() {
@@ -74,6 +88,7 @@
             restApi.getHome()
             .success(function (data, status, headers, config) {
                 if (data != null) {
+                    vm.temp = data;
                     vm.homeMainTitle = data.homeMainTitle;
                     vm.homeTitle1 = data.homeTitle1;
                     vm.homeParagraph1 = data.homeParagraph1;
@@ -110,8 +125,16 @@
             restApi.saveHome(newHome)
             .success(function (data, status, headers, config) {
                 if (data != null) {
+
+                    vm.temp.homeMainTitle = newHome.homeMainTitle;
+                    vm.temp.homeTitle1 = newHome.homeTitle1;
+                    vm.temp.homeParagraph1 = newHome.homeParagraph1;
+                    vm.temp.homeTitle2 = newHome.homeTitle2;
+                    vm.temp.homeParagraph2 = newHome.homeParagraph2;
+
                     if (newHome.image != "" && newHome.image != undefined) {
                         vm.img = newHome.image;
+                        vm.temp.image = newHome.image;
                         $scope.showContent(vm.img);
                         _clear();
                     }
@@ -130,6 +153,7 @@
            .success(function (data, status, headers, config) {
                if (data) {
                    vm.img = "";
+                   vm.temp.image = "";
                    vm.show = false;
                    $scope.content = "";
                    $("#viewImg").modal('hide');

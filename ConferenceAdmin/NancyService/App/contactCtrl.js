@@ -9,11 +9,11 @@
 
     function contactCtrl($scope, $http, restApi) {
         var vm = this;
-
         vm.activate = activate;
         vm.title = 'contactCtrl';
 
         //Admin
+        vm.temp;
         vm.contactName;
         vm.contactPhone;
         vm.contactEmail;
@@ -28,6 +28,7 @@
         //Functions
         vm.getContact = _getContact;
         vm.saveContact = _saveContact;
+        vm.reset = _reset;
 
         _getContact();
 
@@ -35,10 +36,18 @@
 
         }
 
+        function _reset() {
+            vm.contactName = vm.temp.contactName;
+            vm.contactPhone = vm.temp.contactPhone;
+            vm.contactEmail = vm.temp.contactEmail;
+            vm.contactAdditionalInfo = vm.temp.contactAdditionalInfo;
+        }
+
         function _getContact() {
             restApi.getContact()
             .success(function (data, status, headers, config) {
                 if (data != null) {
+                    vm.temp = data;
                     vm.icontactName = data.contactName;
                     vm.icontactPhone = data.contactPhone;
                     vm.icontactEmail = data.contactEmail;
@@ -68,6 +77,10 @@
             restApi.saveContact(newContact)
             .success(function (data, status, headers, config) {
                 if (data != null) {
+                    vm.temp.contactName = newContact.contactName;
+                    vm.temp.contactPhone = newContact.contactPhone;
+                    vm.temp.contactEmail = newContact.contactEmail;
+                    vm.temp.contactAdditionalInfo = newContact.contactAdditionalInfo;
                     $("#updateConfirm").modal('show');
                 }
             })

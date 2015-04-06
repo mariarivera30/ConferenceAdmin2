@@ -13,6 +13,7 @@
         vm.title = 'deadlinesCtrl';
 
         //Admin
+        vm.temp;
         vm.deadline1;
         vm.deadlineDate1;
         vm.deadline2;
@@ -39,6 +40,7 @@
         //Functions
         vm.getDeadlines = _getDeadlines;
         vm.saveDeadlines = _saveDeadlines;
+        vm.reset = _reset;
 
         _getDeadlines();
 
@@ -46,11 +48,24 @@
 
         }
 
+        function _reset() {
+            vm.deadline1 = vm.temp.deadline1;
+            vm.deadlineDate1 = new Date(vm.temp.deadlineDate1);
+            vm.deadline2 = vm.temp.deadline2;
+            vm.deadlineDate2 = new Date(vm.temp.deadlineDate2);
+            vm.deadline3 = vm.temp.deadline3;
+            vm.deadlineDate3 = new Date(vm.temp.deadlineDate3);
+            vm.deadline4 = vm.temp.deadline4;
+            vm.deadlineDate4 = new Date(vm.temp.deadlineDate4);
+            vm.deadline5 = vm.temp.deadline5;
+            vm.deadlineDate5 = new Date(vm.temp.deadlineDate5);
+        }
+
         function _getDeadlines() {
             restApi.getDeadlines()
             .success(function (data, status, headers, config) {
                 if (data != null) {
-
+                    vm.temp = data;
                     vm.ideadline1 = data.deadline1;
                     vm.ideadlineDate1 = data.deadlineDate1;
                     vm.ideadline2 = data.deadline2;
@@ -139,6 +154,7 @@
             restApi.saveDeadlines(newDeadlines)
             .success(function (data, status, headers, config) {
                 if (data != null) {
+                    vm.temp = newDeadlines;
                     $("#updateConfirm").modal('show');
                 }
             })

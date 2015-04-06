@@ -13,6 +13,7 @@
         vm.title = 'participationCtrl';
 
         //Admin
+        vm.temp;
         vm.participationTitle1;
         vm.participationTitle2;
         vm.participationTitle3;
@@ -41,6 +42,7 @@
         //Functions
         vm.getParticipation = _getParticipation;
         vm.saveParticipation = _saveParticipation;
+        vm.reset = _reset;
 
         _getParticipation();
 
@@ -48,11 +50,24 @@
 
         }
 
+        function _reset() {
+            vm.participationTitle1 = vm.temp.participationTitle1;
+            vm.participationTitle2 = vm.temp.participationTitle2;
+            vm.participationTitle3 = vm.temp.participationTitle3;
+            vm.participationTitle4 = vm.temp.participationTitle4;
+            vm.participationTitle5 = vm.temp.participationTitle5;
+            vm.participationParagraph1 = vm.temp.participationParagraph1;
+            vm.participationParagraph2 = vm.temp.participationParagraph2;
+            vm.participationParagraph3 = vm.temp.participationParagraph3;
+            vm.participationParagraph4 = vm.temp.participationParagraph4;
+            vm.participationParagraph5 = vm.temp.participationParagraph5;
+        }
+
         function _getParticipation() {
             restApi.getParticipation()
             .success(function (data, status, headers, config) {
                 if (data != null) {
-
+                    vm.temp = data;
                     vm.iparticipationTitle1 = data.participationTitle1;
                     vm.iparticipationTitle2 = data.participationTitle2;
                     vm.iparticipationTitle3 = data.participationTitle3;
@@ -100,6 +115,18 @@
             restApi.saveParticipation(newParticipation)
             .success(function (data, status, headers, config) {
                 if (data != null) {
+
+                    vm.temp.participationTitle1 = newParticipation.participationTitle1;
+                    vm.temp.participationTitle2 = newParticipation.participationTitle2;
+                    vm.temp.participationTitle3 = newParticipation.participationTitle3;
+                    vm.temp.participationTitle4 = newParticipation.participationTitle4;
+                    vm.temp.participationTitle5 = newParticipation.participationTitle5;
+                    vm.temp.participationParagraph1 = newParticipation.participationParagraph1;
+                    vm.temp.participationParagraph2 = newParticipation.participationParagraph2;
+                    vm.temp.participationParagraph3 = newParticipation.participationParagraph3;
+                    vm.temp.participationParagraph4 = newParticipation.participationParagraph4;
+                    vm.temp.participationParagraph5 = newParticipation.participationParagraph5;
+
                     $("#updateConfirm").modal('show');
                 }
             })

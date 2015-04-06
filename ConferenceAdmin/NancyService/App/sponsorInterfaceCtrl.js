@@ -12,6 +12,7 @@
         vm.title = 'sponsorInterfaceCtrl';
 
         //For Admin Modal
+        vm.temp;
         vm.selectedSponsorType;
         vm.amount;
         vm.benefits = {};
@@ -24,11 +25,16 @@
         vm.saveInstructions = _saveInstructions;
         vm.selectedSponsor = _selectedSponsor;
         vm.clear = _clear;
+        vm.reset = _reset;
 
         _getInstructions();
 
         function activate() {
 
+        }
+
+        function _reset() {
+            vm.instructions = vm.temp;
         }
 
         function _clear() {
@@ -110,6 +116,7 @@
             restApi.getInstructions()
             .success(function (data, status, headers, config) {
                 if (data != null) {
+                    vm.temp = data;
                     vm.instructions = data;
                 }
             })
@@ -121,6 +128,7 @@
             restApi.saveInstructions(vm.instructions)
             .success(function (data, status, headers, config) {
                 if (data) {
+                    vm.temp = vm.instructions;
                     $("#updateConfirm").modal('show');
                 }
             })

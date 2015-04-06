@@ -1,6 +1,11 @@
 ﻿<div class="row" ng-controller="deadlinesCtrl as vm">
 
-    <h3>Deadlines</h3>
+    <div class="row">
+        <div class="col-lg-6"><h3>Deadlines</h3></div>
+        <div class="col-lg-3">
+            <button class="btn btn-ar btn-primary right" ng-click="vm.reset()">Reset</button>
+        </div>
+    </div>
 
     <div class="col-lg-8 hide-until-loaded" id="body">
         <table class="table after-title-field">

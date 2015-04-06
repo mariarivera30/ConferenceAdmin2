@@ -12,6 +12,7 @@
         vm.title = 'homeCtrl';
 
         //From Admin Website
+        vm.temp;
         vm.registrationTitle1;
         vm.registrationParagraph1;
         vm.registrationTitle2;
@@ -56,6 +57,7 @@
         //Functions
         vm.getRegistrationInfo = _getRegistrationInfo;
         vm.saveRegistrationInfo = _saveRegistrationInfo;
+        vm.reset = _reset;
 
         _getRegistrationInfo();
 
@@ -63,10 +65,33 @@
 
         }
 
+        function _reset() {
+            vm.registrationTitle1 = vm.temp.registrationTitle1;
+            vm.registrationParagraph1 = vm.temp.registrationParagraph1;
+            vm.registrationTitle2 = vm.temp.registrationTitle2;
+            vm.registrationParagraph2 = vm.temp.registrationParagraph2;
+            vm.registrationNotes = vm.temp.registrationNotes;
+
+            vm.undergraduateStudentFee = vm.temp.undergraduateStudentFee;
+            vm.graduateStudentFee = vm.temp.graduateStudentFee;
+            vm.highSchoolStudentFee = vm.temp.highSchoolStudentFee;
+            vm.companionStudentFee = vm.temp.companionStudentFee;
+            vm.professionalAcademyFee = vm.temp.professionalAcademyFee;
+            vm.professionalIndustryFee = vm.temp.professionalIndustryFee;
+
+            vm.undergraduateStudentLateFee = vm.temp.undergraduateStudentLateFee;
+            vm.graduateStudentLateFee = vm.temp.graduateStudentLateFee;
+            vm.highSchoolStudentLateFee = vm.temp.highSchoolStudentLateFee;
+            vm.companionStudentLateFee = vm.temp.companionStudentLateFee;
+            vm.professionalAcademyLateFee = vm.temp.professionalAcademyLateFee;
+            vm.professionalIndustryLateFee = vm.temp.professionalIndustryLateFee;
+        }
+
         function _getRegistrationInfo() {
             restApi.getRegistrationDetails()
             .success(function (data, status, headers, config) {
                 if (data != null) {
+                    vm.temp = data;
                     vm.iregistrationTitle1 = data.registrationTitle1;
                     vm.iregistrationParagraph1 = data.registrationParagraph1;
                     vm.iregistrationTitle2 = data.registrationTitle2;
@@ -141,6 +166,7 @@
             restApi.saveRegistrationInfo(newRegistration)
             .success(function (data, status, headers, config) {
                 if (data != null) {
+                    vm.temp = newRegistration;
                     $("#updateConfirm").modal('show');
                 }
             })

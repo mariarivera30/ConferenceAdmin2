@@ -13,6 +13,7 @@
         vm.title = 'venueCtrl';
 
         //From Admin Website
+        vm.temp;
         vm.venueTitle1;
         vm.venueParagraph1;
         vm.venueTitle2;
@@ -31,6 +32,7 @@
         //Functions
         vm.getVenue = _getVenue;
         vm.saveVenue = _saveVenue;
+        vm.reset = _reset;
 
         _getVenue();
 
@@ -38,10 +40,20 @@
 
         }
 
+        function _reset() {
+            vm.venueTitle1 = vm.temp.venueTitle1;
+            vm.venueParagraph1 = vm.temp.venueParagraph1;
+            vm.venueTitle2 = vm.temp.venueTitle2;
+            vm.venueParagraph2 = vm.temp.venueParagraph2;
+            vm.venueTitleBox = vm.temp.venueTitleBox;
+            vm.venueParagraphContentBox = vm.temp.venueParagraphContentBox;
+        }
+
         function _getVenue() {
             restApi.getVenue()
             .success(function (data, status, headers, config) {
                 if (data != null) {
+                    vm.temp = data;
                     vm.ivenueTitle1 = data.venueTitle1;
                     vm.ivenueParagraph1 = data.venueParagraph1;
                     vm.ivenueTitle2 = data.venueTitle2;
@@ -78,6 +90,12 @@
             restApi.saveVenue(newVenue)
             .success(function (data, status, headers, config) {
                 if (data != null) {
+                    vm.temp.venueTitle1 = newVenue.venueTitle1;
+                    vm.temp.venueParagraph1 = newVenue.venueParagraph1;
+                    vm.temp.venueTitle2 = newVenue.venueTitle2;
+                    vm.temp.venueParagraph2 = newVenue.venueParagraph2;
+                    vm.temp.venueTitleBox = newVenue.venueTitleBox;
+                    vm.temp.venueParagraphContentBox = newVenue.venueParagraphContentBox;
                     $("#updateConfirm").modal('show');
                 }
             })
