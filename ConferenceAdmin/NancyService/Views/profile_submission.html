@@ -15,7 +15,7 @@
                 <td>
                     <a ng-hide="submission.isEvaluated || submission.isFinalSubmission || submission.status != 'Pending'" href="" data-toggle="modal" data-target="#editSubmissionModal" ng-click="vm.selectedSubmission(submission.topiccategoryID); vm.viewEditForm(submission.submissionID)">Edit </a><span ng-hide="submission.isEvaluated || submission.isFinalSubmission || submission.status != 'Pending'"> | </span>
                     <a ng-hide="submission.isEvaluated || submission.isFinalSubmission || submission.status != 'Pending'" href="" data-toggle="modal" data-target="#deleteSubmission" ng-click="vm.deleteSelectedSubmission(submission.submissionID)">Delete</a>
-                    <a ng-show="submission.finalSubmissionAllowed && submission.isEvaluated && !submission.isFinalSubmission" href="" data-toggle="modal" data-target="">Add final version</a>
+                    <a ng-show="submission.finalSubmissionAllowed && submission.isEvaluated && !submission.isFinalSubmission" href="" data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.selectFinalversion(submission.submissionID)">Add final version</a>
                     
                 </td>
                 <td>
@@ -43,7 +43,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 ng-show="vm.viewModal == 'Add'" class="modal-title" id="evaluationModalLabel">Add {{vm.TYPE.submissionTypeName}}</h4>
-                    <h4 ng-show="vm.viewModal == 'Edit'" class="modal-title" id="evaluationModalLabel">Edit {{vm.modalsubmissionTitle}}</h4>
+                    <h4 ng-show="vm.viewModal == 'addFinal'" class="modal-title" id="evaluationModalLabel">Add Final Submission</h4>
                 </div>
 
                 <div class="modal-body">
@@ -147,8 +147,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 ng-show="vm.viewModal == 'Add'" class="modal-title" id="evaluationModalLabel">Add {{vm.TYPE.submissionTypeName}}</h4>
-                    <h4 ng-show="vm.viewModal == 'Edit'" class="modal-title" id="evaluationModalLabel">Edit {{vm.modalsubmissionTitle}}</h4>
+                    <h4 ng-show="vm.viewModal == 'Edit'" class="modal-title" id="evaluationModalLabel">Edit {{vm.modalsubmissionTypeName}}</h4>
                 </div>
 
                 <div class="modal-body">                   
