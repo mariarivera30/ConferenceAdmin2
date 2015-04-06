@@ -108,7 +108,8 @@
             saveProgram: _saveProgram,
             getProgramDocument: _getProgramDocument,
             getAbstractDocument: _getAbstractDocument,
-            getDates: _getDates
+            getDates: _getDates,
+            postFinalSubmission: _postFinalSubmission
         };
 
         return service;
@@ -542,9 +543,13 @@
         function _postSubmission(data) {
             return $http.post('profile/postSubmission', data)
         };
-
+        //edit a submission
         function _editSubmission(data) {
             return $http.put('profile/editSubmission', data)
+        };
+        //posts a final submission 
+        function _postFinalSubmission(data) {
+            return $http.post('profile/postFinalSubmission', data)
         };
     }
 }

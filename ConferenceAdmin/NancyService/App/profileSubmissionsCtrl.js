@@ -76,13 +76,47 @@
         }
 
         function _selectFinalversion(submissionID) {
-            _viewEditForm(submissionID);
+            restApi.getUserSubmission(submissionID).
+                  success(function (data, status, headers, config) {
+                      vm.modalsubmissionID = data.submissionID;
+                      vm.modaluserType = data.userType;
+                      vm.modalsubmissionTitle = data.submissionTitle;
+                      vm.modaltopic = data.topic;
+                      vm.modaltopiccategoryID = data.topiccategoryID;
+                      vm.modalsubmissionAbstract = data.submissionAbstract;
+                      vm.modalsubmissionFileList = data.submissionFileList;
+                      vm.modalsubmissionTypeName = data.submissionType;
+                      vm.modalsubmissionTypeID = data.submissionTypeID;
+                      vm.modalpanelistNames = data.panelistNames;
+                      vm.modalplan = data.plan;
+                      vm.modalguideQuestions = data.guideQuestions;
+                      vm.modalformat = data.format;
+                      vm.modalequipment = data.equipment;
+                      vm.modalduration = data.duration;
+                      vm.modaldelivery = data.delivery;
+                      vm.modalsubIsEvaluated = data.subIsEvaluated;
+                      vm.modalpublicFeedback = data.publicFeedback;
+                      vm.topicsList.forEach(function (topic, index) {
+                          if (topic.topiccategoryID == data.topiccategoryID) {
+                              vm.CTYPE = vm.topicsList[index];
+                              //myFile = null;
+                          }
+                      })
+                      vm.submissionTypeList.forEach(function (type, index) {
+                          if (type.submissionTypeID == vm.modalsubmissionTypeID) {
+                              vm.TYPE = vm.submissionTypeList[index];
+                          }
+                      });
+                  }).
+              error(function (data, status, headers, config) {
+                  // called asynchronously if an error occurs
+                  // or server returns response with an error status.
+                  vm.submissionlist = data;
+              });
+
+
             vm.viewModal = "addFinal";
-            vm.submissionTypeList.forEach(function (type, index) {
-                if (type.submissionTypeID == vm.modalsubmissionTypeID) {
-                    vm.TYPE = vm.submissionTypeList[index];
-                }
-            })
+            
         }
 
         function _clear() {
@@ -314,7 +348,7 @@
                 }
                 else if (vm.TYPE.submissionTypeID == 3) {//if pannel
                     var submission = {
-                        submissionID: vm.modalsubmissionID,
+                        initialSubmissionID: vm.modalsubmissionID,
                         userID: currentUserID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
                         submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, panelistNames: vm.modalpanelistNames,
                         plan: vm.modalplan, guideQuestion: vm.modalguideQuestions, formatDescription: vm.modalformat, necessaryEquipment: vm.modalequipment
@@ -322,7 +356,7 @@
                 }
                 else if (vm.TYPE.submissionTypeID == 5) {//if workshops
                     var submission = {
-                        submissionID: vm.modalsubmissionID,
+                        initialSubmissionID: vm.modalsubmissionID,
                         userID: currentUserID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
                         submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, plan: vm.modalplan, duration: vm.modalduration,
                         delivery: vm.modaldelivery, necessary_equipment: vm.modalequipment
@@ -333,10 +367,14 @@
                     submission.documentName = vm.myFile.name;
                     vm.myFile.name = "";
                 }
-                restApi.postSubmission(submission)
+                restApi.postFinalSubmission(submission)
                         .success(function (data, status, headers, config) {
                             vm.submissionlist.push(data);
-                            //myFile = null;
+                            vm.submissionlist.forEach(function(submission, index){
+                                if(submission.submissionID == vm.modalsubmissionID){
+                                    vm.submissionlist.splice(index, 1);
+                                }
+                            })
                         })
                         .error(function (error) {
 
