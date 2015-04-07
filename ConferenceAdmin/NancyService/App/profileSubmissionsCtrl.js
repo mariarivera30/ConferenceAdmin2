@@ -78,16 +78,16 @@
         }
 
         function _addDocument() {
-            vm.documentFile = vm.content;
+            vm.document = vm.content;
             vm.documentName = vm.myFile.name;
-            vm.myFile = { documentFile: vm.documentFile, documentName: vm.documentName };
+            vm.myFile = { document: vm.document, documentName: vm.documentName };
 
             vm.documentsList.push(vm.myFile);
         }
 
-        function _deleteDocument() {
+        function _deleteDocument(document) {
             vm.documentsList.forEach(function (doc, index) {
-                if (doc.documentFile == vm.documentFile) {
+                if (doc.documentName == document.documentName) {
                     vm.documentsList.splice(index, 1);
                 }
             });
@@ -157,6 +157,7 @@
             vm.modalsubIsEvaluated = null;
             vm.modalpublicFeedback = null;
             vm.CTYPE = vm.topicsList[0];
+            vm.documentsList = [];
             if (vm.myFile != undefined) {
                 vm.myFile = undefined;
             }
@@ -204,6 +205,11 @@
                       vm.modaldelivery = data.delivery;
                       vm.modalsubIsEvaluated = data.subIsEvaluated;
                       vm.modalpublicFeedback = data.publicFeedback;
+
+                      data.submissionFileList.forEach(function (doc, index) {
+                          vm.documentsList.push({document: doc.document, documentName: doc.documentName});
+                      });
+
                       vm.topicsList.forEach(function (topic, index) {
                           if (topic.topiccategoryID == data.topiccategoryID) {
                               vm.CTYPE = vm.topicsList[index];
@@ -357,6 +363,7 @@
                        })
                        .error(function (error) {
                        });
+                _clear();
             }
             else if (vm.viewModal == "addFinal") {
                 if (vm.TYPE.submissionTypeID == 1 || vm.TYPE.submissionTypeID == 2 || vm.TYPE.submissionTypeID == 4) {//if paper, poster o bof
@@ -401,6 +408,7 @@
 
                         });
             }
+            $('#editSubmissionModal').modal('hide');
         }
 
         function getSubmission() {

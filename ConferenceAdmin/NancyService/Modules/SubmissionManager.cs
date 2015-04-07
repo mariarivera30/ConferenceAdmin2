@@ -606,7 +606,7 @@ namespace NancyService.Modules
         }
 
         //este metodo no toma en consideracion cuando un admin sube un submission!
-        public Submission addSubmission(usersubmission usersubTA, submission submissionToAdd, documentssubmitted submissionDocuments, panel pannelToAdd, workshop workshopToAdd)
+        public Submission addSubmission(usersubmission usersubTA, submission submissionToAdd, panel pannelToAdd, workshop workshopToAdd)
         {
             try
             {
@@ -636,15 +636,20 @@ namespace NancyService.Modules
                         context.usersubmission.Add(usersub);
                         context.SaveChanges();
                     //table documents submitted
-                        if (submissionToAdd.submissionTypeID != 4 && submissionDocuments != null)
+                        if (submissionToAdd.submissionTypeID != 4)
                         {
                             documentssubmitted subDocs = new documentssubmitted();
-                            subDocs.submissionID = submissionID;
-                            subDocs.documentName = submissionDocuments.documentName;
-                            subDocs.document = submissionDocuments.document;
-                            subDocs.deleted = false;
-                            context.documentssubmitteds.Add(subDocs);
-                            context.SaveChanges();
+
+                            foreach (var doc in submissionToAdd.documentssubmitteds)
+	                        {
+                                subDocs.submissionID = submissionID;
+                                subDocs.documentName = doc.documentName;
+                                subDocs.document = doc.document;
+                                subDocs.deleted = false;
+                                context.documentssubmitteds.Add(subDocs);
+                                context.SaveChanges();
+	                        }                            
+                            
                         }
                     //table pannels
                         if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
@@ -738,6 +743,32 @@ namespace NancyService.Modules
                         submissionTitle = sub.title,
                         topiccategoryID = sub.topicID
                     };
+
+                    
+                    if (submissionToEdit.submissionTypeID != 4)
+                    {
+                        //delete every existent document bound to the submission
+                        List<documentssubmitted> documents = context.documentssubmitteds.Where(d => d.submissionID == sub.submissionID).ToList<documentssubmitted>();
+                        foreach (var doc in documents)
+                        {
+                            context.documentssubmitteds.Remove(doc);
+                        }
+                        context.SaveChanges();
+                        
+                        //replace every document bound to the submission
+                        documentssubmitted subDocs = new documentssubmitted();
+                        foreach (var docs in submissionToEdit.documentssubmitteds)
+                        {
+                            subDocs.submissionID = sub.submissionID;
+                            subDocs.documentName = docs.documentName;
+                            subDocs.document = docs.document;
+                            subDocs.deleted = false;
+                            context.documentssubmitteds.Add(subDocs);
+                            context.SaveChanges();
+                        }                        
+
+                    }
+
                     return editedSub;
                 }
             }
