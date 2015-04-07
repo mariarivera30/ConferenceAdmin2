@@ -28,6 +28,7 @@
         vm.view = "Home";
         vm.topicObj = null;
         vm.content;
+        vm.documentsList = [];
         //for previous submissions
         vm.hasPrevVersion;
         vm.prevSubmissionID;
@@ -64,7 +65,7 @@
         vm.addSubmission = _addSubmission;
         vm.clear = _clear;
         vm.selectFinalversion = _selectFinalversion;
-
+        vm.addDocument = _addDocument;
 
         _getUserSubmissions(currentUserID);
         _getSubmissionTypes();
@@ -73,6 +74,14 @@
         //Functions:
         function activate() {
             
+        }
+
+        function _addDocument() {
+            vm.documentFile = vm.content;
+            vm.documentName = vm.myFile.name;
+            vm.myFile = { documentFile: vm.documentFile, documentName: vm.documentName };
+
+            vm.documentsList.push(vm.myFile);
         }
 
         function _selectFinalversion(submissionID) {
@@ -287,6 +296,7 @@
                     submission.documentName = vm.myFile.name;
                     vm.myFile.name = "";
                 }
+                submission.documentssubmitteds = vm.documentsList;
                 restApi.postSubmission(submission)
                         .success(function (data, status, headers, config) {
                             vm.submissionlist.push(data);
@@ -325,6 +335,7 @@
                     submission.documentName = vm.myFile.name;
                     vm.myFile.name = "";
                 }
+                submission.documentssubmitteds = vm.documentsList;
                 restApi.editSubmission(submission)
                        .success(function (data, status, headers, config) {
                            vm.submissionlist.forEach(function (submission, index) {
@@ -367,6 +378,7 @@
                     submission.documentName = vm.myFile.name;
                     vm.myFile.name = "";
                 }
+                submission.documentssubmitteds = vm.documentsList;
                 restApi.postFinalSubmission(submission)
                         .success(function (data, status, headers, config) {
                             vm.submissionlist.push(data);
