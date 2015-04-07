@@ -26,6 +26,7 @@ namespace NancyService.Modules
             GuestManager guest = new GuestManager();
             TemplateManager templateManager = new TemplateManager();
             AuthTemplateManager authTemplateManager = new AuthTemplateManager();
+            SubmissionManager submissionManager = new SubmissionManager();
 
 
             /* ----- Template -----*/
@@ -649,6 +650,12 @@ namespace NancyService.Modules
                 var info = this.Bind<ProgramQuery>();
                 return webManager.saveProgram(info);
             };
+
+            //Gets all submissions in the system that have not been deleted
+            Get["/getAllSubmissions"] = parameters =>
+                {
+                    return Response.AsJson(submissionManager.getAllSubmissions());
+                };
 
         }
     }

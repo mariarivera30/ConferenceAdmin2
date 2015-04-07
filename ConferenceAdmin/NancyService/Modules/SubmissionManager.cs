@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+
 namespace NancyService.Modules
 {
     class SubmissionManager
@@ -796,6 +797,67 @@ namespace NancyService.Modules
             }
         }
 
+                public object getAllSubmissions()
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    //get all final submissions.
+                    List<Submission> userSubmissions = new List<Submission>();
+                    List<usersubmission> subList = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID != null).ToList();
+                    foreach (var sub in subList)
+                    {
+                            
+                            long submissionID = sub.submission == null ? -1 : sub.submission.submissionID;
+                            String submissionTypeName = sub.submission == null ? null : sub.submission.submissiontype == null ? null : sub.submission.submissiontype.name;
+                            int submissionTypeID = sub.submission == null ? -1 : sub.submission.submissionTypeID;
+                            String submissionTitle = sub.submission == null ? null : sub.submission.title;
+                            int topiccategoryID = sub.submission == null ? -1 : sub.submission.topicID;
+                            String topic = sub.submission == null ? null : sub.submission.topiccategory == null ? null : sub.submission.topiccategory.name;
+                            String status = sub.submission == null ? null : sub.submission.status;
+                        String acceptanceStatus = sub.submission == null ? 
+                                                null : sub.submission.usersubmissions.FirstOrDefault() == null ?
+                                                null : sub.submission.usersubmissions.FirstOrDefault().user.acceptanceStatus;
+                        double? avgScore = sub.submission == null ? null : sub.submission.evaluatiorsubmissions.FirstOrDefault() == null ?
+                                0 : sub.submission.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault() == null ?
+                                0 : sub.submission.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.Average(q => q.score);
+
+                            userSubmissions.Add(new Submission(submissionID, submissionTypeName, 
+                            submissionTypeID, submissionTitle,topiccategoryID, topic, status, acceptanceStatus, avgScore));
+                    }
+
+                    //get all submissions that do no have a final submission
+                    List<usersubmission> subList2 = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID == null).ToList();
+                    foreach (var sub in subList2)
+                    {
+                        long submissionID = sub.submission1 == null ? -1 : sub.submission1.submissionID;
+                        String submissionTypeName = sub.submission1 == null ? null : sub.submission1.submissiontype == null ? null : sub.submission1.submissiontype.name;
+                        int submissionTypeID = sub.submission1 == null? -1 : sub.submission1.submissionTypeID;
+                            String submissionTitle = sub.submission1.title;
+                        int topiccategoryID = sub.submission1 == null ? -1 : sub.submission1.topicID;
+                        String topic = sub.submission1 == null ? null : sub.submission1.topiccategory == null ? null : sub.submission1.topiccategory.name;
+                        String status = sub.submission1 == null ? null : sub.submission1.status;
+                        String acceptanceStatus = sub.submission1 == null ? null : sub.submission1.usersubmissions.FirstOrDefault() == null ? 
+                                                null : sub.submission1.usersubmissions.FirstOrDefault().user.acceptanceStatus;
+                        double? avgScore = sub.submission1 == null ? null : sub.submission1.evaluatiorsubmissions.FirstOrDefault() == null ?
+                                0 : sub.submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault() == null ?
+                                0 : sub.submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.Average(q => q.score);
+                               
+                        userSubmissions.Add(new Submission(submissionID, submissionTypeName, 
+                            submissionTypeID, submissionTitle,topiccategoryID, topic, status, acceptanceStatus, avgScore));
+                    }
+                    return userSubmissions;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getAllSubmissions error " + ex);
+                return null;
+            }
+        }
+    
+
         public Submission addFinalSubmission(usersubmission usersubTA, submission submissionToAdd, documentssubmitted submissionDocuments, panel pannelToAdd, workshop workshopToAdd)
         {
             try
@@ -911,10 +973,26 @@ namespace NancyService.Modules
         public bool isEvaluated;
         public bool isFinalSubmission;
         public bool finalSubmissionAllowed;
+        public String acceptanceStatus;
+        public double? avgScore;
 
         public Submission()
         {
 
+        }
+        public Submission(long submissionID, String submissionTypeName,
+                            int submissionTypeID, String submissionTitle, int topiccategoryID, String topic,
+                            String status, String acceptanceStatus, double? avgScore)
+        {
+            this.submissionID = submissionID;
+            this.submissionTypeName = submissionTypeName;
+            this.submissionTypeID = submissionTypeID;
+            this.submissionTitle = submissionTitle;
+            this.topiccategoryID = topiccategoryID;
+            this.topic = topic;
+            this.status = status;
+            this.acceptanceStatus = acceptanceStatus;
+            this.avgScore = avgScore;
         }
 
     }

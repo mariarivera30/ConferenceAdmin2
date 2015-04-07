@@ -109,7 +109,8 @@
             getProgramDocument: _getProgramDocument,
             getAbstractDocument: _getAbstractDocument,
             getDates: _getDates,
-            postFinalSubmission: _postFinalSubmission
+            postFinalSubmission: _postFinalSubmission,
+            getAllSubmissions: _getAllSubmissions
         };
 
         return service;
@@ -551,6 +552,11 @@
         function _postFinalSubmission(data) {
             return $http.post('profile/postFinalSubmission', data)
         };
+        //--------------------------------------------ADMIN-SUBMISSIONS------------------------------------
+        //Gets all submissions that have not been deleted
+        function _getAllSubmissions() {
+            return $http.get('admin/getAllSubmissions');
+        }
     }
 }
 
