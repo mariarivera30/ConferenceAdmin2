@@ -104,7 +104,7 @@
                                 <label>Uploaded Documents:</label>
                                     <div class="templates-list table-box">
                                         <ul class="list-group list-group-striped">
-                                            <li ng-repeat="doc in vm.documentsList" class="list-group-item">{{doc.documentName}} <span class="right"><a href="" ng-click="vm.downloadDocument(doc)">View</a> | <a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedDocumentDelete(doc.authorizationID)">Delete</a></span></li>
+                                            <li ng-repeat="doc in vm.documentsList" class="list-group-item">{{doc.documentName}} <span class="right"><a href="" ng-click="vm.deleteDocument(doc)">Delete</a></span></li>
                                         </ul>
                                     </div>
 

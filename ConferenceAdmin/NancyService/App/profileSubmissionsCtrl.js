@@ -66,6 +66,7 @@
         vm.clear = _clear;
         vm.selectFinalversion = _selectFinalversion;
         vm.addDocument = _addDocument;
+        vm.deleteDocument = _deleteDocument;
 
         _getUserSubmissions(currentUserID);
         _getSubmissionTypes();
@@ -82,6 +83,14 @@
             vm.myFile = { documentFile: vm.documentFile, documentName: vm.documentName };
 
             vm.documentsList.push(vm.myFile);
+        }
+
+        function _deleteDocument() {
+            vm.documentsList.forEach(function (doc, index) {
+                if (doc.documentFile == vm.documentFile) {
+                    vm.documentsList.splice(index, 1);
+                }
+            });
         }
 
         function _selectFinalversion(submissionID) {
