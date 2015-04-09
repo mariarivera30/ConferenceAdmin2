@@ -803,6 +803,9 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    int? scoreSum = 0;
+                    int evalCount = 0;
+                    double avgScore = 0;
                     //get all final submissions.
                     List<Submission> userSubmissions = new List<Submission>();
                     List<usersubmission> subList = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID != null).ToList();
@@ -819,14 +822,36 @@ namespace NancyService.Modules
                         String acceptanceStatus = sub.submission == null ? 
                                                 null : sub.submission.usersubmissions.FirstOrDefault() == null ?
                                                 null : sub.submission.usersubmissions.FirstOrDefault().user.acceptanceStatus;
-                        double? avgScore = sub.submission == null ? null : sub.submission.evaluatiorsubmissions.FirstOrDefault() == null ?
-                                0 : sub.submission.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault() == null ?
-                                0 : sub.submission.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.Average(q => q.score);
-
-                            userSubmissions.Add(new Submission(submissionID, submissionTypeName, 
-                            submissionTypeID, submissionTitle,topiccategoryID, topic, status, acceptanceStatus, avgScore));
+                        IEnumerable<IGrouping<long, evaluatiorsubmission>> groupBy = sub.submission == null ? null : sub.submission.evaluatiorsubmissions.FirstOrDefault() == null ?
+                               null : sub.submission.evaluatiorsubmissions.GroupBy(s => s.submissionID).ToList();
+                        if (groupBy != null)
+                        {
+                            foreach (var subGroup in groupBy)//goes through all groups of sub/evalsub
+                            {
+                                foreach (var evalsForSub in subGroup)//goes through all evaluatiorsubmission for each submission
+                                {
+                                    int? thisScore = evalsForSub.evaluationsubmitteds.FirstOrDefault() == null ?
+                                        -1 : evalsForSub.evaluationsubmitteds.FirstOrDefault().score;
+                                    if (thisScore != -1)//if submission has been evaluated
+                                    {
+                                        scoreSum = scoreSum + thisScore;
+                                        evalCount++;
+                                    }
+                                }
+                                avgScore = evalCount == 0 ? 0 : (double)scoreSum / evalCount;
+                                scoreSum = 0;
+                                evalCount = 0;
+                            }
+                            userSubmissions.Add(new Submission(submissionID, submissionTypeName,
+                                submissionTypeID, submissionTitle, topiccategoryID, topic, status, acceptanceStatus, avgScore));
+                        }
+                        else
+                        {
+                            userSubmissions.Add(new Submission(submissionID, submissionTypeName,
+                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, acceptanceStatus, 0));
+                        }
                     }
-
+                    
                     //get all submissions that do no have a final submission
                     List<usersubmission> subList2 = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID == null).ToList();
                     foreach (var sub in subList2)
@@ -840,12 +865,34 @@ namespace NancyService.Modules
                         String status = sub.submission1 == null ? null : sub.submission1.status;
                         String acceptanceStatus = sub.submission1 == null ? null : sub.submission1.usersubmissions.FirstOrDefault() == null ? 
                                                 null : sub.submission1.usersubmissions.FirstOrDefault().user.acceptanceStatus;
-                        double? avgScore = sub.submission1 == null ? null : sub.submission1.evaluatiorsubmissions.FirstOrDefault() == null ?
-                                0 : sub.submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault() == null ?
-                                0 : sub.submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.Average(q => q.score);
-                               
+                        IEnumerable<IGrouping<long, evaluatiorsubmission>> groupBy = sub.submission1 == null ? null: sub.submission1.evaluatiorsubmissions.FirstOrDefault() == null ?
+                                null : sub.submission1.evaluatiorsubmissions.GroupBy(s => s.submissionID).ToList();
+                        if (groupBy != null)
+                        {                          
+                        foreach (var subGroup in groupBy)//goes through all groups of sub/evalsub
+                        {
+                            foreach (var evalsForSub in subGroup)//goes through all evaluatiorsubmission for each submission
+                            {
+                                int? thisScore = evalsForSub.evaluationsubmitteds.FirstOrDefault() == null ?
+                                    -1 : evalsForSub.evaluationsubmitteds.FirstOrDefault().score;
+                                if (thisScore != -1)//if submission has been evaluated
+                                {
+                                    scoreSum = scoreSum + thisScore;
+                                    evalCount++;
+                                }
+                            }
+                            avgScore = evalCount == 0 ? 0 : (double)scoreSum / evalCount;
+                            scoreSum = 0;
+                            evalCount = 0;
+                        }   
                         userSubmissions.Add(new Submission(submissionID, submissionTypeName, 
                             submissionTypeID, submissionTitle,topiccategoryID, topic, status, acceptanceStatus, avgScore));
+                        }
+                        else
+                        {
+                            userSubmissions.Add(new Submission(submissionID, submissionTypeName,
+                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, acceptanceStatus, 0));
+                        }
                     }
                     return userSubmissions;
                 }
