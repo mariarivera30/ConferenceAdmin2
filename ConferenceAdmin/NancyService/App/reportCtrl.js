@@ -95,7 +95,7 @@
 
         function _load() {
             document.getElementById("loading-icon").style.visibility = "hidden";
-            document.getElementById("billTable").style.visibility = "visible";
+            document.getElementById("body").style.visibility = "visible";
         }
     }
 })();
