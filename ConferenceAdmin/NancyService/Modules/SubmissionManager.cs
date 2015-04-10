@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+
 namespace NancyService.Modules
 {
     class SubmissionManager
@@ -606,7 +607,7 @@ namespace NancyService.Modules
         }
 
         //este metodo no toma en consideracion cuando un admin sube un submission!
-        public Submission addSubmission(usersubmission usersubTA, submission submissionToAdd, documentssubmitted submissionDocuments, panel pannelToAdd, workshop workshopToAdd)
+        public Submission addSubmission(usersubmission usersubTA, submission submissionToAdd, panel pannelToAdd, workshop workshopToAdd)
         {
             try
             {
@@ -636,15 +637,20 @@ namespace NancyService.Modules
                         context.usersubmission.Add(usersub);
                         context.SaveChanges();
                     //table documents submitted
-                        if (submissionToAdd.submissionTypeID != 4 && submissionDocuments != null)
+                        if (submissionToAdd.submissionTypeID != 4)
                         {
                             documentssubmitted subDocs = new documentssubmitted();
-                            subDocs.submissionID = submissionID;
-                            subDocs.documentName = submissionDocuments.documentName;
-                            subDocs.document = submissionDocuments.document;
-                            subDocs.deleted = false;
-                            context.documentssubmitteds.Add(subDocs);
-                            context.SaveChanges();
+
+                            foreach (var doc in submissionToAdd.documentssubmitteds)
+	                        {
+                                subDocs.submissionID = submissionID;
+                                subDocs.documentName = doc.documentName;
+                                subDocs.document = doc.document;
+                                subDocs.deleted = false;
+                                context.documentssubmitteds.Add(subDocs);
+                                context.SaveChanges();
+	                        }                            
+                            
                         }
                     //table pannels
                         if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
@@ -738,6 +744,32 @@ namespace NancyService.Modules
                         submissionTitle = sub.title,
                         topiccategoryID = sub.topicID
                     };
+
+                    
+                    if (submissionToEdit.submissionTypeID != 4)
+                    {
+                        //delete every existent document bound to the submission
+                        List<documentssubmitted> documents = context.documentssubmitteds.Where(d => d.submissionID == sub.submissionID).ToList<documentssubmitted>();
+                        foreach (var doc in documents)
+                        {
+                            context.documentssubmitteds.Remove(doc);
+                        }
+                        context.SaveChanges();
+                        
+                        //replace every document bound to the submission
+                        documentssubmitted subDocs = new documentssubmitted();
+                        foreach (var docs in submissionToEdit.documentssubmitteds)
+                        {
+                            subDocs.submissionID = sub.submissionID;
+                            subDocs.documentName = docs.documentName;
+                            subDocs.document = docs.document;
+                            subDocs.deleted = false;
+                            context.documentssubmitteds.Add(subDocs);
+                            context.SaveChanges();
+                        }                        
+
+                    }
+
                     return editedSub;
                 }
             }
@@ -761,6 +793,198 @@ namespace NancyService.Modules
             catch (Exception ex)
             {
                 Console.Write("SubmissionManager.editSubmission error " + ex);
+                return null;
+            }
+        }
+
+                public object getAllSubmissions()
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    int? scoreSum = 0;
+                    int evalCount = 0;
+                    double avgScore = 0;
+                    //get all final submissions.
+                    List<Submission> userSubmissions = new List<Submission>();
+                    List<usersubmission> subList = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID != null).ToList();
+                    foreach (var sub in subList)
+                    {
+                            
+                            long submissionID = sub.submission == null ? -1 : sub.submission.submissionID;
+                            String submissionTypeName = sub.submission == null ? null : sub.submission.submissiontype == null ? null : sub.submission.submissiontype.name;
+                            int submissionTypeID = sub.submission == null ? -1 : sub.submission.submissionTypeID;
+                            String submissionTitle = sub.submission == null ? null : sub.submission.title;
+                            int topiccategoryID = sub.submission == null ? -1 : sub.submission.topicID;
+                            String topic = sub.submission == null ? null : sub.submission.topiccategory == null ? null : sub.submission.topiccategory.name;
+                            String status = sub.submission == null ? null : sub.submission.status;
+                        String acceptanceStatus = sub.submission == null ? 
+                                                null : sub.submission.usersubmissions.FirstOrDefault() == null ?
+                                                null : sub.submission.usersubmissions.FirstOrDefault().user.acceptanceStatus;
+                        IEnumerable<IGrouping<long, evaluatiorsubmission>> groupBy = sub.submission == null ? null : sub.submission.evaluatiorsubmissions.FirstOrDefault() == null ?
+                               null : sub.submission.evaluatiorsubmissions.GroupBy(s => s.submissionID).ToList();
+                        if (groupBy != null)
+                        {
+                            foreach (var subGroup in groupBy)//goes through all groups of sub/evalsub
+                            {
+                                foreach (var evalsForSub in subGroup)//goes through all evaluatiorsubmission for each submission
+                                {
+                                    int? thisScore = evalsForSub.evaluationsubmitteds.FirstOrDefault() == null ?
+                                        -1 : evalsForSub.evaluationsubmitteds.FirstOrDefault().score;
+                                    if (thisScore != -1)//if submission has been evaluated
+                                    {
+                                        scoreSum = scoreSum + thisScore;
+                                        evalCount++;
+                                    }
+                                }
+                                avgScore = evalCount == 0 ? 0 : (double)scoreSum / evalCount;
+                                scoreSum = 0;
+                                evalCount = 0;
+                            }
+                            userSubmissions.Add(new Submission(submissionID, submissionTypeName,
+                                submissionTypeID, submissionTitle, topiccategoryID, topic, status, acceptanceStatus, avgScore));
+                        }
+                        else
+                        {
+                            userSubmissions.Add(new Submission(submissionID, submissionTypeName,
+                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, acceptanceStatus, 0));
+                        }
+                    }
+                    
+                    //get all submissions that do no have a final submission
+                    List<usersubmission> subList2 = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID == null).ToList();
+                    foreach (var sub in subList2)
+                    {
+                        long submissionID = sub.submission1 == null ? -1 : sub.submission1.submissionID;
+                        String submissionTypeName = sub.submission1 == null ? null : sub.submission1.submissiontype == null ? null : sub.submission1.submissiontype.name;
+                        int submissionTypeID = sub.submission1 == null? -1 : sub.submission1.submissionTypeID;
+                            String submissionTitle = sub.submission1.title;
+                        int topiccategoryID = sub.submission1 == null ? -1 : sub.submission1.topicID;
+                        String topic = sub.submission1 == null ? null : sub.submission1.topiccategory == null ? null : sub.submission1.topiccategory.name;
+                        String status = sub.submission1 == null ? null : sub.submission1.status;
+                        String acceptanceStatus = sub.submission1 == null ? null : sub.submission1.usersubmissions.FirstOrDefault() == null ? 
+                                                null : sub.submission1.usersubmissions.FirstOrDefault().user.acceptanceStatus;
+                        IEnumerable<IGrouping<long, evaluatiorsubmission>> groupBy = sub.submission1 == null ? null: sub.submission1.evaluatiorsubmissions.FirstOrDefault() == null ?
+                                null : sub.submission1.evaluatiorsubmissions.GroupBy(s => s.submissionID).ToList();
+                        if (groupBy != null)
+                        {                          
+                        foreach (var subGroup in groupBy)//goes through all groups of sub/evalsub
+                        {
+                            foreach (var evalsForSub in subGroup)//goes through all evaluatiorsubmission for each submission
+                            {
+                                int? thisScore = evalsForSub.evaluationsubmitteds.FirstOrDefault() == null ?
+                                    -1 : evalsForSub.evaluationsubmitteds.FirstOrDefault().score;
+                                if (thisScore != -1)//if submission has been evaluated
+                                {
+                                    scoreSum = scoreSum + thisScore;
+                                    evalCount++;
+                                }
+                            }
+                            avgScore = evalCount == 0 ? 0 : (double)scoreSum / evalCount;
+                            scoreSum = 0;
+                            evalCount = 0;
+                        }   
+                        userSubmissions.Add(new Submission(submissionID, submissionTypeName, 
+                            submissionTypeID, submissionTitle,topiccategoryID, topic, status, acceptanceStatus, avgScore));
+                        }
+                        else
+                        {
+                            userSubmissions.Add(new Submission(submissionID, submissionTypeName,
+                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, acceptanceStatus, 0));
+                        }
+                    }
+                    return userSubmissions;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getAllSubmissions error " + ex);
+                return null;
+            }
+        }
+    
+
+        public Submission addFinalSubmission(usersubmission usersubTA, submission submissionToAdd, documentssubmitted submissionDocuments, panel pannelToAdd, workshop workshopToAdd)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    submission sub = new submission();
+                    //for all types of submissions
+                    //table submission
+                    sub.topicID = submissionToAdd.topicID;
+                    sub.submissionTypeID = submissionToAdd.submissionTypeID;
+                    sub.submissionAbstract = submissionToAdd.submissionAbstract;
+                    sub.title = submissionToAdd.title;
+                    sub.status = "Accepted";//------------------------make sure!!!????
+                    sub.creationDate = DateTime.Now;
+                    sub.deleted = false;
+                    sub.byAdmin = false;
+                    context.submissions.Add(sub);
+                    context.SaveChanges();
+                    //table usersubmission
+                    long finalSubmissionID = sub.submissionID;
+                    usersubmission usersub = context.usersubmission.Where(c => c.initialSubmissionID == usersubTA.initialSubmissionID).FirstOrDefault();
+                    usersub.finalSubmissionID = finalSubmissionID;
+                    context.SaveChanges();
+                    //table documents submitted
+                    if (submissionToAdd.submissionTypeID != 4 && submissionDocuments != null)
+                    {
+                        documentssubmitted subDocs = new documentssubmitted();
+                        subDocs.submissionID = finalSubmissionID;
+                        subDocs.documentName = submissionDocuments.documentName;
+                        subDocs.document = submissionDocuments.document;
+                        subDocs.deleted = false;
+                        context.documentssubmitteds.Add(subDocs);
+                        context.SaveChanges();
+                    }
+                    //table pannels
+                    if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
+                    {
+                        panel subPanel = new panel();
+                        subPanel.submissionID = finalSubmissionID;
+                        subPanel.panelistNames = pannelToAdd.panelistNames;
+                        subPanel.plan = pannelToAdd.plan;
+                        subPanel.guideQuestion = pannelToAdd.guideQuestion;
+                        subPanel.formatDescription = pannelToAdd.formatDescription;
+                        subPanel.necessaryEquipment = pannelToAdd.necessaryEquipment;
+                        subPanel.deleted = false;
+                        context.panels.Add(subPanel);
+                        context.SaveChanges();
+                    }
+                    //table workshop
+                    if (submissionToAdd.submissionTypeID == 5 && workshopToAdd != null)
+                    {
+                        workshop subWorkshop = new workshop();
+                        subWorkshop.submissionID = finalSubmissionID;
+                        subWorkshop.duration = workshopToAdd.duration;
+                        subWorkshop.delivery = workshopToAdd.delivery;
+                        subWorkshop.plan = workshopToAdd.plan;
+                        subWorkshop.necessary_equipment = workshopToAdd.necessary_equipment;
+                        subWorkshop.deleted = false;
+                        context.workshops.Add(subWorkshop);
+                        context.SaveChanges();
+                    }
+
+                    Submission addedSub = new Submission
+                    {
+                        submissionID = finalSubmissionID,
+                        submissionTypeName = getSubmissionTypeName(sub.submissionTypeID),
+                        submissionTypeID = sub.submissionTypeID,
+                        submissionTitle = sub.title,
+                        topiccategoryID = sub.topicID,
+                        status = sub.status,
+                        isEvaluated = false,
+                        isFinalSubmission = true
+                    };
+                    return addedSub;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.addSubmission error " + ex);
                 return null;
             }
         }
@@ -796,10 +1020,26 @@ namespace NancyService.Modules
         public bool isEvaluated;
         public bool isFinalSubmission;
         public bool finalSubmissionAllowed;
+        public String acceptanceStatus;
+        public double? avgScore;
 
         public Submission()
         {
 
+        }
+        public Submission(long submissionID, String submissionTypeName,
+                            int submissionTypeID, String submissionTitle, int topiccategoryID, String topic,
+                            String status, String acceptanceStatus, double? avgScore)
+        {
+            this.submissionID = submissionID;
+            this.submissionTypeName = submissionTypeName;
+            this.submissionTypeID = submissionTypeID;
+            this.submissionTitle = submissionTitle;
+            this.topiccategoryID = topiccategoryID;
+            this.topic = topic;
+            this.status = status;
+            this.acceptanceStatus = acceptanceStatus;
+            this.avgScore = avgScore;
         }
 
     }

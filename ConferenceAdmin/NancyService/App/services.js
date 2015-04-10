@@ -109,6 +109,8 @@
             getProgramDocument: _getProgramDocument,
             getAbstractDocument: _getAbstractDocument,
             getDates: _getDates,
+            postFinalSubmission: _postFinalSubmission,
+            getAllSubmissions: _getAllSubmissions,
             getBillReport: _getBillReport
         };
 
@@ -547,10 +549,19 @@
         function _postSubmission(data) {
             return $http.post('profile/postSubmission', data)
         };
-
+        //edit a submission
         function _editSubmission(data) {
             return $http.put('profile/editSubmission', data)
         };
+        //posts a final submission 
+        function _postFinalSubmission(data) {
+            return $http.post('profile/postFinalSubmission', data)
+        };
+        //--------------------------------------------ADMIN-SUBMISSIONS------------------------------------
+        //Gets all submissions that have not been deleted
+        function _getAllSubmissions() {
+            return $http.get('admin/getAllSubmissions');
+        }
     }
 }
 

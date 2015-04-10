@@ -169,6 +169,9 @@
                                 guest.isRegistered = false;
                                 guest.registrationStatus = "Rejected";
                                 guest.acceptanceStatus = "Rejected";
+                                guest.day1 = false;
+                                guest.day2 = false;
+                                guest.day3 = false;
                             }
                         });
 

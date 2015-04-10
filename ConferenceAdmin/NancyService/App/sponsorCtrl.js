@@ -50,15 +50,23 @@
         vm.selectedKey = _selectedKey;
 
 
-
+        vm.pdf = "pdf";
 
         activate();
 
-        $scope.showContent = function ($fileContent) {
-            if($fileContent != undefined)
+        $scope.showContent = function ($fileContent,file) {
+            if ($fileContent != undefined) {
                 $scope.content = $fileContent;
+                vm.fileext = file.name.split(".", 2)[1];
+                if (vm.fileext == "jpg" || vm.fileext == "png" || vm.fileext == "jpeg" || vm.fileext == "pic" || vm.fileext == "pict" || vm.fileext == "gif")
+                    vm.ext = false;
+                else {
+                    document.getElementById("inputFile").value = "";
+                    vm.ext = true;
+                }
 
-
+               
+            }
         };
  
         // Functions
@@ -72,7 +80,7 @@
 
 
         vm.toggleModal = function (action) {
-            if (action === "remove") {
+            if (action == "remove") {
 
                 vm.obj.title = "Remove Sponsor",
                 vm.obj.message1 = "This action will remove the sponsor. Are you sure you want to continue?",
@@ -87,7 +95,7 @@
                 vm.cancelFunc;
 
             }
-            if (action === "removeKeys") {
+            if (action == "removeKeys") {
 
                 vm.obj.title = "Remove Complementary Key",
                 vm.obj.message1 = "This action will remove all complementary keys of this sponsor. Are you sure you want to continue?",
@@ -102,11 +110,27 @@
                 vm.cancelFunc;
 
             }
-            if (action === "removeKey") {
+            if (action == "errorFile") {
+
+                vm.obj.title = "File type error",
+                vm.obj.message1 = "That file extention is not support by this system. Try one of these(png, jpg, ext, gif, jpeg, pic,pict)";
+                
+                vm.obj.message2 = "",
+                vm.obj.label = "",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "",
+                vm.obj.cancelbutton = true,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.showConfirmModal = !vm.showConfirmModal;
+                vm.okFunc="";
+                vm.cancelFunc;
+
+            }
+            if (action == "removeKey") {
 
                 vm.obj.title = "Remove Complementary Key",
                 vm.obj.message1 = "This action will remove a complementary key. Are you sure you want to continue?",
-                
+
                 vm.obj.message2 = vm.keyPop,
                 vm.obj.label = "Complementary Key:",
                 vm.obj.okbutton = true,
@@ -133,7 +157,7 @@
         function _selectedSponsor(sponsor, action) {
 
             vm.sponsor = JSON.parse(JSON.stringify(sponsor));
-          //  vm.typeID = sponsor.sponsorType ;
+            //  vm.typeID = sponsor.sponsorType ;
 
         }
 
@@ -156,7 +180,8 @@
             vm.headerModal = "Add Sponsor";
            
             _clearSponsor();
-            vm.TYPE = vm.sponsorsTypeList[0];
+            vm.sponsor = {};
+            vm.sponsor.sponsorType = 1;
         }
         function _viewValues() {
             vm.view = true;
@@ -273,38 +298,45 @@
                      });
         }
 
+
+
+        
+
+
         //---------------------------Sponsor-------------------------------------------------
         function _addSponsor(File) {
        
-            vm.TYPE = vm.sponsorsTypeList[vm.sponsor.sponsorType];
+            vm.TYPE = vm.sponsorsTypeList[vm.sponsor.sponsorType-1];
             vm.sponsor.typeName = vm.TYPE.name;
             if (File != undefined) {
-                vm.sponsor.logo = $scope.content;
-                vm.sponsor.logoName = File.name;
-                File = null;
 
-            }
+                vm.sponsor.logo = $scope.content;
+                    vm.sponsor.logoName = File.name;
+                    File = null;
+                    vm.loadingUploading = true;
+                    restApi.postNewSponsor(vm.sponsor)
+                             .success(function (data, status, headers, config) {
+                                 vm.sponsorsList.push(data);
+                                 vm.loadingUploading = false;
+                                 $('#addSponsor').modal('hide');
+                                 _clearSponsor();
+
+
+                             })
+
+                             .error(function (error) {
+                                 vm.loadingUploading = false;
+                                 $('#addSponsor').modal('hide');
+                                 vm.toggleModal('error');
+                                 _clearSponsor();
+                             });
+                }
+        
             else {
                 vm.sponsor.logo = "";
                 vm.sponsor.logoName = "Empty";
             }
-            vm.loadingUploading = true;
-            restApi.postNewSponsor(vm.sponsor)
-                     .success(function (data, status, headers, config) {
-                         vm.sponsorsList.push(data);
-                         vm.loadingUploading = false;
-                         $('#addSponsor').modal('hide');
-                         _clearSponsor();
-
-
-                     })
-
-                     .error(function (error) {
-                         vm.loadingUploading = false;
-                         $('#addSponsor').modal('hide');
-                         vm.toggleModal('error');
-                         _clearSponsor();
-                     });
+          
         }
 
         function _getSponsorTypes() {

@@ -85,6 +85,13 @@
         $scope.showContent = function ($fileContent, File) {
             $scope.content = $fileContent;
             vm.newTempName = File.name;
+            vm.fileext = File.name.split(".", 2)[1];
+            if (vm.fileext == "pdf" || vm.fileext == "doc" || vm.fileext == "docx" || vm.fileext == "ppt")
+                vm.ext = false;
+            else {
+                document.getElementById("inputFile").value = "";
+                vm.ext = true;
+            }
         };
 
 

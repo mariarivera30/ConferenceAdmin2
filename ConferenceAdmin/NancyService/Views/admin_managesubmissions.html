@@ -1,4 +1,4 @@
-﻿<div>
+﻿<div ng-controller="submissionCtrl as vm">
     <h3>Manage Submissions</h3><br>
     <div class="col-lg-12">
         <table ng-table="tableParams" class="table row">
@@ -7,7 +7,8 @@
                 <td><b>Type</b></td>
                 <td><b>Topic</b></td>
                 <td><b>Evaluations</b></td>
-                <td><b>Average Score</b></td>
+                <td><b>Avg. Score</b></td>
+                <td><b>Submission Status</b></td>
                 <td><b>Acceptance Status</b></td>
             </tr>
             <tr ng-repeat="user in vm.list">

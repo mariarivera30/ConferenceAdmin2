@@ -112,6 +112,9 @@ namespace NancyService.Modules
                     guest.registrationStatus = "Rejected";
                     guest.acceptanceStatus = "Rejected";
                     guest.registrations.FirstOrDefault().deleted = true;
+                    guest.registrations.FirstOrDefault().date1 = false;
+                    guest.registrations.FirstOrDefault().date2 = false;
+                    guest.registrations.FirstOrDefault().date3 = false;
                     context.SaveChanges();
                     return true;
                 }
