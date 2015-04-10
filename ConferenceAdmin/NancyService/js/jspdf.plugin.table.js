@@ -88,7 +88,8 @@ jsPDFAPI.initPDF = function(data,marginConfig,firstpage) {
 
 //draws table on the document 
 
-jsPDFAPI.drawTable = function(table_DATA, marginConfig) {
+jsPDFAPI.drawTable = function (table_DATA, marginConfig) {
+    var temp = table_DATA.slice(0);
 	fdata = [], sdata = [];
 	SplitIndex = [], cSplitIndex = [], indexHelper = 0;
 	heights = [];
@@ -122,14 +123,14 @@ jsPDFAPI.drawTable = function(table_DATA, marginConfig) {
 	pageStart = marginConfig.tablestart;
 	xOffset=marginConfig.xOffset;
 	yOffset=marginConfig.yOffset;
-	this.initPDF(table_DATA,marginConfig,true);
+	this.initPDF(temp, marginConfig, true);
 	if ((dim[3] + marginConfig.tablestart) > (this.internal.pageSize.height)) {
 		jg = 0;
 		cSplitIndex = SplitIndex;
-		cSplitIndex.push(table_DATA.length);
+		cSplitIndex.push(temp.length);
 		for (var ig = 0; ig < cSplitIndex.length; ig++) {
 			tabledata = [];
-			tabledata = table_DATA.slice(jg, cSplitIndex[ig]);
+			tabledata = temp.slice(jg, cSplitIndex[ig]);
 			this.insertHeader(tabledata);
 			this.pdf(tabledata, dim, true, false);
 			pageStart = marginConfig.ystart;
@@ -140,8 +141,8 @@ jsPDFAPI.drawTable = function(table_DATA, marginConfig) {
 			}
 		}
 	} else {
-		this.insertHeader(table_DATA)
-		this.pdf(table_DATA, dim, true, false);
+	    this.insertHeader(temp)
+	    this.pdf(temp, dim, true, false);
 	}
 	return nextStart;
 };

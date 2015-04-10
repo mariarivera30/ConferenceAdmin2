@@ -55,7 +55,6 @@
         }
 
         function _generateBillReport(data) {
-
             doc = new jsPDF('p', 'pt', 'ledger', true);
             doc.setFont("times", "normal");
             doc.setFontSize(fontSize);
@@ -63,7 +62,6 @@
             var d = new Date();
             var n = d.toDateString();
             doc.text(425, 20, n);
-
             height = doc.drawTable(data, {
                 xstart: 50,
                 ystart: 50,
@@ -76,7 +74,9 @@
         }
 
         function _downloadBillReport() {
-            doc.save('billreport.pdf');
+            if (doc != undefined) {
+                doc.save('billreport.pdf');
+            }
         }
 
         function _load() {
