@@ -24,6 +24,7 @@
         vm.deadlineDate4;
         vm.deadline5;
         vm.deadlineDate5;
+        vm.submissionDeadline;
 
         //Interface
         vm.ideadline1;
@@ -50,15 +51,16 @@
 
         function _reset() {
             vm.deadline1 = vm.temp.deadline1;
-            vm.deadlineDate1 = new Date(vm.temp.deadlineDate1);
+            vm.deadlineDate1 = new Date(vm.temp.deadlineDate1.split('/')[2], vm.temp.deadlineDate1.split('/')[0] - 1, vm.temp.deadlineDate1.split('/')[1]);
             vm.deadline2 = vm.temp.deadline2;
-            vm.deadlineDate2 = new Date(vm.temp.deadlineDate2);
+            vm.deadlineDate2 = new Date(vm.temp.deadlineDate2.split('/')[2], vm.temp.deadlineDate2.split('/')[0] - 1, vm.temp.deadlineDate2.split('/')[1]);
             vm.deadline3 = vm.temp.deadline3;
-            vm.deadlineDate3 = new Date(vm.temp.deadlineDate3);
+            vm.deadlineDate3 = new Date(vm.temp.deadlineDate3.split('/')[2], vm.temp.deadlineDate3.split('/')[0] - 1, vm.temp.deadlineDate3.split('/')[1]);
             vm.deadline4 = vm.temp.deadline4;
-            vm.deadlineDate4 = new Date(vm.temp.deadlineDate4);
+            vm.deadlineDate4 = new Date(vm.temp.deadlineDate4.split('/')[2], vm.temp.deadlineDate4.split('/')[0] - 1, vm.temp.deadlineDate4.split('/')[1]);
             vm.deadline5 = vm.temp.deadline5;
-            vm.deadlineDate5 = new Date(vm.temp.deadlineDate5);
+            vm.deadlineDate5 = new Date(vm.temp.deadlineDate5.split('/')[2], vm.temp.deadlineDate5.split('/')[0] - 1, vm.temp.deadlineDate5.split('/')[1]);
+            vm.submissionDeadline = new Date(vm.temp.submissionDeadline.split('/')[2], vm.temp.submissionDeadline.split('/')[0] - 1, vm.temp.submissionDeadline.split('/')[1]);
         }
 
         function _getDeadlines() {
@@ -78,15 +80,16 @@
                     vm.ideadlineDate5 = data.deadlineDate5;
 
                     vm.deadline1 = data.deadline1;
-                    vm.deadlineDate1 = new Date(data.deadlineDate1);
+                    vm.deadlineDate1 = new Date(data.deadlineDate1.split('/')[2], data.deadlineDate1.split('/')[0] - 1, data.deadlineDate1.split('/')[1]); //Date(yyyy,mm-1,dd)
                     vm.deadline2 = data.deadline2;
-                    vm.deadlineDate2 = new Date(data.deadlineDate2);
+                    vm.deadlineDate2 = new Date(data.deadlineDate2.split('/')[2], data.deadlineDate2.split('/')[0] - 1, data.deadlineDate2.split('/')[1]);
                     vm.deadline3 = data.deadline3;
-                    vm.deadlineDate3 = new Date(data.deadlineDate3);
+                    vm.deadlineDate3 = new Date(data.deadlineDate3.split('/')[2], data.deadlineDate3.split('/')[0] - 1, data.deadlineDate3.split('/')[1]);
                     vm.deadline4 = data.deadline4;
-                    vm.deadlineDate4 = new Date(data.deadlineDate4);
+                    vm.deadlineDate4 = new Date(data.deadlineDate4.split('/')[2], data.deadlineDate4.split('/')[0] - 1, data.deadlineDate4.split('/')[1]);
                     vm.deadline5 = data.deadline5;
-                    vm.deadlineDate5 = new Date(data.deadlineDate5);
+                    vm.deadlineDate5 = new Date(data.deadlineDate5.split('/')[2], data.deadlineDate5.split('/')[0] - 1, data.deadlineDate5.split('/')[1]);
+                    vm.submissionDeadline = new Date(data.submissionDeadline.split('/')[2], data.submissionDeadline.split('/')[0] - 1, data.submissionDeadline.split('/')[1]);
 
                     load();
                 }
@@ -99,7 +102,7 @@
 
         function _saveDeadlines() {
 
-            var d1 = ""; var d2 = ""; var d3 = ""; var d4 = ""; var d5 = "";
+            var d1 = ""; var d2 = ""; var d3 = ""; var d4 = ""; var d5 = ""; var d6 = "";
 
             if (vm.deadlineDate1 == null || vm.deadlineDate1 == "Invalid Date") {
                 vm.deadlineDate1 = new Date("");
@@ -136,6 +139,13 @@
                 d5 = (vm.deadlineDate5.getUTCMonth() + 1) + "/" + vm.deadlineDate5.getUTCDate() + "/" + vm.deadlineDate5.getUTCFullYear();
             }
 
+            if (vm.submissionDeadline == null || vm.submissionDeadline == "Invalid Date") {
+                vm.submissionDeadline = new Date("");
+            }
+            else {
+                d6 = (vm.submissionDeadline.getUTCMonth() + 1) + "/" + vm.submissionDeadline.getUTCDate() + "/" + vm.submissionDeadline.getUTCFullYear();
+            }
+
             var newDeadlines = {
                 deadline1: vm.deadline1,
                 deadlineDate1: d1,
@@ -147,6 +157,7 @@
                 deadlineDate4: d4,
                 deadline5: vm.deadline5,
                 deadlineDate5: d5,
+                submissionDeadline: d6
             }
             //alert(vm.deadlineDate1.toLocaleDateString());
             //alert((vm.deadlineDate1.getUTCMonth()+1) + "/" + vm.deadlineDate1.getUTCDate() + "/" + vm.deadlineDate1.getUTCFullYear());

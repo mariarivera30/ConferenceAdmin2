@@ -612,6 +612,7 @@ namespace NancyService.Modules
                 deadline.deadlineDate4 = this.getInterfaceElement("deadlineDate4").content;
                 deadline.deadline5 = this.getInterfaceElement("deadline5").content;
                 deadline.deadlineDate5 = this.getInterfaceElement("deadlineDate5").content;
+                deadline.submissionDeadline = this.getInterfaceElement("submissionDeadline").content;
 
                 return deadline;
             }
@@ -649,6 +650,11 @@ namespace NancyService.Modules
                 if (newDeadline.deadlineDate5 == "Invalid Date")
                 {
                     newDeadline.deadlineDate5 = "";
+                }
+
+                if (newDeadline.submissionDeadline == "Invalid Date")
+                {
+                    newDeadline.submissionDeadline = "";
                 }
 
                 using (conferenceadminContext context = new conferenceadminContext())
@@ -720,6 +726,13 @@ namespace NancyService.Modules
 
                     if (deadlineDate5 != null)
                         deadlineDate5.content = newDeadline.deadlineDate5;
+
+                    var submissionDeadline = (from s in context.interfaceinformations
+                                              where s.attribute == "submissionDeadline"
+                                              select s).FirstOrDefault();
+
+                    if (submissionDeadline != null)
+                        submissionDeadline.content = newDeadline.submissionDeadline;
 
                     context.SaveChanges();
                     return true;
@@ -1689,6 +1702,7 @@ namespace NancyService.Modules
         public String deadlineDate4;
         public String deadline5;
         public String deadlineDate5;
+        public String submissionDeadline;
     }
 
     public class PlanningCommitteeQuery
