@@ -59,10 +59,36 @@
                     list.forEach(function (claim) {
 
                         if (claim.localeCompare('Master') == 0) {
+                            vm.participation = true;
                             vm.administrator = true;
+                            vm.general = true;
+                            vm.planning = true;
+                            vm.venue = true;
+                            vm.deadline = true;
+                            vm.registrationInt = true;
+                            vm.sponsorsInt = true;
+                            vm.contact = true;
+                            vm.home = true;
+                            vm.program = true;
+
+
+                            //Conference Manage tabs
+
+                            vm.committeeManage = true; //committe,admin,
+                            vm.topic = true; //committe,admin,
+                            vm.registrationList = true;
+                            vm.guest = true;
+                            vm.submissions = true;//committe,admin,
+                            vm.sponsors = true;
+                            vm.templates = true;//committe,admin,
+                            vm.authTemplates = true;
+                            vm.keyCodes = true;
+                            vm.reports = true;
+                            vm.isAdmin = true;
+                            vm.evaluators = true;
                         }
 
-                        if (claim.localeCompare('Admin') == 0 || claim.localeCompare('Master') == 0) {
+                        if (claim.localeCompare('Admin') == 0) {
                             //Website content tabs
                             vm.participation = true;
                             vm.administrator = true;
@@ -79,7 +105,7 @@
 
                             //Conference Manage tabs
 
-                            vm.committeeManage = true; //committe,admin,
+                            vm.committeeManage = false; //committe,admin,
                             vm.topic = true; //committe,admin,
                             vm.registrationList = true;
                             vm.guest = true;

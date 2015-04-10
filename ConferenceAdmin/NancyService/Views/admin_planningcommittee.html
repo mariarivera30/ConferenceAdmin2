@@ -102,7 +102,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addMember()">Add</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addMember()" ng-disabled="addCommitteeForm.$invalid">Add</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal" ng-click="vm.clear()">Cancel</button>
                 </div>
             </div>

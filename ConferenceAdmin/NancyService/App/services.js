@@ -108,7 +108,8 @@
             saveProgram: _saveProgram,
             getProgramDocument: _getProgramDocument,
             getAbstractDocument: _getAbstractDocument,
-            getDates: _getDates
+            getDates: _getDates,
+            getBillReport: _getBillReport
         };
 
         return service;
@@ -519,6 +520,10 @@
 
         function _saveProgram(data) {
             return $http.put('/admin/saveProgram', data);
+        };
+
+        function _getBillReport() {
+            return $http.get('admin/getBillReport');
         };
 
         //----------------------------------USER SUBMISSIONS----------------------------------

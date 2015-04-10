@@ -1514,6 +1514,54 @@ namespace NancyService.Modules
                 return false;
             }
         }
+
+        public List<BillReportQuery> getBillReportList()
+        {
+            List<BillReportQuery> report = new List<BillReportQuery>();
+
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    var payments = (from s in context.registrations
+                                   from bill in context.paymentbills
+                                   where (s.payment.deleted != true && s.paymentID == bill.paymentID)
+                                   select new BillReportQuery
+                                   {
+                                       transactionID = bill.transactionid,
+                                       paymentDate = bill.payment.creationDate.ToString(),
+                                       name= s.user.firstName+" "+s.user.lastName,
+                                       affiliation=s.user.affiliationName,
+                                       userType=s.user.usertype.userTypeName,
+                                       amountPaid= bill.AmountPaid,
+                                       paymentMethod= bill.methodOfPayment
+                                   }).ToList();
+
+                    var complimentary = (from s in context.registrations
+                                    from bill in context.paymentcomplementaries
+                                    where (s.payment.deleted != true && s.paymentID == bill.paymentID)
+                                    select new BillReportQuery
+                                    {
+                                        transactionID = "N/A",
+                                        paymentDate = bill.payment.creationDate.ToString(),
+                                        name = s.user.firstName + " " + s.user.lastName,
+                                        affiliation = s.user.affiliationName,
+                                        userType = s.user.usertype.userTypeName,
+                                        amountPaid = 0,
+                                        paymentMethod = "Complimentary Key:    "+bill.complementarykey.key                                    }).ToList();
+
+                    report.AddRange(payments);
+                    report.AddRange(complimentary);
+                }
+
+                return report;
+            }
+            catch (Exception ex)
+            {
+                Console.Write("WebManager.getBillReport error " + ex);
+                return null;
+            }
+        }
     }
 
     public class ContentQuery
@@ -1733,5 +1781,17 @@ namespace NancyService.Modules
         {
 
         }
+    }
+
+    public class BillReportQuery{
+
+        public String transactionID;
+        public String paymentDate;
+        public String name;
+        public String affiliation;
+        public String userType;
+        public double amountPaid;
+        public String paymentMethod;
+
     }
 }

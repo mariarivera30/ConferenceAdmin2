@@ -650,6 +650,11 @@ namespace NancyService.Modules
                 return webManager.saveProgram(info);
             };
 
+            Get["/getBillReport"] = parameters =>
+            {
+                return Response.AsJson(webManager.getBillReportList());
+            };
+
         }
     }
     public class AcceptanceStatusInfo

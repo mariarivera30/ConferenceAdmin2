@@ -33,6 +33,10 @@
     margin-bottom:0px; 
 }
 
+.reduced-margin{
+    margin-bottom:0px;
+}
+
 .late-load, .info-update{
     display:none;
 }
