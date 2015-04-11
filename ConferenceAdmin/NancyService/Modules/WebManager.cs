@@ -1528,18 +1528,19 @@ namespace NancyService.Modules
             }
         }
 
-        public List<BillReportQuery> getBillReportList()
+        public BillReportQuery getBillReportList()
         {
-            List<BillReportQuery> report = new List<BillReportQuery>();
+            BillReportQuery b = new BillReportQuery();
+            List<BillQuery> report = new List<BillQuery>();
 
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    var payments = (from s in context.registrations
+                    var registrationPayments = (from s in context.registrations
                                    from bill in context.paymentbills
                                    where (s.payment.deleted != true && s.paymentID == bill.paymentID)
-                                   select new BillReportQuery
+                                   select new BillQuery
                                    {
                                        transactionID = bill.transactionid,
                                        paymentDate = bill.payment.creationDate.ToString(),
@@ -1550,10 +1551,24 @@ namespace NancyService.Modules
                                        paymentMethod= bill.methodOfPayment
                                    }).ToList();
 
-                    var complimentary = (from s in context.registrations
+                    var sponsorPayments = (from s in context.sponsors
+                                           from bill in context.paymentbills
+                                           where (s.payment.deleted != true && s.paymentID == bill.paymentID && s.paymentID !=1)
+                                           select new BillQuery
+                                           {
+                                              transactionID = bill.transactionid,
+                                              paymentDate = bill.payment.creationDate.ToString(),
+                                              name = s.firstName + " " + s.lastName,
+                                              affiliation = s.company,
+                                              userType = "Sponsor",
+                                              amountPaid = bill.AmountPaid,
+                                              paymentMethod = bill.methodOfPayment
+                                           }).ToList();
+
+                    var complimentaryPayments = (from s in context.registrations
                                     from bill in context.paymentcomplementaries
                                     where (s.payment.deleted != true && s.paymentID == bill.paymentID)
-                                    select new BillReportQuery
+                                    select new BillQuery
                                     {
                                         transactionID = "N/A",
                                         paymentDate = bill.payment.creationDate.ToString(),
@@ -1563,11 +1578,18 @@ namespace NancyService.Modules
                                         amountPaid = 0,
                                         paymentMethod = "Complimentary Key:    "+bill.complementarykey.key                                    }).ToList();
 
-                    report.AddRange(payments);
-                    report.AddRange(complimentary);
+                    report.AddRange(registrationPayments);
+                    report.AddRange(sponsorPayments);
+                    report.AddRange(complimentaryPayments);
+
+                    double totalAmount = context.paymentbills.Where(x => x.deleted != true).Sum(x => x.AmountPaid);
+
+                    b.report = report;
+                    b.totalAmount= totalAmount;
                 }
 
-                return report;
+                return b;
+
             }
             catch (Exception ex)
             {
@@ -1797,7 +1819,7 @@ namespace NancyService.Modules
         }
     }
 
-    public class BillReportQuery{
+    public class BillQuery{
 
         public String transactionID;
         public String paymentDate;
@@ -1807,5 +1829,16 @@ namespace NancyService.Modules
         public double amountPaid;
         public String paymentMethod;
 
+    }
+
+    public class BillReportQuery
+    {
+        public List<BillQuery> report;
+        public double totalAmount;
+
+        public BillReportQuery()
+        {
+            report = new List<BillQuery>();
+        }
     }
 }

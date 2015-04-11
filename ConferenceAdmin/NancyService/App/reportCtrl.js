@@ -12,6 +12,7 @@
         vm.title = 'reportCtrl';
         vm.payList = [];
         vm.copy = [];
+        vm.totalAmount;
         var fontSize = 8, height = 0, doc;
 
         // Functions
@@ -32,7 +33,7 @@
                     "Name": pay.name,
                     "Affiliation": pay.affiliation,
                     "User Type": pay.userType,
-                    "Amount Paid": pay.amountPaid,
+                    "Amount Paid ($)": pay.amountPaid,
                     "Payment Method": pay.paymentMethod
                 }
             });
@@ -43,14 +44,15 @@
         function _getReportList() {
             restApi.getBillReport()
             .success(function (data, status, headers, config) {
-                vm.payList = data;
+                vm.payList = data.report;
+                vm.totalAmount = data.totalAmount;
                 setTimeout(function () {
                     activate();
                     _load();
                 }, 1000);
             })
            .error(function (data, status, headers, config) {
-               vm.payList = data;
+               vm.payList = data.report;
            });
         }
 
@@ -89,7 +91,7 @@
                 xOffset: 10,
                 yOffset: 10
             });
-            doc.text(50, height + 20, '');
+            doc.text(50, height + 20, "Total Amount: $"+vm.totalAmount);
             doc.save('billreport.pdf');
         }
 
