@@ -650,18 +650,20 @@ namespace NancyService.Modules
                 var info = this.Bind<ProgramQuery>();
                 return webManager.saveProgram(info);
             };
-
-            Get["/getBillReport"] = parameters =>
-            {
-                return Response.AsJson(webManager.getBillReportList());
-            };
-
+            //-------------------------------------------------Admin-SUBMISSIONS---------------------------------------
             //Gets all submissions in the system that have not been deleted
             Get["/getAllSubmissions"] = parameters =>
                 {
                     return Response.AsJson(submissionManager.getAllSubmissions());
                 };
+            //gets the evaluation for a submission
+            Get["/getEvaluationsForSubmission/{submissionID}"] = parameters =>
+                {
+                    long submissionID = parameters.submissionID;
+                    var evaluations = submissionManager.getSubmissionEvaluations(submissionID);
 
+                    return Response.AsJson(evaluations);
+                };
         }
     }
     public class AcceptanceStatusInfo

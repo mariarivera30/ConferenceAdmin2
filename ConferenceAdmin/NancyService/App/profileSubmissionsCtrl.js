@@ -23,6 +23,7 @@
         vm.status;
         vm.topicsList;
         vm.isEvaluated;
+        vm.isAssigned;
         vm.isFinalSubmission;
         vm.finalSubmissionAllowed;
         vm.view = "Home";

@@ -111,7 +111,8 @@
             getDates: _getDates,
             postFinalSubmission: _postFinalSubmission,
             getAllSubmissions: _getAllSubmissions,
-            getBillReport: _getBillReport
+            getBillReport: _getBillReport,
+            getEvaluationsForSubmission: _getEvaluationsForSubmission
         };
 
         return service;
@@ -561,6 +562,10 @@
         //Gets all submissions that have not been deleted
         function _getAllSubmissions() {
             return $http.get('admin/getAllSubmissions');
+        }
+        //Gets the evaluations for the submission with submissionID
+        function _getEvaluationsForSubmission(data) {
+            return $http.get('admin/getEvaluationsForSubmission/' + data);
         }
     }
 }
