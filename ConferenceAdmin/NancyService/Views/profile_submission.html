@@ -335,8 +335,11 @@
                 <div ng-show="vm.modalprevSubmissionFileList.length != 0" ng-hide="vm.modalsubmissionTypeID == 4">
                     <label>Uploaded Document(s) </label><br />
                     <div ng-repeat="file in vm.modalprevSubmissionFileList">
-                        <a href="" class="col-sm-7" ng-show="file.document" ng-click="vm.downloadPDFFile(file.document)"> {{file.documentName}}</a>
+                        <a href="" ng-show="file.document" ng-click="vm.downloadPDFFile(file.document)"> {{file.documentName}}</a>
                     </div>
+                </div>
+                <div ng-show="vm.modalprevSubIsEvaluated">
+                    <label>Evaluation Feedback</label><br />{{vm.modalprevPublicFeedback}}
                 </div>
             </div>
             <br />
