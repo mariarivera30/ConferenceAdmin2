@@ -11,6 +11,7 @@
         var userID = $window.sessionStorage.getItem('userID');
         vm.submissionsList = [];
         vm.acceptanceStatusList = ['Accepted', 'Rejected'];
+        vm.evaluationsList = [];
         // custom Submission class fields
         vm.submissionID;
         vm.evaluatorID;
@@ -52,6 +53,8 @@
         vm.clear = _clear;
         vm.getAllSubmissions = _getAllSubmissions;
         vm.downloadPDFFile = _downloadPDFFile;
+        vm.getSubmissionView = _getSubmissionView;
+        vm.getEvaluationsForSubmission = _getEvaluationsForSubmission;
 
         // function calls
         _getAllSubmissions();
@@ -115,8 +118,9 @@
             window.open(document);
         }
 
+        /* Set all fields with the submission information */
         function _getSubmissionView(submissionID) {
-            restApi.getUserSubmission().
+            restApi.getUserSubmission(submissionID).
                     success(function (data, status, headers, config) {
                         vm.submissionID = data.submissionID;
                         vm.userType = data.userType;
@@ -156,10 +160,23 @@
                         vm.prevPublicFeedback = data.prevPublicFeedback;
                         vm.prevPrivateFeedback = data.prevPrivateFeedback;
                         vm.view = true;
+
+                        _getEvaluationsForSubmission(submissionID);
                     }).
                    error(function (data, status, headers, config) {
                        vm.submissionlist = data;
                    });
+        }
+
+        /* Get all evaluations of a single submission */
+        function _getEvaluationsForSubmission(submissionID) {
+            restApi.getEvaluationsForSubmission(submissionID).
+                  success(function (data, status, headers, config) {
+                      vm.evaluationsList = data;
+                  }).
+                  error(function (data, status, headers, config) {
+                      vm.evaluationsList = data;
+                  });
         }
 
     }
