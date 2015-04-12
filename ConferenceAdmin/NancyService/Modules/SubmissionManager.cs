@@ -184,6 +184,8 @@ namespace NancyService.Modules
                     evaluatiorsubmission sub;
 
                     sub = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.evaluatorID == evaluatorID && c.deleted == false).FirstOrDefault();
+                    if (sub != null)
+                    {
                         subs = new Evaluation
                         {
                             submissionID = sub.submissionID,
@@ -196,6 +198,7 @@ namespace NancyService.Modules
                             evaluatorFirstName = sub.evaluator.user.firstName,
                             evaluatorLastName = sub.evaluator.user.lastName
                         };
+                    }
                     return subs;
                 }
             }

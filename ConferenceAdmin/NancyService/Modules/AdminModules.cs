@@ -696,7 +696,7 @@ namespace NancyService.Modules
 
                     return null;
                 };
-            //Get the info of a submission
+            //Get the info of an evaluation
             Get["/getEvaluationDetails/{submissionID:long}/{evaluatorID:long}"] = parameters =>
             {
                 long submissionID = parameters.submissionID;
