@@ -12,6 +12,7 @@
         vm.submissionsList = [];
         vm.acceptanceStatusList = ['Accepted', 'Rejected'];
         vm.evaluationsList = [];
+        vm.evaluatorsList = [];
         // custom Submission class fields
         vm.submissionID;
         vm.evaluatorID;
@@ -42,7 +43,7 @@
         vm.statusEvaluation;
         // evaluation fields
         vm.evaluationsubmittedID;        
-        vm.evaluationname;
+        vm.evaluationName;
         vm.evaluationFile;
         vm.score;
         vm.avgScore;
@@ -55,6 +56,10 @@
         vm.downloadPDFFile = _downloadPDFFile;
         vm.getSubmissionView = _getSubmissionView;
         vm.getEvaluationsForSubmission = _getEvaluationsForSubmission;
+        vm.getEvaluationDetails = _getEvaluationDetails;
+        vm.getAllEvaluators = _getAllEvaluators;
+        vm.assignEvaluator = _assignEvaluator;
+        vm.removeEvaluator = _removeEvaluator;
 
         // function calls
         _getAllSubmissions();
@@ -94,12 +99,14 @@
             vm.statusEvaluation = "";
             // evaluation fields
             vm.evaluationsubmittedID = 0;
-            vm.evaluationname = "";
+            vm.evaluationName = "";
             vm.evaluationFile = "";
             vm.score = 0;
             vm.avgScore = 0;
             vm.publicFeedback = "";
             vm.privateFeedback = "";
+            vm.evaluatorFirstName = "";
+            vm.evaluatorLastName = "";
         }
 
         /* Retrieves every submission in the system */
@@ -158,8 +165,7 @@
                         vm.prevDelivery = data.prevDelivery;
                         vm.prevSubIsEvaluated = data.prevSubIsEvaluated;
                         vm.prevPublicFeedback = data.prevPublicFeedback;
-                        vm.prevPrivateFeedback = data.prevPrivateFeedback;
-                        vm.view = true;
+                        vm.prevPrivateFeedback = data.prevPrivateFeedback;                        
 
                         _getEvaluationsForSubmission(submissionID);
                     }).
@@ -179,5 +185,58 @@
                   });
         }
 
+        /* Get details of an evaluation */
+        function _getEvaluationDetails(evaluatorID) {
+            var data = { submissionID: vm.submissionID, evaluatorID: evaluatorID };
+            restApi.getSubmissionDetails(data).
+                  success(function (data, status, headers, config) {
+                      vm.evaluationsubmittedID = data.evaluationsubmittedID;
+                      vm.evaluationName = data.evaluationName;
+                      vm.evaluationFile = data.evaluationFile;
+                      vm.score = data.score;
+                      vm.avgScore = data.avgScore;
+                      vm.publicFeedback = data.publicFeedback;
+                      vm.privateFeedback = data.privateFeedback;
+                      vm.evaluatorFirstName = data.evaluation.evaluatorFirstName;
+                      vm.evaluatorLastName = data.evaluation.evaluatorLastName;
+                      vm.score = data.evaluation.score;
+                  }).
+                  error(function (data, status, headers, config) {
+                      
+                  });
+        }
+
+        /* Get list of evaluators */
+        function _getAllEvaluators() {
+            restApi.getAllEvaluators().
+                  success(function (data, status, headers, config) {
+                      vm.evaluatorsList = data;
+                  }).
+                  error(function (data, status, headers, config) {
+                      vm.evaluatorsList = data;
+                  });
+        }
+
+        /* Assign an evaluator to a submission */
+        function _assignEvaluator(evaluatorID) {
+            restApi.assignEvaluator(evaluatorID).
+                  success(function (data, status, headers, config) {
+
+                  }).
+                  error(function (data, status, headers, config) {
+
+                  });
+        }
+
+        /* Remove an assigned evaluator from a submission */
+        function _removeEvaluator(evaluatorID) {
+            restApi.removeEvaluator(evaluatorID).
+                  success(function (data, status, headers, config) {
+
+                  }).
+                  error(function (data, status, headers, config) {
+
+                  });
+        }
     }
 })();

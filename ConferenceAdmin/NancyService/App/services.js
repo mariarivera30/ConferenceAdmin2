@@ -592,6 +592,10 @@
         function _assignEvaluator(data) {
             return $http.post('admin/assignEvaluator', data);
         };
+        //Adds an automatically accepted submission
+        function _addSubmissionByAdmin(data) {
+            return $http.post('admin/addSubmissionByAdmin', data);
+        }
     }
 }
 

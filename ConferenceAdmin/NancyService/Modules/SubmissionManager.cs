@@ -154,6 +154,14 @@ namespace NancyService.Modules
                             false : sub.submission.usersubmissions1.FirstOrDefault().allowFinalVersion) == false ? false : true
                         };
                     }
+                    var evaluator = context.evaluators.Where(e => e.evaluatorsID == sub.evaluatorID).FirstOrDefault();
+                    var user = context.users.Where(u => u.userID == evaluator.userID).FirstOrDefault();
+                    subs.evaluation = new Evaluation
+                    {
+                        evaluatorFirstName = user.firstName,
+                        evaluatorLastName = user.lastName,
+                        score = context.evaluationsubmitteds.Where(e => e.evaluatiorsubmission.evaluatorID == evaluator.evaluatorsID).FirstOrDefault().score
+                    };
                     return subs;
                 }
             }
@@ -1223,6 +1231,7 @@ namespace NancyService.Modules
         public long submissionID;
         public String userType;
         public long evaluatorID;
+        public Evaluation evaluation;
         public String submissionTitle;
         public String topic;
         public int topiccategoryID;
@@ -1248,7 +1257,9 @@ namespace NancyService.Modules
         public String privateFeedback;
         public String publicFeedback;
         public bool subIsEvaluated;
-        public long evaluationsubmittedID;        
+        public long evaluationsubmittedID;
+        public String evaluatorFirstName;
+        public String evaluatorLastName;       
 
         public AssignedSubmission()
         {
