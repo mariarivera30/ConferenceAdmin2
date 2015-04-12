@@ -188,7 +188,7 @@
         /* Get details of an evaluation */
         function _getEvaluationDetails(evaluatorID) {
             var data = { submissionID: vm.submissionID, evaluatorID: evaluatorID };
-            restApi.getSubmissionDetails(data).
+            restApi.getEvaluationDetails(data).
                   success(function (data, status, headers, config) {
                       vm.evaluationsubmittedID = data.evaluationsubmittedID;
                       vm.evaluationName = data.evaluationName;

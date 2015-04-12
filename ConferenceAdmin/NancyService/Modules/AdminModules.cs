@@ -696,6 +696,18 @@ namespace NancyService.Modules
 
                     return null;
                 };
+            //Get the info of a submission
+            Get["/getEvaluationDetails/{submissionID:long}/{evaluatorID:long}"] = parameters =>
+            {
+                long submissionID = parameters.submissionID;
+                long evaluatorID = parameters.evaluatorID;
+                Evaluation sub = submissionManager.getEvaluationDetails(submissionID, evaluatorID);
+                if (sub == null)
+                {
+                    sub = new Evaluation();
+                }
+                return Response.AsJson(sub);
+            };
         }
     }
     public class AcceptanceStatusInfo

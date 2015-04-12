@@ -117,7 +117,8 @@
             getEvaluationsForSubmission: _getEvaluationsForSubmission,
             getSubmissionDeadline: _getSubmissionDeadline,
             getAllEvaluators: _getAllEvaluators,
-            assignEvaluator: _assignEvaluator
+            assignEvaluator: _assignEvaluator,
+            getEvaluationDetails: _getEvaluationDetails
         };
 
         return service;
@@ -595,7 +596,11 @@
         //Adds a submission submitted by the administrator for someone else
         function _addSubmissionByAdmin(data) {
             return $http.post('admin/addSubmissionByAdmin', data);
-        }
+        };
+        //get details of evaluation with submissionID and evaluatorID
+        function _getEvaluationDetails(data) {
+            return $http.get('admin/getEvaluationDetails/' + data.submissionID + '/' + data.evaluatorID);
+        };
     }
 }
 
