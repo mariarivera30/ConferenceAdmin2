@@ -1207,7 +1207,7 @@ namespace NancyService.Modules
             }           
         }
 
-        public Evaluation assignEvaluator(long submissionID, long evaluatorID)
+        public Evaluation assignEvaluator(long submissionID, long evaluatorID, long templateID)
         {
             try
             {
@@ -1229,6 +1229,14 @@ namespace NancyService.Modules
                     addedRelation.evaluatorLastName = context.evaluators.FirstOrDefault(c => c.evaluatorsID == evaluatorID).user.lastName;
                     addedRelation.score = 0;
 
+                    //asignarle un evaluation template al submission
+                    templatesubmission templateRelation = new templatesubmission();
+                    templateRelation.templateID = templateID;    
+                    templateRelation.submissionID = submissionID;
+                    templateRelation.deleted = false;
+                    context.templatesubmissions.Add(templateRelation);
+                    context.SaveChanges();
+
                     return addedRelation;
                 }
             }
@@ -1238,6 +1246,7 @@ namespace NancyService.Modules
                 return null;
             }           
         }
+
     }
 
     public class CurrAndPrevSub
