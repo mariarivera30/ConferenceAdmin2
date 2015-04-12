@@ -688,13 +688,13 @@ namespace NancyService.Modules
                     return Response.AsJson(submissionManager.getAcceptedEvaluators());
                 };
             //Assigns and evaluator and a predetermine template to a submission
-            Post["/assignEvaluator"] = parameters =>
+            Post["/assignEvaluator/{submissionID:long}/{evaluatorID:long}"] = parameters =>
                 {
-                    long submissionID = 4;
-                    long evaluatorID = 4;
-                    submissionManager.assignEvaluator(submissionID, evaluatorID);
+                    long submissionID = parameters.submissionID;
+                    long evaluatorID = parameters.evaluatorID;
+                    Evaluation evList =  submissionManager.assignEvaluator(submissionID, evaluatorID);
 
-                    return null;
+                    return Response.AsJson(evList);
                 };
             //Get the info of an evaluation
             Get["/getEvaluationDetails/{submissionID:long}/{evaluatorID:long}"] = parameters =>

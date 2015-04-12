@@ -981,7 +981,7 @@ namespace NancyService.Modules
                     sub.submissionTypeID = submissionToAdd.submissionTypeID;
                     sub.submissionAbstract = submissionToAdd.submissionAbstract;
                     sub.title = submissionToAdd.title;
-                    sub.status = "Accepted";//------------------------make sure!!!????
+                    sub.status = "Pending";
                     sub.creationDate = DateTime.Now;
                     sub.deleted = false;
                     sub.byAdmin = false;
@@ -1207,9 +1207,36 @@ namespace NancyService.Modules
             }           
         }
 
-        internal void assignEvaluator(long submissionID, long evaluatorID)
+        public Evaluation assignEvaluator(long submissionID, long evaluatorID)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    //assigning evaluator to a submission
+                    evaluatiorsubmission relation = new evaluatiorsubmission();
+                    relation.evaluatorID = evaluatorID;
+                    relation.submissionID = submissionID;
+                    relation.statusEvaluation = "Pending";
+                    relation.deleted = false;
+                    context.evaluatiorsubmissions.Add(relation);
+                    context.SaveChanges();
+
+                    Evaluation addedRelation = new Evaluation();
+                    addedRelation.submissionID = submissionID;
+                    addedRelation.evaluatorID = evaluatorID;
+                    addedRelation.evaluatorFirstName = context.evaluators.FirstOrDefault(c => c.evaluatorsID == evaluatorID).user.firstName;
+                    addedRelation.evaluatorLastName = context.evaluators.FirstOrDefault(c => c.evaluatorsID == evaluatorID).user.lastName;
+                    addedRelation.score = 0;
+
+                    return addedRelation;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.assignEvaluator error " + ex);
+                return null;
+            }           
         }
     }
 
