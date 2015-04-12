@@ -12,6 +12,7 @@
         vm.submissionsList = [];
         vm.acceptanceStatusList = ['Accepted', 'Rejected'];
         vm.evaluationsList = [];
+        vm.prevEvaluationsList = [];
         vm.evaluatorsList = [];
         // custom Submission class fields
         vm.submissionID;
@@ -107,6 +108,9 @@
             vm.privateFeedback = "";
             vm.evaluatorFirstName = "";
             vm.evaluatorLastName = "";
+            vm.evaluationsList = [];
+            vm.prevEvaluationsList = [];
+            vm.evaluatorsList = [];
         }
 
         /* Retrieves every submission in the system */
@@ -178,7 +182,13 @@
         function _getEvaluationsForSubmission(submissionID) {
             restApi.getEvaluationsForSubmission(submissionID).
                   success(function (data, status, headers, config) {
-                      vm.evaluationsList = data;
+                      data.forEach(function (eva, index) {
+                          if (!eva.isPrevSub)
+                              vm.evaluationsList.push(eva);
+                          else
+                              vm.prevEvaluationsList.push(eva);
+                      });
+                      
                   }).
                   error(function (data, status, headers, config) {
                       vm.evaluationsList = data;
@@ -187,19 +197,19 @@
 
         /* Get details of an evaluation */
         function _getEvaluationDetails(evaluatorID) {
-            var data = { submissionID: vm.submissionID, evaluatorID: evaluatorID };
-            restApi.getEvaluationDetails(data).
+            var eva = { submissionID: vm.submissionID, evaluatorID: evaluatorID };
+            restApi.getEvaluationDetails(eva).
                   success(function (data, status, headers, config) {
                       vm.evaluationsubmittedID = data.evaluationsubmittedID;
-                      vm.evaluationName = data.evaluationName;
+                      vm.evaluationName = data.evaluationFileName;
                       vm.evaluationFile = data.evaluationFile;
                       vm.score = data.score;
                       vm.avgScore = data.avgScore;
                       vm.publicFeedback = data.publicFeedback;
                       vm.privateFeedback = data.privateFeedback;
-                      vm.evaluatorFirstName = data.evaluation.evaluatorFirstName;
-                      vm.evaluatorLastName = data.evaluation.evaluatorLastName;
-                      vm.score = data.evaluation.score;
+                      vm.evaluatorFirstName = data.evaluatorFirstName;
+                      vm.evaluatorLastName = data.evaluatorLastName;
+                      vm.score = data.score;
                   }).
                   error(function (data, status, headers, config) {
                       

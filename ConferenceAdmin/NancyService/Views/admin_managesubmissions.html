@@ -154,13 +154,13 @@
                 <label>Topic category</label><br />{{vm.topic}}
             </div>    
             
-            <div class="col-lg-6 right" ng-show="vm.evaluationsList.length != 0">
+            <div class="col-lg-6 right" ng-show="vm.prevEvaluationsList.length != 0">
                 <table class="table table-box agenda-list no-margin">
                     <thead>
                         <tr class="header"><th>Evaluator</th><th>Score</th><th></th></tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="eval in vm.evaluationsList">
+                        <tr ng-repeat="eval in vm.prevEvaluationsList">
                             <td>{{eval.evaluatorFirstName + ' ' + eval.evaluatorLastName}}</td>
                             <td>{{eval.score}}</td>
                             <td><a href="" ng-click="vm.getEvaluationDetails(eval.evaluatorID)" data-toggle="modal" data-target="#evaluationDetails">View</a></td>
@@ -200,7 +200,7 @@
             </div>
         </div>
         <div class="col-lg-12"><br />
-            <button class="btn btn-ar btn-default" ng-click="vm.view = false;">Back</button>
+            <button class="btn btn-ar btn-default" ng-click="vm.clear(); vm.view = false;">Back</button>
         </div>
     </div>
 
