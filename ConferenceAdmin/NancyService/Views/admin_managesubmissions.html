@@ -104,7 +104,7 @@
                     <tr ng-repeat="eval in vm.evaluationsList">
                         <td>{{eval.evaluatorFirstName + ' ' + eval.evaluatorLastName}}</td>
                         <td>{{eval.score}}</td>
-                        <td><a href="" ng-click="vm.getEvaluationDetails(eval.evaluatorID)" data-toggle="modal" data-target="#evaluationDetails">View</a></td>
+                        <td><a href="" ng-click="vm.getEvaluationDetails(vm.submissionID, eval.evaluatorID)" data-toggle="modal" data-target="#evaluationDetails">View</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -163,7 +163,7 @@
                         <tr ng-repeat="eval in vm.prevEvaluationsList">
                             <td>{{eval.evaluatorFirstName + ' ' + eval.evaluatorLastName}}</td>
                             <td>{{eval.score}}</td>
-                            <td><a href="" ng-click="vm.getEvaluationDetails(eval.evaluatorID)" data-toggle="modal" data-target="#evaluationDetails">View</a></td>
+                            <td><a href="" ng-click="vm.getEvaluationDetails(vm.prevSubmissionID, eval.evaluatorID)" data-toggle="modal" data-target="#evaluationDetails">View</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -233,8 +233,7 @@
 
 
                 <div class="modal-footer">
-                        <button class="btn btn-ar btn-primary left" data-dismiss="modal">Save</button>
-                        <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-ar btn-default left" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
