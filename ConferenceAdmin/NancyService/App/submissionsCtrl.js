@@ -228,10 +228,15 @@
         }
 
         /* Assign an evaluator to a submission */
-        function _assignEvaluator(evaluatorID) {
-            restApi.assignEvaluator(evaluatorID).
+        function _assignEvaluator(submissionID, evaluatorID) {
+            restApi.assignEvaluator(submissionID, evaluatorID).
                   success(function (data, status, headers, config) {
-
+                      var evaluator = {
+                          evaluatorFirstName: data.evaluatorFirstName,
+                          evaluatorLastName: data.evaluatorLastName,
+                          score: data.score
+                      };
+                      vm.evaluatorsList.push(evaluator);
                   }).
                   error(function (data, status, headers, config) {
 

@@ -591,7 +591,7 @@
         };
         //Assigns chosen evaluator to the given submission with submissionID
         function _assignEvaluator(data) {
-            return $http.post('admin/assignEvaluator', data);
+            return $http.post('admin/assignEvaluator' + data.submissionID + '/' + data.evaluatorID);
         };
         //Adds a submission submitted by the administrator for someone else
         function _addSubmissionByAdmin(data) {

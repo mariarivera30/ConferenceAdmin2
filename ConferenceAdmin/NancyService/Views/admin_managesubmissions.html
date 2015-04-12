@@ -69,7 +69,7 @@
                     <p ng-show="vm.evaluationsList.length == 0">No evaluators have been assigned yet.</p>
                     <br />
                     <select ng-model="vm.evaluatorID" ng-options="evaluator.evaluatorID as evaluator.firstName + ' ' + evaluator.lastName for evaluator in vm.evaluatorsList"></select>
-                    <button class="btn btn-ar btn-primary" ng-click="vm.assignEvaluator(vm.evaluatorID);">Assign <i class="fa fa-arrow-up"> </i></button>
+                    <button class="btn btn-ar btn-primary" ng-click="vm.assignEvaluator(vm.submissionID, vm.evaluatorID);">Assign <i class="fa fa-arrow-up"> </i></button>
 
                     </div>
 
