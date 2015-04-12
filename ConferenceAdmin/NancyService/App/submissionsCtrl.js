@@ -237,7 +237,8 @@
 
         /* Assign an evaluator to a submission */
         function _assignEvaluator(submissionID, evaluatorID) {
-            restApi.assignEvaluator(submissionID, evaluatorID).
+            var IDs = { submissionID: submissionID, evaluatorID: evaluatorID }
+            restApi.assignEvaluator(IDs).
                   success(function (data, status, headers, config) {
                       var evaluator = {
                           evaluatorFirstName: data.evaluatorFirstName,
