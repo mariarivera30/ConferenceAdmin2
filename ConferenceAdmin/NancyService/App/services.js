@@ -111,7 +111,9 @@
             getDates: _getDates,
             postFinalSubmission: _postFinalSubmission,
             getAllSubmissions: _getAllSubmissions,
-            getBillReport: _getBillReport
+            getBillReport: _getBillReport,
+            getRegistrationPaymentsFromIndex: _getRegistrationPaymentsFromIndex,
+            getSponsorPaymentsFromIndex: _getSponsorPaymentsFromIndex
         };
 
         return service;
@@ -526,6 +528,14 @@
 
         function _getBillReport() {
             return $http.get('admin/getBillReport');
+        };
+
+        function _getRegistrationPaymentsFromIndex(data) {
+            return $http.get('/admin/getRegistrationPayments/'+data);
+        };
+
+        function _getSponsorPaymentsFromIndex(data) {
+            return $http.get('/admin/getSponsorPayments/'+data);
         };
 
         //----------------------------------USER SUBMISSIONS----------------------------------

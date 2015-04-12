@@ -17,6 +17,7 @@ namespace NancyService.Modules
             : base("/admin")
         {
             WebManager webManager = new WebManager();
+            ReportManager reportManager = new ReportManager();
             AdminManager adminManager = new AdminManager();
             EvaluatorManager evaluatorManager = new EvaluatorManager();
             TopicManager topicManager = new TopicManager();
@@ -653,7 +654,19 @@ namespace NancyService.Modules
 
             Get["/getBillReport"] = parameters =>
             {
-                return Response.AsJson(webManager.getBillReportList());
+                return Response.AsJson(reportManager.getBillReportList());
+            };
+
+            Get["/getRegistrationPayments/{index:int}"] = parameters =>
+            {
+                int index = parameters.index;
+                return Response.AsJson(reportManager.getRegistrationPayments(index));
+            };
+
+            Get["/getSponsorPayments/{index:int}"] = parameters =>
+            {
+                int index = parameters.index;
+                return Response.AsJson(reportManager.getSponsorPayments(index));
             };
 
             //Gets all submissions in the system that have not been deleted

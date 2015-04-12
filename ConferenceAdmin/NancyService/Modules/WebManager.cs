@@ -1528,75 +1528,6 @@ namespace NancyService.Modules
             }
         }
 
-        public BillReportQuery getBillReportList()
-        {
-            BillReportQuery b = new BillReportQuery();
-            List<BillQuery> report = new List<BillQuery>();
-
-            try
-            {
-                using (conferenceadminContext context = new conferenceadminContext())
-                {
-                    var registrationPayments = (from s in context.registrations
-                                   from bill in context.paymentbills
-                                   where (s.payment.deleted != true && s.paymentID == bill.paymentID)
-                                   select new BillQuery
-                                   {
-                                       transactionID = bill.transactionid,
-                                       paymentDate = bill.payment.creationDate.ToString(),
-                                       name= s.user.firstName+" "+s.user.lastName,
-                                       affiliation=s.user.affiliationName,
-                                       userType=s.user.usertype.userTypeName,
-                                       amountPaid= bill.AmountPaid,
-                                       paymentMethod= bill.methodOfPayment
-                                   }).ToList();
-
-                    var sponsorPayments = (from s in context.sponsors
-                                           from bill in context.paymentbills
-                                           where (s.payment.deleted != true && s.paymentID == bill.paymentID && s.paymentID !=1)
-                                           select new BillQuery
-                                           {
-                                              transactionID = bill.transactionid,
-                                              paymentDate = bill.payment.creationDate.ToString(),
-                                              name = s.firstName + " " + s.lastName,
-                                              affiliation = s.company,
-                                              userType = "Sponsor",
-                                              amountPaid = bill.AmountPaid,
-                                              paymentMethod = bill.methodOfPayment
-                                           }).ToList();
-
-                    var complimentaryPayments = (from s in context.registrations
-                                    from bill in context.paymentcomplementaries
-                                    where (s.payment.deleted != true && s.paymentID == bill.paymentID)
-                                    select new BillQuery
-                                    {
-                                        transactionID = "N/A",
-                                        paymentDate = bill.payment.creationDate.ToString(),
-                                        name = s.user.firstName + " " + s.user.lastName,
-                                        affiliation = s.user.affiliationName,
-                                        userType = s.user.usertype.userTypeName,
-                                        amountPaid = 0,
-                                        paymentMethod = "Complimentary Key:    "+bill.complementarykey.key                                    }).ToList();
-
-                    report.AddRange(registrationPayments);
-                    report.AddRange(sponsorPayments);
-                    report.AddRange(complimentaryPayments);
-
-                    double totalAmount = context.paymentbills.Where(x => x.deleted != true).Sum(x => x.AmountPaid);
-
-                    b.report = report;
-                    b.totalAmount= totalAmount;
-                }
-
-                return b;
-
-            }
-            catch (Exception ex)
-            {
-                Console.Write("WebManager.getBillReport error " + ex);
-                return null;
-            }
-        }
     }
 
     public class ContentQuery
@@ -1816,29 +1747,6 @@ namespace NancyService.Modules
         public ProgramQuery()
         {
 
-        }
-    }
-
-    public class BillQuery{
-
-        public String transactionID;
-        public String paymentDate;
-        public String name;
-        public String affiliation;
-        public String userType;
-        public double amountPaid;
-        public String paymentMethod;
-
-    }
-
-    public class BillReportQuery
-    {
-        public List<BillQuery> report;
-        public double totalAmount;
-
-        public BillReportQuery()
-        {
-            report = new List<BillQuery>();
         }
     }
 }
