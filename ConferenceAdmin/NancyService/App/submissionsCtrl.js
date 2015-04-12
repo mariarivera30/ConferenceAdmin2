@@ -17,6 +17,7 @@
         vm.submissionTypeList = [];
         vm.topicsList = [];
         vm.documentsList = [];
+        vm.templatesList = [];
         // custom Submission class fields
         vm.submissionID;
         vm.evaluatorID;
@@ -37,7 +38,7 @@
         vm.topicID;
         vm.topiccategoryID;
         vm.submissionTypeID;
-        vm.submissionAbstract; 
+        vm.submissionAbstract;
         vm.title;
         vm.status;
         vm.byAdmin;
@@ -46,7 +47,7 @@
         vm.evaluatorID;
         vm.statusEvaluation;
         // evaluation fields
-        vm.evaluationsubmittedID;        
+        vm.evaluationsubmittedID;
         vm.evaluationName;
         vm.evaluationFile;
         vm.score;
@@ -69,11 +70,14 @@
         vm.addSubmission = _addSubmission;
         vm.addDocument = _addDocument;
         vm.deleteDocument = _deleteDocument;
+        vm.getTemplates = _getTemplates;
+        vm.assignTemplate = _assignTemplate;
 
         // function calls
         _getAllSubmissions();
         _getSubmissionTypes();
         _getTopics();
+        _getTemplates();
 
 
         // functions implementations
@@ -180,7 +184,7 @@
                         vm.prevDelivery = data.prevDelivery;
                         vm.prevSubIsEvaluated = data.prevSubIsEvaluated;
                         vm.prevPublicFeedback = data.prevPublicFeedback;
-                        vm.prevPrivateFeedback = data.prevPrivateFeedback;                        
+                        vm.prevPrivateFeedback = data.prevPrivateFeedback;
 
                         _getEvaluationsForSubmission(submissionID);
                     }).
@@ -201,7 +205,7 @@
                           else
                               vm.prevEvaluationsList.push(eva);
                       });
-                      
+
                   }).
                   error(function (data, status, headers, config) {
                       vm.evaluationsList = data;
@@ -225,7 +229,7 @@
                       vm.score = data.score;
                   }).
                   error(function (data, status, headers, config) {
-                      
+
                   });
         }
 
@@ -245,12 +249,15 @@
             var IDs = { submissionID: submissionID, evaluatorID: evaluatorID }
             restApi.assignEvaluator(IDs).
                   success(function (data, status, headers, config) {
-                      var evaluator = {
-                          evaluatorFirstName: data.evaluatorFirstName,
-                          evaluatorLastName: data.evaluatorLastName,
-                          score: data.score
-                      };
-                      vm.evaluatorsList.push(evaluator);
+                      vm.exists = false;
+                      vm.evaluationsList.forEach(function (eva, index) {
+                          if (eva.evaluatorID == data.evaluatorID) {
+                              vm.exists = true;
+                          }
+                      });
+
+                      if (!vm.exists)
+                          vm.evaluationsList.push(data);
                   }).
                   error(function (data, status, headers, config) {
 
@@ -260,6 +267,22 @@
         /* Remove an assigned evaluator from a submission */
         function _removeEvaluator(evaluatorID) {
             restApi.removeEvaluator(evaluatorID).
+                  success(function (data, status, headers, config) {
+                      vm.evaluationsList.forEach(function (eva, index) {
+                          if (eva.evaluatorID == data.evaluatorID) {
+                              vm.evaluationsList(index, 1);
+                          }
+                      });
+                  }).
+                  error(function (data, status, headers, config) {
+
+                  });
+        }
+
+        /* Assign a template to a submission */
+        function _assignTemplate(submissionID, templateID) {
+            var IDs = { submissionID: submissionID, templateID: templateID }
+            restApi.assignTemplate(IDs).
                   success(function (data, status, headers, config) {
 
                   }).
@@ -277,7 +300,6 @@
                            vm.TYPE = vm.submissionTypeList[0];
                    }).
                    error(function (data, status, headers, config) {
-                       alert("add un alert de submission type list");
                    });
         }
 
@@ -296,42 +318,42 @@
 
         /* Add a new Submission */
         function _addSubmission() {
-                if (vm.TYPE.submissionTypeID == 1 || vm.TYPE.submissionTypeID == 2 || vm.TYPE.submissionTypeID == 4) {//if paper, poster o bof
-                    var submission = {
-                        submissionID: vm.modalsubmissionID,
-                        userID: userID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
-                        submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle
-                    }
+            if (vm.TYPE.submissionTypeID == 1 || vm.TYPE.submissionTypeID == 2 || vm.TYPE.submissionTypeID == 4) {//if paper, poster o bof
+                var submission = {
+                    submissionID: vm.modalsubmissionID,
+                    userID: userID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
+                    submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle
                 }
-                else if (vm.TYPE.submissionTypeID == 3) {//if pannel
-                    var submission = {
-                        submissionID: vm.modalsubmissionID,
-                        userID: userID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
-                        submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, panelistNames: vm.modalpanelistNames,
-                        plan: vm.modalplan, guideQuestion: vm.modalguideQuestions, formatDescription: vm.modalformat, necessaryEquipment: vm.modalequipment
-                    }
+            }
+            else if (vm.TYPE.submissionTypeID == 3) {//if pannel
+                var submission = {
+                    submissionID: vm.modalsubmissionID,
+                    userID: userID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
+                    submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, panelistNames: vm.modalpanelistNames,
+                    plan: vm.modalplan, guideQuestion: vm.modalguideQuestions, formatDescription: vm.modalformat, necessaryEquipment: vm.modalequipment
                 }
-                else if (vm.TYPE.submissionTypeID == 5) {//if workshops
-                    var submission = {
-                        submissionID: vm.modalsubmissionID,
-                        userID: userID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
-                        submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, plan: vm.modalplan, duration: vm.modalduration,
-                        delivery: vm.modaldelivery, necessary_equipment: vm.modalequipment
-                    }
+            }
+            else if (vm.TYPE.submissionTypeID == 5) {//if workshops
+                var submission = {
+                    submissionID: vm.modalsubmissionID,
+                    userID: userID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
+                    submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, plan: vm.modalplan, duration: vm.modalduration,
+                    delivery: vm.modaldelivery, necessary_equipment: vm.modalequipment
                 }
-                if (vm.myFile != undefined) {
-                    submission.document = vm.content;
-                    submission.documentName = vm.myFile.name;
-                    vm.myFile.name = "";
-                }
-                submission.documentssubmitteds = vm.documentsList;
-                restApi.postSubmission(submission)
-                        .success(function (data, status, headers, config) {
-                            vm.submissionsList.push(data);
-                        })
-                        .error(function (error) {
+            }
+            if (vm.myFile != undefined) {
+                submission.document = vm.content;
+                submission.documentName = vm.myFile.name;
+                vm.myFile.name = "";
+            }
+            submission.documentssubmitteds = vm.documentsList;
+            restApi.postSubmission(submission)
+                    .success(function (data, status, headers, config) {
+                        vm.submissionsList.push(data);
+                    })
+                    .error(function (error) {
 
-                        });
+                    });
         }
 
         /**/
@@ -352,6 +374,17 @@
             });
         }
 
+        /**/
+        function _getTemplates() {
+            restApi.getTemplatesAdmin().
+                   success(function (data, status, headers, config) {
+                       vm.templatesList = data;
+                   }).
+                   error(function (data, status, headers, config) {
+                       vm.templatesList = data;
+                       _clear();
+                   });
+        }
 
     }
 })();
