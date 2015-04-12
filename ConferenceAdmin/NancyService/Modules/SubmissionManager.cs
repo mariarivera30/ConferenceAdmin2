@@ -1015,6 +1015,7 @@ namespace NancyService.Modules
                             eval = evalSub.evaluationsubmitteds.Select(c => new Evaluation
                             {
                             submissionID = c.evaluatiorsubmission.submissionID,
+                            evaluatorID = c.evaluatiorsubmission.evaluatorID,
                             evaluatorFirstName = c.evaluatiorsubmission.evaluator.user.firstName,
                             evaluatorLastName = c.evaluatiorsubmission.evaluator.user.lastName,
                             score = c.score,
@@ -1059,6 +1060,33 @@ namespace NancyService.Modules
                 Console.Write("SubmissionManager.getSubmissionDeadline error " + ex);
                 return false;
             }            
+        }
+
+        public List<EvaluatorQuery> getAcceptedEvaluators()
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    var evaluators = context.users.Where(evaluator => evaluator.evaluatorStatus == "Accepted").
+                        Select(evaluator => new EvaluatorQuery
+                    {
+                        userID = (long)evaluator.userID,
+                        evaluatorID = evaluator.evaluators.FirstOrDefault() == null ? -1 : evaluator.evaluators.FirstOrDefault().evaluatorsID,
+                        firstName = evaluator.firstName,
+                        lastName = evaluator.lastName,
+                        email = evaluator.membership.email,
+                        acceptanceStatus = evaluator.evaluatorStatus
+
+                    }).ToList();
+                    return evaluators;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getAcceptedEvaluators error " + ex);
+                return null;
+            }           
         }
     }
 
@@ -1121,6 +1149,7 @@ namespace NancyService.Modules
     public class Evaluation
     {
          public long submissionID;
+         public long evaluatorID;
          public String evaluatorFirstName;
          public String evaluatorLastName;
          public int? score;
