@@ -58,11 +58,23 @@
         function _getRegistrationListFromIndex(index) {
             restApi.getRegistrationPaymentsFromIndex(index)
             .success(function (data, status, headers, config) {
-                vm.registrationList = data.results;
-                if (vm.rfirstPage) {
+                vm.rmaxIndex = data.maxIndex;
+                if (vm.rmaxIndex == 0) {
+                    vm.rindex = 0;
+                    vm.registrationList = [];
+                }
+                else if (vm.rindex >= vm.rmaxIndex) {
+                    vm.rindex = vm.rmaxIndex - 1;
+                    _getRegistrationListFromIndex(vm.rindex);
+                }
+                else {
+                    vm.registrationList = data.results;
+                }
+
+                /*if (vm.rfirstPage) {
                     vm.rfirstPage = false;
                     vm.rmaxIndex = data.maxIndex;
-                }
+                }*/
             })
            .error(function (data, status, headers, config) {
            });
@@ -96,11 +108,22 @@
         function _getSponsorListFromIndex(index) {
             restApi.getSponsorPaymentsFromIndex(index)
             .success(function (data, status, headers, config) {
-                vm.sponsorList = data.results;
-                if (vm.sfirstPage) {
+                vm.smaxIndex = data.maxIndex;
+                if (vm.smaxIndex == 0) {
+                    vm.sindex = 0;
+                    vm.sponsorList = [];
+                }
+                else if (vm.sindex >= vm.smaxIndex) {
+                    vm.sindex = vm.smaxIndex - 1;
+                    _getSponsorListFromIndex(vm.sindex);
+                }
+                else {
+                    vm.sponsorList = data.results;
+                }
+                /*if (vm.sfirstPage) {
                     vm.sfirstPage = false;
                     vm.smaxIndex = data.maxIndex;
-                }
+                }*/
             })
            .error(function (data, status, headers, config) {
            });

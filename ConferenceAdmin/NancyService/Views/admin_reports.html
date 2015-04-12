@@ -20,6 +20,7 @@
                     <div class="panel-body">
                         <div ng-hide="vm.registrationList.length">
                             <p class="title-field">No content to display.</p>
+                            <a class="btn btn-default" ng-click="vm.getRegistrationListFromIndex(vm.rindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
                         </div>
                         <div ng-show="vm.registrationList.length">
                             <div class="paging-height">
@@ -44,6 +45,7 @@
                             </div>
                             <div aria-live="polite" class="col-lg-6">Showing page {{vm.rindex + 1}} of {{vm.rmaxIndex}}</div>
                             <div class="col-lg-6 paging-word">
+                                <a class="btn btn-default" ng-click="vm.getRegistrationListFromIndex(vm.rindex)"><i class="glyphicon glyphicon-repeat"></i></a>
                                 <a class="btn btn-default" ng-disabled="vm.rindex==0" ng-click="vm.getFirstRegistrationPage()">First</a>
                                 <a class="btn btn-default" ng-disabled="vm.rindex==0" ng-click="vm.previousRegistration()">Previous</a>
                                 <a class="btn btn-default" ng-disabled="vm.rindex >= (vm.rmaxIndex-1)" ng-click="vm.nextRegistration()">Next</a>
@@ -65,6 +67,7 @@
                     <div class="panel-body">
                         <div ng-hide="vm.sponsorList.length">
                             <p class="title-field">No content to display.</p>
+                            <a class="btn btn-default" ng-click="vm.getSponsorListFromIndex(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
                         </div>
                         <div ng-show="vm.sponsorList.length">
                             <div class="paging-height">
@@ -89,6 +92,7 @@
                             </div>
                             <div aria-live="polite" class="col-lg-6">Showing page {{vm.sindex + 1}} of {{vm.smaxIndex}}</div>
                             <div class="col-lg-6 paging-word">
+                                <a class="btn btn-default" ng-click="vm.getSponsorListFromIndex(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i></a>
                                 <a class="btn btn-default" ng-disabled="vm.sindex==0" ng-click="vm.getFirstSponsorPage()">First</a>
                                 <a class="btn btn-default" ng-disabled="vm.sindex==0" ng-click="vm.previousSponsor()">Previous</a>
                                 <!--<span><a class="btn btn-default">{{vm.sindex+1}}</a></span>-->
