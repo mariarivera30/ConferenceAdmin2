@@ -6,6 +6,15 @@
     margin-top:20px;
 }
 
+.paging-word{
+    text-align:right; 
+    padding-bottom:20px;
+}
+
+.paging-height{
+    height:450px;
+}
+
 .paragraph-field{
     padding-top:10px;
 }

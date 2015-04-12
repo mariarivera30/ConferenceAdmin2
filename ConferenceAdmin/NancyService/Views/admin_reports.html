@@ -23,26 +23,28 @@
                             <p class="title-field">No content to display.</p>
                         </div>
                         <div ng-show="vm.registrationList.length">
-                            <table class="table table-top col-lg-12" id="billTable">
-                                <thead>
-                                    <tr>
-                                        <td><b>Attendee Name</b></td>
-                                        <td><b>Affiliation Name</b></td>
-                                        <td><b>Type of User</b></td>
-                                        <td><b>Amount Paid</b></td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="p in vm.registrationList">
-                                        <td>{{p.name}}</td>
-                                        <td>{{p.affiliation}}</td>
-                                        <td>{{p.userType}}</td>
-                                        <td>${{p.amountPaid}}</td>
-                                    </tr>
-                                </tbody>
-                            </table><br />
+                            <div class="paging-height">
+                                <table class="table table-top col-lg-12" id="billTable">
+                                    <thead>
+                                        <tr>
+                                            <td><b>Attendee Name</b></td>
+                                            <td><b>Affiliation Name</b></td>
+                                            <td><b>Type of User</b></td>
+                                            <td><b>Amount Paid</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="p in vm.registrationList">
+                                            <td>{{p.name}}</td>
+                                            <td>{{p.affiliation}}</td>
+                                            <td>{{p.userType}}</td>
+                                            <td>${{p.amountPaid}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table><br />
+                            </div>
                             <div aria-live="polite" class="col-lg-6">Showing page {{vm.rindex + 1}} of {{vm.rmaxIndex}}</div>
-                            <div class="col-lg-6" style="text-align:right; padding-bottom:20px">
+                            <div class="col-lg-6 paging-word">
                                 <a class="btn btn-default" ng-disabled="vm.rindex==0" ng-click="vm.getFirstRegistrationPage()">First</a>
                                 <a class="btn btn-default" ng-disabled="vm.rindex==0" ng-click="vm.previousRegistration()">Previous</a>
                                 <a class="btn btn-default" ng-disabled="vm.rindex >= (vm.rmaxIndex-1)" ng-click="vm.nextRegistration()">Next</a>
@@ -68,26 +70,28 @@
                             <p class="title-field">No content to display.</p>
                         </div>
                         <div ng-show="vm.sponsorList.length">
-                            <table class="table table-top col-lg-12" id="billTable2">
-                                <thead>
-                                    <tr>
-                                        <td><b>Attendee Name</b></td>
-                                        <td><b>Affiliation Name</b></td>
-                                        <td><b>Type of User</b></td>
-                                        <td><b>Amount Paid</b></td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="p in vm.sponsorList">
-                                        <td>{{p.name}}</td>
-                                        <td>{{p.affiliation}}</td>
-                                        <td>{{p.userType}}</td>
-                                        <td>${{p.amountPaid}}</td>
-                                    </tr>
-                                </tbody>
-                            </table><br />
+                            <div class="paging-height">
+                                <table class="table table-top col-lg-12" id="billTable2">
+                                    <thead>
+                                        <tr>
+                                            <td><b>Attendee Name</b></td>
+                                            <td><b>Affiliation Name</b></td>
+                                            <td><b>Type of User</b></td>
+                                            <td><b>Amount Paid</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="p in vm.sponsorList">
+                                            <td>{{p.name}}</td>
+                                            <td>{{p.affiliation}}</td>
+                                            <td>{{p.userType}}</td>
+                                            <td>${{p.amountPaid}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table><br />
+                            </div>
                             <div aria-live="polite" class="col-lg-6">Showing page {{vm.sindex + 1}} of {{vm.smaxIndex}}</div>
-                            <div class="col-lg-6" style="text-align:right; padding-bottom:20px">
+                            <div class="col-lg-6 paging-word">
                                 <a class="btn btn-default" ng-disabled="vm.sindex==0" ng-click="vm.getFirstSponsorPage()">First</a>
                                 <a class="btn btn-default" ng-disabled="vm.sindex==0" ng-click="vm.previousSponsor()">Previous</a>
                                 <!--<span><a class="btn btn-default">{{vm.sindex+1}}</a></span>-->
