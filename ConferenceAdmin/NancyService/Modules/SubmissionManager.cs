@@ -261,6 +261,9 @@ namespace NancyService.Modules
                         Select(i => new Submission
                         {
                             submissionID = i.submission == null ? -1 : i.submission.submissionID,
+                            firstName = i.user.firstName,
+                            lastName = i.user.lastName,
+                            email = i.user.membership.email,
                             submissionTypeName = i.submission == null ? null : i.submission.submissiontype.name,
                             submissionTypeID = i.submission == null ? -1 : i.submission.submissionTypeID,
                             submissionTitle = i.submission == null ? null : i.submission.title,
@@ -1136,6 +1139,9 @@ namespace NancyService.Modules
     public class Submission
     {
         public long userID;
+        public String firstName;
+        public String lastName;
+        public String email;
         public long submissionID;
         public long evaluatorID;
         public String topic;
