@@ -1007,12 +1007,58 @@ namespace NancyService.Modules
             }
         }
 
-        public object getSubmissionEvaluations(long submissionID)
+        public List<Evaluation> getSubmissionEvaluations(long submissionID)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    List<Evaluation> subEvals = new List<Evaluation>();
+                    List<Evaluation> prevSubEvals = new List<Evaluation>();
+                    //Checking if submission has a previous version:
+                    long initialSubmissionID = context.usersubmission.Where(c => c.finalSubmissionID == submissionID) == null ?
+                        -1 : context.usersubmission.Where(c => c.finalSubmissionID == submissionID).Select(d => d.initialSubmissionID).FirstOrDefault();
+                    if(initialSubmissionID > -1)//if submissionID belong to a submission that does has a previous version
+                    {
+                        //get initial submission evaluation
+                        prevSubEvals = getEvaluations(initialSubmissionID) == null ? 
+                            new List<Evaluation>() : getEvaluations(initialSubmissionID);
+                        //get final submission evaluation
+                        subEvals = getEvaluations(submissionID) == null ?
+                            new List<Evaluation>() : getEvaluations(submissionID);                        
+                    }
+                    else
+                    {
+                        //get only submission evaluation
+                        subEvals = getEvaluations(submissionID) == null ?
+                            new List<Evaluation>() : getEvaluations(submissionID); 
+                    }
+                    if (prevSubEvals.Count > 0)
+                    {
+                        foreach (var eval in prevSubEvals)
+                        {
+                            eval.isPrevSub = true;
+                            subEvals.Add(eval);
+                        }
+                    }
+                    return subEvals;                    
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getSubmissionEvaluations error " + ex);
+                return null;
+            }            
+        }
+
+        public List<Evaluation> getEvaluations(long submissionID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    
+                    //getting the evaluation
                     List<evaluatiorsubmission> evalSubmissionsList = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID).ToList();
                     Evaluation eval;
                     List<Evaluation> submissionEvaluations = new List<Evaluation>();
@@ -1022,21 +1068,40 @@ namespace NancyService.Modules
                         {
                             eval = evalSub.evaluationsubmitteds.Select(c => new Evaluation
                             {
-                            submissionID = c.evaluatiorsubmission.submissionID,
-                            evaluatorID = c.evaluatiorsubmission.evaluatorID,
-                            evaluatorFirstName = c.evaluatiorsubmission.evaluator.user.firstName,
-                            evaluatorLastName = c.evaluatiorsubmission.evaluator.user.lastName,
-                            score = c.score,
-                            publicFeedback = c.publicFeedback,
-                            privateFeedback = c.privateFeedback,
-                            evaluationFile = c.evaluationFile,
-                            evaluationFileName = c.evaluationName
+                                submissionID = c.evaluatiorsubmission.submissionID,
+                                evaluatorID = c.evaluatiorsubmission.evaluatorID,
+                                evaluatorFirstName = c.evaluatiorsubmission.evaluator.user.firstName,
+                                evaluatorLastName = c.evaluatiorsubmission.evaluator.user.lastName,
+                                score = c.score,
+                                publicFeedback = c.publicFeedback,
+                                privateFeedback = c.privateFeedback,
+                                evaluationFile = c.evaluationFile,
+                                evaluationFileName = c.evaluationName,
+                                evaluationStatus = c.evaluatiorsubmission.statusEvaluation,
+                                isPrevSub = false
 
                             }).FirstOrDefault();
 
                             submissionEvaluations.Add(eval);
                         }
-                    }                    
+                        else
+                        {
+                            eval = new Evaluation
+                            {
+                                submissionID = evalSub.submissionID,
+                                evaluatorID = evalSub.evaluatorID,
+                                evaluatorFirstName = evalSub.evaluator.user.firstName,
+                                evaluatorLastName = evalSub.evaluator.user.lastName,
+                                score = 0,
+                                publicFeedback = null,
+                                privateFeedback = null,
+                                evaluationFile = null,
+                                evaluationFileName = null,
+                                evaluationStatus = evalSub.statusEvaluation
+                            };
+                            submissionEvaluations.Add(eval);
+                        }
+                    }
 
                     return submissionEvaluations;
                 }
@@ -1045,7 +1110,7 @@ namespace NancyService.Modules
             {
                 Console.Write("SubmissionManager.getSubmissionEvaluations error " + ex);
                 return null;
-            }            
+            }  
         }
 
         public bool getSubmissionDeadline()
@@ -1095,6 +1160,11 @@ namespace NancyService.Modules
                 Console.Write("SubmissionManager.getAcceptedEvaluators error " + ex);
                 return null;
             }           
+        }
+
+        internal void assignEvaluator(long submissionID, long evaluatorID)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -1165,6 +1235,8 @@ namespace NancyService.Modules
          public String privateFeedback;
          public String evaluationFile;
          public String evaluationFileName;
+         public String evaluationStatus;
+         public bool isPrevSub;
 
     }
 

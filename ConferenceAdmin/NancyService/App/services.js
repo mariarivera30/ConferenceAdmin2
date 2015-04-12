@@ -592,7 +592,7 @@
         function _assignEvaluator(data) {
             return $http.post('admin/assignEvaluator', data);
         };
-        //Adds an automatically accepted submission
+        //Adds a submission submitted by the administrator for someone else
         function _addSubmissionByAdmin(data) {
             return $http.post('admin/addSubmissionByAdmin', data);
         }
