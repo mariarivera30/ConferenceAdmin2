@@ -1005,20 +1005,29 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    evaluatiorsubmission evalSub = context.evaluatiorsubmissions.FirstOrDefault(c => c.submissionID == submissionID);
-                    List<Evaluation> submissionEvaluations = evalSub.evaluationsubmitteds.FirstOrDefault() == null ? null : evalSub.evaluationsubmitteds.
-                        Select(c => new Evaluation
-                                {
-                                    submissionID = c.evaluatiorsubmission.submissionID,
-                                    firstName = c.evaluatiorsubmission.evaluator.user.firstName,
-                                    lastName = c.evaluatiorsubmission.evaluator.user.lastName,
-                                    score = c.score,
-                                    publicFeedback = c.publicFeedback,
-                                    privateFeedback = c.privateFeedback,
-                                    evaluationFile = c.evaluationFile,
-                                    evaluationFileName = c.evaluationName
+                    List<evaluatiorsubmission> evalSubmissionsList = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID).ToList();
+                    Evaluation eval;
+                    List<Evaluation> submissionEvaluations = new List<Evaluation>();
+                    foreach (var evalSub in evalSubmissionsList)
+                    {
+                        if (evalSub.evaluationsubmitteds.FirstOrDefault() != null)
+                        {
+                            eval = evalSub.evaluationsubmitteds.Select(c => new Evaluation
+                            {
+                            submissionID = c.evaluatiorsubmission.submissionID,
+                            evaluatorFirstName = c.evaluatiorsubmission.evaluator.user.firstName,
+                            evaluatorLastName = c.evaluatiorsubmission.evaluator.user.lastName,
+                            score = c.score,
+                            publicFeedback = c.publicFeedback,
+                            privateFeedback = c.privateFeedback,
+                            evaluationFile = c.evaluationFile,
+                            evaluationFileName = c.evaluationName
 
-                                }).ToList();
+                            }).FirstOrDefault();
+
+                            submissionEvaluations.Add(eval);
+                        }
+                    }                    
 
                     return submissionEvaluations;
                 }
@@ -1112,8 +1121,8 @@ namespace NancyService.Modules
     public class Evaluation
     {
          public long submissionID;
-         public String firstName;
-         public String lastName;
+         public String evaluatorFirstName;
+         public String evaluatorLastName;
          public int? score;
          public String publicFeedback;
          public String privateFeedback;
