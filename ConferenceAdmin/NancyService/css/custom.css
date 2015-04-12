@@ -2,6 +2,20 @@
     padding-top:20px;
 }
 
+.table-top{
+    margin-top:20px;
+}
+
+.paging-word{
+    text-align:right; 
+    padding-bottom:20px;
+    position:fixed;
+}
+
+.paging-height{
+    height:450px;
+}
+
 .paragraph-field{
     padding-top:10px;
 }

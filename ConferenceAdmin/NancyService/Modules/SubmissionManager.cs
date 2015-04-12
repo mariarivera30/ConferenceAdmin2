@@ -9,7 +9,7 @@ namespace NancyService.Modules
 {
     class SubmissionManager
     {
-
+        //Jaimeiris - gets the submission with ID submission ID to be evaluated by evaluator with evaluatorID
         public AssignedSubmission getSubmission(long submissionID, long evaluatorID)
         {
             try
@@ -154,12 +154,57 @@ namespace NancyService.Modules
                             false : sub.submission.usersubmissions1.FirstOrDefault().allowFinalVersion) == false ? false : true
                         };
                     }
+                    /*var evaluator = context.evaluators.Where(e => e.evaluatorsID == sub.evaluatorID).FirstOrDefault();
+                    var user = context.users.Where(u => u.userID == evaluator.userID).FirstOrDefault();
+                    subs.evaluation = new Evaluation
+                    {
+                        evaluatorFirstName = user.firstName,
+                        evaluatorLastName = user.lastName,
+                        score = context.evaluationsubmitteds.Where(e => e.evaluatiorsubmission.evaluatorID == evaluator.evaluatorsID).FirstOrDefault().score
+                    };*/
                     return subs;
                 }
             }
             catch (Exception ex)
             {
                 Console.Write("SubmissionManager.getSubmission error " + ex);
+                return null;
+            }
+        }
+
+        //Jaimeiris - gets the submission with ID submission ID to be evaluated by evaluator with evaluatorID
+        public Evaluation getEvaluationDetails(long submissionID, long evaluatorID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    //gets all the evaluations assigned to the given evaluator
+                    Evaluation subs = new Evaluation();
+                    evaluatiorsubmission sub;
+
+                    sub = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.evaluatorID == evaluatorID && c.deleted == false).FirstOrDefault();
+                    if (sub != null)
+                    {
+                        subs = new Evaluation
+                        {
+                            submissionID = sub.submissionID,
+                            evaluatorID = sub.evaluatorID,
+                            evaluationFileName = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.evaluationName).FirstOrDefault(),
+                            evaluationFile = sub.evaluationsubmitteds.Where(d => d.deleted == false).Select(r => r.evaluationFile).FirstOrDefault(),
+                            score = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.score).FirstOrDefault(),
+                            publicFeedback = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.publicFeedback).FirstOrDefault(),
+                            privateFeedback = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.privateFeedback).FirstOrDefault(),
+                            evaluatorFirstName = sub.evaluator.user.firstName,
+                            evaluatorLastName = sub.evaluator.user.lastName
+                        };
+                    }
+                    return subs;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getEvaluationDetails error " + ex);
                 return null;
             }
         }
@@ -261,12 +306,16 @@ namespace NancyService.Modules
                         Select(i => new Submission
                         {
                             submissionID = i.submission == null ? -1 : i.submission.submissionID,
+                            firstName = i.user.firstName,
+                            lastName = i.user.lastName,
+                            email = i.user.membership.email,
                             submissionTypeName = i.submission == null ? null : i.submission.submissiontype.name,
                             submissionTypeID = i.submission == null ? -1 : i.submission.submissionTypeID,
                             submissionTitle = i.submission == null ? null : i.submission.title,
                             topiccategoryID = i.submission == null ? -1 : i.submission.topicID,
                             status = i.submission == null ? null : i.submission.status,
                             isEvaluated = (i.submission.evaluatiorsubmissions.FirstOrDefault() == null ? null : i.submission.evaluatiorsubmissions.FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
+                            isAssigned = i.submission.evaluatiorsubmissions.FirstOrDefault() == null ? false : true,
                             isFinalSubmission = true
 
                         }).ToList();
@@ -281,6 +330,7 @@ namespace NancyService.Modules
                             topiccategoryID = i.submission1 == null ? -1 : i.submission1.topicID,
                             status = i.submission1 == null ? null : i.submission1.status,
                             isEvaluated = (i.submission1.evaluatiorsubmissions.FirstOrDefault() == null ? null : i.submission1.evaluatiorsubmissions.FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
+                            isAssigned = i.submission1.evaluatiorsubmissions.FirstOrDefault() == null ? false : true,
                             isFinalSubmission = false,
                             finalSubmissionAllowed = (i.allowFinalVersion == null ? false : i.allowFinalVersion) == false ? false : true
                         }).ToList();
@@ -297,21 +347,21 @@ namespace NancyService.Modules
                 return null;
             }
         }
-
-        public AssignedSubmission getUserSubmission(long submissionID)
+        //Jaimeiris - Gets the current and previous (when applicable) submission with submissionID
+        public CurrAndPrevSub getUserSubmission(long submissionID)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     //gets all the evaluations assigned to the given evaluator
-                    AssignedSubmission subs = new AssignedSubmission();
+                    CurrAndPrevSub subs = new CurrAndPrevSub();
 
                     submission sub = context.submissions.Where(c => c.submissionID == submissionID && c.deleted == false).FirstOrDefault();
                     if (sub.submissionTypeID == 1 || sub.submissionTypeID == 2 || sub.submissionTypeID == 4)
                     {
 
-                        subs = new AssignedSubmission
+                        subs = new CurrAndPrevSub
                         {
                             submissionID = sub.submissionID,
                             submissionTitle = sub.title,
@@ -339,7 +389,7 @@ namespace NancyService.Modules
                             subIsEvaluated = (sub.evaluatiorsubmissions.FirstOrDefault() == null ? null : sub.evaluatiorsubmissions.FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
                             publicFeedback = (sub.evaluatiorsubmissions.FirstOrDefault() == null ? 
                             null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                            null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback,
+                            null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback,                        
                             //get previous submission if possible
                             hasPrevVersion = sub.usersubmissions.FirstOrDefault() == null ? false: true,
                             prevSubmissionID = sub.usersubmissions.FirstOrDefault() == null ? -1 : sub.usersubmissions.FirstOrDefault().submission1.submissionID,
@@ -363,20 +413,22 @@ namespace NancyService.Modules
                             prevEquipment = null,
                             prevDuration = null,
                             prevDelivery = null,
-                            prevSubIsEvaluated = true,
+                            prevSubIsEvaluated = sub.usersubmissions.FirstOrDefault() == null ?
+                            false : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault() == null ?
+                            false : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().statusEvaluation == "Evaluated" ? true : false,                         
                             prevPublicFeedback = ((sub.usersubmissions.FirstOrDefault() == null ?
-                        null : sub.usersubmissions.FirstOrDefault().submission1 == null ?
-                        null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault()) == null ?
-                        null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                        null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback
-
+                            null : sub.usersubmissions.FirstOrDefault().submission1 == null ?
+                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault()) == null ?
+                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
+                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback
+                            
 
                         };
                     }
                     else if (sub.submissionTypeID == 3)
                     {
 
-                        subs = new AssignedSubmission
+                        subs = new CurrAndPrevSub
                         {
                             submissionID = sub.submissionID,
                             submissionTitle = sub.title,
@@ -402,9 +454,10 @@ namespace NancyService.Modules
                             duration = null,
                             delivery = null,
                             subIsEvaluated = (sub.evaluatiorsubmissions.FirstOrDefault() == null ? null : sub.evaluatiorsubmissions.FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
-                            publicFeedback = (sub.evaluatiorsubmissions.FirstOrDefault() == null ? 
-                            null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                            null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback,
+                            publicFeedback = (sub.evaluatiorsubmissions.FirstOrDefault() == null ?
+                             null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
+                             null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback,
+                            
                             //previous
                             hasPrevVersion = sub.usersubmissions.FirstOrDefault() == null ? false: true,
                             prevSubmissionID = sub.usersubmissions.FirstOrDefault() == null ? -1 : sub.usersubmissions.FirstOrDefault().submission1.submissionID,
@@ -439,19 +492,21 @@ namespace NancyService.Modules
                             null : sub.usersubmissions.FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault().necessaryEquipment),
                             prevDuration = null,
                             prevDelivery = null,
-                            prevSubIsEvaluated = true,
+                            prevSubIsEvaluated = sub.usersubmissions.FirstOrDefault() == null ?
+                            false : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault() == null ?
+                            false : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().statusEvaluation == "Evaluated" ? true : false,                         
                             prevPublicFeedback = ((sub.usersubmissions.FirstOrDefault() == null ?
-                        null : sub.usersubmissions.FirstOrDefault().submission1 == null ?
-                        null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault()) == null ?
-                        null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                        null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback
-
+                             null : sub.usersubmissions.FirstOrDefault().submission1 == null ?
+                             null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault()) == null ?
+                             null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
+                             null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback
+                            
                         };                        
                     }
                     else if (sub.submissionTypeID == 5)
                     {
 
-                        subs = new AssignedSubmission
+                        subs = new CurrAndPrevSub
                         {
                             submissionID = sub.submissionID,
                             submissionTitle = sub.title,
@@ -477,8 +532,10 @@ namespace NancyService.Modules
                             duration = (sub.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.workshops.Where(y => y.deleted == false).FirstOrDefault().duration),
                             delivery = (sub.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.workshops.Where(y => y.deleted == false).FirstOrDefault().delivery),
                             subIsEvaluated = (sub.evaluatiorsubmissions.FirstOrDefault() == null ? null : sub.evaluatiorsubmissions.FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
-                            publicFeedback = (sub.evaluatiorsubmissions.FirstOrDefault() == null ? null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                            null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback,
+                            publicFeedback = (sub.evaluatiorsubmissions.FirstOrDefault() == null ?
+                             null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
+                             null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback,
+                            
                             //previous
                             hasPrevVersion = sub.usersubmissions.FirstOrDefault() == null ? false : true,
                             prevSubmissionID = sub.usersubmissions.FirstOrDefault() == null ? -1 : sub.usersubmissions.FirstOrDefault().submission1.submissionID,
@@ -511,13 +568,15 @@ namespace NancyService.Modules
                             prevDelivery = (sub.usersubmissions.FirstOrDefault() == null ? 
                             null : sub.usersubmissions.FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ?
                             null : sub.usersubmissions.FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault().delivery),                 
-                            prevSubIsEvaluated = true,
+                            prevSubIsEvaluated = sub.usersubmissions.FirstOrDefault() == null ?
+                            false : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault() == null ?
+                            false : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().statusEvaluation == "Evaluated" ? true : false,                         
                             prevPublicFeedback = ((sub.usersubmissions.FirstOrDefault() == null ?
-                        null : sub.usersubmissions.FirstOrDefault().submission1 == null ?
-                        null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault()) == null ?
-                        null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                        null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback
-
+                            null : sub.usersubmissions.FirstOrDefault().submission1 == null ?
+                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault()) == null ?
+                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
+                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback
+                            
                         };
                     }
                     return subs;
@@ -529,6 +588,8 @@ namespace NancyService.Modules
                 return null;
             }
         }
+
+        
 
         public List<SubmissionType> getSubmissionTypes()
         {
@@ -805,23 +866,21 @@ namespace NancyService.Modules
                 {
                     int? scoreSum = 0;
                     int evalCount = 0;
-                    double avgScore = 0;
+                    double avgScore = 0.00;
+                    int numOfEvaluations = 0;
                     //get all final submissions.
                     List<Submission> userSubmissions = new List<Submission>();
                     List<usersubmission> subList = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID != null).ToList();
                     foreach (var sub in subList)
                     {
-                            
+                        long userID = sub.userID;
                             long submissionID = sub.submission == null ? -1 : sub.submission.submissionID;
                             String submissionTypeName = sub.submission == null ? null : sub.submission.submissiontype == null ? null : sub.submission.submissiontype.name;
                             int submissionTypeID = sub.submission == null ? -1 : sub.submission.submissionTypeID;
                             String submissionTitle = sub.submission == null ? null : sub.submission.title;
                             int topiccategoryID = sub.submission == null ? -1 : sub.submission.topicID;
                             String topic = sub.submission == null ? null : sub.submission.topiccategory == null ? null : sub.submission.topiccategory.name;
-                            String status = sub.submission == null ? null : sub.submission.status;
-                        String acceptanceStatus = sub.submission == null ? 
-                                                null : sub.submission.usersubmissions.FirstOrDefault() == null ?
-                                                null : sub.submission.usersubmissions.FirstOrDefault().user.acceptanceStatus;
+                            String status = sub.submission == null ? null : sub.submission.status;                            
                         IEnumerable<IGrouping<long, evaluatiorsubmission>> groupBy = sub.submission == null ? null : sub.submission.evaluatiorsubmissions.FirstOrDefault() == null ?
                                null : sub.submission.evaluatiorsubmissions.GroupBy(s => s.submissionID).ToList();
                         if (groupBy != null)
@@ -838,33 +897,36 @@ namespace NancyService.Modules
                                         evalCount++;
                                     }
                                 }
-                                avgScore = evalCount == 0 ? 0 : (double)scoreSum / evalCount;
+                                avgScore = evalCount == 0 ? 0.00 : (double)scoreSum / evalCount;
+                                numOfEvaluations = evalCount;
                                 scoreSum = 0;
                                 evalCount = 0;
                             }
-                            userSubmissions.Add(new Submission(submissionID, submissionTypeName,
-                                submissionTypeID, submissionTitle, topiccategoryID, topic, status, acceptanceStatus, avgScore));
+                                userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
+                                submissionTypeID, submissionTitle, topiccategoryID, topic, status, avgScore, numOfEvaluations));
                         }
                         else
                         {
-                            userSubmissions.Add(new Submission(submissionID, submissionTypeName,
-                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, acceptanceStatus, 0));
+                                userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
+                                submissionTypeID, submissionTitle, topiccategoryID, topic, status, 0, numOfEvaluations));
                         }
                     }
-                    
+                    scoreSum = 0;
+                    evalCount = 0;
+                    avgScore = 0.00;
+                    numOfEvaluations = 0;
                     //get all submissions that do no have a final submission
                     List<usersubmission> subList2 = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID == null).ToList();
                     foreach (var sub in subList2)
                     {
+                        long userID = sub.userID;
                         long submissionID = sub.submission1 == null ? -1 : sub.submission1.submissionID;
                         String submissionTypeName = sub.submission1 == null ? null : sub.submission1.submissiontype == null ? null : sub.submission1.submissiontype.name;
                         int submissionTypeID = sub.submission1 == null? -1 : sub.submission1.submissionTypeID;
-                            String submissionTitle = sub.submission1.title;
+                        String submissionTitle = sub.submission1.title;
                         int topiccategoryID = sub.submission1 == null ? -1 : sub.submission1.topicID;
                         String topic = sub.submission1 == null ? null : sub.submission1.topiccategory == null ? null : sub.submission1.topiccategory.name;
-                        String status = sub.submission1 == null ? null : sub.submission1.status;
-                        String acceptanceStatus = sub.submission1 == null ? null : sub.submission1.usersubmissions.FirstOrDefault() == null ? 
-                                                null : sub.submission1.usersubmissions.FirstOrDefault().user.acceptanceStatus;
+                        String status = sub.submission1 == null ? null : sub.submission1.status;                        
                         IEnumerable<IGrouping<long, evaluatiorsubmission>> groupBy = sub.submission1 == null ? null: sub.submission1.evaluatiorsubmissions.FirstOrDefault() == null ?
                                 null : sub.submission1.evaluatiorsubmissions.GroupBy(s => s.submissionID).ToList();
                         if (groupBy != null)
@@ -881,17 +943,18 @@ namespace NancyService.Modules
                                     evalCount++;
                                 }
                             }
-                            avgScore = evalCount == 0 ? 0 : (double)scoreSum / evalCount;
+                            avgScore = evalCount == 0 ? 0.00 : (double)scoreSum / evalCount;
+                            numOfEvaluations = evalCount;
                             scoreSum = 0;
                             evalCount = 0;
                         }   
-                        userSubmissions.Add(new Submission(submissionID, submissionTypeName, 
-                            submissionTypeID, submissionTitle,topiccategoryID, topic, status, acceptanceStatus, avgScore));
+                            userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
+                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, avgScore, numOfEvaluations));
                         }
                         else
                         {
-                            userSubmissions.Add(new Submission(submissionID, submissionTypeName,
-                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, acceptanceStatus, 0));
+                            userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
+                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, 0, numOfEvaluations));
                         }
                     }
                     return userSubmissions;
@@ -918,7 +981,7 @@ namespace NancyService.Modules
                     sub.submissionTypeID = submissionToAdd.submissionTypeID;
                     sub.submissionAbstract = submissionToAdd.submissionAbstract;
                     sub.title = submissionToAdd.title;
-                    sub.status = "Accepted";//------------------------make sure!!!????
+                    sub.status = "Pending";
                     sub.creationDate = DateTime.Now;
                     sub.deleted = false;
                     sub.byAdmin = false;
@@ -988,63 +1051,196 @@ namespace NancyService.Modules
                 return null;
             }
         }
-    }
 
-
-
-    public class SubmissionDocument
-    {
-        public long documentssubmittedID;
-        public long submissionID;
-        public String documentName;
-        public String document;
-        public bool? deleted;
-
-        public SubmissionDocument()
+        public List<Evaluation> getSubmissionEvaluations(long submissionID)
         {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    List<Evaluation> subEvals = new List<Evaluation>();
+                    List<Evaluation> prevSubEvals = new List<Evaluation>();
+                    //Checking if submission has a previous version:
+                    long initialSubmissionID = context.usersubmission.Where(c => c.finalSubmissionID == submissionID) == null ?
+                        -1 : context.usersubmission.Where(c => c.finalSubmissionID == submissionID).Select(d => d.initialSubmissionID).FirstOrDefault();
+                    if(initialSubmissionID > -1)//if submissionID belong to a submission that does has a previous version
+                    {
+                        //get initial submission evaluation
+                        prevSubEvals = getEvaluations(initialSubmissionID) == null ? 
+                            new List<Evaluation>() : getEvaluations(initialSubmissionID);
+                        //get final submission evaluation
+                        subEvals = getEvaluations(submissionID) == null ?
+                            new List<Evaluation>() : getEvaluations(submissionID);                        
+                    }
+                    else
+                    {
+                        //get only submission evaluation
+                        subEvals = getEvaluations(submissionID) == null ?
+                            new List<Evaluation>() : getEvaluations(submissionID); 
+                    }
+                    if (prevSubEvals.Count > 0)
+                    {
+                        foreach (var eval in prevSubEvals)
+                        {
+                            eval.isPrevSub = true;
+                            subEvals.Add(eval);
+                        }
+                    }
+                    return subEvals;                    
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getSubmissionEvaluations error " + ex);
+                return null;
+            }            
+        }
 
+        public List<Evaluation> getEvaluations(long submissionID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    
+                    //getting the evaluation
+                    List<evaluatiorsubmission> evalSubmissionsList = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID).ToList();
+                    Evaluation eval;
+                    List<Evaluation> submissionEvaluations = new List<Evaluation>();
+                    foreach (var evalSub in evalSubmissionsList)
+                    {
+                        if (evalSub.evaluationsubmitteds.FirstOrDefault() != null)
+                        {
+                            eval = evalSub.evaluationsubmitteds.Select(c => new Evaluation
+                            {
+                                submissionID = c.evaluatiorsubmission.submissionID,
+                                evaluatorID = c.evaluatiorsubmission.evaluatorID,
+                                evaluatorFirstName = c.evaluatiorsubmission.evaluator.user.firstName,
+                                evaluatorLastName = c.evaluatiorsubmission.evaluator.user.lastName,
+                                score = c.score,
+                                publicFeedback = c.publicFeedback,
+                                privateFeedback = c.privateFeedback,
+                                evaluationFile = c.evaluationFile,
+                                evaluationFileName = c.evaluationName,
+                                evaluationStatus = c.evaluatiorsubmission.statusEvaluation,
+                                isPrevSub = false
+
+                            }).FirstOrDefault();
+
+                            submissionEvaluations.Add(eval);
+                        }
+                        else
+                        {
+                            eval = new Evaluation
+                            {
+                                submissionID = evalSub.submissionID,
+                                evaluatorID = evalSub.evaluatorID,
+                                evaluatorFirstName = evalSub.evaluator.user.firstName,
+                                evaluatorLastName = evalSub.evaluator.user.lastName,
+                                score = 0,
+                                publicFeedback = null,
+                                privateFeedback = null,
+                                evaluationFile = null,
+                                evaluationFileName = null,
+                                evaluationStatus = evalSub.statusEvaluation
+                            };
+                            submissionEvaluations.Add(eval);
+                        }
+                    }
+
+                    return submissionEvaluations;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getSubmissionEvaluations error " + ex);
+                return null;
+            }  
+        }
+
+        public bool getSubmissionDeadline()
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    String submissionDeadlineString = context.interfaceinformations.Where(c => c.attribute == "submissionDeadline").Select(d => d.content).FirstOrDefault();
+                    var Day = Convert.ToInt32(submissionDeadlineString.Split('/')[1]);
+                    var Month = Convert.ToInt32(submissionDeadlineString.Split('/')[0]);
+                    var Year = Convert.ToInt32(submissionDeadlineString.Split('/')[2]);
+
+                    DateTime submissionDeadline = new DateTime(Year, Month, Day);
+                    return (DateTime.Compare(submissionDeadline, DateTime.Now.Date) >= 0);   
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getSubmissionDeadline error " + ex);
+                return false;
+            }            
+        }
+
+        public List<EvaluatorQuery> getAcceptedEvaluators()
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    var evaluators = context.users.Where(evaluator => evaluator.evaluatorStatus == "Accepted").
+                        Select(evaluator => new EvaluatorQuery
+                    {
+                        userID = (long)evaluator.userID,
+                        evaluatorID = evaluator.evaluators.FirstOrDefault() == null ? -1 : evaluator.evaluators.FirstOrDefault().evaluatorsID,
+                        firstName = evaluator.firstName,
+                        lastName = evaluator.lastName,
+                        email = evaluator.membership.email,
+                        acceptanceStatus = evaluator.evaluatorStatus
+
+                    }).ToList();
+                    return evaluators;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getAcceptedEvaluators error " + ex);
+                return null;
+            }           
+        }
+
+        public Evaluation assignEvaluator(long submissionID, long evaluatorID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    //assigning evaluator to a submission
+                    evaluatiorsubmission relation = new evaluatiorsubmission();
+                    relation.evaluatorID = evaluatorID;
+                    relation.submissionID = submissionID;
+                    relation.statusEvaluation = "Pending";
+                    relation.deleted = false;
+                    context.evaluatiorsubmissions.Add(relation);
+                    context.SaveChanges();
+
+                    Evaluation addedRelation = new Evaluation();
+                    addedRelation.submissionID = submissionID;
+                    addedRelation.evaluatorID = evaluatorID;
+                    addedRelation.evaluatorFirstName = context.evaluators.FirstOrDefault(c => c.evaluatorsID == evaluatorID).user.firstName;
+                    addedRelation.evaluatorLastName = context.evaluators.FirstOrDefault(c => c.evaluatorsID == evaluatorID).user.lastName;
+                    addedRelation.score = 0;
+
+                    return addedRelation;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.assignEvaluator error " + ex);
+                return null;
+            }           
         }
     }
 
-    public class Submission
-    {
-        public long submissionID;
-        public long evaluatorID;
-        public String topic;
-        public String userType;
-        public int submissionTypeID;
-        public String submissionTypeName;
-        public String submissionTitle;
-        public int topiccategoryID;
-        public String status;
-        public bool isEvaluated;
-        public bool isFinalSubmission;
-        public bool finalSubmissionAllowed;
-        public String acceptanceStatus;
-        public double? avgScore;
-
-        public Submission()
-        {
-
-        }
-        public Submission(long submissionID, String submissionTypeName,
-                            int submissionTypeID, String submissionTitle, int topiccategoryID, String topic,
-                            String status, String acceptanceStatus, double? avgScore)
-        {
-            this.submissionID = submissionID;
-            this.submissionTypeName = submissionTypeName;
-            this.submissionTypeID = submissionTypeID;
-            this.submissionTitle = submissionTitle;
-            this.topiccategoryID = topiccategoryID;
-            this.topic = topic;
-            this.status = status;
-            this.acceptanceStatus = acceptanceStatus;
-            this.avgScore = avgScore;
-        }
-
-    }
-
-    public class AssignedSubmission
+    public class CurrAndPrevSub
     {
         public long submissionID;
         public String userType;
@@ -1071,7 +1267,6 @@ namespace NancyService.Modules
         public String evaluationName;
         public String evaluationFile;
         public int? evaluationScore;
-        public String privateFeedback;
         public String publicFeedback;
         public bool subIsEvaluated;
         public long evaluationsubmittedID;
@@ -1092,6 +1287,123 @@ namespace NancyService.Modules
         public String prevDelivery;
         public bool prevSubIsEvaluated;
         public String prevPublicFeedback;
+    
+
+
+        public CurrAndPrevSub()
+        {
+
+        }
+    }
+
+    public class Evaluation
+    {
+         public long submissionID;
+         public long evaluatorID;
+         public String evaluatorFirstName;
+         public String evaluatorLastName;
+         public int? score;
+         public String publicFeedback;
+         public String privateFeedback;
+         public String evaluationFile;
+         public String evaluationFileName;
+         public String evaluationStatus;
+         public bool isPrevSub;
+
+    }
+
+    public class SubmissionDocument
+    {
+        public long documentssubmittedID;
+        public long submissionID;
+        public String documentName;
+        public String document;
+        public bool? deleted;
+
+        public SubmissionDocument()
+        {
+
+        }
+    }
+
+    public class Submission
+    {
+        public long userID;
+        public String firstName;
+        public String lastName;
+        public String email;
+        public long submissionID;
+        public long evaluatorID;
+        public String topic;
+        public String userType;
+        public int submissionTypeID;
+        public String submissionTypeName;
+        public String submissionTitle;
+        public int topiccategoryID;
+        public String status;
+        public bool isEvaluated;
+        public bool isAssigned;
+        public bool isFinalSubmission;
+        public bool finalSubmissionAllowed;        
+        public double? avgScore;
+        public int numOfEvaluations;
+
+        public Submission()
+        {
+
+        }
+        public Submission(long userID, long submissionID, String submissionTypeName,
+                            int submissionTypeID, String submissionTitle, int topiccategoryID, String topic,
+                            String status, double? avgScore, int numOfEvaluations)
+        {
+            this.userID = userID;
+            this.submissionID = submissionID;
+            this.submissionTypeName = submissionTypeName;
+            this.submissionTypeID = submissionTypeID;
+            this.submissionTitle = submissionTitle;
+            this.topiccategoryID = topiccategoryID;
+            this.topic = topic;
+            this.status = status;
+            this.avgScore = avgScore;
+            this.numOfEvaluations = numOfEvaluations;
+        }
+
+    }
+
+    public class AssignedSubmission
+    {
+        public long submissionID;
+        public String userType;
+        public long evaluatorID;
+        public Evaluation evaluation;
+        public String submissionTitle;
+        public String topic;
+        public int topiccategoryID;
+        public String submitterFirstName;
+        public String submitterLastName;
+        public String submissionAbstract;
+        public List<SubmissionDocument> submissionFileList;
+        public String submissionType;
+        public int submissionTypeID;
+        public String evaluationTemplate;
+        public String panelistNames;
+        public String plan;
+        public String guideQuestions;
+        public String format;
+        public String equipment;
+        public String duration;
+        public String delivery;
+        public bool allowFinalVersion;
+        public long evaluatiorSubmissionID;
+        public String evaluationName;
+        public String evaluationFile;
+        public int? evaluationScore;
+        public String privateFeedback;
+        public String publicFeedback;
+        public bool subIsEvaluated;
+        public long evaluationsubmittedID;
+        public String evaluatorFirstName;
+        public String evaluatorLastName;       
 
         public AssignedSubmission()
         {

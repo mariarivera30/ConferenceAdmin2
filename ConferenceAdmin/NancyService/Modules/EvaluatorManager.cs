@@ -227,6 +227,7 @@ namespace NancyService.Modules
     public class EvaluatorQuery
     {
         public long userID;
+        public long evaluatorID;
         public String firstName;
         public String lastName;
         public String email;

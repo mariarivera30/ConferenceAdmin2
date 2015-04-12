@@ -111,7 +111,14 @@
             getDates: _getDates,
             postFinalSubmission: _postFinalSubmission,
             getAllSubmissions: _getAllSubmissions,
-            getBillReport: _getBillReport
+            getBillReport: _getBillReport,
+            getRegistrationPaymentsFromIndex: _getRegistrationPaymentsFromIndex,
+            getSponsorPaymentsFromIndex: _getSponsorPaymentsFromIndex,
+            getEvaluationsForSubmission: _getEvaluationsForSubmission,
+            getSubmissionDeadline: _getSubmissionDeadline,
+            getAllEvaluators: _getAllEvaluators,
+            assignEvaluator: _assignEvaluator,
+            getEvaluationDetails: _getEvaluationDetails
         };
 
         return service;
@@ -528,6 +535,14 @@
             return $http.get('admin/getBillReport');
         };
 
+        function _getRegistrationPaymentsFromIndex(data) {
+            return $http.get('/admin/getRegistrationPayments/'+data);
+        };
+
+        function _getSponsorPaymentsFromIndex(data) {
+            return $http.get('/admin/getSponsorPayments/'+data);
+        };
+
         //----------------------------------USER SUBMISSIONS----------------------------------
         //gets the submissions of the user currently logged in
         function _getUserSubmissionList(data) {
@@ -557,11 +572,35 @@
         function _postFinalSubmission(data) {
             return $http.post('profile/postFinalSubmission', data)
         };
+        //Get the submission deadline in order to close the option to add submissions after said deadline
+        function _getSubmissionDeadline() {
+            return $http.get('profile/getSubmissionDeadline');
+        };
         //--------------------------------------------ADMIN-SUBMISSIONS------------------------------------
         //Gets all submissions that have not been deleted
         function _getAllSubmissions() {
             return $http.get('admin/getAllSubmissions');
-        }
+        };
+        //Gets the evaluations for the submission with submissionID
+        function _getEvaluationsForSubmission(data) {
+            return $http.get('admin/getEvaluationsForSubmission/' + data);
+        };
+        //Gets the list of evaluators on the system
+        function _getAllEvaluators() {
+            return $http.get('admin/getAllEvaluators');
+        };
+        //Assigns chosen evaluator to the given submission with submissionID
+        function _assignEvaluator(data) {
+            return $http.post('admin/assignEvaluator/' + data.submissionID + '/' + data.evaluatorID);
+        };
+        //Adds a submission submitted by the administrator for someone else
+        function _addSubmissionByAdmin(data) {
+            return $http.post('admin/addSubmissionByAdmin', data);
+        };
+        //get details of evaluation with submissionID and evaluatorID
+        function _getEvaluationDetails(data) {
+            return $http.get('admin/getEvaluationDetails/' + data.submissionID + '/' + data.evaluatorID);
+        };
     }
 }
 

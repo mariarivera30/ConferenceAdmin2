@@ -17,6 +17,7 @@ namespace NancyService.Modules
             : base("/admin")
         {
             WebManager webManager = new WebManager();
+            ReportManager reportManager = new ReportManager();
             AdminManager adminManager = new AdminManager();
             EvaluatorManager evaluatorManager = new EvaluatorManager();
             TopicManager topicManager = new TopicManager();
@@ -653,7 +654,19 @@ namespace NancyService.Modules
 
             Get["/getBillReport"] = parameters =>
             {
-                return Response.AsJson(webManager.getBillReportList());
+                return Response.AsJson(reportManager.getBillReportList());
+            };
+
+            Get["/getRegistrationPayments/{index:int}"] = parameters =>
+            {
+                int index = parameters.index;
+                return Response.AsJson(reportManager.getRegistrationPayments(index));
+            };
+
+            Get["/getSponsorPayments/{index:int}"] = parameters =>
+            {
+                int index = parameters.index;
+                return Response.AsJson(reportManager.getSponsorPayments(index));
             };
 
             //Gets all submissions in the system that have not been deleted
@@ -661,7 +674,40 @@ namespace NancyService.Modules
                 {
                     return Response.AsJson(submissionManager.getAllSubmissions());
                 };
+            //gets the evaluation for a submission
+            Get["/getEvaluationsForSubmission/{submissionID}"] = parameters =>
+                {
+                    long submissionID = parameters.submissionID;
+                    var evaluations = submissionManager.getSubmissionEvaluations(submissionID);
 
+                    return Response.AsJson(evaluations);
+                };
+            //gets all approved evaluators so as to assign them submissions to evaluate
+            Get["/getAllEvaluators"] = parameters =>
+                {
+                    return Response.AsJson(submissionManager.getAcceptedEvaluators());
+                };
+            //Assigns and evaluator and a predetermine template to a submission
+            Post["/assignEvaluator/{submissionID:long}/{evaluatorID:long}"] = parameters =>
+                {
+                    long submissionID = parameters.submissionID;
+                    long evaluatorID = parameters.evaluatorID;
+                    Evaluation evList =  submissionManager.assignEvaluator(submissionID, evaluatorID);
+
+                    return Response.AsJson(evList);
+                };
+            //Get the info of an evaluation
+            Get["/getEvaluationDetails/{submissionID:long}/{evaluatorID:long}"] = parameters =>
+            {
+                long submissionID = parameters.submissionID;
+                long evaluatorID = parameters.evaluatorID;
+                Evaluation sub = submissionManager.getEvaluationDetails(submissionID, evaluatorID);
+                if (sub == null)
+                {
+                    sub = new Evaluation();
+                }
+                return Response.AsJson(sub);
+            };
         }
     }
     public class AcceptanceStatusInfo

@@ -7,24 +7,103 @@
         </div>
     </div>
     <div class="col-lg-12 hide-until-loaded" id="body">
-        <table class="table row" id="billTable">
-            <thead>
-                <tr>
-                    <td><b>Attendee Name</b></td>
-                    <td><b>Affiliation Name</b></td>
-                    <td><b>Type of User</b></td>
-                    <td><b>Amount Paid</b></td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="p in vm.payList">
-                    <td>{{p.name}}</td>
-                    <td>{{p.affiliation}}</td>
-                    <td>{{p.userType}}</td>
-                    <td>${{p.amountPaid}}</td>
-                </tr>
-            </tbody>
-        </table><br />
-        <a ng-click="vm.downloadBillReport()" class="btn btn-ar btn-primary">Download Full Report</a>
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default" id="panel1">
+                <div class="panel-heading" data-toggle="collapse" data-target="#collapseOne">
+                    <h4 class="panel-title">
+                        <a href="">
+                            Registration Payments
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div ng-hide="vm.registrationList.length">
+                            <p class="title-field">No content to display.</p>
+                            <a class="btn btn-default" ng-click="vm.getRegistrationListFromIndex(vm.rindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
+                        </div>
+                        <div ng-show="vm.registrationList.length">
+                            <div class="paging-height">
+                                <table class="table table-top col-lg-12" id="billTable">
+                                    <thead>
+                                        <tr>
+                                            <td><b>Attendee Name</b></td>
+                                            <td><b>Affiliation Name</b></td>
+                                            <td><b>Type of User</b></td>
+                                            <td><b>Amount Paid</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="p in vm.registrationList">
+                                            <td>{{p.name}}</td>
+                                            <td>{{p.affiliation}}</td>
+                                            <td>{{p.userType}}</td>
+                                            <td>${{p.amountPaid}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table><br />
+                            </div>
+                            <div aria-live="polite" class="col-lg-6">Showing page {{vm.rindex + 1}} of {{vm.rmaxIndex}}</div>
+                            <div class="col-lg-6 paging-word">
+                                <a class="btn btn-default" ng-click="vm.getRegistrationListFromIndex(vm.rindex)"><i class="glyphicon glyphicon-repeat"></i></a>
+                                <a class="btn btn-default" ng-disabled="vm.rindex==0" ng-click="vm.getFirstRegistrationPage()">First</a>
+                                <a class="btn btn-default" ng-disabled="vm.rindex==0" ng-click="vm.previousRegistration()">Previous</a>
+                                <a class="btn btn-default" ng-disabled="vm.rindex >= (vm.rmaxIndex-1)" ng-click="vm.nextRegistration()">Next</a>
+                                <a class="btn btn-default" ng-disabled="vm.rindex >= (vm.rmaxIndex-1)" ng-click="vm.getLastRegistrationPage()">Last</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="panel2">
+                <div class="panel-heading" data-toggle="collapse" data-target="#collapseTwo">
+                    <h4 class="panel-title">
+                        <a href="">
+                            Sponsor Payments
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div ng-hide="vm.sponsorList.length">
+                            <p class="title-field">No content to display.</p>
+                            <a class="btn btn-default" ng-click="vm.getSponsorListFromIndex(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
+                        </div>
+                        <div ng-show="vm.sponsorList.length">
+                            <div class="paging-height">
+                                <table class="table table-top col-lg-12" id="billTable2">
+                                    <thead>
+                                        <tr>
+                                            <td><b>Attendee Name</b></td>
+                                            <td><b>Affiliation Name</b></td>
+                                            <td><b>Type of User</b></td>
+                                            <td><b>Amount Paid</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="p in vm.sponsorList">
+                                            <td>{{p.name}}</td>
+                                            <td>{{p.affiliation}}</td>
+                                            <td>{{p.userType}}</td>
+                                            <td>${{p.amountPaid}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table><br />
+                            </div>
+                            <div aria-live="polite" class="col-lg-6">Showing page {{vm.sindex + 1}} of {{vm.smaxIndex}}</div>
+                            <div class="col-lg-6 paging-word">
+                                <a class="btn btn-default" ng-click="vm.getSponsorListFromIndex(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i></a>
+                                <a class="btn btn-default" ng-disabled="vm.sindex==0" ng-click="vm.getFirstSponsorPage()">First</a>
+                                <a class="btn btn-default" ng-disabled="vm.sindex==0" ng-click="vm.previousSponsor()">Previous</a>
+                                <!--<span><a class="btn btn-default">{{vm.sindex+1}}</a></span>-->
+                                <a class="btn btn-default" ng-disabled="vm.sindex >= (vm.smaxIndex-1)" ng-click="vm.nextSponsor()">Next</a>
+                                <a class="btn btn-default" ng-disabled="vm.sindex >= (vm.smaxIndex-1)" ng-click="vm.getLastSponsorPage()">Last</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a ng-click="vm.downloadBillReport()" class="btn btn-ar btn-primary" ng-show="vm.registrationList.length || vm.sponsorList.length">Download Full Report</a>
     </div>
 </div>
