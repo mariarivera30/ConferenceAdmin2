@@ -237,6 +237,11 @@ namespace NancyService.Modules
                     return Response.AsJson(newSubmission);
                 };
 
+            Get["/getSubmissionDeadline"] = parameters =>
+                {
+                    return Response.AsJson(submission.getSubmissionDeadline());
+                };
+
             //------------------------AUTHORIZATION----------------------------------
             Put["/uploadDocument"] = parameters =>
             {

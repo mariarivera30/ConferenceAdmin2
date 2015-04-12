@@ -112,7 +112,8 @@
             postFinalSubmission: _postFinalSubmission,
             getAllSubmissions: _getAllSubmissions,
             getBillReport: _getBillReport,
-            getEvaluationsForSubmission: _getEvaluationsForSubmission
+            getEvaluationsForSubmission: _getEvaluationsForSubmission,
+            getSubmissionDeadline: _getSubmissionDeadline
         };
 
         return service;
@@ -566,6 +567,10 @@
         //Gets the evaluations for the submission with submissionID
         function _getEvaluationsForSubmission(data) {
             return $http.get('admin/getEvaluationsForSubmission/' + data);
+        }
+        //Get the submission deadline in order to close the option to add submissions after said deadline
+        function _getSubmissionDeadline() {
+            return $http.get('profile/getSubmissionDeadline');
         }
     }
 }

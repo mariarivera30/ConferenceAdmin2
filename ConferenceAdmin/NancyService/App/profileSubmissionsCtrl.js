@@ -68,7 +68,9 @@
         vm.selectFinalversion = _selectFinalversion;
         vm.addDocument = _addDocument;
         vm.deleteDocument = _deleteDocument;
+        vm.getSubmissionDeadline = _getSubmissionDeadline;
 
+        _getSubmissionDeadline();
         _getUserSubmissions(currentUserID);
         _getSubmissionTypes();
         _getTopics();
@@ -414,6 +416,16 @@
 
         function getSubmission() {
 
+        }
+
+        function _getSubmissionDeadline() {
+            restApi.getSubmissionDeadline()
+                       .success(function (data, status, headers, config) {
+                           vm.submissionDeadlinePassed = data;
+                       })
+                       .error(function (error) {
+                           vm.submissionDeadlinePassed = data;
+                       });
         }
 
         function _deleteSelectedSubmission(submissionID) {

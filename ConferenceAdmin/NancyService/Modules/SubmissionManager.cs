@@ -339,12 +339,9 @@ namespace NancyService.Modules
                             duration = null,
                             delivery = null,
                             subIsEvaluated = (sub.evaluatiorsubmissions.FirstOrDefault() == null ? null : sub.evaluatiorsubmissions.FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
-                            publicFeedbackList = (sub.evaluatiorsubmissions.FirstOrDefault() == null ? 
+                            publicFeedback = (sub.evaluatiorsubmissions.FirstOrDefault() == null ? 
                             null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                            null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.Select(d => d.publicFeedback).ToList(),
-                            privateFeedbackList = (sub.evaluatiorsubmissions.FirstOrDefault() == null ?
-                            null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                            null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.Select(d => d.privateFeedback).ToList(),
+                            null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback,                        
                             //get previous submission if possible
                             hasPrevVersion = sub.usersubmissions.FirstOrDefault() == null ? false: true,
                             prevSubmissionID = sub.usersubmissions.FirstOrDefault() == null ? -1 : sub.usersubmissions.FirstOrDefault().submission1.submissionID,
@@ -369,17 +366,12 @@ namespace NancyService.Modules
                             prevDuration = null,
                             prevDelivery = null,
                             prevSubIsEvaluated = true,
-                            prevPublicFeedbackList = ((sub.usersubmissions.FirstOrDefault() == null ?
+                            prevPublicFeedback = ((sub.usersubmissions.FirstOrDefault() == null ?
                             null : sub.usersubmissions.FirstOrDefault().submission1 == null ?
                             null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault()) == null ?
                             null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.Select(d => d.publicFeedback).ToList(),
-                            prevPrivateFeedbackList = ((sub.usersubmissions.FirstOrDefault() == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1 == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault()) == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.Select(d => d.privateFeedback).ToList(),
-                        
+                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback
+                            
 
                         };
                     }
@@ -412,12 +404,10 @@ namespace NancyService.Modules
                             duration = null,
                             delivery = null,
                             subIsEvaluated = (sub.evaluatiorsubmissions.FirstOrDefault() == null ? null : sub.evaluatiorsubmissions.FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
-                            publicFeedbackList = (sub.evaluatiorsubmissions.FirstOrDefault() == null ?
+                            publicFeedback = (sub.evaluatiorsubmissions.FirstOrDefault() == null ?
                              null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                             null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.Select(d => d.publicFeedback).ToList(),
-                            privateFeedbackList = (sub.evaluatiorsubmissions.FirstOrDefault() == null ?
-                            null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                            null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.Select(d => d.privateFeedback).ToList(),
+                             null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback,
+                            
                             //previous
                             hasPrevVersion = sub.usersubmissions.FirstOrDefault() == null ? false: true,
                             prevSubmissionID = sub.usersubmissions.FirstOrDefault() == null ? -1 : sub.usersubmissions.FirstOrDefault().submission1.submissionID,
@@ -453,17 +443,12 @@ namespace NancyService.Modules
                             prevDuration = null,
                             prevDelivery = null,
                             prevSubIsEvaluated = true,
-                            prevPublicFeedbackList = ((sub.usersubmissions.FirstOrDefault() == null ?
+                            prevPublicFeedback = ((sub.usersubmissions.FirstOrDefault() == null ?
                              null : sub.usersubmissions.FirstOrDefault().submission1 == null ?
                              null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault()) == null ?
                              null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                             null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.Select(d => d.publicFeedback).ToList(),
-                            prevPrivateFeedbackList = ((sub.usersubmissions.FirstOrDefault() == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1 == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault()) == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.Select(d => d.privateFeedback).ToList(),
-                        
+                             null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback
+                            
                         };                        
                     }
                     else if (sub.submissionTypeID == 5)
@@ -495,12 +480,10 @@ namespace NancyService.Modules
                             duration = (sub.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.workshops.Where(y => y.deleted == false).FirstOrDefault().duration),
                             delivery = (sub.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.workshops.Where(y => y.deleted == false).FirstOrDefault().delivery),
                             subIsEvaluated = (sub.evaluatiorsubmissions.FirstOrDefault() == null ? null : sub.evaluatiorsubmissions.FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
-                            publicFeedbackList = (sub.evaluatiorsubmissions.FirstOrDefault() == null ?
+                            publicFeedback = (sub.evaluatiorsubmissions.FirstOrDefault() == null ?
                              null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                             null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.Select(d => d.publicFeedback).ToList(),
-                            privateFeedbackList = (sub.evaluatiorsubmissions.FirstOrDefault() == null ?
-                            null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                            null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.Select(d => d.privateFeedback).ToList(),
+                             null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback,
+                            
                             //previous
                             hasPrevVersion = sub.usersubmissions.FirstOrDefault() == null ? false : true,
                             prevSubmissionID = sub.usersubmissions.FirstOrDefault() == null ? -1 : sub.usersubmissions.FirstOrDefault().submission1.submissionID,
@@ -534,17 +517,12 @@ namespace NancyService.Modules
                             null : sub.usersubmissions.FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ?
                             null : sub.usersubmissions.FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault().delivery),                 
                             prevSubIsEvaluated = true,
-                            prevPublicFeedbackList = ((sub.usersubmissions.FirstOrDefault() == null ?
+                            prevPublicFeedback = ((sub.usersubmissions.FirstOrDefault() == null ?
                             null : sub.usersubmissions.FirstOrDefault().submission1 == null ?
                             null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault()) == null ?
                             null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.Select(d => d.publicFeedback).ToList(),
-                            prevPrivateFeedbackList = ((sub.usersubmissions.FirstOrDefault() == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1 == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault()) == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.Select(d => d.privateFeedback).ToList(),
-                        
+                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback
+                            
                         };
                     }
                     return subs;
@@ -1048,6 +1026,28 @@ namespace NancyService.Modules
                 return null;
             }            
         }
+
+        public bool getSubmissionDeadline()
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    String submissionDeadlineString = context.interfaceinformations.Where(c => c.attribute == "submissionDeadline").Select(d => d.content).FirstOrDefault();
+                    var Day = Convert.ToInt32(submissionDeadlineString.Split('/')[1]);
+                    var Month = Convert.ToInt32(submissionDeadlineString.Split('/')[0]);
+                    var Year = Convert.ToInt32(submissionDeadlineString.Split('/')[2]);
+
+                    DateTime submissionDeadline = new DateTime(Year, Month, Day);
+                    return (DateTime.Compare(submissionDeadline, DateTime.Now.Date) >= 0);   
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getSubmissionDeadline error " + ex);
+                return false;
+            }            
+        }
     }
 
     public class CurrAndPrevSub
@@ -1077,8 +1077,7 @@ namespace NancyService.Modules
         public String evaluationName;
         public String evaluationFile;
         public int? evaluationScore;
-        public List<String> privateFeedbackList;
-        public List<String> publicFeedbackList;
+        public String publicFeedback;
         public bool subIsEvaluated;
         public long evaluationsubmittedID;
         //previous submition
@@ -1097,8 +1096,8 @@ namespace NancyService.Modules
         public String prevDuration;
         public String prevDelivery;
         public bool prevSubIsEvaluated;
-        public List<String> prevPublicFeedbackList;
-        public List<String> prevPrivateFeedbackList;
+        public String prevPublicFeedback;
+    
 
 
         public CurrAndPrevSub()
