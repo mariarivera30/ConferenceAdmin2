@@ -66,8 +66,8 @@
                         <textarea class="form-control" name="description" rows="5" ng-model="vm.template.description" required>{{vm.template.description}}</textarea>
                         <p ng-show="addTemplateForm.description.$invalid && !addTemplateForm.description.$pristine" class="help-block">Description is required.</p>
                         <div class="row">
-                            <div class=" col-lg-6">
-                                <label> New Evaluation File:</label><br />{{vm.newTempName}} <input id="inputFile" type="file" class="form-control" name="upload" file-model="File" on-read-file="showContent($fileContent,File)" required>
+                            <div class=" col-md-6">
+                                <label> New Evaluation File:</label><br />{{vm.newTempName}} <a ng-if="vm.newTempName != 'Empty'" type="submit" ng-click="vm.clearPic(File)"><i class="glyphicon glyphicon-trash"></i></a><input id="inputFile" type="file" class="form-control" name="upload" file-model="File" on-read-file="showContent($fileContent,File)" required>
                                 <p ng-show="addTemplateForm.upload.$invalid && !addTemplateForm.upload.$pristine" class="help-block">Evaluation file is required.</p>
                                 <p ng-show="vm.ext" class="help-block">Try doc,docx, ppt, pdf extention.</p>
                                 <div id="fileModel-load" class="col-lg-12">

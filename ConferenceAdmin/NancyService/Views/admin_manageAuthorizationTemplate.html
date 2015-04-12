@@ -57,8 +57,8 @@
                     <form class="after-title-field" id="addTemplateForm" name="addTemplateForm" novalidate>
 
                             <div class="row">
-                            <div class=" col-lg-6">
-                                <label> New Authorization File:</label><br />{{vm.newTempName}} <input id="inputFile" type="file" class="form-control" name="upload" file-model="File" on-read-file="showContent($fileContent,File)" required>
+                            <div class=" col-md-6">
+                                <label> New Authorization File:</label><br />{{vm.newTempName}}<a ng-if="vm.newTempName != 'Empty'" type="submit" ng-click="vm.clearPic(File)"><i class="glyphicon glyphicon-trash"></i></a> <input id="inputFile" type="file" class="form-control" name="upload" file-model="File" on-read-file="showContent($fileContent,File)" required>
                                 <p ng-show="addTemplateForm.upload.$invalid && !addTemplateForm.upload.$pristine" class="help-block">Authorization file is required.</p>
                                 <p ng-show="vm.ext" class="help-block">Try doc,docx, ppt, pdf extention.</p>
                                 <div id="fileModel-load" class="col-lg-12">

@@ -34,7 +34,7 @@
         };
         vm.okFunc;
         vm.cancelFunc;
-
+        vm.clearPic = _clearPic;
 
         vm.toggleModal = function (action) {
             
@@ -91,9 +91,19 @@
             else {
                 document.getElementById("inputFile").value = "";
                 vm.ext = true;
+                vm.newTempName = "Empty";
             }
         };
+        function _clearPic(File) {
 
+
+            File = undefined;
+            $scope.content = ""
+            vm.newTempName = "Empty";
+            vm.ext = false;
+            document.getElementById("inputFile").value = "";
+
+        }
 
         // Functions
         function activate() {
@@ -121,7 +131,7 @@
             vm.add = true;
             vm.edit = false;
             vm.view = false;
-            vm.newTempName = "";
+            vm.newTempName = "Empty";
             vm.template = {};
             $scope.content = undefined;
             vm.headerModal = "Add New Authorization Template";
@@ -212,7 +222,7 @@
         function _updateTemplate(File) {
             vm.loadingUpload = true;
 
-            if (File != undefined) {
+            if (File != undefined && vm.newTempName != "Empty") {
                 vm.template.authorizationDocument = $scope.content;
                 vm.template.authorizationName = File.name;
             }
