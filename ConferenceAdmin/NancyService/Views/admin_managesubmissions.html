@@ -1,4 +1,5 @@
 ﻿<div ng-controller="submissionsCtrl as vm">
+
     <div ng-hide="vm.view">
         <h3>Manage Submissions</h3><br>
         <div class="col-lg-12">
@@ -35,9 +36,15 @@
                 </tbody>
             </table>            
 
+            <br />
+            <select ng-model="vm.TYPE"
+                    ng-options="type as type.submissionTypeName for type in vm.submissionTypeList" required></select>
+            <button data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.viewAdd()" class="btn btn-ar btn-primary">Add New</button>
+
         </div>
     </div>
 
+<!----------------------------------------- Assign Evaluator ----------------------------------------->
 
     <div class="modal fade" id="assignEvaluator" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -75,8 +82,7 @@
 
 
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Save</button>
-                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -86,7 +92,7 @@
 
 
 
-<!-- View -->
+<!----------------------------------------- View ----------------------------------------->
     <div ng-show="vm.view">
         <h5>{{vm.submissionTypeName}} Submission</h5>
 
@@ -205,6 +211,7 @@
     </div>
 
 
+<!----------------------------------------- Evaluation Details ----------------------------------------->
 
     <div class="modal fade" id="evaluationDetails" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -238,6 +245,121 @@
             </div>
         </div>
     </div>
+
+
+<!----------------------------------------- Add Submission ----------------------------------------->
+
+    <div class="modal fade" id="addSubmissionModal" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4>Add New Submission</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="panel padding-10">
+                        <form name="addSubmissionForm" novalidate>
+                            <div>
+                                <label>Title</label><br />
+                                <textarea class="form-control" name="modalsubmissionTitle" ng-model="vm.modalsubmissionTitle" required>{{vm.modalsubmissionTitle}}</textarea>
+                                <p ng-show="addSubmissionForm.modalsubmissionTitle.$invalid && !addSubmissionForm.modalsubmissionTitle.$pristine" class="help-block">Title is required.</p>
+                            </div>
+                            <div>
+                                <label>Topic:</label><br />
+                                <select ng-model="vm.CTYPE"
+                                        ng-options="type as type.name for type in vm.topicsList"></select>
+                            </div>
+                            <div>
+                                <label>Abstract</label><br />
+                                <textarea class="form-control" name="modalsubmissionAbstract" ng-model="vm.modalsubmissionAbstract" required>{{vm.modalsubmissionAbstract}}</textarea>
+                                <p ng-show="addSubmissionForm.modalsubmissionAbstract.$invalid && !addSubmissionForm.modalsubmissionAbstract.$pristine" class="help-block">Abstract is required.</p>
+                            </div>
+                            <div ng-show="vm.TYPE.submissionTypeID == 3">
+                                <label>List of panelists with their biographies</label><br />
+                                <textarea class="form-control" name="modalpanelistNames" ng-model="vm.modalpanelistNames" required>{{vm.modalpanelistNames}}</textarea>
+                                <p ng-show="addSubmissionForm.modalpanelistNames.$invalid && !addSubmissionForm.modalpanelistNames.$pristine" class="help-block">Panelist Names are required.</p>
+                            </div>
+                            <div ng-show="vm.TYPE.submissionTypeID == 5">
+                                <label>Duration</label><br />
+                                <textarea class="form-control" name="modalduration" ng-model="vm.modalduration" required>{{vm.modalduration}}</textarea>
+                                <p ng-show="addSubmissionForm.modalduration.$invalid && !addSubmissionForm.modalduration.$pristine" class="help-block">Duration is required.</p>
+                            </div>
+                            <div ng-show="vm.TYPE.submissionTypeID == 5">
+                                <label>Delivery</label><br />
+                                <textarea class="form-control" name="modaldelivery" ng-model="vm.modaldelivery" required>{{vm.modaldelivery}}</textarea>
+                                <p ng-show="addSubmissionForm.modaldelivery.$invalid && !addSubmissionForm.modaldelivery.$pristine" class="help-block">Delivery is required.</p>
+                            </div>
+                            <div ng-show="vm.TYPE.submissionTypeID == 3 || vm.TYPE.submissionTypeID == 5">
+                                <label>Plan</label><br />
+                                <textarea class="form-control" name="modalplan" ng-model="vm.modalplan" required>{{vm.modalplan}}</textarea>
+                                <p ng-show="addSubmissionForm.modalplan.$invalid && !addSubmissionForm.modalplan.$pristine" class="help-block">Plan is required.</p>
+                            </div>
+                            <div ng-show="vm.TYPE.submissionTypeID == 3">
+                                <label>Guiding Questions</label><br />
+                                <textarea class="form-control" name="modalguideQuestions" ng-model="vm.modalguideQuestions" required>{{vm.modalguideQuestions}}</textarea>
+                                <p ng-show="addSubmissionForm.modalguideQuestions.$invalid && !addSubmissionForm.modalguideQuestions.$pristine" class="help-block">Guide Questions are required.</p>
+                            </div>
+                            <div ng-show="vm.TYPE.submissionTypeID == 3">
+                                <label>Format Description</label><br />
+                                <textarea class="form-control" name="modalformat" ng-model="vm.modalformat" required>{{vm.modalformat}}</textarea>
+                                <p ng-show="addSubmissionForm.modalformat.$invalid && !addSubmissionForm.modalformat.$pristine" class="help-block">Format is required.</p>
+                            </div>
+                            <div ng-show="vm.TYPE.submissionTypeID == 3 || vm.TYPE.submissionTypeID == 5">
+                                <label>Necessary Equipment</label><br />
+                                <textarea class="form-control" name="modalequipment" ng-model="vm.modalequipment" required>{{vm.modalequipment}}</textarea>
+                                <p ng-show="addSubmissionForm.modalequipment.$invalid && !addSubmissionForm.modalequipment.$pristine" class="help-block">Equipment is required.</p>
+                            </div>
+
+                            <div ng-hide="vm.TYPE.submissionTypeID == 4">
+                                <label>Uploaded Documents:</label>
+                                <div class="templates-list table-box">
+                                    <ul class="list-group list-group-striped">
+                                        <li ng-repeat="doc in vm.documentsList" class="list-group-item">{{doc.documentName}} <span class="right"><a href="" ng-click="vm.deleteDocument(doc)">Delete</a></span></li>
+                                    </ul>
+                                </div>
+
+
+                                <div class="document-name text-right">
+                                    <span ng-show="vm.myFile.name"><i class="fa fa-file-o"></i> {{vm.myFile.name}}</span>
+                                </div>
+
+                                <div class="right">
+                                    <button class="btn btn-ar btn-primary" ng-click="vm.addDocument()">Add</button>
+                                </div>
+                                <div class="col-md-4 right">
+                                    <div class="input-group-btn">
+                                        <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="documentFile" type="file" class="file" ng-model="vm.modalevaluationFile" class="form-control" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)" required></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button ng-show="vm.TYPE.submissionTypeID == 1" ng-disabled="addSubmissionForm.modalsubmissionTitle.$invalid || addSubmissionForm.modalsubmissionAbstract.$invalid" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addSubmission(myFile)">
+                        Submit
+                    </button>
+                    <button ng-show="vm.TYPE.submissionTypeID == 2" ng-disabled="addSubmissionForm.modalsubmissionTitle.$invalid || addSubmissionForm.modalsubmissionAbstract.$invalid" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addSubmission(myFile)">Submit</button>
+                    <button ng-show="vm.TYPE.submissionTypeID == 3" ng-disabled="addSubmissionForm.modalsubmissionTitle.$invalid || addSubmissionForm.modalsubmissionAbstract.$invalid ||
+                                    addSubmissionForm.modalpanelistNames.$invalid || addSubmissionForm.modalplan.$invalid || addSubmissionForm.modalguideQuestions.$invalid ||
+                                    addSubmissionForm.modalformat.$invalid || addSubmissionForm.modalequipment.$invalid" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addSubmission(myFile)">
+                        Submit
+                    </button>
+                    <button ng-show="vm.TYPE.submissionTypeID == 4" ng-disabled="addSubmissionForm.modalsubmissionTitle.$invalid || addSubmissionForm.modalsubmissionAbstract.$invalid" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addSubmission(myFile)">Submit</button>
+                    <button ng-show="vm.TYPE.submissionTypeID == 5" ng-disabled="addSubmissionForm.modalsubmissionTitle.$invalid || addSubmissionForm.modalsubmissionAbstract.$invalid ||
+                                    addSubmissionForm.modalduration.$invalid || addSubmissionForm.modaldelivery.$invalid || addSubmissionForm.modalplan.$invalid ||
+                                    addSubmissionForm.modalequipment.$invalid" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addSubmission(myFile)">
+                        Submit
+                    </button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
 
 
 </div>

@@ -14,6 +14,8 @@
         vm.evaluationsList = [];
         vm.prevEvaluationsList = [];
         vm.evaluatorsList = [];
+        vm.submissionTypeList = [];
+        vm.topicsList = [];
         // custom Submission class fields
         vm.submissionID;
         vm.evaluatorID;
@@ -61,9 +63,13 @@
         vm.getAllEvaluators = _getAllEvaluators;
         vm.assignEvaluator = _assignEvaluator;
         vm.removeEvaluator = _removeEvaluator;
+        vm.getSubmissionTypes = _getSubmissionTypes;
+        vm.getTopics = _getTopics;
 
         // function calls
         _getAllSubmissions();
+        _getSubmissionTypes();
+        _getTopics();
 
 
         // functions implementations
@@ -180,6 +186,8 @@
 
         /* Get all evaluations of a single submission */
         function _getEvaluationsForSubmission(submissionID) {
+            vm.evaluationsList = [];
+            vm.prevEvaluationsList = [];
             restApi.getEvaluationsForSubmission(submissionID).
                   success(function (data, status, headers, config) {
                       data.forEach(function (eva, index) {
@@ -252,6 +260,32 @@
                   error(function (data, status, headers, config) {
 
                   });
+        }
+
+        /* Get Submission Types for Dropdown menu */
+        function _getSubmissionTypes() {
+            restApi.getSubmissionTypes().
+                   success(function (data, status, headers, config) {
+                       vm.submissionTypeList = data;
+                       if (data != null)
+                           vm.TYPE = vm.submissionTypeList[0];
+                   }).
+                   error(function (data, status, headers, config) {
+                       alert("add un alert de submission type list");
+                   });
+        }
+
+        /* Get Topics for Dropdown menu */
+        function _getTopics() {
+            restApi.getTopics()
+            .success(function (data, status, headers, config) {
+                vm.topicsList = data;
+                if (data != null)
+                    vm.CTYPE = vm.topicsList[0];
+            })
+           .error(function (data, status, headers, config) {
+               alert("add un alert sexy");
+           });
         }
     }
 })();
