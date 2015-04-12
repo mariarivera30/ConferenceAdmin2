@@ -13,9 +13,9 @@
                 <td class="text-left"><i class="fa fa-file-text-o"> </i><a href="" data-toggle="modal" data-target="#viewSubmission" ng-click="vm.viewTheView(submission.submissionTypeName, submission.submissionID)"> {{submission.submissionTitle}}</a></td>
                 <td>{{submission.submissionTypeName}}</td>
                 <td>
-                    <a ng-hide="submission.isEvaluated || submission.isFinalSubmission || submission.status != 'Pending'" href="" data-toggle="modal" data-target="#editSubmissionModal" ng-click="vm.selectedSubmission(submission.topiccategoryID); vm.viewEditForm(submission.submissionID)">Edit </a><span ng-hide="submission.isEvaluated || submission.isFinalSubmission || submission.status != 'Pending'"> | </span>
-                    <a ng-hide="submission.isEvaluated || submission.isFinalSubmission || submission.status != 'Pending'" href="" data-toggle="modal" data-target="#deleteSubmission" ng-click="vm.deleteSelectedSubmission(submission.submissionID)">Delete</a>
-                    <a ng-show="submission.finalSubmissionAllowed && submission.isEvaluated && !submission.isFinalSubmission" href="" data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.selectFinalversion(submission.submissionID)">Add final version</a>
+                    <a ng-hide="submission.isAssigned || submission.status != 'Pending'" href="" data-toggle="modal" data-target="#editSubmissionModal" ng-click="vm.selectedSubmission(submission.topiccategoryID); vm.viewEditForm(submission.submissionID)">Edit </a><span ng-hide="submission.isAssigned || submission.status != 'Pending'"> | </span>
+                    <a ng-hide="submission.isAssigned || submission.status != 'Pending'" href="" data-toggle="modal" data-target="#deleteSubmission" ng-click="vm.deleteSelectedSubmission(submission.submissionID)">Delete</a>
+                    <a ng-show="submission.finalSubmissionAllowed && !submission.isFinalSubmission" href="" data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.selectFinalversion(submission.submissionID)">Add final version</a>
                     
                 </td>
                 <td>
@@ -32,10 +32,12 @@
         <!-----------------------loading end--------------------->
         <br />
         <!-------------------------------------------------ADD SUBMISSION---------------------------------------------------->
-        <select ng-model="vm.TYPE"
-                ng-options="type as type.submissionTypeName for type in vm.submissionTypeList" required></select>
-        <button data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.viewAdd()" class="btn btn-ar btn-primary">Add New</button>
-    </div>
+        <div ng-show="vm.submissionDeadlinePassed">
+            <select ng-model="vm.TYPE"
+                    ng-options="type as type.submissionTypeName for type in vm.submissionTypeList" required></select>
+            <button data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.viewAdd()" class="btn btn-ar btn-primary">Add New</button>
+        </div>
+        </div>
 
     <div class="modal fade" id="addSubmissionModal" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -307,6 +309,7 @@
             </div>
             <!--show if submission has a previous version-->
             <div ng-show="vm.modalhasPrevVersion">
+                <hr />
                 <h4>Previous Version of Submission</h4>
                 <div>
                     <label>Abstract</label><br />{{vm.modalprevSubmissionAbstract}}
@@ -335,8 +338,11 @@
                 <div ng-show="vm.modalprevSubmissionFileList.length != 0" ng-hide="vm.modalsubmissionTypeID == 4">
                     <label>Uploaded Document(s) </label><br />
                     <div ng-repeat="file in vm.modalprevSubmissionFileList">
-                        <a href="" class="col-sm-7" ng-show="file.document" ng-click="vm.downloadPDFFile(file.document)"> {{file.documentName}}</a>
+                        <a href="" ng-show="file.document" ng-click="vm.downloadPDFFile(file.document)"> {{file.documentName}}</a>
                     </div>
+                </div>
+                <div ng-show="vm.modalprevSubIsEvaluated">
+                    <label>Evaluation Feedback</label><br />{{vm.modalprevPublicFeedback}}
                 </div>
             </div>
             <br />

@@ -136,10 +136,10 @@ namespace NancyService.Modules
             Get["/getUserSubmission/{id}"] = parameters =>
             {
                 long submissionID = parameters.id;
-                AssignedSubmission sub = submission.getUserSubmission(submissionID);
+                CurrAndPrevSub sub = submission.getUserSubmission(submissionID);
                 if (sub == null)
                 {
-                    sub = new AssignedSubmission();
+                    sub = new CurrAndPrevSub();
                 }
                 return Response.AsJson(sub);
             };
@@ -235,6 +235,11 @@ namespace NancyService.Modules
                     Submission newSubmission =
                         submission.addFinalSubmission(usersubTA, submissionToAdd, submissionDocuments, pannelToAdd, workshopToAdd);
                     return Response.AsJson(newSubmission);
+                };
+
+            Get["/getSubmissionDeadline"] = parameters =>
+                {
+                    return Response.AsJson(submission.getSubmissionDeadline());
                 };
 
             //------------------------AUTHORIZATION----------------------------------

@@ -113,7 +113,11 @@
             getAllSubmissions: _getAllSubmissions,
             getBillReport: _getBillReport,
             getRegistrationPaymentsFromIndex: _getRegistrationPaymentsFromIndex,
-            getSponsorPaymentsFromIndex: _getSponsorPaymentsFromIndex
+            getSponsorPaymentsFromIndex: _getSponsorPaymentsFromIndex,
+            getEvaluationsForSubmission: _getEvaluationsForSubmission,
+            getSubmissionDeadline: _getSubmissionDeadline,
+            getAllEvaluators: _getAllEvaluators,
+            assignEvaluator: _assignEvaluator
         };
 
         return service;
@@ -567,11 +571,27 @@
         function _postFinalSubmission(data) {
             return $http.post('profile/postFinalSubmission', data)
         };
+        //Get the submission deadline in order to close the option to add submissions after said deadline
+        function _getSubmissionDeadline() {
+            return $http.get('profile/getSubmissionDeadline');
+        };
         //--------------------------------------------ADMIN-SUBMISSIONS------------------------------------
         //Gets all submissions that have not been deleted
         function _getAllSubmissions() {
             return $http.get('admin/getAllSubmissions');
-        }
+        };
+        //Gets the evaluations for the submission with submissionID
+        function _getEvaluationsForSubmission(data) {
+            return $http.get('admin/getEvaluationsForSubmission/' + data);
+        };
+        //Gets the list of evaluators on the system
+        function _getAllEvaluators() {
+            return $http.get('admin/getAllEvaluators');
+        };
+        //Assigns chosen evaluator to the given submission with submissionID
+        function _assignEvaluator(data) {
+            return $http.post('admin/assignEvaluator', data);
+        };
     }
 }
 

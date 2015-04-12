@@ -674,7 +674,18 @@ namespace NancyService.Modules
                 {
                     return Response.AsJson(submissionManager.getAllSubmissions());
                 };
+            //gets the evaluation for a submission
+            Get["/getEvaluationsForSubmission/{submissionID}"] = parameters =>
+                {
+                    long submissionID = parameters.submissionID;
+                    var evaluations = submissionManager.getSubmissionEvaluations(submissionID);
 
+                    return Response.AsJson(evaluations);
+                };
+            Get["/getAllEvaluators"] = parameters =>
+                {
+                    return Response.AsJson(submissionManager.getAcceptedEvaluators());
+                };
         }
     }
     public class AcceptanceStatusInfo
