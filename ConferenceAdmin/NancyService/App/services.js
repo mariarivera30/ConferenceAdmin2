@@ -611,6 +611,10 @@
         function _removeEvaluator(data) {
             return $http.put('admin/removeEvaluatorSubmission/' + data);
         };
+        //Changes submission status
+        function _changeSubmissionStatus(data) {
+            return $http.put('admin/changeSubmissionStatus/');
+        };
     }
 }
 

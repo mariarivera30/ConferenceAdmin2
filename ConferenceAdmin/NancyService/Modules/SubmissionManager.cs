@@ -1063,8 +1063,8 @@ namespace NancyService.Modules
                     List<Evaluation> subEvals = new List<Evaluation>();
                     List<Evaluation> prevSubEvals = new List<Evaluation>();
                     //Checking if submission has a previous version:
-                    long initialSubmissionID = context.usersubmission.Where(c => c.finalSubmissionID == submissionID) == null ?
-                        -1 : context.usersubmission.Where(c => c.finalSubmissionID == submissionID).Select(d => d.initialSubmissionID).FirstOrDefault();
+                    long initialSubmissionID = context.usersubmission.Where(c => c.finalSubmissionID == submissionID && c.deleted == false) == null ?
+                        -1 : context.usersubmission.Where(c => c.finalSubmissionID == submissionID && c.deleted == false).Select(d => d.initialSubmissionID).FirstOrDefault();
                     if(initialSubmissionID > -1)//if submissionID belong to a submission that does has a previous version
                     {
                         //get initial submission evaluation
@@ -1106,7 +1106,7 @@ namespace NancyService.Modules
                 {
                     
                     //getting the evaluation
-                    List<evaluatiorsubmission> evalSubmissionsList = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID).ToList();
+                    List<evaluatiorsubmission> evalSubmissionsList = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.deleted == false).ToList();
                     Evaluation eval;
                     List<Evaluation> submissionEvaluations = new List<Evaluation>();
                     foreach (var evalSub in evalSubmissionsList)
@@ -1277,7 +1277,7 @@ namespace NancyService.Modules
         }
         
         //removes relation of evaluator and submissions
-        public bool removeEvaluatorSubmission(long evaluatorSubmissionID)
+        public evaluatiorsubmission removeEvaluatorSubmission(long evaluatorSubmissionID)
         {
             try
             {
@@ -1286,13 +1286,13 @@ namespace NancyService.Modules
                     evaluatiorsubmission evalSubToRemove = context.evaluatiorsubmissions.Where(c => c.evaluationsubmissionID == evaluatorSubmissionID).FirstOrDefault();
                     evalSubToRemove.deleted = true;
                     context.SaveChanges();
-                    return true;
+                    return evalSubToRemove;
                 }
             }
             catch (Exception ex)
             {
                 Console.Write("SubmissionManager.removeEvaluatorSubmission error " + ex);
-                return false;
+                return null;
             }
         }
     }
