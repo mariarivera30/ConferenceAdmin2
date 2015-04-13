@@ -719,6 +719,13 @@ namespace NancyService.Modules
                 }
                 return Response.AsJson(sub);
             };
+            //Remove evaluator submission relation
+            Put["/removeEvaluatorSubmission/{evaluatorSubmissionID}"] = parameters =>
+                {
+                    long evaluatorSubmissionID = parameters.evaluatorSubmissionID;
+                    evaluatiorsubmission es = submissionManager.removeEvaluatorSubmission(evaluatorSubmissionID);
+                    return Response.AsJson(es);
+                };
         }
     }
     public class AcceptanceStatusInfo

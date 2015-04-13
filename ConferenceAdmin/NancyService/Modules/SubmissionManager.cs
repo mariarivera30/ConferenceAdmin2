@@ -190,6 +190,8 @@ namespace NancyService.Modules
                         {
                             submissionID = sub.submissionID,
                             evaluatorID = sub.evaluatorID,
+                            templateID = sub.submission.templatesubmissions.FirstOrDefault() == null ? -1 : sub.submission.templatesubmissions.FirstOrDefault().templateID,
+                            templateName = sub.submission.templatesubmissions.FirstOrDefault() == null ? null : sub.submission.templatesubmissions.FirstOrDefault().template.name,
                             evaluationFileName = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.evaluationName).FirstOrDefault(),
                             evaluationFile = sub.evaluationsubmitteds.Where(d => d.deleted == false).Select(r => r.evaluationFile).FirstOrDefault(),
                             score = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.score).FirstOrDefault(),
@@ -1061,8 +1063,8 @@ namespace NancyService.Modules
                     List<Evaluation> subEvals = new List<Evaluation>();
                     List<Evaluation> prevSubEvals = new List<Evaluation>();
                     //Checking if submission has a previous version:
-                    long initialSubmissionID = context.usersubmission.Where(c => c.finalSubmissionID == submissionID) == null ?
-                        -1 : context.usersubmission.Where(c => c.finalSubmissionID == submissionID).Select(d => d.initialSubmissionID).FirstOrDefault();
+                    long initialSubmissionID = context.usersubmission.Where(c => c.finalSubmissionID == submissionID && c.deleted == false) == null ?
+                        -1 : context.usersubmission.Where(c => c.finalSubmissionID == submissionID && c.deleted == false).Select(d => d.initialSubmissionID).FirstOrDefault();
                     if(initialSubmissionID > -1)//if submissionID belong to a submission that does has a previous version
                     {
                         //get initial submission evaluation
@@ -1104,7 +1106,7 @@ namespace NancyService.Modules
                 {
                     
                     //getting the evaluation
-                    List<evaluatiorsubmission> evalSubmissionsList = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID).ToList();
+                    List<evaluatiorsubmission> evalSubmissionsList = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.deleted == false).ToList();
                     Evaluation eval;
                     List<Evaluation> submissionEvaluations = new List<Evaluation>();
                     foreach (var evalSub in evalSubmissionsList)
@@ -1115,6 +1117,7 @@ namespace NancyService.Modules
                             {
                                 submissionID = c.evaluatiorsubmission.submissionID,
                                 evaluatorID = c.evaluatiorsubmission.evaluatorID,
+                                evaluatorSubmissionID = c.evaluatiorsubmission.evaluationsubmissionID,
                                 evaluatorFirstName = c.evaluatiorsubmission.evaluator.user.firstName,
                                 evaluatorLastName = c.evaluatiorsubmission.evaluator.user.lastName,
                                 score = c.score,
@@ -1135,6 +1138,7 @@ namespace NancyService.Modules
                             {
                                 submissionID = evalSub.submissionID,
                                 evaluatorID = evalSub.evaluatorID,
+                                evaluatorSubmissionID = evalSub.evaluationsubmissionID,
                                 evaluatorFirstName = evalSub.evaluator.user.firstName,
                                 evaluatorLastName = evalSub.evaluator.user.lastName,
                                 score = 0,
@@ -1246,13 +1250,22 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     //asignarle un evaluation template al submission
-                    templatesubmission templateRelation = new templatesubmission();
-                    templateRelation.templateID = templateID;
-                    templateRelation.submissionID = submissionID;
-                    templateRelation.deleted = false;
-                    context.templatesubmissions.Add(templateRelation);
-                    context.SaveChanges();
-
+                    bool subInTable = context.templatesubmissions.Where(c => c.submissionID == submissionID).FirstOrDefault() == null ? false : true;
+                    if (subInTable)
+                    {
+                        templatesubmission ts = context.templatesubmissions.Where(c => c.submissionID == submissionID).FirstOrDefault();
+                        ts.templateID = templateID;
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        templatesubmission templateRelation = new templatesubmission();
+                        templateRelation.templateID = templateID;
+                        templateRelation.submissionID = submissionID;
+                        templateRelation.deleted = false;
+                        context.templatesubmissions.Add(templateRelation);
+                        context.SaveChanges();
+                    }
                     return true;
                 }
             }
@@ -1262,7 +1275,26 @@ namespace NancyService.Modules
                 return false;
             }
         }
-
+        
+        //removes relation of evaluator and submissions
+        public evaluatiorsubmission removeEvaluatorSubmission(long evaluatorSubmissionID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    evaluatiorsubmission evalSubToRemove = context.evaluatiorsubmissions.Where(c => c.evaluationsubmissionID == evaluatorSubmissionID).FirstOrDefault();
+                    evalSubToRemove.deleted = true;
+                    context.SaveChanges();
+                    return evalSubToRemove;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.removeEvaluatorSubmission error " + ex);
+                return null;
+            }
+        }
     }
 
     public class CurrAndPrevSub
@@ -1325,6 +1357,9 @@ namespace NancyService.Modules
     {
          public long submissionID;
          public long evaluatorID;
+         public long evaluatorSubmissionID;
+         public long templateID;
+         public String templateName;
          public String evaluatorFirstName;
          public String evaluatorLastName;
          public int? score;

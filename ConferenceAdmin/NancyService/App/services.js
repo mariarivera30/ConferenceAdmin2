@@ -119,7 +119,8 @@
             getAllEvaluators: _getAllEvaluators,
             assignEvaluator: _assignEvaluator,
             getEvaluationDetails: _getEvaluationDetails,
-            assignTemplate: _assignTemplate
+            assignTemplate: _assignTemplate,
+            removeEvaluator: _removeEvaluator
         };
 
         return service;
@@ -605,6 +606,14 @@
         //Assigns chosen template to the given submission with submissionID
         function _assignTemplate(data) {
             return $http.post('admin/assignTemplate/' + data.submissionID + '/' + data.templateID);
+        };
+        //removes relation between evaluator and assigned submission
+        function _removeEvaluator(data) {
+            return $http.put('admin/removeEvaluatorSubmission/' + data);
+        };
+        //Changes submission status
+        function _changeSubmissionStatus(data) {
+            return $http.put('admin/changeSubmissionStatus/');
         };
     }
 }
