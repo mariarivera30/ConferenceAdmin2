@@ -884,6 +884,7 @@ namespace NancyService.Modules
                             int topiccategoryID = sub.submission == null ? -1 : sub.submission.topicID;
                             String topic = sub.submission == null ? null : sub.submission.topiccategory == null ? null : sub.submission.topiccategory.name;
                             String status = sub.submission == null ? null : sub.submission.status;
+                            bool byAdmin = sub.submission == null ? false : sub.submission.byAdmin == true ? true : false;
                             IEnumerable<IGrouping<long, evaluatiorsubmission>> groupBy = sub.submission == null ? null : sub.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
                                null : sub.submission.evaluatiorsubmissions.Where(c => c.deleted == false).GroupBy(s => s.submissionID).ToList();
                         if (groupBy != null)
@@ -906,19 +907,19 @@ namespace NancyService.Modules
                                 evalCount = 0;
                             }
                                 userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
-                                submissionTypeID, submissionTitle, topiccategoryID, topic, status, avgScore, numOfEvaluations));
+                                submissionTypeID, submissionTitle, topiccategoryID, topic, status, avgScore, numOfEvaluations, byAdmin));
                         }
                         else
                         {
                                 userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
-                                submissionTypeID, submissionTitle, topiccategoryID, topic, status, 0, numOfEvaluations));
+                                submissionTypeID, submissionTitle, topiccategoryID, topic, status, 0, numOfEvaluations, byAdmin));
                         }
                     }
                     scoreSum = 0;
                     evalCount = 0;
                     avgScore = 0.00;
                     numOfEvaluations = 0;
-                    //get all submissions that do no have a final submission
+                    //get all submissions that do not have a final submission
                     List<usersubmission> subList2 = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID == null).ToList();
                     foreach (var sub in subList2)
                     {
@@ -930,6 +931,7 @@ namespace NancyService.Modules
                         int topiccategoryID = sub.submission1 == null ? -1 : sub.submission1.topicID;
                         String topic = sub.submission1 == null ? null : sub.submission1.topiccategory == null ? null : sub.submission1.topiccategory.name;
                         String status = sub.submission1 == null ? null : sub.submission1.status;
+                        bool byAdmin = sub.submission1 == null ? false : sub.submission1.byAdmin == true ? true : false;
                         IEnumerable<IGrouping<long, evaluatiorsubmission>> groupBy = sub.submission1 == null ? null : sub.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
                                 null : sub.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).GroupBy(s => s.submissionID).ToList();
                         if (groupBy != null)
@@ -952,12 +954,12 @@ namespace NancyService.Modules
                             evalCount = 0;
                         }   
                             userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
-                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, avgScore, numOfEvaluations));
+                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, avgScore, numOfEvaluations, byAdmin));
                         }
                         else
                         {
                             userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
-                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, 0, numOfEvaluations));
+                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, 0, numOfEvaluations, byAdmin));
                         }
                     }
                     return userSubmissions;
@@ -1445,6 +1447,7 @@ namespace NancyService.Modules
         public double? avgScore;
         public int numOfEvaluations;
         public bool changedAcceptanceStatus;
+        public bool byAdmin;
 
         public Submission()
         {
@@ -1452,7 +1455,7 @@ namespace NancyService.Modules
         }
         public Submission(long userID, long submissionID, String submissionTypeName,
                             int submissionTypeID, String submissionTitle, int topiccategoryID, String topic,
-                            String status, double? avgScore, int numOfEvaluations)
+                            String status, double? avgScore, int numOfEvaluations, bool byAdmin)
         {
             this.userID = userID;
             this.submissionID = submissionID;
@@ -1464,6 +1467,7 @@ namespace NancyService.Modules
             this.status = status;
             this.avgScore = avgScore;
             this.numOfEvaluations = numOfEvaluations;
+            this.byAdmin = byAdmin;
         }
 
     }

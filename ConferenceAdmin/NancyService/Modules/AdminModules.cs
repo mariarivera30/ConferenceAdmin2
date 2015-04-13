@@ -735,6 +735,28 @@ namespace NancyService.Modules
 
                 return Response.AsJson(sub);
             };
+            //admin adds a submission
+            Post["/postAdminSubmission"] = parameters =>
+            {
+                panel pannelToAdd = null;
+                workshop workshopToAdd = null;
+                submission submissionToAdd = this.Bind<submission>();
+                usersubmission usersubTA = this.Bind<usersubmission>();
+
+                int submissionTypeID = submissionToAdd.submissionTypeID;
+                if (submissionTypeID == 3)
+                {
+                    pannelToAdd = this.Bind<panel>();
+                }
+                else if (submissionTypeID == 5)
+                {
+                    workshopToAdd = this.Bind<workshop>();
+                }
+                Submission newSubmission =
+                    submissionManager.addSubmission(usersubTA, submissionToAdd, pannelToAdd, workshopToAdd);
+                return Response.AsJson(newSubmission);
+
+            };
         }
     }
     public class AcceptanceStatusInfo

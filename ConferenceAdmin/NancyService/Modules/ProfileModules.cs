@@ -169,14 +169,9 @@ namespace NancyService.Modules
                 panel pannelToAdd = null;
                 workshop workshopToAdd = null;
                 submission submissionToAdd = this.Bind<submission>();
-                //documentssubmitted submissionDocuments = this.Bind<documentssubmitted>();
                 usersubmission usersubTA = this.Bind<usersubmission>();
 
                 int submissionTypeID = submissionToAdd.submissionTypeID;
-                /*if (submissionDocuments.document == null && submissionDocuments.documentName == null)
-                {
-                    submissionDocuments = null;
-                }*/
                 if (submissionTypeID == 3)
                 {
                     pannelToAdd = this.Bind<panel>();
