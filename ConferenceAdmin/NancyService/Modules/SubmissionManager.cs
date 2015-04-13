@@ -304,7 +304,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     //get all final submissions
-                    List<Submission> userFinalSubmissions = context.usersubmission.Where(c => c.userID == userID && c.deleted == false && c.finalSubmissionID != null).
+                    List<Submission> userFinalSubmissions = context.usersubmission.Where(c => c.userID == userID && c.deleted == false && c.finalSubmissionID != null && c.submission.byAdmin == false).
                         Select(i => new Submission
                         {
                             submissionID = i.submission == null ? -1 : i.submission.submissionID,
@@ -322,7 +322,7 @@ namespace NancyService.Modules
 
                         }).ToList();
                     //get all submissions that do no have a final submission
-                    List<Submission> userSubmissions = context.usersubmission.Where(c => c.userID == userID && c.deleted == false && c.finalSubmissionID == null).
+                    List<Submission> userSubmissions = context.usersubmission.Where(c => c.userID == userID && c.deleted == false && c.finalSubmissionID == null && c.submission1.byAdmin == false).
                         Select(i => new Submission
                         {
                             submissionID = i.submission1 == null ? -1 : i.submission1.submissionID,
@@ -860,7 +860,7 @@ namespace NancyService.Modules
             }
         }
 
-                public object getAllSubmissions()
+        public List<Submission> getAllSubmissions()
         {
             try
             {
@@ -1293,7 +1293,36 @@ namespace NancyService.Modules
             catch (Exception ex)
             {
                 Console.Write("SubmissionManager.removeEvaluatorSubmission error " + ex);
-                return 0;
+                return -1;
+            }
+        }
+
+        public Submission changeSubmissionStatus(long submissionID, string newStatus)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    bool changedAcceptanceStatus = false;
+                    submission sub = context.submissions.Where(c => c.submissionID == submissionID && c.deleted == false).FirstOrDefault();
+                    sub.status = newStatus;
+                    if (newStatus == "Accepted" && sub.byAdmin != true)
+                    {
+                        user u = sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().user;
+                        u.acceptanceStatus = "Accepted";
+                        changedAcceptanceStatus = true;
+                    }
+                    Submission subAltered = new Submission();
+                    subAltered.changedAcceptanceStatus = changedAcceptanceStatus;
+                    subAltered.submissionID = sub.submissionID;
+
+                    return subAltered;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.changeSubmissionStatus error " + ex);
+                return null;
             }
         }
     }
@@ -1408,6 +1437,7 @@ namespace NancyService.Modules
         public bool finalSubmissionAllowed;        
         public double? avgScore;
         public int numOfEvaluations;
+        public bool changedAcceptanceStatus;
 
         public Submission()
         {

@@ -120,7 +120,8 @@
             assignEvaluator: _assignEvaluator,
             getEvaluationDetails: _getEvaluationDetails,
             assignTemplate: _assignTemplate,
-            removeEvaluator: _removeEvaluator
+            removeEvaluator: _removeEvaluator,
+            changeSubmissionStatus: _changeSubmissionStatus
         };
 
         return service;
@@ -613,7 +614,7 @@
         };
         //Changes submission status
         function _changeSubmissionStatus(data) {
-            return $http.put('admin/changeSubmissionStatus/');
+            return $http.put('admin/changeSubmissionStatus/' + data);
         };
     }
 }
