@@ -9,7 +9,7 @@
         //Variables
         var vm = this;
         vm.activate = activate;
-        vm.title = 'reportCtrl';
+        vm.title = 'reportCtrl'; 
 
         //Report Variables
         vm.copy = [];

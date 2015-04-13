@@ -364,14 +364,16 @@ namespace NancyService.Modules
 
             /*------ Evaluators -----*/
 
-            Get["/getEvaluatorList"] = parameters =>
+            Get["/getEvaluatorListFromIndex/{index:int}"] = parameters =>
             {
-                return Response.AsJson(evaluatorManager.getEvaluatorList());
+                int index = parameters.index;
+                return Response.AsJson(evaluatorManager.getEvaluatorList(index));
             };
 
-            Get["/getPendingList"] = parameters =>
+            Get["/getPendingListFromIndex/{index:int}"] = parameters =>
             {
-                return Response.AsJson(evaluatorManager.getPendingList());
+                int index = parameters.index;
+                return Response.AsJson(evaluatorManager.getPendingList(index));
             };
 
             Get["/getNewEvaluator/{email}"] = parameters =>

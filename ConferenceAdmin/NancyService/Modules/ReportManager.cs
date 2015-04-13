@@ -153,7 +153,7 @@ namespace NancyService.Modules
                                      userType = "Sponsor",
                                      amountPaid = bill.AmountPaid,
                                      paymentMethod = bill.methodOfPayment
-                                 }).OrderBy(x => x.name);
+                                 }).OrderBy(x => x.name); 
 
                     page.rowCount = query.Count();
                     if (page.rowCount > 0)

@@ -51,11 +51,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myModalLabel">Assign Evaluators</h4>
+                    <h5>{{vm.submissionTypeName}}: {{vm.submissionTitle}}</h5>
                 </div>
                 <div class="modal-body">
-                    <label class="no-margin">{{vm.submissionTypeName}} Title:</label> {{vm.submissionTitle}}<br /><br />
-
+                    <label class="no-margin">Select an Evaluation Template for this Submission:</label><br />
+                    <select ng-model="vm.TEMP" ng-options="template as template.name for template in vm.templatesList"></select><br />
+                    <br />
                     <table class="table col-md-12">
                         <thead>
                             <tr>
@@ -80,10 +81,7 @@
                     <button class="btn btn-ar btn-primary" ng-click="vm.assignEvaluator(vm.submissionID, vm.evaluatorID);">Assign <i class="fa fa-arrow-up"> </i></button>
                     <p ng-show="vm.exists">This Evaluator has already been assigned.</p>
 
-                    <br />
-                    <label>Select an Evaluation Template for this Submission:</label><br />
-                    <select ng-model="vm.TEMP"
-                            ng-options="template as template.name for template in vm.templatesList"></select>
+                    
                 </div>
 
 

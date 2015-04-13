@@ -68,7 +68,7 @@
             getCompanionKey: _getCompanionKey,
             checkComplementaryKey: _checkComplementaryKey,
             getNewAdmin: _getNewAdmin,
-            getEvaluatorList: _getEvaluatorList,
+            getEvaluatorListFromIndex: _getEvaluatorListFromIndex,
             updateEvaluatorAcceptanceStatus: _updateEvaluatorAcceptanceStatus,
             getNewEvaluator: _getNewEvaluator,
             postNewEvaluator: _postNewEvaluator,
@@ -97,7 +97,7 @@
             getAllSponsorBenefits: _getAllSponsorBenefits,
             getGeneralInfo: _getGeneralInfo,
             saveGeneralInfo: _saveGeneralInfo,
-            getPendingList: _getPendingList,
+            getPendingListFromIndex: _getPendingListFromIndex,
             getUserSubmissionList: _getUserSubmissionList,
             getUserSubmission: _getUserSubmission,
             getSubmissionTypes: _getSubmissionTypes,
@@ -394,12 +394,12 @@
 
         //-----------------------------------EVALUATORS---------------------------------
 
-        function _getEvaluatorList() {
-            return $http.get('admin/getEvaluatorList');
+        function _getEvaluatorListFromIndex(data) {
+            return $http.get('admin/getEvaluatorListFromIndex/'+data);
         };
 
-        function _getPendingList() {
-            return $http.get('admin/getPendingList');
+        function _getPendingListFromIndex(data) {
+            return $http.get('admin/getPendingListFromIndex/'+data);
         };
 
         function _getNewEvaluator(email) {
