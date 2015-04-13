@@ -56,8 +56,6 @@
 
         function activate() {
             _getPendingListFromIndex(vm.pindex);
-            _getEvaluatorListFromIndex(vm.eindex);
-            _load();
         }
 
         function _clear() {
@@ -80,6 +78,8 @@
                 else {
                     vm.pendingList = data.results;
                 }
+
+                _getEvaluatorListFromIndex(vm.eindex);
 
                 /*if (vm.pfirstPage) {
                     vm.pfirstPage = false;
@@ -130,6 +130,8 @@
                 else {
                     vm.evaluatorsList = data.results;
                 }
+
+                _load();
 
                 /*if (vm.efirstPage) {
                     vm.efirstPage = false;
