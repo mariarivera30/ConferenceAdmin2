@@ -727,9 +727,9 @@ namespace NancyService.Modules
                     return Response.AsJson(es);
                 };
             //Change submission status
-            Put["/changeSubmissionStatus/{newStatus:String}/{submissionID:long}"] = parameters =>
+            Put["/changeSubmissionStatus/{status}/{submissionID}"] = parameters =>
             {
-                String newStatus = parameters.newStatus;
+                String newStatus = parameters.status;
                 long submissionID = parameters.submissionID;
                 Submission sub = submissionManager.changeSubmissionStatus(submissionID, newStatus);
 

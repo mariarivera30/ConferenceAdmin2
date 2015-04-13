@@ -1310,8 +1310,13 @@ namespace NancyService.Modules
                     context.SaveChanges();
                     if (newStatus == "Accepted" && sub.byAdmin != true)
                     {
-                        user u = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().user;
+                        user u = sub.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault().user;
+                        
+                        if (u == null)
+                            u = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().user;
+                        
                         u.acceptanceStatus = "Accepted";
+                        context.SaveChanges();
                         changedAcceptanceStatus = true;
                     }
                     Submission subAltered = new Submission();

@@ -72,6 +72,7 @@
         vm.deleteDocument = _deleteDocument;
         vm.getTemplates = _getTemplates;
         vm.assignTemplate = _assignTemplate;
+        vm.changeSubmissionStatus = _changeSubmissionStatus;
 
         // function calls
         _getAllSubmissions();
@@ -133,6 +134,9 @@
             restApi.getAllSubmissions().
                    success(function (data, status, headers, config) {
                        vm.submissionsList = data;
+                       vm.submissionsList.forEach(function (sub, index) {
+                           sub.acceptanceStatus = sub.status;
+                       });
                    }).
                    error(function (data, status, headers, config) {
                        vm.submissionsList = data;
@@ -389,6 +393,22 @@
                    error(function (data, status, headers, config) {
                        vm.templatesList = data;
                        _clear();
+                   });
+        }
+
+        /**/
+        function _changeSubmissionStatus(submissionID, status) {
+            var obj = { status: status, submissionID: submissionID };
+            restApi.changeSubmissionStatus(obj).
+                   success(function (data, status, headers, config) {
+                       vm.alert;
+                       (data.changedAcceptanceStatus) ?
+                        vm.alert = "Submission Accepted. This person has been accepted to attend the conference." :
+                        vm.alert = "Submission " + data.submissionStatus + ".";
+
+                       $('#statusChanged').modal('show');
+                   }).
+                   error(function (data, status, headers, config) {
                    });
         }
 

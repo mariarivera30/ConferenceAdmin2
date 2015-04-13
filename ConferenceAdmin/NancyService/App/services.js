@@ -614,7 +614,7 @@
         };
         //Changes submission status
         function _changeSubmissionStatus(data) {
-            return $http.put('admin/changeSubmissionStatus/' + data);
+            return $http.put('admin/changeSubmissionStatus/' + data.status + '/' + data.submissionID);
         };
     }
 }

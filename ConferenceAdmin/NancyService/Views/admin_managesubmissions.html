@@ -30,7 +30,7 @@
                         </td>
                         <td>
                             <select ng-model="sub.acceptanceStatus" ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
-                            <button class="btn btn-ar btn-primary">Apply</button>
+                            <button class="btn btn-ar btn-primary" ng-click="vm.changeSubmissionStatus(sub.submissionID, sub.acceptanceStatus)">Apply</button>
                         </td>
                     </tr>
                 </tbody>
@@ -366,6 +366,27 @@
 
     </div>
 
+    <!----------------------------------------- Change Status ----------------------------------------->
 
+    <div class="modal fade" id="statusChanged" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4>Submission Status Changed.</h4>
+                </div>
+
+
+                <div class="modal-body row">
+                    <label class="col-lg-12">{{vm.alert}}</label>
+                </div>
+
+
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
