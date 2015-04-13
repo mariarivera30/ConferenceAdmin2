@@ -1115,6 +1115,7 @@ namespace NancyService.Modules
                             {
                                 submissionID = c.evaluatiorsubmission.submissionID,
                                 evaluatorID = c.evaluatiorsubmission.evaluatorID,
+                                evaluatorSubmissionID = c.evaluatiorsubmission.evaluationsubmissionID,
                                 evaluatorFirstName = c.evaluatiorsubmission.evaluator.user.firstName,
                                 evaluatorLastName = c.evaluatiorsubmission.evaluator.user.lastName,
                                 score = c.score,
@@ -1135,6 +1136,7 @@ namespace NancyService.Modules
                             {
                                 submissionID = evalSub.submissionID,
                                 evaluatorID = evalSub.evaluatorID,
+                                evaluatorSubmissionID = evalSub.evaluationsubmissionID,
                                 evaluatorFirstName = evalSub.evaluator.user.firstName,
                                 evaluatorLastName = evalSub.evaluator.user.lastName,
                                 score = 0,
@@ -1325,6 +1327,7 @@ namespace NancyService.Modules
     {
          public long submissionID;
          public long evaluatorID;
+         public long evaluatorSubmissionID;
          public String evaluatorFirstName;
          public String evaluatorLastName;
          public int? score;
