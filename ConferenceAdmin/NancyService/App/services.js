@@ -606,6 +606,10 @@
         function _assignTemplate(data) {
             return $http.post('admin/assignTemplate/' + data.submissionID + '/' + data.templateID);
         };
+        //removes relation between evaluator and assigned submission
+        function _removeEvaluator(data) {
+            return $http.put('admin/removeEvaluatorSubmission/' + data);
+        };
     }
 }
 
