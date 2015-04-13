@@ -247,21 +247,27 @@
         /* Assign an evaluator to a submission */
         function _assignEvaluator(submissionID, evaluatorID) {
             var IDs = { submissionID: submissionID, evaluatorID: evaluatorID }
-            restApi.assignEvaluator(IDs).
-                  success(function (data, status, headers, config) {
-                      vm.exists = false;
-                      vm.evaluationsList.forEach(function (eva, index) {
-                          if (eva.evaluatorID == data.evaluatorID) {
-                              vm.exists = true;
-                          }
-                      });
 
-                      if (!vm.exists)
-                          vm.evaluationsList.push(data);
+            vm.exists = false;
+            vm.evaluationsList.forEach(function (eva, index) {
+                if (eva.evaluatorID == evaluatorID) {
+                    vm.exists = true;
+                }
+            });
+
+            if (!vm.exists) {
+                restApi.assignEvaluator(IDs).
+                  success(function (data, status, headers, config) {
+                      vm.evaluationsList.push(data);
+                      vm.evaluatorID = "";
                   }).
                   error(function (data, status, headers, config) {
 
-                  });
+                  });                
+            }
+
+
+            
         }
 
         /* Remove an assigned evaluator from a submission */
