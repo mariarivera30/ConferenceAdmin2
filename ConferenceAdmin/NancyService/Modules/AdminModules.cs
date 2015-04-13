@@ -723,7 +723,7 @@ namespace NancyService.Modules
             Put["/removeEvaluatorSubmission/{evaluatorSubmissionID}"] = parameters =>
                 {
                     long evaluatorSubmissionID = parameters.evaluatorSubmissionID;
-                    evaluatiorsubmission es = submissionManager.removeEvaluatorSubmission(evaluatorSubmissionID);
+                    long es = submissionManager.removeEvaluatorSubmission(evaluatorSubmissionID);
                     return Response.AsJson(es);
                 };
         }

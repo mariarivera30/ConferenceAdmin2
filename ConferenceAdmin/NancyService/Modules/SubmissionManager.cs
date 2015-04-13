@@ -1232,6 +1232,7 @@ namespace NancyService.Modules
                     addedRelation.evaluatorFirstName = context.evaluators.FirstOrDefault(c => c.evaluatorsID == evaluatorID).user.firstName;
                     addedRelation.evaluatorLastName = context.evaluators.FirstOrDefault(c => c.evaluatorsID == evaluatorID).user.lastName;
                     addedRelation.score = 0;
+                    addedRelation.evaluatorSubmissionID = context.evaluatiorsubmissions.Where(es => es.submissionID == relation.submissionID && es.evaluatorID == relation.evaluatorID && es.deleted == false).FirstOrDefault().evaluationsubmissionID;
 
                     return addedRelation;
                 }
@@ -1277,7 +1278,7 @@ namespace NancyService.Modules
         }
         
         //removes relation of evaluator and submissions
-        public evaluatiorsubmission removeEvaluatorSubmission(long evaluatorSubmissionID)
+        public long removeEvaluatorSubmission(long evaluatorSubmissionID)
         {
             try
             {
@@ -1286,13 +1287,13 @@ namespace NancyService.Modules
                     evaluatiorsubmission evalSubToRemove = context.evaluatiorsubmissions.Where(c => c.evaluationsubmissionID == evaluatorSubmissionID).FirstOrDefault();
                     evalSubToRemove.deleted = true;
                     context.SaveChanges();
-                    return evalSubToRemove;
+                    return evalSubToRemove.evaluationsubmissionID;
                 }
             }
             catch (Exception ex)
             {
                 Console.Write("SubmissionManager.removeEvaluatorSubmission error " + ex);
-                return null;
+                return 0;
             }
         }
     }

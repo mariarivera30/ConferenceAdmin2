@@ -275,8 +275,8 @@
             restApi.removeEvaluator(evaluatorSubmissionID).
                   success(function (data, status, headers, config) {
                       vm.evaluationsList.forEach(function (eva, index) {
-                          if (eva.evaluatorSubmissionID == data.evaluatorSubmissionID) {
-                              vm.evaluationsList(index, 1);
+                          if (eva.evaluatorSubmissionID == data) {
+                              vm.evaluationsList.splice(index, 1);
                           }
                       });
                   }).
