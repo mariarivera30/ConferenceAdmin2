@@ -34,7 +34,7 @@
                         </td>
                     </tr>
                 </tbody>
-            </table>            
+            </table>
 
             <br />
             <select ng-model="vm.TYPE"
@@ -44,7 +44,7 @@
         </div>
     </div>
 
-<!----------------------------------------- Assign Evaluator ----------------------------------------->
+    <!----------------------------------------- Assign Evaluator ----------------------------------------->
 
     <div class="modal fade" id="assignEvaluator" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -55,6 +55,7 @@
                 </div>
                 <div class="modal-body">
                     <label class="no-margin">{{vm.submissionTypeName}} Title:</label> {{vm.submissionTitle}}<br /><br />
+
                     <table class="table col-md-12">
                         <thead>
                             <tr>
@@ -77,11 +78,17 @@
                     <br />
                     <select ng-model="vm.evaluatorID" ng-options="evaluator.evaluatorID as evaluator.firstName + ' ' + evaluator.lastName for evaluator in vm.evaluatorsList"></select>
                     <button class="btn btn-ar btn-primary" ng-click="vm.assignEvaluator(vm.submissionID, vm.evaluatorID);">Assign <i class="fa fa-arrow-up"> </i></button>
+                    <p ng-show="vm.exists">This Evaluator has already been assigned.</p>
 
-                    </div>
+                    <br />
+                    <label>Select an Evaluation Template for this Submission:</label><br />
+                    <select ng-model="vm.TEMP"
+                            ng-options="template as template.name for template in vm.templatesList"></select>
+                </div>
 
 
                 <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" ng-click="vm.assignTemplate(vm.submissionID, vm.TEMP.templateID)">Save</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -92,7 +99,7 @@
 
 
 
-<!----------------------------------------- View ----------------------------------------->
+    <!----------------------------------------- View ----------------------------------------->
     <div ng-show="vm.view">
         <h5>{{vm.submissionTypeName}} Submission</h5>
 
@@ -115,7 +122,7 @@
                 </tbody>
             </table>
         </div>
-            
+
         <div class="col-lg-12">
             <label>Abstract</label><br />{{vm.submissionAbstract}}
         </div>
@@ -154,12 +161,12 @@
                 <hr />
                 <h5>Previous Version of Submission</h5>
             </div>
-            
+
             <div class="col-lg-6 ">
                 <label>Title </label><br />{{vm.submissionTitle}}<br />
                 <label>Topic category</label><br />{{vm.topic}}
-            </div>    
-            
+            </div>
+
             <div class="col-lg-6 right" ng-show="vm.prevEvaluationsList.length != 0">
                 <table class="table table-box agenda-list no-margin">
                     <thead>
@@ -205,13 +212,14 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-12"><br />
+        <div class="col-lg-12">
+            <br />
             <button class="btn btn-ar btn-default" ng-click="vm.clear(); vm.view = false;">Back</button>
         </div>
     </div>
 
 
-<!----------------------------------------- Evaluation Details ----------------------------------------->
+    <!----------------------------------------- Evaluation Details ----------------------------------------->
 
     <div class="modal fade" id="evaluationDetails" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -235,19 +243,19 @@
                     <div class="col-md-12">
                         <label>Private Feedback:</label><br /> {{vm.privateFeedback}}
                     </div>
-                    
+
                 </div>
 
 
                 <div class="modal-footer">
-                        <button class="btn btn-ar btn-default left" data-dismiss="modal">Close</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
 
-<!----------------------------------------- Add Submission ----------------------------------------->
+    <!----------------------------------------- Add Submission ----------------------------------------->
 
     <div class="modal fade" id="addSubmissionModal" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
         <div class="modal-dialog">

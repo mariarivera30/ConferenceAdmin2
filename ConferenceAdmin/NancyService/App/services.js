@@ -118,7 +118,8 @@
             getSubmissionDeadline: _getSubmissionDeadline,
             getAllEvaluators: _getAllEvaluators,
             assignEvaluator: _assignEvaluator,
-            getEvaluationDetails: _getEvaluationDetails
+            getEvaluationDetails: _getEvaluationDetails,
+            assignTemplate: _assignTemplate
         };
 
         return service;
@@ -600,6 +601,10 @@
         //get details of evaluation with submissionID and evaluatorID
         function _getEvaluationDetails(data) {
             return $http.get('admin/getEvaluationDetails/' + data.submissionID + '/' + data.evaluatorID);
+        };
+        //Assigns chosen template to the given submission with submissionID
+        function _assignTemplate(data) {
+            return $http.post('admin/assignTemplate/' + data.submissionID + '/' + data.templateID);
         };
     }
 }
