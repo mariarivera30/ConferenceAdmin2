@@ -48,6 +48,7 @@
         vm.deleteSponsorComplemetaryKey = _deleteSponsorComplemetaryKey;
         vm.addComplementaryKey = _addComplementaryKey;
         vm.selectedKey = _selectedKey;
+        vm.clearPic = _clearPic;
 
 
         vm.pdf = "pdf";
@@ -62,6 +63,8 @@
                     vm.ext = false;
                 else {
                     document.getElementById("inputFile").value = "";
+                    $scope.content = "";
+                    $fileContent = "";
                     vm.ext = true;
                 }
 
@@ -164,6 +167,15 @@
         function _selectedKey(key) {
             vm.key = key;
             vm.keyPop = key.key;
+        }
+        function _clearPic(File){
+            $scope.content = "";
+            $scope.$fileContent = "";
+            File = undefined;
+            vm.sponsor.logo = "";
+            vm.ext = false;
+            document.getElementById("inputFile").value = "";
+            
         }
 
         function _clearSponsor() {
@@ -311,8 +323,9 @@
             if (File != undefined) {
 
                 vm.sponsor.logo = $scope.content;
-                    vm.sponsor.logoName = File.name;
-                    File = null;
+                vm.sponsor.logoName = File.name;
+                File = null;
+            }
                     vm.loadingUploading = true;
                     restApi.postNewSponsor(vm.sponsor)
                              .success(function (data, status, headers, config) {
@@ -330,12 +343,12 @@
                                  vm.toggleModal('error');
                                  _clearSponsor();
                              });
-                }
+            
         
-            else {
-                vm.sponsor.logo = "";
-                vm.sponsor.logoName = "Empty";
-            }
+            //else {
+            //    vm.sponsor.logo = "";
+            //    vm.sponsor.logoName = "Empty";
+            //}
           
         }
 

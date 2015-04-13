@@ -119,6 +119,7 @@
     <Content Include="App\sponsorCtrl.js" />
     <Content Include="App\sponsorInterfaceCtrl.js" />
     <Content Include="App\sponsorInterfaceCtrl2.js" />
+    <Content Include="App\sponsorRegistrationCtrl.js" />
     <Content Include="App\ushersCtrl.js" />
     <Content Include="App\topicCtrl.js" />
     <Content Include="App\validateCtrl.js" />

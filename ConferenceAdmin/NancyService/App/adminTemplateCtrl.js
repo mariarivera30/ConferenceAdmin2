@@ -33,6 +33,8 @@
         };
         vm.okFunc;
         vm.cancelFunc;
+        vm.clearPic = _clearPic;
+        
 
 
         vm.toggleModal = function (action) {
@@ -89,6 +91,10 @@
             else {
                 document.getElementById("inputFile").value = "";
                 vm.ext = true;
+                $scope.content = "";
+                $fileContent ="";
+                vm.newTempName = "Empty";
+                File.name ="";
             }
         };
 
@@ -105,6 +111,17 @@
             vm.template = JSON.parse(JSON.stringify(template));
         }
 
+        function _clearPic(File) {
+            
+     
+            File = undefined;
+            $scope.content = ""
+            vm.newTempName = "Empty";
+            vm.ext = false;
+            document.getElementById("inputFile").value = "";
+
+        }
+
         function _clear() {
             vm.template = null;
             $scope.content = "";
@@ -114,12 +131,14 @@
 
         }
 
+      
+
         function _addValues() {
             document.getElementById("addTemplateForm").reset();
             vm.add = true;
             vm.edit = false;
             vm.view = false;
-            vm.newTempName = "";
+            vm.newTempName = "Empty";
             vm.template = {};
             $scope.content = undefined;
             vm.headerModal = "Add New Evaluation Template";
@@ -217,7 +236,7 @@
         function _updateTemplate(File) {
             vm.loadingUpload = true;
 
-            if (File != undefined) {
+            if (File != undefined && vm.newTempName != "Empty") {
                 vm.template.document = $scope.content;
                 vm.template.name = File.name;
             }

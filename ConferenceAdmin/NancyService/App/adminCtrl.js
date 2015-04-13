@@ -52,7 +52,7 @@
         }
 
         function _tabViewControl() {
-           // if(JSON.parse(sessionStorage.getItem('claims')) != )
+         
             var list = JSON.parse(sessionStorage.getItem('claims'));
             if (list != null) {
                 if (list.length > 0) {
@@ -168,10 +168,13 @@
                             vm.evaluators = true;
                         }
 
-
-
+                    
 
                     });
+
+                    if (!vm.isAdmin) {
+                        $location.path('/Home');
+                    }
                 }
             }
             else {

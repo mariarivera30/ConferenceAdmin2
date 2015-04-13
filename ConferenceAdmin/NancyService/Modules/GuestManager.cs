@@ -28,7 +28,7 @@ namespace NancyService.Modules
                         registrationStatus = i.registrationStatus,
                         acceptanceStatus = i.acceptanceStatus,
                         optionStatus = "Accepted",
-                        authorizationStatus = i.minors.FirstOrDefault().authorizationStatus,
+                        authorizationStatus = i.minors.FirstOrDefault() == null ? null : i.minors.FirstOrDefault().authorizationStatus,
                         line1 = i.address.line1,
                         line2 = i.address.line2,
                         city = i.address.city,
@@ -38,15 +38,13 @@ namespace NancyService.Modules
                         email = i.membership.email,
                         phoneNumber = i.phone,
                         fax = i.userFax,
-                        day1 = i.registrations.FirstOrDefault().date1,
-                        day2 = i.registrations.FirstOrDefault().date2,
-                        day3 = i.registrations.FirstOrDefault().date3,
-                        companionFirstName = i.companions.FirstOrDefault().user.firstName,
-                        companionLastName = i.companions.FirstOrDefault().user.lastName,
-                        companionID = ((int)i.companions.FirstOrDefault().userID != null ? (int)i.companions.FirstOrDefault().userID : -1)
+                        day1 = i.registrations.FirstOrDefault() == null ? null : i.registrations.FirstOrDefault().date1,
+                        day2 = i.registrations.FirstOrDefault() == null ? null : i.registrations.FirstOrDefault().date2,
+                        day3 = i.registrations.FirstOrDefault() == null ? null : i.registrations.FirstOrDefault().date3,
+                        companionFirstName = i.companions.FirstOrDefault() == null ? null : i.companions.FirstOrDefault().user.firstName,
+                        companionLastName = i.companions.FirstOrDefault() == null ? null : i.companions.FirstOrDefault().user.lastName,
+                        companionID = i.companions.FirstOrDefault() == null ? -1 : (long)i.companions.FirstOrDefault().userID 
                     }).ToList();
-
-                    //var t = context.users.FirstOrDefault();
 
                     return guests;
                 }
@@ -56,8 +54,6 @@ namespace NancyService.Modules
                 Console.Write("GuestManager.getListOfGuests error " + ex);
                 return null;
             }
-
-
         }
 
         public bool updateAcceptanceStatus(int guestID, String acceptanceStatus)
@@ -165,7 +161,7 @@ namespace NancyService.Modules
         public String optionStatus;
         public String companionFirstName;
         public String companionLastName;
-        public int companionID;
+        public long companionID;
 
         public GuestList()
         {

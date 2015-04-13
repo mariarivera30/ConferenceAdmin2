@@ -5,14 +5,17 @@
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$http', 'restApi','$window', profileInformationCtrl]);
+        ['$scope', '$http', 'restApi','$window','$location', profileInformationCtrl]);
 
-    function profileInformationCtrl($scope, $http, restApi, $window) {
+    function profileInformationCtrl($scope, $http, restApi, $window, $location) {
         var vm = this;
         vm.edit = false;
         vm.activate = activate;
-
-        vm.userID = $window.sessionStorage.getItem('userID');
+        if ($window.sessionStorage.getItem('userID') != null)
+            vm.userID = $window.sessionStorage.getItem('userID');
+        else {
+            $location.path("/Home");
+        }
 
         // User Attributes
         vm.title;

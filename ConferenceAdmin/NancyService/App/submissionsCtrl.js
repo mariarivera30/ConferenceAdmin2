@@ -12,6 +12,12 @@
         vm.submissionsList = [];
         vm.acceptanceStatusList = ['Accepted', 'Rejected'];
         vm.evaluationsList = [];
+        vm.prevEvaluationsList = [];
+        vm.evaluatorsList = [];
+        vm.submissionTypeList = [];
+        vm.topicsList = [];
+        vm.documentsList = [];
+        vm.templatesList = [];
         // custom Submission class fields
         vm.submissionID;
         vm.evaluatorID;
@@ -32,7 +38,7 @@
         vm.topicID;
         vm.topiccategoryID;
         vm.submissionTypeID;
-        vm.submissionAbstract; 
+        vm.submissionAbstract;
         vm.title;
         vm.status;
         vm.byAdmin;
@@ -41,8 +47,8 @@
         vm.evaluatorID;
         vm.statusEvaluation;
         // evaluation fields
-        vm.evaluationsubmittedID;        
-        vm.evaluationname;
+        vm.evaluationsubmittedID;
+        vm.evaluationName;
         vm.evaluationFile;
         vm.score;
         vm.avgScore;
@@ -55,9 +61,23 @@
         vm.downloadPDFFile = _downloadPDFFile;
         vm.getSubmissionView = _getSubmissionView;
         vm.getEvaluationsForSubmission = _getEvaluationsForSubmission;
+        vm.getEvaluationDetails = _getEvaluationDetails;
+        vm.getAllEvaluators = _getAllEvaluators;
+        vm.assignEvaluator = _assignEvaluator;
+        vm.removeEvaluator = _removeEvaluator;
+        vm.getSubmissionTypes = _getSubmissionTypes;
+        vm.getTopics = _getTopics;
+        vm.addSubmission = _addSubmission;
+        vm.addDocument = _addDocument;
+        vm.deleteDocument = _deleteDocument;
+        vm.getTemplates = _getTemplates;
+        vm.assignTemplate = _assignTemplate;
 
         // function calls
         _getAllSubmissions();
+        _getSubmissionTypes();
+        _getTopics();
+        _getTemplates();
 
 
         // functions implementations
@@ -94,12 +114,18 @@
             vm.statusEvaluation = "";
             // evaluation fields
             vm.evaluationsubmittedID = 0;
-            vm.evaluationname = "";
+            vm.evaluationName = "";
             vm.evaluationFile = "";
             vm.score = 0;
             vm.avgScore = 0;
             vm.publicFeedback = "";
             vm.privateFeedback = "";
+            vm.evaluatorFirstName = "";
+            vm.evaluatorLastName = "";
+            vm.evaluationsList = [];
+            vm.prevEvaluationsList = [];
+            vm.evaluatorsList = [];
+            vm.documentsList = [];
         }
 
         /* Retrieves every submission in the system */
@@ -159,7 +185,6 @@
                         vm.prevSubIsEvaluated = data.prevSubIsEvaluated;
                         vm.prevPublicFeedback = data.prevPublicFeedback;
                         vm.prevPrivateFeedback = data.prevPrivateFeedback;
-                        vm.view = true;
 
                         _getEvaluationsForSubmission(submissionID);
                     }).
@@ -170,13 +195,195 @@
 
         /* Get all evaluations of a single submission */
         function _getEvaluationsForSubmission(submissionID) {
+            vm.evaluationsList = [];
+            vm.prevEvaluationsList = [];
             restApi.getEvaluationsForSubmission(submissionID).
                   success(function (data, status, headers, config) {
-                      vm.evaluationsList = data;
+                      data.forEach(function (eva, index) {
+                          if (!eva.isPrevSub)
+                              vm.evaluationsList.push(eva);
+                          else
+                              vm.prevEvaluationsList.push(eva);
+                      });
+
                   }).
                   error(function (data, status, headers, config) {
                       vm.evaluationsList = data;
                   });
+        }
+
+        /* Get details of an evaluation */
+        function _getEvaluationDetails(submissionID, evaluatorID) {
+            var eva = { submissionID: submissionID, evaluatorID: evaluatorID };
+            restApi.getEvaluationDetails(eva).
+                  success(function (data, status, headers, config) {
+                      vm.evaluationsubmittedID = data.evaluationsubmittedID;
+                      vm.evaluationName = data.evaluationFileName;
+                      vm.evaluationFile = data.evaluationFile;
+                      vm.score = data.score;
+                      vm.avgScore = data.avgScore;
+                      vm.publicFeedback = data.publicFeedback;
+                      vm.privateFeedback = data.privateFeedback;
+                      vm.evaluatorFirstName = data.evaluatorFirstName;
+                      vm.evaluatorLastName = data.evaluatorLastName;
+                      vm.score = data.score;
+                  }).
+                  error(function (data, status, headers, config) {
+
+                  });
+        }
+
+        /* Get list of evaluators */
+        function _getAllEvaluators() {
+            restApi.getAllEvaluators().
+                  success(function (data, status, headers, config) {
+                      vm.evaluatorsList = data;
+                  }).
+                  error(function (data, status, headers, config) {
+                      vm.evaluatorsList = data;
+                  });
+        }
+
+        /* Assign an evaluator to a submission */
+        function _assignEvaluator(submissionID, evaluatorID) {
+            var IDs = { submissionID: submissionID, evaluatorID: evaluatorID }
+            restApi.assignEvaluator(IDs).
+                  success(function (data, status, headers, config) {
+                      vm.exists = false;
+                      vm.evaluationsList.forEach(function (eva, index) {
+                          if (eva.evaluatorID == data.evaluatorID) {
+                              vm.exists = true;
+                          }
+                      });
+
+                      if (!vm.exists)
+                          vm.evaluationsList.push(data);
+                  }).
+                  error(function (data, status, headers, config) {
+
+                  });
+        }
+
+        /* Remove an assigned evaluator from a submission */
+        function _removeEvaluator(evaluatorID) {
+            restApi.removeEvaluator(evaluatorID).
+                  success(function (data, status, headers, config) {
+                      vm.evaluationsList.forEach(function (eva, index) {
+                          if (eva.evaluatorID == data.evaluatorID) {
+                              vm.evaluationsList(index, 1);
+                          }
+                      });
+                  }).
+                  error(function (data, status, headers, config) {
+
+                  });
+        }
+
+        /* Assign a template to a submission */
+        function _assignTemplate(submissionID, templateID) {
+            var IDs = { submissionID: submissionID, templateID: templateID }
+            restApi.assignTemplate(IDs).
+                  success(function (data, status, headers, config) {
+
+                  }).
+                  error(function (data, status, headers, config) {
+
+                  });
+        }
+
+        /* Get Submission Types for Dropdown menu */
+        function _getSubmissionTypes() {
+            restApi.getSubmissionTypes().
+                   success(function (data, status, headers, config) {
+                       vm.submissionTypeList = data;
+                       if (data != null)
+                           vm.TYPE = vm.submissionTypeList[0];
+                   }).
+                   error(function (data, status, headers, config) {
+                   });
+        }
+
+        /* Get Topics for Dropdown menu */
+        function _getTopics() {
+            restApi.getTopics()
+            .success(function (data, status, headers, config) {
+                vm.topicsList = data;
+                if (data != null)
+                    vm.CTYPE = vm.topicsList[0];
+            })
+           .error(function (data, status, headers, config) {
+               alert("add un alert sexy");
+           });
+        }
+
+        /* Add a new Submission */
+        function _addSubmission() {
+            if (vm.TYPE.submissionTypeID == 1 || vm.TYPE.submissionTypeID == 2 || vm.TYPE.submissionTypeID == 4) {//if paper, poster o bof
+                var submission = {
+                    submissionID: vm.modalsubmissionID,
+                    userID: userID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
+                    submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle
+                }
+            }
+            else if (vm.TYPE.submissionTypeID == 3) {//if pannel
+                var submission = {
+                    submissionID: vm.modalsubmissionID,
+                    userID: userID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
+                    submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, panelistNames: vm.modalpanelistNames,
+                    plan: vm.modalplan, guideQuestion: vm.modalguideQuestions, formatDescription: vm.modalformat, necessaryEquipment: vm.modalequipment
+                }
+            }
+            else if (vm.TYPE.submissionTypeID == 5) {//if workshops
+                var submission = {
+                    submissionID: vm.modalsubmissionID,
+                    userID: userID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
+                    submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, plan: vm.modalplan, duration: vm.modalduration,
+                    delivery: vm.modaldelivery, necessary_equipment: vm.modalequipment
+                }
+            }
+            if (vm.myFile != undefined) {
+                submission.document = vm.content;
+                submission.documentName = vm.myFile.name;
+                vm.myFile.name = "";
+            }
+            submission.documentssubmitteds = vm.documentsList;
+            restApi.postSubmission(submission)
+                    .success(function (data, status, headers, config) {
+                        vm.submissionsList.push(data);
+                    })
+                    .error(function (error) {
+
+                    });
+        }
+
+        /**/
+        function _addDocument() {
+            vm.document = vm.content;
+            vm.documentName = vm.myFile.name;
+            vm.myFile = { document: vm.document, documentName: vm.documentName };
+
+            vm.documentsList.push(vm.myFile);
+        }
+
+        /**/
+        function _deleteDocument(document) {
+            vm.documentsList.forEach(function (doc, index) {
+                if (doc.documentName == document.documentName) {
+                    vm.documentsList.splice(index, 1);
+                }
+            });
+        }
+
+        /**/
+        function _getTemplates() {
+            restApi.getTemplatesAdmin().
+                   success(function (data, status, headers, config) {
+                       vm.templatesList = data;
+                   }).
+                   error(function (data, status, headers, config) {
+                       vm.templatesList = data;
+                       _clear();
+                   });
         }
 
     }

@@ -684,10 +684,41 @@ namespace NancyService.Modules
 
                     return Response.AsJson(evaluations);
                 };
+            //gets all approved evaluators so as to assign them submissions to evaluate
             Get["/getAllEvaluators"] = parameters =>
                 {
                     return Response.AsJson(submissionManager.getAcceptedEvaluators());
                 };
+            //Assigns an evaluator to a submission
+            Post["/assignEvaluator/{submissionID:long}/{evaluatorID:long}"] = parameters =>
+                {
+                    long submissionID = parameters.submissionID;
+                    long evaluatorID = parameters.evaluatorID;
+
+                    Evaluation evList =  submissionManager.assignEvaluator(submissionID, evaluatorID);
+
+                    return Response.AsJson(evList);
+                };
+            //Assigns a template to a submission
+            Post["/assignTemplate/{submissionID:long}/{templateID:long}"] = parameters =>
+            {
+                long submissionID = parameters.submissionID;
+                long templateID = parameters.templateID;
+                if (submissionManager.assignTemplate(submissionID, templateID)) return HttpStatusCode.OK;
+                else return HttpStatusCode.Conflict;
+            };
+            //Get the info of an evaluation
+            Get["/getEvaluationDetails/{submissionID:long}/{evaluatorID:long}"] = parameters =>
+            {
+                long submissionID = parameters.submissionID;
+                long evaluatorID = parameters.evaluatorID;
+                Evaluation sub = submissionManager.getEvaluationDetails(submissionID, evaluatorID);
+                if (sub == null)
+                {
+                    sub = new Evaluation();
+                }
+                return Response.AsJson(sub);
+            };
         }
     }
     public class AcceptanceStatusInfo

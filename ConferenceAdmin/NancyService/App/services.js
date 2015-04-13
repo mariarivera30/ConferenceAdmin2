@@ -117,7 +117,9 @@
             getEvaluationsForSubmission: _getEvaluationsForSubmission,
             getSubmissionDeadline: _getSubmissionDeadline,
             getAllEvaluators: _getAllEvaluators,
-            assignEvaluator: _assignEvaluator
+            assignEvaluator: _assignEvaluator,
+            getEvaluationDetails: _getEvaluationDetails,
+            assignTemplate: _assignTemplate
         };
 
         return service;
@@ -590,7 +592,19 @@
         };
         //Assigns chosen evaluator to the given submission with submissionID
         function _assignEvaluator(data) {
-            return $http.post('admin/assignEvaluator', data);
+            return $http.post('admin/assignEvaluator/' + data.submissionID + '/' + data.evaluatorID);
+        };
+        //Adds a submission submitted by the administrator for someone else
+        function _addSubmissionByAdmin(data) {
+            return $http.post('admin/addSubmissionByAdmin', data);
+        };
+        //get details of evaluation with submissionID and evaluatorID
+        function _getEvaluationDetails(data) {
+            return $http.get('admin/getEvaluationDetails/' + data.submissionID + '/' + data.evaluatorID);
+        };
+        //Assigns chosen template to the given submission with submissionID
+        function _assignTemplate(data) {
+            return $http.post('admin/assignTemplate/' + data.submissionID + '/' + data.templateID);
         };
     }
 }
