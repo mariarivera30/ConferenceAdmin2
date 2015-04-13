@@ -12,14 +12,16 @@
         vm.title = 'sponsorInterfaceCtrl2';
 
         //Interface
+        vm.idiamondAmount;
         vm.iplatinumAmount;
         vm.igoldAmount;
         vm.isilverAmount;
         vm.ibronzeAmount;
-        vm.iplatinumBenefits;
-        vm.igoldBenefits;
-        vm.isilverBenefits;
-        vm.ibronzeBenefits;
+        vm.idiamondBenefits = [];
+        vm.iplatinumBenefits = [];
+        vm.igoldBenefits = [];
+        vm.isilverBenefits = [];
+        vm.ibronzeBenefits = [];
         vm.instructions;
 
         //Functions
@@ -36,6 +38,8 @@
             restApi.getAllSponsorBenefits()
             .success(function (data, status, headers, config) {
                 if (data != null) {
+                    vm.idiamondAmount = data.diamondAmount;
+                    vm.idiamondBenefits = data.diamondBenefits;
                     vm.iplatinumAmount = data.platinumAmount;
                     vm.iplatinumBenefits = data.platinumBenefits;
                     vm.igoldAmount = data.goldAmount;

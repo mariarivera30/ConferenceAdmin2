@@ -7,9 +7,36 @@
     <section class="hide-until-loaded" id="body">
         <div class="row">
             <div class="col-lg-12">
-                <p ng-hide="vm.instructions || vm.iplatinumAmount || vm.igoldAmount || vm.isilverAmount || vm.ibronzeAmount">No content to display.</p>
+                <p ng-hide="vm.instructions || vm.idiamondAmount || vm.iplatinumAmount || vm.igoldAmount || vm.isilverAmount || vm.ibronzeAmount">No content to display.</p>
                 <p>{{vm.instructions}}</p><br />
             </div>
+
+            <div class="col-lg-3 col-sm-6" ng-show="vm.idiamondAmount">
+                <div class="pricing-box animated fadeInUp animation-delay-1">
+                    <div class="pricing-box-header diamond">
+                        <h2>Diamond</h2>
+                        <p>Pricing & Benefits</p>
+                    </div>
+                    <div class="pricing-box-price">
+                        <h3>$ {{vm.idiamondAmount}}</h3>
+                    </div>
+                    <div class="pricing-box-content">
+                        <ul>
+                            <li ng-show="vm.iplatinumBenefits.benefit1"><center>{{vm.idiamondBenefits.benefit1}}</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit2"><center>{{vm.idiamondBenefits.benefit2}}</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit3"><center>{{vm.idiamondBenefits.benefit3}}</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit4"><center>{{vm.idiamondBenefits.benefit4}}</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit5"><center>{{vm.idiamondBenefits.benefit5}}</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit6"><center>{{vm.idiamondBenefits.benefit6}}</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit7"><center>{{vm.idiamondBenefits.benefit7}}</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit8"><center>{{vm.idiamondBenefits.benefit8}}</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit9"><center>{{vm.idiamondBenefits.benefit9}}</center></li>
+                            <li ng-show="vm.iplatinumBenefits.benefit10"><center>{{vm.idiamondBenefits.benefit10}}</center></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
             <div class="col-lg-3 col-sm-6" ng-show="vm.iplatinumAmount">
                 <div class="pricing-box animated fadeInUp animation-delay-1">
                     <div class="pricing-box-header platinum">

@@ -7129,8 +7129,14 @@ input[type="date"]:focus {
 .big-input{
     width:200px;
 }
+
+.diamond, .diamond h2{
+    background-color: #F0F8FF;
+    color: black;
+}
+
 .platinum, .platinum h2{
-    background-color: lightgray;
+    background-color: gainsboro;
     color: black;
 }
 .gold {
@@ -7141,7 +7147,7 @@ input[type="date"]:focus {
     color: black;
 }
 .bronze {
-    background-color: saddlebrown;
+    background-color: peru;
 }
 
 h3 {

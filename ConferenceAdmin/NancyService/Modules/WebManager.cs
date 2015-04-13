@@ -941,7 +941,31 @@ namespace NancyService.Modules
 
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    if (name == "Platinum")
+                    if (name == "Diamond")
+                    {
+                        var diamond = (from s in context.sponsortypes
+                                        where s.name == "Diamond"
+                                        select s).FirstOrDefault();
+                        if (diamond != null)
+                        {
+                            sponsors.diamondAmount = diamond.amount;
+                            SponsorBenefitsQuery benefits = new SponsorBenefitsQuery();
+                            benefits.benefit1 = diamond.benefit1;
+                            benefits.benefit2 = diamond.benefit2;
+                            benefits.benefit3 = diamond.benefit3;
+                            benefits.benefit4 = diamond.benefit4;
+                            benefits.benefit5 = diamond.benefit5;
+                            benefits.benefit6 = diamond.benefit6;
+                            benefits.benefit7 = diamond.benefit7;
+                            benefits.benefit8 = diamond.benefit8;
+                            benefits.benefit9 = diamond.benefit9;
+                            benefits.benefit10 = diamond.benefit10;
+                            sponsors.diamondBenefits = benefits;
+
+                        }
+                    }
+
+                    else if (name == "Platinum")
                     {
                         var platinum = (from s in context.sponsortypes
                                         where s.name == "Platinium"
@@ -1053,7 +1077,14 @@ namespace NancyService.Modules
                 {
                     var sponsor = new sponsortype();
 
-                    if (sponsorBenefits.name == "Platinum")
+                    if (sponsorBenefits.name == "Diamond")
+                    {
+                        sponsor = (from s in context.sponsortypes
+                                   where s.name == "Diamond"
+                                   select s).FirstOrDefault();
+                    }
+
+                    else if (sponsorBenefits.name == "Platinum")
                     {
                         sponsor = (from s in context.sponsortypes
                                    where s.name == "Platinium"
@@ -1153,6 +1184,25 @@ namespace NancyService.Modules
 
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    var diamond = (from s in context.sponsortypes
+                                    where s.name == "Diamond"
+                                    select s).FirstOrDefault();
+                    if (diamond != null)
+                    {
+                        sponsors.diamondAmount = diamond.amount;
+                        SponsorBenefitsQuery benefits = new SponsorBenefitsQuery();
+                        benefits.benefit1 = diamond.benefit1;
+                        benefits.benefit2 = diamond.benefit2;
+                        benefits.benefit3 = diamond.benefit3;
+                        benefits.benefit4 = diamond.benefit4;
+                        benefits.benefit5 = diamond.benefit5;
+                        benefits.benefit6 = diamond.benefit6;
+                        benefits.benefit7 = diamond.benefit7;
+                        benefits.benefit8 = diamond.benefit8;
+                        benefits.benefit9 = diamond.benefit9;
+                        benefits.benefit10 = diamond.benefit10;
+                        sponsors.diamondBenefits = benefits;
+                    }
 
                     var platinum = (from s in context.sponsortypes
                                     where s.name == "Platinium"
@@ -1710,10 +1760,12 @@ namespace NancyService.Modules
 
     public class SponsorInterfaceBenefits
     {
+        public double diamondAmount;
         public double platinumAmount;
         public double goldAmount;
         public double silverAmount;
         public double bronzeAmount;
+        public SponsorBenefitsQuery diamondBenefits;
         public SponsorBenefitsQuery platinumBenefits;
         public SponsorBenefitsQuery goldBenefits;
         public SponsorBenefitsQuery silverBenefits;

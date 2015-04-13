@@ -45,7 +45,10 @@
 
         function _selectedSponsor(sponsorType) {
             vm.sponsorType = sponsorType;
-            if (sponsorType == "Platinum") {
+            if (sponsorType == "Diamond") {
+                _getBenefits("Diamond");
+            }
+            else if (sponsorType == "Platinum") {
                 _getBenefits("Platinum");
             }
 
@@ -66,8 +69,12 @@
             restApi.getAdminSponsorBenefits(sname)
             .success(function (data, status, headers, config) {
                 if (data != null) {
-
-                    if (sname == "Platinum") {
+                    if (sname == "Diamond") {
+                        vm.amount = data.diamondAmount;
+                        vm.benefits = data.diamondBenefits;
+                        $("#editSponsorBenefits").modal('show');
+                    }
+                    else if (sname == "Platinum") {
                         vm.amount = data.platinumAmount;
                         vm.benefits = data.platinumBenefits;
                         $("#editSponsorBenefits").modal('show');
