@@ -753,7 +753,7 @@ namespace NancyService.Modules
                     workshopToAdd = this.Bind<workshop>();
                 }
                 Submission newSubmission =
-                    submissionManager.addSubmission(usersubTA, submissionToAdd, pannelToAdd, workshopToAdd);
+                    submissionManager.addSubmissionByAdmin(usersubTA, submissionToAdd, pannelToAdd, workshopToAdd);
                 return Response.AsJson(newSubmission);
 
             };

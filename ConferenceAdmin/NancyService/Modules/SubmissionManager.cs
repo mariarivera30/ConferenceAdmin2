@@ -1324,6 +1324,7 @@ namespace NancyService.Modules
                     Submission subAltered = new Submission();
                     subAltered.changedAcceptanceStatus = changedAcceptanceStatus;
                     subAltered.submissionID = sub.submissionID;
+                    subAltered.status = newStatus;
 
                     return subAltered;
                 }
@@ -1331,6 +1332,100 @@ namespace NancyService.Modules
             catch (Exception ex)
             {
                 Console.Write("SubmissionManager.changeSubmissionStatus error " + ex);
+                return null;
+            }
+        }
+        //This adds the submission when it is added by an administrator
+        public Submission addSubmissionByAdmin(usersubmission usersubTA, submission submissionToAdd, panel pannelToAdd, workshop workshopToAdd)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    submission sub = new submission();
+                    //for all types of submissions
+                    //table submission
+                    sub.topicID = submissionToAdd.topicID;
+                    sub.submissionTypeID = submissionToAdd.submissionTypeID;
+                    sub.submissionAbstract = submissionToAdd.submissionAbstract;
+                    sub.title = submissionToAdd.title;
+                    sub.status = "Pending";
+                    sub.creationDate = DateTime.Now;
+                    sub.deleted = false;
+                    sub.byAdmin = true;
+                    context.submissions.Add(sub);
+                    context.SaveChanges();
+                    //table usersubmission
+                    long submissionID = sub.submissionID;
+                    usersubmission usersub = new usersubmission();
+                    usersub.userID = usersubTA.userID;
+                    usersub.initialSubmissionID = submissionID;
+                    usersub.allowFinalVersion = false;
+                    usersub.deleted = false;
+                    usersub.finalSubmissionID = null;
+                    context.usersubmission.Add(usersub);
+                    context.SaveChanges();
+                    //table documents submitted
+                    if (submissionToAdd.submissionTypeID != 4)
+                    {
+                        documentssubmitted subDocs = new documentssubmitted();
+
+                        foreach (var doc in submissionToAdd.documentssubmitteds)
+                        {
+                            subDocs.submissionID = submissionID;
+                            subDocs.documentName = doc.documentName;
+                            subDocs.document = doc.document;
+                            subDocs.deleted = false;
+                            context.documentssubmitteds.Add(subDocs);
+                            context.SaveChanges();
+                        }
+
+                    }
+                    //table pannels
+                    if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
+                    {
+                        panel subPanel = new panel();
+                        subPanel.submissionID = submissionID;
+                        subPanel.panelistNames = pannelToAdd.panelistNames;
+                        subPanel.plan = pannelToAdd.plan;
+                        subPanel.guideQuestion = pannelToAdd.guideQuestion;
+                        subPanel.formatDescription = pannelToAdd.formatDescription;
+                        subPanel.necessaryEquipment = pannelToAdd.necessaryEquipment;
+                        subPanel.deleted = false;
+                        context.panels.Add(subPanel);
+                        context.SaveChanges();
+                    }
+                    //table workshop
+                    if (submissionToAdd.submissionTypeID == 5 && workshopToAdd != null)
+                    {
+                        workshop subWorkshop = new workshop();
+                        subWorkshop.submissionID = submissionID;
+                        subWorkshop.duration = workshopToAdd.duration;
+                        subWorkshop.delivery = workshopToAdd.delivery;
+                        subWorkshop.plan = workshopToAdd.plan;
+                        subWorkshop.necessary_equipment = workshopToAdd.necessary_equipment;
+                        subWorkshop.deleted = false;
+                        context.workshops.Add(subWorkshop);
+                        context.SaveChanges();
+                    }
+
+                    Submission addedSub = new Submission
+                    {
+                        submissionID = submissionID,
+                        submissionTypeName = getSubmissionTypeName(sub.submissionTypeID),
+                        submissionTypeID = sub.submissionTypeID,
+                        submissionTitle = sub.title,
+                        topiccategoryID = sub.topicID,
+                        status = sub.status,
+                        isEvaluated = false,
+                        isFinalSubmission = false
+                    };
+                    return addedSub;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.addSubmission error " + ex);
                 return null;
             }
         }
