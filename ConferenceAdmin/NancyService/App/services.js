@@ -119,7 +119,8 @@
             getAllEvaluators: _getAllEvaluators,
             assignEvaluator: _assignEvaluator,
             getEvaluationDetails: _getEvaluationDetails,
-            assignTemplate: _assignTemplate
+            assignTemplate: _assignTemplate,
+            removeEvaluator: _removeEvaluator
         };
 
         return service;
