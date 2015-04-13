@@ -190,6 +190,8 @@ namespace NancyService.Modules
                         {
                             submissionID = sub.submissionID,
                             evaluatorID = sub.evaluatorID,
+                            templateID = sub.submission.templatesubmissions.FirstOrDefault() == null ? -1 : sub.submission.templatesubmissions.FirstOrDefault().templateID,
+                            templateName = sub.submission.templatesubmissions.FirstOrDefault() == null ? null : sub.submission.templatesubmissions.FirstOrDefault().template.name,
                             evaluationFileName = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.evaluationName).FirstOrDefault(),
                             evaluationFile = sub.evaluationsubmitteds.Where(d => d.deleted == false).Select(r => r.evaluationFile).FirstOrDefault(),
                             score = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.score).FirstOrDefault(),
@@ -1248,13 +1250,22 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     //asignarle un evaluation template al submission
-                    templatesubmission templateRelation = new templatesubmission();
-                    templateRelation.templateID = templateID;
-                    templateRelation.submissionID = submissionID;
-                    templateRelation.deleted = false;
-                    context.templatesubmissions.Add(templateRelation);
-                    context.SaveChanges();
-
+                    bool subInTable = context.templatesubmissions.Where(c => c.submissionID == submissionID).FirstOrDefault() == null ? false : true;
+                    if (subInTable)
+                    {
+                        templatesubmission ts = context.templatesubmissions.Where(c => c.submissionID == submissionID).FirstOrDefault();
+                        ts.templateID = templateID;
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        templatesubmission templateRelation = new templatesubmission();
+                        templateRelation.templateID = templateID;
+                        templateRelation.submissionID = submissionID;
+                        templateRelation.deleted = false;
+                        context.templatesubmissions.Add(templateRelation);
+                        context.SaveChanges();
+                    }
                     return true;
                 }
             }
@@ -1264,7 +1275,26 @@ namespace NancyService.Modules
                 return false;
             }
         }
-
+        
+        //removes relation of evaluator and submissions
+        public bool removeEvaluatorSubmission(long evaluatorSubmissionID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    evaluatiorsubmission evalSubToRemove = context.evaluatiorsubmissions.Where(c => c.evaluationsubmissionID == evaluatorSubmissionID).FirstOrDefault();
+                    evalSubToRemove.deleted = true;
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.removeEvaluatorSubmission error " + ex);
+                return false;
+            }
+        }
     }
 
     public class CurrAndPrevSub
@@ -1328,6 +1358,8 @@ namespace NancyService.Modules
          public long submissionID;
          public long evaluatorID;
          public long evaluatorSubmissionID;
+         public long templateID;
+         public String templateName;
          public String evaluatorFirstName;
          public String evaluatorLastName;
          public int? score;
