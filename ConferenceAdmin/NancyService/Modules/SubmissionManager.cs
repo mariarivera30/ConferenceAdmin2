@@ -1190,7 +1190,7 @@ namespace NancyService.Modules
                         Select(evaluator => new EvaluatorQuery
                     {
                         userID = (long)evaluator.userID,
-                       // evaluatorID = evaluator.evaluators.FirstOrDefault() == null ? -1 : evaluator.evaluators.FirstOrDefault().evaluatorsID,
+                        evaluatorID = evaluator.evaluators.FirstOrDefault() == null ? -1 : evaluator.evaluators.FirstOrDefault().evaluatorsID,
                         firstName = evaluator.firstName,
                         lastName = evaluator.lastName,
                         email = evaluator.membership.email,
@@ -1207,7 +1207,7 @@ namespace NancyService.Modules
             }           
         }
 
-        public Evaluation assignEvaluator(long submissionID, long evaluatorID, long templateID)
+        public Evaluation assignEvaluator(long submissionID, long evaluatorID)
         {
             try
             {
@@ -1229,14 +1229,6 @@ namespace NancyService.Modules
                     addedRelation.evaluatorLastName = context.evaluators.FirstOrDefault(c => c.evaluatorsID == evaluatorID).user.lastName;
                     addedRelation.score = 0;
 
-                    //asignarle un evaluation template al submission
-                    templatesubmission templateRelation = new templatesubmission();
-                    templateRelation.templateID = templateID;    
-                    templateRelation.submissionID = submissionID;
-                    templateRelation.deleted = false;
-                    context.templatesubmissions.Add(templateRelation);
-                    context.SaveChanges();
-
                     return addedRelation;
                 }
             }
@@ -1244,7 +1236,31 @@ namespace NancyService.Modules
             {
                 Console.Write("SubmissionManager.assignEvaluator error " + ex);
                 return null;
-            }           
+            }
+        }
+        //Assigns a template to a submission
+        public bool assignTemplate(long submissionID, long templateID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    //asignarle un evaluation template al submission
+                    templatesubmission templateRelation = new templatesubmission();
+                    templateRelation.templateID = templateID;
+                    templateRelation.submissionID = submissionID;
+                    templateRelation.deleted = false;
+                    context.templatesubmissions.Add(templateRelation);
+                    context.SaveChanges();
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.assignEvaluator error " + ex);
+                return false;
+            }
         }
 
     }
