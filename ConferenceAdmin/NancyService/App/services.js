@@ -121,7 +121,8 @@
             getEvaluationDetails: _getEvaluationDetails,
             assignTemplate: _assignTemplate,
             removeEvaluator: _removeEvaluator,
-            changeSubmissionStatus: _changeSubmissionStatus
+            changeSubmissionStatus: _changeSubmissionStatus,
+            postAdminSubmission: _postAdminSubmission
         };
 
         return service;
@@ -615,6 +616,10 @@
         //Changes submission status
         function _changeSubmissionStatus(data) {
             return $http.put('admin/changeSubmissionStatus/' + data.status + '/' + data.submissionID);
+        };
+        //Adds a submission submitted by the admin        
+        function _postAdminSubmission(data) {
+            return $http.post('profile/postAdminSubmission', data)
         };
     }
 }
