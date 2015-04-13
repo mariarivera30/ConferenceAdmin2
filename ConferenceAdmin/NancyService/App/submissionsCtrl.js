@@ -265,11 +265,11 @@
         }
 
         /* Remove an assigned evaluator from a submission */
-        function _removeEvaluator(evaluatorID) {
-            restApi.removeEvaluator(evaluatorID).
+        function _removeEvaluator(evaluatorSubmissionID) {
+            restApi.removeEvaluator(evaluatorSubmissionID).
                   success(function (data, status, headers, config) {
                       vm.evaluationsList.forEach(function (eva, index) {
-                          if (eva.evaluatorID == data.evaluatorID) {
+                          if (eva.evaluatorSubmissionID == data.evaluatorSubmissionID) {
                               vm.evaluationsList(index, 1);
                           }
                       });
@@ -284,7 +284,7 @@
             var IDs = { submissionID: submissionID, templateID: templateID }
             restApi.assignTemplate(IDs).
                   success(function (data, status, headers, config) {
-
+                      vm.saved = true;
                   }).
                   error(function (data, status, headers, config) {
 
