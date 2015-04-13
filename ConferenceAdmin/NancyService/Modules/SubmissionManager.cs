@@ -1190,7 +1190,7 @@ namespace NancyService.Modules
                         Select(evaluator => new EvaluatorQuery
                     {
                         userID = (long)evaluator.userID,
-                        evaluatorID = evaluator.evaluators.FirstOrDefault() == null ? -1 : evaluator.evaluators.FirstOrDefault().evaluatorsID,
+                       // evaluatorID = evaluator.evaluators.FirstOrDefault() == null ? -1 : evaluator.evaluators.FirstOrDefault().evaluatorsID,
                         firstName = evaluator.firstName,
                         lastName = evaluator.lastName,
                         email = evaluator.membership.email,

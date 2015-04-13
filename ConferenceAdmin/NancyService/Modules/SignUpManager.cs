@@ -34,7 +34,9 @@ namespace NancyService.Modules
 
 
         }
-       
+        //ccwicEmail
+        string ccwicEmail = "ccwictest@gmail.com";
+        string ccwicEmailPass = "ccwic123456789";
        
         public bool createUser(user user, membership member, address address)
         {
@@ -83,8 +85,13 @@ namespace NancyService.Modules
                         context.SaveChanges();
 
                     }
+                    try { sendEmailConfirmation(member.email, member.confirmationKey); }
 
-                    sendEmailConfirmation(member.email, member.confirmationKey);
+                    catch (Exception ex)
+                    {
+                        Console.Write("SignUpManager.NewConfirmationEmail error " + ex);
+                        return false;
+                    }
 
                     return true;
 
@@ -94,7 +101,7 @@ namespace NancyService.Modules
             }
             catch (Exception ex)
             {
-                Console.Write("SignUpManager.addSponsor error " + ex);
+                Console.Write("SignUpManager.creatingUser error " + ex);
                 return false;
             }
 
@@ -107,40 +114,40 @@ namespace NancyService.Modules
 
         private void sendEmailConfirmation(string email, string key)
         {
-            MailAddress ccwic = new MailAddress("maria.rivera30@upr.edu");
+            MailAddress ccwic = new MailAddress(ccwicEmail);
             MailAddress user = new MailAddress(email);
             MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
 
 
             mail.Subject = "Caribbean Celebration of Women in Computing Account Confirmation!";
-            mail.Body = "Please click the link to confirm your account. \n\n " + "http://localhost:12036/#/Validate" + "\n Your key is " + key;
+            mail.Body = "Please click the link to confirm your account. \n\n " + "http://136.145.116.238/#/Validate" + "\n\n Your key is " + key;
 
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";
             smtp.Port = 587;
 
             smtp.Credentials = new NetworkCredential(
-                "maria.rivera30@upr.edu", "casa7463");
+                ccwicEmail,ccwicEmailPass);
             smtp.EnableSsl = true;
 
             smtp.Send(mail);
         }
         private void sendTemporaryPassword(string email, string pass)
         {
-            MailAddress ccwic = new MailAddress("maria.rivera30@upr.edu");
+            MailAddress ccwic = new MailAddress(ccwicEmail);
             MailAddress user = new MailAddress(email);
             MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
 
 
             mail.Subject = "Caribbean Celebration of Women Temporary Password!";
-            mail.Body = "Login using this password " + pass + ".\n Change your password as soon as possible.\n Visit us: http://localhost:12036/#/ChangePassword";
+            mail.Body = "Login using this password " + pass + ".\n Change your password as soon as possible.\n Visit us: http://136.145.116.238/#/ChangePassword";
 
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";
             smtp.Port = 587;
 
             smtp.Credentials = new NetworkCredential(
-                "maria.rivera30@upr.edu", "casa7463");
+                ccwicEmail, ccwicEmailPass);
             smtp.EnableSsl = true;
 
             smtp.Send(mail);
@@ -217,7 +224,12 @@ namespace NancyService.Modules
                         u.email = member.email;
                         u.membershipID = member.membershipID;
                         context.SaveChanges();
-                        sendTemporaryPassword(u.email, tempPass);
+                        try { sendTemporaryPassword(u.email, tempPass); }
+                        catch (Exception ex){
+                            Console.Write("SignUP.requestPass Send Email error " + ex);
+                            return null;
+                        }
+                        
                         return "changed";
                     }
 
@@ -257,8 +269,18 @@ namespace NancyService.Modules
                         }
                         else 
                         {
-                            sendEmailConfirmation(user.email, user.confirmationKey);
-                            return "notconfirmed";
+                            try
+                            {
+                                sendEmailConfirmation(user.email, user.confirmationKey);
+                                return "notconfirmed";
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.Write("SignUP.Resend Email Confirmation error " + ex);
+                                return null;
+                            }
+                        
+                            
                         }
 
                     }
@@ -268,7 +290,7 @@ namespace NancyService.Modules
                 }
                 catch (Exception ex)
                 {
-                    Console.Write("SponsorManager.getSponsor error " + ex);
+                    Console.Write("SignUpRequestPassword error " + ex);
                     return null;
                 }
             }
