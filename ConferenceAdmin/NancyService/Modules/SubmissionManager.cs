@@ -190,8 +190,8 @@ namespace NancyService.Modules
                         {
                             submissionID = sub.submissionID,
                             evaluatorID = sub.evaluatorID,
-                            templateID = sub.submission.templatesubmissions.FirstOrDefault() == null ? -1 : sub.submission.templatesubmissions.FirstOrDefault().templateID,
-                            templateName = sub.submission.templatesubmissions.FirstOrDefault() == null ? null : sub.submission.templatesubmissions.FirstOrDefault().template.name,
+                            templateID = sub.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? -1 : sub.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().templateID,
+                            templateName = sub.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().template.name,
                             evaluationFileName = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.evaluationName).FirstOrDefault(),
                             evaluationFile = sub.evaluationsubmitteds.Where(d => d.deleted == false).Select(r => r.evaluationFile).FirstOrDefault(),
                             score = sub.evaluationsubmitteds.Where(c => c.deleted == false).Select(r => r.score).FirstOrDefault(),
@@ -223,7 +223,7 @@ namespace NancyService.Modules
                         {
                             submissionID = i.submissionID,
                             evaluatorID = i.evaluatorID,
-                            userType = i.submission.usersubmissions1.FirstOrDefault() == null ? null : i.submission.usersubmissions1.FirstOrDefault().user.usertype.userTypeName,
+                            userType = i.submission.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault().user.usertype.userTypeName,
                             submissionTitle = i.submission.title,
                             topic = i.submission.topiccategory.name,
                             isEvaluated = (i.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true)
@@ -316,8 +316,8 @@ namespace NancyService.Modules
                             submissionTitle = i.submission == null ? null : i.submission.title,
                             topiccategoryID = i.submission == null ? -1 : i.submission.topicID,
                             status = i.submission == null ? null : i.submission.status,
-                            isEvaluated = (i.submission.evaluatiorsubmissions.FirstOrDefault() == null ? null : i.submission.evaluatiorsubmissions.FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
-                            isAssigned = i.submission.evaluatiorsubmissions.FirstOrDefault() == null ? false : true,
+                            isEvaluated = (i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
+                            isAssigned = i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true,
                             isFinalSubmission = true
 
                         }).ToList();
@@ -331,8 +331,8 @@ namespace NancyService.Modules
                             submissionTitle = i.submission1 == null ? null : i.submission1.title,
                             topiccategoryID = i.submission1 == null ? -1 : i.submission1.topicID,
                             status = i.submission1 == null ? null : i.submission1.status,
-                            isEvaluated = (i.submission1.evaluatiorsubmissions.FirstOrDefault() == null ? null : i.submission1.evaluatiorsubmissions.FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
-                            isAssigned = i.submission1.evaluatiorsubmissions.FirstOrDefault() == null ? false : true,
+                            isEvaluated = (i.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
+                            isAssigned = i.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true,
                             isFinalSubmission = false,
                             finalSubmissionAllowed = (i.allowFinalVersion == null ? false : i.allowFinalVersion) == false ? false : true
                         }).ToList();
@@ -388,17 +388,17 @@ namespace NancyService.Modules
                             equipment = null,
                             duration = null,
                             delivery = null,
-                            subIsEvaluated = (sub.evaluatiorsubmissions.FirstOrDefault() == null ? null : sub.evaluatiorsubmissions.FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
-                            publicFeedback = (sub.evaluatiorsubmissions.FirstOrDefault() == null ? 
-                            null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                            null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback,                        
+                            subIsEvaluated = (sub.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
+                            publicFeedback = (sub.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            null : sub.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault()) == null ?
+                            null : sub.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault().publicFeedback,                        
                             //get previous submission if possible
-                            hasPrevVersion = sub.usersubmissions.FirstOrDefault() == null ? false: true,
-                            prevSubmissionID = sub.usersubmissions.FirstOrDefault() == null ? -1 : sub.usersubmissions.FirstOrDefault().submission1.submissionID,
-                            prevSubmissionTitle = sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().submission1.title,
-                            prevTopic = sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().submission1.topiccategory.name,
-                            prevSubmissionAbstract = sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().submission1.submissionAbstract,
-                            prevSubmissionFileList = sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().submission1.documentssubmitteds.Where(u => u.deleted == false).
+                            hasPrevVersion = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true,
+                            prevSubmissionID = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? -1 : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.submissionID,
+                            prevSubmissionTitle = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.title,
+                            prevTopic = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.topiccategory.name,
+                            prevSubmissionAbstract = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.submissionAbstract,
+                            prevSubmissionFileList = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.documentssubmitteds.Where(u => u.deleted == false).
                                 Select(c => new SubmissionDocument
                                 {
                                     documentssubmittedID = c.documentssubmittedID,
@@ -407,7 +407,7 @@ namespace NancyService.Modules
                                     document = c.document,
                                     deleted = c.deleted
                                 }).ToList(),
-                            prevSubmissionType = sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().submission1.submissiontype.name,
+                            prevSubmissionType = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.submissiontype.name,
                             prevPanelistNames = null,
                             prevPlan = null,
                             prevGuideQuestions = null,
@@ -415,14 +415,14 @@ namespace NancyService.Modules
                             prevEquipment = null,
                             prevDuration = null,
                             prevDelivery = null,
-                            prevSubIsEvaluated = sub.usersubmissions.FirstOrDefault() == null ?
-                            false : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault() == null ?
-                            false : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().statusEvaluation == "Evaluated" ? true : false,                         
-                            prevPublicFeedback = ((sub.usersubmissions.FirstOrDefault() == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1 == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault()) == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback
+                            prevSubIsEvaluated = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            false : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            false : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation == "Evaluated" ? true : false,
+                            prevPublicFeedback = ((sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1 == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault()) == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault()) == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault().publicFeedback
                             
 
                         };
@@ -455,18 +455,18 @@ namespace NancyService.Modules
                             equipment = (sub.panels.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.panels.Where(y => y.deleted == false).FirstOrDefault().necessaryEquipment),
                             duration = null,
                             delivery = null,
-                            subIsEvaluated = (sub.evaluatiorsubmissions.FirstOrDefault() == null ? null : sub.evaluatiorsubmissions.FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
-                            publicFeedback = (sub.evaluatiorsubmissions.FirstOrDefault() == null ?
-                             null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                             null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback,
+                            subIsEvaluated = (sub.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
+                            publicFeedback = (sub.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                             null : sub.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault()) == null ?
+                             null : sub.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault().publicFeedback,
                             
                             //previous
-                            hasPrevVersion = sub.usersubmissions.FirstOrDefault() == null ? false: true,
-                            prevSubmissionID = sub.usersubmissions.FirstOrDefault() == null ? -1 : sub.usersubmissions.FirstOrDefault().submission1.submissionID,
-                            prevSubmissionTitle = sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().submission1.title,
-                            prevTopic = sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().submission1.topiccategory.name,
-                            prevSubmissionAbstract = sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().submission1.submissionAbstract,
-                            prevSubmissionFileList = sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().submission1.documentssubmitteds.Where(u => u.deleted == false).
+                            hasPrevVersion = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true,
+                            prevSubmissionID = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? -1 : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.submissionID,
+                            prevSubmissionTitle = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.title,
+                            prevTopic = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.topiccategory.name,
+                            prevSubmissionAbstract = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.submissionAbstract,
+                            prevSubmissionFileList = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.documentssubmitteds.Where(u => u.deleted == false).
                                 Select(c => new SubmissionDocument
                                 {
                                     documentssubmittedID = c.documentssubmittedID,
@@ -475,33 +475,33 @@ namespace NancyService.Modules
                                     document = c.document,
                                     deleted = c.deleted
                                 }).ToList(),
-                            prevSubmissionType = sub.usersubmissions.FirstOrDefault() == null ? 
-                            null : sub.usersubmissions.FirstOrDefault().submission1.submissiontype.name,
-                            prevPanelistNames = (sub.usersubmissions.FirstOrDefault() == null ? 
-                            null : sub.usersubmissions.FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault() == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault().panelistNames),                            
-                            prevPlan = (sub.usersubmissions.FirstOrDefault() == null ? 
-                            null : sub.usersubmissions.FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault() == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault().plan),                            
-                            prevGuideQuestions = (sub.usersubmissions.FirstOrDefault() == null ? 
-                            null : sub.usersubmissions.FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault() == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault().guideQuestion),
-                            prevFormat = (sub.usersubmissions.FirstOrDefault() == null ? 
-                            null : sub.usersubmissions.FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault() == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault().formatDescription),                            
-                            prevEquipment = (sub.usersubmissions.FirstOrDefault() == null ? 
-                            null : sub.usersubmissions.FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault() == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault().necessaryEquipment),
+                            prevSubmissionType = sub.usersubmissions.FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.submissiontype.name,
+                            prevPanelistNames = (sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault().panelistNames),
+                            prevPlan = (sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault().plan),
+                            prevGuideQuestions = (sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault().guideQuestion),
+                            prevFormat = (sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault().formatDescription),
+                            prevEquipment = (sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.panels.Where(y => y.deleted == false).FirstOrDefault().necessaryEquipment),
                             prevDuration = null,
                             prevDelivery = null,
-                            prevSubIsEvaluated = sub.usersubmissions.FirstOrDefault() == null ?
-                            false : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault() == null ?
-                            false : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().statusEvaluation == "Evaluated" ? true : false,                         
-                            prevPublicFeedback = ((sub.usersubmissions.FirstOrDefault() == null ?
-                             null : sub.usersubmissions.FirstOrDefault().submission1 == null ?
-                             null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault()) == null ?
-                             null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                             null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback
+                            prevSubIsEvaluated = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            false : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            false : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation == "Evaluated" ? true : false,
+                            prevPublicFeedback = ((sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                             null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1 == null ?
+                             null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault()) == null ?
+                             null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault()) == null ?
+                             null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault().publicFeedback
                             
                         };                        
                     }
@@ -533,18 +533,18 @@ namespace NancyService.Modules
                             equipment = (sub.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.workshops.Where(y => y.deleted == false).FirstOrDefault().necessary_equipment),
                             duration = (sub.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.workshops.Where(y => y.deleted == false).FirstOrDefault().duration),
                             delivery = (sub.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.workshops.Where(y => y.deleted == false).FirstOrDefault().delivery),
-                            subIsEvaluated = (sub.evaluatiorsubmissions.FirstOrDefault() == null ? null : sub.evaluatiorsubmissions.FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
-                            publicFeedback = (sub.evaluatiorsubmissions.FirstOrDefault() == null ?
-                             null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                             null : sub.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback,
+                            subIsEvaluated = (sub.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
+                            publicFeedback = (sub.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                             null : sub.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault()) == null ?
+                             null : sub.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault().publicFeedback,
                             
                             //previous
-                            hasPrevVersion = sub.usersubmissions.FirstOrDefault() == null ? false : true,
-                            prevSubmissionID = sub.usersubmissions.FirstOrDefault() == null ? -1 : sub.usersubmissions.FirstOrDefault().submission1.submissionID,
-                            prevSubmissionTitle = sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().submission1.title,
-                            prevTopic = sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().submission1.topiccategory.name,
-                            prevSubmissionAbstract = sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().submission1.submissionAbstract,
-                            prevSubmissionFileList = sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().submission1.documentssubmitteds.Where(u => u.deleted == false).
+                            hasPrevVersion = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true,
+                            prevSubmissionID = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? -1 : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.submissionID,
+                            prevSubmissionTitle = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.title,
+                            prevTopic = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.topiccategory.name,
+                            prevSubmissionAbstract = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.submissionAbstract,
+                            prevSubmissionFileList = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.documentssubmitteds.Where(u => u.deleted == false).
                                 Select(c => new SubmissionDocument
                                 {
                                     documentssubmittedID = c.documentssubmittedID,
@@ -553,31 +553,31 @@ namespace NancyService.Modules
                                     document = c.document,
                                     deleted = c.deleted
                                 }).ToList(),
-                            prevSubmissionType = sub.usersubmissions.FirstOrDefault() == null ? 
-                            null : sub.usersubmissions.FirstOrDefault().submission1.submissiontype.name,
-                            prevPanelistNames = null, 
-                            prevPlan = (sub.usersubmissions.FirstOrDefault() == null ? 
-                            null : sub.usersubmissions.FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ? 
-                            null : sub.usersubmissions.FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault().plan),
+                            prevSubmissionType = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.submissiontype.name,
+                            prevPanelistNames = null,
+                            prevPlan = (sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault().plan),
                             prevGuideQuestions = null,
-                            prevFormat = null, 
-                            prevEquipment = (sub.usersubmissions.FirstOrDefault() == null ? 
-                            null : sub.usersubmissions.FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault().necessary_equipment),
-                            prevDuration = (sub.usersubmissions.FirstOrDefault() == null ? 
-                            null : sub.usersubmissions.FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault().duration),
-                            prevDelivery = (sub.usersubmissions.FirstOrDefault() == null ? 
-                            null : sub.usersubmissions.FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault().delivery),                 
-                            prevSubIsEvaluated = sub.usersubmissions.FirstOrDefault() == null ?
-                            false : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault() == null ?
-                            false : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().statusEvaluation == "Evaluated" ? true : false,                         
-                            prevPublicFeedback = ((sub.usersubmissions.FirstOrDefault() == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1 == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault()) == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault()) == null ?
-                            null : sub.usersubmissions.FirstOrDefault().submission1.evaluatiorsubmissions.FirstOrDefault().evaluationsubmitteds.FirstOrDefault().publicFeedback
+                            prevFormat = null,
+                            prevEquipment = (sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault().necessary_equipment),
+                            prevDuration = (sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault().duration),
+                            prevDelivery = (sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.workshops.Where(y => y.deleted == false).FirstOrDefault().delivery),
+                            prevSubIsEvaluated = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            false : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            false : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation == "Evaluated" ? true : false,
+                            prevPublicFeedback = ((sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1 == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault()) == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault()) == null ?
+                            null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault().publicFeedback
                             
                         };
                     }
@@ -633,6 +633,7 @@ namespace NancyService.Modules
                     }
                     //delete submission
                     sub.deleted = true;
+                    //delete user submissions
                     if(sub.usersubmissions.FirstOrDefault() != null)
                     {
                     sub.usersubmissions.FirstOrDefault().deleted = true;
@@ -882,17 +883,17 @@ namespace NancyService.Modules
                             String submissionTitle = sub.submission == null ? null : sub.submission.title;
                             int topiccategoryID = sub.submission == null ? -1 : sub.submission.topicID;
                             String topic = sub.submission == null ? null : sub.submission.topiccategory == null ? null : sub.submission.topiccategory.name;
-                            String status = sub.submission == null ? null : sub.submission.status;                            
-                        IEnumerable<IGrouping<long, evaluatiorsubmission>> groupBy = sub.submission == null ? null : sub.submission.evaluatiorsubmissions.FirstOrDefault() == null ?
-                               null : sub.submission.evaluatiorsubmissions.GroupBy(s => s.submissionID).ToList();
+                            String status = sub.submission == null ? null : sub.submission.status;
+                            IEnumerable<IGrouping<long, evaluatiorsubmission>> groupBy = sub.submission == null ? null : sub.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                               null : sub.submission.evaluatiorsubmissions.Where(c => c.deleted == false).GroupBy(s => s.submissionID).ToList();
                         if (groupBy != null)
                         {
                             foreach (var subGroup in groupBy)//goes through all groups of sub/evalsub
                             {
                                 foreach (var evalsForSub in subGroup)//goes through all evaluatiorsubmission for each submission
                                 {
-                                    int? thisScore = evalsForSub.evaluationsubmitteds.FirstOrDefault() == null ?
-                                        -1 : evalsForSub.evaluationsubmitteds.FirstOrDefault().score;
+                                    int? thisScore = evalsForSub.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                                        -1 : evalsForSub.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault().score;
                                     if (thisScore != -1)//if submission has been evaluated
                                     {
                                         scoreSum = scoreSum + thisScore;
@@ -928,17 +929,17 @@ namespace NancyService.Modules
                         String submissionTitle = sub.submission1.title;
                         int topiccategoryID = sub.submission1 == null ? -1 : sub.submission1.topicID;
                         String topic = sub.submission1 == null ? null : sub.submission1.topiccategory == null ? null : sub.submission1.topiccategory.name;
-                        String status = sub.submission1 == null ? null : sub.submission1.status;                        
-                        IEnumerable<IGrouping<long, evaluatiorsubmission>> groupBy = sub.submission1 == null ? null: sub.submission1.evaluatiorsubmissions.FirstOrDefault() == null ?
-                                null : sub.submission1.evaluatiorsubmissions.GroupBy(s => s.submissionID).ToList();
+                        String status = sub.submission1 == null ? null : sub.submission1.status;
+                        IEnumerable<IGrouping<long, evaluatiorsubmission>> groupBy = sub.submission1 == null ? null : sub.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                                null : sub.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).GroupBy(s => s.submissionID).ToList();
                         if (groupBy != null)
                         {                          
                         foreach (var subGroup in groupBy)//goes through all groups of sub/evalsub
                         {
                             foreach (var evalsForSub in subGroup)//goes through all evaluatiorsubmission for each submission
                             {
-                                int? thisScore = evalsForSub.evaluationsubmitteds.FirstOrDefault() == null ?
-                                    -1 : evalsForSub.evaluationsubmitteds.FirstOrDefault().score;
+                                int? thisScore = evalsForSub.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                                    -1 : evalsForSub.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault().score;
                                 if (thisScore != -1)//if submission has been evaluated
                                 {
                                     scoreSum = scoreSum + thisScore;
@@ -991,7 +992,7 @@ namespace NancyService.Modules
                     context.SaveChanges();
                     //table usersubmission
                     long finalSubmissionID = sub.submissionID;
-                    usersubmission usersub = context.usersubmission.Where(c => c.initialSubmissionID == usersubTA.initialSubmissionID).FirstOrDefault();
+                    usersubmission usersub = context.usersubmission.Where(c => c.initialSubmissionID == usersubTA.initialSubmissionID && c.deleted == false).FirstOrDefault();
                     usersub.finalSubmissionID = finalSubmissionID;
                     context.SaveChanges();
                     //table documents submitted
@@ -1190,11 +1191,11 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    var evaluators = context.users.Where(evaluator => evaluator.evaluatorStatus == "Accepted").
+                    var evaluators = context.users.Where(evaluator => evaluator.evaluatorStatus == "Accepted" && evaluator.deleted == false).
                         Select(evaluator => new EvaluatorQuery
                     {
                         userID = (long)evaluator.userID,
-                        evaluatorID = evaluator.evaluators.FirstOrDefault() == null ? -1 : evaluator.evaluators.FirstOrDefault().evaluatorsID,
+                        evaluatorID = evaluator.evaluators.Where(c => c.deleted == false).FirstOrDefault() == null ? -1 : evaluator.evaluators.Where(c => c.deleted == false).FirstOrDefault().evaluatorsID,
                         firstName = evaluator.firstName,
                         lastName = evaluator.lastName,
                         email = evaluator.membership.email,
@@ -1229,8 +1230,8 @@ namespace NancyService.Modules
                     Evaluation addedRelation = new Evaluation();
                     addedRelation.submissionID = submissionID;
                     addedRelation.evaluatorID = evaluatorID;
-                    addedRelation.evaluatorFirstName = context.evaluators.FirstOrDefault(c => c.evaluatorsID == evaluatorID).user.firstName;
-                    addedRelation.evaluatorLastName = context.evaluators.FirstOrDefault(c => c.evaluatorsID == evaluatorID).user.lastName;
+                    addedRelation.evaluatorFirstName = context.evaluators.Where(c => c.deleted == false).FirstOrDefault(c => c.evaluatorsID == evaluatorID).user.firstName;
+                    addedRelation.evaluatorLastName = context.evaluators.Where(c => c.deleted == false).FirstOrDefault(c => c.evaluatorsID == evaluatorID).user.lastName;
                     addedRelation.score = 0;
                     addedRelation.evaluatorSubmissionID = context.evaluatiorsubmissions.Where(es => es.submissionID == relation.submissionID && es.evaluatorID == relation.evaluatorID && es.deleted == false).FirstOrDefault().evaluationsubmissionID;
 
@@ -1251,10 +1252,10 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     //asignarle un evaluation template al submission
-                    bool subInTable = context.templatesubmissions.Where(c => c.submissionID == submissionID).FirstOrDefault() == null ? false : true;
+                    bool subInTable = context.templatesubmissions.Where(c => c.submissionID == submissionID && c.deleted == false).FirstOrDefault() == null ? false : true;
                     if (subInTable)
                     {
-                        templatesubmission ts = context.templatesubmissions.Where(c => c.submissionID == submissionID).FirstOrDefault();
+                        templatesubmission ts = context.templatesubmissions.Where(c => c.submissionID == submissionID && c.deleted == false).FirstOrDefault();
                         ts.templateID = templateID;
                         context.SaveChanges();
                     }
@@ -1284,7 +1285,7 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    evaluatiorsubmission evalSubToRemove = context.evaluatiorsubmissions.Where(c => c.evaluationsubmissionID == evaluatorSubmissionID).FirstOrDefault();
+                    evaluatiorsubmission evalSubToRemove = context.evaluatiorsubmissions.Where(c => c.evaluationsubmissionID == evaluatorSubmissionID && c.deleted == false).FirstOrDefault();
                     evalSubToRemove.deleted = true;
                     context.SaveChanges();
                     return evalSubToRemove.evaluationsubmissionID;
@@ -1308,7 +1309,7 @@ namespace NancyService.Modules
                     sub.status = newStatus;
                     if (newStatus == "Accepted" && sub.byAdmin != true)
                     {
-                        user u = sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().user;
+                        user u = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().user;
                         u.acceptanceStatus = "Accepted";
                         changedAcceptanceStatus = true;
                     }
