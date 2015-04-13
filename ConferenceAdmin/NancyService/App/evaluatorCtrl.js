@@ -10,8 +10,20 @@
         var vm = this;
         vm.activate = activate;
         vm.title = 'evaluatorCtrl';
+
+        //Evaluator List Variables (Paging)
         vm.evaluatorsList = [];
+        vm.eindex = 0;  //Page index [Goes from 0 to emaxIndex-1]
+        vm.emaxIndex = 0;   //Max page number
+        vm.efirstPage = true;
+
+        //Pending List Variables (Paging)
         vm.pendingList = [];
+        vm.pindex = 0;  //Page index [Goes from 0 to pmaxIndex-1]
+        vm.pmaxIndex = 0;   //Max page number
+        vm.pfirstPage = true;
+
+        //General Variables
         vm.email;
         vm.acceptanceStatus;
         vm.evaluator;
@@ -19,47 +31,140 @@
         vm.acceptanceStatusList = ['Accept', 'Reject'];
         vm.searchEvaluator;
 
-        // Functions
+        //Functions- Past Evaluators (Paging)
+        vm.getEvaluatorListFromIndex = _getEvaluatorListFromIndex;
+        vm.previousEvaluator = _previousEvaluator;
+        vm.nextEvaluator = _nextEvaluator;
+        vm.getFirstEvaluatorPage = _getFirstEvaluatorPage;
+        vm.getLastEvaluatorPage = _getLastEvaluatorPage;
+
+        //Functions- Pending Evaluators (Paging)
+        vm.getPendingListFromIndex = _getPendingListFromIndex;
+        vm.previousPending = _previousPending;
+        vm.nextPending = _nextPending;
+        vm.getFirstPendingPage = _getFirstPendingPage;
+        vm.getLastPendingPage = _getLastPendingPage;
+
+        //General Functions
         vm.clear = _clear;
-        vm.getEvaluatorList = _getEvaluatorList;
-        vm.getPendingList = _getPendingList;
         vm.addEvaluator = _addEvaluator;
         vm.updateAcceptanceStatus = _updateAcceptanceStatus;
         vm.next = _next;
+        vm.load = _load;
 
-        //Get list of evaluators
-        _getPendingList();
-        _getEvaluatorList();
+        activate();
 
         function activate() {
-
+            _getPendingListFromIndex(vm.pindex);
+            _getEvaluatorListFromIndex(vm.eindex);
+            _load();
         }
 
         function _clear() {
             vm.email = "";
         }
 
-        function _getPendingList() {
-            restApi.getPendingList().
-                   success(function (data, status, headers, config) {
-                       vm.pendingList = data;
-                   }).
-                   error(function (data, status, headers, config) {
-                       vm.pendingList = data;
-                   });
+        //Pending List Methods
+        function _getPendingListFromIndex(index) {
+            restApi.getPendingListFromIndex(index)
+            .success(function (data, status, headers, config) {
+                vm.pmaxIndex = data.maxIndex;
+                if (vm.pmaxIndex == 0) {
+                    vm.pindex = 0;
+                    vm.pendingList = [];
+                }
+                else if (vm.pindex >= vm.pmaxIndex) {
+                    vm.pindex = vm.pmaxIndex - 1;
+                    _getPendingListFromIndex(vm.pindex);
+                }
+                else {
+                    vm.pendingList = data.results;
+                }
+
+                /*if (vm.pfirstPage) {
+                    vm.pfirstPage = false;
+                    vm.pmaxIndex = data.maxIndex;
+                }*/
+            })
+           .error(function (data, status, headers, config) {
+           });
         }
 
-        function _getEvaluatorList() {
-            restApi.getEvaluatorList().
-                   success(function (data, status, headers, config) {
-                       vm.evaluatorsList = data;
-                       load();
-                   }).
-                   error(function (data, status, headers, config) {
-                       vm.evaluatorsList = data;
-                   });
+        function _nextPending() {
+            if (vm.pindex < vm.pmaxIndex - 1) {
+                vm.pindex += 1;
+                _getPendingListFromIndex(vm.pindex);
+            }
         }
 
+        function _previousPending() {
+            if (vm.pindex > 0) {
+                vm.pindex -= 1;
+                _getPendingListFromIndex(vm.pindex);
+            }
+        }
+
+        function _getFirstPendingPage() {
+            vm.pindex = 0;
+            _getPendingListFromIndex(vm.pindex);
+        }
+
+        function _getLastPendingPage() {
+            vm.pindex = vm.pmaxIndex - 1;
+            _getPendingListFromIndex(vm.pindex);
+        }
+
+        //Past Evaluator List Methods
+        function _getEvaluatorListFromIndex(index) {
+            restApi.getEvaluatorListFromIndex(index)
+            .success(function (data, status, headers, config) {
+                vm.emaxIndex = data.maxIndex;
+                if (vm.emaxIndex == 0) {
+                    vm.eindex = 0;
+                    vm.evaluatorsList = [];
+                }
+                else if (vm.eindex >= vm.emaxIndex) {
+                    vm.eindex = vm.emaxIndex - 1;
+                    _getEvaluatorListFromIndex(vm.eindex);
+                }
+                else {
+                    vm.evaluatorsList = data.results;
+                }
+
+                /*if (vm.efirstPage) {
+                    vm.efirstPage = false;
+                    vm.emaxIndex = data.maxIndex;
+                }*/
+            })
+           .error(function (data, status, headers, config) {
+           });
+        }
+
+        function _nextEvaluator() {
+            if (vm.eindex < vm.emaxIndex - 1) {
+                vm.eindex += 1;
+                _getEvaluatorListFromIndex(vm.eindex);
+            }
+        }
+
+        function _previousEvaluator() {
+            if (vm.eindex > 0) {
+                vm.eindex -= 1;
+                _getEvaluatorListFromIndex(vm.eindex);
+            }
+        }
+
+        function _getFirstEvaluatorPage() {
+            vm.eindex = 0;
+            _getEvaluatorListFromIndex(vm.eindex);
+        }
+
+        function _getLastEvaluatorPage() {
+            vm.eindex = vm.emaxIndex - 1;
+            _getEvaluatorListFromIndex(vm.eindex);
+        }
+
+        //General Methods
         function _next() {
             if (vm.email != undefined && vm.email != "") {
                 restApi.getNewEvaluator(vm.email)
@@ -79,8 +184,7 @@
                     });
             }
         }
-
-
+        
         function _addEvaluator() {
             if (vm.email != undefined && vm.email != "") {
                 restApi.postNewEvaluator(vm.email)
@@ -150,10 +254,10 @@
         }
 
         //Avoid flashing when page loads
-        var load = function () {
+        function _load() {
             document.getElementById("loading-icon").style.visibility = "hidden";
             document.getElementById("body").style.visibility = "visible";
-        };
+        }
 
     }
 })();

@@ -1,76 +1,122 @@
 ﻿<div ng-controller="evaluatorCtrl as vm">
 
-    <h3>Manage Evaluators</h3><br>
-
-    <div class="col-lg-12 hide-until-loaded" id="body">
-
-        <h4 class="after-title-field">Pending Applications for Evaluator</h4><br />
-
-        <!-- Show message if the list of evaluators applicants contains zero applications. -->
-        <div ng-hide="vm.pendingList.length">
-            <p class="after-title-field">There are no applications.</p><br />
-        </div>
-
-        <div class="col-lg-12 etable" ng-show="vm.pendingList.length">
-            <table ng-table="tableParams" class="table row">
-                <tr>
-                    <td><b>Name</b></td>
-                    <td><b>Email</b></td>
-                    <td><b>Update</b></td>
-                </tr>
-                <tr ng-repeat="evaluator in vm.pendingList">
-                    <td>{{evaluator.firstName}} {{evaluator.lastName}}</td>
-                    <td>{{evaluator.email}}</td>
-                    <td>
-                        <!-- DropDown Menu showing available status options. -->
-                        <select ng-model="evaluator.optionStatus"
-                                ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
-                        <button class="btn btn-ar btn-primary" ng-click="vm.updateAcceptanceStatus(evaluator)">Apply</button>
-                    </td>
-                </tr>
-                <tr><td></td><td></td><td></td></tr>
-            </table>
-        </div>
-
-        <h4 class="title-field">Past Applications for Evaluator</h4>
-
-        <!-- Show message if the list of evaluators contains zero users. -->
-        <div ng-hide="vm.evaluatorsList.length">
-            <p class="after-title-field">No evaluators have been added.</p><br />
-        </div>
-
-        <!-- Table containing list of evaluators. The table is hidden until the system has retrieved the list. -->
-        <div class="pdiv right" ng-show="vm.evaluatorsList.length"><p class="psearch"> Search:</p><input ng-model="vm.searchEvaluator"></div>
-
-        <div class="col-lg-12 etable" id="ebody" ng-show="vm.evaluatorsList.length">
-
-            <table ng-table="tableParams" class="table row">
-                <tr>
-                    <td><b>Name</b></td>
-                    <td><b>Email</b></td>
-                    <td><b>Status</b></td>
-                    <td><b>Update</b></td>
-                </tr>
-                <tr ng-repeat="evaluator in vm.evaluatorsList | filter: vm.searchEvaluator">
-                    <td>{{evaluator.firstName}} {{evaluator.lastName}}</td>
-                    <td>{{evaluator.email}}</td>
-                    <td>{{evaluator.acceptanceStatus}}</td>
-                    <td>
-                        <!-- DropDown Menu showing available status options. -->
-                        <select ng-model="evaluator.optionStatus"
-                                ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
-                        <button class="btn btn-ar btn-primary" ng-click="vm.updateAcceptanceStatus(evaluator)">Apply</button>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="col-lg-12">
-            <button class="btn btn-ar btn-primary pull" data-toggle="modal" data-target="#addEvaluator">Add Evaluator</button> <a href=""><i class="fa fa-info-circle info-icon" title="Manually add an evaluator"> </i></a>
+    <div class="row">
+        <div class="col-lg-8"><h3>Manage Evaluators</h3></div>
+        <!-- Loading icon, appearing while table is loading its contents. -->
+        <div class="col-lg-3 loading-right">
+            <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
         </div>
     </div>
-    <!-- Loading icon, appearing while table is loading its contents. -->
-    <div class="col-lg-12">
-        <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
+
+    <div class="col-lg-12 hide-until-loaded" id="body">
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default" id="panel1">
+                <div class="panel-heading" data-toggle="collapse" data-target="#collapseOne">
+                    <h4 class="panel-title">
+                        <a href="">
+                            Pending Applications for Evaluator
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div ng-hide="vm.pendingList.length">
+                            <p class="title-field">No content to display.</p>
+                            <a class="btn btn-default" ng-click="vm.getPendingListFromIndex(vm.pindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
+                        </div>
+                        <div ng-show="vm.pendingList.length">
+                            <div>
+                                <table class="table table-top col-lg-12">
+                                    <thead>
+                                        <tr>
+                                            <td><b>Name</b></td>
+                                            <td><b>Email</b></td>
+                                            <td><b>Update</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="evaluator in vm.pendingList">
+                                            <td>{{evaluator.firstName}} {{evaluator.lastName}}</td>
+                                            <td>{{evaluator.email}}</td>
+                                            <td>
+                                                <!-- DropDown Menu showing available status options. -->
+                                                <select ng-model="evaluator.optionStatus"
+                                                        ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
+                                                <button class="btn btn-ar btn-primary" ng-click="vm.updateAcceptanceStatus(evaluator)">Apply</button>
+                                            </td>
+                                        </tr>
+                                        <tr><td></td><td></td><td></td></tr>
+                                    </tbody>
+                                </table><br />
+                            </div>
+                            <div aria-live="polite" class="col-lg-6">Showing page {{vm.pindex + 1}} of {{vm.pmaxIndex}}</div>
+                            <div class="col-lg-6 paging-word">
+                                <a class="btn btn-default" ng-click="vm.getPendingListFromIndex(vm.pindex)"><i class="glyphicon glyphicon-repeat"></i></a>
+                                <a class="btn btn-default" ng-disabled="vm.pindex==0" ng-click="vm.getFirstPendingPage()">First</a>
+                                <a class="btn btn-default" ng-disabled="vm.pindex==0" ng-click="vm.previousPending()">Previous</a>
+                                <a class="btn btn-default" ng-disabled="vm.pindex >= (vm.pmaxIndex-1)" ng-click="vm.nextPending()">Next</a>
+                                <a class="btn btn-default" ng-disabled="vm.pindex >= (vm.pmaxIndex-1)" ng-click="vm.getLastPendingPage()">Last</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" id="panel2">
+                <div class="panel-heading" data-toggle="collapse" data-target="#collapseTwo">
+                    <h4 class="panel-title">
+                        <a href="">
+                            Past Applications for Evaluator
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div ng-hide="vm.evaluatorsList.length">
+                            <p class="title-field">No content to display.</p>
+                            <a class="btn btn-default" ng-click="vm.getEvaluatorListFromIndex(vm.eindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
+                        </div>
+                        <div ng-show="vm.evaluatorsList.length">
+                            <!--<div class="pdiv right"><p class="psearch"> Search:</p><input ng-model="vm.searchEvaluator"></div><br />-->
+                            <div>
+                                <table class="table table-top col-lg-12">
+                                    <thead>
+                                        <tr>
+                                            <td><b>Name</b></td>
+                                            <td><b>Email</b></td>
+                                            <td><b>Status</b></td>
+                                            <td><b>Update</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="evaluator in vm.evaluatorsList | filter: vm.searchEvaluator">
+                                            <td>{{evaluator.firstName}} {{evaluator.lastName}}</td>
+                                            <td>{{evaluator.email}}</td>
+                                            <td>{{evaluator.acceptanceStatus}}</td>
+                                            <td>
+                                                <!-- DropDown Menu showing available status options. -->
+                                                <select ng-model="evaluator.optionStatus"
+                                                        ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
+                                                <button class="btn btn-ar btn-primary" ng-click="vm.updateAcceptanceStatus(evaluator)">Apply</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table><br />
+                            </div>
+                            <div aria-live="polite" class="col-lg-6">Showing page {{vm.eindex + 1}} of {{vm.emaxIndex}}</div>
+                            <div class="col-lg-6 paging-word">
+                                <a class="btn btn-default" ng-click="vm.getEvaluatorListFromIndex(vm.eindex)"><i class="glyphicon glyphicon-repeat"></i></a>
+                                <a class="btn btn-default" ng-disabled="vm.eindex==0" ng-click="vm.getFirstEvaluatorPage()">First</a>
+                                <a class="btn btn-default" ng-disabled="vm.eindex==0" ng-click="vm.previousEvaluator()">Previous</a>
+                                <!--<span><a class="btn btn-default">{{vm.eindex+1}}</a></span>-->
+                                <a class="btn btn-default" ng-disabled="vm.eindex >= (vm.emaxIndex-1)" ng-click="vm.nextEvaluator()">Next</a>
+                                <a class="btn btn-default" ng-disabled="vm.eindex >= (vm.emaxIndex-1)" ng-click="vm.getLastEvaluatorPage()">Last</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-ar btn-primary pull" data-toggle="modal" data-target="#addEvaluator">Add Evaluator</button> <a href=""><i class="fa fa-info-circle info-icon" title="Manually add an evaluator"> </i></a>
     </div>
 
     <!-- Add Evaluators Modal: Input: Email -->

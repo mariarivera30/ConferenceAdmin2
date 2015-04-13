@@ -39,14 +39,17 @@ namespace NancyService.Modules
             }
         }
 
-        public List<EvaluatorQuery> getEvaluatorList()
+        public EvaluatorPagingQuery getEvaluatorList(int index)
         {
+            EvaluatorPagingQuery e = new EvaluatorPagingQuery();
+
             try
             {
 
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    var evaluators = context.users.Where(evaluator => evaluator.evaluatorStatus == "Accepted" || evaluator.evaluatorStatus == "Rejected").Select(evaluator => new EvaluatorQuery
+                    int pageSize = 10;
+                    var query = context.users.Where(evaluator => evaluator.evaluatorStatus == "Accepted" || evaluator.evaluatorStatus == "Rejected").Select(evaluator => new EvaluatorQuery
                     {
                         userID = (long)evaluator.userID,
                         firstName = evaluator.firstName,
@@ -54,9 +57,18 @@ namespace NancyService.Modules
                         email = evaluator.membership.email,
                         acceptanceStatus = evaluator.evaluatorStatus
 
-                    }).ToList();
+                    }).OrderBy(x => x.email);
 
-                    return evaluators;
+                    e.rowCount = query.Count();
+
+                    if (e.rowCount > 0)
+                    {
+                        e.maxIndex = (int)Math.Ceiling(e.rowCount / (double)pageSize);
+                        var evaluators = query.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        e.results = evaluators;
+                    }
+
+                    return e;
                 }
             }
             catch (Exception ex)
@@ -66,14 +78,16 @@ namespace NancyService.Modules
             }
         }
 
-        public List<EvaluatorQuery> getPendingList()
+        public EvaluatorPagingQuery getPendingList(int index)
         {
+            EvaluatorPagingQuery e = new EvaluatorPagingQuery();
+
             try
             {
-
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    var evaluators = context.users.Where(evaluator => evaluator.evaluatorStatus == "Pending").Select(evaluator => new EvaluatorQuery
+                    int pageSize = 10;
+                    var query = context.users.Where(evaluator => evaluator.evaluatorStatus == "Pending").Select(evaluator => new EvaluatorQuery
                     {
                         userID = (long)evaluator.userID,
                         firstName = evaluator.firstName,
@@ -81,9 +95,18 @@ namespace NancyService.Modules
                         email = evaluator.membership.email,
                         acceptanceStatus = evaluator.evaluatorStatus
 
-                    }).ToList();
+                    }).OrderBy(x => x.email);
 
-                    return evaluators;
+                    e.rowCount = query.Count();
+
+                    if (e.rowCount > 0)
+                    {
+                        e.maxIndex = (int)Math.Ceiling(e.rowCount / (double)pageSize);
+                        var pending = query.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        e.results = pending;
+                    }
+
+                    return e;
                 }
             }
             catch (Exception ex)
@@ -237,5 +260,13 @@ namespace NancyService.Modules
         public EvaluatorQuery()
         {
         }
+    }
+
+    public class EvaluatorPagingQuery
+    {
+        public int indexPage;
+        public int maxIndex;
+        public int rowCount;
+        public List<EvaluatorQuery> results;
     }
 }
