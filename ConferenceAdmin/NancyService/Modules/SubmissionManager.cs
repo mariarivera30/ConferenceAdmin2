@@ -213,7 +213,7 @@ namespace NancyService.Modules
                 {
                     //gets all final evaluations assigned to the given evaluator
                     List<Submission> assignedFinalSubmissions = context.evaluatiorsubmissions.
-                        Where(c => c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions.FirstOrDefault() != null).
+                        Where(c => c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions.Where(d => d.deleted == false).FirstOrDefault() != null).
                         Select(i => new Submission
                         {
                             submissionID = i.submissionID,
@@ -227,7 +227,7 @@ namespace NancyService.Modules
 
                     //gets all non-final the evaluations assigned to the given evaluator
                     List<Submission> assignedSubmissions = context.evaluatiorsubmissions.
-                        Where(c => c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions1.FirstOrDefault() != null).
+                        Where(c => c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions1.Where(d => d.deleted == false).FirstOrDefault() != null).
                         Select(i => new Submission
                         {
                             submissionID = i.submissionID,
@@ -265,7 +265,7 @@ namespace NancyService.Modules
                     context.evaluatiorsubmissions.Where(c => c.evaluationsubmissionID == evaluation.evaluatiorSubmissionID).FirstOrDefault().statusEvaluation = "Evaluated";
                     context.SaveChanges();
                     usersubmission userSub = context.usersubmission.Where(c => c.initialSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault();
-                    userSub.allowFinalVersion = true;
+                    userSub.allowFinalVersion = usersubIn.allowFinalVersion;
                     context.SaveChanges();
                     return true;
                 }

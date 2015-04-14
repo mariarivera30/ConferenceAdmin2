@@ -359,14 +359,15 @@
                            vm.submissionlist.forEach(function (submission, index) {
                                if (submission.submissionID == vm.modalsubmissionID) {
                                    submission.submissionTitle = data.submissionTitle;
-                                   //myFile = null;
+                                   _clear();
                                }                               
                            }
                        )
                        })
                        .error(function (error) {
+                           _clear();
                        });
-                _clear();
+                
             }
             else if (vm.viewModal == "addFinal") {
                 if (vm.TYPE.submissionTypeID == 1 || vm.TYPE.submissionTypeID == 2 || vm.TYPE.submissionTypeID == 4) {//if paper, poster o bof
