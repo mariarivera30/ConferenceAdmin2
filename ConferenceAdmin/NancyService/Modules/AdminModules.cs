@@ -761,11 +761,18 @@ namespace NancyService.Modules
                 {
                     return Response.AsJson(submissionManager.getDeletedSubmissions());
                 };
+            //gets the details of a deleted submission
+            Get["/getADeletedSubmission/{submissionID:long}"] = parameters =>
+                {
+                    long submissionID = parameters.submissionID;
+                    return Response.AsJson(submissionManager.getADeletedSubmission(submissionID));
+                };
             //gets the list of all users
             Get["/getListOfUsers"] = parameters =>
                 {
                     return Response.AsJson(submissionManager.getListOfUsers());
                 };
+
         }
     }
     public class AcceptanceStatusInfo

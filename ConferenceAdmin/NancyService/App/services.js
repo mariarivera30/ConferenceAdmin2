@@ -124,7 +124,8 @@
             changeSubmissionStatus: _changeSubmissionStatus,
             postAdminSubmission: _postAdminSubmission,
             getDeletedSubmissions: _getDeletedSubmissions,
-            getListOfUsers: _getListOfUsers
+            getListOfUsers: _getListOfUsers,
+            getADeletedSubmission: _getADeletedSubmission
         };
 
         return service;
@@ -626,6 +627,10 @@
         //gets all deleted submissions
         function _getDeletedSubmissions() {
             return $http.get('admin/getDeletedSubmissions')
+        };
+        //get details of a deleted submission
+        function _getADeletedSubmission(data){
+            return $http.get('admin/getADeletedSubmission/' + data)
         };
         //get list of all users
         function _getListOfUsers() {

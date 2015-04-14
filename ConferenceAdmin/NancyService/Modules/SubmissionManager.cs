@@ -1507,10 +1507,12 @@ namespace NancyService.Modules
                             submissionType = d.submissiontype.name,
                             submissionTypeID = d.submissionTypeID,
                             panelistNames = d.panels.Where(c => c.deleted == true).FirstOrDefault() == null ? null : d.panels.Where(c => c.deleted == true).FirstOrDefault().panelistNames,
-                            plan = null,
+                            planPanel = d.panels.Where(c => c.deleted == true).FirstOrDefault() == null ? null : d.panels.Where(c => c.deleted == true).FirstOrDefault().plan,
+                            planWorkshop = d.workshops.Where(c => c.deleted == true).FirstOrDefault() == null ? null : d.workshops.Where(c => c.deleted == true).FirstOrDefault().plan,
                             guideQuestions = d.panels.Where(c => d.deleted == true).FirstOrDefault() == null ? null : d.panels.Where(c => c.deleted == true).FirstOrDefault().guideQuestion,
                             format = d.panels.Where(c => c.deleted == true).FirstOrDefault() == null ? null : d.panels.Where(c => c.deleted == true).FirstOrDefault().formatDescription,
-                            equipment = null,
+                            equipmentPanel = d.panels.Where(c => c.deleted == true).FirstOrDefault() == null ? null : d.panels.Where(c => c.deleted == true).FirstOrDefault().necessaryEquipment,
+                            equipmentWorkshop = d.workshops.Where(c => c.deleted == true).FirstOrDefault() == null ? null : d.workshops.Where(c => c.deleted == true).FirstOrDefault().necessary_equipment,                
                             duration = d.workshops.Where(c => c.deleted == true).FirstOrDefault() == null ? null : d.workshops.Where(c => c.deleted == true).FirstOrDefault().duration,
                             delivery = d.workshops.Where(c => c.deleted == true).FirstOrDefault() == null ? null : d.workshops.Where(c => c.deleted == true).FirstOrDefault().delivery
                             
@@ -1573,6 +1575,10 @@ namespace NancyService.Modules
         public String prevDelivery;
         public bool prevSubIsEvaluated;
         public String prevPublicFeedback;
+        public String equipmentWorkshop;
+        public String equipmentPanel;
+        public String planPanel;
+        public String planWorkshop;
     
 
 
