@@ -119,7 +119,7 @@
                                 </div>
 
                                 <div class="right">
-                                    <button class="btn btn-ar btn-primary" ng-click="vm.addDocument()">Add</button>
+                                    <button class="btn btn-ar btn-primary" ng-click="vm.addDocument()" ng-disabled="vm.myFile.name == null || vm.myFile.name == ''">Add</button>
                                 </div>
                                 <div class="col-md-4 right">
                                     <div class="input-group-btn">
@@ -231,7 +231,7 @@
                                     </div>
 
                                     <div class="right">
-                                        <button class="btn btn-ar btn-primary" ng-click="vm.addDocument()">Add</button>
+                                        <button class="btn btn-ar btn-primary" ng-click="vm.addDocument()" ng-disabled="vm.myFile.name == null || vm.myFile.name == ''">Add</button>
                                     </div>
                                     <div class="col-md-4 right">
                                         <div class="input-group-btn">

@@ -68,7 +68,7 @@
         vm.removeEvaluator = _removeEvaluator;
         vm.getSubmissionTypes = _getSubmissionTypes;
         vm.getTopics = _getTopics;
-        vm.addAminSubmission = _addAminSubmission;
+        vm.addAdminSubmission = _addAdminSubmission;
         vm.addDocument = _addDocument;
         vm.deleteDocument = _deleteDocument;
         vm.getTemplates = _getTemplates;
@@ -331,7 +331,7 @@
         }
 
         /* Add a new Submission */
-        function _addAminSubmission(file) {
+        function _addAdminSubmission(file) {
             if (vm.TYPE.submissionTypeID == 1 || vm.TYPE.submissionTypeID == 2 || vm.TYPE.submissionTypeID == 4) {//if paper, poster o bof
                 var submission = {
                     submissionID: vm.modalsubmissionID,
