@@ -122,7 +122,9 @@
             assignTemplate: _assignTemplate,
             removeEvaluator: _removeEvaluator,
             changeSubmissionStatus: _changeSubmissionStatus,
-            postAdminSubmission: _postAdminSubmission
+            postAdminSubmission: _postAdminSubmission,
+            getDeletedSubmissions: _getDeletedSubmissions,
+            getListOfUsers: _getListOfUsers
         };
 
         return service;
@@ -619,7 +621,15 @@
         };
         //Adds a submission submitted by the admin        
         function _postAdminSubmission(data) {
-            return $http.post('profile/postAdminSubmission', data)
+            return $http.post('admin/postAdminSubmission', data)
+        };
+        //gets all deleted submissions
+        function _getDeletedSubmissions() {
+            return $http.get('admin/getDeletedSubmissions')
+        };
+        //get list of all users
+        function _getListOfUsers() {
+            return $http.get('admin/getListOfUsers')
         };
     }
 }

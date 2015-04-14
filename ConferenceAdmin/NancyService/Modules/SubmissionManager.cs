@@ -1379,7 +1379,6 @@ namespace NancyService.Modules
                             context.documentssubmitteds.Add(subDocs);
                             context.SaveChanges();
                         }
-
                     }
                     //table pannels
                     if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
@@ -1426,6 +1425,102 @@ namespace NancyService.Modules
             catch (Exception ex)
             {
                 Console.Write("SubmissionManager.addSubmission error " + ex);
+                return null;
+            }
+        }
+
+        public List<GuestList> getListOfUsers()
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    var users = context.users.Where(c => c.deleted == false).Select(d =>
+                        new GuestList
+                        {
+                            userID = d.userID,
+                            firstName = d.firstName,
+                            lastName = d.lastName
+                        }).ToList();
+                    return users;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getListOfUsers error " + ex);
+                return null;
+            }
+        }
+        //gets all the deleted submissions
+        public List<Submission> getDeletedSubmissions()
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    var subs = context.submissions.Where(c => c.deleted == true).Select(d =>
+                        new Submission
+                        {
+                             userID = d.usersubmissions.Where(c => c.deleted == true).FirstOrDefault() == null ? -1 : d.usersubmissions.Where(c => c.deleted == true).FirstOrDefault().userID,
+                             submissionID = d.submissionID, 
+                             submissionTypeName = d.submissiontype.name,
+                             submissionTypeID = d.submissionTypeID, 
+                             submissionTitle = d.title,
+                             topiccategoryID = d.topicID,
+                             topic = d.topiccategory.name, 
+                             status = d.status
+                        }).ToList();
+                    return subs;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getDeletedSubmissions error " + ex);
+                return null;
+            }
+        }
+
+        //gets the fields of a deleted submission
+        public CurrAndPrevSub getADeletedSubmission(long submissionID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    CurrAndPrevSub sub = context.submissions.Where(c => c.deleted == true && c.submissionID == submissionID).
+                        Select(d => new CurrAndPrevSub
+                        {
+                            submissionID = d.submissionID,
+                            submissionTitle = d.title,
+                            topic = d.topiccategory.name,
+                            topiccategoryID = d.topiccategory.topiccategoryID,
+                            submissionAbstract = d.submissionAbstract,
+                            submissionFileList = d.documentssubmitteds.Where(u => u.deleted == true).
+                                Select(c => new SubmissionDocument
+                                {
+                                    documentssubmittedID = c.documentssubmittedID,
+                                    submissionID = c.submissionID,
+                                    documentName = c.documentName,
+                                    document = c.document,
+                                    deleted = c.deleted
+                                }).ToList(),
+                            submissionType = d.submissiontype.name,
+                            submissionTypeID = d.submissionTypeID,
+                            panelistNames = d.panels.Where(c => c.deleted == true).FirstOrDefault() == null ? null : d.panels.Where(c => c.deleted == true).FirstOrDefault().panelistNames,
+                            plan = null,
+                            guideQuestions = d.panels.Where(c => d.deleted == true).FirstOrDefault() == null ? null : d.panels.Where(c => c.deleted == true).FirstOrDefault().guideQuestion,
+                            format = d.panels.Where(c => c.deleted == true).FirstOrDefault() == null ? null : d.panels.Where(c => c.deleted == true).FirstOrDefault().formatDescription,
+                            equipment = null,
+                            duration = d.workshops.Where(c => c.deleted == true).FirstOrDefault() == null ? null : d.workshops.Where(c => c.deleted == true).FirstOrDefault().duration,
+                            delivery = d.workshops.Where(c => c.deleted == true).FirstOrDefault() == null ? null : d.workshops.Where(c => c.deleted == true).FirstOrDefault().delivery
+                            
+                        }).FirstOrDefault();
+                    return sub;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getADeletedSubmission error " + ex);
                 return null;
             }
         }

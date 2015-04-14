@@ -755,8 +755,17 @@ namespace NancyService.Modules
                 Submission newSubmission =
                     submissionManager.addSubmissionByAdmin(usersubTA, submissionToAdd, pannelToAdd, workshopToAdd);
                 return Response.AsJson(newSubmission);
-
             };
+            //gets all deleted submissions
+            Get["/getDeletedSubmissions"] = parameters =>
+                {
+                    return Response.AsJson(submissionManager.getDeletedSubmissions());
+                };
+            //gets the list of all users
+            Get["/getListOfUsers"] = parameters =>
+                {
+                    return Response.AsJson(submissionManager.getListOfUsers());
+                };
         }
     }
     public class AcceptanceStatusInfo
