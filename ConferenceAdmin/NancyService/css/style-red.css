@@ -7332,3 +7332,18 @@ input.disabled, input.readonly, input.readonly:hover, input.disabled:hover, sele
     cursor: default;
     background-color: white;
 }
+
+.hand {
+    cursor: pointer;
+}
+
+.hand:hover{
+    color: red;
+}
+
+.auto-complete{
+    border: lightgray solid 1px; 
+    width: 160px; 
+    max-height: 75px; 
+    overflow: hidden;
+}
