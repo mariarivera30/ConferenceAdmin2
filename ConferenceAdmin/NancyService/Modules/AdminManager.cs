@@ -97,7 +97,7 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //Get privilege name ////////Ver como eliminar
+                    //Get privilege name
                     s.privilege = (from p in context.privileges
                                    where p.privilegesID == s.privilegeID
                                    select p.privilegestType).FirstOrDefault();
@@ -146,6 +146,12 @@ namespace NancyService.Modules
                                 newAdmin.userID = s.userID;
                                 context.claims.Add(newAdmin);
                                 context.SaveChanges();
+                            }
+
+                            if (s.privilege != "Finance")
+                            {
+                                EvaluatorManager evaluator = new EvaluatorManager();
+                                evaluator.addEvaluator(s.email);
                             }
                         }
 
@@ -216,7 +222,6 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //Check que otro admin no pueda quitar privilegio a Nayda
                     var admin = (from s in context.claims
                                  where s.userID == delAdmin.userID && s.privilegesID == delAdmin.privilegeID && s.deleted != true
                                  select s).FirstOrDefault();
@@ -225,6 +230,16 @@ namespace NancyService.Modules
                         admin.deleted = true;
                     }
                     context.SaveChanges();
+
+                    if (delAdmin.privilege != "Finance")
+                    {
+                        EvaluatorQuery evaluator = new EvaluatorQuery();
+                        evaluator.userID = delAdmin.userID;
+                        evaluator.acceptanceStatus = "Rejected";
+                        EvaluatorManager manager = new EvaluatorManager();
+                        manager.updateAcceptanceStatus(evaluator);
+                    }
+                    
                     return true;
                 }
             }
