@@ -19,6 +19,7 @@ namespace NancyService.Modules
                     //gets all the evaluations assigned to the given evaluator
                     AssignedSubmission subs = new AssignedSubmission();
                     evaluatiorsubmission sub;
+                    bool isFinalVersion = context.usersubmission.Where(c => c.finalSubmissionID == submissionID).FirstOrDefault() == null ? false : true;
 
                     sub = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.evaluatorID == evaluatorID && c.deleted == false).FirstOrDefault();
 
@@ -154,14 +155,7 @@ namespace NancyService.Modules
                             false : sub.submission.usersubmissions1.FirstOrDefault().allowFinalVersion) == false ? false : true
                         };
                     }
-                    /*var evaluator = context.evaluators.Where(e => e.evaluatorsID == sub.evaluatorID).FirstOrDefault();
-                    var user = context.users.Where(u => u.userID == evaluator.userID).FirstOrDefault();
-                    subs.evaluation = new Evaluation
-                    {
-                        evaluatorFirstName = user.firstName,
-                        evaluatorLastName = user.lastName,
-                        score = context.evaluationsubmitteds.Where(e => e.evaluatiorsubmission.evaluatorID == evaluator.evaluatorsID).FirstOrDefault().score
-                    };*/
+                    subs.isFinalVersion = isFinalVersion;
                     return subs;
                 }
             }
@@ -217,8 +211,23 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //gets all the evaluations assigned to the given evaluator
-                    List<Submission> assignedSubmissions = context.evaluatiorsubmissions.Where(c => c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions1.FirstOrDefault() != null).
+                    //gets all final evaluations assigned to the given evaluator
+                    List<Submission> assignedFinalSubmissions = context.evaluatiorsubmissions.
+                        Where(c => c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions.FirstOrDefault() != null).
+                        Select(i => new Submission
+                        {
+                            submissionID = i.submissionID,
+                            evaluatorID = i.evaluatorID,
+                            userType = i.submission.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().user.usertype.userTypeName,
+                            submissionTitle = i.submission.title,
+                            topic = i.submission.topiccategory.name,
+                            isEvaluated = (i.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true),
+                            isFinalSubmission = true
+                        }).ToList();
+
+                    //gets all non-final the evaluations assigned to the given evaluator
+                    List<Submission> assignedSubmissions = context.evaluatiorsubmissions.
+                        Where(c => c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions1.FirstOrDefault() != null).
                         Select(i => new Submission
                         {
                             submissionID = i.submissionID,
@@ -226,8 +235,14 @@ namespace NancyService.Modules
                             userType = i.submission.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault().user.usertype.userTypeName,
                             submissionTitle = i.submission.title,
                             topic = i.submission.topiccategory.name,
-                            isEvaluated = (i.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true)
+                            isEvaluated = (i.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true),
+                            isFinalSubmission = false
                         }).ToList();
+                    foreach (var finalSub in assignedFinalSubmissions)
+                    {
+                        assignedSubmissions.Add(finalSub);
+                    }
+
                     return assignedSubmissions;
                 }
             }
@@ -1701,7 +1716,8 @@ namespace NancyService.Modules
         public bool subIsEvaluated;
         public long evaluationsubmittedID;
         public String evaluatorFirstName;
-        public String evaluatorLastName;       
+        public String evaluatorLastName;
+        public bool isFinalVersion;
 
         public AssignedSubmission()
         {
