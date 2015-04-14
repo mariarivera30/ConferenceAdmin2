@@ -723,9 +723,56 @@ namespace NancyService.Modules
             Put["/removeEvaluatorSubmission/{evaluatorSubmissionID}"] = parameters =>
                 {
                     long evaluatorSubmissionID = parameters.evaluatorSubmissionID;
-                    evaluatiorsubmission es = submissionManager.removeEvaluatorSubmission(evaluatorSubmissionID);
+                    long es = submissionManager.removeEvaluatorSubmission(evaluatorSubmissionID);
                     return Response.AsJson(es);
                 };
+            //Change submission status
+            Put["/changeSubmissionStatus/{status}/{submissionID}"] = parameters =>
+            {
+                String newStatus = parameters.status;
+                long submissionID = parameters.submissionID;
+                Submission sub = submissionManager.changeSubmissionStatus(submissionID, newStatus);
+
+                return Response.AsJson(sub);
+            };
+            //admin adds a submission
+            Post["/postAdminSubmission"] = parameters =>
+            {
+                panel pannelToAdd = null;
+                workshop workshopToAdd = null;
+                submission submissionToAdd = this.Bind<submission>();
+                usersubmission usersubTA = this.Bind<usersubmission>();
+
+                int submissionTypeID = submissionToAdd.submissionTypeID;
+                if (submissionTypeID == 3)
+                {
+                    pannelToAdd = this.Bind<panel>();
+                }
+                else if (submissionTypeID == 5)
+                {
+                    workshopToAdd = this.Bind<workshop>();
+                }
+                Submission newSubmission =
+                    submissionManager.addSubmissionByAdmin(usersubTA, submissionToAdd, pannelToAdd, workshopToAdd);
+                return Response.AsJson(newSubmission);
+            };
+            //gets all deleted submissions
+            Get["/getDeletedSubmissions"] = parameters =>
+                {
+                    return Response.AsJson(submissionManager.getDeletedSubmissions());
+                };
+            //gets the details of a deleted submission
+            Get["/getADeletedSubmission/{submissionID:long}"] = parameters =>
+                {
+                    long submissionID = parameters.submissionID;
+                    return Response.AsJson(submissionManager.getADeletedSubmission(submissionID));
+                };
+            //gets the list of all users
+            Get["/getListOfUsers"] = parameters =>
+                {
+                    return Response.AsJson(submissionManager.getListOfUsers());
+                };
+
         }
     }
     public class AcceptanceStatusInfo

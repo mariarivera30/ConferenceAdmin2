@@ -32,10 +32,13 @@
         <!-----------------------loading end--------------------->
         <br />
         <!-------------------------------------------------ADD SUBMISSION---------------------------------------------------->
-        <div ng-show="vm.submissionDeadlinePassed">
-            <select ng-model="vm.TYPE"
+        
+            <select ng-disabled="!vm.submissionDeadlinePassed" class="disabled" ng-model="vm.TYPE"
                     ng-options="type as type.submissionTypeName for type in vm.submissionTypeList" required></select>
-            <button data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.viewAdd()" class="btn btn-ar btn-primary">Add New</button>
+            <button ng-disabled="!vm.submissionDeadlinePassed" data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.viewAdd()" class="btn btn-ar btn-primary">Add New</button>
+       <br/>
+            <div ng-show="!vm.submissionDeadlinePassed">
+            The deadline for submissions has passed.
         </div>
         </div>
 

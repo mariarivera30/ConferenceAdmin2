@@ -37,6 +37,7 @@
         vm.privateFeedback;
         vm.publicFeedback;
         vm.isEvaluated;
+        vm.isFinalSubmission;
         vm.subIsEvaluated;
         vm.content;
         var currentUserID = $window.sessionStorage.getItem('userID');
@@ -164,6 +165,7 @@
                     vm.modalprivateFeedback = data.privateFeedback;
                     vm.modalsubIsEvaluated = data.subIsEvaluated;
                     vm.modalAllowFinalVersion = data.allowFinalVersion;
+                    vm.modalIsFinalVersion = data.isFinalVersion;
                     if (vm.modalevaluationFile == undefined || vm.modalevaluationFile == null) {
                         vm.modalhasFile = false;
                     }

@@ -10,7 +10,7 @@
         var vm = this;
         var userID = $window.sessionStorage.getItem('userID');
         vm.submissionsList = [];
-        vm.acceptanceStatusList = ['Accepted', 'Rejected'];
+        vm.acceptanceStatusList = ['Pending', 'Accepted', 'Rejected'];
         vm.evaluationsList = [];
         vm.prevEvaluationsList = [];
         vm.evaluatorsList = [];
@@ -18,6 +18,7 @@
         vm.topicsList = [];
         vm.documentsList = [];
         vm.templatesList = [];
+        vm.usersList = [];
         // custom Submission class fields
         vm.submissionID;
         vm.evaluatorID;
@@ -67,11 +68,14 @@
         vm.removeEvaluator = _removeEvaluator;
         vm.getSubmissionTypes = _getSubmissionTypes;
         vm.getTopics = _getTopics;
-        vm.addSubmission = _addSubmission;
+        vm.addAminSubmission = _addAminSubmission;
         vm.addDocument = _addDocument;
         vm.deleteDocument = _deleteDocument;
         vm.getTemplates = _getTemplates;
         vm.assignTemplate = _assignTemplate;
+        vm.changeSubmissionStatus = _changeSubmissionStatus;
+        vm.selectUser = _selectUser;
+        vm.getListOfUsers = _getListOfUsers;
 
         // function calls
         _getAllSubmissions();
@@ -126,6 +130,7 @@
             vm.prevEvaluationsList = [];
             vm.evaluatorsList = [];
             vm.documentsList = [];
+            vm.selectedUser = '';
         }
 
         /* Retrieves every submission in the system */
@@ -133,6 +138,9 @@
             restApi.getAllSubmissions().
                    success(function (data, status, headers, config) {
                        vm.submissionsList = data;
+                       vm.submissionsList.forEach(function (sub, index) {
+                           sub.acceptanceStatus = sub.status;
+                       });
                    }).
                    error(function (data, status, headers, config) {
                        vm.submissionsList = data;
@@ -275,8 +283,8 @@
             restApi.removeEvaluator(evaluatorSubmissionID).
                   success(function (data, status, headers, config) {
                       vm.evaluationsList.forEach(function (eva, index) {
-                          if (eva.evaluatorSubmissionID == data.evaluatorSubmissionID) {
-                              vm.evaluationsList(index, 1);
+                          if (eva.evaluatorSubmissionID == data) {
+                              vm.evaluationsList.splice(index, 1);
                           }
                       });
                   }).
@@ -323,18 +331,18 @@
         }
 
         /* Add a new Submission */
-        function _addSubmission() {
+        function _addAminSubmission(file) {
             if (vm.TYPE.submissionTypeID == 1 || vm.TYPE.submissionTypeID == 2 || vm.TYPE.submissionTypeID == 4) {//if paper, poster o bof
                 var submission = {
                     submissionID: vm.modalsubmissionID,
-                    userID: userID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
+                    userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
                     submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle
                 }
             }
             else if (vm.TYPE.submissionTypeID == 3) {//if pannel
                 var submission = {
                     submissionID: vm.modalsubmissionID,
-                    userID: userID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
+                    userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
                     submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, panelistNames: vm.modalpanelistNames,
                     plan: vm.modalplan, guideQuestion: vm.modalguideQuestions, formatDescription: vm.modalformat, necessaryEquipment: vm.modalequipment
                 }
@@ -342,7 +350,7 @@
             else if (vm.TYPE.submissionTypeID == 5) {//if workshops
                 var submission = {
                     submissionID: vm.modalsubmissionID,
-                    userID: userID, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
+                    userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
                     submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, plan: vm.modalplan, duration: vm.modalduration,
                     delivery: vm.modaldelivery, necessary_equipment: vm.modalequipment
                 }
@@ -353,13 +361,14 @@
                 vm.myFile.name = "";
             }
             submission.documentssubmitteds = vm.documentsList;
-            restApi.postSubmission(submission)
+            restApi.postAdminSubmission(submission)
                     .success(function (data, status, headers, config) {
                         vm.submissionsList.push(data);
                     })
                     .error(function (error) {
 
                     });
+            _clear();
         }
 
         /**/
@@ -389,6 +398,38 @@
                    error(function (data, status, headers, config) {
                        vm.templatesList = data;
                        _clear();
+                   });
+        }
+
+        /**/
+        function _changeSubmissionStatus(submissionID, status) {
+            var obj = { status: status, submissionID: submissionID };
+            restApi.changeSubmissionStatus(obj).
+                   success(function (data, status, headers, config) {
+                       vm.alert;
+                       (data.changedAcceptanceStatus) ?
+                        vm.alert = "Submission Accepted. This person has been accepted to attend the conference." :
+                        vm.alert = "Submission " + data.status + ".";
+
+                       $('#statusChanged').modal('show');
+                   }).
+                   error(function (data, status, headers, config) {
+                   });
+        }
+
+        /**/
+        function _selectUser(user){
+            vm.searchUser = user.firstName + ' ' + user.lastName;
+            vm.selectedUser = user.userID;
+        }
+
+        function _getListOfUsers() {
+            restApi.getListOfUsers().
+                   success(function (data, status, headers, config) {
+                       vm.usersList = data;
+                   }).
+                   error(function (data, status, headers, config) {
+                       vm.usersList = data;
                    });
         }
 

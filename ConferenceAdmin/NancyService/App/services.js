@@ -120,7 +120,12 @@
             assignEvaluator: _assignEvaluator,
             getEvaluationDetails: _getEvaluationDetails,
             assignTemplate: _assignTemplate,
-            removeEvaluator: _removeEvaluator
+            removeEvaluator: _removeEvaluator,
+            changeSubmissionStatus: _changeSubmissionStatus,
+            postAdminSubmission: _postAdminSubmission,
+            getDeletedSubmissions: _getDeletedSubmissions,
+            getListOfUsers: _getListOfUsers,
+            getADeletedSubmission: _getADeletedSubmission
         };
 
         return service;
@@ -613,7 +618,23 @@
         };
         //Changes submission status
         function _changeSubmissionStatus(data) {
-            return $http.put('admin/changeSubmissionStatus/');
+            return $http.put('admin/changeSubmissionStatus/' + data.status + '/' + data.submissionID);
+        };
+        //Adds a submission submitted by the admin        
+        function _postAdminSubmission(data) {
+            return $http.post('admin/postAdminSubmission', data)
+        };
+        //gets all deleted submissions
+        function _getDeletedSubmissions() {
+            return $http.get('admin/getDeletedSubmissions')
+        };
+        //get details of a deleted submission
+        function _getADeletedSubmission(data){
+            return $http.get('admin/getADeletedSubmission/' + data)
+        };
+        //get list of all users
+        function _getListOfUsers() {
+            return $http.get('admin/getListOfUsers')
         };
     }
 }
