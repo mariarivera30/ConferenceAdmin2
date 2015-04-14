@@ -231,7 +231,7 @@ namespace NancyService.Modules
                     }
                     context.SaveChanges();
 
-                    if (delAdmin.privilege != "Finance")
+                    if (delAdmin.privilegeID != 2)//Finance Privilege
                     {
                         EvaluatorQuery evaluator = new EvaluatorQuery();
                         evaluator.userID = delAdmin.userID;
