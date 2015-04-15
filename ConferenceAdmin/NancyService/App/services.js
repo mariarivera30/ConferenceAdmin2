@@ -125,7 +125,9 @@
             postAdminSubmission: _postAdminSubmission,
             getDeletedSubmissions: _getDeletedSubmissions,
             getListOfUsers: _getListOfUsers,
-            getADeletedSubmission: _getADeletedSubmission
+            getADeletedSubmission: _getADeletedSubmission,
+            postAdminFinalSubmission: _postAdminFinalSubmission,
+            editAdminSubmission: _editAdminSubmission
         };
 
         return service;
@@ -636,6 +638,15 @@
         function _getListOfUsers() {
             return $http.get('admin/getListOfUsers')
         };
+        //add a final submission submitted by the admin        
+        function _postAdminFinalSubmission(data) {
+            return $http.post('admin/postAdminFinalSubmission', data)
+        };
+        //edit a submission
+        function _editAdminSubmission(data) {
+            return $http.put('admin/editAdminSubmission/', data);
+        };
+
     }
 }
 
