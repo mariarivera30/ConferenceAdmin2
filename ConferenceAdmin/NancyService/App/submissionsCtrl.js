@@ -79,6 +79,7 @@
         vm.getListOfUsers = _getListOfUsers;
         vm.getDeletedSubmissions = _getDeletedSubmissions;
         vm.getDeletedSubmissionView = _getDeletedSubmissionView;
+        vm.deleteSubmission = _deleteSubmission;
         vm.isMaster = _isMaster;
 
         // function calls
@@ -621,11 +622,11 @@
                     restApi.postAdminFinalSubmission(submission)
                             .success(function (data, status, headers, config) {
                                 vm.submissionsList.push(data);
-                                vm.submissionsList.forEach(function(submission, index){
-                                    if(submission.submissionID == vm.modalsubmissionID){
+                                vm.submissionsList.forEach(function (submission, index) {
+                                    if (submission.submissionID == vm.modalsubmissionID) {
                                         vm.submissionsList.splice(index, 1);
                                     }
-                                })
+                                });
                             })
                             .error(function (error) {
                                 
@@ -635,7 +636,7 @@
             
         }
 
-        /**/
+        /* Add document to documents pool */
         function _addDocument() {
             vm.document = vm.content;
             vm.documentName = vm.myFile.name;
@@ -644,7 +645,7 @@
             vm.documentsList.push(vm.myFile);
         }
 
-        /**/
+        /* Delete document from documents pool */
         function _deleteDocument(document) {
             vm.documentsList.forEach(function (doc, index) {
                 if (doc.documentName == document.documentName) {
@@ -653,7 +654,7 @@
             });
         }
 
-        /**/
+        /* Get all templates for dropdown */
         function _getTemplates() {
             restApi.getTemplatesAdmin().
                    success(function (data, status, headers, config) {
@@ -665,7 +666,7 @@
                    });
         }
 
-        /**/
+        /* Update the status of the selected submission */
         function _changeSubmissionStatus(submissionID, status) {
             var obj = { status: status, submissionID: submissionID };
             restApi.changeSubmissionStatus(obj).
@@ -681,7 +682,7 @@
                    });
         }
 
-        /**/
+        /* Selects a user from the search results */
         function _selectUser(user){
             vm.searchUser = user.firstName + ' ' + user.lastName;
             vm.selectedUser = user.userID;
@@ -697,6 +698,7 @@
                    });
         }
 
+        /* Get all deleted submissions */
         function _getDeletedSubmissions() {
             restApi.getDeletedSubmissions().
                    success(function (data, status, headers, config) {
@@ -707,7 +709,7 @@
                    });
         }
 
-        /**/
+        /* Determine whether the currently logged user is a Master user */
         function _isMaster() {
             restApi.isMaster(userID).
                    success(function (data, status, headers, config) {
@@ -716,6 +718,21 @@
                    error(function (data, status, headers, config) {
                        vm.isMaster = data;
                    });
+        }
+
+        /* Remove the selected submission */
+        function _deleteSubmission(id) {
+            restApi.deleteSubmission(id).
+                success(function (data, status, headers, config) {
+                    vm.submissionsList.forEach(function (submission, index) {
+                        _getAllSubmissions();
+                        _getDeletedSubmissions();
+                    });
+                }).
+                error(function (data, status, headers, config) {
+
+                });
+
         }
     }
 })();

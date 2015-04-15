@@ -651,7 +651,6 @@
         function _isMaster(data) {
             return $http.get('admin/isMaster/' + data);
         }
-
     }
 }
 
