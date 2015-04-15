@@ -379,12 +379,19 @@ namespace NancyService.Modules
                     CurrAndPrevSub subs = new CurrAndPrevSub();
 
                     submission sub = context.submissions.Where(c => c.submissionID == submissionID && c.deleted == false).FirstOrDefault();
+                    bool isFinalVersion = context.usersubmission.Where(c => c.finalSubmissionID == submissionID).FirstOrDefault() == null ? false:true;
                     if (sub.submissionTypeID == 1 || sub.submissionTypeID == 2 || sub.submissionTypeID == 4)
                     {
 
                         subs = new CurrAndPrevSub
                         {
                             submissionID = sub.submissionID,
+                            submitterFirstName = sub.usersubmissions1.FirstOrDefault() != null ?
+                            sub.usersubmissions1.FirstOrDefault().user.firstName : (sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().user.firstName),
+                            submitterLastName = sub.usersubmissions1.FirstOrDefault() != null ?
+                            sub.usersubmissions1.FirstOrDefault().user.lastName : (sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().user.lastName),
+                            submitterEmail = sub.usersubmissions1.FirstOrDefault() != null ?
+                            sub.usersubmissions1.FirstOrDefault().user.membership.email : (sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().user.membership.email),
                             submissionTitle = sub.title,
                             topic = sub.topiccategory.name,
                             topiccategoryID = sub.topiccategory.topiccategoryID,
@@ -456,6 +463,12 @@ namespace NancyService.Modules
                         subs = new CurrAndPrevSub
                         {
                             submissionID = sub.submissionID,
+                            submitterFirstName = sub.usersubmissions1.FirstOrDefault() != null ?
+                            sub.usersubmissions1.FirstOrDefault().user.firstName : (sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().user.firstName),
+                            submitterLastName = sub.usersubmissions1.FirstOrDefault() != null ?
+                            sub.usersubmissions1.FirstOrDefault().user.lastName : (sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().user.lastName),
+                            submitterEmail = sub.usersubmissions1.FirstOrDefault() != null ?
+                            sub.usersubmissions1.FirstOrDefault().user.membership.email : (sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().user.membership.email),
                             submissionTitle = sub.title,
                             topic = sub.topiccategory.name,
                             topiccategoryID = sub.topiccategory.topiccategoryID,
@@ -538,6 +551,12 @@ namespace NancyService.Modules
                         subs = new CurrAndPrevSub
                         {
                             submissionID = sub.submissionID,
+                            submitterFirstName = sub.usersubmissions1.FirstOrDefault() != null ?
+                            sub.usersubmissions1.FirstOrDefault().user.firstName : (sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().user.firstName),
+                            submitterLastName = sub.usersubmissions1.FirstOrDefault() != null ?
+                            sub.usersubmissions1.FirstOrDefault().user.lastName : (sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().user.lastName),
+                            submitterEmail = sub.usersubmissions1.FirstOrDefault() != null ?
+                            sub.usersubmissions1.FirstOrDefault().user.membership.email : (sub.usersubmissions.FirstOrDefault() == null ? null : sub.usersubmissions.FirstOrDefault().user.membership.email),                                                       
                             submissionTitle = sub.title,
                             topic = sub.topiccategory.name,
                             topiccategoryID = sub.topiccategory.topiccategoryID,
@@ -611,6 +630,16 @@ namespace NancyService.Modules
                             null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault().publicFeedback
                             
                         };
+                        /*if (isFinalVersion)
+                        {
+                            subs.submitterFirstName = context.usersubmission.Where(c => c.finalSubmissionID == submissionID).FirstOrDefault() == null ?
+                                null : context.usersubmission.Where(c => c.finalSubmissionID == submissionID).FirstOrDefault().user.firstName; 
+                        }
+                        else
+                        {
+                            subs.submitterFirstName = context.usersubmission.Where(c => c.initialSubmissionID == submissionID).FirstOrDefault() == null ?
+                                null : context.usersubmission.Where(c => c.initialSubmissionID == submissionID).FirstOrDefault().user.firstName; 
+                        }*/
                     }
                     return subs;
                 }
@@ -647,20 +676,37 @@ namespace NancyService.Modules
             }
         }
 
-        public bool deleteSubmission(long submissionID)
+        public Submission deleteSubmission(long submissionID)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    Submission prevSub = new Submission();
                     submission sub = context.submissions.Where(c => c.submissionID == submissionID).FirstOrDefault();
                     bool isFinalVersion = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID == submissionID).FirstOrDefault() == null ? false : true;
-                    //if submission to be deleted is final version disconnect the final version from the previous one
                     if (isFinalVersion)
                     {
-                        var theFinalSub = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID == submissionID).FirstOrDefault();
-                        theFinalSub.finalSubmissionID = null;
-                    }
+                        prevSub = context.usersubmission.Where(c => c.finalSubmissionID == submissionID).
+                        Select(i => new Submission
+                        {
+                            submissionID = i.submission1 == null ? -1 : i.submission1.submissionID,
+                            submissionTypeName = i.submission1 == null ? null : i.submission1.submissiontype.name,
+                            submissionTypeID = i.submission1 == null ? -1 : i.submission1.submissionTypeID,
+                            submissionTitle = i.submission1 == null ? null : i.submission1.title,
+                            topiccategoryID = i.submission1 == null ? -1 : i.submission1.topicID,
+                            status = i.submission1 == null ? null : i.submission1.status,
+                            isEvaluated = (i.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
+                            isAssigned = i.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true,
+                            isFinalSubmission = false,
+                            finalSubmissionAllowed = (i.allowFinalVersion == null ? false : i.allowFinalVersion) == false ? false : true
+                        }).FirstOrDefault();
+
+                        //if submission to be deleted is final version disconnect the final version from the previous one                       
+                            var theFinalSub = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID == submissionID).FirstOrDefault();
+                            theFinalSub.finalSubmissionID = null;                       
+                    } 
+                    
                     //delete pdf files
                     if (sub.documentssubmitteds != null)
                     {
@@ -696,15 +742,15 @@ namespace NancyService.Modules
                             s.deleted = true;
                         }
                     }
-                    context.SaveChanges();
+                    context.SaveChanges();                   
 
-                    return true;
+                    return prevSub;
                 }
             }
             catch (Exception ex)
             {
                 Console.Write("SubmissionManager.deleteSubmission error " + ex);
-                return false;
+                return null;
             }
         }
 
@@ -1073,6 +1119,9 @@ namespace NancyService.Modules
                         context.workshops.Add(subWorkshop);
                         context.SaveChanges();
                     }
+
+                    //Delete connection between previous submissions and evaluators that have not evaluated them yet, 
+                    //since these will not be taken into consideration for the avg score of the final submission
 
                     Submission addedSub = new Submission
                     {
@@ -1613,6 +1662,12 @@ namespace NancyService.Modules
                         Select(d => new CurrAndPrevSub
                         {
                             submissionID = d.submissionID,
+                            submitterFirstName = d.usersubmissions1.FirstOrDefault() != null ?
+                            d.usersubmissions1.FirstOrDefault().user.firstName : (d.usersubmissions.FirstOrDefault() == null ? null : d.usersubmissions.FirstOrDefault().user.firstName),
+                            submitterLastName = d.usersubmissions1.FirstOrDefault() != null ?
+                            d.usersubmissions1.FirstOrDefault().user.lastName : (d.usersubmissions.FirstOrDefault() == null ? null : d.usersubmissions.FirstOrDefault().user.lastName),
+                            submitterEmail = d.usersubmissions1.FirstOrDefault() != null ?
+                            d.usersubmissions1.FirstOrDefault().user.membership.email : (d.usersubmissions.FirstOrDefault() == null ? null : d.usersubmissions.FirstOrDefault().user.membership.email),                            
                             submissionTitle = d.title,
                             topic = d.topiccategory.name,
                             topiccategoryID = d.topiccategory.topiccategoryID,
@@ -1660,6 +1715,7 @@ namespace NancyService.Modules
         public int topiccategoryID;
         public String submitterFirstName;
         public String submitterLastName;
+        public String submitterEmail;
         public String submissionAbstract;
         public List<SubmissionDocument> submissionFileList;
         public String submissionType;

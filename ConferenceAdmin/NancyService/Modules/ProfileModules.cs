@@ -157,11 +157,9 @@ namespace NancyService.Modules
             Delete["/deleteSubmission/{id}"] = parameters =>
             {
                 long submissionID = parameters.id;
-                if (submission.deleteSubmission(submissionID))
-                    return HttpStatusCode.OK;
+                Submission prevSub = submission.deleteSubmission(submissionID);
 
-                else
-                    return HttpStatusCode.Conflict;
+                return Response.AsJson(prevSub);
             };
             //Add a submission
             Post["/postSubmission"] = parameters =>
