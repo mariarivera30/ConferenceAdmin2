@@ -158,8 +158,9 @@ namespace NancyService.Modules
             {
                 long submissionID = parameters.id;
                 Submission prevSub = submission.deleteSubmission(submissionID);
-
-                return Response.AsJson(prevSub);
+                if (prevSub != null)
+                    return Response.AsJson(prevSub);
+                else return null;
             };
             //Add a submission
             Post["/postSubmission"] = parameters =>

@@ -437,12 +437,14 @@
             if (vm.currentSubmissionID != undefined) {
                 restApi.deleteSubmission(vm.currentSubmissionID)
                 .success(function (data, status, headers, config) {
-                    vm.submissionlist.forEach(function (submission, index) {
+                    _getUserSubmissions(currentUserID);
+                    /*vm.submissionlist.forEach(function (submission, index) {
                         if (submission.submissionID == vm.currentSubmissionID) {
                             vm.submissionlist.splice(index, 1);
                         }
                     });
-                    vm.submissionlist.push(data);
+                    if(data != null || data != undefined || data != "")
+                    vm.submissionlist.push(data);*/
                 })
                 .error(function (data, status, headers, config) {
                 });
