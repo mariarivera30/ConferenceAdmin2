@@ -219,6 +219,7 @@
                         vm.modalpublicFeedback = data.publicFeedback;
                         vm.modalprivateFeedback = data.privateFeedback;
                         vm.documentsList = data.submissionFileList;
+                        vm.deleted = false;
 
                         vm.TEMP = { templateID: data.templateID, templateName: data.templateName };
 
@@ -469,7 +470,7 @@
                             vm.submissionsList.push(data);
                         })
                         .error(function (error) {
-                            _clear();
+
                         });
             }
             else if (vm.viewModal == 'edit') { //if updating submission
@@ -502,8 +503,31 @@
                     vm.myFile.name = "";
                 }
                 submission.documentssubmitteds = vm.documentsList;
-                restApi.editAdminSubmission(submission)
+                restApi.editSubmission(submission)
                        .success(function (data, status, headers, config) {
+
+                           vm.submissionID = data.submissionID;
+                           vm.userType = data.userType;
+                           vm.submissionTitle = data.submissionTitle;
+                           vm.topic = data.topic;
+                           vm.topiccategoryID = data.topiccategoryID;
+                           vm.submissionAbstract = data.submissionAbstract;
+                           vm.submissionFileList = data.submissionFileList;
+                           vm.submissionTypeName = data.submissionType;
+                           vm.submissionTypeID = data.submissionTypeID;
+                           vm.panelistNames = data.panelistNames;
+                           vm.plan = data.plan;
+                           vm.guideQuestions = data.guideQuestions;
+                           vm.format = data.format;
+                           vm.equipment = data.equipment;
+                           vm.duration = data.duration;
+                           vm.delivery = data.delivery;
+                           vm.subIsEvaluated = data.subIsEvaluated;
+                           vm.publicFeedback = data.publicFeedback;
+                           vm.privateFeedback = data.privateFeedback;
+                           vm.documentsList = data.submissionFileList;
+
+
                            vm.submissionsList.forEach(function (submission, index) {
                                if (submission.submissionID == vm.modalsubmissionID) {
                                    submission.submissionTitle = data.submissionTitle;
@@ -512,7 +536,7 @@
                        )
                        })
                        .error(function (error) {
-                           _clear();
+                           
                        });                
             }
             else if (vm.viewModal == "final") {
@@ -545,7 +569,8 @@
                         vm.myFile.name = "";
                     }
                     submission.documentssubmitteds = vm.documentsList;
-                    restApi.postAdminFinalSubmission(submission)
+                    submission.byAdmin = true;
+                    restApi.postFinalSubmission(submission)
                             .success(function (data, status, headers, config) {
                                 vm.submissionsList.push(data);
                                 vm.submissionsList.forEach(function(submission, index){
@@ -555,10 +580,9 @@
                                 })
                             })
                             .error(function (error) {
-                                _clear();
+                                
                             });
             }
-            _clear();
             $('#addSubmissionModal').modal('hide');
             
         }

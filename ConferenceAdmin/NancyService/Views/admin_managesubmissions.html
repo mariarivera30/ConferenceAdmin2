@@ -409,17 +409,17 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button ng-show="vm.TYPE.submissionTypeID == 1" ng-disabled="addSubmissionForm.modalsubmissionTitle.$invalid || !vm.selected || addSubmissionForm.modalsubmissionAbstract.$invalid" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addAdminSubmission()">
+                    <button ng-show="vm.TYPE.submissionTypeID == 1" ng-disabled="addSubmissionForm.modalsubmissionTitle.$invalid || (vm.viewModal =='add' && !vm.selected) || addSubmissionForm.modalsubmissionAbstract.$invalid" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addAdminSubmission()">
                         Submit
                     </button>
-                    <button ng-show="vm.TYPE.submissionTypeID == 2" ng-disabled="addSubmissionForm.modalsubmissionTitle.$invalid || !vm.selected || addSubmissionForm.modalsubmissionAbstract.$invalid" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addAdminSubmission()">Submit</button>
-                    <button ng-show="vm.TYPE.submissionTypeID == 3" ng-disabled="addSubmissionForm.modalsubmissionTitle.$invalid || !vm.selected || addSubmissionForm.modalsubmissionAbstract.$invalid ||
+                    <button ng-show="vm.TYPE.submissionTypeID == 2" ng-disabled="addSubmissionForm.modalsubmissionTitle.$invalid || (vm.viewModal =='add' && !vm.selected) || addSubmissionForm.modalsubmissionAbstract.$invalid" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addAdminSubmission()">Submit</button>
+                    <button ng-show="vm.TYPE.submissionTypeID == 3" ng-disabled="addSubmissionForm.modalsubmissionTitle.$invalid || (vm.viewModal =='add' && !vm.selected) || addSubmissionForm.modalsubmissionAbstract.$invalid ||
                                     addSubmissionForm.modalpanelistNames.$invalid || addSubmissionForm.modalplan.$invalid || addSubmissionForm.modalguideQuestions.$invalid ||
                                     addSubmissionForm.modalformat.$invalid || addSubmissionForm.modalequipment.$invalid" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addAdminSubmission()">
                         Submit
                     </button>
-                    <button ng-show="vm.TYPE.submissionTypeID == 4" ng-disabled="addSubmissionForm.modalsubmissionTitle.$invalid || !vm.selected || addSubmissionForm.modalsubmissionAbstract.$invalid" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addAdminSubmission()">Submit</button>
-                    <button ng-show="vm.TYPE.submissionTypeID == 5" ng-disabled="addSubmissionForm.modalsubmissionTitle.$invalid || !vm.selected || addSubmissionForm.modalsubmissionAbstract.$invalid ||
+                    <button ng-show="vm.TYPE.submissionTypeID == 4" ng-disabled="addSubmissionForm.modalsubmissionTitle.$invalid || (vm.viewModal =='add' && !vm.selected) || addSubmissionForm.modalsubmissionAbstract.$invalid" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addAdminSubmission()">Submit</button>
+                    <button ng-show="vm.TYPE.submissionTypeID == 5" ng-disabled="addSubmissionForm.modalsubmissionTitle.$invalid || (vm.viewModal =='add' && !vm.selected) || addSubmissionForm.modalsubmissionAbstract.$invalid ||
                                     addSubmissionForm.modalduration.$invalid || addSubmissionForm.modaldelivery.$invalid || addSubmissionForm.modalplan.$invalid ||
                                     addSubmissionForm.modalequipment.$invalid" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addAdminSubmission()">
                         Submit
