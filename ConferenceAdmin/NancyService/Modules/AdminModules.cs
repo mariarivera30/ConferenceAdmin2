@@ -779,7 +779,7 @@ namespace NancyService.Modules
                     workshopToAdd = this.Bind<workshop>();
                 }
                 Submission newSubmission =
-                    submission.postAdminFinalSubmission(usersubTA, submissionToAdd, submissionDocuments, pannelToAdd, workshopToAdd);
+                    submissionManager.postAdminFinalSubmission(usersubTA, submissionToAdd, submissionDocuments, pannelToAdd, workshopToAdd);
                 return Response.AsJson(newSubmission);
             };
             //gets all deleted submissions
