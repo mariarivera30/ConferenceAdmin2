@@ -145,7 +145,7 @@
             <span ng-hide="vm.deleted">
                 <button class="btn btn-ar btn-primary right" ng-click="vm.deleteSubmission(vm.submissionID); vm.view=false;">Delete</button><p class="padding-5 right"></p>
                 <button class="btn btn-ar btn-primary right" data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.viewModal = 'edit';">Edit</button><p class="padding-5 right"></p>
-                <button class="btn btn-ar btn-primary right" data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.viewModal = 'final';">Add Final</button>
+                <button class="btn btn-ar btn-primary right" data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.viewModal = 'final';" ng-hide="vm.hasPrevVersion">Add Final</button>
             </span>
         </h5>
 
