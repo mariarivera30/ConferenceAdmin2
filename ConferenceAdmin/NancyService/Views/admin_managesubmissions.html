@@ -39,7 +39,7 @@
             <br />
             <select ng-model="vm.TYPE"
                     ng-options="type as type.submissionTypeName for type in vm.submissionTypeList" required></select>
-            <button data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.viewAdd(); vm.getListOfUsers(); vm.viewModal = 'add';" class="btn btn-ar btn-primary">Add New</button>
+            <button data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.clear(); vm.viewAdd(); vm.getListOfUsers(); vm.viewModal = 'add';" class="btn btn-ar btn-primary">Add New</button>
         </div>
 
         <hr class="col-lg-11"/>
@@ -213,6 +213,8 @@
             </div>
 
             <div class="col-lg-6 ">
+                <span ng-show="vm.userTypeID == 1"><label>Name:</label> {{vm.submitterFirstName + ' ' + vm.submitterLastName}}</span>
+                <span ng-show="vm.userTypeID == 1"><label>Email:</label> {{vm.submitterEmail}}</span>
                 <label>Title </label><br />{{vm.prevSubmissionTitle}}<br />
                 <label>Topic category</label><br />{{vm.prevTopic}}
             </div>

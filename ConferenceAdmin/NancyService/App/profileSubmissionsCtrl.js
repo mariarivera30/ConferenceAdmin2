@@ -147,10 +147,10 @@
             vm.modaltopic = null;
             vm.modaltopiccategoryID = null;
             vm.modalsubmissionAbstract = null;
-            vm.modalsubmissionFileList = null;
+            vm.modalsubmissionFileList = [];
             vm.modalsubmissionTypeName = null;
             vm.modalsubmissionTypeID = null;
-            vm.modalpanelistNames = null;
+            vm.modalpanelistNames = [];
             vm.modalplan = null;
             vm.modalguideQuestions = null;
             vm.modalformat = null;

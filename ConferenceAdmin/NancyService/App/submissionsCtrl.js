@@ -136,6 +136,34 @@
             vm.documentsList = [];
             vm.selectedUser = '';
             vm.TEMP = null;
+            // modal
+            vm.modalsubmissionID = 0;
+            vm.modaluserType = "";
+            vm.modalsubmissionTitle = "";
+            vm.modaltopic = "";
+            vm.modaltopiccategoryID = 0;
+            vm.modalsubmissionAbstract = "";
+            vm.modalsubmissionFileList = [];
+            vm.modalsubmissionTypeName = "";
+            vm.modalsubmissionTypeID = 0;
+            vm.modalpanelistNames = [];
+            vm.modalplan = "";
+            vm.modalguideQuestions = "";
+            vm.modalformat = "";
+            vm.modalequipment = "";
+            vm.modalduration = "";
+            vm.modaldelivery = "";
+            vm.modalsubIsEvaluated = false;
+            vm.modalpublicFeedback = "";
+            vm.modalprivateFeedback = "";
+            vm.CTYPE = vm.topicsList[0];
+            vm.searchUser = null;
+            vm.selectedUser = null;
+            vm.selected = false;
+            vm.documentsList = [];
+            if (vm.myFile != undefined) {
+                vm.myFile = undefined;
+            }
         }
 
         /* Retrieves every submission in the system */
@@ -161,6 +189,9 @@
         function _getSubmissionView(submissionID) {
             restApi.getUserSubmission(submissionID).
                     success(function (data, status, headers, config) {
+                        vm.submitterFirstName = data.submitterFirstName;
+                        vm.submitterLastName = data.submitterLastName;
+                        vm.submitterEmail = data.submitterEmail;
                         vm.submissionID = data.submissionID;
                         vm.userType = data.userType;
                         vm.submissionTitle = data.submissionTitle;
@@ -242,6 +273,9 @@
         function _getDeletedSubmissionView(submissionID) {
             restApi.getADeletedSubmission(submissionID).
                     success(function (data, status, headers, config) {
+                        vm.submitterFirstName = data.submitterFirstName;
+                        vm.submitterLastName = data.submitterLastName;
+                        vm.submitterEmail = data.submitterEmail;
                         vm.submissionID = data.submissionID;
                         vm.userType = data.userType;
                         vm.submissionTitle = data.submissionTitle;
