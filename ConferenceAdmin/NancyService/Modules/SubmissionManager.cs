@@ -1123,6 +1123,7 @@ namespace NancyService.Modules
                     //Delete connection between previous submissions and evaluators that have not evaluated them yet, 
                     //since these will not be taken into consideration for the avg score of the final submission
 
+
                     Submission addedSub = new Submission
                     {
                         submissionID = finalSubmissionID,
@@ -1701,6 +1702,23 @@ namespace NancyService.Modules
             {
                 Console.Write("SubmissionManager.getADeletedSubmission error " + ex);
                 return null;
+            }
+        }
+
+        public bool isMaster(long userID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    bool isMaster = context.claims.Where(c => c.userID == userID && c.privilegesID == 5).FirstOrDefault() == null ? false : true;
+                    return isMaster;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.isMaster error " + ex);
+                return false;
             }
         }
     }

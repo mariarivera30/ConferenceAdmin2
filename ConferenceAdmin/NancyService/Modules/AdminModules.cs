@@ -772,6 +772,13 @@ namespace NancyService.Modules
                 {
                     return Response.AsJson(submissionManager.getListOfUsers());
                 };
+            //returns true is the currently logged in user is the master
+            Get["/isMaster/{userID:long}"] = parameters =>
+                {
+                    long userID = parameters.userID;
+                    bool isMaster = submissionManager.isMaster(userID);
+                    return isMaster;
+                };
 
         }
     }
