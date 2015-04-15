@@ -383,7 +383,7 @@
                                 <p ng-show="addSubmissionForm.modalequipment.$invalid && !addSubmissionForm.modalequipment.$pristine" class="help-block">Equipment is required.</p>
                             </div>
 
-                            <div ng-hide="vm.TYPE.submissionTypeID == 4">
+                            <div ng-hide="vm.TYPE.submissionTypeID == 4 || vm.submissionTypeID == 4">
                                 <label>Uploaded Documents:</label>
                                 <div class="templates-list table-box">
                                     <ul class="list-group list-group-striped">

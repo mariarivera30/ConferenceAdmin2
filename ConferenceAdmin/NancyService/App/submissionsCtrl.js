@@ -221,7 +221,10 @@
                         vm.documentsList = data.submissionFileList;
                         vm.deleted = false;
 
-                        
+                        vm.topicsList.forEach(function (t, index) {
+                            if (t.topiccategoryID == data.topiccategoryID)
+                                vm.CTYPE = vm.topicsList[index];
+                        });
 
                         vm.templatesList.forEach(function (tem, index) {
                             if (tem.templateID == data.templateID)
@@ -514,8 +517,12 @@
                            vm.submissionID = vm.modalsubmissionID;
                            vm.userType = vm.modaluserType;
                            vm.submissionTitle = vm.modalsubmissionTitle;
-                           vm.topic = vm.modaltopic;
+                           vm.topic = vm.CTYPE.name;
                            vm.topiccategoryID = vm.modaltopiccategoryID;
+                           vm.topicsList.forEach(function (t, index) {
+                               if (t.topiccategoryID == vm.topiccategoryID)
+                                   vm.CTYPE = vm.topicsList[index];
+                           });
                            vm.submissionAbstract = vm.modalsubmissionAbstract;
                            vm.submissionFileList = vm.modalsubmissionFileList;
                            vm.submissionTypeName = vm.modalsubmissionType;
