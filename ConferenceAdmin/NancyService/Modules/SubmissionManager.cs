@@ -1035,17 +1035,17 @@ namespace NancyService.Modules
                     usersubmission usersub = context.usersubmission.Where(c => c.initialSubmissionID == usersubTA.initialSubmissionID && c.deleted == false).FirstOrDefault();
                     usersub.finalSubmissionID = finalSubmissionID;
                     context.SaveChanges();
-                    //table documents submitted
-                    if (submissionToAdd.submissionTypeID != 4 && submissionDocuments != null)
+                    //replace every document bound to the submission
+                    documentssubmitted subDocs = new documentssubmitted();
+                    foreach (var docs in submissionToAdd.documentssubmitteds)
                     {
-                        documentssubmitted subDocs = new documentssubmitted();
-                        subDocs.submissionID = finalSubmissionID;
-                        subDocs.documentName = submissionDocuments.documentName;
-                        subDocs.document = submissionDocuments.document;
+                        subDocs.submissionID = sub.submissionID;
+                        subDocs.documentName = docs.documentName;
+                        subDocs.document = docs.document;
                         subDocs.deleted = false;
                         context.documentssubmitteds.Add(subDocs);
                         context.SaveChanges();
-                    }
+                    }              
                     //table pannels
                     if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
                     {
@@ -1119,17 +1119,17 @@ namespace NancyService.Modules
                     usersubmission usersub = context.usersubmission.Where(c => c.initialSubmissionID == usersubTA.initialSubmissionID && c.deleted == false).FirstOrDefault();
                     usersub.finalSubmissionID = finalSubmissionID;
                     context.SaveChanges();
-                    //table documents submitted
-                    if (submissionToAdd.submissionTypeID != 4 && submissionDocuments != null)
+                    //replace every document bound to the submission
+                    documentssubmitted subDocs = new documentssubmitted();
+                    foreach (var docs in submissionToAdd.documentssubmitteds)
                     {
-                        documentssubmitted subDocs = new documentssubmitted();
-                        subDocs.submissionID = finalSubmissionID;
-                        subDocs.documentName = submissionDocuments.documentName;
-                        subDocs.document = submissionDocuments.document;
+                        subDocs.submissionID = sub.submissionID;
+                        subDocs.documentName = docs.documentName;
+                        subDocs.document = docs.document;
                         subDocs.deleted = false;
                         context.documentssubmitteds.Add(subDocs);
                         context.SaveChanges();
-                    }
+                    }       
                     //table pannels
                     if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
                     {
