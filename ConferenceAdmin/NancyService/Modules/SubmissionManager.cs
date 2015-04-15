@@ -682,7 +682,7 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    Submission prevSub = new Submission();
+                    Submission prevSub = null;
                     submission sub = context.submissions.Where(c => c.submissionID == submissionID).FirstOrDefault();
                     bool isFinalVersion = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID == submissionID).FirstOrDefault() == null ? false : true;
                     if (isFinalVersion)
@@ -742,6 +742,13 @@ namespace NancyService.Modules
                             s.deleted = true;
                         }
                     }
+                    //if submission has an evaluator assigned (can only happen when an admin or committe evaluator deletes it)
+                    List<evaluatiorsubmission> evaluatorSubmission = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.deleted == false).ToList();
+                    foreach (evaluatiorsubmission evalSub in evaluatorSubmission)
+                    {
+                        evalSub.deleted = true;
+                    }
+
                     context.SaveChanges();                   
 
                     return prevSub;
