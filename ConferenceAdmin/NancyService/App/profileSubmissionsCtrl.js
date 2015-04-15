@@ -442,6 +442,7 @@
                             vm.submissionlist.splice(index, 1);
                         }
                     });
+                    vm.submissionlist.push(data);
                 })
                 .error(function (data, status, headers, config) {
                 });
