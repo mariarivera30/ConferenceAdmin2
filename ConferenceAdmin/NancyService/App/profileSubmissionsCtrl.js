@@ -401,12 +401,13 @@
                 submission.documentssubmitteds = vm.documentsList;
                 restApi.postFinalSubmission(submission)
                         .success(function (data, status, headers, config) {
-                            vm.submissionlist.push(data);
-                            vm.submissionlist.forEach(function(submission, index){
-                                if(submission.submissionID == vm.modalsubmissionID){
+                            
+                            vm.submissionlist.forEach(function (submission, index) {
+                                if (submission.submissionID == vm.modalsubmissionID) {
                                     vm.submissionlist.splice(index, 1);
                                 }
-                            })
+                            });
+                            vm.submissionlist.push(data);
                         })
                         .error(function (error) {
 

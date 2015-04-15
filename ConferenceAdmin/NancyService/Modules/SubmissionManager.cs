@@ -672,11 +672,11 @@ namespace NancyService.Modules
                     //delete submission
                     sub.deleted = true;
                     //delete user submissions
-                    if(sub.usersubmissions.FirstOrDefault() != null)
+                    if(sub.usersubmissions.FirstOrDefault() != null && isFinalVersion == false)
                     {
                     sub.usersubmissions.FirstOrDefault().deleted = true;
                     }
-                    if (sub.usersubmissions1.FirstOrDefault() != null)
+                    if (sub.usersubmissions1.FirstOrDefault() != null && isFinalVersion == false)
                     {
                     sub.usersubmissions1.FirstOrDefault().deleted = true;
                     }
