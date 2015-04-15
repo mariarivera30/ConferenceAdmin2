@@ -400,6 +400,10 @@ namespace NancyService.Modules
                                 }).ToList(),
                             submissionType = sub.submissiontype.name,
                             submissionTypeID = sub.submissionTypeID,
+                            templateName = sub.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? 
+                            null : sub.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().template.name,
+                            templateID = sub.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            -1 : sub.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().templateID,
                             panelistNames = null,
                             plan = null,
                             guideQuestions = null,
@@ -467,6 +471,10 @@ namespace NancyService.Modules
                                 }).ToList(),
                             submissionType = sub.submissiontype.name,
                             submissionTypeID = sub.submissionTypeID,
+                            templateName = sub.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            null : sub.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().template.name,
+                            templateID = sub.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            -1 : sub.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().templateID,
                             panelistNames = (sub.panels.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.panels.Where(y => y.deleted == false).FirstOrDefault().panelistNames),
                             plan = (sub.panels.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.panels.Where(y => y.deleted == false).FirstOrDefault().plan),
                             guideQuestions = (sub.panels.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.panels.Where(y => y.deleted == false).FirstOrDefault().guideQuestion),
@@ -545,6 +553,10 @@ namespace NancyService.Modules
                                 }).ToList(),
                             submissionType = sub.submissiontype.name,
                             submissionTypeID = sub.submissionTypeID,
+                            templateName = sub.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            null : sub.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().template.name,
+                            templateID = sub.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            -1 : sub.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().templateID,
                             panelistNames = null,
                             plan = (sub.workshops.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.workshops.Where(y => y.deleted == false).FirstOrDefault().plan),
                             guideQuestions = null,
@@ -1652,6 +1664,8 @@ namespace NancyService.Modules
         public List<SubmissionDocument> submissionFileList;
         public String submissionType;
         public int submissionTypeID;
+        public String templateName;
+        public long templateID;
         public String evaluationTemplate;
         public String panelistNames;
         public String plan;
