@@ -221,7 +221,12 @@
                         vm.documentsList = data.submissionFileList;
                         vm.deleted = false;
 
-                        vm.TEMP = { templateID: data.templateID, templateName: data.templateName };
+                        
+
+                        vm.templatesList.forEach(function (tem, index) {
+                            if (tem.templateID == data.templateID)
+                                vm.TEMP = vm.templatesList[index];
+                        });
 
                         _getEvaluationsForSubmission(submissionID);
                     }).
@@ -506,25 +511,25 @@
                 restApi.editSubmission(submission)
                        .success(function (data, status, headers, config) {
 
-                           vm.submissionID = data.submissionID;
-                           vm.userType = data.userType;
-                           vm.submissionTitle = data.submissionTitle;
-                           vm.topic = data.topic;
-                           vm.topiccategoryID = data.topiccategoryID;
-                           vm.submissionAbstract = data.submissionAbstract;
-                           vm.submissionFileList = data.submissionFileList;
-                           vm.submissionTypeName = data.submissionType;
-                           vm.submissionTypeID = data.submissionTypeID;
-                           vm.panelistNames = data.panelistNames;
-                           vm.plan = data.plan;
-                           vm.guideQuestions = data.guideQuestions;
-                           vm.format = data.format;
-                           vm.equipment = data.equipment;
-                           vm.duration = data.duration;
-                           vm.delivery = data.delivery;
-                           vm.subIsEvaluated = data.subIsEvaluated;
-                           vm.publicFeedback = data.publicFeedback;
-                           vm.privateFeedback = data.privateFeedback;
+                           vm.submissionID = vm.modalsubmissionID;
+                           vm.userType = vm.modaluserType;
+                           vm.submissionTitle = vm.modalsubmissionTitle;
+                           vm.topic = vm.modaltopic;
+                           vm.topiccategoryID = vm.modaltopiccategoryID;
+                           vm.submissionAbstract = vm.modalsubmissionAbstract;
+                           vm.submissionFileList = vm.modalsubmissionFileList;
+                           vm.submissionTypeName = vm.modalsubmissionType;
+                           vm.submissionTypeID = vm.modalsubmissionTypeID;
+                           vm.panelistNames = vm.modalpanelistNames;
+                           vm.plan = vm.modalplan;
+                           vm.guideQuestions = vm.modalguideQuestions;
+                           vm.format = vm.modalformat;
+                           vm.equipment = vm.modalequipment;
+                           vm.duration = vm.modalduration;
+                           vm.delivery = vm.modaldelivery;
+                           vm.subIsEvaluated = vm.modalsubIsEvaluated;
+                           vm.publicFeedback = vm.modalpublicFeedback;
+                           vm.privateFeedback = vm.modalprivateFeedback;
                            vm.documentsList = data.submissionFileList;
 
 
@@ -570,7 +575,7 @@
                     }
                     submission.documentssubmitteds = vm.documentsList;
                     submission.byAdmin = true;
-                    restApi.postFinalSubmission(submission)
+                    restApi.postAdminFinalSubmission(submission)
                             .success(function (data, status, headers, config) {
                                 vm.submissionsList.push(data);
                                 vm.submissionsList.forEach(function(submission, index){
