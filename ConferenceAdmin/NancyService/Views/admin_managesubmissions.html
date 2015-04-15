@@ -154,6 +154,8 @@
         </h5>
 
         <div class="col-lg-6 ">
+            <span ng-show="vm.isMaster"><label>Name</label> <br />{{vm.submitterFirstName + ' ' + vm.submitterLastName}}<br /></span>
+            <span ng-show="vm.isMaster"><label>Email</label> <br />{{vm.submitterEmail}}<br /></span>
             <label>Title </label><br />{{vm.submissionTitle}}<br />
             <label>Topic category</label><br />{{vm.topic}}
         </div>
@@ -213,8 +215,8 @@
             </div>
 
             <div class="col-lg-6 ">
-                <span ng-show="vm.userTypeID == 1"><label>Name:</label> {{vm.submitterFirstName + ' ' + vm.submitterLastName}}</span>
-                <span ng-show="vm.userTypeID == 1"><label>Email:</label> {{vm.submitterEmail}}</span>
+                <span ng-show="vm.isMaster"><label>Name</label> <br />{{vm.submitterFirstName + ' ' + vm.submitterLastName}}<br /></span>
+                <span ng-show="vm.isMaster"><label>Email</label> <br />{{vm.submitterEmail}}<br /></span>
                 <label>Title </label><br />{{vm.prevSubmissionTitle}}<br />
                 <label>Topic category</label><br />{{vm.prevTopic}}
             </div>

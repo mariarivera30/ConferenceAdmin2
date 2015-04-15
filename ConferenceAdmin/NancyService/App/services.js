@@ -127,7 +127,8 @@
             getListOfUsers: _getListOfUsers,
             getADeletedSubmission: _getADeletedSubmission,
             postAdminFinalSubmission: _postAdminFinalSubmission,
-            editAdminSubmission: _editAdminSubmission
+            editAdminSubmission: _editAdminSubmission,
+            isMaster: _isMaster
         };
 
         return service;
@@ -646,6 +647,10 @@
         function _editAdminSubmission(data) {
             return $http.put('admin/editAdminSubmission/', data);
         };
+        //determines whether the logged in user is a Master user
+        function _isMaster(data) {
+            return $http.get('admin/isMaster/' + data);
+        }
 
     }
 }

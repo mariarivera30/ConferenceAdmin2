@@ -79,6 +79,7 @@
         vm.getListOfUsers = _getListOfUsers;
         vm.getDeletedSubmissions = _getDeletedSubmissions;
         vm.getDeletedSubmissionView = _getDeletedSubmissionView;
+        vm.isMaster = _isMaster;
 
         // function calls
         _getAllSubmissions();
@@ -86,6 +87,7 @@
         _getTopics();
         _getTemplates();
         _getDeletedSubmissions();
+        _isMaster();
 
 
         // functions implementations
@@ -705,5 +707,15 @@
                    });
         }
 
+        /**/
+        function _isMaster() {
+            restApi.isMaster(userID).
+                   success(function (data, status, headers, config) {
+                       vm.isMaster = data;
+                   }).
+                   error(function (data, status, headers, config) {
+                       vm.isMaster = data;
+                   });
+        }
     }
 })();
