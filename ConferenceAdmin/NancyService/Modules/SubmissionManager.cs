@@ -1122,7 +1122,12 @@ namespace NancyService.Modules
 
                     //Delete connection between previous submissions and evaluators that have not evaluated them yet, 
                     //since these will not be taken into consideration for the avg score of the final submission
-
+                    List<evaluatiorsubmission> TBD = context.evaluatiorsubmissions.Where(c => c.submissionID == usersubTA.initialSubmissionID && c.statusEvaluation != "Evaluated" && c.deleted == false).ToList();
+                    foreach (var assignment in TBD)
+                    {                        
+                            assignment.deleted = true;                        
+                    }
+                    context.SaveChanges();
 
                     Submission addedSub = new Submission
                     {
@@ -1207,6 +1212,15 @@ namespace NancyService.Modules
                         context.workshops.Add(subWorkshop);
                         context.SaveChanges();
                     }
+
+                    //Delete connection between previous submissions and evaluators that have not evaluated them yet, 
+                    //since these will not be taken into consideration for the avg score of the final submission
+                    List<evaluatiorsubmission> TBD = context.evaluatiorsubmissions.Where(c => c.submissionID == usersubTA.initialSubmissionID && c.statusEvaluation != "Evaluated" && c.deleted == false).ToList();
+                    foreach (var assignment in TBD)
+                    {
+                        assignment.deleted = true;
+                    }
+                    context.SaveChanges();
 
                     Submission addedSub = new Submission
                     {
