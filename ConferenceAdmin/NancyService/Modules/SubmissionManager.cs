@@ -331,6 +331,10 @@ namespace NancyService.Modules
                             submissionTitle = i.submission == null ? null : i.submission.title,
                             topiccategoryID = i.submission == null ? -1 : i.submission.topicID,
                             status = i.submission == null ? null : i.submission.status,
+                            templateName = i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? 
+                            null : i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().template.name,
+                            templateID = i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            -1 : i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().templateID,
                             isEvaluated = (i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
                             isAssigned = i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true,
                             isFinalSubmission = true
@@ -638,6 +642,13 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     submission sub = context.submissions.Where(c => c.submissionID == submissionID).FirstOrDefault();
+                    bool isFinalVersion = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID == submissionID).FirstOrDefault() == null ? false : true;
+                    //if submission to be deleted is final version disconnect the final version from the previous one
+                    if (isFinalVersion)
+                    {
+                        var theFinalSub = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID == submissionID).FirstOrDefault();
+                        theFinalSub.finalSubmissionID = null;
+                    }
                     //delete pdf files
                     if (sub.documentssubmitteds != null)
                     {
@@ -1115,7 +1126,7 @@ namespace NancyService.Modules
                 return null;
             }            
         }
-
+        //for admin
         public List<Evaluation> getEvaluations(long submissionID)
         {
             try
@@ -1651,6 +1662,8 @@ namespace NancyService.Modules
         public String submissionTitle;
         public int topiccategoryID;
         public String status;
+        public String templateName;
+        public long templateID;
         public bool isEvaluated;
         public bool isAssigned;
         public bool isFinalSubmission;
