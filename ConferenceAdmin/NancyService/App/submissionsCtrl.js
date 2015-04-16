@@ -550,7 +550,7 @@
                 submission.documentssubmitteds = vm.documentsList;
                 restApi.editSubmission(submission)
                        .success(function (data, status, headers, config) {
-
+                           _getSubmissionView(vm.submissionID);
                            _getAllSubmissions();
                        })
                        .error(function (error) {
