@@ -512,7 +512,7 @@
                 submission.documentssubmitteds = vm.documentsList;
                 restApi.postAdminSubmission(submission)
                         .success(function (data, status, headers, config) {
-                            vm.submissionsList.push(data);
+                            _getAllSubmissions();
                         })
                         .error(function (error) {
 
@@ -551,38 +551,7 @@
                 restApi.editSubmission(submission)
                        .success(function (data, status, headers, config) {
 
-                           vm.submissionID = vm.modalsubmissionID;
-                           vm.userType = vm.modaluserType;
-                           vm.submissionTitle = vm.modalsubmissionTitle;
-                           vm.topic = vm.CTYPE.name;
-                           vm.topiccategoryID = vm.modaltopiccategoryID;
-                           vm.topicsList.forEach(function (t, index) {
-                               if (t.topiccategoryID == vm.topiccategoryID)
-                                   vm.CTYPE = vm.topicsList[index];
-                           });
-                           vm.submissionAbstract = vm.modalsubmissionAbstract;
-                           vm.submissionFileList = vm.modalsubmissionFileList;
-                           vm.submissionTypeName = vm.modalsubmissionType;
-                           vm.submissionTypeID = vm.modalsubmissionTypeID;
-                           vm.panelistNames = vm.modalpanelistNames;
-                           vm.plan = vm.modalplan;
-                           vm.guideQuestions = vm.modalguideQuestions;
-                           vm.format = vm.modalformat;
-                           vm.equipment = vm.modalequipment;
-                           vm.duration = vm.modalduration;
-                           vm.delivery = vm.modaldelivery;
-                           vm.subIsEvaluated = vm.modalsubIsEvaluated;
-                           vm.publicFeedback = vm.modalpublicFeedback;
-                           vm.privateFeedback = vm.modalprivateFeedback;
-                           vm.documentsList = data.submissionFileList;
-
-
-                           vm.submissionsList.forEach(function (submission, index) {
-                               if (submission.submissionID == vm.modalsubmissionID) {
-                                   submission.submissionTitle = data.submissionTitle;
-                               }                               
-                           }
-                       )
+                           _getAllSubmissions();
                        })
                        .error(function (error) {
                            
@@ -621,18 +590,13 @@
                     submission.byAdmin = true;
                     restApi.postAdminFinalSubmission(submission)
                             .success(function (data, status, headers, config) {
-                                vm.submissionsList.push(data);
-                                vm.submissionsList.forEach(function (submission, index) {
-                                    if (submission.submissionID == vm.modalsubmissionID) {
-                                        vm.submissionsList.splice(index, 1);
-                                    }
-                                });
+                                _getAllSubmissions();
                             })
                             .error(function (error) {
                                 
                             });
             }
-            $('#addSubmissionModal').modal('hide');
+            $('#addSubmissionModal').modal('hide');            
             
         }
 
@@ -732,7 +696,11 @@
                 error(function (data, status, headers, config) {
 
                 });
-
         }
+
+        /* to preview image */
+        $scope.showContent = function ($fileContent) {
+            vm.content = $fileContent;
+        };
     }
 })();
