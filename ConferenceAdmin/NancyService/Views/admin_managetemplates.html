@@ -2,19 +2,22 @@
     <h3>Manage Evaluation Templates</h3><br>
     <div class="col-lg-12" ng-hide="vm.loading">
         <table ng-table="tableParams" show-filter="true" class="table row">
-            <tr>
-                <td><b>Name</b></td>
-                <td><b>Topic</b></td>
-                <td><b></b></td>
-                <td></td>
-            </tr>
-            <tr ng-repeat="template in  vm.templatesList">
-                <td data-toggle="modal" data-target="#addTemplate" ng-click="vm.selectedTemplate(template);vm.viewValues()"><a href="">{{template.name}}</td>
-                <td>{{template.topic}}</td>
-                <td data-toggle="modal" data-target="#addTemplate" ng-click="vm.selectedTemplate(template);vm.editValues()"><a href="">Edit</a></td>
-                <td><a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedTemplate(template)"><i class="glyphicon glyphicon-remove"></i></a></td>
-            </tr>
-
+            <thead>
+                <tr>
+                    <th><b>Name</b></th>
+                    <th><b>Topic</b></th>
+                    <th><b></b></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="template in  vm.templatesList | orderBy: ['name']">
+                    <td data-toggle="modal" data-target="#addTemplate" ng-click="vm.selectedTemplate(template);vm.viewValues()"><a href="">{{template.name}}</td>
+                    <td>{{template.topic}}</td>
+                    <td data-toggle="modal" data-target="#addTemplate" ng-click="vm.selectedTemplate(template);vm.editValues()"><a href="">Edit</a></td>
+                    <td><a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedTemplate(template)"><i class="glyphicon glyphicon-remove"></i></a></td>
+                </tr>
+            </tbody>
         </table>
         <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" ng-click=" vm.addValues();" data-target="#addTemplate">Add New Template</button> <a href=""><i class="fa fa-info-circle info-icon" title="Adding a Template will include them in the Template selection option."> </i></a>
     </div>
