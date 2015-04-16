@@ -143,7 +143,7 @@
     <div ng-show="vm.view">
         <h5>{{vm.submissionTypeName}} Submission 
             <span ng-hide="vm.deleted">
-                <button class="btn btn-ar btn-primary right" ng-click="vm.deleteSubmission(vm.submissionID); vm.view=false;">Delete</button><p class="padding-5 right"></p>
+                <button class="btn btn-ar btn-primary right" data-toggle="modal" data-target="#deleteAlert">Delete</button><p class="padding-5 right"></p>
                 <button class="btn btn-ar btn-primary right" data-toggle="modal" data-target="#editSubmissionModal" ng-click="vm.viewModal = 'edit';">Edit</button><p class="padding-5 right"></p>
                 <button class="btn btn-ar btn-primary right" data-toggle="modal" data-target="#editSubmissionModal" ng-click="vm.viewModal = 'final';" ng-hide="vm.hasPrevVersion">Add Final</button>
             </span>
@@ -581,4 +581,29 @@
         </div>
     </div>
 
+    <!----------------------------------------- Delete Alert ----------------------------------------->
+
+    <div class="modal fade" id="deleteAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h5>Delete Submission Alert!</h5>
+                </div>
+
+                <div class="modal-body">
+                    Are you sure you want to delete this Submission and all Evaluations related to it?<br />
+                    This action is irreversible.
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" ng-click="vm.deleteSubmission(vm.submissionID); vm.view=false;" data-dismiss="modal">OK</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+
