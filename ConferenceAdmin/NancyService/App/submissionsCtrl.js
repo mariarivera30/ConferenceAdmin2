@@ -597,6 +597,7 @@
                     restApi.postAdminFinalSubmission(submission)
                             .success(function (data, status, headers, config) {
                                 _getAllSubmissions();
+                                vm.view = false;
                             })
                             .error(function (error) {
                                 
