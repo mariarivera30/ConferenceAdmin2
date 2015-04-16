@@ -125,7 +125,8 @@
             postAdminSubmission: _postAdminSubmission,
             getDeletedSubmissions: _getDeletedSubmissions,
             getListOfUsers: _getListOfUsers,
-            getADeletedSubmission: _getADeletedSubmission
+            getADeletedSubmission: _getADeletedSubmission,
+            getBanners:_getBanners
         };
 
         return service;
@@ -635,6 +636,11 @@
         //get list of all users
         function _getListOfUsers() {
             return $http.get('admin/getListOfUsers')
+        };
+
+        //------------------------------------Banner-------------------------------------
+        function _getBanners() {
+            return $http.get('admin/getBanners')
         };
     }
 }

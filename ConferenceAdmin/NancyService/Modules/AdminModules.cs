@@ -28,6 +28,7 @@ namespace NancyService.Modules
             TemplateManager templateManager = new TemplateManager();
             AuthTemplateManager authTemplateManager = new AuthTemplateManager();
             SubmissionManager submissionManager = new SubmissionManager();
+            BannerManager bannerManager = new BannerManager();
 
 
             /* ----- Template -----*/
@@ -772,6 +773,12 @@ namespace NancyService.Modules
                 {
                     return Response.AsJson(submissionManager.getListOfUsers());
                 };
+
+            //------------------------------------Banner---------------------------------------------
+            Get["/getBanners"] = parameters =>
+            {
+                return Response.AsJson(bannerManager.getBannerList());
+            };
 
         }
     }
