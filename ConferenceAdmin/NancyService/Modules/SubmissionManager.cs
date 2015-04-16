@@ -259,12 +259,24 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    //Checking if its final or initial submission, here initialSubmissionID is actually the id of the submission evaluated, not necessarily the initial
+                    bool isFinalSubmission = context.usersubmission.Where(c => c.finalSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault() == null ?
+                        false : (context.usersubmission.Where(d => d.initialSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault() == null ? true : false);
+                    usersubmission userSub;
+
                     evaluation.deleted = false;
                     context.evaluationsubmitteds.Add(evaluation);
                     context.SaveChanges();
                     context.evaluatiorsubmissions.Where(c => c.evaluationsubmissionID == evaluation.evaluatiorSubmissionID).FirstOrDefault().statusEvaluation = "Evaluated";
                     context.SaveChanges();
-                    usersubmission userSub = context.usersubmission.Where(c => c.initialSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault();
+                    if (isFinalSubmission)
+                    {
+                        userSub = context.usersubmission.Where(c => c.finalSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault();
+                    }
+                    else
+                    {
+                        userSub = context.usersubmission.Where(c => c.initialSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault();
+                    }
                     userSub.allowFinalVersion = usersubIn.allowFinalVersion;
                     context.SaveChanges();
                     return true;
@@ -283,6 +295,10 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    bool isFinalSubmission = context.usersubmission.Where(c => c.finalSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault() == null ?
+                        false : (context.usersubmission.Where(d => d.initialSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault() == null ? true : false);
+                    usersubmission userSub;
+
                     evaluationsubmitted dbEvaluation = context.evaluationsubmitteds.Where(c => c.evaluationsubmittedID == evaluation.evaluationsubmittedID).FirstOrDefault();
                     dbEvaluation.deleted = false;
                     if (evaluation.evaluationName != null || evaluation.evaluationFile != null)
@@ -298,8 +314,14 @@ namespace NancyService.Modules
                     {
                         dbEvaluation.evaluatiorsubmission.statusEvaluation = "Evaluated";
                     }
-                    usersubmission userSub = context.usersubmission.Where(c => c.initialSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault();
-                    userSub.allowFinalVersion = userSubIn.allowFinalVersion;
+                    if (isFinalSubmission)
+                    {
+                        userSub = context.usersubmission.Where(c => c.finalSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault();
+                    }
+                    else
+                    {
+                        userSub = context.usersubmission.Where(c => c.initialSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault(); userSub.allowFinalVersion = userSubIn.allowFinalVersion;
+                    }
                     context.SaveChanges();
                     return true;
                 }
