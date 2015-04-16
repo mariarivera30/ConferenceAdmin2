@@ -289,10 +289,16 @@
                         vm.submissionTypeName = data.submissionType;
                         vm.submissionTypeID = data.submissionTypeID;
                         vm.panelistNames = data.panelistNames;
-                        vm.plan = data.plan;
+                        if (data.submissionTypeID == 3){
+                            vm.plan = data.planPanel;
+                            vm.equipment = data.equipmentPanel;
+                        }
+                        else if (data.submissionTypeID == 5){
+                            vm.plan = data.planWorkshop;
+                            vm.equipment = data.equipmentWorkshop;
+                        }
                         vm.guideQuestions = data.guideQuestions;
                         vm.format = data.format;
-                        vm.equipment = data.equipment;
                         vm.duration = data.duration;
                         vm.delivery = data.delivery;
                         vm.subIsEvaluated = data.subIsEvaluated;
