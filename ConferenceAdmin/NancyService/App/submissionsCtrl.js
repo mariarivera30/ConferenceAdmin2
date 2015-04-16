@@ -558,25 +558,25 @@
                        });                
             }
             else if (vm.viewModal == "final") {
-                    if (vm.TYPE.submissionTypeID == 1 || vm.TYPE.submissionTypeID == 2 || vm.TYPE.submissionTypeID == 4) {//if paper, poster o bof
+                    if (vm.submissionTypeID == 1 || vm.submissionTypeID == 2 || vm.submissionTypeID == 4) {//if paper, poster o bof
                         var submission = {
                             initialSubmissionID: vm.modalsubmissionID,
-                            userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
+                            userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.submissionTypeID,
                             submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle
                         }
                     }
-                    else if (vm.TYPE.submissionTypeID == 3) {//if pannel
+                    else if (vm.submissionTypeID == 3) {//if pannel
                         var submission = {
                             initialSubmissionID: vm.modalsubmissionID,
-                            userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
+                            userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.submissionTypeID,
                             submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, panelistNames: vm.modalpanelistNames,
                             plan: vm.modalplan, guideQuestion: vm.modalguideQuestions, formatDescription: vm.modalformat, necessaryEquipment: vm.modalequipment
                         }
                     }
-                    else if (vm.TYPE.submissionTypeID == 5) {//if workshops
+                    else if (vm.submissionTypeID == 5) {//if workshops
                         var submission = {
                             initialSubmissionID: vm.modalsubmissionID,
-                            userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
+                            userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.submissionTypeID,
                             submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, plan: vm.modalplan, duration: vm.modalduration,
                             delivery: vm.modaldelivery, necessary_equipment: vm.modalequipment
                         }
