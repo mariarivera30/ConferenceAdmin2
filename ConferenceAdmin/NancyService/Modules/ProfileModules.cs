@@ -71,7 +71,7 @@ namespace NancyService.Modules
             {
                 var key = parameters.complementaryKey;
 
-                return (profileInfo.checkComplementaryKey(key)) ;
+                return (profileInfo.checkComplementaryKey(key));
             };
 
 
@@ -259,9 +259,9 @@ namespace NancyService.Modules
             {
                 var doc = this.Bind<Authorization>();
 
-                if (profileAuthorization.deleteDocument(doc)) 
+                if (profileAuthorization.deleteDocument(doc))
                     return HttpStatusCode.OK;
-                else 
+                else
                     return HttpStatusCode.Conflict;
             };
 
@@ -283,7 +283,7 @@ namespace NancyService.Modules
                 return Response.AsJson(profileAuthorization.getCompanionKey(user));
             };
 
-           
+
 
         }
 

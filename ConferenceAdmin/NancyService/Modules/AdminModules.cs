@@ -695,7 +695,7 @@ namespace NancyService.Modules
                     long submissionID = parameters.submissionID;
                     long evaluatorID = parameters.evaluatorID;
 
-                    Evaluation evList =  submissionManager.assignEvaluator(submissionID, evaluatorID);
+                    Evaluation evList = submissionManager.assignEvaluator(submissionID, evaluatorID);
 
                     return Response.AsJson(evList);
                 };
