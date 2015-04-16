@@ -26,7 +26,6 @@
                         </div>
                         <div ng-show="vm.pendingList.length">
                             <div>
-                                <label class="left">Search: <input ng-model="searchPending" /></label>
                                 <table class="table table-top col-lg-12">
                                     <thead>
                                         <tr>
@@ -36,7 +35,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="evaluator in vm.pendingList | filter:searchPending | orderBy: ['firstName', 'lastName']">
+                                        <tr ng-repeat="evaluator in vm.pendingList | orderBy: ['firstName', 'lastName']">
                                             <td>{{evaluator.firstName}} {{evaluator.lastName}}</td>
                                             <td>{{evaluator.email}}</td>
                                             <td>
@@ -79,7 +78,6 @@
                         <div ng-show="vm.evaluatorsList.length">
                             <!--<div class="pdiv right"><p class="psearch"> Search:</p><input ng-model="vm.searchEvaluator"></div><br />-->
                             <div>
-                                <label class="left">Search: <input ng-model="searchEvaluator" /></label>
                                 <table class="table table-top col-lg-12">
                                     <thead>
                                         <tr>
@@ -90,7 +88,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="evaluator in vm.evaluatorsList | filter:searchEvaluator | orderBy: ['firstName', 'lastName']">
+                                        <tr ng-repeat="evaluator in vm.evaluatorsList | orderBy: ['firstName', 'lastName']">
                                             <td>{{evaluator.firstName}} {{evaluator.lastName}}</td>
                                             <td>{{evaluator.email}}</td>
                                             <td>{{evaluator.acceptanceStatus}}</td>
