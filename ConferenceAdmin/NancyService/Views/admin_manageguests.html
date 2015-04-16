@@ -2,19 +2,22 @@
 
     <h3>Manage Guests</h3><br>
     <div class="col-lg-12">
-
+        <label class="left">Search: <input ng-model="searchText" /></label>
         <table ng-table="tableParams" show-filter="true" class="table row">
-            <tr>
-                <td><b>Name</b></td>
-                <td><b>User Type</b></td>
-                <td><b>Authorization Doc.</b></td>
-                <td><b>Status</b></td>
-                <td><b>Update</b></td>
-                <td><b>Registration Status</b></td>
-            </tr>
-            <tr ng-repeat="guest in vm.guestList">
-                <td>
-                    <a href="" data-toggle="modal" data-target="#profile" ng-click="vm.displayGuest(guest.userID,
+            <thead>
+                <tr>
+                    <th><b>Name</b></th>
+                    <th><b>User Type</b></th>
+                    <th><b>Authorization Doc.</b></th>
+                    <th><b>Status</b></th>
+                    <th><b>Update</b></th>
+                    <th><b>Registration Status</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="guest in vm.guestList | filter:searchText | orderBy: ['firstName', 'lastName']">
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#profile" ng-click="vm.displayGuest(guest.userID,
                                guest.firstName, guest.lastName, guest.acceptanceStatus, guest.registrationStatus,
                                guest.authorizationStatus, guest.title,
                                guest.affiliationName, guest.line1,
@@ -22,23 +25,24 @@
                                guest.country, guest.zipcode, guest.email,
                                guest.phoneNumber, guest.fax,
                                guest.day1, guest.day2, guest.day3, guest.companionFirstName, guest.companionLastName)">{{guest.firstName}} {{guest.lastName}}</a>
-                </td>
-                <td>{{guest.userTypeName}}</td>
-                <td><a ng-show="guest.authorizationStatus" href="" data-toggle="modal" data-target="#authorizations" ng-click="vm.displayAuthorizations(guest.userID, guest.firstName, guest.lastName)">View</a></td>
-                <td>{{guest.acceptanceStatus}}</td>
-                <td>
-                    <select ng-disabled="guest.isRegistered" ng-model="guest.optionStatus"
-                            ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
-                    <button ng-disabled="guest.isRegistered" data-toggle="modal" data-target="#confirmAcceptanceChange" class="btn btn-ar btn-primary" ng-click="vm.updateAcceptanceStatus(guest.userID, guest.optionStatus)">Apply</button>
-                </td>
+                    </td>
+                    <td>{{guest.userTypeName}}</td>
+                    <td><a ng-show="guest.authorizationStatus" href="" data-toggle="modal" data-target="#authorizations" ng-click="vm.displayAuthorizations(guest.userID, guest.firstName, guest.lastName)">View</a></td>
+                    <td>{{guest.acceptanceStatus}}</td>
+                    <td>
+                        <select ng-disabled="guest.isRegistered" ng-model="guest.optionStatus"
+                                ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
+                        <button ng-disabled="guest.isRegistered" data-toggle="modal" data-target="#confirmAcceptanceChange" class="btn btn-ar btn-primary" ng-click="vm.updateAcceptanceStatus(guest.userID, guest.optionStatus)">Apply</button>
+                    </td>
 
-                <td>
-                    <span ng-show="guest.isRegistered" class="accepted"><i class="fa fa-check"> </i> Registered</span> &nbsp;&nbsp;
-                    <button ng-show="guest.isRegistered" class="btn btn-ar btn-primary btn-small" data-toggle="modal" data-target="#confirmRejection" ng-click="vm.rejectedSelectedGuest(guest.userID)"> <i class="fa fa-times"></i>Cancel</button>
-                    <span ng-hide="guest.isRegistered" class=""> Not Registered</span> &nbsp;&nbsp;
-                </td>
+                    <td>
+                        <span ng-show="guest.isRegistered" class="accepted"><i class="fa fa-check"> </i> Registered</span> &nbsp;&nbsp;
+                        <button ng-show="guest.isRegistered" class="btn btn-ar btn-primary btn-small" data-toggle="modal" data-target="#confirmRejection" ng-click="vm.rejectedSelectedGuest(guest.userID)"> <i class="fa fa-times"></i>Cancel</button>
+                        <span ng-hide="guest.isRegistered" class=""> Not Registered</span> &nbsp;&nbsp;
+                    </td>
 
-            </tr>
+                </tr>
+            </tbody>
         </table>
     </div>
 

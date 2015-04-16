@@ -19,6 +19,7 @@
         vm.documentsList = [];
         vm.templatesList = [];
         vm.usersList = [];
+        vm.deletedSubmissionsList = [];
         // custom Submission class fields
         vm.submissionID;
         vm.evaluatorID;
@@ -68,7 +69,7 @@
         vm.removeEvaluator = _removeEvaluator;
         vm.getSubmissionTypes = _getSubmissionTypes;
         vm.getTopics = _getTopics;
-        vm.addAminSubmission = _addAminSubmission;
+        vm.addAdminSubmission = _addAdminSubmission;
         vm.addDocument = _addDocument;
         vm.deleteDocument = _deleteDocument;
         vm.getTemplates = _getTemplates;
@@ -76,12 +77,18 @@
         vm.changeSubmissionStatus = _changeSubmissionStatus;
         vm.selectUser = _selectUser;
         vm.getListOfUsers = _getListOfUsers;
+        vm.getDeletedSubmissions = _getDeletedSubmissions;
+        vm.getDeletedSubmissionView = _getDeletedSubmissionView;
+        vm.deleteSubmission = _deleteSubmission;
+        vm.isMaster = _isMaster;
 
         // function calls
         _getAllSubmissions();
         _getSubmissionTypes();
         _getTopics();
         _getTemplates();
+        _getDeletedSubmissions();
+        _isMaster();
 
 
         // functions implementations
@@ -131,6 +138,35 @@
             vm.evaluatorsList = [];
             vm.documentsList = [];
             vm.selectedUser = '';
+            vm.TEMP = null;
+            // modal
+            vm.modalsubmissionID = 0;
+            vm.modaluserType = "";
+            vm.modalsubmissionTitle = "";
+            vm.modaltopic = "";
+            vm.modaltopiccategoryID = 0;
+            vm.modalsubmissionAbstract = "";
+            vm.modalsubmissionFileList = [];
+            vm.modalsubmissionTypeName = "";
+            vm.modalsubmissionTypeID = 0;
+            vm.modalpanelistNames = [];
+            vm.modalplan = "";
+            vm.modalguideQuestions = "";
+            vm.modalformat = "";
+            vm.modalequipment = "";
+            vm.modalduration = "";
+            vm.modaldelivery = "";
+            vm.modalsubIsEvaluated = false;
+            vm.modalpublicFeedback = "";
+            vm.modalprivateFeedback = "";
+            vm.CTYPE = vm.topicsList[0];
+            vm.searchUser = null;
+            vm.selectedUser = null;
+            vm.selected = false;
+            vm.documentsList = [];
+            if (vm.myFile != undefined) {
+                vm.myFile = undefined;
+            }
         }
 
         /* Retrieves every submission in the system */
@@ -156,6 +192,9 @@
         function _getSubmissionView(submissionID) {
             restApi.getUserSubmission(submissionID).
                     success(function (data, status, headers, config) {
+                        vm.submitterFirstName = data.submitterFirstName;
+                        vm.submitterLastName = data.submitterLastName;
+                        vm.submitterEmail = data.submitterEmail;
                         vm.submissionID = data.submissionID;
                         vm.userType = data.userType;
                         vm.submissionTitle = data.submissionTitle;
@@ -193,11 +232,125 @@
                         vm.prevSubIsEvaluated = data.prevSubIsEvaluated;
                         vm.prevPublicFeedback = data.prevPublicFeedback;
                         vm.prevPrivateFeedback = data.prevPrivateFeedback;
+                        //for modal
+                        vm.modalsubmissionID = data.submissionID;
+                        vm.modaluserType = data.userType;
+                        vm.modalsubmissionTitle = data.submissionTitle;
+                        vm.modaltopic = data.topic;
+                        vm.modaltopiccategoryID = data.topiccategoryID;
+                        vm.modalsubmissionAbstract = data.submissionAbstract;
+                        vm.modalsubmissionFileList = data.submissionFileList;
+                        vm.modalsubmissionTypeName = data.submissionType;
+                        vm.modalsubmissionTypeID = data.submissionTypeID;
+                        vm.modalpanelistNames = data.panelistNames;
+                        vm.modalplan = data.plan;
+                        vm.modalguideQuestions = data.guideQuestions;
+                        vm.modalformat = data.format;
+                        vm.modalequipment = data.equipment;
+                        vm.modalduration = data.duration;
+                        vm.modaldelivery = data.delivery;
+                        vm.modalsubIsEvaluated = data.subIsEvaluated;
+                        vm.modalpublicFeedback = data.publicFeedback;
+                        vm.modalprivateFeedback = data.privateFeedback;
+                        vm.documentsList = data.submissionFileList;
+                        vm.deleted = false;
+
+                        vm.topicsList.forEach(function (t, index) {
+                            if (t.topiccategoryID == data.topiccategoryID)
+                                vm.CTYPE = vm.topicsList[index];
+                        });
+
+                        vm.templatesList.forEach(function (tem, index) {
+                            if (tem.templateID == data.templateID)
+                                vm.TEMP = vm.templatesList[index];
+                        });
 
                         _getEvaluationsForSubmission(submissionID);
                     }).
                    error(function (data, status, headers, config) {
-                       vm.submissionlist = data;
+                       vm.submissionsList = data;
+                   });
+        }
+
+        /* Set all fields with the deleted submission information */
+        function _getDeletedSubmissionView(submissionID) {
+            restApi.getADeletedSubmission(submissionID).
+                    success(function (data, status, headers, config) {
+                        vm.submitterFirstName = data.submitterFirstName;
+                        vm.submitterLastName = data.submitterLastName;
+                        vm.submitterEmail = data.submitterEmail;
+                        vm.submissionID = data.submissionID;
+                        vm.userType = data.userType;
+                        vm.submissionTitle = data.submissionTitle;
+                        vm.topic = data.topic;
+                        vm.topiccategoryID = data.topiccategoryID;
+                        vm.submissionAbstract = data.submissionAbstract;
+                        vm.submissionFileList = data.submissionFileList;
+                        vm.submissionTypeName = data.submissionType;
+                        vm.submissionTypeID = data.submissionTypeID;
+                        vm.panelistNames = data.panelistNames;
+                        if (data.submissionTypeID == 3){
+                            vm.plan = data.planPanel;
+                            vm.equipment = data.equipmentPanel;
+                        }
+                        else if (data.submissionTypeID == 5){
+                            vm.plan = data.planWorkshop;
+                            vm.equipment = data.equipmentWorkshop;
+                        }
+                        vm.guideQuestions = data.guideQuestions;
+                        vm.format = data.format;
+                        vm.duration = data.duration;
+                        vm.delivery = data.delivery;
+                        vm.subIsEvaluated = data.subIsEvaluated;
+                        vm.publicFeedback = data.publicFeedback;
+                        vm.privateFeedback = data.privateFeedback;
+                        //for previous submissions
+                        vm.hasPrevVersion = data.hasPrevVersion;
+                        vm.prevSubmissionID = data.prevSubmissionID;
+                        vm.prevSubmissionTitle = data.prevSubmissionTitle;
+                        vm.prevTopic = data.prevTopic;
+                        vm.prevSubmissionAbstract = data.prevSubmissionAbstract;
+                        vm.prevSubmissionFileList = data.prevSubmissionFileList;
+                        vm.prevSubmissionType = data.prevSubmissionType;
+                        vm.prevPanelistNames = data.prevPanelistNames;
+                        vm.prevPlan = data.prevPlan;
+                        vm.prevGuideQuestions = data.prevGuideQuestions;
+                        vm.prevFormat = data.prevFormat;
+                        vm.prevEquipment = data.prevEquipment;
+                        vm.prevDuration = data.prevDuration;
+                        vm.prevDelivery = data.prevDelivery;
+                        vm.prevSubIsEvaluated = data.prevSubIsEvaluated;
+                        vm.prevPublicFeedback = data.prevPublicFeedback;
+                        vm.prevPrivateFeedback = data.prevPrivateFeedback;
+                        //for modal
+                        vm.modalsubmissionID = data.submissionID;
+                        vm.modaluserType = data.userType;
+                        vm.modalsubmissionTitle = data.submissionTitle;
+                        vm.modaltopic = data.topic;
+                        vm.modaltopiccategoryID = data.topiccategoryID;
+                        vm.modalsubmissionAbstract = data.submissionAbstract;
+                        vm.modalsubmissionFileList = data.submissionFileList;
+                        vm.modalsubmissionTypeName = data.submissionType;
+                        vm.modalsubmissionTypeID = data.submissionTypeID;
+                        vm.modalpanelistNames = data.panelistNames;
+                        vm.modalplan = data.plan;
+                        vm.modalguideQuestions = data.guideQuestions;
+                        vm.modalformat = data.format;
+                        vm.modalequipment = data.equipment;
+                        vm.modalduration = data.duration;
+                        vm.modaldelivery = data.delivery;
+                        vm.modalsubIsEvaluated = data.subIsEvaluated;
+                        vm.modalpublicFeedback = data.publicFeedback;
+                        vm.modalprivateFeedback = data.privateFeedback;
+                        vm.documentsList = data.submissionFileList;
+                        vm.deleted = true;
+
+                        vm.TEMP = { templateID: data.templateID, templateName: data.templateName };
+
+                        _getEvaluationsForSubmission(submissionID);
+                    }).
+                   error(function (data, status, headers, config) {
+                       vm.submissionsList = data;
                    });
         }
 
@@ -235,6 +388,7 @@
                       vm.evaluatorFirstName = data.evaluatorFirstName;
                       vm.evaluatorLastName = data.evaluatorLastName;
                       vm.score = data.score;
+                      vm.deleted = data.deleted;
                   }).
                   error(function (data, status, headers, config) {
 
@@ -326,52 +480,134 @@
                     vm.CTYPE = vm.topicsList[0];
             })
            .error(function (data, status, headers, config) {
-               alert("add un alert sexy");
+
            });
         }
 
         /* Add a new Submission */
-        function _addAminSubmission(file) {
-            if (vm.TYPE.submissionTypeID == 1 || vm.TYPE.submissionTypeID == 2 || vm.TYPE.submissionTypeID == 4) {//if paper, poster o bof
-                var submission = {
-                    submissionID: vm.modalsubmissionID,
-                    userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
-                    submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle
+        function _addAdminSubmission(file) {
+            if(vm.viewModal == 'add') {
+                if (vm.TYPE.submissionTypeID == 1 || vm.TYPE.submissionTypeID == 2 || vm.TYPE.submissionTypeID == 4) {//if paper, poster o bof
+                    var submission = {
+                        submissionID: vm.modalsubmissionID,
+                        userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
+                        submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle
+                    }
                 }
-            }
-            else if (vm.TYPE.submissionTypeID == 3) {//if pannel
-                var submission = {
-                    submissionID: vm.modalsubmissionID,
-                    userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
-                    submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, panelistNames: vm.modalpanelistNames,
-                    plan: vm.modalplan, guideQuestion: vm.modalguideQuestions, formatDescription: vm.modalformat, necessaryEquipment: vm.modalequipment
+                else if (vm.TYPE.submissionTypeID == 3) {//if pannel
+                    var submission = {
+                        submissionID: vm.modalsubmissionID,
+                        userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
+                        submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, panelistNames: vm.modalpanelistNames,
+                        plan: vm.modalplan, guideQuestion: vm.modalguideQuestions, formatDescription: vm.modalformat, necessaryEquipment: vm.modalequipment
+                    }
                 }
-            }
-            else if (vm.TYPE.submissionTypeID == 5) {//if workshops
-                var submission = {
-                    submissionID: vm.modalsubmissionID,
-                    userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
-                    submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, plan: vm.modalplan, duration: vm.modalduration,
-                    delivery: vm.modaldelivery, necessary_equipment: vm.modalequipment
+                else if (vm.TYPE.submissionTypeID == 5) {//if workshops
+                    var submission = {
+                        submissionID: vm.modalsubmissionID,
+                        userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.TYPE.submissionTypeID,
+                        submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, plan: vm.modalplan, duration: vm.modalduration,
+                        delivery: vm.modaldelivery, necessary_equipment: vm.modalequipment
+                    }
                 }
-            }
-            if (vm.myFile != undefined) {
-                submission.document = vm.content;
-                submission.documentName = vm.myFile.name;
-                vm.myFile.name = "";
-            }
-            submission.documentssubmitteds = vm.documentsList;
-            restApi.postAdminSubmission(submission)
-                    .success(function (data, status, headers, config) {
-                        vm.submissionsList.push(data);
-                    })
-                    .error(function (error) {
+                if (vm.myFile != undefined) {
+                    submission.document = vm.content;
+                    submission.documentName = vm.myFile.name;
+                    vm.myFile.name = "";
+                }
+                submission.documentssubmitteds = vm.documentsList;
+                restApi.postAdminSubmission(submission)
+                        .success(function (data, status, headers, config) {
+                            _getAllSubmissions();
+                        })
+                        .error(function (error) {
 
-                    });
-            _clear();
+                        });
+            }
+            else if (vm.viewModal == 'edit') { //if updating submission
+                if (vm.modalsubmissionTypeID == 1 || vm.modalsubmissionTypeID == 2 || vm.modalsubmissionTypeID == 4) {//if paper, poster o bof
+                    var submission = {
+                        submissionID: vm.modalsubmissionID,
+                        userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.modalsubmissionTypeID,
+                        submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle
+                    }
+                }
+                else if (vm.modalsubmissionTypeID == 3) {//if pannel
+                    var submission = {
+                        submissionID: vm.modalsubmissionID,
+                        userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.modalsubmissionTypeID,
+                        submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, panelistNames: vm.modalpanelistNames,
+                        plan: vm.modalplan, guideQuestion: vm.modalguideQuestions, formatDescription: vm.modalformat, necessaryEquipment: vm.modalequipment
+                    }
+                }
+                else if (vm.modalsubmissionTypeID == 5) {//if workshops
+                    var submission = {
+                        submissionID: vm.modalsubmissionID,
+                        userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.modalsubmissionTypeID,
+                        submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, plan: vm.modalplan, duration: vm.modalduration,
+                        delivery: vm.modaldelivery, necessary_equipment: vm.modalequipment
+                    }
+                }
+                if (vm.myFile != undefined) {
+                    submission.document = vm.content;
+                    submission.documentName = vm.myFile.name;
+                    vm.myFile.name = "";
+                }
+                submission.documentssubmitteds = vm.documentsList;
+                restApi.editSubmission(submission)
+                       .success(function (data, status, headers, config) {
+                           _getSubmissionView(vm.submissionID);
+                           _getAllSubmissions();
+                       })
+                       .error(function (error) {
+                           
+                       });                
+            }
+            else if (vm.viewModal == "final") {
+                    if (vm.submissionTypeID == 1 || vm.submissionTypeID == 2 || vm.submissionTypeID == 4) {//if paper, poster o bof
+                        var submission = {
+                            initialSubmissionID: vm.modalsubmissionID,
+                            userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.submissionTypeID,
+                            submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle
+                        }
+                    }
+                    else if (vm.submissionTypeID == 3) {//if pannel
+                        var submission = {
+                            initialSubmissionID: vm.modalsubmissionID,
+                            userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.submissionTypeID,
+                            submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, panelistNames: vm.modalpanelistNames,
+                            plan: vm.modalplan, guideQuestion: vm.modalguideQuestions, formatDescription: vm.modalformat, necessaryEquipment: vm.modalequipment
+                        }
+                    }
+                    else if (vm.submissionTypeID == 5) {//if workshops
+                        var submission = {
+                            initialSubmissionID: vm.modalsubmissionID,
+                            userID: vm.selectedUser, topicID: vm.CTYPE.topiccategoryID, submissionTypeID: vm.submissionTypeID,
+                            submissionAbstract: vm.modalsubmissionAbstract, title: vm.modalsubmissionTitle, plan: vm.modalplan, duration: vm.modalduration,
+                            delivery: vm.modaldelivery, necessary_equipment: vm.modalequipment
+                        }
+                    }
+                    if (vm.myFile != undefined) {
+                        submission.document = vm.content;
+                        submission.documentName = vm.myFile.name;
+                        vm.myFile.name = "";
+                    }
+                    submission.documentssubmitteds = vm.documentsList;
+                    submission.byAdmin = true;
+                    restApi.postAdminFinalSubmission(submission)
+                            .success(function (data, status, headers, config) {
+                                _getAllSubmissions();
+                                vm.view = false;
+                            })
+                            .error(function (error) {
+                                
+                            });
+            }
+            $('#addSubmissionModal').modal('hide');            
+            
         }
 
-        /**/
+        /* Add document to documents pool */
         function _addDocument() {
             vm.document = vm.content;
             vm.documentName = vm.myFile.name;
@@ -380,7 +616,7 @@
             vm.documentsList.push(vm.myFile);
         }
 
-        /**/
+        /* Delete document from documents pool */
         function _deleteDocument(document) {
             vm.documentsList.forEach(function (doc, index) {
                 if (doc.documentName == document.documentName) {
@@ -389,7 +625,7 @@
             });
         }
 
-        /**/
+        /* Get all templates for dropdown */
         function _getTemplates() {
             restApi.getTemplatesAdmin().
                    success(function (data, status, headers, config) {
@@ -401,7 +637,7 @@
                    });
         }
 
-        /**/
+        /* Update the status of the selected submission */
         function _changeSubmissionStatus(submissionID, status) {
             var obj = { status: status, submissionID: submissionID };
             restApi.changeSubmissionStatus(obj).
@@ -417,7 +653,7 @@
                    });
         }
 
-        /**/
+        /* Selects a user from the search results */
         function _selectUser(user){
             vm.searchUser = user.firstName + ' ' + user.lastName;
             vm.selectedUser = user.userID;
@@ -433,5 +669,45 @@
                    });
         }
 
+        /* Get all deleted submissions */
+        function _getDeletedSubmissions() {
+            restApi.getDeletedSubmissions().
+                   success(function (data, status, headers, config) {
+                       vm.deletedSubmissionsList = data;
+                   }).
+                   error(function (data, status, headers, config) {
+                       vm.deletedSubmissionsList = data;
+                   });
+        }
+
+        /* Determine whether the currently logged user is a Master user */
+        function _isMaster() {
+            restApi.isMaster(userID).
+                   success(function (data, status, headers, config) {
+                       vm.isMaster = data;
+                   }).
+                   error(function (data, status, headers, config) {
+                       vm.isMaster = data;
+                   });
+        }
+
+        /* Remove the selected submission */
+        function _deleteSubmission(id) {
+            restApi.deleteSubmission(id).
+                success(function (data, status, headers, config) {
+                    vm.submissionsList.forEach(function (submission, index) {
+                        _getAllSubmissions();
+                        _getDeletedSubmissions();
+                    });
+                }).
+                error(function (data, status, headers, config) {
+
+                });
+        }
+
+        /* to preview image */
+        $scope.showContent = function ($fileContent) {
+            vm.content = $fileContent;
+        };
     }
 })();

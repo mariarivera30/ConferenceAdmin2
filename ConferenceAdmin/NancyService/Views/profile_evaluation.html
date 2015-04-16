@@ -4,26 +4,31 @@
 
     <h4 id="g-information">Evaluations</h4>
     <div ng-hide="vm.evaluate">
+        <label class="left">Search: <input ng-model="searchText" /></label>
         <table ng-table="tableParams" show-filter="true" class="table row">
-            <tr>
-                <td><b>Submision Title</b></td>
-                <td><b>User Type</b></td>
-                <td><b>Topic</b></td>
-                <td><b>Is Evaluated</b></td>
-            </tr>
-            <tr ng-repeat="submission in vm.submissionlist">
-                <td data-title="'Title'">
-                    <a href="" ng-click="vm.showEvaluationScreen(submission.submissionID, submission.evaluatorID)">{{submission.submissionTitle}}</a>
-                </td>
+            <thead>
+                <tr>
+                    <th><b>Submision Title</b></th>
+                    <th><b>User Type</b></th>
+                    <th><b>Topic</b></th>
+                    <th><b>Is Evaluated</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="submission in vm.submissionlist | filter:searchText | orderBy: ['submissionTitle']">
+                    <td data-title="'Title'">
+                        <a href="" ng-click="vm.showEvaluationScreen(submission.submissionID, submission.evaluatorID)">{{submission.submissionTitle}}</a>
+                    </td>
 
-                <td>{{submission.userType}}</td>
+                    <td>{{submission.userType}}</td>
 
-                <td>{{submission.topic}}</td>
+                    <td>{{submission.topic}}</td>
 
-                <td>
-                    <div ng-show="submission.isEvaluated"><i class="fa fa-check"> </i></div>
-                </td>
-            </tr>
+                    <td>
+                        <div ng-show="submission.isEvaluated"><i class="fa fa-check"> </i></div>
+                    </td>
+                </tr>
+            </tbody>
         </table>
     </div>
     <div ng-show="vm.evaluate">

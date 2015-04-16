@@ -696,7 +696,7 @@ namespace NancyService.Modules
                     long submissionID = parameters.submissionID;
                     long evaluatorID = parameters.evaluatorID;
 
-                    Evaluation evList =  submissionManager.assignEvaluator(submissionID, evaluatorID);
+                    Evaluation evList = submissionManager.assignEvaluator(submissionID, evaluatorID);
 
                     return Response.AsJson(evList);
                 };
@@ -757,6 +757,32 @@ namespace NancyService.Modules
                     submissionManager.addSubmissionByAdmin(usersubTA, submissionToAdd, pannelToAdd, workshopToAdd);
                 return Response.AsJson(newSubmission);
             };
+            //post final version of evaluation submitted by admin
+            Post["/postAdminFinalSubmission"] = parameters =>
+            {
+                panel pannelToAdd = null;
+                workshop workshopToAdd = null;
+                submission submissionToAdd = this.Bind<submission>();
+                documentssubmitted submissionDocuments = this.Bind<documentssubmitted>();
+                usersubmission usersubTA = this.Bind<usersubmission>();
+
+                int submissionTypeID = submissionToAdd.submissionTypeID;
+                if (submissionDocuments.document == null && submissionDocuments.documentName == null)
+                {
+                    submissionDocuments = null;
+                }
+                if (submissionTypeID == 3)
+                {
+                    pannelToAdd = this.Bind<panel>();
+                }
+                else if (submissionTypeID == 5)
+                {
+                    workshopToAdd = this.Bind<workshop>();
+                }
+                Submission newSubmission =
+                    submissionManager.postAdminFinalSubmission(usersubTA, submissionToAdd, submissionDocuments, pannelToAdd, workshopToAdd);
+                return Response.AsJson(newSubmission);
+            };
             //gets all deleted submissions
             Get["/getDeletedSubmissions"] = parameters =>
                 {
@@ -772,6 +798,13 @@ namespace NancyService.Modules
             Get["/getListOfUsers"] = parameters =>
                 {
                     return Response.AsJson(submissionManager.getListOfUsers());
+                };
+            //returns true is the currently logged in user is the master
+            Get["/isMaster/{userID:long}"] = parameters =>
+                {
+                    long userID = parameters.userID;
+                    bool isMaster = submissionManager.isMaster(userID);
+                    return isMaster;
                 };
 
             //------------------------------------Banner---------------------------------------------

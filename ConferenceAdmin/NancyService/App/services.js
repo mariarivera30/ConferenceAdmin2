@@ -126,7 +126,10 @@
             getDeletedSubmissions: _getDeletedSubmissions,
             getListOfUsers: _getListOfUsers,
             getADeletedSubmission: _getADeletedSubmission,
-            getBanners:_getBanners
+            postAdminFinalSubmission: _postAdminFinalSubmission,
+            editAdminSubmission: _editAdminSubmission,
+            isMaster: _isMaster,
+            getBanners: _getBanners
         };
 
         return service;
@@ -637,7 +640,18 @@
         function _getListOfUsers() {
             return $http.get('admin/getListOfUsers')
         };
-
+        //add a final submission submitted by the admin        
+        function _postAdminFinalSubmission(data) {
+            return $http.post('admin/postAdminFinalSubmission', data)
+        };
+        //edit a submission
+        function _editAdminSubmission(data) {
+            return $http.put('admin/editAdminSubmission/', data);
+        };
+        //determines whether the logged in user is a Master user
+        function _isMaster(data) {
+            return $http.get('admin/isMaster/' + data);
+        }
         //------------------------------------Banner-------------------------------------
         function _getBanners() {
             return $http.get('admin/getBanners')

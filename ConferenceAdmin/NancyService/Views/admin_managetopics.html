@@ -8,22 +8,25 @@
         <div ng-hide="vm.topicsList.length">
             <p class="after-title-field">No topics have been added.</p><br />
         </div>
-
-        <div class="pdiv right" ng-show="vm.topicsList.length"><p class="psearch"> Search:</p><input ng-model="vm.search"></div>
-
+        
         <!-- Topics Table -->
         <div class="atable">
+            <label class="left">Search: <input ng-model="searchText" /></label>
             <table ng-table="tableParams" class="table row" ng-show="vm.topicsList.length">
-                <tr>
-                    <td><b>Topic Name</b></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr ng-repeat="topiccategory in vm.topicsList | filter: vm.search">
-                    <td>{{topiccategory.name}}</td>
-                    <td data-toggle="modal" data-target="#editTopic" ng-click="vm.selectedTopicUpdate(topiccategory.topiccategoryID, topiccategory.name)"><a href="">Edit</a></td>
-                    <td><a href="" data-toggle="modal" data-target="#deleteTopic" ng-click="vm.selectedTopicDelete(topiccategory.topiccategoryID)"><i class="glyphicon glyphicon-remove"></i></a></td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th><b>Topic Name</b></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="topiccategory in vm.topicsList | filter:searchText | orderBy: ['name']">
+                        <td>{{topiccategory.name}}</td>
+                        <td data-toggle="modal" data-target="#editTopic" ng-click="vm.selectedTopicUpdate(topiccategory.topiccategoryID, topiccategory.name)"><a href="">Edit</a></td>
+                        <td><a href="" data-toggle="modal" data-target="#deleteTopic" ng-click="vm.selectedTopicDelete(topiccategory.topiccategoryID)"><i class="glyphicon glyphicon-remove"></i></a></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
         <button class="btn btn-ar btn-primary" data-toggle="modal" data-target="#addTopic">Add Topic</button> <a href=""><i class="fa fa-info-circle info-icon" title="Add a new topic"> </i></a>
