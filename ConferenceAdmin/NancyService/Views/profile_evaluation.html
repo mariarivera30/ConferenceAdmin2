@@ -73,12 +73,12 @@
                         
                         <div class="col-lg-3">
                             <div class="document-name">
-                                <span ng-show="vm.myFile != undefined"><i class="fa fa-file-o"></i> {{vm.myFile.name}}</span>
+                                <span ng-show="vm.myFile.name != undefined"><i class="fa fa-file-o"></i> {{vm.myFile.name}}</span>
                             </div>
 
                             <div class="input-group-btn">
                                 <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="browseButton" type="file" class="file" ng-model="vm.modalevaluationFile" class="form-control" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)" required></div>
-                               
+                                <button type="button" title="Clear selected files" class="btn btn-default fileinput-remove fileinput-remove-button" ng-click="vm.myFile = undefined"><i class="glyphicon glyphicon-trash"></i> Remove</button>
                             </div>
                             <p ng-show="vm.myFile == undefined && !vm.modalsubIsEvaluated" class="help-block">Evaluation file is required.</p>
                         </div>
