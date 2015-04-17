@@ -10,38 +10,38 @@
             <div ng-show="vm.submissionsList.length">
                 <div class="paging-height-dropdowns">
                     <label class="left">Search: <input ng-model="vm.criteria" ng-change="vm.searchSubmission()" /><button ng-click="vm.getAllSubmissions(); vm.criteria = '';">Reset</button></label><br />
-                    <!--<label class="left">Search: <input ng-model="searchText" /></label>-->
-                    <table ng-table="tableParams" class="table row">
-                        <thead>
-                            <tr>
-                                <th><b>Submision Title</b></th>
-                                <th><b>Type</b></th>
-                                <th><b>Topic</b></th>
-                                <th><b>Evaluators</b></th>
-                                <th><b>Avg. Score</b></th>
-                                <th><b>Submission Status</b></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="sub in vm.submissionsList | filter:searchText | orderBy: ['-avgScore', 'submissionTitle']">
-                                <td data-title="'Title'">
-                                    <a href="" ng-click="vm.getSubmissionView(sub.submissionID); vm.view = true;">{{sub.submissionTitle}}</a>
-                                </td>
-                                <td>{{sub.submissionTypeName}}</td>
-                                <td>{{sub.topic}}</td>
-                                <td data-title="'Evaluator'">
-                                    <a href="" data-toggle="modal" data-target="#assignEvaluator" ng-click="vm.getSubmissionView(sub.submissionID); vm.getAllEvaluators();">Assign Evaluators</a>
-                                </td>
-                                <td>
-                                    {{sub.avgScore | number:2}}
-                                </td>
-                                <td>
-                                    <select ng-model="sub.acceptanceStatus" ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
-                                    <button class="btn btn-ar btn-primary" ng-click="vm.changeSubmissionStatus(sub.submissionID, sub.acceptanceStatus)">Apply</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <!--<label class="left">Search: <input ng-model="searchText" /></label>-->
+            <table ng-table="tableParams" class="table row">
+                <thead>
+                    <tr>
+                        <th><b>Submision Title</b></th>
+                        <th><b>Type</b></th>
+                        <th><b>Topic</b></th>
+                        <th><b>Evaluators</b></th>
+                        <th><b>Avg. Score</b></th>
+                        <th><b>Submission Status</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="sub in vm.submissionsList | filter:searchText | orderBy: ['-avgScore', 'submissionTitle']">
+                        <td data-title="'Title'">
+                            <a href="" ng-click="vm.getSubmissionView(sub.submissionID); vm.view = true;">{{sub.submissionTitle}}</a>
+                        </td>
+                        <td>{{sub.submissionTypeName}}</td>
+                        <td>{{sub.topic}}</td>
+                        <td data-title="'Evaluator'">
+                            <a href="" data-toggle="modal" data-target="#assignEvaluator" ng-click="vm.getSubmissionView(sub.submissionID); vm.getAllEvaluators();">Assign Evaluators</a>
+                        </td>
+                        <td>
+                            {{sub.avgScore | number:2}}
+                        </td>
+                        <td>
+                            <select ng-model="sub.acceptanceStatus" ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
+                            <button class="btn btn-ar btn-primary" ng-click="vm.changeSubmissionStatus(sub.submissionID, sub.acceptanceStatus)">Apply</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
                 </div>
                 <div aria-live="polite" class="col-lg-6">Showing page {{vm.sindex + 1}} of {{vm.smaxIndex}}</div>
                 <div class="col-lg-6 paging-word">
@@ -52,11 +52,11 @@
                     <a class="btn btn-default" ng-disabled="vm.sindex >= (vm.smaxIndex-1)" ng-click="vm.nextSubmission()">Next</a>
                     <a class="btn btn-default" ng-disabled="vm.sindex >= (vm.smaxIndex-1)" ng-click="vm.getLastSubmissionPage()">Last</a>
                 </div>
-                <br />
-                <select ng-model="vm.TYPE"
-                        ng-options="type as type.submissionTypeName for type in vm.submissionTypeList" required></select>
-                <button data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.clear(); vm.viewAdd(); vm.getListOfUsers(); vm.viewModal = 'add';" class="btn btn-ar btn-primary">Add New</button>
-            </div>
+            <br />
+            <select ng-model="vm.TYPE"
+                    ng-options="type as type.submissionTypeName for type in vm.submissionTypeList" required></select>
+            <button data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.clear(); vm.viewAdd(); vm.getListOfUsers(); vm.viewModal = 'add';" class="btn btn-ar btn-primary">Add New</button>
+        </div>
         </div>
         <hr class="col-lg-11" />
         <!-- Deleted Submissions -->
@@ -78,26 +78,26 @@
                             </div>
                             <div ng-show="vm.deletedSubmissionsList.length">
                                 <div class="paging-height">
-                                    <label class="left">Search: <input ng-model="searchDeletedText" /></label>
-                                    <table ng-table="tableParams" class="table row">
-                                        <thead>
-                                            <tr>
-                                                <th><b>Submision Title</b></th>
-                                                <th><b>Type</b></th>
-                                                <th><b>Topic</b></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="sub in vm.deletedSubmissionsList | filter:searchDeletedText | orderBy: ['-avgScore', 'submissionTitle']">
-                                                <td data-title="'Title'">
-                                                    <a href="" ng-click="vm.getDeletedSubmissionView(sub.submissionID); vm.view = true;">{{sub.submissionTitle}}</a>
-                                                </td>
-                                                <td>{{sub.submissionTypeName}}</td>
-                                                <td>{{sub.topic}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                            <label class="left">Search: <input ng-model="searchDeletedText" /></label>
+                            <table ng-table="tableParams" class="table row">
+                                <thead>
+                                    <tr>
+                                        <th><b>Submision Title</b></th>
+                                        <th><b>Type</b></th>
+                                        <th><b>Topic</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="sub in vm.deletedSubmissionsList | filter:searchDeletedText | orderBy: ['-avgScore', 'submissionTitle']">
+                                        <td data-title="'Title'">
+                                            <a href="" ng-click="vm.getDeletedSubmissionView(sub.submissionID); vm.view = true;">{{sub.submissionTitle}}</a>
+                                        </td>
+                                        <td>{{sub.submissionTypeName}}</td>
+                                        <td>{{sub.topic}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                                 <div aria-live="polite" class="col-lg-6">Showing page {{vm.dindex + 1}} of {{vm.dmaxIndex}}</div>
                                 <div class="col-lg-6 paging-word">
                                     <a class="btn btn-default" ng-click="vm.getDeletedSubmissions(vm.dindex)"><i class="glyphicon glyphicon-repeat"></i></a>
@@ -153,11 +153,11 @@
                     <button class="btn btn-ar btn-primary" ng-click="vm.assignEvaluator(vm.submissionID, vm.evaluatorID);">Assign <i class="fa fa-arrow-up"> </i></button>
                     <p ng-show="vm.exists">This Evaluator has already been assigned.</p>
 
-
+                    
                 </div>
 
 
-                <div class="modal-footer">
+                <div class="modal-footer">                    
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Close</button>
                 </div>
             </div>
