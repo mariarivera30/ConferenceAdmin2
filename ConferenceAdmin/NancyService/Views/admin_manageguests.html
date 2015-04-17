@@ -7,8 +7,9 @@
             <a class="btn btn-default" ng-click="vm.getGuestList(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
         </div>
         <div ng-show="vm.guestList.length">
-            <div >
-                <label class="left">Search: <input ng-model="searchText" /></label>
+            <div class="paging-height-dropdowns">
+                <label class="left">Search: <input ng-model="vm.criteria" /><!--ng-change="vm.searchGuest()" />--><button type="submit" ng-click="vm.searchGuest()"><i class="fa fa-search"></i></button></label><br />
+                <!--<label class="left">Search: <input ng-model="searchText" /></label>-->
                 <table ng-table="tableParams" show-filter="true" class="table row">
                     <thead>
                         <tr>

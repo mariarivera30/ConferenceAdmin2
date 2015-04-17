@@ -130,7 +130,8 @@
             editAdminSubmission: _editAdminSubmission,
             isMaster: _isMaster,
             getBanners: _getBanners,
-            searchSubmission: _searchSubmission
+            searchSubmission: _searchSubmission,
+            searchGuest: _searchGuest
         };
 
         return service;
@@ -334,6 +335,11 @@
         function _rejectRegisteredGuest(data) {
             return $http.put('admin/rejectRegisteredGuest/' + data);
         };
+
+        //Search within the list with a certain criteria
+        function _searchGuest(data) {
+            return $http.get('admin/searchGuest/' + data.index + '/' + data.criteria);
+        }
 
         //-----------------------------------PROFILE-INFO-----------------------------------
         function _getProfileInfo(data) {

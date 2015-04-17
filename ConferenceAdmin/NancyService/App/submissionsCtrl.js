@@ -712,7 +712,7 @@
         };
 
 
-        /**/
+        /* Search within the list with a certain criteria */
         function _searchSubmission() {
             restApi.searchSubmission(vm.criteria).
                 success(function (data, status, headers, config) {

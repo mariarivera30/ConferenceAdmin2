@@ -66,6 +66,7 @@
         vm.rejectedSelectedGuest = _rejectedSelectedGuest;
         vm.downloadPDFFile = _downloadPDFFile;
         vm.getDates = _getDates;
+        vm.searchGuest = _searchGuest;
 
         //_getGuestList(vm.sindex);
         //_getDates();
@@ -227,6 +228,29 @@
 
         function _downloadPDFFile(document) {
             window.open(document);
+        }
+
+        /* Search within the list with a certain criteria */
+        function _searchGuest() {
+            vm.index = 0;
+            var params = {index: vm.index, criteria: vm.criteria};
+            restApi.searchGuest(params).
+                success(function (data, status, headers, config) {
+                    vm.smaxIndex = data.maxIndex;
+                    if (vm.smaxIndex == 0) {
+                        vm.sindex = 0;
+                        vm.guestList = [];
+                    }
+                    else if (vm.sindex >= vm.smaxIndex) {
+                        vm.sindex = vm.smaxIndex - 1;
+                        _getGuestList(vm.sindex);
+                    }
+                    else {
+                        vm.guestList = data.results;
+                    }
+                }).
+                   error(function (data, status, headers, config) {
+                   });
         }
 
     }

@@ -71,6 +71,65 @@ namespace NancyService.Modules
             }
         }
 
+
+        // Search within the list with a certain criteria
+
+        public GuestsPagingQuery searchGuest(int index, string criteria)
+        {
+            GuestsPagingQuery page = new GuestsPagingQuery();
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    int pageSize = 10;
+                    var guests = context.users.Where(c => ((c.firstName + " " + c.lastName).Contains(criteria) || c.usertype.userTypeName.Contains(criteria) || c.acceptanceStatus.Contains(criteria) || c.registrationStatus.Contains(criteria)) && c.hasApplied == true && c.deleted != true).Select(i => new GuestList
+                    {
+                        userID = (int)i.userID,
+                        firstName = i.firstName,
+                        lastName = i.lastName,
+                        title = i.title,
+                        affiliationName = i.affiliationName,
+                        userTypeName = i.usertype.userTypeName,
+                        isRegistered = (i.registrationStatus == "Accepted" ? true : false),
+                        registrationStatus = i.registrationStatus,
+                        acceptanceStatus = i.acceptanceStatus,
+                        optionStatus = "Accepted",
+                        authorizationStatus = i.minors.FirstOrDefault() == null ? null : i.minors.FirstOrDefault().authorizationStatus,
+                        line1 = i.address.line1,
+                        line2 = i.address.line2,
+                        city = i.address.city,
+                        state = i.address.state,
+                        country = i.address.country,
+                        zipcode = i.address.zipcode,
+                        email = i.membership.email,
+                        phoneNumber = i.phone,
+                        fax = i.userFax,
+                        day1 = i.registrations.FirstOrDefault() == null ? null : i.registrations.FirstOrDefault().date1,
+                        day2 = i.registrations.FirstOrDefault() == null ? null : i.registrations.FirstOrDefault().date2,
+                        day3 = i.registrations.FirstOrDefault() == null ? null : i.registrations.FirstOrDefault().date3,
+                        companionFirstName = i.companions.FirstOrDefault() == null ? null : i.companions.FirstOrDefault().user.firstName,
+                        companionLastName = i.companions.FirstOrDefault() == null ? null : i.companions.FirstOrDefault().user.lastName,
+                        companionID = i.companions.FirstOrDefault() == null ? -1 : (long)i.companions.FirstOrDefault().userID
+                    }).OrderBy(f => f.firstName).ToList();
+
+                    page.rowCount = guests.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        List<GuestList> guestPage = guests.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = guestPage;
+                    }
+
+                    return page;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("GuestManager.getListOfGuests error " + ex);
+                return null;
+            }
+        }
+
         public bool updateAcceptanceStatus(int guestID, String acceptanceStatus)
         {
             try

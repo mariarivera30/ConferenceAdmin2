@@ -493,6 +493,15 @@ namespace NancyService.Modules
                 return Response.AsJson(authorizations);
             };
 
+            //search within the list with a certain criteria
+            Get["/searchGuest/{index}/{criteria}"] = parameters =>
+            {
+                int index = parameters.index;
+                string criteria = parameters.criteria;
+                var list = guest.searchGuest(index, criteria);
+                return Response.AsJson(list);
+            };
+
             //-----------------------------------------WEBSITE CONTENT ----------------------------------------
 
             Get["/getHome"] = parameters =>
