@@ -1038,12 +1038,14 @@ namespace NancyService.Modules
             }
         }
 
-        public List<Submission> getAllSubmissions()
+        public SubmissionPagingQuery getAllSubmissions(int index)
         {
+            SubmissionPagingQuery page = new SubmissionPagingQuery();
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    int pageSize = 10;
                     int? scoreSum = 0;
                     int evalCount = 0;
                     double avgScore = 0.00;
@@ -1139,7 +1141,16 @@ namespace NancyService.Modules
                             submissionTypeID, submissionTitle, topiccategoryID, topic, status, 0, numOfEvaluations, byAdmin));
                         }
                     }
-                    return userSubmissions;
+                    userSubmissions = userSubmissions.OrderBy(c => -c.avgScore).ToList();
+                    page.rowCount = userSubmissions.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        var allUserSubmissions = userSubmissions.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = allUserSubmissions;
+                    }
+
+                    return page;
                 }
             }
             catch (Exception ex)
@@ -1775,12 +1786,15 @@ namespace NancyService.Modules
             }
         }
         //gets all the deleted submissions
-        public List<Submission> getDeletedSubmissions()
+        public SubmissionPagingQuery getDeletedSubmissions(int index)
         {
+            SubmissionPagingQuery page = new SubmissionPagingQuery();
+
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    int pageSize = 10;
                     var subs = context.submissions.Where(c => c.deleted == true).Select(d =>
                         new Submission
                         {
@@ -1792,8 +1806,17 @@ namespace NancyService.Modules
                             topiccategoryID = d.topicID,
                             topic = d.topiccategory.name,
                             status = d.status
-                        }).ToList();
-                    return subs;
+                        }).OrderBy(c => c.submissionTitle).ToList();
+
+                    page.rowCount = subs.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        var registrationPayments = subs.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = registrationPayments;
+                    }
+
+                    return page;
                 }
             }
             catch (Exception ex)
@@ -1987,6 +2010,14 @@ namespace NancyService.Modules
             }
         }
 
+    }
+
+    public class SubmissionPagingQuery
+    {
+        public int indexPage;
+        public int maxIndex;
+        public int rowCount;
+        public List<Submission> results;
     }
 
     public class CurrAndPrevSub

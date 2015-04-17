@@ -684,9 +684,10 @@ namespace NancyService.Modules
             };
 
             //Gets all submissions in the system that have not been deleted
-            Get["/getAllSubmissions"] = parameters =>
+            Get["/getAllSubmissions/{index:int}"] = parameters =>
                 {
-                    return Response.AsJson(submissionManager.getAllSubmissions());
+                    int index = parameters.index;
+                    return Response.AsJson(submissionManager.getAllSubmissions(index));
                 };
             //gets the evaluation for a submission
             Get["/getEvaluationsForSubmission/{submissionID}"] = parameters =>
@@ -795,9 +796,10 @@ namespace NancyService.Modules
                 return Response.AsJson(newSubmission);
             };
             //gets all deleted submissions
-            Get["/getDeletedSubmissions"] = parameters =>
+            Get["/getDeletedSubmissions/{index:int}"] = parameters =>
                 {
-                    return Response.AsJson(submissionManager.getDeletedSubmissions());
+                    int index = parameters.index;
+                    return Response.AsJson(submissionManager.getDeletedSubmissions(index));
                 };
             //gets the details of a deleted submission
             Get["/getADeletedSubmission/{submissionID:long}"] = parameters =>
