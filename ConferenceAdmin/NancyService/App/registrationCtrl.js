@@ -174,9 +174,9 @@
                             registration.usertypeid = vm.TYPE.userTypeName;
                             registration.byAdmin = true;
                             vm.registrationsList.splice(index, 1);
-                            vm.registrationsList.push(registration);
-                            clear();
+                            vm.registrationsList.push(registration);                            
                             $('#editAttendee').modal('hide');
+                            clear();
                         }
                         // else
                         // location.reload();
