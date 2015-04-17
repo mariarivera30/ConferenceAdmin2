@@ -9,7 +9,7 @@
             </div>
             <div ng-show="vm.submissionsList.length">
                 <div class="paging-height-dropdowns">
-                    <label class="left">Search: <input ng-model="vm.criteria" ng-change="vm.searchSubmission()" /><button ng-click="vm.getAllSubmissions(); vm.criteria = '';">Reset</button></label><br />
+                    <label class="left">Search: <input ng-model="vm.criteria"/><button ng-click="vm.searchSubmission()"><i class="fa fa-search"></i></button></label><br />
             <!--<label class="left">Search: <input ng-model="searchText" /></label>-->
             <table ng-table="tableParams" class="table row">
                 <thead>
@@ -78,26 +78,26 @@
                             </div>
                             <div ng-show="vm.deletedSubmissionsList.length">
                                 <div class="paging-height">
-                            <label class="left">Search: <input ng-model="searchDeletedText" /></label>
-                            <table ng-table="tableParams" class="table row">
-                                <thead>
-                                    <tr>
-                                        <th><b>Submision Title</b></th>
-                                        <th><b>Type</b></th>
-                                        <th><b>Topic</b></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="sub in vm.deletedSubmissionsList | filter:searchDeletedText | orderBy: ['-avgScore', 'submissionTitle']">
-                                        <td data-title="'Title'">
-                                            <a href="" ng-click="vm.getDeletedSubmissionView(sub.submissionID); vm.view = true;">{{sub.submissionTitle}}</a>
-                                        </td>
-                                        <td>{{sub.submissionTypeName}}</td>
-                                        <td>{{sub.topic}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                                    <label class="left">Search: <input ng-model="vm.dcriteria" /><button ng-click="vm.searchDeletedSubmission()"><i class="fa fa-search"></i></button></label><br />
+                                    <table ng-table="tableParams" class="table row">
+                                        <thead>
+                                            <tr>
+                                                <th><b>Submision Title</b></th>
+                                                <th><b>Type</b></th>
+                                                <th><b>Topic</b></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="sub in vm.deletedSubmissionsList | filter:searchDeletedText | orderBy: ['-avgScore', 'submissionTitle']">
+                                                <td data-title="'Title'">
+                                                    <a href="" ng-click="vm.getDeletedSubmissionView(sub.submissionID); vm.view = true;">{{sub.submissionTitle}}</a>
+                                                </td>
+                                                <td>{{sub.submissionTypeName}}</td>
+                                                <td>{{sub.topic}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <div aria-live="polite" class="col-lg-6">Showing page {{vm.dindex + 1}} of {{vm.dmaxIndex}}</div>
                                 <div class="col-lg-6 paging-word">
                                     <a class="btn btn-default" ng-click="vm.getDeletedSubmissions(vm.dindex)"><i class="glyphicon glyphicon-repeat"></i></a>

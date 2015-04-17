@@ -131,6 +131,7 @@
             isMaster: _isMaster,
             getBanners: _getBanners,
             searchSubmission: _searchSubmission,
+            searchDeletedSubmission: _searchDeletedSubmission,
             searchGuest: _searchGuest
         };
 
@@ -661,7 +662,11 @@
         }
         //search within the list with a certain criteria
         function _searchSubmission(data) {
-            return $http.get('admin/searchSubmission/' + data);
+            return $http.get('admin/searchSubmission/' + data.index + '/' + data.criteria);
+        }
+        //search within the list with a certain criteria
+        function _searchDeletedSubmission(data) {
+            return $http.get('admin/searchDeletedSubmission/' + data.index + '/' + data.criteria);
         }
         //------------------------------------Banner-------------------------------------
         function _getBanners() {

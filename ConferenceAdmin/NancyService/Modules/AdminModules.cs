@@ -820,10 +820,19 @@ namespace NancyService.Modules
                     return isMaster;
                 };
             //search within the list with a certain criteria
-            Get["/searchSubmission/{criteria}"] = parameters =>
+            Get["/searchSubmission/{index}/{criteria}"] = parameters =>
             {
+                int index = parameters.index;
                 string criteria = parameters.criteria;
-                var list = submissionManager.searchSubmission(criteria);
+                var list = submissionManager.searchSubmission(index, criteria);
+                return Response.AsJson(list);
+            };
+            //search within the list with a certain criteria
+            Get["/searchDeletedSubmission/{index}/{criteria}"] = parameters =>
+            {
+                int index = parameters.index;
+                string criteria = parameters.criteria;
+                var list = submissionManager.searchDeletedSubmission(index, criteria);
                 return Response.AsJson(list);
             };
 

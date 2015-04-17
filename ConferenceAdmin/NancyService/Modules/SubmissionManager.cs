@@ -1897,19 +1897,21 @@ namespace NancyService.Modules
         }
 
         // Search within the list with a certain criteria
-        public List<Submission> searchSubmission(string criteria)
+        public SubmissionPagingQuery searchSubmission(int index, string criteria)
         {
+            SubmissionPagingQuery page = new SubmissionPagingQuery();
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    int pageSize = 10;
                     int? scoreSum = 0;
                     int evalCount = 0;
                     double avgScore = 0.00;
                     int numOfEvaluations = 0;
                     //get all final submissions.
                     List<Submission> userSubmissions = new List<Submission>();
-                    List<usersubmission> subList = context.usersubmission.Where(c => (c.submission.title.Contains(criteria) || c.submission.topiccategory.name.Contains(criteria) || c.submission.submissiontype.name.Contains(criteria)) && c.deleted == false && c.finalSubmissionID != null).ToList();
+                    List<usersubmission> subList = context.usersubmission.Where(c => (c.submission.title.Contains(criteria) || c.submission.topiccategory.name.Contains(criteria) || c.submission.submissiontype.name.Contains(criteria) || c.submission.status.Contains(criteria)) && c.deleted == false && c.finalSubmissionID != null).ToList();
                     foreach (var sub in subList)
                     {
                         long userID = sub.userID;
@@ -1998,19 +2000,69 @@ namespace NancyService.Modules
                             submissionTypeID, submissionTitle, topiccategoryID, topic, status, 0, numOfEvaluations, byAdmin));
                         }
                     }
-                                        
-                    return userSubmissions;
+                    userSubmissions = userSubmissions.OrderBy(c => -c.avgScore).ToList();
+                    page.rowCount = userSubmissions.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        var allUserSubmissions = userSubmissions.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = allUserSubmissions;
+                    }
 
+                    return page;
                 }
             }
             catch (Exception ex)
             {
-                Console.Write("SubmissionManager.search error " + ex);
-                return null; ;
+                Console.Write("SubmissionManager.getAllSubmissions error " + ex);
+                return null;
             }
         }
 
+        // Search within the list with a certain criteria
+        public SubmissionPagingQuery searchDeletedSubmission(int index, string criteria)
+        {
+            SubmissionPagingQuery page = new SubmissionPagingQuery();
+
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    int pageSize = 10;
+                    var subs = context.submissions.Where(c => (c.title.Contains(criteria) || c.topiccategory.name.Contains(criteria) || c.submissiontype.name.Contains(criteria)) && c.deleted == true).Select(d =>
+                        new Submission
+                        {
+                            userID = d.usersubmissions.Where(c => c.deleted == true).FirstOrDefault() == null ? -1 : d.usersubmissions.Where(c => c.deleted == true).FirstOrDefault().userID,
+                            submissionID = d.submissionID,
+                            submissionTypeName = d.submissiontype.name,
+                            submissionTypeID = d.submissionTypeID,
+                            submissionTitle = d.title,
+                            topiccategoryID = d.topicID,
+                            topic = d.topiccategory.name,
+                            status = d.status
+                        }).OrderBy(c => c.submissionTitle).ToList();
+
+                    page.rowCount = subs.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        var registrationPayments = subs.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = registrationPayments;
+                    }
+
+                    return page;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getDeletedSubmissions error " + ex);
+                return null;
+            }
+        }
     }
+
+
+
 
     public class SubmissionPagingQuery
     {

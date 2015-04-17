@@ -98,6 +98,7 @@
         vm.deleteSubmission = _deleteSubmission;
         vm.isMaster = _isMaster;
         vm.searchSubmission = _searchSubmission;
+        vm.searchDeletedSubmission = _searchDeletedSubmission;
 
         // function calls
         _getAllSubmissions(vm.sindex);
@@ -800,12 +801,50 @@
 
         /* Search within the list with a certain criteria */
         function _searchSubmission() {
-            restApi.searchSubmission(vm.criteria).
+            vm.sindex = 0;
+            var params = {index: vm.sindex, criteria: vm.criteria};
+            restApi.searchSubmission(params).
                 success(function (data, status, headers, config) {
-                    vm.submissionsList = data;
+                    vm.smaxIndex = data.maxIndex;
+                    if (vm.smaxIndex == 0) {
+                        vm.sindex = 0;
+                        vm.submissionsList = [];
+                    }
+                    else if (vm.sindex >= vm.smaxIndex) {
+                        vm.sindex = vm.smaxIndex - 1;
+                        _searchSubmission(vm.sindex);
+                    }
+                    else {
+                        vm.submissionsList = data.results;
+                    }
+                    vm.submissionsList.forEach(function (sub, index2) {
+                        sub.acceptanceStatus = sub.status;
+                    });
+                }).
+                   error(function (data, status, headers, config) {
+                   });
+        }
+
+        function _searchDeletedSubmission() {
+            vm.dindex = 0;
+            var params = { index: vm.dindex, criteria: vm.dcriteria };
+            restApi.searchDeletedSubmission(params).
+                success(function (data, status, headers, config) {
+                    vm.dmaxIndex = data.maxIndex;
+                    if (vm.dmaxIndex == 0) {
+                        vm.dindex = 0;
+                        vm.deletedSubmissionsList = [];
+                    }
+                    else if (vm.dindex >= vm.dmaxIndex) {
+                        vm.dindex = vm.dmaxIndex - 1;
+                        _searchDeletedSubmission(vm.dindex);
+                    }
+                    else {
+                        vm.deletedSubmissionsList = data.results;
+                    }
                 }).
                 error(function (data, status, headers, config) {
-                    vm.submissionsList = data;
+
                 });
         }
     }

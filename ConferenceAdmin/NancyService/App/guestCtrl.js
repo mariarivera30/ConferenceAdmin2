@@ -243,7 +243,7 @@
                     }
                     else if (vm.sindex >= vm.smaxIndex) {
                         vm.sindex = vm.smaxIndex - 1;
-                        _getGuestList(vm.sindex);
+                        _searchGuest(vm.sindex);
                     }
                     else {
                         vm.guestList = data.results;
