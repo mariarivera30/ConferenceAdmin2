@@ -1872,6 +1872,121 @@ namespace NancyService.Modules
                 return false;
             }
         }
+
+        // Search within the list with a certain criteria
+        public List<Submission> searchSubmission(string criteria)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    int? scoreSum = 0;
+                    int evalCount = 0;
+                    double avgScore = 0.00;
+                    int numOfEvaluations = 0;
+                    //get all final submissions.
+                    List<Submission> userSubmissions = new List<Submission>();
+                    List<usersubmission> subList = context.usersubmission.Where(c => (c.submission.title.Contains(criteria) || c.submission.topiccategory.name.Contains(criteria) || c.submission.submissiontype.name.Contains(criteria)) && c.deleted == false && c.finalSubmissionID != null).ToList();
+                    foreach (var sub in subList)
+                    {
+                        long userID = sub.userID;
+                        long submissionID = sub.submission == null ? -1 : sub.submission.submissionID;
+                        String submissionTypeName = sub.submission == null ? null : sub.submission.submissiontype == null ? null : sub.submission.submissiontype.name;
+                        int submissionTypeID = sub.submission == null ? -1 : sub.submission.submissionTypeID;
+                        String submissionTitle = sub.submission == null ? null : sub.submission.title;
+                        int topiccategoryID = sub.submission == null ? -1 : sub.submission.topicID;
+                        String topic = sub.submission == null ? null : sub.submission.topiccategory == null ? null : sub.submission.topiccategory.name;
+                        String status = sub.submission == null ? null : sub.submission.status;
+                        bool byAdmin = sub.submission == null ? false : sub.submission.byAdmin == true ? true : false;
+                        IEnumerable<IGrouping<long, evaluatiorsubmission>> groupBy = sub.submission == null ? null : sub.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                           null : sub.submission.evaluatiorsubmissions.Where(c => c.deleted == false).GroupBy(s => s.submissionID).ToList();
+                        if (groupBy != null)
+                        {
+                            foreach (var subGroup in groupBy)//goes through all groups of sub/evalsub
+                            {
+                                foreach (var evalsForSub in subGroup)//goes through all evaluatiorsubmission for each submission
+                                {
+                                    int? thisScore = evalsForSub.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                                        -1 : evalsForSub.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault().score;
+                                    if (thisScore != -1)//if submission has been evaluated
+                                    {
+                                        scoreSum = scoreSum + thisScore;
+                                        evalCount++;
+                                    }
+                                }
+                                avgScore = evalCount == 0 ? 0.00 : (double)scoreSum / evalCount;
+                                numOfEvaluations = evalCount;
+                                scoreSum = 0;
+                                evalCount = 0;
+                            }
+                            userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
+                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, avgScore, numOfEvaluations, byAdmin));
+                        }
+                        else
+                        {
+                            userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
+                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, 0, numOfEvaluations, byAdmin));
+                        }
+                    }
+                    scoreSum = 0;
+                    evalCount = 0;
+                    avgScore = 0.00;
+                    numOfEvaluations = 0;
+                    //get all submissions that do not have a final submission
+                    List<usersubmission> subList2 = context.usersubmission.Where(c => (c.submission.title.Contains(criteria) || c.submission.topiccategory.name.Contains(criteria) || c.submission.submissiontype.name.Contains(criteria)) && c.deleted == false && c.finalSubmissionID == null).ToList();
+                    foreach (var sub in subList2)
+                    {
+                        long userID = sub.userID;
+                        long submissionID = sub.submission1 == null ? -1 : sub.submission1.submissionID;
+                        String submissionTypeName = sub.submission1 == null ? null : sub.submission1.submissiontype == null ? null : sub.submission1.submissiontype.name;
+                        int submissionTypeID = sub.submission1 == null ? -1 : sub.submission1.submissionTypeID;
+                        String submissionTitle = sub.submission1.title;
+                        int topiccategoryID = sub.submission1 == null ? -1 : sub.submission1.topicID;
+                        String topic = sub.submission1 == null ? null : sub.submission1.topiccategory == null ? null : sub.submission1.topiccategory.name;
+                        String status = sub.submission1 == null ? null : sub.submission1.status;
+                        bool byAdmin = sub.submission1 == null ? false : sub.submission1.byAdmin == true ? true : false;
+                        IEnumerable<IGrouping<long, evaluatiorsubmission>> groupBy = sub.submission1 == null ? null : sub.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                                null : sub.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).GroupBy(s => s.submissionID).ToList();
+                        if (groupBy != null)
+                        {
+                            foreach (var subGroup in groupBy)//goes through all groups of sub/evalsub
+                            {
+                                foreach (var evalsForSub in subGroup)//goes through all evaluatiorsubmission for each submission
+                                {
+                                    int? thisScore = evalsForSub.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                                        -1 : evalsForSub.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault().score;
+                                    if (thisScore != -1)//if submission has been evaluated
+                                    {
+                                        scoreSum = scoreSum + thisScore;
+                                        evalCount++;
+                                    }
+                                }
+                                avgScore = evalCount == 0 ? 0.00 : (double)scoreSum / evalCount;
+                                numOfEvaluations = evalCount;
+                                scoreSum = 0;
+                                evalCount = 0;
+                            }
+                            userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
+                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, avgScore, numOfEvaluations, byAdmin));
+                        }
+                        else
+                        {
+                            userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
+                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, 0, numOfEvaluations, byAdmin));
+                        }
+                    }
+                                        
+                    return userSubmissions;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.search error " + ex);
+                return null; ;
+            }
+        }
+
     }
 
     public class CurrAndPrevSub

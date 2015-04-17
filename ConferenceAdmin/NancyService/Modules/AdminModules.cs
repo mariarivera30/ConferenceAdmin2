@@ -808,6 +808,13 @@ namespace NancyService.Modules
                     bool isMaster = submissionManager.isMaster(userID);
                     return isMaster;
                 };
+            //search within the list with a certain criteria
+            Get["/searchSubmission/{criteria}"] = parameters =>
+            {
+                string criteria = parameters.criteria;
+                var list = submissionManager.searchSubmission(criteria);
+                return Response.AsJson(list);
+            };
 
             //------------------------------------Banner---------------------------------------------
             Get["/getBanners"] = parameters =>

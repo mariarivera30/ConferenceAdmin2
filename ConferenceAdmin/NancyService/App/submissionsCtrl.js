@@ -81,6 +81,7 @@
         vm.getDeletedSubmissionView = _getDeletedSubmissionView;
         vm.deleteSubmission = _deleteSubmission;
         vm.isMaster = _isMaster;
+        vm.searchSubmission = _searchSubmission;
 
         // function calls
         _getAllSubmissions();
@@ -709,5 +710,17 @@
         $scope.showContent = function ($fileContent) {
             vm.content = $fileContent;
         };
+
+
+        /**/
+        function _searchSubmission() {
+            restApi.searchSubmission(vm.criteria).
+                success(function (data, status, headers, config) {
+                    vm.submissionsList = data;
+                }).
+                error(function (data, status, headers, config) {
+                    vm.submissionsList = data;
+                });
+        }
     }
 })();

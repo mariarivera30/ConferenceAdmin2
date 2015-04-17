@@ -3,7 +3,8 @@
     <div ng-hide="vm.view">
         <h3>Manage Submissions</h3><br>
         <div class="col-lg-12">
-            <label class="left">Search: <input ng-model="searchText" /></label>
+            <label class="left">Search: <input ng-model="vm.criteria" ng-change="vm.searchSubmission()" /><button ng-click="vm.getAllSubmissions(); vm.criteria = '';">Reset</button></label><br />
+            <!--<label class="left">Search: <input ng-model="searchText" /></label>-->
             <table ng-table="tableParams" class="table row">
                 <thead>
                     <tr>
