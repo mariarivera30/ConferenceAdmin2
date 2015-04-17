@@ -170,12 +170,11 @@
                 .success(function (data, status, headers, config) {
                     vm.registrationsList.forEach(function (reg, index) {
                         if (reg.registrationID == registration.registrationID) {
-
+                            $('#editAttendee').modal('hide');
                             registration.usertypeid = vm.TYPE.userTypeName;
                             registration.byAdmin = true;
                             vm.registrationsList.splice(index, 1);
-                            vm.registrationsList.push(registration);                            
-                            $('#editAttendee').modal('hide');
+                            vm.registrationsList.push(registration);        
                             clear();
                         }
                         // else
