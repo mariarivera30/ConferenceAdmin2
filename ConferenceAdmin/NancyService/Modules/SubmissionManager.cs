@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 
 
@@ -9,6 +11,10 @@ namespace NancyService.Modules
 {
     class SubmissionManager
     {
+        //ccwicEmail
+        string ccwicEmail = "ccwictest@gmail.com";
+        string ccwicEmailPass = "ccwic123456789";
+
         //Jaimeiris - gets the submission with ID submission ID to be evaluated by evaluator with evaluatorID
         public AssignedSubmission getSubmission(long submissionID, long evaluatorID)
         {
@@ -279,6 +285,23 @@ namespace NancyService.Modules
                     }
                     userSub.allowFinalVersion = usersubIn.allowFinalVersion;
                     context.SaveChanges();
+                    if (usersubIn.allowFinalVersion == true)
+                    {
+                        String email = null;
+                        email = (context.usersubmission.Where(c => c.initialSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault() == null ? null :
+                            context.usersubmission.Where(c => c.initialSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault().user.membership.email);
+                        if (email == null) email = context.usersubmission.Where(c => c.finalSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault() == null ?
+                             null : context.usersubmission.Where(c => c.finalSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault().user.membership.email;
+                        
+                        try { sendFinalVersionAllowedEmail(email, context.submissions.Where(c => c.submissionID == usersubIn.initialSubmissionID).FirstOrDefault().title); }
+
+                        catch (Exception ex)
+                        {
+                            Console.Write("SubmissionManager.addEvaluation error " + ex);
+                            return false;
+                        }
+                    }
+
                     return true;
                 }
             }
@@ -287,6 +310,29 @@ namespace NancyService.Modules
                 Console.Write("SubmissionManager.addEvaluation error " + ex);
                 return false;
             }
+        }
+
+        //Send email when submission status has been changed
+        private void sendFinalVersionAllowedEmail(string email, String submissionTitle)
+        {
+            MailAddress ccwic = new MailAddress(ccwicEmail);
+            MailAddress user = new MailAddress(email);
+            MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
+            
+                mail.Subject = "Caribbean Celebration of Women in Computing Submission Requirement";
+                mail.Body = "Greetings, \n\n " +
+                    "Our evaluators have asked that you submit a final version of your submission with the name: " + submissionTitle + ". To view the comments made about your submission and the desired changes, please login to view your profile through the following link: \n\n" +
+                    "http://136.145.116.238/#/Login/Log" + ".";            
+            
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+
+            smtp.Credentials = new NetworkCredential(
+                ccwicEmail, ccwicEmailPass);
+            smtp.EnableSsl = true;
+
+            smtp.Send(mail);
         }
 
         public bool editEvaluation(evaluationsubmitted evaluation, usersubmission userSubIn)
@@ -320,9 +366,27 @@ namespace NancyService.Modules
                     }
                     else
                     {
-                        userSub = context.usersubmission.Where(c => c.initialSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault(); userSub.allowFinalVersion = userSubIn.allowFinalVersion;
+                        userSub = context.usersubmission.Where(c => c.initialSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault(); 
+                        userSub.allowFinalVersion = userSubIn.allowFinalVersion;
                     }
                     context.SaveChanges();
+
+                    if (userSubIn.allowFinalVersion == true)
+                    {
+                        String email = null;
+                        email = (context.usersubmission.Where(c => c.initialSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault() == null ? null :
+                            context.usersubmission.Where(c => c.initialSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault().user.membership.email);
+                        if (email == null) email = context.usersubmission.Where(c => c.finalSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault() == null ?
+                             null : context.usersubmission.Where(c => c.finalSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault().user.membership.email;
+
+                        try { sendFinalVersionAllowedEmail(email, context.submissions.Where(c => c.submissionID == userSubIn.initialSubmissionID).FirstOrDefault().title); }
+
+                        catch (Exception ex)
+                        {
+                            Console.Write("SubmissionManager.editEvaluation error " + ex);
+                            return false;
+                        }
+                    }
                     return true;
                 }
             }
@@ -1541,6 +1605,17 @@ namespace NancyService.Modules
                     subAltered.changedAcceptanceStatus = changedAcceptanceStatus;
                     subAltered.submissionID = sub.submissionID;
                     subAltered.status = newStatus;
+                    //send email
+                    String email = null;
+                    email = sub.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault().user.membership.email;
+                    if (email == null) email = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().user.membership.email;
+                    try { sendSubmissionUpdateEmail(email, sub.title, sub.status, changedAcceptanceStatus); }
+
+                    catch (Exception ex)
+                    {
+                        Console.Write("SubmissionManager.sendSubmissionUpdateEmail error " + ex);
+                        return null;
+                    }
 
                     return subAltered;
                 }
@@ -1551,6 +1626,38 @@ namespace NancyService.Modules
                 return null;
             }
         }
+        //Send email when submission status has been changed
+        private void sendSubmissionUpdateEmail(string email, String submissionName, String submissionStatus, bool acceptanceUpdated)
+        {
+            MailAddress ccwic = new MailAddress(ccwicEmail);
+            MailAddress user = new MailAddress(email);
+            MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
+            if (acceptanceUpdated)
+            {
+                mail.Subject = "Caribbean Celebration of Women in Computing Submission Update";
+                mail.Body = "Greetings, \n\n " +
+                    "The status for your submission with the name " + submissionName + " has been changed to " +
+                    submissionStatus + ". This means that you have been accepted to assist to the Caribbean Celebration of Women in Computing. To participate, the next step is to register, you can do so by logging into your profile through the following link: \n\n"
+                    + "http://136.145.116.238/#/Login/Log" + ".";
+            }
+            else
+            {
+                mail.Subject = "Caribbean Celebration of Women in Computing Submission Update";
+                mail.Body = "Greetings, \n\n " +
+                    "The status for your submission with the name " + submissionName + " has been changed to " + submissionStatus + ".";
+            }
+
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+
+            smtp.Credentials = new NetworkCredential(
+                ccwicEmail, ccwicEmailPass);
+            smtp.EnableSsl = true;
+
+            smtp.Send(mail);
+        }
+
         //This adds the submission when it is added by an administrator
         public Submission addSubmissionByAdmin(usersubmission usersubTA, submission submissionToAdd, panel pannelToAdd, workshop workshopToAdd)
         {

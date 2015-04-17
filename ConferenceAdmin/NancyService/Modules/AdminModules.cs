@@ -449,13 +449,14 @@ namespace NancyService.Modules
 
             //-------------------------------------GUESTS---------------------------------------------
             //Guest list for admins
-            Get["/getGuestList"] = parameters =>
+            Get["/getGuestList/{index:int}"] = parameters =>
             {
-                List<GuestList> guestList = guest.getListOfGuests();
+                int index = parameters.index;
+                GuestsPagingQuery guestList = guest.getListOfGuests(index);
 
                 if (guestList == null)
                 {
-                    guestList = new List<GuestList>();
+                    guestList = new GuestsPagingQuery();
                 }
                 return Response.AsJson(guestList);
             };

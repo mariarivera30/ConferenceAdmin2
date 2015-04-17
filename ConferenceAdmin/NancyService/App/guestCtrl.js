@@ -47,11 +47,18 @@
         vm.registrationStatus;
         vm.currentid;
 
-        vm.guestList = {};
+        vm.guestList = [];
+        vm.sindex = 0;
+        vm.smaxIndex = 0;
+        vm.sfirstPage = true;
         vm.acceptanceStatusList = ['Accepted', 'Rejected'];
 
         //Functions
         vm.getGuestList = _getGuestList;
+        vm.nextGuest = _nextGuest;
+        vm.previousGuest = _previousGuest;
+        vm.getFirstGuestPage = _getFirstGuestPage;
+        vm.getLastGuestPage = _getLastGuestPage;
         vm.updateAcceptanceStatus = _updateAcceptanceStatus;
         vm.displayGuest = _displayGuest;
         vm.displayAuthorizations = _displayAuthorizations;
@@ -60,12 +67,14 @@
         vm.downloadPDFFile = _downloadPDFFile;
         vm.getDates = _getDates;
 
-        _getGuestList();
-        _getDates();
+        //_getGuestList(vm.sindex);
+        //_getDates();
+        activate();
 
         //Functions:
         function activate() {
-
+            _getGuestList(vm.sindex);
+            _getDates();
         }
 
         function _getDates() {
@@ -125,20 +134,51 @@
                        vm.authorizations = data;
                    });
         }
-
-        function _getGuestList() {
-            restApi.getGuestList().
+        //START PAGINATION CODE
+        function _getGuestList(index) {
+            restApi.getGuestList(index).
                    success(function (data, status, headers, config) {
-                       // this callback will be called asynchronously
-                       // when the response is available
-                       vm.guestList = data;
+                       vm.smaxIndex = data.maxIndex;
+                       if (vm.smaxIndex == 0) {
+                           vm.sindex = 0;
+                           vm.guestList = [];
+                       }
+                       else if (vm.sindex >= vm.smaxIndex) {
+                           vm.sindex = vm.smaxIndex - 1;
+                           _getGuestList(vm.sindex);
+                       }
+                       else {
+                           vm.guestList = data.results;
+                       }
                    }).
                    error(function (data, status, headers, config) {
-                       // called asynchronously if an error occurs
-                       // or server returns response with an error status.
-                       vm.guestList = data;
                    });
         }
+            function _nextGuest() {
+                if (vm.sindex < vm.smaxIndex - 1) {
+                    vm.sindex += 1;
+                    _getGuestList(vm.sindex);
+                }
+            }
+        
+
+        function _previousGuest() {
+            if (vm.sindex > 0) {
+                vm.sindex -= 1;
+                _getGuestList(vm.sindex);
+            }
+        }
+
+        function _getFirstGuestPage() {
+            vm.sindex = 0;
+            _getGuestList(vm.sindex);
+        }
+
+        function _getLastGuestPage() {
+            vm.sindex = vm.smaxIndex - 1;
+            _getGuestList(vm.sindex);
+        }
+        //----END PAGINATON CODE---
 
         function _updateAcceptanceStatus(userID, acceptanceStatus) {
             var localGuest = { ID: userID, status: acceptanceStatus };
@@ -188,5 +228,6 @@
         function _downloadPDFFile(document) {
             window.open(document);
         }
+
     }
 })();

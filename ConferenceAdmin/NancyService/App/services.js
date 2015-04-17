@@ -315,8 +315,8 @@
         };
         //-----------------------------------GUESTS-----------------------------------
         //get guest list for admin
-        function _getGuestList() {
-            return $http.get('admin/getGuestList');
+        function _getGuestList(data) {
+            return $http.get('admin/getGuestList/' + data);
         };
 
         //update guest acceptance status

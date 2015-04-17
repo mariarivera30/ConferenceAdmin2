@@ -2,49 +2,28 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 
 namespace NancyService.Modules
 {
     public class GuestManager
     {
+        //ccwicEmail
+        string ccwicEmail = "ccwictest@gmail.com";
+        string ccwicEmailPass = "ccwic123456789";
 
         //Get list of guests
-        public List<GuestList> getListOfGuests()
+        public GuestsPagingQuery getListOfGuests(int index)
         {
+            GuestsPagingQuery page = new GuestsPagingQuery();
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    List<GuestList> guestList = new List<GuestList>();
-                    List<user> guests = context.users.Where(c => c.hasApplied == true && c.deleted != true).ToList();
-                    long userID;
-                    String firstName;
-                    String lastName;
-                    String title;
-                    String affiliationName;
-                    String userTypeName;
-                    bool? authorizationStatus;
-                    bool isRegistered;
-                    String registrationStatus;
-                    String acceptanceStatus;
-                    String line1;
-                    String line2;
-                    String city;
-                    String state;
-                    String country;
-                    String zipcode;
-                    String email;
-                    String phoneNumber;
-                    String fax;
-                    bool? day1;
-                    bool? day2;
-                    bool? day3;
-                    String optionStatus;
-                    String companionFirstName;
-                    String companionLastName;
-                    long companionID;
-                    /*var guests = context.users.Where(c => c.hasApplied == true && c.deleted != true).Select(i => new GuestList
+                    int pageSize = 10;
+                    var guests = context.users.Where(c => c.hasApplied == true && c.deleted != true).Select(i => new GuestList
                     {
                         userID = (int)i.userID,
                         firstName = i.firstName,
@@ -72,41 +51,17 @@ namespace NancyService.Modules
                         companionFirstName = i.companions.FirstOrDefault() == null ? null : i.companions.FirstOrDefault().user.firstName,
                         companionLastName = i.companions.FirstOrDefault() == null ? null : i.companions.FirstOrDefault().user.lastName,
                         companionID = i.companions.FirstOrDefault() == null ? -1 : (long)i.companions.FirstOrDefault().userID 
-                    }).ToList();*/
-                    foreach (var guest in guests)
+                    }).OrderBy(f => f.firstName).ToList();
+
+                    page.rowCount = guests.Count();
+                    if (page.rowCount > 0)
                     {
-                        userID = guest.userID;
-                        firstName = guest.firstName;
-                        lastName = guest.lastName;
-                        title = guest.title;
-                        affiliationName = guest.affiliationName;
-                        userTypeName = guest.usertype.userTypeName;
-                        authorizationStatus = guest.minors.FirstOrDefault() == null ? false : guest.minors.FirstOrDefault().authorizationStatus;
-                        isRegistered = guest.registrationStatus == "Accepted" ? true : false;
-                        registrationStatus = guest.registrationStatus;
-                        acceptanceStatus = guest.acceptanceStatus;
-                        line1 = guest.address.line1;
-                        line2 = guest.address.line2;
-                        city = guest.address.city;
-                        state = guest.address.state;
-                        country = guest.address.country;
-                        zipcode = guest.address.zipcode;
-                        email = guest.membership.email;
-                        phoneNumber = guest.phone;
-                        fax = guest.userFax;
-                        day1 = guest.registrations.FirstOrDefault() == null ? null : guest.registrations.FirstOrDefault().date1;
-                        day2 = guest.registrations.FirstOrDefault() == null ? null : guest.registrations.FirstOrDefault().date2;
-                        day3 = guest.registrations.FirstOrDefault() == null ? null : guest.registrations.FirstOrDefault().date3;
-                        optionStatus = "Accepted";
-                        companionFirstName = guest.companions.FirstOrDefault() == null ? null : guest.companions.FirstOrDefault().user.firstName;
-                        companionLastName = guest.companions.FirstOrDefault() == null ? null : guest.companions.FirstOrDefault().user.lastName;
-                        companionID = guest.companions.FirstOrDefault() == null ? -1 : (long)guest.companions.FirstOrDefault().userID;
-                        guestList.Add(new GuestList(userID, firstName, lastName, title, affiliationName, userTypeName,
-              authorizationStatus, isRegistered, registrationStatus, acceptanceStatus, line1, line2,
-              city, state, country, zipcode, email, phoneNumber, fax, day1,
-              day2, day3, optionStatus, companionFirstName, companionLastName, companionID));
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        List<GuestList> guestPage = guests.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = guestPage;
                     }
-                    return guestList;
+
+                    return page;
                 }
             }
             catch (Exception ex)
@@ -125,6 +80,16 @@ namespace NancyService.Modules
                     var guest = context.users.Where(c => c.userID == guestID).FirstOrDefault();
                     guest.acceptanceStatus = acceptanceStatus;
                     context.SaveChanges();
+                    //send email to notify of acceptance status
+                    String email = context.users.Where(c => c.userID == guestID).FirstOrDefault().membership.email;
+                    try { sendAcceptanceStatusUpdate(email, acceptanceStatus); }
+
+                    catch (Exception ex)
+                    {
+                        Console.Write("GuestManager.sendAcceptanceStatusUpdate error " + ex);
+                        return false;
+                    }
+
                     return true;
                 }
             }
@@ -133,6 +98,36 @@ namespace NancyService.Modules
                 Console.Write("GuestManager.updateAcceptanceStatus error " + ex);
                 return false;
             }
+        }
+
+        //Send email when submission status has been changed
+        private void sendAcceptanceStatusUpdate(string email, String acceptanceStatus)
+        {
+            MailAddress ccwic = new MailAddress(ccwicEmail);
+            MailAddress user = new MailAddress(email);
+            MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
+            if (acceptanceStatus != "rejectedRegistration")
+            {
+            mail.Subject = "Caribbean Celebration of Women in Computing";
+            mail.Body = "Greetings, \n\n " +
+                "The status to assist to the conference was changed to: " + acceptanceStatus + ". This change can also be seen in your profile by logging in through the following link: \n\n" +
+                "http://136.145.116.238/#/Login/Log" + ".";
+            }
+            else {
+                mail.Subject = "Caribbean Celebration of Women in Computing";
+                mail.Body = "Greetings, \n\n " +
+                    "We regret to inform you that your registration to the Caribbean Celebration of Women in Computing has been rejected.";
+            }
+
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+
+            smtp.Credentials = new NetworkCredential(
+                ccwicEmail, ccwicEmailPass);
+            smtp.EnableSsl = true;
+
+            smtp.Send(mail);
         }
 
         public List<MinorAuthorizations> getMinorAuthorizations(int id)
@@ -173,6 +168,15 @@ namespace NancyService.Modules
                     guest.registrations.FirstOrDefault().date2 = false;
                     guest.registrations.FirstOrDefault().date3 = false;
                     context.SaveChanges();
+                    //send email to reject
+                    String email = context.users.Where(c => c.userID == id).FirstOrDefault().membership.email;
+                    try { sendAcceptanceStatusUpdate(email, "rejectedRegistration"); }
+
+                    catch (Exception ex)
+                    {
+                        Console.Write("GuestManager.sendAcceptanceStatusUpdate error " + ex);
+                        return false;
+                    }
                     return true;
                 }
             }
@@ -182,6 +186,14 @@ namespace NancyService.Modules
                 return false;
             }
         }
+    }
+
+    public class GuestsPagingQuery
+    {
+        public int indexPage;
+        public int maxIndex;
+        public int rowCount;
+        public List<GuestList> results;
     }
 
     public class MinorAuthorizations
