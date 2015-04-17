@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Globalization;
+using System.Net;
+using System.Net.Mail;
 
 namespace NancyService.Modules
 {
@@ -14,14 +16,23 @@ namespace NancyService.Modules
 
         }
 
-        public string addRegistration(registration reg, user user)
+        public string addRegistration(registration reg, user user, membership mem)
         {/*int type, string firstname, string lastname, string affiliationName, bool registrationstatus, bool hasapplied, bool acceptancestatus*/
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
-                {
-                    user.membershipID = 1;
-                    user.addressID = 1;
+                {                    
+                    address address = new address();
+                    context.addresses.Add(address);                    
+
+                    mem.emailConfirmation = true;
+                    mem.deleted = false;
+                    context.memberships.Add(mem);
+
+                    context.SaveChanges();
+
+                    user.addressID = address.addressID;
+                    user.membershipID = mem.membershipID;
                     user.registrationStatus = "Accepted";
                     user.hasApplied = true;
                     user.acceptanceStatus = "Accepted";
@@ -40,6 +51,14 @@ namespace NancyService.Modules
 
                     context.SaveChanges();
 
+                    try { sendEmailConfirmation(mem.email, mem.password); }
+
+                    catch (Exception ex)
+                    {
+                        Console.Write("AdminManager.ConfirmationEmail error " + ex);
+                        return null;
+                    }
+
                     return reg.registrationID + "," + user.userTypeID;
                 }
             }
@@ -49,6 +68,30 @@ namespace NancyService.Modules
                 return null;
             }
 
+        }
+
+        private void sendEmailConfirmation(string email, string pass)
+        {
+            string ccwicEmail = "ccwictest@gmail.com";
+            string ccwicEmailPass = "ccwic123456789";
+            MailAddress ccwic = new MailAddress(ccwicEmail);
+            MailAddress user = new MailAddress(email);
+            MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
+
+
+            mail.Subject = "Caribbean Celebration of Women in Computing Account Confirmation!";
+            mail.Body = "Your email has been used to create an account for the CCWiC Conference. You can login using your temporary password: " + pass + " . \n You can change your password by visiting this link http://136.145.116.238/#/ChangePassword.";
+            
+
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+
+            smtp.Credentials = new NetworkCredential(
+                ccwicEmail, ccwicEmailPass);
+            smtp.EnableSsl = true;
+
+            smtp.Send(mail);
         }
 
         public List<RegisteredUser> getRegistrationList()

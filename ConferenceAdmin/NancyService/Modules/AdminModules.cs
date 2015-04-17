@@ -437,7 +437,8 @@ namespace NancyService.Modules
             {
                 var user = this.Bind<user>();
                 var reg = this.Bind<registration>();
-                return Response.AsJson(registration.addRegistration(reg: reg, user: user));
+                var mem = this.Bind<membership>();
+                return Response.AsJson(registration.addRegistration(reg: reg, user: user, mem: mem));
             };
 
             Get["/getDates"] = parameters =>

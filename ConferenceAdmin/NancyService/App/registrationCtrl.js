@@ -21,8 +21,10 @@
         //vm.checkAll;
 
         vm.registrationsList = [];
-        vm.datesList = {};
-        vm.userTypesList = {};
+        vm.datesList = [];
+        vm.userTypesList = [];
+        vm.password;
+        vm.email;
         vm.firstname;
         vm.lastname;
         vm.usertypeid;
@@ -74,6 +76,8 @@
         }
 
         function clear() {
+            vm.password = "";
+            vm.email = "";
             vm.firstname = "";
             vm.lastname = "";
             vm.usertypeid = "";
@@ -105,22 +109,17 @@
         }
 
         function _addRegistration() {
-            /*
-            if (vm.checkAll) {
-                vm.date1 = true;
-                vm.date2 = true;
-                vm.date3 = true;
-            }*/
             var userTypeName = vm.usertypeid.userTypeName;
             vm.usertypeid = vm.usertypeid.userTypeID;
 
             restApi.postNewRegistration(vm)
                 .success(function (data, status, headers, config) {
-                    vm.newReg = { registrationID: parseInt(data.split(",")[0]), firstname: vm.firstname, lastname: vm.lastname, affiliationName: vm.affiliationName, usertypeid: userTypeName, date1: vm.date1, date2: vm.date2, date3: vm.date3, byAdmin: true, notes: vm.note};
+                    /*vm.newReg = { registrationID: parseInt(data.split(",")[0]), firstname: vm.firstname, lastname: vm.lastname, affiliationName: vm.affiliationName, usertypeid: userTypeName, date1: vm.date1, date2: vm.date2, date3: vm.date3, byAdmin: true, notes: vm.note };
                     vm.registrationsList.push(vm.newReg);
                     clear();
                     vm.recoverType = parseInt(data.split(",")[1]);
-                    vm.recoverID = parseInt(data.split(",")[0]);
+                    vm.recoverID = parseInt(data.split(",")[0]);*/
+                    _getRegistrations();
                 })
 
                 .error(function (error) {
@@ -144,7 +143,7 @@
 
 
         function _selectedRegistrationUpdate(id, firstname, lastname, usertypeid, affiliationName, date1, date2, date3, note) {
-            vm.currentid = id;            
+            vm.currentid = id;
             vm.editfirstname = firstname;
             vm.editlastname = lastname;
             if (usertypeid != undefined)
@@ -166,7 +165,7 @@
                 vm.editdate3 = true;
             }*/
             if (vm.currentid != undefined && vm.currentid != 0) {
-                var registration = { registrationID: vm.currentid, firstname: vm.editfirstname, lastname: vm.editlastname, usertypeid: vm.TYPE.userTypeID, affiliationName: vm.editaffiliationName, date1: vm.editdate1, date2: vm.editdate2, date3: vm.editdate3, notes: vm.editnote};
+                var registration = { registrationID: vm.currentid, firstname: vm.editfirstname, lastname: vm.editlastname, usertypeid: vm.TYPE.userTypeID, affiliationName: vm.editaffiliationName, date1: vm.editdate1, date2: vm.editdate2, date3: vm.editdate3, notes: vm.editnote };
                 restApi.updateRegistration(registration)
                 .success(function (data, status, headers, config) {
                     vm.registrationsList.forEach(function (reg, index) {
@@ -269,7 +268,7 @@
                 }
 
                 copy[index] = {
-                    "Name": reg.firstname+" "+reg.lastname,
+                    "Name": reg.firstname + " " + reg.lastname,
                     "Affiliation": reg.affiliationName,
                     "User Type": reg.usertypeid,
                     "Participation Days": dates,
@@ -279,7 +278,7 @@
 
 
             var fontSize = 8, height = 0, doc;
-            doc = new jsPDF('p', 'pt', 'ledger', true); 
+            doc = new jsPDF('p', 'pt', 'ledger', true);
             doc.setFont("times", "normal");
             doc.setFontSize(fontSize);
             doc.text(30, 20, "Caribbean Celebration of Women in Computing- Registration Report");
