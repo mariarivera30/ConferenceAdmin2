@@ -590,8 +590,8 @@
         };
         //--------------------------------------------ADMIN-SUBMISSIONS------------------------------------
         //Gets all submissions that have not been deleted
-        function _getAllSubmissions() {
-            return $http.get('admin/getAllSubmissions');
+        function _getAllSubmissions(data) {
+            return $http.get('admin/getAllSubmissions/' + data);
         };
         //Gets the evaluations for the submission with submissionID
         function _getEvaluationsForSubmission(data) {
@@ -630,8 +630,8 @@
             return $http.post('admin/postAdminSubmission', data)
         };
         //gets all deleted submissions
-        function _getDeletedSubmissions() {
-            return $http.get('admin/getDeletedSubmissions')
+        function _getDeletedSubmissions(data) {
+            return $http.get('admin/getDeletedSubmissions/' + data)
         };
         //get details of a deleted submission
         function _getADeletedSubmission(data){
