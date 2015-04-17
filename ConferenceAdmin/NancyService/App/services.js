@@ -129,7 +129,8 @@
             postAdminFinalSubmission: _postAdminFinalSubmission,
             editAdminSubmission: _editAdminSubmission,
             isMaster: _isMaster,
-            getBanners: _getBanners
+            getBanners: _getBanners,
+            searchSubmission: _searchSubmission
         };
 
         return service;
@@ -651,6 +652,10 @@
         //determines whether the logged in user is a Master user
         function _isMaster(data) {
             return $http.get('admin/isMaster/' + data);
+        }
+        //search within the list with a certain criteria
+        function _searchSubmission(data) {
+            return $http.get('admin/searchSubmission/' + data);
         }
         //------------------------------------Banner-------------------------------------
         function _getBanners() {
