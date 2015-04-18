@@ -126,10 +126,8 @@
             getDeletedSubmissions: _getDeletedSubmissions,
             getListOfUsers: _getListOfUsers,
             getADeletedSubmission: _getADeletedSubmission,
-<<<<<<< HEAD
             sponsorPayment: _sponsorPayment,
             getPayment: _getPayment,
-=======
             postAdminFinalSubmission: _postAdminFinalSubmission,
             editAdminSubmission: _editAdminSubmission,
             isMaster: _isMaster,
@@ -137,7 +135,7 @@
             searchSubmission: _searchSubmission,
             searchDeletedSubmission: _searchDeletedSubmission,
             searchGuest: _searchGuest
->>>>>>> febde360dc20ee8c313ccb3cc7c0d2937dc9aba2
+
         };
 
         return service;
