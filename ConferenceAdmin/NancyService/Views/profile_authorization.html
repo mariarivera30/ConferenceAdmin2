@@ -22,6 +22,7 @@
                 <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="input-1a" type="file" class="file" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)"></div>
                 <br /><br /><button type="submit" class="full-width btn btn-primary btn-ar kv-fileinput-upload fileinput-upload-button" ng-click="vm.uploadDocument()"><i class="glyphicon glyphicon-upload"></i> Upload</button>
             </div>
+            <p ng-show="vm.ext" class="help-block">* Try .doc, .docx, .ppt, .pdf files.</p>
         </div>
 
     </div>
@@ -34,7 +35,7 @@
             </ul>
         </div>
         <div class="block line-tall">
-            <span ng-show="vm.documentsList.length != vm.templatesList.length">*You must upload every document before you can Apply.</span>
+            <p ng-show="vm.documentsList.length != vm.templatesList.length">*You must upload every document before you can Apply.</p>
         </div>
     </div>
 
