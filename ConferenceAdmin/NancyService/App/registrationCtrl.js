@@ -50,6 +50,7 @@
         vm.activate = activate;
         vm.addRegistration = _addRegistration;
         vm.getRegistrations = _getRegistrations;
+        vm.searchRegistration = _searchRegistration;
         vm.nextRegistration = _nextRegistration;
         vm.previousRegistration = _previousRegistration;
         vm.getFirstRegistrationPage = _getFirstRegistrationPage;
@@ -338,6 +339,28 @@
             });
             doc.text(50, height + 20, '');
             doc.save('registrationreport.pdf');
+        }
+
+        function _searchRegistration() {
+            vm.sindex = 0;
+            var params = { index: vm.sindex, criteria: vm.criteria };
+            restApi.searchRegistration(params).
+                   success(function (data, status, headers, config) {
+                       vm.smaxIndex = data.maxIndex;
+                       if (vm.smaxIndex == 0) {
+                           vm.sindex = 0;
+                           vm.registrationsList = [];
+                       }
+                       else if (vm.sindex >= vm.smaxIndex) {
+                           vm.sindex = vm.smaxIndex - 1;
+                           _getRegistrations(vm.sindex);
+                       }
+                       else {
+                           vm.registrationsList = data.results;
+                       }
+                   }).
+                   error(function (data, status, headers, config) {
+                   });
         }
     }
 })();

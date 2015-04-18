@@ -136,6 +136,50 @@ namespace NancyService.Modules
             }
         }
 
+
+        public RegistrationPagingQuery searchRegistration(int index, string criteria)
+        {
+            RegistrationPagingQuery page = new RegistrationPagingQuery();
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    int pageSize = 10;
+                    var registrationList = new List<RegisteredUser>();
+                    registrationList = context.registrations.Where(reg => ((reg.user.firstName + " " + reg.user.lastName).Contains(criteria) || reg.user.usertype.userTypeName.Contains(criteria) || reg.user.affiliationName.Contains(criteria)) && reg.deleted == false).Select(reg => new RegisteredUser
+                    {
+                        registrationID = reg.registrationID,
+                        firstname = reg.user.firstName,
+                        lastname = reg.user.lastName,
+                        usertypeid = reg.user.usertype.userTypeName,
+                        date1 = reg.date1,
+                        date2 = reg.date2,
+                        date3 = reg.date3,
+                        affiliationName = reg.user.affiliationName,
+                        byAdmin = reg.byAdmin,
+                        notes = reg.note,
+                        usertype = new UserTypeName { userTypeID = reg.user.usertype.userTypeID, userTypeName = reg.user.usertype.userTypeName }
+                    }).OrderBy(f => f.firstname).ToList();
+
+                    page.rowCount = registrationList.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        List<RegisteredUser> registrationPage = registrationList.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = registrationPage;
+                    }
+
+                    return page;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("RegistrationManager.getRegistration error " + ex);
+                return null;
+            }
+        }
+
+
         public List<UserTypeName> getUserTypesList()
         {
             try

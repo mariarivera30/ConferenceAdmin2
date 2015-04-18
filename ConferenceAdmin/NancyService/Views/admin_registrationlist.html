@@ -11,7 +11,7 @@
                 <table ng-table="tableParams" class="table row">
                     <thead>
                         <tr>
-                            <th colspan="3"><label class="left">Search: <input ng-model="searchText" /></label></th>
+                            <th colspan="3"><label class="left">Search: <input ng-model="vm.criteria" /><button ng-click="vm.searchRegistration()"><i class="fa fa-search"></i></button></label></th>
                             <!--<th>
                                 <label class="left">Day1: <input type="checkbox" name="date" ng-model="searchText.date1" ng-checked="all"/></label>
                                 <label class="left">Day1: <input type="checkbox" name="date" ng-model="searchText.date2" ng-checked="all"/></label>

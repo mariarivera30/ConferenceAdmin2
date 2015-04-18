@@ -408,7 +408,7 @@ namespace NancyService.Modules
                 }
             };
 
-            /* ----- Registration -----*/
+            /* --------------------------------------- Registration ----------------------------------------*/
 
             Get["/getRegistrations/{index:int}"] = parameters =>
             {
@@ -453,6 +453,15 @@ namespace NancyService.Modules
             Get["/getDates"] = parameters =>
             {
                 List<string> list = registration.getDates();
+                return Response.AsJson(list);
+            };
+
+            //search within the list with a certain criteria
+            Get["/searchRegistration/{index}/{criteria}"] = parameters =>
+            {
+                int index = parameters.index;
+                string criteria = parameters.criteria;
+                var list = registration.searchRegistration(index, criteria);
                 return Response.AsJson(list);
             };
 
