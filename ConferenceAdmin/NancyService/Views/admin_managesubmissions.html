@@ -30,7 +30,7 @@
                         <td>{{sub.submissionTypeName}}</td>
                         <td>{{sub.topic}}</td>
                         <td data-title="'Evaluator'">
-                            <a href="" data-toggle="modal" data-target="#assignEvaluator" ng-click="vm.getSubmissionView(sub.submissionID); vm.getAllEvaluators();">Assign Evaluators</a>
+                            <a href="" data-toggle="modal" data-target="#assignEvaluator" ng-click="vm.clear(); vm.getSubmissionView(sub.submissionID); vm.getAllEvaluators();">Assign Evaluators</a>
                         </td>
                         <td>
                             {{sub.avgScore | number:2}}
