@@ -211,12 +211,14 @@ namespace NancyService.Modules
             }
         }
 
-        public List<Submission> getAssignedSubmissions(long userID)
+        public SubmissionPagingQuery getAssignedSubmissions(long userID, int index)
         {
+            SubmissionPagingQuery page = new SubmissionPagingQuery();
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    int pageSize = 10;
                     //gets all final evaluations assigned to the given evaluator
                     List<Submission> assignedFinalSubmissions = context.evaluatiorsubmissions.
                         Where(c => c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions.Where(d => d.deleted == false).FirstOrDefault() != null).
@@ -248,8 +250,16 @@ namespace NancyService.Modules
                     {
                         assignedSubmissions.Add(finalSub);
                     }
+                    assignedSubmissions = assignedSubmissions.OrderBy(n => n.submissionTitle).ToList();
+                    page.rowCount = assignedSubmissions.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        List<Submission> submissionPage = assignedSubmissions.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = submissionPage;
+                    }
 
-                    return assignedSubmissions;
+                    return page;
                 }
             }
             catch (Exception ex)

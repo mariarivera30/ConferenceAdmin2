@@ -40,7 +40,7 @@
         vm.isFinalSubmission;
         vm.subIsEvaluated;
         vm.content;
-        var currentUserID = $window.sessionStorage.getItem('userID');
+        vm.currentUserID = $window.sessionStorage.getItem('userID');
 
         vm.modalsubmissionID;
         vm.modaluserType;
@@ -67,10 +67,17 @@
         vm.modalprivateFeedback;
         vm.modalhasFile;
         
-        vm.submissionlist = {};
+        vm.submissionlist = [];
+        vm.sindex = 0;
+        vm.smaxIndex = 0;
+        vm.sfirstPage = true;
 
         //Functions
         vm.getAssignedSubmissions = _getAssignedSubmissions;
+        vm.nextSub = _nextSub;
+        vm.previousSub = _previousSub;
+        vm.getFirstSubPage = _getFirstSubPage;
+        vm.getLastSubPage = _getLastSubPage;
         vm.showEvaluationScreen = _showEvaluationScreen;
         vm.getDocumentSubmitted = _getDocumentSubmitted;
         vm.hideEvaluationForm = _hideEvaluationForm;
@@ -80,7 +87,7 @@
         vm.downloadEvaluationFile = _downloadEvaluationFile;
         vm.openDocumentSubmitted = _openDocumentSubmitted;
 
-        _getAssignedSubmissions(currentUserID);
+        _getAssignedSubmissions(vm.sindex);
 
         //Functions implemented:
         function activate() {
@@ -116,20 +123,52 @@
             window.open(vm.modalDocument);
         }
 
-        function _getAssignedSubmissions(currentUserID) {
-            restApi.getAssignedSubmissions(currentUserID).
+        function _getAssignedSubmissions(index) {
+            var data = {evaluatorUserID: vm.currentUserID, index: index}
+            restApi.getAssignedSubmissions(data).
                    success(function (data, status, headers, config) {
-                       // this callback will be called asynchronously
-                       // when the response is available
-                       
-                       vm.submissionlist = data;
+                       vm.smaxIndex = data.maxIndex;
+                       if (vm.smaxIndex == 0) {
+                           vm.sindex = 0;
+                           vm.submissionlist = [];
+                       }
+                       else if (vm.sindex >= vm.smaxIndex) {
+                           vm.sindex = vm.smaxIndex - 1;
+                           _getAssignedSubmissions(vm.sindex);
+                       }
+                       else {
+                           vm.submissionlist = data.results;
+                       }
                    }).
                    error(function (data, status, headers, config) {
-                       // called asynchronously if an error occurs
-                       // or server returns response with an error status.
-                       vm.submissionlist = data;
                    });
         }
+
+        function _nextSub() {
+            if (vm.sindex < vm.smaxIndex - 1) {
+                vm.sindex += 1;
+                _getAssignedSubmissions(vm.sindex);
+            }
+        }
+
+
+        function _previousSub() {
+            if (vm.sindex > 0) {
+                vm.sindex -= 1;
+                _getAssignedSubmissions(vm.sindex);
+            }
+        }
+
+        function _getFirstSubPage() {
+            vm.sindex = 0;
+            _getAssignedSubmissions(vm.sindex);
+        }
+
+        function _getLastSubPage() {
+            vm.sindex = vm.smaxIndex - 1;
+            _getAssignedSubmissions(vm.sindex);
+        }
+        //----END PAGINATON CODE---
 
         function _showEvaluationScreen(submissionID, evaluatorID) {
             vm.evaluate = true;

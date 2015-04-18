@@ -382,7 +382,7 @@
         //---------------------------------PROFILE-SUBMISSIONS---------------------------
         //get list of submissions assigned to the evalutor currently logged in
         function _getAssignedSubmissions(data) {
-            return $http.get('profile/getAssignedSubmissions/' + data);
+            return $http.get('profile/getAssignedSubmissions/' + data.evaluatorUserID + '/' + data.index);
         };
         //get details of submission with ID submissionID
         function _getSubmissionDetails(data) {

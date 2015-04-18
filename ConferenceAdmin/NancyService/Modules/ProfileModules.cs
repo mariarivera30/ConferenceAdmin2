@@ -77,13 +77,14 @@ namespace NancyService.Modules
 
             //------------------------EVALUATOR - SUBMISSIONS-------------------------------------------
             //Gets the list of submissions assigned to the evaluator currently logged in to the system
-            Get["/getAssignedSubmissions/{id}"] = parameters =>
+            Get["/getAssignedSubmissions/{evaluatorUserID:long}/{index:int}"] = parameters =>
             {
-                long evaluatorUserID = parameters.id; //ID of the evaluator that is currently signed in
-                List<Submission> assignedSubmissions = submission.getAssignedSubmissions(evaluatorUserID);
+                long evaluatorUserID = parameters.evaluatorUserID; //ID of the evaluator that is currently signed in
+                int index = parameters.index;
+                SubmissionPagingQuery assignedSubmissions = submission.getAssignedSubmissions(evaluatorUserID, index);
                 if (assignedSubmissions == null)
                 {
-                    assignedSubmissions = new List<Submission>();
+                    assignedSubmissions = new SubmissionPagingQuery();
                 }
                 return Response.AsJson(assignedSubmissions);
             };
