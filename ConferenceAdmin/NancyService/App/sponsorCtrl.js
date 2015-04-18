@@ -175,8 +175,7 @@
             vm.sponsor.logo = "";
             vm.ext = false;
             document.getElementById("inputFile").value = "";
-            
-        }
+      }
 
         function _clearSponsor() {
             vm.sponsor = null;

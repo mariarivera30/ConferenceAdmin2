@@ -29,7 +29,15 @@ namespace NancyService.Modules
             AuthTemplateManager authTemplateManager = new AuthTemplateManager();
             SubmissionManager submissionManager = new SubmissionManager();
 
+            /*------------------Payment--------------------------*/
+            Post["/secureReentry"] = parameters =>
+             {
+                 /*receive the tandem ID  and information store on data base and confirm payment
+                 /*return in the xml the the receipt link or the error link*/
+                 return Response.AsXml("");
 
+             };
+   
             /* ----- Template -----*/
 
 

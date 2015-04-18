@@ -21,6 +21,8 @@ namespace NancyService.Models.Mapping
 
             this.Property(t => t.confirmationKey)
                 .HasMaxLength(200);
+            this.Property(t => t.passwordSalt)
+               .HasMaxLength(200);
 
             // Table & Column Mappings
             this.ToTable("memberships", "conferenceadmin");
@@ -28,6 +30,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.email).HasColumnName("email");
             this.Property(t => t.password).HasColumnName("password");
             this.Property(t => t.emailConfirmation).HasColumnName("emailConfirmation");
+            this.Property(t => t.passwordSalt).HasColumnName("passwordSalt");
             this.Property(t => t.confirmationKey).HasColumnName("confirmationKey");
             this.Property(t => t.deleted).HasColumnName("deleted");
 

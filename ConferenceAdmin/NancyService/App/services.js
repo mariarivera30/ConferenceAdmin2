@@ -125,10 +125,21 @@
             postAdminSubmission: _postAdminSubmission,
             getDeletedSubmissions: _getDeletedSubmissions,
             getListOfUsers: _getListOfUsers,
-            getADeletedSubmission: _getADeletedSubmission
+            getADeletedSubmission: _getADeletedSubmission,
+            sponsorPayment: _sponsorPayment,
+            getPayment: _getPayment,
         };
 
         return service;
+
+        //------------------------------------------Payment------------------------------------------
+        
+        function _sponsorPayment(data) {
+            return $http.put('/payment/SponsorPayment', data);
+        };
+        function _getPayment(data) {
+            return $http.get('/payment/GetPayment/' + data);
+        };
         //-----------------------------------Sponsor Complementary-----------------------------------
 
 

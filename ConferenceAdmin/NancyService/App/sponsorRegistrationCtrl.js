@@ -28,6 +28,7 @@
         };
         vm.okFunc;
         vm.cancelFunc;
+        vm.idiamondAmount;
         vm.iplatinumAmount;
         vm.igoldAmount;
         vm.isilverAmount;
@@ -36,15 +37,21 @@
         vm.igoldBenefits;
         vm.isilverBenefits;
         vm.ibronzeBenefits;
+        vm.sponsorsTypeList = [];
    
 
         // Functions
-        vm.addSponsor = _addSponsor;
+        
         vm.getSponsorTypes = _getSponsorTypes;
         vm.addValues = _addValues;
         vm.downloadLogo = _downloadLogo;
         vm.clearPic = _clearPic;
         vm.getBenefits = _getBenefits;
+        vm.sponsorPayment = _sponsorPayment;
+        vm.viewInput = _viewInput;
+
+        vm.amountMax = vm.sponsorsTypeList[vm.sponsor.sponsorType];
+        vm.amountMin;
 
 
         activate();
@@ -77,6 +84,9 @@
 
         }
 
+        function _viewInput() {
+            return vm.sponsor.sponsorType == 1 || vm.sponsor.sponsorType == 5;
+        }
 
         vm.toggleModal = function (action) {
              
@@ -154,7 +164,7 @@
 
 
         //---------------------------Sponsor-------------------------------------------------
-        function _addSponsor(File) {
+        function _sponsorPayment(File) {
 
             vm.TYPE = vm.sponsorsTypeList[vm.sponsor.sponsorType - 1];
             vm.sponsor.typeName = vm.TYPE.name;
@@ -165,7 +175,7 @@
                 File = null;
             }
             vm.loadingUploading = true;
-            restApi.postNewSponsor(vm.sponsor)
+            restApi.sponsorPayment(vm.sponsor)
                      .success(function (data, status, headers, config) {
                          vm.sponsorsList.push(data);
                          vm.loadingUploading = false;
@@ -183,19 +193,36 @@
                      });
 
 
-            //else {
-            //    vm.sponsor.logo = "";
-            //    vm.sponsor.logoName = "Empty";
-            //}
-
+         
         }
 
         function _getSponsorTypes() {
             restApi.getSponsorTypesList().
                    success(function (data, status, headers, config) {
                        vm.sponsorsTypeList = data;
-                       if (data != null)
+                       
+                       if (data != null) {
                            vm.sponsor.sponsorType = 1;
+                           vm.amountMax = vm.sponsorsTypeList[vm.sponsor.sponsorType].amount;
+                       }
+                   }).
+                   error(function (data, status, headers, config) {
+                       vm.toggleModal('error');
+
+                   });
+        }
+        function _sponsorPayment() {
+            vm.TYPE = vm.sponsorsTypeList[vm.sponsor.sponsorType - 1];
+            vm.sponsor.typeName = vm.TYPE.name;
+            if (File != undefined) {
+
+                vm.sponsor.logo = $scope.content;
+                vm.sponsor.logoName = File.name;
+                File = null;
+            }
+            restApi.sponsorPayment(vm.sponsor).
+                   success(function (data, status, headers, config) {
+     vm.loadingUploading = false;
 
                    }).
                    error(function (data, status, headers, config) {
@@ -204,10 +231,14 @@
                    });
         }
 
+     
+
         function _getBenefits() {
             restApi.getAllSponsorBenefits()
             .success(function (data, status, headers, config) {
                 if (data != null) {
+                    vm.idiamondAmount = data.diamondAmount;
+                    vm.idiamondBenefits = data.diamondBenefits;
                     vm.iplatinumAmount = data.platinumAmount;
                     vm.iplatinumBenefits = data.platinumBenefits;
                     vm.igoldAmount = data.goldAmount;

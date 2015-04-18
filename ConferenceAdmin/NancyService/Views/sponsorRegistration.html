@@ -21,14 +21,25 @@
                         <input class="form-control" type="email" name="email" ng-model="vm.sponsor.email" required>
                         <p ng-show="addSponsorForm.email.$invalid && !addSponsorForm.email.$pristine" class="help-block">Email is required.</p>
                     </span>
-                    <span class=" col-lg-5">
-                        <label>Sponsor Type:</label>
-                        <br />
+                    <span class=" col-lg-3">
+                        <label >Sponsor Type:     </label> 
+
+</><br />
 
 
                         <select ng-model="vm.sponsor.sponsorType"
                                 ng-options="type.sponsortypeID as type.name for type in vm.sponsorsTypeList" class="form-control"></select>
 
+                    </span>
+                    <span class=" col-lg-2">
+
+                        <label ng-show="vm.sponsor.sponsorType == 1">Amount: ${{vm.sponsorsTypeList[vm.sponsor.sponsorType ].amount+1}}- ${{vm.sponsorsTypeList[vm.sponsor.sponsorType-1].amount}}+</label>
+                        <input ng-show="vm.sponsor.sponsorType == 1" class="form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" min="{{vm.sponsorsTypeList[vm.sponsor.sponsorType ].amount+1}}"  step="any" name="amount" ng-model="vm.sponsor.amount" required>
+                        <label ng-show="vm.sponsor.sponsorType ==5">Amount: $0 - ${{vm.sponsorsTypeList[vm.sponsor.sponsorType -1].amount}} </label>
+                        <input ng-show="vm.sponsor.sponsorType ==5" class="form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" min="0" max="{{vm.sponsorsTypeList[vm.sponsor.sponsorType -1 ].amount}}" step="any" name="amount" ng-model="vm.sponsor.amount" required>
+                        <label ng-hide="vm.viewInput()">Amount: ${{vm.sponsorsTypeList[vm.sponsor.sponsorType].amount+1 }} -${{vm.sponsorsTypeList[vm.sponsor.sponsorType-1].amount}}</label>
+                        <input ng-hide="vm.viewInput()" class="form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" min="{{vm.sponsorsTypeList[vm.sponsor.sponsorType].amount+1 }}" max="{{vm.sponsorsTypeList[vm.sponsor.sponsorType-1].amount}}" step="any"  name="amount" ng-model="vm.sponsor.amount" required>
+                        <p ng-show="addSponsorForm.amount.$invalid && !addSponsorForm.amount.$pristine" class="help-block">Valid amount paid is required.</p>
                     </span>
 
                     <span class=" col-lg-1">
@@ -131,9 +142,9 @@
                 <div class="col-lg-12" ng-show="vm.loadingUploading">
                     <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Uploading</h3>
                 </div>
-                <div ng-hide=" vm.view" class="modal-footer">
-                    <button type="submit" class="btn btn-ar btn-primary right" ng-click="vm.addSponsor(File)" ng-disabled="addSponsorForm.$invalid || vm.edit ==true ||vm.ext">Donate</button>
-
+                <div class="modal-footer">
+                    <button type="submit" ng-click="vm.sponsorPayment()" class="btn btn-ar btn-primary right" ng-disabled="addSponsorForm.$invalid || vm.edit ==true ||vm.ext">Donate</button>
+                  <!--  --> 
                 </div>
 
 
@@ -145,7 +156,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <div class="row">
+                        <div class="col-md-8"><h3>Sponsor Benefits</h3></div>
+                        <div class="col-md-4"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button></div>
+                    </div>
+                  
                 
                 </div>
 
@@ -154,7 +169,34 @@
                         <div class="row">
                             <div class="col-lg-12">
                             </div>
-                            <div class=" col-md-12" ng-show="vm.sponsor.sponsorType == 1">
+
+                            <div class="col-lg-12" ng-show="vm.sponsor.sponsorType == 1">
+                                <div class="pricing-box animated fadeInUp animation-delay-1">
+                                    <div class="pricing-box-header diamond">
+                                        <h2>Diamond</h2>
+                                        <p>Pricing & Benefits</p>
+                                    </div>
+                                    <div class="pricing-box-price">
+                                        <h3>$ {{vm.idiamondAmount}}</h3>
+                                    </div>
+                                    <div class="pricing-box-content">
+                                        <ul>
+                                            <li ng-show="vm.idiamondBenefits.benefit1"><center>{{vm.idiamondBenefits.benefit1}}</center></li>
+                                            <li ng-show="vm.idiamondBenefits.benefit2"><center>{{vm.idiamondBenefits.benefit2}}</center></li>
+                                            <li ng-show="vm.idiamondBenefits.benefit3"><center>{{vm.idiamondBenefits.benefit3}}</center></li>
+                                            <li ng-show="vm.idiamondBenefits.benefit4"><center>{{vm.idiamondBenefits.benefit4}}</center></li>
+                                            <li ng-show="vm.idiamondBenefits.benefit5"><center>{{vm.idiamondBenefits.benefit5}}</center></li>
+                                            <li ng-show="vm.idiamondBenefits.benefit6"><center>{{vm.idiamondBenefits.benefit6}}</center></li>
+                                            <li ng-show="vm.idiamondBenefits.benefit7"><center>{{vm.idiamondBenefits.benefit7}}</center></li>
+                                            <li ng-show="vm.idiamondBenefits.benefit8"><center>{{vm.idiamondBenefits.benefit8}}</center></li>
+                                            <li ng-show="vm.idiamondBenefits.benefit9"><center>{{vm.idiamondBenefits.benefit9}}</center></li>
+                                            <li ng-show="vm.idiamondBenefits.benefit10"><center>{{vm.idiamondBenefits.benefit10}}</center></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class=" col-md-12" ng-show="vm.sponsor.sponsorType == 2">
                                 <div class="pricing-box ">
                                     <div class="pricing-box-header platinum">
                                         <h2>Platinum- $ {{vm.iplatinumAmount}}</h2>
@@ -178,7 +220,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12" ng-show="vm.sponsor.sponsorType == 2">
+                            <div class="col-md-12" ng-show="vm.sponsor.sponsorType == 3">
                                 <div class="pricing-box ">
                                     <div class="pricing-box-header gold">
                                         <h2>Gold-$ {{vm.igoldAmount}}</h2>
@@ -202,7 +244,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12" ng-show="vm.sponsor.sponsorType == 3">
+                            <div class="col-md-12" ng-show="vm.sponsor.sponsorType == 4">
                                 <div class="pricing-box ">
                                     <div class="pricing-box-header silver">
                                         <h2>Silver-$ {{vm.isilverAmount}}</h2>
@@ -226,7 +268,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12" ng-show="vm.sponsor.sponsorType == 4">
+                            <div class="col-md-12" ng-show="vm.sponsor.sponsorType == 5">
                                 <div class="pricing-box">
                                     <div class="pricing-box-header bronze">
                                         <h2>Bronze-$ {{vm.ibronzeAmount}}</h2>
@@ -255,6 +297,146 @@
 
 
                 </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addSponsor" tabindex="-1" role="dialog" aria-labelledby="addSponsorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                    <h4 class="modal-title" id="paymentLabel">Payment</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form name="addSponsorForm" id="Payment" novalidate>
+                        <div class="row">
+                            <span class="col-lg-6">
+                                <label>Name:</label>
+                                <input class="form-control" type="text" name="name" ng-model="vm.sponsor.firstName" required>
+                                <p ng-show="addSponsorForm.name.$invalid && !addSponsorForm.name.$pristine" class="help-block">First name is required.</p>
+                            </span>
+                            <span class="col-lg-6">
+                                <label>Last Name:</label>
+                                <input class="form-control" type="text" name="last" ng-model="vm.sponsor.lastName" required>
+                                <p ng-show="addSponsorForm.last.$invalid && !addSponsorForm.last.$pristine" class="help-block">Last name is required.</p>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class=" col-lg-6">
+                                <label>Email:</label>
+                                <input class="form-control" type="email" name="email" ng-model="vm.sponsor.email" required>
+                                <p ng-show="addSponsorForm.email.$invalid && !addSponsorForm.email.$pristine" class="help-block">Email is required.</p>
+                            </span>
+                            <span class=" col-lg-6">
+                                <label>Sponsor Type:</label>
+                                <br />
+
+
+                                <select ng-model="vm.sponsor.sponsorType"
+                                        ng-options="type.sponsortypeID as type.name for type in vm.sponsorsTypeList" class="form-control"></select>
+
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="col-lg-12">
+                                <label>Company:</label>
+                                <input class="form-control" type="text" name="company" ng-model="vm.sponsor.company" required>
+                                <p ng-show="addSponsorForm.company.$invalid && !addSponsorForm.company.$pristine" class="help-block">Company name is required.</p>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="col-lg-6">
+                                <label>Street Address Line 1:</label>
+                                <input class="form-control" type="text" name="line1" ng-model="vm.sponsor.line1" required>
+                                <p ng-show="addSponsorForm.line1.$invalid && !addSponsorForm.line1.$pristine" class="help-block">First name is required.</p>
+                            </span>
+                            <span class="col-lg-6">
+                                <label>Street Address Line 2:</label>
+                                <input class="form-control" type="text" name="" ng-model="vm.sponsor.line2">
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="col-lg-6">
+                                <label>State:</label>
+                                <input class="form-control" type="text" name="state" ng-model="vm.sponsor.state" required>
+                                <p ng-show="addSponsorForm.state.$invalid && !addSponsorForm.state.$pristine" class="help-block">State is required.</p>
+                            </span>
+                            <span class="col-lg-6">
+                                <label>Country:</label>
+                                <input class="form-control" class="for" type="text" name="country" ng-model="vm.sponsor.country" required>
+                                <p ng-show="addSponsorForm.country.$invalid && !addSponsorForm.country.$pristine" class="help-block">Country is required.</p>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="col-lg-6">
+                                <label>City:</label>
+                                <input class="form-control" class="for" type="text" name="city" ng-model="vm.sponsor.city" required>
+                                <p ng-show="addSponsorForm.city.$invalid && !addSponsorForm.city.$pristine" class="help-block">City is required.</p>
+                            </span>
+                            <span class="col-lg-6">
+                                <label>Zip Code:</label>
+                                <input class="form-control" type="text" name="zipcode" ng-model="vm.sponsor.zipcode" ng-minlength="5" ng-maxlength="5" required>
+                                <p ng-show="addSponsorForm.zipcode.$invalid && !addSponsorForm.zipcode.$pristine" class="help-block">Zip code is required.</p>
+                            </span>
+
+
+                        </div>
+
+                        <div class="row">
+                            <span class=" col-lg-6">
+                                <label>Phone Number:</label>
+                                <input class="form-control" type="text" name="phone" ng-model="vm.sponsor.phone" ng-minlength="9" ng-maxlength="10" required>
+                                <p ng-show="addSponsorForm.phone.$invalid && !addSponsorForm.phone.$pristine" class="help-block">Phone number is required.</p>
+                            </span>
+
+                            <span class=" col-lg-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label> Upload Logo </label> <input id="inputFile" type="file" class="form-control" name="upload" file-model="File" on-read-file="showContent($fileContent, File)" required>
+                                        <a ng-if="content" type="submit" ng-click="vm.clearPic(File)"><i class="glyphicon glyphicon-trash"></i></a>
+                                        <p ng-show="vm.ext" class="help-block">Try pic,pict, png, jpg, jpeg or gif extention.</p>
+                                    </div>
+
+                                </div>
+
+
+                                <div id="fileModel-load" class="col-lg-12">
+
+                                </div>
+
+                                <div class="col-sm-6 col-md-6">
+                                    <div ng-if="content">
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <img class="img-responsive" ng-src="{{content}}" />
+                                            </div>
+
+
+
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+
+
+
+
+
+                            </span>
+                        </div>
+                      
+
+
+
+                    </form>
+                </div>
+
 
             </div>
         </div>
