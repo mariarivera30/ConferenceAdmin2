@@ -94,12 +94,14 @@ namespace NancyService.Modules
             smtp.Send(mail);
         }
 
-        public List<RegisteredUser> getRegistrationList()
+        public RegistrationPagingQuery getRegistrationList(int index)
         {
+            RegistrationPagingQuery page = new RegistrationPagingQuery();
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    int pageSize = 10;
                     var registrationList = new List<RegisteredUser>();
                     registrationList = context.registrations.Where(reg => reg.deleted == false).Select(reg => new RegisteredUser
                     {
@@ -114,9 +116,17 @@ namespace NancyService.Modules
                         byAdmin = reg.byAdmin,
                         notes = reg.note,
                         usertype = new UserTypeName { userTypeID = reg.user.usertype.userTypeID, userTypeName = reg.user.usertype.userTypeName }
-                    }).ToList();
+                    }).OrderBy(f => f.firstname).ToList();
 
-                    return registrationList;
+                    page.rowCount = registrationList.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        List<RegisteredUser> registrationPage = registrationList.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = registrationPage;
+                    }
+
+                    return page;
                 }
             }
             catch (Exception ex)
@@ -256,7 +266,13 @@ namespace NancyService.Modules
     }
 }
 
-
+public class RegistrationPagingQuery
+{
+    public int indexPage;
+    public int maxIndex;
+    public int rowCount;
+    public List<RegisteredUser> results;
+}
 
 public class RegisteredUser
 {

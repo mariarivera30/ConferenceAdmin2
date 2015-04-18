@@ -410,9 +410,10 @@ namespace NancyService.Modules
 
             /* ----- Registration -----*/
 
-            Get["/getRegistrations"] = parameters =>
+            Get["/getRegistrations/{index:int}"] = parameters =>
             {
-                List<RegisteredUser> list = registration.getRegistrationList();
+                int index = parameters.index;
+                var list = registration.getRegistrationList(index);
                 return Response.AsJson(list);
             };
 

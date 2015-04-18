@@ -34,6 +34,11 @@
         vm.acceptancestatus;
         vm.byAdmin;
 
+        //for pagination
+        vm.sindex = 0;
+        vm.smaxIndex = 0;
+        vm.sfirstPage = true;
+
         vm.currentid;
         vm.editfirstname;
         vm.editlastname;
@@ -45,6 +50,10 @@
         vm.activate = activate;
         vm.addRegistration = _addRegistration;
         vm.getRegistrations = _getRegistrations;
+        vm.nextRegistration = _nextRegistration;
+        vm.previousRegistration = _previousRegistration;
+        vm.getFirstRegistrationPage = _getFirstRegistrationPage;
+        vm.getLastRegistrationPage = _getLastRegistrationPage;
         vm.updateRegistration = _updateRegistration;
         vm.deleteRegistration = _deleteRegistration;
         vm.selectedRegistrationUpdate = _selectedRegistrationUpdate;
@@ -55,7 +64,7 @@
         vm.downloadAttendanceList = _downloadAttendanceList;
 
 
-        _getRegistrations();
+        _getRegistrations(vm.sindex);
         _getUserTypes();
         _getDates();
 
@@ -130,15 +139,50 @@
         }
 
 
-        function _getRegistrations() {
-            restApi.getRegistrations().
+        function _getRegistrations(index) {
+            restApi.getRegistrations(index).
                    success(function (data, status, headers, config) {
-                       vm.registrationsList = data;
+                       vm.smaxIndex = data.maxIndex;
+                       if (vm.smaxIndex == 0) {
+                           vm.sindex = 0;
+                           vm.registrationsList = [];
+                       }
+                       else if (vm.sindex >= vm.smaxIndex) {
+                           vm.sindex = vm.smaxIndex - 1;
+                           _getRegistrations(vm.sindex);
+                       }
+                       else {
+                           vm.registrationsList = data.results;
+                       }
                    }).
                    error(function (data, status, headers, config) {
-                       vm.registrationsList = data;
                    });
         }
+        function _nextRegistration() {
+            if (vm.sindex < vm.smaxIndex - 1) {
+                vm.sindex += 1;
+                _getRegistrations(vm.sindex);
+            }
+        }
+
+
+        function _previousRegistration() {
+            if (vm.sindex > 0) {
+                vm.sindex -= 1;
+                _getRegistrations(vm.sindex);
+            }
+        }
+
+        function _getFirstRegistrationPage() {
+            vm.sindex = 0;
+            _getRegistrations(vm.sindex);
+        }
+
+        function _getLastRegistrationPage() {
+            vm.sindex = vm.smaxIndex - 1;
+            _getRegistrations(vm.sindex);
+        }
+        //----END PAGINATON CODE---
 
 
 

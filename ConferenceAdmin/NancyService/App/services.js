@@ -305,8 +305,8 @@
 
         //-----------------------------------REGISTRATIONS-----------------------------------
 
-        function _getRegistrations() {
-            return $http.get('/admin/getRegistrations');
+        function _getRegistrations(data) {
+            return $http.get('/admin/getRegistrations/' + data);
         };
 
         function _getUserTypes() {
