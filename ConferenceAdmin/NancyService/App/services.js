@@ -38,6 +38,7 @@
             deleteTopic: _deleteTopic,
             updateTopic: _updateTopic,
             getRegistrations: _getRegistrations,
+            searchRegistration: _searchRegistration,
             postNewRegistration: _postNewRegistration,
             updateRegistration: _updateRegistration,
             deleteRegistration: _deleteRegistration,
@@ -307,6 +308,10 @@
 
         function _getRegistrations(data) {
             return $http.get('/admin/getRegistrations/' + data);
+        };
+
+        function _searchRegistration(data) {
+            return $http.get('/admin/searchRegistration/' + data.index + '/' + data.criteria);
         };
 
         function _getUserTypes() {
