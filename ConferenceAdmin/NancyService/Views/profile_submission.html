@@ -2,28 +2,32 @@
     <div ng-show="vm.view == 'Home'">
         <h4 id="g-information">My Submissions</h4>
         <table ng-table="tableParams" show-filter="true" class="table row">
-            <tr>
-                <td><b>Title</b></td>
-                <td><b>Type</b></td>
-                <td><b>Manage</b></td>
-                <td><b>Status</b></td>
-            </tr>
-            <tr ng-repeat="submission in vm.submissionlist">
+            <thead>
+                <tr>
+                    <th><b>Title</b></th>
+                    <th><b>Type</b></th>
+                    <th><b>Manage</b></th>
+                    <th><b>Status</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="submission in vm.submissionlist">
 
-                <td class="text-left"><i class="fa fa-file-text-o"> </i><a href="" data-toggle="modal" data-target="#viewSubmission" ng-click="vm.viewTheView(submission.submissionTypeName, submission.submissionID)"> {{submission.submissionTitle}}</a></td>
-                <td>{{submission.submissionTypeName}}</td>
-                <td>
-                    <a ng-hide="submission.isAssigned || submission.status != 'Pending'" href="" data-toggle="modal" data-target="#editSubmissionModal" ng-click="vm.selectedSubmission(submission.topiccategoryID); vm.viewEditForm(submission.submissionID)">Edit </a><span ng-hide="submission.isAssigned || submission.status != 'Pending'"> | </span>
-                    <a ng-hide="submission.isAssigned || submission.status != 'Pending'" href="" data-toggle="modal" data-target="#deleteSubmission" ng-click="vm.deleteSelectedSubmission(submission.submissionID)">Delete</a>
-                    <a ng-show="submission.finalSubmissionAllowed && !submission.isFinalSubmission" href="" data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.selectFinalversion(submission.submissionID)">Add final version</a>
-                    
-                </td>
-                <td>
-                    <span ng-show="submission.status == 'Accepted'" class="accepted"><i class="fa fa-check"> </i> Accepted</span>
-                    <span ng-show="submission.status == 'Pending'" class="pending"><i class="fa fa-refresh"> </i> Pending</span>
-                    <span ng-show="submission.status == 'Rejected'" class="rejected"><i class="glyphicon glyphicon-remove"></i> Rejected</span>
-                </td>
-            </tr>
+                    <td class="text-left"><i class="fa fa-file-text-o"> </i><a href="" data-toggle="modal" data-target="#viewSubmission" ng-click="vm.viewTheView(submission.submissionTypeName, submission.submissionID)"> {{submission.submissionTitle}}</a></td>
+                    <td>{{submission.submissionTypeName}}</td>
+                    <td>
+                        <a ng-hide="submission.isAssigned || submission.status != 'Pending' || !vm.submissionDeadlinePassed" href="" data-toggle="modal" data-target="#editSubmissionModal" ng-click="vm.selectedSubmission(submission.topiccategoryID); vm.viewEditForm(submission.submissionID); vm.clear();">Edit </a><span ng-hide="submission.isAssigned || submission.status != 'Pending' || !vm.submissionDeadlinePassed"> | </span>
+                        <a ng-hide="submission.isAssigned || submission.status != 'Pending' || !vm.submissionDeadlinePassed" href="" data-toggle="modal" data-target="#deleteSubmission" ng-click="vm.deleteSelectedSubmission(submission.submissionID) ">Delete</a>
+                        <a ng-show="submission.finalSubmissionAllowed && !submission.isFinalSubmission" href="" data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.selectFinalversion(submission.submissionID); vm.clear();">Add final version</a>
+
+                    </td>
+                    <td>
+                        <span ng-show="submission.status == 'Accepted'" class="accepted"><i class="fa fa-check"> </i> Accepted</span>
+                        <span ng-show="submission.status == 'Pending'" class="pending"><i class="fa fa-refresh"> </i> Pending</span>
+                        <span ng-show="submission.status == 'Rejected'" class="rejected"><i class="glyphicon glyphicon-remove"></i> Rejected</span>
+                    </td>
+                </tr>
+            </tbody>
         </table>
         <!-----------------------loading start--------------------->
         <div class="col-lg-12" ng-show="vm.uploadingComp">

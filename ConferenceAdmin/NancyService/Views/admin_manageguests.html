@@ -2,19 +2,29 @@
 
     <h3>Manage Guests</h3><br>
     <div class="col-lg-12">
-
-        <table ng-table="tableParams" show-filter="true" class="table row">
-            <tr>
-                <td><b>Name</b></td>
-                <td><b>User Type</b></td>
-                <td><b>Authorization Doc.</b></td>
-                <td><b>Status</b></td>
-                <td><b>Update</b></td>
-                <td><b>Registration Status</b></td>
-            </tr>
-            <tr ng-repeat="guest in vm.guestList">
-                <td>
-                    <a href="" data-toggle="modal" data-target="#profile" ng-click="vm.displayGuest(guest.userID,
+        <div ng-hide="vm.guestList.length">
+            <p class="title-field">No content to display.</p>
+            <a class="btn btn-default" ng-click="vm.getGuestList(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
+        </div>
+        <div ng-show="vm.guestList.length">
+            <div class="paging-height-dropdowns">
+                <label class="left">Search: <input ng-model="vm.criteria" /><!--ng-change="vm.searchGuest()" />--><button type="submit" ng-click="vm.searchGuest()"><i class="fa fa-search"></i></button></label><br />
+                <!--<label class="left">Search: <input ng-model="searchText" /></label>-->
+                <table ng-table="tableParams" show-filter="true" class="table row">
+                    <thead>
+                        <tr>
+                            <th><b>Name</b></th>
+                            <th><b>User Type</b></th>
+                            <th><b>Authorization Doc.</b></th>
+                            <th><b>Status</b></th>
+                            <th><b>Update</b></th>
+                            <th><b>Registration Status</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="guest in vm.guestList | filter:searchText | orderBy: ['firstName', 'lastName']">
+                            <td>
+                                <a href="" data-toggle="modal" data-target="#profile" ng-click="vm.displayGuest(guest.userID,
                                guest.firstName, guest.lastName, guest.acceptanceStatus, guest.registrationStatus,
                                guest.authorizationStatus, guest.title,
                                guest.affiliationName, guest.line1,
@@ -22,24 +32,35 @@
                                guest.country, guest.zipcode, guest.email,
                                guest.phoneNumber, guest.fax,
                                guest.day1, guest.day2, guest.day3, guest.companionFirstName, guest.companionLastName)">{{guest.firstName}} {{guest.lastName}}</a>
-                </td>
-                <td>{{guest.userTypeName}}</td>
-                <td><a ng-show="guest.authorizationStatus" href="" data-toggle="modal" data-target="#authorizations" ng-click="vm.displayAuthorizations(guest.userID, guest.firstName, guest.lastName)">View</a></td>
-                <td>{{guest.acceptanceStatus}}</td>
-                <td>
-                    <select ng-disabled="guest.isRegistered" ng-model="guest.optionStatus"
-                            ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
-                    <button ng-disabled="guest.isRegistered" data-toggle="modal" data-target="#confirmAcceptanceChange" class="btn btn-ar btn-primary" ng-click="vm.updateAcceptanceStatus(guest.userID, guest.optionStatus)">Apply</button>
-                </td>
+                            </td>
+                            <td>{{guest.userTypeName}}</td>
+                            <td><a ng-show="guest.authorizationStatus" href="" data-toggle="modal" data-target="#authorizations" ng-click="vm.displayAuthorizations(guest.userID, guest.firstName, guest.lastName)">View</a></td>
+                            <td>{{guest.acceptanceStatus}}</td>
+                            <td>
+                                <select ng-disabled="guest.isRegistered" ng-model="guest.optionStatus"
+                                        ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
+                                <button ng-disabled="guest.isRegistered" data-toggle="modal" data-target="#confirmAcceptanceChange" class="btn btn-ar btn-primary" ng-click="vm.updateAcceptanceStatus(guest.userID, guest.optionStatus)">Apply</button>
+                            </td>
 
-                <td>
-                    <span ng-show="guest.isRegistered" class="accepted"><i class="fa fa-check"> </i> Registered</span> &nbsp;&nbsp;
-                    <button ng-show="guest.isRegistered" class="btn btn-ar btn-primary btn-small" data-toggle="modal" data-target="#confirmRejection" ng-click="vm.rejectedSelectedGuest(guest.userID)"> <i class="fa fa-times"></i>Cancel</button>
-                    <span ng-hide="guest.isRegistered" class=""> Not Registered</span> &nbsp;&nbsp;
-                </td>
-
-            </tr>
-        </table>
+                            <td>
+                                <span ng-show="guest.isRegistered" class="accepted"><i class="fa fa-check"> </i> Registered</span> &nbsp;&nbsp;
+                                <button ng-show="guest.isRegistered" class="btn btn-ar btn-primary btn-small" data-toggle="modal" data-target="#confirmRejection" ng-click="vm.rejectedSelectedGuest(guest.userID)"> <i class="fa fa-times"></i>Cancel</button>
+                                <span ng-hide="guest.isRegistered" class=""> Not Registered</span> &nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div aria-live="polite" class="col-lg-6">Showing page {{vm.sindex + 1}} of {{vm.smaxIndex}}</div>
+            <div class="col-lg-6 paging-word">
+                <a class="btn btn-default" ng-click="vm.getGuestList(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i></a>
+                <a class="btn btn-default" ng-disabled="vm.sindex==0" ng-click="vm.getFirstGuestPage()">First</a>
+                <a class="btn btn-default" ng-disabled="vm.sindex==0" ng-click="vm.previousGuest()">Previous</a>
+                <!--<span><a class="btn btn-default">{{vm.sindex+1}}</a></span>-->
+                <a class="btn btn-default" ng-disabled="vm.sindex >= (vm.smaxIndex-1)" ng-click="vm.nextGuest()">Next</a>
+                <a class="btn btn-default" ng-disabled="vm.sindex >= (vm.smaxIndex-1)" ng-click="vm.getLastGuestPage()">Last</a>
+            </div>
+        </div>
     </div>
 
 

@@ -147,10 +147,10 @@
             vm.modaltopic = null;
             vm.modaltopiccategoryID = null;
             vm.modalsubmissionAbstract = null;
-            vm.modalsubmissionFileList = null;
+            vm.modalsubmissionFileList = [];
             vm.modalsubmissionTypeName = null;
             vm.modalsubmissionTypeID = null;
-            vm.modalpanelistNames = null;
+            vm.modalpanelistNames = [];
             vm.modalplan = null;
             vm.modalguideQuestions = null;
             vm.modalformat = null;
@@ -401,12 +401,13 @@
                 submission.documentssubmitteds = vm.documentsList;
                 restApi.postFinalSubmission(submission)
                         .success(function (data, status, headers, config) {
-                            vm.submissionlist.push(data);
-                            vm.submissionlist.forEach(function(submission, index){
-                                if(submission.submissionID == vm.modalsubmissionID){
+                            
+                            vm.submissionlist.forEach(function (submission, index) {
+                                if (submission.submissionID == vm.modalsubmissionID) {
                                     vm.submissionlist.splice(index, 1);
                                 }
-                            })
+                            });
+                            vm.submissionlist.push(data);
                         })
                         .error(function (error) {
 
@@ -436,11 +437,14 @@
             if (vm.currentSubmissionID != undefined) {
                 restApi.deleteSubmission(vm.currentSubmissionID)
                 .success(function (data, status, headers, config) {
-                    vm.submissionlist.forEach(function (submission, index) {
+                    _getUserSubmissions(currentUserID);
+                    /*vm.submissionlist.forEach(function (submission, index) {
                         if (submission.submissionID == vm.currentSubmissionID) {
                             vm.submissionlist.splice(index, 1);
                         }
                     });
+                    if(data != null || data != undefined || data != "")
+                    vm.submissionlist.push(data);*/
                 })
                 .error(function (data, status, headers, config) {
                 });

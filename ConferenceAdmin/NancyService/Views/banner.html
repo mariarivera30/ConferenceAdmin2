@@ -1,50 +1,185 @@
-﻿<h2 class="section-title">Our Sponsors</h2>    
-<section class="carousel">
-      
-        <div id="carousel-example-generic" class="carousel carousel-razon slide" data-ride="carousel" data-interval="5000">
-            <!-- Indicators -->
-            <ol class="carousel-indicators">
-                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+﻿<div ng-controller="bannerCtrl as vm">
+    <h2 class="section-title">Our Sponsors</h2>
+    <section class="carousel">
 
-            </ol>
+        <div id="homeCarousel" class="carousel">
             <!-- Wrapper for slides -->
             <div class="carousel-inner">
-
                 <!-- Start Logos -->
-                <!--### ng-repeat for all the logos in the DB -->
                 <div class="item active">
+                        <div class="container">
+                            <div class="row diamond-style">
+                                <center>
+                                    <h1 style="padding-top:20px;">CCWiC</h1>
+                                    <h1 style="padding-top:20px;">Sponsor Now!</h1>
+                                </center>
+                            </div>
+                        </div>
+                </div>
+
+                <div id="diamondBanner" class="item" ng-repeat="sponsor in vm.diamondSponsors">
                     <div class="container">
-                        <div class="row banner-style">
+                        <div class="row diamond-style">
                             <center>
-                                <img src="http://ece.uprm.edu/ccwic/submissions/view/img/google-logo.png" alt="Logo">
+                                <div ng-if="sponsor.logo">
+                                    <img class="img-size img-responsive" ng-src="{{sponsor.logo}}" />
+                                </div>
                             </center>
                         </div>
                     </div>
                 </div>
 
-                <div class="item">
-                    <div class="container">
-                        <div class="row banner-style">
+                <div class="item" ng-repeat="sponsor in vm.platinumBanner">
+                    <div class="platinum-container">
+                        <div class="row">
                             <center>
-                                <img src="http://ece.uprm.edu/ccwic/submissions/view/img/acmw-logo.jpg" alt="Logo">
+                                <div class="col-md-6 platinum-style" ng-repeat="images in sponsor">
+                                    <div ng-if="images.logo">
+                                        <img class="img-size img-responsive" ng-src="{{images.logo}}" />
+                                    </div>
+                                </div>
                             </center>
                         </div>
                     </div>
                 </div>
 
-                <!-- End Logos -->
+                <div class="item" ng-repeat="sponsor in vm.goldBanner">
+                    <div class="gold-container">
+                        <div class="row">
+                            <center>
+                                <div class="col-md-4 gold-style" ng-if="sponsor.length > 0">
+                                    <div ng-if="sponsor[0].logo">
+                                        <img class="img-size img-responsive" ng-src="{{sponsor[0].logo}}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4 gold-style" ng-if="sponsor.length > 1">
+                                    <div ng-if="sponsor[1].logo">
+                                        <img class="img-size img-responsive" ng-src="{{sponsor[1].logo}}" />
+                                    </div>
+                                </div>
+                            </center>
+                        </div>
+                        <div class="row">
+                            <center>
+                                <div class="col-md-4 gold-style" ng-if="sponsor.length > 2">
+                                    <div ng-if="sponsor[2].logo">
+                                        <img class="img-size img-responsive" ng-src="{{sponsor[2].logo}}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4 gold-style" ng-if="sponsor.length > 3">
+                                    <div ng-if="sponsor[3].logo">
+                                        <img class="img-size img-responsive" ng-src="{{sponsor[3].logo}}" />
+                                    </div>
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="item" ng-repeat="sponsor in vm.silverBanner">
+                    <div class="silver-container">
+                        <div class="row">
+                            <center>
+                                <div class="col-md-3 silver-style" ng-if="sponsor.length > 0">
+                                    <div ng-if="sponsor[0].logo">
+                                        <img class="img-size img-responsive" ng-src="{{sponsor[0].logo}}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3 silver-style" ng-if="sponsor.length > 1">
+                                    <div ng-if="sponsor[1].logo">
+                                        <img class="img-size img-responsive" ng-src="{{sponsor[1].logo}}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3 silver-style" ng-if="sponsor.length > 2">
+                                    <div ng-if="sponsor[2].logo">
+                                        <img class="img-size img-responsive" ng-src="{{sponsor[2].logo}}" />
+                                    </div>
+                                </div>
+                            </center>
+                        </div>
+                        <div class="row">
+                            <center>
+                                <div class="col-md-3 silver-style" ng-if="sponsor.length > 3">
+                                    <div ng-if="sponsor[3].logo">
+                                        <img class="img-size img-responsive" ng-src="{{sponsor[3].logo}}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3 silver-style" ng-if="sponsor.length > 4">
+                                    <div ng-if="sponsor[4].logo">
+                                        <img class="img-size img-responsive" ng-src="{{sponsor[4].logo}}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3 silver-style" ng-if="sponsor.length > 5">
+                                    <div ng-if="sponsor[5].logo">
+                                        <img class="img-size img-responsive" ng-src="{{sponsor[5].logo}}" />
+                                    </div>
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="item" ng-repeat="sponsor in vm.bronzeBanner">
+                    <div class="bronze-container">
+                        <div class="row">
+                            <center>
+                                <div class="col-md-2 bronze-style" ng-if="sponsor.length > 0">
+                                    <div ng-if="sponsor[0].logo">
+                                        <img class="img-size img-responsive" ng-src="{{sponsor[0].logo}}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2 bronze-style" ng-if="sponsor.length > 1">
+                                    <div ng-if="sponsor[1].logo">
+                                        <img class="img-size img-responsive" ng-src="{{sponsor[1].logo}}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2 bronze-style" ng-if="sponsor.length > 2">
+                                    <div ng-if="sponsor[2].logo">
+                                        <img class="img-size img-responsive" ng-src="{{sponsor[2].logo}}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2 bronze-style" ng-if="sponsor.length > 3">
+                                    <div ng-if="sponsor[3].logo">
+                                        <img class="img-size img-responsive" ng-src="{{sponsor[3].logo}}" />
+                                    </div>
+                                </div>
+                            </center>
+                        </div>
+                        <div class="row">
+                            <center>
+                                <div class="col-md-2 bronze-style" ng-if="sponsor.length > 4">
+                                    <div ng-if="sponsor[4].logo">
+                                        <img class="img-size img-responsive" ng-src="{{sponsor[4].logo}}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2 bronze-style" ng-if="sponsor.length > 5">
+                                    <div ng-if="sponsor[5].logo">
+                                        <img class="img-size img-responsive" ng-src="{{sponsor[5].logo}}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2 bronze-style" ng-if="sponsor.length > 6">
+                                    <div ng-if="sponsor[6].logo">
+                                        <img class="img-size img-responsive" ng-src="{{sponsor[6].logo}}" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2 bronze-style" ng-if="sponsor.length > 7">
+                                    <div ng-if="sponsor[7].logo">
+                                        <img class="img-size img-responsive" ng-src="{{sponsor[7].logo}}" />
+                                    </div>
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- Controls -->
-            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+            <!-- End Logos -->
+            <!-- Controls 
+            <a class="left carousel-control" href="#homeCarousel" data-slide="prev">
                 <span class="glyphicon glyphicon-chevron-left"></span>
             </a>
-            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+            <a class="right carousel-control" href="#homeCarousel" data-slide="next">
                 <span class="glyphicon glyphicon-chevron-right"></span>
-            </a>
+            </a>-->
         </div>
-
     </section> <!-- carousel -->
-
+</div>

@@ -3,25 +3,30 @@
 
     <div ng-hide="vm.planningCommitteeList.length"><p>No committee member has been added.</p><br /></div>
     <div class="col-lg-12 hide-until-loaded" id="body">
+        <label class="left">Search: <input ng-model="searchText" /></label>
         <table ng-table="tableParams" class="table row" ng-show="vm.planningCommitteeList.length">
-            <tr>
-                <td><b>Name</b></td>
-                <td><b>Affiliation</b></td>
-                <td><b>Position</b></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr ng-repeat="committee in vm.planningCommitteeList">
-                <td>{{committee.firstName}} {{committee.lastName}}</td>
-                <td>{{committee.affiliation}}</td>
-                <td>{{committee.description}}</td>
-                <td>
-                    <a href="" data-toggle="modal" data-target="#editPosition" ng-click="vm.selectedMemberEdit(committee.committeeID, committee.description)">Edit</a>
-                </td>
-                <td>
-                    <a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedMemberDelete(committee.committeeID, committee.description)"><i class="glyphicon glyphicon-remove"></i></a>
-                </td>
-            </tr>
+            <thead>
+                <tr>
+                    <th><b>Name</b></th>
+                    <th><b>Affiliation</b></th>
+                    <th><b>Position</b></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="committee in vm.planningCommitteeList | filter:searchText | orderBy: ['firstName', 'lastName']">
+                    <td>{{committee.firstName}} {{committee.lastName}}</td>
+                    <td>{{committee.affiliation}}</td>
+                    <td>{{committee.description}}</td>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#editPosition" ng-click="vm.selectedMemberEdit(committee.committeeID, committee.description)">Edit</a>
+                    </td>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedMemberDelete(committee.committeeID, committee.description)"><i class="glyphicon glyphicon-remove"></i></a>
+                    </td>
+                </tr>
+            </tbody>
         </table>
         <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" data-target="#addMember">Add New Member</button> <a href=""><i class="fa fa-info-circle info-icon" title="The committee members will be displayed on the website."> </i></a>
     </div>

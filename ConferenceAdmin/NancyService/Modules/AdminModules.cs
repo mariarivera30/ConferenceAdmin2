@@ -28,6 +28,7 @@ namespace NancyService.Modules
             TemplateManager templateManager = new TemplateManager();
             AuthTemplateManager authTemplateManager = new AuthTemplateManager();
             SubmissionManager submissionManager = new SubmissionManager();
+            BannerManager bannerManager = new BannerManager();
 
             /*------------------Payment--------------------------*/
             Post["/secureReentry"] = parameters =>
@@ -444,7 +445,8 @@ namespace NancyService.Modules
             {
                 var user = this.Bind<user>();
                 var reg = this.Bind<registration>();
-                return Response.AsJson(registration.addRegistration(reg: reg, user: user));
+                var mem = this.Bind<membership>();
+                return Response.AsJson(registration.addRegistration(reg: reg, user: user, mem: mem));
             };
 
             Get["/getDates"] = parameters =>
@@ -455,13 +457,14 @@ namespace NancyService.Modules
 
             //-------------------------------------GUESTS---------------------------------------------
             //Guest list for admins
-            Get["/getGuestList"] = parameters =>
+            Get["/getGuestList/{index:int}"] = parameters =>
             {
-                List<GuestList> guestList = guest.getListOfGuests();
+                int index = parameters.index;
+                GuestsPagingQuery guestList = guest.getListOfGuests(index);
 
                 if (guestList == null)
                 {
-                    guestList = new List<GuestList>();
+                    guestList = new GuestsPagingQuery();
                 }
                 return Response.AsJson(guestList);
             };
@@ -496,6 +499,15 @@ namespace NancyService.Modules
                     authorizations = new List<MinorAuthorizations>();
                 }
                 return Response.AsJson(authorizations);
+            };
+
+            //search within the list with a certain criteria
+            Get["/searchGuest/{index}/{criteria}"] = parameters =>
+            {
+                int index = parameters.index;
+                string criteria = parameters.criteria;
+                var list = guest.searchGuest(index, criteria);
+                return Response.AsJson(list);
             };
 
             //-----------------------------------------WEBSITE CONTENT ----------------------------------------
@@ -680,9 +692,10 @@ namespace NancyService.Modules
             };
 
             //Gets all submissions in the system that have not been deleted
-            Get["/getAllSubmissions"] = parameters =>
+            Get["/getAllSubmissions/{index:int}"] = parameters =>
                 {
-                    return Response.AsJson(submissionManager.getAllSubmissions());
+                    int index = parameters.index;
+                    return Response.AsJson(submissionManager.getAllSubmissions(index));
                 };
             //gets the evaluation for a submission
             Get["/getEvaluationsForSubmission/{submissionID}"] = parameters =>
@@ -703,7 +716,7 @@ namespace NancyService.Modules
                     long submissionID = parameters.submissionID;
                     long evaluatorID = parameters.evaluatorID;
 
-                    Evaluation evList =  submissionManager.assignEvaluator(submissionID, evaluatorID);
+                    Evaluation evList = submissionManager.assignEvaluator(submissionID, evaluatorID);
 
                     return Response.AsJson(evList);
                 };
@@ -764,10 +777,37 @@ namespace NancyService.Modules
                     submissionManager.addSubmissionByAdmin(usersubTA, submissionToAdd, pannelToAdd, workshopToAdd);
                 return Response.AsJson(newSubmission);
             };
-            //gets all deleted submissions
-            Get["/getDeletedSubmissions"] = parameters =>
+            //post final version of evaluation submitted by admin
+            Post["/postAdminFinalSubmission"] = parameters =>
+            {
+                panel pannelToAdd = null;
+                workshop workshopToAdd = null;
+                submission submissionToAdd = this.Bind<submission>();
+                documentssubmitted submissionDocuments = this.Bind<documentssubmitted>();
+                usersubmission usersubTA = this.Bind<usersubmission>();
+
+                int submissionTypeID = submissionToAdd.submissionTypeID;
+                if (submissionDocuments.document == null && submissionDocuments.documentName == null)
                 {
-                    return Response.AsJson(submissionManager.getDeletedSubmissions());
+                    submissionDocuments = null;
+                }
+                if (submissionTypeID == 3)
+                {
+                    pannelToAdd = this.Bind<panel>();
+                }
+                else if (submissionTypeID == 5)
+                {
+                    workshopToAdd = this.Bind<workshop>();
+                }
+                Submission newSubmission =
+                    submissionManager.postAdminFinalSubmission(usersubTA, submissionToAdd, submissionDocuments, pannelToAdd, workshopToAdd);
+                return Response.AsJson(newSubmission);
+            };
+            //gets all deleted submissions
+            Get["/getDeletedSubmissions/{index:int}"] = parameters =>
+                {
+                    int index = parameters.index;
+                    return Response.AsJson(submissionManager.getDeletedSubmissions(index));
                 };
             //gets the details of a deleted submission
             Get["/getADeletedSubmission/{submissionID:long}"] = parameters =>
@@ -780,6 +820,35 @@ namespace NancyService.Modules
                 {
                     return Response.AsJson(submissionManager.getListOfUsers());
                 };
+            //returns true is the currently logged in user is the master
+            Get["/isMaster/{userID:long}"] = parameters =>
+                {
+                    long userID = parameters.userID;
+                    bool isMaster = submissionManager.isMaster(userID);
+                    return isMaster;
+                };
+            //search within the list with a certain criteria
+            Get["/searchSubmission/{index}/{criteria}"] = parameters =>
+            {
+                int index = parameters.index;
+                string criteria = parameters.criteria;
+                var list = submissionManager.searchSubmission(index, criteria);
+                return Response.AsJson(list);
+            };
+            //search within the list with a certain criteria
+            Get["/searchDeletedSubmission/{index}/{criteria}"] = parameters =>
+            {
+                int index = parameters.index;
+                string criteria = parameters.criteria;
+                var list = submissionManager.searchDeletedSubmission(index, criteria);
+                return Response.AsJson(list);
+            };
+
+            //------------------------------------Banner---------------------------------------------
+            Get["/getBanners"] = parameters =>
+            {
+                return Response.AsJson(bannerManager.getBannerList());
+            };
 
         }
     }

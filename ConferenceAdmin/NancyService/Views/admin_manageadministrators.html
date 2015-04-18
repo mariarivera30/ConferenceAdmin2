@@ -9,31 +9,35 @@
             <p class="after-title-field">No administradors have been added.</p><br />
         </div>
 
-        <div class="pdiv right" ng-show="vm.adminList.length"><p class="psearch"> Search:</p><input ng-model="vm.search"></div>
+        <label class="left">Search: <input ng-model="searchText" /></label>
 
         <!-- Table containing list of administrators. The table is hidden until the system has retrieved the list. -->
         <div class="atable">
             <table class="table row after-title-field" ng-show="vm.adminList.length">
-                <tr>
-                    <td><b>Name</b></td>
-                    <td><b>E-mail</b></td>
-                    <td><b>Privilege</b></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr ng-repeat="admin in vm.adminList | filter: vm.search">
-                    <td>{{admin.firstName}} {{admin.lastName}}</td>
-                    <td>{{admin.email}}</td>
-                    <td>{{admin.privilege}}</td>
-                    <td>
-                        <!-- Every time the user selects a name of the list, the controller saves the current id and privilegeID of the user for future use. -->
-                        <a href="" data-toggle="modal" data-target="#editPrivilege" ng-click="vm.selectedAdminEdit(admin.userID, admin.privilegeID)">Edit</a>
-                    </td>
-                    <td>
-                        <!-- Every time the user selects a name of the list, the controller saves the current id and privilegeID of the user for future use. -->
-                        <a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedAdminDelete(admin.userID, admin.privilegeID)"><i class="glyphicon glyphicon-remove"></i></a>
-                    </td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th><b>Name</b></th>
+                        <th><b>E-mail</b></th>
+                        <th><b>Privilege</b></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="admin in vm.adminList | filter:searchText | orderBy: ['firstName', 'lastName']">
+                        <td>{{admin.firstName}} {{admin.lastName}}</td>
+                        <td>{{admin.email}}</td>
+                        <td>{{admin.privilege}}</td>
+                        <td>
+                            <!-- Every time the user selects a name of the list, the controller saves the current id and privilegeID of the user for future use. -->
+                            <a href="" data-toggle="modal" data-target="#editPrivilege" ng-click="vm.selectedAdminEdit(admin.userID, admin.privilegeID)">Edit</a>
+                        </td>
+                        <td>
+                            <!-- Every time the user selects a name of the list, the controller saves the current id and privilegeID of the user for future use. -->
+                            <a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedAdminDelete(admin.userID, admin.privilegeID)"><i class="glyphicon glyphicon-remove"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
         <button class="btn btn-ar btn-primary pull" data-toggle="modal" data-target="#addAdmin">Add Administrator</button> <a href=""><i class="fa fa-info-circle info-icon" title="Add an administrator"> </i></a>

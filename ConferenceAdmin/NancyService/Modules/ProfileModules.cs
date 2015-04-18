@@ -71,7 +71,7 @@ namespace NancyService.Modules
             {
                 var key = parameters.complementaryKey;
 
-                return (profileInfo.checkComplementaryKey(key)) ;
+                return (profileInfo.checkComplementaryKey(key));
             };
 
 
@@ -157,11 +157,10 @@ namespace NancyService.Modules
             Delete["/deleteSubmission/{id}"] = parameters =>
             {
                 long submissionID = parameters.id;
-                if (submission.deleteSubmission(submissionID))
-                    return HttpStatusCode.OK;
-
-                else
-                    return HttpStatusCode.Conflict;
+                Submission prevSub = submission.deleteSubmission(submissionID);
+                if (prevSub != null)
+                    return Response.AsJson(prevSub);
+                else return null;
             };
             //Add a submission
             Post["/postSubmission"] = parameters =>
@@ -260,9 +259,9 @@ namespace NancyService.Modules
             {
                 var doc = this.Bind<Authorization>();
 
-                if (profileAuthorization.deleteDocument(doc)) 
+                if (profileAuthorization.deleteDocument(doc))
                     return HttpStatusCode.OK;
-                else 
+                else
                     return HttpStatusCode.Conflict;
             };
 
@@ -283,6 +282,8 @@ namespace NancyService.Modules
                 var user = this.Bind<UserInfo>();
                 return Response.AsJson(profileAuthorization.getCompanionKey(user));
             };
+
+
 
         }
 

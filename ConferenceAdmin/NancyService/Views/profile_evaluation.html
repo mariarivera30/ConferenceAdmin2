@@ -4,26 +4,31 @@
 
     <h4 id="g-information">Evaluations</h4>
     <div ng-hide="vm.evaluate">
+        <label class="left">Search: <input ng-model="searchText" /></label>
         <table ng-table="tableParams" show-filter="true" class="table row">
-            <tr>
-                <td><b>Submision Title</b></td>
-                <td><b>User Type</b></td>
-                <td><b>Topic</b></td>
-                <td><b>Is Evaluated</b></td>
-            </tr>
-            <tr ng-repeat="submission in vm.submissionlist">
-                <td data-title="'Title'">
-                    <a href="" ng-click="vm.showEvaluationScreen(submission.submissionID, submission.evaluatorID)">{{submission.submissionTitle}}</a>
-                </td>
+            <thead>
+                <tr>
+                    <th><b>Submision Title</b></th>
+                    <th><b>User Type</b></th>
+                    <th><b>Topic</b></th>
+                    <th><b>Is Evaluated</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="submission in vm.submissionlist | filter:searchText | orderBy: ['submissionTitle']">
+                    <td data-title="'Title'">
+                        <a href="" ng-click="vm.showEvaluationScreen(submission.submissionID, submission.evaluatorID)">{{submission.submissionTitle}}</a>
+                    </td>
 
-                <td>{{submission.userType}}</td>
+                    <td>{{submission.userType}}</td>
 
-                <td>{{submission.topic}}</td>
+                    <td>{{submission.topic}}</td>
 
-                <td>
-                    <div ng-show="submission.isEvaluated"><i class="fa fa-check"> </i></div>
-                </td>
-            </tr>
+                    <td>
+                        <div ng-show="submission.isEvaluated"><i class="fa fa-check"> </i></div>
+                    </td>
+                </tr>
+            </tbody>
         </table>
     </div>
     <div ng-show="vm.evaluate">
@@ -68,12 +73,12 @@
                         
                         <div class="col-lg-3">
                             <div class="document-name">
-                                <span ng-show="vm.myFile != undefined"><i class="fa fa-file-o"></i> {{vm.myFile.name}}</span>
+                                <span ng-show="vm.myFile.name != undefined"><i class="fa fa-file-o"></i> {{vm.myFile.name}}</span>
                             </div>
 
                             <div class="input-group-btn">
                                 <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="browseButton" type="file" class="file" ng-model="vm.modalevaluationFile" class="form-control" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)" required></div>
-                               
+                                <button type="button" title="Clear selected files" class="btn btn-default fileinput-remove fileinput-remove-button" ng-click="vm.myFile = undefined"><i class="glyphicon glyphicon-trash"></i> Remove</button>
                             </div>
                             <p ng-show="vm.myFile == undefined && !vm.modalsubIsEvaluated" class="help-block">Evaluation file is required.</p>
                         </div>

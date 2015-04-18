@@ -26,16 +26,17 @@
                         </div>
                         <div ng-show="vm.pendingList.length">
                             <div>
+                                <label class="left">Search: <input ng-model="searchPending" /></label>
                                 <table class="table table-top col-lg-12">
                                     <thead>
                                         <tr>
-                                            <td><b>Name</b></td>
-                                            <td><b>Email</b></td>
-                                            <td><b>Update</b></td>
+                                            <th><b>Name</b></th>
+                                            <th><b>Email</b></th>
+                                            <th><b>Update</b></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="evaluator in vm.pendingList">
+                                        <tr ng-repeat="evaluator in vm.pendingList | filter:searchPending | orderBy: ['firstName', 'lastName']">
                                             <td>{{evaluator.firstName}} {{evaluator.lastName}}</td>
                                             <td>{{evaluator.email}}</td>
                                             <td>
@@ -78,17 +79,18 @@
                         <div ng-show="vm.evaluatorsList.length">
                             <!--<div class="pdiv right"><p class="psearch"> Search:</p><input ng-model="vm.searchEvaluator"></div><br />-->
                             <div>
+                                <label class="left">Search: <input ng-model="searchEvaluator" /></label>
                                 <table class="table table-top col-lg-12">
                                     <thead>
                                         <tr>
-                                            <td><b>Name</b></td>
-                                            <td><b>Email</b></td>
-                                            <td><b>Status</b></td>
-                                            <td><b>Update</b></td>
+                                            <th><b>Name</b></th>
+                                            <th><b>Email</b></th>
+                                            <th><b>Status</b></th>
+                                            <th><b>Update</b></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="evaluator in vm.evaluatorsList | filter: vm.searchEvaluator">
+                                        <tr ng-repeat="evaluator in vm.evaluatorsList | filter:searchEvaluator | orderBy: ['firstName', 'lastName']">
                                             <td>{{evaluator.firstName}} {{evaluator.lastName}}</td>
                                             <td>{{evaluator.email}}</td>
                                             <td>{{evaluator.acceptanceStatus}}</td>

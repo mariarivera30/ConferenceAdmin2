@@ -1,6 +1,6 @@
 ﻿<div ng-controller="reportCtrl as vm">
     <div class="row">
-        <div class="col-lg-8"><h3>Bill Report</h3></div>
+        <div class="col-lg-8"><h3>Billing Report</h3></div>
         <!-- Loading icon, appearing while table is loading its contents. -->
         <div class="col-lg-3 loading-right">
             <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
@@ -24,17 +24,18 @@
                         </div>
                         <div ng-show="vm.registrationList.length">
                             <div class="paging-height">
+                                <label class="left">Search: <input ng-model="searchBill" /></label>
                                 <table class="table table-top col-lg-12" id="billTable">
                                     <thead>
                                         <tr>
-                                            <td><b>Attendee Name</b></td>
-                                            <td><b>Affiliation Name</b></td>
-                                            <td><b>Type of User</b></td>
-                                            <td><b>Amount Paid</b></td>
+                                            <th><b>Attendee Name</b></th>
+                                            <th><b>Affiliation Name</b></th>
+                                            <th><b>Type of User</b></th>
+                                            <th><b>Amount Paid</b></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="p in vm.registrationList">
+                                        <tr ng-repeat="p in vm.registrationList | filter:searchBill | orderBy: ['affiliation', 'name']">
                                             <td>{{p.name}}</td>
                                             <td>{{p.affiliation}}</td>
                                             <td>{{p.userType}}</td>
@@ -71,17 +72,18 @@
                         </div>
                         <div ng-show="vm.sponsorList.length">
                             <div class="paging-height">
+                                <label class="left">Search: <input ng-model="searchSponsor" /></label>
                                 <table class="table table-top col-lg-12" id="billTable2">
                                     <thead>
                                         <tr>
-                                            <td><b>Attendee Name</b></td>
-                                            <td><b>Affiliation Name</b></td>
-                                            <td><b>Type of User</b></td>
-                                            <td><b>Amount Paid</b></td>
+                                            <th><b>Attendee Name</b></th>
+                                            <th><b>Affiliation Name</b></th>
+                                            <th><b>Type of User</b></th>
+                                            <th><b>Amount Paid</b></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="p in vm.sponsorList">
+                                        <tr ng-repeat="p in vm.sponsorList | filter:searchSponsor | orderBy: ['affiliation', 'name']">
                                             <td>{{p.name}}</td>
                                             <td>{{p.affiliation}}</td>
                                             <td>{{p.userType}}</td>
