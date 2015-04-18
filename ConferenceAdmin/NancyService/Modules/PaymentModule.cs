@@ -23,7 +23,7 @@ namespace NancyService.Modules
             };
 
 
-            Put["/Reentry"] = parameters =>
+           Put["/Reentry"] = parameters =>
             {
               
                 var xml = this.Bind<String>();
@@ -42,7 +42,7 @@ namespace NancyService.Modules
                         return "http://localhost:12036/#/PaymentBill/" + paymentID ;
                     
                 }
-                    //send errors to console
+                else { return "http://localhost:12036/#/PaymentError"; }
            
             };
       
