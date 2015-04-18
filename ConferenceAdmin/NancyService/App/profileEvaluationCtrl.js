@@ -74,6 +74,7 @@
 
         //Functions
         vm.getAssignedSubmissions = _getAssignedSubmissions;
+        vm.searchAssignedSubmission = _searchAssignedSubmission;
         vm.nextSub = _nextSub;
         vm.previousSub = _previousSub;
         vm.getFirstSubPage = _getFirstSubPage;
@@ -287,6 +288,28 @@
                        });
             }
         }
+
+        function _searchAssignedSubmission(index) {
+            var data = { evaluatorUserID: vm.currentUserID, index: index, criteria: vm.criteria }
+            restApi.searchAssignedSubmission(data).
+                   success(function (data, status, headers, config) {
+                       vm.smaxIndex = data.maxIndex;
+                       if (vm.smaxIndex == 0) {
+                           vm.sindex = 0;
+                           vm.submissionlist = [];
+                       }
+                       else if (vm.sindex >= vm.smaxIndex) {
+                           vm.sindex = vm.smaxIndex - 1;
+                           _searchAssignedSubmission(vm.sindex);
+                       }
+                       else {
+                           vm.submissionlist = data.results;
+                       }
+                   }).
+                   error(function (data, status, headers, config) {
+                   });
+        }
+
     }
 })();
 

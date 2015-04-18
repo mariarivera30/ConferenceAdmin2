@@ -89,6 +89,20 @@ namespace NancyService.Modules
                 return Response.AsJson(assignedSubmissions);
             };
 
+            //Search within a list with a specific criteria
+            Get["/searchAssignedSubmission/{evaluatorUserID}/{index}/{criteria}"] = parameters =>
+            {
+                long evaluatorUserID = parameters.evaluatorUserID; //ID of the evaluator that is currently signed in
+                int index = parameters.index;
+                string criteria = parameters.criteria;
+                SubmissionPagingQuery assignedSubmissions = submission.searchAssignedSubmission(evaluatorUserID, index, criteria);
+                if (assignedSubmissions == null)
+                {
+                    assignedSubmissions = new SubmissionPagingQuery();
+                }
+                return Response.AsJson(assignedSubmissions);
+            };
+
             //Get the info of a submission
             Get["/getSubmission/{submissionID:long}/{evaluatorID:long}"] = parameters =>
             {

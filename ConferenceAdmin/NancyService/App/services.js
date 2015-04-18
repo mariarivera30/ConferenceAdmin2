@@ -58,6 +58,7 @@
             makePayment: _makePayment,
             complementaryPayment: _complementaryPayment,
             getAssignedSubmissions: _getAssignedSubmissions,
+            searchAssignedSubmission: _searchAssignedSubmission,
             getSubmissionDetails: _getSubmissionDetails,
             postEvaluation: _postEvaluation,
             editEvaluation: _editEvaluation,
@@ -388,6 +389,10 @@
         //get list of submissions assigned to the evalutor currently logged in
         function _getAssignedSubmissions(data) {
             return $http.get('profile/getAssignedSubmissions/' + data.evaluatorUserID + '/' + data.index);
+        };
+        //Search within a list with a specific criteria
+        function _searchAssignedSubmission(data) {
+            return $http.get('profile/searchAssignedSubmission/' + data.evaluatorUserID + '/' + data.index + '/' + data.criteria);
         };
         //get details of submission with ID submissionID
         function _getSubmissionDetails(data) {

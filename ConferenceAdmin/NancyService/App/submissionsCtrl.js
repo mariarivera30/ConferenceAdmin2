@@ -571,10 +571,10 @@
                 submission.documentssubmitteds = vm.documentsList;
                 restApi.postAdminSubmission(submission)
                         .success(function (data, status, headers, config) {
-                            _getAllSubmissions();
+                            _getAllSubmissions(vm.sindex);
                         })
                         .error(function (error) {
-
+                            _getAllSubmissions(vm.sindex);
                         });
             }
             else if (vm.viewModal == 'edit') { //if updating submission
@@ -610,7 +610,7 @@
                 restApi.editSubmission(submission)
                        .success(function (data, status, headers, config) {
                            _getSubmissionView(vm.submissionID);
-                           _getAllSubmissions();
+                           _getAllSubmissions(vm.sindex);
                        })
                        .error(function (error) {
                            
@@ -649,7 +649,7 @@
                     submission.byAdmin = true;
                     restApi.postAdminFinalSubmission(submission)
                             .success(function (data, status, headers, config) {
-                                _getAllSubmissions();
+                                _getAllSubmissions(vm.sindex);
                                 vm.view = false;
                             })
                             .error(function (error) {
@@ -784,8 +784,8 @@
             restApi.deleteSubmission(id).
                 success(function (data, status, headers, config) {
                     vm.submissionsList.forEach(function (submission, index) {
-                        _getAllSubmissions();
-                        _getDeletedSubmissions();
+                        _getAllSubmissions(vm.sindex);
+                        _getDeletedSubmissions(vm.dindex);
                     });
                 }).
                 error(function (data, status, headers, config) {

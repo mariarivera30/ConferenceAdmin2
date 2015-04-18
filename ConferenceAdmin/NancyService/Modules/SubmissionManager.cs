@@ -269,6 +269,76 @@ namespace NancyService.Modules
             }
         }
 
+        //Search within a list with a specific criteria
+        public SubmissionPagingQuery searchAssignedSubmission(long userID, int index, string criteria)
+        {
+            SubmissionPagingQuery page = new SubmissionPagingQuery();
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    int pageSize = 10;
+                    bool searchingFinal = criteria.Contains("final");
+                    bool searchingPending = criteria.Contains("pending");
+                    //gets all final evaluations assigned to the given evaluator
+                    List<Submission> assignedFinalSubmissions = context.evaluatiorsubmissions.
+                        Where(c => (c.submission.title.Contains(criteria) 
+                            || c.submission.usersubmissions.Where(j => j.deleted == false).FirstOrDefault().user.usertype.userTypeName.Contains(criteria) 
+                            || c.submission.topiccategory.name.Contains(criteria)
+                            || (c.evaluationsubmitteds.Where(j => j.deleted == false).FirstOrDefault() == null) == searchingPending
+                            || searchingFinal) 
+                            && c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions.Where(d => d.deleted == false).FirstOrDefault() != null).
+                        Select(i => new Submission
+                        {
+                            submissionID = i.submissionID,
+                            evaluatorID = i.evaluatorID,
+                            userType = i.submission.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().user.usertype.userTypeName,
+                            submissionTitle = i.submission.title,
+                            topic = i.submission.topiccategory.name,
+                            isEvaluated = (i.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true),
+                            isFinalSubmission = true
+                        }).ToList();
+
+                    //gets all non-final the evaluations assigned to the given evaluator
+                    List<Submission> assignedSubmissions = context.evaluatiorsubmissions.
+                        Where(c => (c.submission.title.Contains(criteria) 
+                            || c.submission.usersubmissions.Where(j => j.deleted == false).FirstOrDefault().user.usertype.userTypeName.Contains(criteria) 
+                            || c.submission.topiccategory.name.Contains(criteria)
+                            || (c.evaluationsubmitteds.Where(j => j.deleted == false).FirstOrDefault() == null) == searchingPending) 
+                            && c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions1.Where(d => d.deleted == false).FirstOrDefault() != null).
+                        Select(i => new Submission
+                        {
+                            submissionID = i.submissionID,
+                            evaluatorID = i.evaluatorID,
+                            userType = i.submission.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault().user.usertype.userTypeName,
+                            submissionTitle = i.submission.title,
+                            topic = i.submission.topiccategory.name,
+                            isEvaluated = (i.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true),
+                            isFinalSubmission = false
+                        }).ToList();
+                    foreach (var finalSub in assignedFinalSubmissions)
+                    {
+                        assignedSubmissions.Add(finalSub);
+                    }
+                    assignedSubmissions = assignedSubmissions.OrderBy(n => n.submissionTitle).ToList();
+                    page.rowCount = assignedSubmissions.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        List<Submission> submissionPage = assignedSubmissions.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = submissionPage;
+                    }
+
+                    return page;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getAssignedSubmissions error " + ex);
+                return null;
+            }
+        }
+
         public bool addEvaluation(evaluationsubmitted evaluation, usersubmission usersubIn)
         {
             try

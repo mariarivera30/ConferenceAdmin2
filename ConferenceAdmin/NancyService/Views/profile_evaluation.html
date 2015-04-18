@@ -10,7 +10,7 @@
         </div>
         <div ng-show="vm.submissionlist.length">
             <div class="paging-height">
-                <label class="left">Search: <input ng-model="searchText" /></label>
+                <label class="left">Search: <input ng-model="vm.criteria" /><button ng-click="vm.searchAssignedSubmission(0)"><i class="fa fa-search"></i></button></label><br />
                 <table ng-table="tableParams" show-filter="true" class="table row">
                     <thead>
                         <tr>
