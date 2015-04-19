@@ -1,49 +1,55 @@
 ﻿<div ng-controller="profileSubmissionCtrl as vm">
     <div ng-show="vm.view == 'Home'">
         <h4 id="g-information">My Submissions</h4>
-        <table ng-table="tableParams" show-filter="true" class="table row">
-            <thead>
-                <tr>
-                    <th><b>Title</b></th>
-                    <th><b>Type</b></th>
-                    <th><b>Manage</b></th>
-                    <th><b>Status</b></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="submission in vm.submissionlist">
-
-                    <td class="text-left"><i class="fa fa-file-text-o"> </i><a href="" data-toggle="modal" data-target="#viewSubmission" ng-click="vm.viewTheView(submission.submissionTypeName, submission.submissionID)"> {{submission.submissionTitle}}</a></td>
-                    <td>{{submission.submissionTypeName}}</td>
-                    <td>
-                        <a ng-hide="submission.isAssigned || submission.status != 'Pending' || !vm.submissionDeadlinePassed" href="" data-toggle="modal" data-target="#editSubmissionModal" ng-click="vm.selectedSubmission(submission.topiccategoryID); vm.viewEditForm(submission.submissionID); vm.clear();">Edit </a><span ng-hide="submission.isAssigned || submission.status != 'Pending' || !vm.submissionDeadlinePassed"> | </span>
-                        <a ng-hide="submission.isAssigned || submission.status != 'Pending' || !vm.submissionDeadlinePassed" href="" data-toggle="modal" data-target="#deleteSubmission" ng-click="vm.deleteSelectedSubmission(submission.submissionID) ">Delete</a>
-                        <a ng-show="submission.finalSubmissionAllowed && !submission.isFinalSubmission" href="" data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.selectFinalversion(submission.submissionID); vm.clear();">Add final version</a>
-
-                    </td>
-                    <td>
-                        <span ng-show="submission.status == 'Accepted'" class="accepted"><i class="fa fa-check"> </i> Accepted</span>
-                        <span ng-show="submission.status == 'Pending'" class="pending"><i class="fa fa-refresh"> </i> Pending</span>
-                        <span ng-show="submission.status == 'Rejected'" class="rejected"><i class="glyphicon glyphicon-remove"></i> Rejected</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <!-----------------------loading start--------------------->
-        <div class="col-lg-12" ng-show="vm.uploadingComp">
-            <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>Creating</h3>
+        <div ng-hide="vm.submissionlist.length">
+            <p class="title-field">No content to display.</p>
+            <a class="btn btn-default" ng-click="vm.getAssignedSubmissions(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
         </div>
-        <!-----------------------loading end--------------------->
-        <br />
-        <!-------------------------------------------------ADD SUBMISSION---------------------------------------------------->
-        
+        <div ng-show="vm.submissionlist.length">
+            <table ng-table="tableParams" show-filter="true" class="table row">
+                <thead>
+                    <tr>
+                        <th><b>Title</b></th>
+                        <th><b>Type</b></th>
+                        <th><b>Manage</b></th>
+                        <th><b>Status</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="submission in vm.submissionlist">
+
+                        <td class="text-left"><i class="fa fa-file-text-o"> </i><a href="" data-toggle="modal" data-target="#viewSubmission" ng-click="vm.viewTheView(submission.submissionTypeName, submission.submissionID)"> {{submission.submissionTitle}}</a></td>
+                        <td>{{submission.submissionTypeName}}</td>
+                        <td>
+                            <a ng-hide="submission.isAssigned || submission.status != 'Pending' || !vm.submissionDeadlinePassed" href="" data-toggle="modal" data-target="#editSubmissionModal" ng-click="vm.selectedSubmission(submission.topiccategoryID); vm.viewEditForm(submission.submissionID); vm.clear();">Edit </a><span ng-hide="submission.isAssigned || submission.status != 'Pending' || !vm.submissionDeadlinePassed"> | </span>
+                            <a ng-hide="submission.isAssigned || submission.status != 'Pending' || !vm.submissionDeadlinePassed" href="" data-toggle="modal" data-target="#deleteSubmission" ng-click="vm.deleteSelectedSubmission(submission.submissionID) ">Delete</a>
+                            <a ng-show="submission.finalSubmissionAllowed && !submission.isFinalSubmission" href="" data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.selectFinalversion(submission.submissionID); vm.clear();">Add final version</a>
+
+                        </td>
+                        <td>
+                            <span ng-show="submission.status == 'Accepted'" class="accepted"><i class="fa fa-check"> </i> Accepted</span>
+                            <span ng-show="submission.status == 'Pending'" class="pending"><i class="fa fa-refresh"> </i> Pending</span>
+                            <span ng-show="submission.status == 'Rejected'" class="rejected"><i class="glyphicon glyphicon-remove"></i> Rejected</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            <!-----------------------loading start--------------------->
+            <div class="col-lg-12" ng-show="vm.uploadingComp">
+                <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>Creating</h3>
+            </div>
+            <!-----------------------loading end--------------------->
+            <br />
+            <!-------------------------------------------------ADD SUBMISSION---------------------------------------------------->
+
             <select ng-disabled="!vm.submissionDeadlinePassed" class="disabled" ng-model="vm.TYPE"
                     ng-options="type as type.submissionTypeName for type in vm.submissionTypeList" required></select>
             <button ng-disabled="!vm.submissionDeadlinePassed" data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.viewAdd()" class="btn btn-ar btn-primary">Add New</button>
-       <br/>
+            <br />
             <div ng-show="!vm.submissionDeadlinePassed">
-            The deadline for submissions has passed.
-        </div>
+                The deadline for submissions has passed.
+            </div>
         </div>
 
     <div class="modal fade" id="addSubmissionModal" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
@@ -129,6 +135,7 @@
                                     <div class="input-group-btn">
                                         <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="documentFile" type="file" class="file" ng-model="vm.modalevaluationFile" class="form-control" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)" required></div>
                                     </div>
+                                    <p ng-show="vm.ext" class="help-block">* Try .doc, .docx, .ppt, .pdf files.</p>
                                 </div>
                             </div>                            
                         </form>

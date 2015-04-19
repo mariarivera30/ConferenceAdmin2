@@ -138,6 +138,69 @@ namespace NancyService.Modules
         //    return stringToStore;
         //}
 
+        public SponsorQuery addSponsorPaid(SponsorQuery x,PaymentXML p)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    address address = new address();
+                    address.city = x.city;
+                    address.country = x.country;
+                    address.state = x.state;
+                    address.zipcode = x.zipcode;
+                    address.line1 = x.line1;
+                    address.line2 = x.line2;
+                    context.addresses.Add(address);
+                    context.SaveChanges();
+
+                    payment payment2 = new payment();
+                    payment2.paymentTypeID = 1;
+                    payment2.deleted = false;
+                    payment2.creationDate = DateTime.Now;
+                    context.payments.Add(payment2);
+                    context.SaveChanges();
+
+                    paymentbill bill = new paymentbill();
+                    bill.AmountPaid = (double)x.amount;
+                    bill.deleted = false;
+                    bill.ip = p.IP;
+                    bill.quantity = p.quantity;
+                    bill.paymentID = payment2.paymentID;
+                    context.paymentbills.Add(bill);
+                    context.SaveChanges();
+                    
+                    sponsor sponsor = new sponsor();
+                    sponsor.firstName = x.firstName;
+                    sponsor.lastName = x.lastName;
+                    sponsor.company = x.company;
+                    sponsor.email = x.email;
+                    sponsor.logo = x.logo;
+                    sponsor.phone = x.phone;
+                    sponsor.sponsorType = x.sponsorType;
+                    sponsor.addressID = address.addressID;
+                    sponsor.paymentID = payment2.paymentID;
+                    sponsor.deleted = false;
+
+
+                    context.sponsors.Add(sponsor);
+                    context.SaveChanges();
+                    x.sponsorID = sponsor.sponsorID;
+                    x.paymentID = payment2.paymentID;
+                    x.addressID = address.addressID;
+                    return x;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.Write("AdminManager.registrationSponsor error " + ex);
+                return null;
+            }
+
+        }
+
         public SponsorQuery addSponsor(SponsorQuery x)
         {
             try

@@ -145,7 +145,7 @@ namespace NancyService.Modules
                         // transaction fields
                         transactionid = "1",
                         methodOfPayment = "VISA",
-                        creditCardNumber = "123456789",
+                        //creditCardNumber = "123456789",
                        // cardExpirationDate = DateTime.Now.Date
                     };
 

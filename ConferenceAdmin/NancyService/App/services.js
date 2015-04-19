@@ -42,6 +42,7 @@
             deleteTopic: _deleteTopic,
             updateTopic: _updateTopic,
             getRegistrations: _getRegistrations,
+            searchRegistration: _searchRegistration,
             postNewRegistration: _postNewRegistration,
             updateRegistration: _updateRegistration,
             deleteRegistration: _deleteRegistration,
@@ -61,6 +62,7 @@
             makePayment: _makePayment,
             complementaryPayment: _complementaryPayment,
             getAssignedSubmissions: _getAssignedSubmissions,
+            searchAssignedSubmission: _searchAssignedSubmission,
             getSubmissionDetails: _getSubmissionDetails,
             postEvaluation: _postEvaluation,
             editEvaluation: _editEvaluation,
@@ -131,13 +133,28 @@
             getDeletedSubmissions: _getDeletedSubmissions,
             getListOfUsers: _getListOfUsers,
             getADeletedSubmission: _getADeletedSubmission,
+            sponsorPayment: _sponsorPayment,
+            getPayment: _getPayment,
             postAdminFinalSubmission: _postAdminFinalSubmission,
             editAdminSubmission: _editAdminSubmission,
             isMaster: _isMaster,
-            getBanners: _getBanners
+            getBanners: _getBanners,
+            searchSubmission: _searchSubmission,
+            searchDeletedSubmission: _searchDeletedSubmission,
+            searchGuest: _searchGuest
+
         };
 
         return service;
+
+        //------------------------------------------Payment------------------------------------------
+        
+        function _sponsorPayment(data) {
+            return $http.put('/payment/SponsorPayment', data);
+        };
+        function _getPayment(data) {
+            return $http.get('/payment/GetPayment/' + data);
+        };
         //-----------------------------------Sponsor Complementary-----------------------------------
 
 
@@ -312,8 +329,12 @@
 
         //-----------------------------------REGISTRATIONS-----------------------------------
 
-        function _getRegistrations() {
-            return $http.get('/admin/getRegistrations');
+        function _getRegistrations(data) {
+            return $http.get('/admin/getRegistrations/' + data);
+        };
+
+        function _searchRegistration(data) {
+            return $http.get('/admin/searchRegistration/' + data.index + '/' + data.criteria);
         };
 
         function _getUserTypes() {
@@ -337,8 +358,8 @@
         };
         //-----------------------------------GUESTS-----------------------------------
         //get guest list for admin
-        function _getGuestList() {
-            return $http.get('admin/getGuestList');
+        function _getGuestList(data) {
+            return $http.get('admin/getGuestList/' + data);
         };
 
         //update guest acceptance status
@@ -355,6 +376,11 @@
         function _rejectRegisteredGuest(data) {
             return $http.put('admin/rejectRegisteredGuest/' + data);
         };
+
+        //Search within the list with a certain criteria
+        function _searchGuest(data) {
+            return $http.get('admin/searchGuest/' + data.index + '/' + data.criteria);
+        }
 
         //-----------------------------------PROFILE-INFO-----------------------------------
         function _getProfileInfo(data) {
@@ -384,7 +410,11 @@
         //---------------------------------PROFILE-SUBMISSIONS---------------------------
         //get list of submissions assigned to the evalutor currently logged in
         function _getAssignedSubmissions(data) {
-            return $http.get('profile/getAssignedSubmissions/' + data);
+            return $http.get('profile/getAssignedSubmissions/' + data.evaluatorUserID + '/' + data.index);
+        };
+        //Search within a list with a specific criteria
+        function _searchAssignedSubmission(data) {
+            return $http.get('profile/searchAssignedSubmission/' + data.evaluatorUserID + '/' + data.index + '/' + data.criteria);
         };
         //get details of submission with ID submissionID
         function _getSubmissionDetails(data) {
@@ -615,8 +645,8 @@
         };
         //--------------------------------------------ADMIN-SUBMISSIONS------------------------------------
         //Gets all submissions that have not been deleted
-        function _getAllSubmissions() {
-            return $http.get('admin/getAllSubmissions');
+        function _getAllSubmissions(data) {
+            return $http.get('admin/getAllSubmissions/' + data);
         };
         //Gets the evaluations for the submission with submissionID
         function _getEvaluationsForSubmission(data) {
@@ -655,8 +685,8 @@
             return $http.post('admin/postAdminSubmission', data)
         };
         //gets all deleted submissions
-        function _getDeletedSubmissions() {
-            return $http.get('admin/getDeletedSubmissions')
+        function _getDeletedSubmissions(data) {
+            return $http.get('admin/getDeletedSubmissions/' + data)
         };
         //get details of a deleted submission
         function _getADeletedSubmission(data){
@@ -677,6 +707,14 @@
         //determines whether the logged in user is a Master user
         function _isMaster(data) {
             return $http.get('admin/isMaster/' + data);
+        }
+        //search within the list with a certain criteria
+        function _searchSubmission(data) {
+            return $http.get('admin/searchSubmission/' + data.index + '/' + data.criteria);
+        }
+        //search within the list with a certain criteria
+        function _searchDeletedSubmission(data) {
+            return $http.get('admin/searchDeletedSubmission/' + data.index + '/' + data.criteria);
         }
         //------------------------------------Banner-------------------------------------
         function _getBanners() {

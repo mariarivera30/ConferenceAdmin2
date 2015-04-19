@@ -56,10 +56,22 @@
         vm.avgScore;
         vm.publicFeedback;
         vm.privateFeedback;
+        //pagination
+        vm.sindex = 0;
+        vm.smaxIndex = 0;
+        vm.sfirstPage = true;
+        //pagination for deleted
+        vm.dindex = 0;
+        vm.dmaxIndex = 0;
+        vm.dfirstPage = true;
 
         //functions
         vm.clear = _clear;
         vm.getAllSubmissions = _getAllSubmissions;
+        vm.nextSubmission = _nextSubmission;
+        vm.previousSubmission = _previousSubmission;
+        vm.getFirstSubmissionPage = _getFirstSubmissionPage;
+        vm.getLastSubmissionPage = _getLastSubmissionPage;
         vm.downloadPDFFile = _downloadPDFFile;
         vm.getSubmissionView = _getSubmissionView;
         vm.getEvaluationsForSubmission = _getEvaluationsForSubmission;
@@ -78,16 +90,22 @@
         vm.selectUser = _selectUser;
         vm.getListOfUsers = _getListOfUsers;
         vm.getDeletedSubmissions = _getDeletedSubmissions;
+        vm.nextDeletedSubmission = _nextDeletedSubmission;
+        vm.previousDeletedSubmission = _previousDeletedSubmission;
+        vm.getFirstDeletedSubmissionPage = _getFirstDeletedSubmissionPage;
+        vm.getLastDeletedSubmissionPage = _getLastDeletedSubmissionPage;
         vm.getDeletedSubmissionView = _getDeletedSubmissionView;
         vm.deleteSubmission = _deleteSubmission;
         vm.isMaster = _isMaster;
+        vm.searchSubmission = _searchSubmission;
+        vm.searchDeletedSubmission = _searchDeletedSubmission;
 
         // function calls
-        _getAllSubmissions();
+        _getAllSubmissions(vm.sindex);
         _getSubmissionTypes();
         _getTopics();
         _getTemplates();
-        _getDeletedSubmissions();
+        _getDeletedSubmissions(vm.dindex);
         _isMaster();
 
 
@@ -168,20 +186,55 @@
                 vm.myFile = undefined;
             }
         }
-
+        //start pagination code
         /* Retrieves every submission in the system */
-        function _getAllSubmissions() {
-            restApi.getAllSubmissions().
+        function _getAllSubmissions(index) {
+            restApi.getAllSubmissions(index).
                    success(function (data, status, headers, config) {
-                       vm.submissionsList = data;
-                       vm.submissionsList.forEach(function (sub, index) {
+                       vm.smaxIndex = data.maxIndex;
+                       if (vm.smaxIndex == 0) {
+                           vm.sindex = 0;
+                           vm.submissionsList = [];
+                       }
+                       else if (vm.sindex >= vm.smaxIndex) {
+                           vm.sindex = vm.smaxIndex - 1;
+                           _getAllSubmissions(vm.sindex);
+                       }
+                       else {
+                           vm.submissionsList = data.results;
+                       }
+                       vm.submissionsList.forEach(function (sub, index2) {
                            sub.acceptanceStatus = sub.status;
                        });
                    }).
                    error(function (data, status, headers, config) {
-                       vm.submissionsList = data;
                    });
         }
+        function _nextSubmission() {
+            if (vm.sindex < vm.smaxIndex - 1) {
+                vm.sindex += 1;
+                _getAllSubmissions(vm.sindex);
+            }
+        }
+
+
+        function _previousSubmission() {
+            if (vm.sindex > 0) {
+                vm.sindex -= 1;
+                _getAllSubmissions(vm.sindex);
+            }
+        }
+
+        function _getFirstSubmissionPage() {
+            vm.sindex = 0;
+            _getAllSubmissions(vm.sindex);
+        }
+
+        function _getLastSubmissionPage() {
+            vm.sindex = vm.smaxIndex - 1;
+            _getAllSubmissions(vm.sindex);
+        }
+        //----END PAGINATON CODE---
 
         /* Download a file through the browser */
         function _downloadPDFFile(document) {
@@ -518,10 +571,10 @@
                 submission.documentssubmitteds = vm.documentsList;
                 restApi.postAdminSubmission(submission)
                         .success(function (data, status, headers, config) {
-                            _getAllSubmissions();
+                            _getAllSubmissions(vm.sindex);
                         })
                         .error(function (error) {
-
+                            _getAllSubmissions(vm.sindex);
                         });
             }
             else if (vm.viewModal == 'edit') { //if updating submission
@@ -557,7 +610,7 @@
                 restApi.editSubmission(submission)
                        .success(function (data, status, headers, config) {
                            _getSubmissionView(vm.submissionID);
-                           _getAllSubmissions();
+                           _getAllSubmissions(vm.sindex);
                        })
                        .error(function (error) {
                            
@@ -596,7 +649,7 @@
                     submission.byAdmin = true;
                     restApi.postAdminFinalSubmission(submission)
                             .success(function (data, status, headers, config) {
-                                _getAllSubmissions();
+                                _getAllSubmissions(vm.sindex);
                                 vm.view = false;
                             })
                             .error(function (error) {
@@ -670,15 +723,50 @@
         }
 
         /* Get all deleted submissions */
-        function _getDeletedSubmissions() {
-            restApi.getDeletedSubmissions().
+        function _getDeletedSubmissions(index) {
+            restApi.getDeletedSubmissions(index).
                    success(function (data, status, headers, config) {
-                       vm.deletedSubmissionsList = data;
+                       vm.dmaxIndex = data.maxIndex;
+                       if (vm.dmaxIndex == 0) {
+                           vm.dindex = 0;
+                           vm.deletedSubmissionsList = [];
+                       }
+                       else if (vm.dindex >= vm.dmaxIndex) {
+                           vm.dindex = vm.dmaxIndex - 1;
+                           _getDeletedSubmissions(vm.dindex);
+                       }
+                       else {
+                           vm.deletedSubmissionsList = data.results;
+                       }
                    }).
                    error(function (data, status, headers, config) {
-                       vm.deletedSubmissionsList = data;
                    });
         }
+        function _nextDeletedSubmission() {
+            if (vm.dindex < vm.dmaxIndex - 1) {
+                vm.dindex += 1;
+                _getDeletedSubmissions(vm.dindex);
+            }
+        }
+
+
+        function _previousDeletedSubmission() {
+            if (vm.dindex > 0) {
+                vm.dindex -= 1;
+                _getDeletedSubmissions(vm.dindex);
+            }
+        }
+
+        function _getFirstDeletedSubmissionPage() {
+            vm.dindex = 0;
+            _getDeletedSubmissions(vm.dindex);
+        }
+
+        function _getLastDeletedSubmissionPage() {
+            vm.dindex = vm.dmaxIndex - 1;
+            _getDeletedSubmissions(vm.dindex);
+        }
+        //----END PAGINATON CODE---
 
         /* Determine whether the currently logged user is a Master user */
         function _isMaster() {
@@ -696,8 +784,8 @@
             restApi.deleteSubmission(id).
                 success(function (data, status, headers, config) {
                     vm.submissionsList.forEach(function (submission, index) {
-                        _getAllSubmissions();
-                        _getDeletedSubmissions();
+                        _getAllSubmissions(vm.sindex);
+                        _getDeletedSubmissions(vm.dindex);
                     });
                 }).
                 error(function (data, status, headers, config) {
@@ -708,6 +796,67 @@
         /* to preview image */
         $scope.showContent = function ($fileContent) {
             vm.content = $fileContent;
+            vm.fileext = vm.myFile.name.split(".", 2)[1];
+            if (vm.fileext == "pdf" || vm.fileext == "doc" || vm.fileext == "docx" || vm.fileext == "ppt")
+                vm.ext = false;
+            else {
+                document.getElementById("documentFile").value = "";
+                vm.ext = true;
+                $scope.content = "";
+                $fileContent = "";
+                vm.myFile = undefined;
+                File.name = "";
+            }
         };
+
+
+        /* Search within the list with a certain criteria */
+        function _searchSubmission() {
+            vm.sindex = 0;
+            var params = {index: vm.sindex, criteria: vm.criteria};
+            restApi.searchSubmission(params).
+                success(function (data, status, headers, config) {
+                    vm.smaxIndex = data.maxIndex;
+                    if (vm.smaxIndex == 0) {
+                        vm.sindex = 0;
+                        vm.submissionsList = [];
+                    }
+                    else if (vm.sindex >= vm.smaxIndex) {
+                        vm.sindex = vm.smaxIndex - 1;
+                        _searchSubmission(vm.sindex);
+                    }
+                    else {
+                        vm.submissionsList = data.results;
+                    }
+                    vm.submissionsList.forEach(function (sub, index2) {
+                        sub.acceptanceStatus = sub.status;
+                    });
+                }).
+                   error(function (data, status, headers, config) {
+                   });
+        }
+
+        function _searchDeletedSubmission() {
+            vm.dindex = 0;
+            var params = { index: vm.dindex, criteria: vm.dcriteria };
+            restApi.searchDeletedSubmission(params).
+                success(function (data, status, headers, config) {
+                    vm.dmaxIndex = data.maxIndex;
+                    if (vm.dmaxIndex == 0) {
+                        vm.dindex = 0;
+                        vm.deletedSubmissionsList = [];
+                    }
+                    else if (vm.dindex >= vm.dmaxIndex) {
+                        vm.dindex = vm.dmaxIndex - 1;
+                        _searchDeletedSubmission(vm.dindex);
+                    }
+                    else {
+                        vm.deletedSubmissionsList = data.results;
+                    }
+                }).
+                error(function (data, status, headers, config) {
+
+                });
+        }
     }
 })();

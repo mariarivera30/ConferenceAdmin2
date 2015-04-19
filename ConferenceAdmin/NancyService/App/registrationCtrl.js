@@ -21,8 +21,10 @@
         //vm.checkAll;
 
         vm.registrationsList = [];
-        vm.datesList = {};
-        vm.userTypesList = {};
+        vm.datesList = [];
+        vm.userTypesList = [];
+        vm.password;
+        vm.email;
         vm.firstname;
         vm.lastname;
         vm.usertypeid;
@@ -31,6 +33,11 @@
         vm.hasapplied;
         vm.acceptancestatus;
         vm.byAdmin;
+
+        //for pagination
+        vm.sindex = 0;
+        vm.smaxIndex = 0;
+        vm.sfirstPage = true;
 
         vm.currentid;
         vm.editfirstname;
@@ -43,6 +50,11 @@
         vm.activate = activate;
         vm.addRegistration = _addRegistration;
         vm.getRegistrations = _getRegistrations;
+        vm.searchRegistration = _searchRegistration;
+        vm.nextRegistration = _nextRegistration;
+        vm.previousRegistration = _previousRegistration;
+        vm.getFirstRegistrationPage = _getFirstRegistrationPage;
+        vm.getLastRegistrationPage = _getLastRegistrationPage;
         vm.updateRegistration = _updateRegistration;
         vm.deleteRegistration = _deleteRegistration;
         vm.selectedRegistrationUpdate = _selectedRegistrationUpdate;
@@ -53,7 +65,7 @@
         vm.downloadAttendanceList = _downloadAttendanceList;
 
 
-        _getRegistrations();
+        _getRegistrations(vm.sindex);
         _getUserTypes();
         _getDates();
 
@@ -74,6 +86,8 @@
         }
 
         function clear() {
+            vm.password = "";
+            vm.email = "";
             vm.firstname = "";
             vm.lastname = "";
             vm.usertypeid = "";
@@ -105,22 +119,17 @@
         }
 
         function _addRegistration() {
-            /*
-            if (vm.checkAll) {
-                vm.date1 = true;
-                vm.date2 = true;
-                vm.date3 = true;
-            }*/
             var userTypeName = vm.usertypeid.userTypeName;
             vm.usertypeid = vm.usertypeid.userTypeID;
 
             restApi.postNewRegistration(vm)
                 .success(function (data, status, headers, config) {
-                    vm.newReg = { registrationID: parseInt(data.split(",")[0]), firstname: vm.firstname, lastname: vm.lastname, affiliationName: vm.affiliationName, usertypeid: userTypeName, date1: vm.date1, date2: vm.date2, date3: vm.date3, byAdmin: true, notes: vm.note};
+                    /*vm.newReg = { registrationID: parseInt(data.split(",")[0]), firstname: vm.firstname, lastname: vm.lastname, affiliationName: vm.affiliationName, usertypeid: userTypeName, date1: vm.date1, date2: vm.date2, date3: vm.date3, byAdmin: true, notes: vm.note };
                     vm.registrationsList.push(vm.newReg);
                     clear();
                     vm.recoverType = parseInt(data.split(",")[1]);
-                    vm.recoverID = parseInt(data.split(",")[0]);
+                    vm.recoverID = parseInt(data.split(",")[0]);*/
+                    _getRegistrations();
                 })
 
                 .error(function (error) {
@@ -131,20 +140,55 @@
         }
 
 
-        function _getRegistrations() {
-            restApi.getRegistrations().
+        function _getRegistrations(index) {
+            restApi.getRegistrations(index).
                    success(function (data, status, headers, config) {
-                       vm.registrationsList = data;
+                       vm.smaxIndex = data.maxIndex;
+                       if (vm.smaxIndex == 0) {
+                           vm.sindex = 0;
+                           vm.registrationsList = [];
+                       }
+                       else if (vm.sindex >= vm.smaxIndex) {
+                           vm.sindex = vm.smaxIndex - 1;
+                           _getRegistrations(vm.sindex);
+                       }
+                       else {
+                           vm.registrationsList = data.results;
+                       }
                    }).
                    error(function (data, status, headers, config) {
-                       vm.registrationsList = data;
                    });
         }
+        function _nextRegistration() {
+            if (vm.sindex < vm.smaxIndex - 1) {
+                vm.sindex += 1;
+                _getRegistrations(vm.sindex);
+            }
+        }
+
+
+        function _previousRegistration() {
+            if (vm.sindex > 0) {
+                vm.sindex -= 1;
+                _getRegistrations(vm.sindex);
+            }
+        }
+
+        function _getFirstRegistrationPage() {
+            vm.sindex = 0;
+            _getRegistrations(vm.sindex);
+        }
+
+        function _getLastRegistrationPage() {
+            vm.sindex = vm.smaxIndex - 1;
+            _getRegistrations(vm.sindex);
+        }
+        //----END PAGINATON CODE---
 
 
 
         function _selectedRegistrationUpdate(id, firstname, lastname, usertypeid, affiliationName, date1, date2, date3, note) {
-            vm.currentid = id;            
+            vm.currentid = id;
             vm.editfirstname = firstname;
             vm.editlastname = lastname;
             if (usertypeid != undefined)
@@ -166,18 +210,17 @@
                 vm.editdate3 = true;
             }*/
             if (vm.currentid != undefined && vm.currentid != 0) {
-                var registration = { registrationID: vm.currentid, firstname: vm.editfirstname, lastname: vm.editlastname, usertypeid: vm.TYPE.userTypeID, affiliationName: vm.editaffiliationName, date1: vm.editdate1, date2: vm.editdate2, date3: vm.editdate3, notes: vm.editnote};
+                var registration = { registrationID: vm.currentid, firstname: vm.editfirstname, lastname: vm.editlastname, usertypeid: vm.TYPE.userTypeID, affiliationName: vm.editaffiliationName, date1: vm.editdate1, date2: vm.editdate2, date3: vm.editdate3, notes: vm.editnote };
                 restApi.updateRegistration(registration)
                 .success(function (data, status, headers, config) {
                     vm.registrationsList.forEach(function (reg, index) {
                         if (reg.registrationID == registration.registrationID) {
-
+                            $('#editAttendee').modal('hide');
                             registration.usertypeid = vm.TYPE.userTypeName;
                             registration.byAdmin = true;
                             vm.registrationsList.splice(index, 1);
-                            vm.registrationsList.push(registration);
+                            vm.registrationsList.push(registration);        
                             clear();
-                            $('#editAttendee').modal('hide');
                         }
                         // else
                         // location.reload();
@@ -269,7 +312,7 @@
                 }
 
                 copy[index] = {
-                    "Name": reg.firstname+" "+reg.lastname,
+                    "Name": reg.firstname + " " + reg.lastname,
                     "Affiliation": reg.affiliationName,
                     "User Type": reg.usertypeid,
                     "Participation Days": dates,
@@ -279,7 +322,7 @@
 
 
             var fontSize = 8, height = 0, doc;
-            doc = new jsPDF('p', 'pt', 'ledger', true); 
+            doc = new jsPDF('p', 'pt', 'ledger', true);
             doc.setFont("times", "normal");
             doc.setFontSize(fontSize);
             doc.text(30, 20, "Caribbean Celebration of Women in Computing- Registration Report");
@@ -296,6 +339,28 @@
             });
             doc.text(50, height + 20, '');
             doc.save('registrationreport.pdf');
+        }
+
+        function _searchRegistration() {
+            vm.sindex = 0;
+            var params = { index: vm.sindex, criteria: vm.criteria };
+            restApi.searchRegistration(params).
+                   success(function (data, status, headers, config) {
+                       vm.smaxIndex = data.maxIndex;
+                       if (vm.smaxIndex == 0) {
+                           vm.sindex = 0;
+                           vm.registrationsList = [];
+                       }
+                       else if (vm.sindex >= vm.smaxIndex) {
+                           vm.sindex = vm.smaxIndex - 1;
+                           _getRegistrations(vm.sindex);
+                       }
+                       else {
+                           vm.registrationsList = data.results;
+                       }
+                   }).
+                   error(function (data, status, headers, config) {
+                   });
         }
     }
 })();

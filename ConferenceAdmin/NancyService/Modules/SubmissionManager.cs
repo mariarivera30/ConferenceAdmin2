@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 
 
@@ -9,6 +11,10 @@ namespace NancyService.Modules
 {
     class SubmissionManager
     {
+        //ccwicEmail
+        string ccwicEmail = "ccwictest@gmail.com";
+        string ccwicEmailPass = "ccwic123456789";
+
         //Jaimeiris - gets the submission with ID submission ID to be evaluated by evaluator with evaluatorID
         public AssignedSubmission getSubmission(long submissionID, long evaluatorID)
         {
@@ -205,12 +211,14 @@ namespace NancyService.Modules
             }
         }
 
-        public List<Submission> getAssignedSubmissions(long userID)
+        public SubmissionPagingQuery getAssignedSubmissions(long userID, int index)
         {
+            SubmissionPagingQuery page = new SubmissionPagingQuery();
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    int pageSize = 10;
                     //gets all final evaluations assigned to the given evaluator
                     List<Submission> assignedFinalSubmissions = context.evaluatiorsubmissions.
                         Where(c => c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions.Where(d => d.deleted == false).FirstOrDefault() != null).
@@ -242,8 +250,86 @@ namespace NancyService.Modules
                     {
                         assignedSubmissions.Add(finalSub);
                     }
+                    assignedSubmissions = assignedSubmissions.OrderBy(n => n.submissionTitle).ToList();
+                    page.rowCount = assignedSubmissions.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        List<Submission> submissionPage = assignedSubmissions.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = submissionPage;
+                    }
 
-                    return assignedSubmissions;
+                    return page;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getAssignedSubmissions error " + ex);
+                return null;
+            }
+        }
+
+        //Search within a list with a specific criteria
+        public SubmissionPagingQuery searchAssignedSubmission(long userID, int index, string criteria)
+        {
+            SubmissionPagingQuery page = new SubmissionPagingQuery();
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    int pageSize = 10;
+                    bool searchingFinal = criteria.Contains("final");
+                    bool searchingPending = criteria.Contains("pending");
+                    //gets all final evaluations assigned to the given evaluator
+                    List<Submission> assignedFinalSubmissions = context.evaluatiorsubmissions.
+                        Where(c => (c.submission.title.Contains(criteria) 
+                            || c.submission.usersubmissions.Where(j => j.deleted == false).FirstOrDefault().user.usertype.userTypeName.Contains(criteria) 
+                            || c.submission.topiccategory.name.Contains(criteria)
+                            || (c.evaluationsubmitteds.Where(j => j.deleted == false).FirstOrDefault() == null) == searchingPending
+                            || searchingFinal) 
+                            && c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions.Where(d => d.deleted == false).FirstOrDefault() != null).
+                        Select(i => new Submission
+                        {
+                            submissionID = i.submissionID,
+                            evaluatorID = i.evaluatorID,
+                            userType = i.submission.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().user.usertype.userTypeName,
+                            submissionTitle = i.submission.title,
+                            topic = i.submission.topiccategory.name,
+                            isEvaluated = (i.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true),
+                            isFinalSubmission = true
+                        }).ToList();
+
+                    //gets all non-final the evaluations assigned to the given evaluator
+                    List<Submission> assignedSubmissions = context.evaluatiorsubmissions.
+                        Where(c => (c.submission.title.Contains(criteria) 
+                            || c.submission.usersubmissions.Where(j => j.deleted == false).FirstOrDefault().user.usertype.userTypeName.Contains(criteria) 
+                            || c.submission.topiccategory.name.Contains(criteria)
+                            || (c.evaluationsubmitteds.Where(j => j.deleted == false).FirstOrDefault() == null) == searchingPending) 
+                            && c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions1.Where(d => d.deleted == false).FirstOrDefault() != null).
+                        Select(i => new Submission
+                        {
+                            submissionID = i.submissionID,
+                            evaluatorID = i.evaluatorID,
+                            userType = i.submission.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault().user.usertype.userTypeName,
+                            submissionTitle = i.submission.title,
+                            topic = i.submission.topiccategory.name,
+                            isEvaluated = (i.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true),
+                            isFinalSubmission = false
+                        }).ToList();
+                    foreach (var finalSub in assignedFinalSubmissions)
+                    {
+                        assignedSubmissions.Add(finalSub);
+                    }
+                    assignedSubmissions = assignedSubmissions.OrderBy(n => n.submissionTitle).ToList();
+                    page.rowCount = assignedSubmissions.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        List<Submission> submissionPage = assignedSubmissions.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = submissionPage;
+                    }
+
+                    return page;
                 }
             }
             catch (Exception ex)
@@ -279,6 +365,23 @@ namespace NancyService.Modules
                     }
                     userSub.allowFinalVersion = usersubIn.allowFinalVersion;
                     context.SaveChanges();
+                    if (usersubIn.allowFinalVersion == true)
+                    {
+                        String email = null;
+                        email = (context.usersubmission.Where(c => c.initialSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault() == null ? null :
+                            context.usersubmission.Where(c => c.initialSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault().user.membership.email);
+                        if (email == null) email = context.usersubmission.Where(c => c.finalSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault() == null ?
+                             null : context.usersubmission.Where(c => c.finalSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault().user.membership.email;
+                        
+                        try { sendFinalVersionAllowedEmail(email, context.submissions.Where(c => c.submissionID == usersubIn.initialSubmissionID).FirstOrDefault().title); }
+
+                        catch (Exception ex)
+                        {
+                            Console.Write("SubmissionManager.addEvaluation error " + ex);
+                            return false;
+                        }
+                    }
+
                     return true;
                 }
             }
@@ -287,6 +390,29 @@ namespace NancyService.Modules
                 Console.Write("SubmissionManager.addEvaluation error " + ex);
                 return false;
             }
+        }
+
+        //Send email when submission status has been changed
+        private void sendFinalVersionAllowedEmail(string email, String submissionTitle)
+        {
+            MailAddress ccwic = new MailAddress(ccwicEmail);
+            MailAddress user = new MailAddress(email);
+            MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
+            
+                mail.Subject = "Caribbean Celebration of Women in Computing Submission Requirement";
+                mail.Body = "Greetings, \n\n " +
+                    "Our evaluators have asked that you submit a final version of your submission with the name: " + submissionTitle + ". To view the comments made about your submission and the desired changes, please login to view your profile through the following link: \n\n" +
+                    "http://136.145.116.238/#/Login/Log" + ".";            
+            
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+
+            smtp.Credentials = new NetworkCredential(
+                ccwicEmail, ccwicEmailPass);
+            smtp.EnableSsl = true;
+
+            smtp.Send(mail);
         }
 
         public bool editEvaluation(evaluationsubmitted evaluation, usersubmission userSubIn)
@@ -320,9 +446,27 @@ namespace NancyService.Modules
                     }
                     else
                     {
-                        userSub = context.usersubmission.Where(c => c.initialSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault(); userSub.allowFinalVersion = userSubIn.allowFinalVersion;
+                        userSub = context.usersubmission.Where(c => c.initialSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault(); 
+                        userSub.allowFinalVersion = userSubIn.allowFinalVersion;
                     }
                     context.SaveChanges();
+
+                    if (userSubIn.allowFinalVersion == true)
+                    {
+                        String email = null;
+                        email = (context.usersubmission.Where(c => c.initialSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault() == null ? null :
+                            context.usersubmission.Where(c => c.initialSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault().user.membership.email);
+                        if (email == null) email = context.usersubmission.Where(c => c.finalSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault() == null ?
+                             null : context.usersubmission.Where(c => c.finalSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault().user.membership.email;
+
+                        try { sendFinalVersionAllowedEmail(email, context.submissions.Where(c => c.submissionID == userSubIn.initialSubmissionID).FirstOrDefault().title); }
+
+                        catch (Exception ex)
+                        {
+                            Console.Write("SubmissionManager.editEvaluation error " + ex);
+                            return false;
+                        }
+                    }
                     return true;
                 }
             }
@@ -974,12 +1118,14 @@ namespace NancyService.Modules
             }
         }
 
-        public List<Submission> getAllSubmissions()
+        public SubmissionPagingQuery getAllSubmissions(int index)
         {
+            SubmissionPagingQuery page = new SubmissionPagingQuery();
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    int pageSize = 10;
                     int? scoreSum = 0;
                     int evalCount = 0;
                     double avgScore = 0.00;
@@ -1075,7 +1221,16 @@ namespace NancyService.Modules
                             submissionTypeID, submissionTitle, topiccategoryID, topic, status, 0, numOfEvaluations, byAdmin));
                         }
                     }
-                    return userSubmissions;
+                    userSubmissions = userSubmissions.OrderBy(c => -c.avgScore).ToList();
+                    page.rowCount = userSubmissions.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        var allUserSubmissions = userSubmissions.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = allUserSubmissions;
+                    }
+
+                    return page;
                 }
             }
             catch (Exception ex)
@@ -1541,6 +1696,17 @@ namespace NancyService.Modules
                     subAltered.changedAcceptanceStatus = changedAcceptanceStatus;
                     subAltered.submissionID = sub.submissionID;
                     subAltered.status = newStatus;
+                    //send email
+                    String email = null;
+                    email = sub.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault().user.membership.email;
+                    if (email == null) email = sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().user.membership.email;
+                    try { sendSubmissionUpdateEmail(email, sub.title, sub.status, changedAcceptanceStatus); }
+
+                    catch (Exception ex)
+                    {
+                        Console.Write("SubmissionManager.sendSubmissionUpdateEmail error " + ex);
+                        return null;
+                    }
 
                     return subAltered;
                 }
@@ -1551,6 +1717,38 @@ namespace NancyService.Modules
                 return null;
             }
         }
+        //Send email when submission status has been changed
+        private void sendSubmissionUpdateEmail(string email, String submissionName, String submissionStatus, bool acceptanceUpdated)
+        {
+            MailAddress ccwic = new MailAddress(ccwicEmail);
+            MailAddress user = new MailAddress(email);
+            MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
+            if (acceptanceUpdated)
+            {
+                mail.Subject = "Caribbean Celebration of Women in Computing Submission Update";
+                mail.Body = "Greetings, \n\n " +
+                    "The status for your submission with the name " + submissionName + " has been changed to " +
+                    submissionStatus + ". This means that you have been accepted to assist to the Caribbean Celebration of Women in Computing. To participate, the next step is to register, you can do so by logging into your profile through the following link: \n\n"
+                    + "http://136.145.116.238/#/Login/Log" + ".";
+            }
+            else
+            {
+                mail.Subject = "Caribbean Celebration of Women in Computing Submission Update";
+                mail.Body = "Greetings, \n\n " +
+                    "The status for your submission with the name " + submissionName + " has been changed to " + submissionStatus + ".";
+            }
+
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+
+            smtp.Credentials = new NetworkCredential(
+                ccwicEmail, ccwicEmailPass);
+            smtp.EnableSsl = true;
+
+            smtp.Send(mail);
+        }
+
         //This adds the submission when it is added by an administrator
         public Submission addSubmissionByAdmin(usersubmission usersubTA, submission submissionToAdd, panel pannelToAdd, workshop workshopToAdd)
         {
@@ -1668,12 +1866,15 @@ namespace NancyService.Modules
             }
         }
         //gets all the deleted submissions
-        public List<Submission> getDeletedSubmissions()
+        public SubmissionPagingQuery getDeletedSubmissions(int index)
         {
+            SubmissionPagingQuery page = new SubmissionPagingQuery();
+
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    int pageSize = 10;
                     var subs = context.submissions.Where(c => c.deleted == true).Select(d =>
                         new Submission
                         {
@@ -1685,8 +1886,17 @@ namespace NancyService.Modules
                             topiccategoryID = d.topicID,
                             topic = d.topiccategory.name,
                             status = d.status
-                        }).ToList();
-                    return subs;
+                        }).OrderBy(c => c.submissionTitle).ToList();
+
+                    page.rowCount = subs.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        var registrationPayments = subs.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = registrationPayments;
+                    }
+
+                    return page;
                 }
             }
             catch (Exception ex)
@@ -1765,6 +1975,181 @@ namespace NancyService.Modules
                 return false;
             }
         }
+
+        // Search within the list with a certain criteria
+        public SubmissionPagingQuery searchSubmission(int index, string criteria)
+        {
+            SubmissionPagingQuery page = new SubmissionPagingQuery();
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    int pageSize = 10;
+                    int? scoreSum = 0;
+                    int evalCount = 0;
+                    double avgScore = 0.00;
+                    int numOfEvaluations = 0;
+                    //get all final submissions.
+                    List<Submission> userSubmissions = new List<Submission>();
+                    List<usersubmission> subList = context.usersubmission.Where(c => (c.submission.title.Contains(criteria) || c.submission.topiccategory.name.Contains(criteria) || c.submission.submissiontype.name.Contains(criteria) || c.submission.status.Contains(criteria)) && c.deleted == false && c.finalSubmissionID != null).ToList();
+                    foreach (var sub in subList)
+                    {
+                        long userID = sub.userID;
+                        long submissionID = sub.submission == null ? -1 : sub.submission.submissionID;
+                        String submissionTypeName = sub.submission == null ? null : sub.submission.submissiontype == null ? null : sub.submission.submissiontype.name;
+                        int submissionTypeID = sub.submission == null ? -1 : sub.submission.submissionTypeID;
+                        String submissionTitle = sub.submission == null ? null : sub.submission.title;
+                        int topiccategoryID = sub.submission == null ? -1 : sub.submission.topicID;
+                        String topic = sub.submission == null ? null : sub.submission.topiccategory == null ? null : sub.submission.topiccategory.name;
+                        String status = sub.submission == null ? null : sub.submission.status;
+                        bool byAdmin = sub.submission == null ? false : sub.submission.byAdmin == true ? true : false;
+                        IEnumerable<IGrouping<long, evaluatiorsubmission>> groupBy = sub.submission == null ? null : sub.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                           null : sub.submission.evaluatiorsubmissions.Where(c => c.deleted == false).GroupBy(s => s.submissionID).ToList();
+                        if (groupBy != null)
+                        {
+                            foreach (var subGroup in groupBy)//goes through all groups of sub/evalsub
+                            {
+                                foreach (var evalsForSub in subGroup)//goes through all evaluatiorsubmission for each submission
+                                {
+                                    int? thisScore = evalsForSub.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                                        -1 : evalsForSub.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault().score;
+                                    if (thisScore != -1)//if submission has been evaluated
+                                    {
+                                        scoreSum = scoreSum + thisScore;
+                                        evalCount++;
+                                    }
+                                }
+                                avgScore = evalCount == 0 ? 0.00 : (double)scoreSum / evalCount;
+                                numOfEvaluations = evalCount;
+                                scoreSum = 0;
+                                evalCount = 0;
+                            }
+                            userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
+                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, avgScore, numOfEvaluations, byAdmin));
+                        }
+                        else
+                        {
+                            userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
+                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, 0, numOfEvaluations, byAdmin));
+                        }
+                    }
+                    scoreSum = 0;
+                    evalCount = 0;
+                    avgScore = 0.00;
+                    numOfEvaluations = 0;
+                    //get all submissions that do not have a final submission
+                    List<usersubmission> subList2 = context.usersubmission.Where(c => (c.submission.title.Contains(criteria) || c.submission.topiccategory.name.Contains(criteria) || c.submission.submissiontype.name.Contains(criteria)) && c.deleted == false && c.finalSubmissionID == null).ToList();
+                    foreach (var sub in subList2)
+                    {
+                        long userID = sub.userID;
+                        long submissionID = sub.submission1 == null ? -1 : sub.submission1.submissionID;
+                        String submissionTypeName = sub.submission1 == null ? null : sub.submission1.submissiontype == null ? null : sub.submission1.submissiontype.name;
+                        int submissionTypeID = sub.submission1 == null ? -1 : sub.submission1.submissionTypeID;
+                        String submissionTitle = sub.submission1.title;
+                        int topiccategoryID = sub.submission1 == null ? -1 : sub.submission1.topicID;
+                        String topic = sub.submission1 == null ? null : sub.submission1.topiccategory == null ? null : sub.submission1.topiccategory.name;
+                        String status = sub.submission1 == null ? null : sub.submission1.status;
+                        bool byAdmin = sub.submission1 == null ? false : sub.submission1.byAdmin == true ? true : false;
+                        IEnumerable<IGrouping<long, evaluatiorsubmission>> groupBy = sub.submission1 == null ? null : sub.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                                null : sub.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).GroupBy(s => s.submissionID).ToList();
+                        if (groupBy != null)
+                        {
+                            foreach (var subGroup in groupBy)//goes through all groups of sub/evalsub
+                            {
+                                foreach (var evalsForSub in subGroup)//goes through all evaluatiorsubmission for each submission
+                                {
+                                    int? thisScore = evalsForSub.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                                        -1 : evalsForSub.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault().score;
+                                    if (thisScore != -1)//if submission has been evaluated
+                                    {
+                                        scoreSum = scoreSum + thisScore;
+                                        evalCount++;
+                                    }
+                                }
+                                avgScore = evalCount == 0 ? 0.00 : (double)scoreSum / evalCount;
+                                numOfEvaluations = evalCount;
+                                scoreSum = 0;
+                                evalCount = 0;
+                            }
+                            userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
+                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, avgScore, numOfEvaluations, byAdmin));
+                        }
+                        else
+                        {
+                            userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
+                            submissionTypeID, submissionTitle, topiccategoryID, topic, status, 0, numOfEvaluations, byAdmin));
+                        }
+                    }
+                    userSubmissions = userSubmissions.OrderBy(c => -c.avgScore).ToList();
+                    page.rowCount = userSubmissions.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        var allUserSubmissions = userSubmissions.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = allUserSubmissions;
+                    }
+
+                    return page;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getAllSubmissions error " + ex);
+                return null;
+            }
+        }
+
+        // Search within the list with a certain criteria
+        public SubmissionPagingQuery searchDeletedSubmission(int index, string criteria)
+        {
+            SubmissionPagingQuery page = new SubmissionPagingQuery();
+
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    int pageSize = 10;
+                    var subs = context.submissions.Where(c => (c.title.Contains(criteria) || c.topiccategory.name.Contains(criteria) || c.submissiontype.name.Contains(criteria)) && c.deleted == true).Select(d =>
+                        new Submission
+                        {
+                            userID = d.usersubmissions.Where(c => c.deleted == true).FirstOrDefault() == null ? -1 : d.usersubmissions.Where(c => c.deleted == true).FirstOrDefault().userID,
+                            submissionID = d.submissionID,
+                            submissionTypeName = d.submissiontype.name,
+                            submissionTypeID = d.submissionTypeID,
+                            submissionTitle = d.title,
+                            topiccategoryID = d.topicID,
+                            topic = d.topiccategory.name,
+                            status = d.status
+                        }).OrderBy(c => c.submissionTitle).ToList();
+
+                    page.rowCount = subs.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        var registrationPayments = subs.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = registrationPayments;
+                    }
+
+                    return page;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getDeletedSubmissions error " + ex);
+                return null;
+            }
+        }
+    }
+
+
+
+
+    public class SubmissionPagingQuery
+    {
+        public int indexPage;
+        public int maxIndex;
+        public int rowCount;
+        public List<Submission> results;
     }
 
     public class CurrAndPrevSub

@@ -85,6 +85,7 @@ namespace NancyService.Modules
                         context.SaveChanges();
 
                     }
+
                     try { sendEmailConfirmation(member.email, member.confirmationKey); }
 
                     catch (Exception ex)
@@ -132,6 +133,7 @@ namespace NancyService.Modules
 
             smtp.Send(mail);
         }
+
         private void sendTemporaryPassword(string email, string pass)
         {
             MailAddress ccwic = new MailAddress(ccwicEmail);
@@ -304,7 +306,6 @@ namespace NancyService.Modules
 
                 try
                 {
-                    
                     var member = (from m in context.memberships
                                   where (m.email.Equals(u.email) && m.password== u.password && m.deleted == false)
                                   select m).FirstOrDefault(); 
@@ -320,7 +321,6 @@ namespace NancyService.Modules
                     {
                         return null;
                     }
-
 
                 }
                 catch (Exception ex)

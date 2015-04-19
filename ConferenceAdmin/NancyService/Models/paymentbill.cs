@@ -10,8 +10,16 @@ namespace NancyService.Models
         public Nullable<long> addressID { get; set; }
         public string transactionid { get; set; }
         public double AmountPaid { get; set; }
+        public string authorizationID { get; set; }
         public string methodOfPayment { get; set; }
-        public string creditCardNumber { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string email { get; set; }
+        public string tandemID { get; set; }
+        public string batchID { get; set; }
+        public string ip { get; set; }
+        public string telephone { get; set; }
+        public string quantity { get; set; }
         public Nullable<bool> deleted { get; set; }
        // public Nullable<System.DateTime> cardExpirationDate { get; set; }
         public virtual address address { get; set; }

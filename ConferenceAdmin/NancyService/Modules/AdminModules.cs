@@ -30,7 +30,15 @@ namespace NancyService.Modules
             SubmissionManager submissionManager = new SubmissionManager();
             BannerManager bannerManager = new BannerManager();
 
+            /*------------------Payment--------------------------*/
+            Post["/secureReentry"] = parameters =>
+             {
+                 /*receive the tandem ID  and information store on data base and confirm payment
+                 /*return in the xml the the receipt link or the error link*/
+                 return Response.AsXml("");
 
+             };
+   
             /* ----- Template -----*/
 
 
@@ -413,11 +421,12 @@ namespace NancyService.Modules
                 }
             };
 
-            /* ----- Registration -----*/
+            /* --------------------------------------- Registration ----------------------------------------*/
 
-            Get["/getRegistrations"] = parameters =>
+            Get["/getRegistrations/{index:int}"] = parameters =>
             {
-                List<RegisteredUser> list = registration.getRegistrationList();
+                int index = parameters.index;
+                var list = registration.getRegistrationList(index);
                 return Response.AsJson(list);
             };
 
@@ -450,7 +459,8 @@ namespace NancyService.Modules
             {
                 var user = this.Bind<user>();
                 var reg = this.Bind<registration>();
-                return Response.AsJson(registration.addRegistration(reg: reg, user: user));
+                var mem = this.Bind<membership>();
+                return Response.AsJson(registration.addRegistration(reg: reg, user: user, mem: mem));
             };
 
             Get["/getDates"] = parameters =>
@@ -459,15 +469,25 @@ namespace NancyService.Modules
                 return Response.AsJson(list);
             };
 
+            //search within the list with a certain criteria
+            Get["/searchRegistration/{index}/{criteria}"] = parameters =>
+            {
+                int index = parameters.index;
+                string criteria = parameters.criteria;
+                var list = registration.searchRegistration(index, criteria);
+                return Response.AsJson(list);
+            };
+
             //-------------------------------------GUESTS---------------------------------------------
             //Guest list for admins
-            Get["/getGuestList"] = parameters =>
+            Get["/getGuestList/{index:int}"] = parameters =>
             {
-                List<GuestList> guestList = guest.getListOfGuests();
+                int index = parameters.index;
+                GuestsPagingQuery guestList = guest.getListOfGuests(index);
 
                 if (guestList == null)
                 {
-                    guestList = new List<GuestList>();
+                    guestList = new GuestsPagingQuery();
                 }
                 return Response.AsJson(guestList);
             };
@@ -502,6 +522,15 @@ namespace NancyService.Modules
                     authorizations = new List<MinorAuthorizations>();
                 }
                 return Response.AsJson(authorizations);
+            };
+
+            //search within the list with a certain criteria
+            Get["/searchGuest/{index}/{criteria}"] = parameters =>
+            {
+                int index = parameters.index;
+                string criteria = parameters.criteria;
+                var list = guest.searchGuest(index, criteria);
+                return Response.AsJson(list);
             };
 
             //-----------------------------------------WEBSITE CONTENT ----------------------------------------
@@ -692,9 +721,10 @@ namespace NancyService.Modules
             };
 
             //Gets all submissions in the system that have not been deleted
-            Get["/getAllSubmissions"] = parameters =>
+            Get["/getAllSubmissions/{index:int}"] = parameters =>
                 {
-                    return Response.AsJson(submissionManager.getAllSubmissions());
+                    int index = parameters.index;
+                    return Response.AsJson(submissionManager.getAllSubmissions(index));
                 };
             //gets the evaluation for a submission
             Get["/getEvaluationsForSubmission/{submissionID}"] = parameters =>
@@ -803,9 +833,10 @@ namespace NancyService.Modules
                 return Response.AsJson(newSubmission);
             };
             //gets all deleted submissions
-            Get["/getDeletedSubmissions"] = parameters =>
+            Get["/getDeletedSubmissions/{index:int}"] = parameters =>
                 {
-                    return Response.AsJson(submissionManager.getDeletedSubmissions());
+                    int index = parameters.index;
+                    return Response.AsJson(submissionManager.getDeletedSubmissions(index));
                 };
             //gets the details of a deleted submission
             Get["/getADeletedSubmission/{submissionID:long}"] = parameters =>
@@ -825,6 +856,22 @@ namespace NancyService.Modules
                     bool isMaster = submissionManager.isMaster(userID);
                     return isMaster;
                 };
+            //search within the list with a certain criteria
+            Get["/searchSubmission/{index}/{criteria}"] = parameters =>
+            {
+                int index = parameters.index;
+                string criteria = parameters.criteria;
+                var list = submissionManager.searchSubmission(index, criteria);
+                return Response.AsJson(list);
+            };
+            //search within the list with a certain criteria
+            Get["/searchDeletedSubmission/{index}/{criteria}"] = parameters =>
+            {
+                int index = parameters.index;
+                string criteria = parameters.criteria;
+                var list = submissionManager.searchDeletedSubmission(index, criteria);
+                return Response.AsJson(list);
+            };
 
             //------------------------------------Banner---------------------------------------------
             Get["/getBanners"] = parameters =>

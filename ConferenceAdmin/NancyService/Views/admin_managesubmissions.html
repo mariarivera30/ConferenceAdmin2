@@ -3,7 +3,14 @@
     <div ng-hide="vm.view">
         <h3>Manage Submissions</h3><br>
         <div class="col-lg-12">
-            <label class="left">Search: <input ng-model="searchText" /></label>
+            <div ng-hide="vm.submissionsList.length">
+                <p class="title-field">No content to display.</p>
+                <a class="btn btn-default" ng-click="vm.getAllSubmissions(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
+            </div>
+            <div ng-show="vm.submissionsList.length">
+                <div class="paging-height-dropdowns">
+                    <label class="left">Search: <input ng-model="vm.criteria"/><button ng-click="vm.searchSubmission()"><i class="fa fa-search"></i></button></label><br />
+            <!--<label class="left">Search: <input ng-model="searchText" /></label>-->
             <table ng-table="tableParams" class="table row">
                 <thead>
                     <tr>
@@ -23,7 +30,7 @@
                         <td>{{sub.submissionTypeName}}</td>
                         <td>{{sub.topic}}</td>
                         <td data-title="'Evaluator'">
-                            <a href="" data-toggle="modal" data-target="#assignEvaluator" ng-click="vm.getSubmissionView(sub.submissionID); vm.getAllEvaluators();">Assign Evaluators</a>
+                            <a href="" data-toggle="modal" data-target="#assignEvaluator" ng-click="vm.clear(); vm.getSubmissionView(sub.submissionID); vm.getAllEvaluators();">Assign Evaluators</a>
                         </td>
                         <td>
                             {{sub.avgScore | number:2}}
@@ -35,14 +42,23 @@
                     </tr>
                 </tbody>
             </table>
-
+                </div>
+                <div aria-live="polite" class="col-lg-6">Showing page {{vm.sindex + 1}} of {{vm.smaxIndex}}</div>
+                <div class="col-lg-6 paging-word">
+                    <a class="btn btn-default" ng-click="vm.getAllSubmissions(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i></a>
+                    <a class="btn btn-default" ng-disabled="vm.sindex==0" ng-click="vm.getFirstSubmissionPage()">First</a>
+                    <a class="btn btn-default" ng-disabled="vm.sindex==0" ng-click="vm.previousSubmission()">Previous</a>
+                    <!--<span><a class="btn btn-default">{{vm.sindex+1}}</a></span>-->
+                    <a class="btn btn-default" ng-disabled="vm.sindex >= (vm.smaxIndex-1)" ng-click="vm.nextSubmission()">Next</a>
+                    <a class="btn btn-default" ng-disabled="vm.sindex >= (vm.smaxIndex-1)" ng-click="vm.getLastSubmissionPage()">Last</a>
+                </div>
             <br />
             <select ng-model="vm.TYPE"
                     ng-options="type as type.submissionTypeName for type in vm.submissionTypeList" required></select>
             <button data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.clear(); vm.viewAdd(); vm.getListOfUsers(); vm.viewModal = 'add';" class="btn btn-ar btn-primary">Add New</button>
         </div>
-
-        <hr class="col-lg-11"/>
+        </div>
+        <hr class="col-lg-11" />
         <!-- Deleted Submissions -->
         <div class="col-lg-12">
 
@@ -56,34 +72,47 @@
                     </div>
                     <div id="collapseOne" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
                         <div class="panel-body">
-
-                            <label class="left">Search: <input ng-model="searchDeletedText" /></label>
-                            <table ng-table="tableParams" class="table row">
-                                <thead>
-                                    <tr>
-                                        <th><b>Submision Title</b></th>
-                                        <th><b>Type</b></th>
-                                        <th><b>Topic</b></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="sub in vm.deletedSubmissionsList | filter:searchDeletedText | orderBy: ['-avgScore', 'submissionTitle']">
-                                        <td data-title="'Title'">
-                                            <a href="" ng-click="vm.getDeletedSubmissionView(sub.submissionID); vm.view = true;">{{sub.submissionTitle}}</a>
-                                        </td>
-                                        <td>{{sub.submissionTypeName}}</td>
-                                        <td>{{sub.topic}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div ng-hide="vm.deletedSubmissionsList.length">
+                                <p class="title-field">No content to display.</p>
+                                <a class="btn btn-default" ng-click="vm.getGuestList(vm.dindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
+                            </div>
+                            <div ng-show="vm.deletedSubmissionsList.length">
+                                <div class="paging-height">
+                                    <label class="left">Search: <input ng-model="vm.dcriteria" /><button ng-click="vm.searchDeletedSubmission()"><i class="fa fa-search"></i></button></label><br />
+                                    <table ng-table="tableParams" class="table row">
+                                        <thead>
+                                            <tr>
+                                                <th><b>Submision Title</b></th>
+                                                <th><b>Type</b></th>
+                                                <th><b>Topic</b></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="sub in vm.deletedSubmissionsList | filter:searchDeletedText | orderBy: ['-avgScore', 'submissionTitle']">
+                                                <td data-title="'Title'">
+                                                    <a href="" ng-click="vm.getDeletedSubmissionView(sub.submissionID); vm.view = true;">{{sub.submissionTitle}}</a>
+                                                </td>
+                                                <td>{{sub.submissionTypeName}}</td>
+                                                <td>{{sub.topic}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div aria-live="polite" class="col-lg-6">Showing page {{vm.dindex + 1}} of {{vm.dmaxIndex}}</div>
+                                <div class="col-lg-6 paging-word">
+                                    <a class="btn btn-default" ng-click="vm.getDeletedSubmissions(vm.dindex)"><i class="glyphicon glyphicon-repeat"></i></a>
+                                    <a class="btn btn-default" ng-disabled="vm.dindex==0" ng-click="vm.getFirstDeletedSubmissionPage()">First</a>
+                                    <a class="btn btn-default" ng-disabled="vm.dindex==0" ng-click="vm.previousDeletedSubmission()">Previous</a>
+                                    <!--<span><a class="btn btn-default">{{vm.sindex+1}}</a></span>-->
+                                    <a class="btn btn-default" ng-disabled="vm.dindex >= (vm.dmaxIndex-1)" ng-click="vm.nextDeletedSubmission()">Next</a>
+                                    <a class="btn btn-default" ng-disabled="vm.dindex >= (vm.dmaxIndex-1)" ng-click="vm.getLastDeletedSubmissionPage()">Last</a>
+                                </div>
+                            </div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>
-
     </div>
 
     <!----------------------------------------- Assign Template & Evaluator ----------------------------------------->
@@ -141,7 +170,8 @@
 
     <!----------------------------------------- View ----------------------------------------->
     <div ng-show="vm.view">
-        <h5>{{vm.submissionTypeName}} Submission 
+        <h5>
+            {{vm.submissionTypeName}} Submission
             <span ng-hide="vm.deleted">
                 <button class="btn btn-ar btn-primary right" data-toggle="modal" data-target="#deleteAlert">Delete</button><p class="padding-5 right"></p>
                 <button class="btn btn-ar btn-primary right" data-toggle="modal" data-target="#editSubmissionModal" ng-click="vm.viewModal = 'edit';">Edit</button><p class="padding-5 right"></p>
@@ -403,6 +433,7 @@
                                     <div class="input-group-btn">
                                         <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="documentFile" type="file" class="file form-control" ng-model="vm.modalevaluationFile" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)" required></div>
                                     </div>
+                                    <p ng-show="vm.ext" class="help-block">* Try .doc, .docx, .ppt, .pdf files.</p>
                                 </div>
                             </div>
                         </form>
@@ -529,6 +560,7 @@
                                     <div class="input-group-btn">
                                         <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="documentFile" type="file" class="file form-control" ng-model="vm.modalevaluationFile" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)" required></div>
                                     </div>
+                                    <p ng-show="vm.ext" class="help-block">* Try .doc, .docx, .ppt, .pdf files.</p>
                                 </div>
                             </div>
                         </form>

@@ -63,9 +63,11 @@
             }
         };
    });
+ 
+   app.config(function ($stateProvider, $urlRouterProvider,$httpProvider) {
 
-    app.config(function ($stateProvider, $urlRouterProvider,$httpProvider) {
-        //
+        
+       ///); 
         // For any unmatched url, redirect to /state1
        $httpProvider.interceptors.push('AuthInterceptor');
        $urlRouterProvider.otherwise("/Home");
@@ -144,7 +146,38 @@
 
             }
         })
+            .state('payment', {
+                url: "/Payment",
+                views: {
+                    'banner': {
+                        templateUrl: ""
+                    },
+                    'dynamic': {
+                        templateUrl: "views/paymentView.html"
+                    }
 
+                }
+            })
+
+             .state('paymentbill', {
+                 url: "/PaymentBill/:paymentId",
+                 views: {
+                     
+                     'dynamic': {
+                         templateUrl: "views/paymentReceipt.html"
+                     }
+
+                 }
+             })
+             .state('paymenterror', {
+                 url: "/PaymentError",
+                 views: {
+                     'dynamic': {
+                         templateUrl: "views/paymentError.html"
+                     }
+
+                 }
+             })
         .state('sponsors', {
             url: "/Sponsors",
             views: {

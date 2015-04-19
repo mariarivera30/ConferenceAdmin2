@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Globalization;
+using System.Net;
+using System.Net.Mail;
 
 namespace NancyService.Modules
 {
@@ -14,14 +16,23 @@ namespace NancyService.Modules
 
         }
 
-        public string addRegistration(registration reg, user user)
+        public string addRegistration(registration reg, user user, membership mem)
         {/*int type, string firstname, string lastname, string affiliationName, bool registrationstatus, bool hasapplied, bool acceptancestatus*/
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
-                {
-                    user.membershipID = 1;
-                    user.addressID = 1;
+                {                    
+                    address address = new address();
+                    context.addresses.Add(address);                    
+
+                    mem.emailConfirmation = true;
+                    mem.deleted = false;
+                    context.memberships.Add(mem);
+
+                    context.SaveChanges();
+
+                    user.addressID = address.addressID;
+                    user.membershipID = mem.membershipID;
                     user.registrationStatus = "Accepted";
                     user.hasApplied = true;
                     user.acceptanceStatus = "Accepted";
@@ -40,6 +51,14 @@ namespace NancyService.Modules
 
                     context.SaveChanges();
 
+                    try { sendEmailConfirmation(mem.email, mem.password); }
+
+                    catch (Exception ex)
+                    {
+                        Console.Write("AdminManager.ConfirmationEmail error " + ex);
+                        return null;
+                    }
+
                     return reg.registrationID + "," + user.userTypeID;
                 }
             }
@@ -51,12 +70,38 @@ namespace NancyService.Modules
 
         }
 
-        public List<RegisteredUser> getRegistrationList()
+        private void sendEmailConfirmation(string email, string pass)
         {
+            string ccwicEmail = "ccwictest@gmail.com";
+            string ccwicEmailPass = "ccwic123456789";
+            MailAddress ccwic = new MailAddress(ccwicEmail);
+            MailAddress user = new MailAddress(email);
+            MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
+
+
+            mail.Subject = "Caribbean Celebration of Women in Computing Account Confirmation!";
+            mail.Body = "Your email has been used to create an account for the CCWiC Conference. You can login using your temporary password: " + pass + " . \n You can change your password by visiting this link http://136.145.116.238/#/ChangePassword.";
+            
+
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+
+            smtp.Credentials = new NetworkCredential(
+                ccwicEmail, ccwicEmailPass);
+            smtp.EnableSsl = true;
+
+            smtp.Send(mail);
+        }
+
+        public RegistrationPagingQuery getRegistrationList(int index)
+        {
+            RegistrationPagingQuery page = new RegistrationPagingQuery();
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    int pageSize = 10;
                     var registrationList = new List<RegisteredUser>();
                     registrationList = context.registrations.Where(reg => reg.deleted == false).Select(reg => new RegisteredUser
                     {
@@ -71,9 +116,17 @@ namespace NancyService.Modules
                         byAdmin = reg.byAdmin,
                         notes = reg.note,
                         usertype = new UserTypeName { userTypeID = reg.user.usertype.userTypeID, userTypeName = reg.user.usertype.userTypeName }
-                    }).ToList();
+                    }).OrderBy(f => f.firstname).ToList();
 
-                    return registrationList;
+                    page.rowCount = registrationList.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        List<RegisteredUser> registrationPage = registrationList.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = registrationPage;
+                    }
+
+                    return page;
                 }
             }
             catch (Exception ex)
@@ -82,6 +135,50 @@ namespace NancyService.Modules
                 return null;
             }
         }
+
+
+        public RegistrationPagingQuery searchRegistration(int index, string criteria)
+        {
+            RegistrationPagingQuery page = new RegistrationPagingQuery();
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    int pageSize = 10;
+                    var registrationList = new List<RegisteredUser>();
+                    registrationList = context.registrations.Where(reg => ((reg.user.firstName + " " + reg.user.lastName).Contains(criteria) || reg.user.usertype.userTypeName.Contains(criteria) || reg.user.affiliationName.Contains(criteria)) && reg.deleted == false).Select(reg => new RegisteredUser
+                    {
+                        registrationID = reg.registrationID,
+                        firstname = reg.user.firstName,
+                        lastname = reg.user.lastName,
+                        usertypeid = reg.user.usertype.userTypeName,
+                        date1 = reg.date1,
+                        date2 = reg.date2,
+                        date3 = reg.date3,
+                        affiliationName = reg.user.affiliationName,
+                        byAdmin = reg.byAdmin,
+                        notes = reg.note,
+                        usertype = new UserTypeName { userTypeID = reg.user.usertype.userTypeID, userTypeName = reg.user.usertype.userTypeName }
+                    }).OrderBy(f => f.firstname).ToList();
+
+                    page.rowCount = registrationList.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        List<RegisteredUser> registrationPage = registrationList.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = registrationPage;
+                    }
+
+                    return page;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("RegistrationManager.getRegistration error " + ex);
+                return null;
+            }
+        }
+
 
         public List<UserTypeName> getUserTypesList()
         {
@@ -213,7 +310,13 @@ namespace NancyService.Modules
     }
 }
 
-
+public class RegistrationPagingQuery
+{
+    public int indexPage;
+    public int maxIndex;
+    public int rowCount;
+    public List<RegisteredUser> results;
+}
 
 public class RegisteredUser
 {
