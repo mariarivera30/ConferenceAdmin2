@@ -82,6 +82,11 @@
     margin-top:20px;
 }
 
+#homeImage{
+    max-height:300px;
+    max-width:800px;
+}
+
 #g-information{
     margin-top:0px;
 }

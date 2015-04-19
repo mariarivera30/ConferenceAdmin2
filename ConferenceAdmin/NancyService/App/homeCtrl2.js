@@ -41,9 +41,23 @@
                     vm.ihomeParagraph1 = data.homeParagraph1;
                     vm.ihomeTitle2 = data.homeTitle2;
                     vm.ihomeParagraph2 = data.homeParagraph2;
-                    vm.iimg = data.image;
+                    
+                    _getImage();
 
                     load();
+                }
+            })
+
+            .error(function (error) {
+
+            });
+        }
+
+        function _getImage() {
+            restApi.getHomeImage()
+            .success(function (data, status, headers, config) {
+                if (data != null) {
+                    vm.iimg = data.image;
                 }
             })
 

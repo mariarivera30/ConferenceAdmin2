@@ -94,6 +94,22 @@
                     vm.homeParagraph1 = data.homeParagraph1;
                     vm.homeTitle2 = data.homeTitle2;
                     vm.homeParagraph2 = data.homeParagraph2;
+                    
+                    _getImage();
+
+                    load();
+                }
+            })
+
+            .error(function (error) {
+
+            });
+        }
+
+        function _getImage() {
+            restApi.getHomeImage()
+            .success(function (data, status, headers, config) {
+                if (data != null) {
                     vm.img = data.image;
 
                     if (vm.img != "" && vm.img != undefined) {
@@ -102,8 +118,6 @@
                     else {
                         vm.show = false;
                     }
-
-                    load();
                 }
             })
 

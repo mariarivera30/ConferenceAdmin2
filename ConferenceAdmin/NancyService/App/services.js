@@ -77,6 +77,7 @@
             getNewEvaluator: _getNewEvaluator,
             postNewEvaluator: _postNewEvaluator,
             getHome: _getHome,
+            getHomeImage: _getHomeImage,
             saveHome: _saveHome,
             removeFile: _removeFile,
             getVenue: _getVenue,
@@ -449,6 +450,10 @@
 
         function _getHome() {
             return $http.get('/admin/getHome');
+        };
+
+        function _getHomeImage() {
+            return $http.get('/admin/getHomeImage');
         };
 
         function _saveHome(data) {

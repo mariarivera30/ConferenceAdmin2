@@ -511,6 +511,11 @@ namespace NancyService.Modules
                 return Response.AsJson(webManager.getHome());
             };
 
+            Get["/getHomeImage"] = parameters =>
+            {
+                return Response.AsJson(webManager.getHomeImage());
+            };
+
             Put["/saveHome"] = parameters =>
             {
                 var home = this.Bind<HomeQuery>();
