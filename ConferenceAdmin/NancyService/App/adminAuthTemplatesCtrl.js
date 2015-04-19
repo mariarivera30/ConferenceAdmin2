@@ -36,6 +36,11 @@
         vm.cancelFunc;
         vm.clearPic = _clearPic;
 
+        //Authorization Templates- Variables (Paging)
+        vm.templatesList = []; //Results to Display
+        vm.tindex = 0;  //Page index [Goes from 0 to tmaxIndex-1]
+        vm.tmaxIndex = 0;   //Max page number
+
         vm.toggleModal = function (action) {
             
            
@@ -69,7 +74,6 @@
 
         // Functions
         vm.addTemplate = _addTemplate;
-        vm.getTemplates = _getTemplates;
         vm.selectedTemplate = _selectedTemplate;
         vm.clear = _clear;
         vm.updateTemplate = _updateTemplate;
@@ -78,6 +82,13 @@
         vm.editValues = _editValues;
         vm.viewValues = _viewValues;
         vm.download = _download;
+
+        //Functions- Template (Paging)
+        vm.getTemplatesFromIndex = _getTemplatesFromIndex;
+        vm.previousTemplate = _previousTemplate;
+        vm.nextTemplate = _nextTemplate;
+        vm.getFirstTemplatePage = _getFirstTemplatePage;
+        vm.getLastTemplatePage = _getLastTemplatePage;
  
 
         activate();
@@ -107,9 +118,7 @@
 
         // Functions
         function activate() {
-            _getTemplates();
-    
-
+            _getTemplatesFromIndex(vm.tindex);
         }
 
         function _selectedTemplate(template, action) {
@@ -202,21 +211,56 @@
 
         }
 
-        function _getTemplates() {
+        function _getTemplatesFromIndex(index) {
             vm.loadingUpload = true;
-            restApi.getAuthTemplatesAdmin().
+            restApi.getAuthTemplatesAdminListIndex(index).
                    success(function (data, status, headers, config) {
-                       vm.templatesList = data;
+                       vm.tmaxIndex = data.maxIndex;
+                       if (vm.tmaxIndex == 0) {
+                           vm.tindex = 0;
+                           vm.templatesList = [];
+                       }
+                       else if (vm.tindex >= vm.tmaxIndex) {
+                           vm.tindex = vm.tmaxIndex - 1;
+                           _getTemplatesFromIndex(vm.tindex);
+                       }
+                       else {
+                           vm.templatesList = data.results;
+                       }
+
                        load();
                        vm.loadingUpload = false;
                    }).
                    error(function (data, status, headers, config) {
-                       vm.templatesList = data;
                        vm.loadingUpload = false;
                        vm.toggleModal('error');
                       
                        _clear();
                    });
+        }
+
+        function _nextTemplate() {
+            if (vm.tindex < vm.tmaxIndex - 1) {
+                vm.tindex += 1;
+                _getTemplatesFromIndex(vm.tindex);
+            }
+        }
+
+        function _previousTemplate() {
+            if (vm.tindex > 0) {
+                vm.tindex -= 1;
+                _getTemplatesFromIndex(vm.tindex);
+            }
+        }
+
+        function _getFirstTemplatePage() {
+            vm.tindex = 0;
+            _getTemplatesFromIndex(vm.tindex);
+        }
+
+        function _getLastTemplatePage() {
+            vm.tindex = vm.tmaxIndex - 1;
+            _getTemplatesFromIndex(vm.tindex);
         }
 
         function _updateTemplate(File) {

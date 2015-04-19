@@ -29,9 +29,18 @@
         vm.okFunc;
         vm.cancelFunc;
 
+        //Sponsor Payments- Variables (Paging)
+        vm.sponsorsList = []; //Results to Display
+        vm.sindex = 0;  //Page index [Goes from 0 to smaxIndex-1]
+        vm.smaxIndex = 0;   //Max page number
+
+        //Complimentary Keys Payments- Variables (Paging)
+        vm.sponsorKeys = []; //Results to Display
+        vm.cindex = 0;  //Page index [Goes from 0 to cmaxIndex-1]
+        vm.cmaxIndex = 0;   //Max page number
+
         // Functions
         vm.addSponsor = _addSponsor;
-        vm.getSponsors = _getSponsors;
         vm.getSponsorTypes = _getSponsorTypes;
         vm.selectedSponsor = _selectedSponsor;
         vm.clearSponsor = _clearSponsor;
@@ -50,6 +59,18 @@
         vm.selectedKey = _selectedKey;
         vm.clearPic = _clearPic;
 
+        //Functions- Sponsors (Paging)
+        vm.getSponsorListFromIndex = _getSponsorListFromIndex;
+        vm.previousSponsor = _previousSponsor;
+        vm.nextSponsor = _nextSponsor;
+        vm.getFirstSponsorPage = _getFirstSponsorPage;
+        vm.getLastSponsorPage = _getLastSponsorPage;
+
+        //Functions- Complimentary Keys (Paging)
+        vm.previousComplimentary = _previousComplimentary;
+        vm.nextComplimentary = _nextComplimentary;
+        vm.getFirstComplimentaryPage = _getFirstComplimentaryPage;
+        vm.getLastComplimentaryPage = _getLastComplimentaryPage;
 
         vm.pdf = "pdf";
 
@@ -74,7 +95,7 @@
  
         // Functions
         function activate() {
-            _getSponsors();
+            _getSponsorListFromIndex(vm.sindex);
             _getSponsorTypes();
             vm.loading = true;
             vm.complementaryView = false;
@@ -216,8 +237,9 @@
         function _complementaryValues(sponsor) {
             vm.complementaryview = true;
             vm.sponsor = sponsor;
-            _getSponsorComplementaryKeys();
-
+            vm.cindex = 0;
+            vm.loadingComp = true;
+            _getSponsorComplementaryKeys(vm.cindex);
         }
 
         function _submitForm() {
@@ -234,11 +256,25 @@
 
 
         //--------------------------Complemetnary----------------------------------------
-        function _getSponsorComplementaryKeys() {
-            vm.loadingComp = true;
-            restApi.getSponsorComplementaryKeys(vm.sponsor.sponsorID).
+        function _getSponsorComplementaryKeys(index) {
+            var info = {
+                index: index,
+                sponsorID: vm.sponsor.sponsorID
+            }
+            restApi.getSponsorComplementaryKeysFromIndex(info).
                    success(function (data, status, headers, config) {
-                       vm.sponsorKeys = data;
+                       vm.cmaxIndex = data.maxIndex;
+                       if (vm.cmaxIndex == 0) {
+                           vm.cindex = 0;
+                           vm.sponsorKeys = [];
+                       }
+                       else if (vm.cindex >= vm.cmaxIndex) {
+                           vm.cindex = vm.cmaxIndex - 1;
+                           _getSponsorComplementaryKeys(vm.cindex);
+                       }
+                       else {
+                           vm.sponsorKeys = data.results;
+                       }
                        vm.loadingComp = false;
                    }).
                    error(function (data, status, headers, config) {
@@ -247,6 +283,7 @@
 
                    });
         }
+
         function _deleteComplemetaryKey() {
 
             vm.loadingRemovingComp = true;
@@ -273,12 +310,24 @@
             });
         }
 
+        //cambiar
         function _deleteSponsorComplemetaryKey() {
 
             vm.loadingRemovingComp = true;
             restApi.deleteSponsorComplemetaryKey(vm.sponsor.sponsorID)
             .success(function (data, status, headers, config) {
-                vm.sponsorKeys = data;
+                vm.cmaxIndex = data.maxIndex;
+                if (vm.cmaxIndex == 0) {
+                    vm.cindex = 0;
+                    vm.sponsorKeys = [];
+                }
+                else if (vm.cindex >= vm.cmaxIndex) {
+                    vm.cindex = vm.cmaxIndex - 1;
+                    _getSponsorComplementaryKeys(vm.cindex);
+                }
+                else {
+                    vm.sponsorKeys = data.results;
+                }
                 vm.loadingRemovingComp = false;
             })
 
@@ -289,6 +338,7 @@
 
             });
         }
+
         function _addComplementaryKey() {
             vm.addComplementaryObj.sponsorID = vm.sponsor.sponsorID;
             vm.addComplementaryObj.quantity = vm.quantity;
@@ -296,7 +346,18 @@
             vm.uploadingComp = true;
             restApi.addComplementaryKey(vm.addComplementaryObj)
                      .success(function (data, status, headers, config) {
-                         vm.sponsorKeys = data;
+                         vm.cmaxIndex = data.maxIndex;
+                         if (vm.cmaxIndex == 0) {
+                             vm.cindex = 0;
+                             vm.sponsorKeys = [];
+                         }
+                         else if (vm.cindex >= vm.cmaxIndex) {
+                             vm.cindex = vm.cmaxIndex - 1;
+                             _getSponsorComplementaryKeys(vm.cindex);
+                         }
+                         else {
+                             vm.sponsorKeys = data.results;
+                         }
                          vm.uploadingComp = false;
                          vm.quantity = 0;
 
@@ -310,10 +371,29 @@
                      });
         }
 
+        function _nextComplimentary() {
+            if (vm.cindex < vm.cmaxIndex - 1) {
+                vm.cindex += 1;
+                _getSponsorComplementaryKeys(vm.cindex);
+            }
+        }
 
+        function _previousComplimentary() {
+            if (vm.cindex > 0) {
+                vm.cindex -= 1;
+                _getSponsorComplementaryKeys(vm.cindex);
+            }
+        }
 
-        
+        function _getFirstComplimentaryPage() {
+            vm.cindex = 0;
+            _getSponsorComplementaryKeys(vm.cindex);
+        }
 
+        function _getLastComplimentaryPage() {
+            vm.cindex = vm.cmaxIndex - 1;
+            _getSponsorComplementaryKeys(vm.cindex);
+        }
 
         //---------------------------Sponsor-------------------------------------------------
         function _addSponsor(File) {
@@ -366,10 +446,21 @@
                    });
         }
 
-        function _getSponsors() {
-            restApi.getSponsors().
+        function _getSponsorListFromIndex(index) {
+            restApi.getSponsorsListIndex(index).
                    success(function (data, status, headers, config) {
-                       vm.sponsorsList = data;
+                       vm.smaxIndex = data.maxIndex;
+                       if (vm.smaxIndex == 0) {
+                           vm.sindex = 0;
+                           vm.sponsorsList = [];
+                       }
+                       else if (vm.sindex >= vm.smaxIndex) {
+                           vm.sindex = vm.smaxIndex - 1;
+                           _getSponsorListFromIndex(vm.sindex);
+                       }
+                       else {
+                           vm.sponsorsList = data.results;
+                       }
                        vm.loading = false;
 
                    }).
@@ -379,6 +470,29 @@
                    });
         }
 
+        function _nextSponsor() {
+            if (vm.sindex < vm.smaxIndex - 1) {
+                vm.sindex += 1;
+                _getSponsorListFromIndex(vm.sindex);
+            }
+        }
+
+        function _previousSponsor() {
+            if (vm.sindex > 0) {
+                vm.sindex -= 1;
+                _getSponsorListFromIndex(vm.sindex);
+            }
+        }
+
+        function _getFirstSponsorPage() {
+            vm.sindex = 0;
+            _getSponsorListFromIndex(vm.sindex);
+        }
+
+        function _getLastSponsorPage() {
+            vm.sindex = vm.smaxIndex - 1;
+            _getSponsorListFromIndex(vm.sindex);
+        }
 
         function _updateSponsor(myFile) {
             
@@ -417,6 +531,7 @@
 
 
         }
+
         function _deleteSponsor() {
             vm.loadingRemoving = true;
             restApi.deleteSponsor(vm.sponsor.sponsorID)
@@ -440,11 +555,6 @@
 
             });
         }
-
-
-
-
-
     }
 })();
 

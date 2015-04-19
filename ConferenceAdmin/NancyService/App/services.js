@@ -17,13 +17,16 @@
             deleteComplemetaryKey: _deleteComplemetaryKey,
             addComplementaryKey: _addComplementaryKey,
             getSponsorComplementaryKeys: _getSponsorComplementaryKeys,
+            getSponsorComplementaryKeysFromIndex: _getSponsorComplementaryKeysFromIndex,
             getComplemetnaryKeys: _getComplemetnaryKeys,
             deleteAuthTemplate: _deleteAuthTemplate,
             getAuthTemplatesAdmin: _getAuthTemplatesAdmin,
+            getAuthTemplatesAdminListIndex: _getAuthTemplatesAdminListIndex,
             updateAuthTemplate: _updateAuthTemplate,
             addAuthTemplate: _addAuthTemplate,
             deleteTemplate: _deleteTemplate,
             getTemplatesAdmin: _getTemplatesAdmin,
+            getTemplatesAdminListIndex: _getTemplatesAdminListIndex,
             updateTemplate: _updateTemplate,
             addTemplate: _addTemplate,
             getSponsorbyID: _getSponsorbyID,
@@ -34,6 +37,7 @@
             postNewSponsor: _postNewSponsor,
             postNewTopic: _postNewTopic,
             getSponsors: _getSponsors,
+            getSponsorsListIndex: _getSponsorsListIndex,
             getTopics: _getTopics,
             deleteTopic: _deleteTopic,
             updateTopic: _updateTopic,
@@ -156,6 +160,10 @@
             return $http.get('/admin/getSponsorComplementaryKeys/' + data);
         };
 
+        function _getSponsorComplementaryKeysFromIndex(data) {
+            return $http.get('/admin/getSponsorComplementaryKeysFromIndex/'+data.index+'/'+data.sponsorID);
+        };
+
         //-----------------------------------Sponsor-----------------------------------
         function _updateSponsor(data) {
             return $http.put('/admin/updateSponsor', data);
@@ -175,8 +183,13 @@
             return $http.post('/admin/addsponsor', data)
 
         };
+
         function _getSponsors() {
             return $http.get('/admin/getSponsor');
+        };
+
+        function _getSponsorsListIndex(data) {
+            return $http.get('/admin/getSponsorListIndex/'+data);
         };
 
         //-----------------------------------Templates-------------------------------
@@ -189,6 +202,10 @@
 
         function _getTemplatesAdmin() {
             return $http.get('/admin/getTemplatesAdmin');
+        };
+
+        function _getTemplatesAdminListIndex(data) {
+            return $http.get('/admin/getTemplatesAdminListIndex/'+data);
         };
 
         function _addTemplate(data) {
@@ -206,6 +223,10 @@
 
         function _getAuthTemplatesAdmin() {
             return $http.get('/admin/getAuthTemplatesAdmin');
+        };
+
+        function _getAuthTemplatesAdminListIndex(data) {
+            return $http.get('/admin/getAuthTemplatesAdminListIndex/'+data);
         };
 
         function _addAuthTemplate(data) {

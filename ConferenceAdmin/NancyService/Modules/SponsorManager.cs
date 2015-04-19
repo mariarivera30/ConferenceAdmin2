@@ -74,6 +74,33 @@ namespace NancyService.Modules
             public string name { get; set; }
         }
 
+        public class SponsorPagingQuery
+        {
+            public int indexPage;
+            public int maxIndex;
+            public int rowCount;
+            public List<SponsorQuery> results;
+
+            public SponsorPagingQuery()
+            {
+                results = new List<SponsorQuery>();
+            }
+        }
+
+        public class ComplimentaryPagingQuery
+        {
+            public int indexPage { get; set; }
+            public int maxIndex { get; set; }
+            public int rowCount { get; set; }
+            public long sponsorID { get; set; }
+            public int index { get; set; }
+            public List<ComplementaryQuery> results { get; set; }
+
+            public ComplimentaryPagingQuery()
+            {
+                results = new List<ComplementaryQuery>();
+            }
+        }
 
         //public static string getComplementaryPDF()
         //{
@@ -172,8 +199,6 @@ namespace NancyService.Modules
 
         }
 
-
-
         public List<SponsorQuery> getSponsorList()
         {
             try
@@ -224,6 +249,70 @@ namespace NancyService.Modules
             catch (Exception ex)
             {
                 Console.Write("SponsorManager.getSponsor error " + ex);
+                return null;
+            }
+
+        }
+
+        public SponsorPagingQuery getSponsorList(int index)
+        {
+            SponsorPagingQuery page = new SponsorPagingQuery();
+
+            try
+            {
+                //string f = this.getComplementaryPDF();
+
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+
+                    int pageSize = 10;
+                    var sponsor = (from s in context.sponsors
+                                   from type in context.sponsortypes
+                                   from a in context.addresses
+                                   from pay in context.paymentbills
+                                   where (s.sponsorType == type.sponsortypeID) && (s.addressID == a.addressID) && (s.paymentID == pay.paymentID) && (s.deleted == false)
+                                   select new SponsorQuery
+                                   {
+                                       sponsorID = s.sponsorID,
+                                       firstName = s.firstName,
+                                       lastName = s.lastName,
+                                       company = s.company,
+                                       title = s.title,
+                                       logo = s.logo,
+                                       phone = s.phone,
+                                       email = s.email,
+                                       addressID = (long)s.addressID,
+                                       city = a.city,
+                                       line1 = a.line1,
+                                       line2 = a.line2,
+                                       state = a.state,
+                                       zipcode = a.zipcode,
+                                       country = a.country,
+                                       sponsorType = s.sponsorType,
+                                       amount = pay.AmountPaid,
+                                       transactionID = pay.transactionid,
+                                       paymentID = (long)pay.paymentID,
+                                       method = pay.methodOfPayment,
+                                       typeName = type.name,
+
+                                   }).OrderBy(x => x.sponsorID);
+
+                    page.rowCount = sponsor.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        var sponsorList = sponsor.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = sponsorList;
+                    }
+
+                    return page;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SponsorManager.getSponsor(index) error " + ex);
                 return null;
             }
 
@@ -283,7 +372,6 @@ namespace NancyService.Modules
             }
 
         }
-
 
         public List<SponsorTypeQuery> getSponsorTypesList()
         {
@@ -371,6 +459,7 @@ namespace NancyService.Modules
                 return null;
             }
         }
+
         public bool deleteSponsor(long x)
         {
             try
@@ -395,6 +484,7 @@ namespace NancyService.Modules
                 return false;
             }
         }
+
         public List<ComplementaryQuery> getComplementaryList()
         {
             try
@@ -447,6 +537,7 @@ namespace NancyService.Modules
             }
 
         }
+
         public List<ComplementaryQuery> getSponsorComplentaryList(long id)
         {
             try
@@ -496,13 +587,67 @@ namespace NancyService.Modules
             }
             catch (Exception ex)
             {
-                Console.Write("SponsorManager.getSponsorType error " + ex);
+                Console.Write("SponsorManager.getSponsorComplentaryList error " + ex);
                 return null;
             }
 
         }
 
+        public ComplimentaryPagingQuery getSponsorComplentaryList(ComplimentaryPagingQuery page)
+        {
+            try
+            {
+                int pageSize = 10;
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
 
+                    var keys = (from s in context.complementarykeys
+                                    from pay in context.paymentcomplementaries
+                                    from k in context.payments
+                                    from r in context.registrations
+                                    from u in context.users
+                                    where s.sponsorID == page.sponsorID && s.isUsed == true && s.deleted == false && pay.paymentID == k.paymentID &&
+                                    s.complementarykeyID == pay.complementaryKeyID && r.paymentID == k.paymentID &&
+                                    r.userID == u.userID
+                                    select new ComplementaryQuery
+                                    {
+                                        complementarykeyID = s.complementarykeyID,
+                                        key = s.key,
+                                        isUsed = (bool)s.isUsed,
+                                        sponsorID = s.sponsorID,
+                                        userID = r.userID,
+                                        name = u.firstName + " " + u.lastName,
+                                    }).Concat((from s in context.complementarykeys
+                                               where s.sponsorID == page.sponsorID && s.isUsed == false && s.deleted == false
+                                               select new ComplementaryQuery
+                                               {
+                                                   complementarykeyID = s.complementarykeyID,
+                                                   key = s.key,
+                                                   isUsed = (bool)s.isUsed,
+                                                   sponsorID= s.sponsorID,
+                                                   userID = 0,
+                                                   name = "",
+                                               })).OrderBy(x => x.complementarykeyID);
+
+                    page.rowCount = keys.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        var keyList = keys.Skip(pageSize * page.index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = keyList;
+                    } 
+                    
+                    return page;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SponsorManager.getSponsorComplentaryList(index) error " + ex);
+                return null;
+            }
+
+        }
 
         public bool deleteComplementary(long x)
         {
@@ -530,7 +675,7 @@ namespace NancyService.Modules
 
         }
 
-        public List<ComplementaryQuery> deleteComplementarySponsor(long x)
+        public ComplimentaryPagingQuery deleteComplementarySponsor(long x)
         {
             try
             {
@@ -542,9 +687,11 @@ namespace NancyService.Modules
                                .ToList().ForEach(s => { s.deleted = true; });
 
                     context.SaveChanges();
-                    return getSponsorComplentaryList(x);
 
-
+                    ComplimentaryPagingQuery page = new ComplimentaryPagingQuery();
+                    page.index = 0;
+                    page.sponsorID = x;
+                    return getSponsorComplentaryList(page);
                 }
             }
             catch (Exception ex)
@@ -556,7 +703,7 @@ namespace NancyService.Modules
 
         }
 
-        public List<ComplementaryQuery> addKeysTo(addComplementary obj)
+        public ComplimentaryPagingQuery addKeysTo(addComplementary obj)
         {
             try
             {
@@ -576,8 +723,11 @@ namespace NancyService.Modules
 
                     context.SaveChanges();
 
-
-                    return getSponsorComplentaryList(obj.sponsorID);
+                    ComplimentaryPagingQuery page = new ComplimentaryPagingQuery();
+                    page.index = 0;
+                    page.sponsorID = obj.sponsorID;
+                    //return getSponsorComplentaryList(obj.sponsorID);
+                    return getSponsorComplentaryList(page);
                 }
             }
             catch (Exception ex)

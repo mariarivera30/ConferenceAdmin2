@@ -17,6 +17,19 @@ namespace NancyService.Modules
             public string description { get; set; }
         };
 
+        public class TemplatePagingQuery
+        {
+            public int indexPage;
+            public int maxIndex;
+            public int rowCount;
+            public List<templateQuery> results;
+
+            public TemplatePagingQuery()
+            {
+                results = new List<templateQuery>();
+            }
+        };
+
         public List<templateQuery> getTemplates()
         {
             try
@@ -44,6 +57,44 @@ namespace NancyService.Modules
             }
 
 
+        }
+
+        public TemplatePagingQuery getTemplates(int index)
+        {
+            TemplatePagingQuery page = new TemplatePagingQuery();
+
+            try
+            {
+                int pageSize = 10;
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    var tempList = (from t in context.templates
+                                    where t.deleted == false
+                                    select new templateQuery
+                                    {
+                                        templateID = t.templateID,
+                                        name = t.name,
+                                        document = t.document,
+                                        topic = t.topic,
+                                        description = t.description
+                                    }).OrderBy(x => x.templateID);
+
+                    page.rowCount = tempList.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        var templates = tempList.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = templates;
+                    }
+
+                    return page;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("AdminManager.getTemplates(index) error " + ex);
+                return null;
+            }
         }
 
         public templateQuery addTemplate(templateQuery t)

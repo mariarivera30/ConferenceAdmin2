@@ -12,6 +12,12 @@
     position:fixed;
 }
 
+.paging-word-left{
+    text-align:left; 
+    padding-bottom:20px;
+    position:fixed;
+}
+
 .paging-height{
     height:450px;
 }
@@ -26,6 +32,10 @@
 
 .title-centered{
     text-align:center;
+}
+
+.btn-padding{
+    margin-bottom:40px !important;
 }
 
 .loading-right{
