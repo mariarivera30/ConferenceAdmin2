@@ -200,7 +200,14 @@
                          .success(function (data, status, headers, config) {
                           
                                  vm.template.templateID = data.templateID;
-                                 vm.templatesList.push(vm.template);
+
+                                 if (vm.templatesList.length < 10) {
+                                     vm.templatesList.push(vm.template);
+                                 }
+                                 else {
+                                     _getTemplatesFromIndex(vm.tindex);
+                                 }
+
                                  vm.loadingUpload = false;
                                  _clear();
                                  $('#addTemplate').modal('hide');

@@ -408,7 +408,15 @@
                     vm.loadingUploading = true;
                     restApi.postNewSponsor(vm.sponsor)
                              .success(function (data, status, headers, config) {
-                                 vm.sponsorsList.push(data);
+
+                                 if (vm.sponsorsList.length < 10) {
+                                     vm.sponsorsList.push(data);
+                                 }
+
+                                 else {
+                                     _getSponsorListFromIndex(vm.sindex);
+                                 }
+
                                  vm.loadingUploading = false;
                                  $('#addSponsor').modal('hide');
                                  _clearSponsor();

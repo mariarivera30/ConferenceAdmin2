@@ -185,8 +185,15 @@
                 restApi.addAuthTemplate(vm.template)
                          .success(function (data, status, headers, config) {
                            
-                                 vm.template.authorizationID = data.authorizationID;
-                                 vm.templatesList.push(vm.template);
+                                 vm.template.authorizationID = data.authorizationID;                               
+
+                                 if (vm.templatesList.length < 10) {
+                                     vm.templatesList.push(vm.template);
+                                 }
+                                 else {
+                                     _getTemplatesFromIndex(vm.tindex);
+                                 }
+
                                  vm.loadingUpload = false;
                                  _clear();
                                  $('#addTemplate').modal('hide');
