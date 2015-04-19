@@ -568,8 +568,8 @@
             return $http.put('/admin/saveProgram', data);
         };
 
-        function _getBillReport() {
-            return $http.get('admin/getBillReport');
+        function _getBillReport(data) {
+            return $http.get('admin/getBillReport/'+data);
         };
 
         function _getRegistrationPaymentsFromIndex(data) {

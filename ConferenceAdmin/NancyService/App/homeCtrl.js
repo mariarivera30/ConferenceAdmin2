@@ -14,6 +14,7 @@
         vm.title = 'homeCtrl';
         vm.show = false;
         vm.disabled = false;
+        vm.saveLoading = false;
 
         //From Admin Website
         vm.temp;
@@ -128,6 +129,8 @@
 
         function _saveHome() {
             vm.disabled = true;
+            vm.saveLoading = true;
+
             var newHome = {
                 homeMainTitle: vm.homeMainTitle,
                 homeTitle1: vm.homeTitle1,
@@ -154,12 +157,16 @@
                     }
                     $("#updateConfirm").modal('show');
                 }
+
+                vm.saveLoading = false;
+                vm.disabled = false;
             })
             .error(function (error) {
+                vm.saveLoading = false;
+                vm.disabled = false;
                 $("#updateError").modal('show');
             });
 
-            vm.disabled = false;
         }
 
         function _removeImage() {

@@ -673,9 +673,10 @@ namespace NancyService.Modules
                 return webManager.saveProgram(info);
             };
 
-            Get["/getBillReport"] = parameters =>
+            Get["/getBillReport/{index:int}"] = parameters =>
             {
-                return Response.AsJson(reportManager.getBillReportList());
+                int index = parameters.index;
+                return Response.AsJson(reportManager.getBillReportList(index));
             };
 
             Get["/getRegistrationPayments/{index:int}"] = parameters =>
