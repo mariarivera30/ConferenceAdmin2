@@ -142,6 +142,7 @@
             searchSubmission: _searchSubmission,
             searchDeletedSubmission: _searchDeletedSubmission,
             searchGuest: _searchGuest,
+            searchEvaluators: _searchEvaluators,
             getSubmissionFile: _getSubmissionFile,
             getAuthorizationFile: _getAuthorizationFile,
             getTemplateFile: _getTemplateFile
@@ -477,6 +478,10 @@
         function _getNewEvaluator(email) {
             return $http.get('/admin/getNewEvaluator/' + email);
         };
+
+        function _searchEvaluators(data) {
+            return $http.get('admin/searchEvaluators/' + data.index + '/' + data.criteria);
+        }
 
         function _postNewEvaluator(email) {
             return $http.post('/admin/addEvaluator/' + email);
