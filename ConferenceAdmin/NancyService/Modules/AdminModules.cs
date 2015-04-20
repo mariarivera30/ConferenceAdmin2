@@ -879,6 +879,12 @@ namespace NancyService.Modules
                 var list = submissionManager.searchDeletedSubmission(index, criteria);
                 return Response.AsJson(list);
             };
+            //Gets the file for the submission with submissionID
+            Get["/getSubmissionFile/{fileID}"] = parameters =>
+                {
+                    int fileID = parameters.fileID;
+                    return Response.AsJson(submissionManager.getSubmissionFile(fileID));
+                };
 
             //------------------------------------Banner---------------------------------------------
             Get["/getBanners"] = parameters =>

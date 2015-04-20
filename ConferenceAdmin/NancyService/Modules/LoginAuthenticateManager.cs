@@ -14,6 +14,7 @@ namespace NancyService.Modules
         {
             public string email { get; set; }
             public string password { get; set; }
+            public string passwordSalt { get; set; }
             public long userID { get; set; }
             public int userType { get; set; }
             public long memberID { get; set; }
@@ -83,10 +84,17 @@ namespace NancyService.Modules
             using (conferenceadminContext contx = new conferenceadminContext())
             {
                
-                UserAuth user = (from g in contx.memberships
+                /*UserAuth user = (from g in contx.memberships
                                  join u in contx.users on g.membershipID equals u.membershipID
                                  where g.email == param.email  && g.password.Equals(param.password) && g.deleted == false && u.deleted == false
-                                 select new UserAuth { userID = u.userID ,memberID = g.membershipID, password = g.password, email = g.email, userType = u.userTypeID }).FirstOrDefault();
+                                 select new UserAuth { userID = u.userID, memberID = g.membershipID, password = g.password, email = g.email, userType = u.userTypeID }).FirstOrDefault();
+                */
+                //copy paste del query de maria, solo quite: && g.password.Equals(param.password)  del where clause y anadi: passwordSalt = g.passwordSalt, al select
+                UserAuth user = (from g in contx.memberships
+                                 join u in contx.users on g.membershipID equals u.membershipID
+                                 where g.email == param.email && g.deleted == false && u.deleted == false
+                                 select new UserAuth { userID = u.userID, memberID = g.membershipID, password = g.password, passwordSalt = g.passwordSalt, email = g.email, userType = u.userTypeID }).FirstOrDefault();
+               
 
                 if (user == null)
                 {
@@ -95,7 +103,8 @@ namespace NancyService.Modules
                               
                 else
                 {
-                   if( string.Equals(param.password, user.password, StringComparison.Ordinal))
+                   var crypto = new SimpleCrypto.PBKDF2();
+                   if( string.Equals(crypto.Compute(param.password, user.passwordSalt), user.password, StringComparison.Ordinal))
                         return user;
                    else{
                        return null;

@@ -1,3 +1,4 @@
+
 ﻿using NancyService.Models;
 using System;
 using System.Collections.Generic;
@@ -23,8 +24,14 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {                    
                     address address = new address();
-                    context.addresses.Add(address);                    
-
+                    context.addresses.Add(address); 
+                   
+                    //encryption
+                    var userPassword = mem.password;
+                    var crypto = new SimpleCrypto.PBKDF2();
+                    mem.password = crypto.Compute(userPassword);
+                    mem.passwordSalt = crypto.Salt;
+                    //end encryption                  
                     mem.emailConfirmation = true;
                     mem.deleted = false;
                     context.memberships.Add(mem);
@@ -51,7 +58,7 @@ namespace NancyService.Modules
 
                     context.SaveChanges();
 
-                    try { sendEmailConfirmation(mem.email, mem.password); }
+                    try { sendEmailConfirmation(mem.email, userPassword); }
 
                     catch (Exception ex)
                     {
@@ -146,7 +153,7 @@ namespace NancyService.Modules
                 {
                     int pageSize = 10;
                     var registrationList = new List<RegisteredUser>();
-                    registrationList = context.registrations.Where(reg => ((reg.user.firstName + " " + reg.user.lastName).Contains(criteria) || reg.user.usertype.userTypeName.Contains(criteria) || reg.user.affiliationName.Contains(criteria)) && reg.deleted == false).Select(reg => new RegisteredUser
+                    registrationList = context.registrations.Where(reg => ((reg.user.firstName + " " + reg.user.lastName).ToLower().Contains(criteria) || reg.user.usertype.userTypeName.ToLower().Contains(criteria) || reg.user.affiliationName.ToLower().Contains(criteria)) && reg.deleted == false).Select(reg => new RegisteredUser
                     {
                         registrationID = reg.registrationID,
                         firstname = reg.user.firstName,
@@ -342,4 +349,5 @@ public class UserTypeName
     public string description;
     public double? registrationCost;
     public double? registrationLateFee;
+
 }
