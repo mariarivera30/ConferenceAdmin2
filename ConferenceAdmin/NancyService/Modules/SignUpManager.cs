@@ -45,6 +45,12 @@ namespace NancyService.Modules
                 string key = generateEmailConfirmationKey();
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    //code for password encryption
+                    var crypto = new SimpleCrypto.PBKDF2();
+                    var encrpPass = crypto.Compute(member.password);
+                    member.password = encrpPass;
+                    member.passwordSalt = crypto.Salt;
+                    //end password encryption
                     member.deleted = false;
                     member.emailConfirmation = false;
                     member.deleted = false;
@@ -216,12 +222,19 @@ namespace NancyService.Modules
                 {
                     string tempPass = generateEmailConfirmationKey().Substring(0, 9);
                     tempPass = tempPass.Replace("-", "");
+                    //encryption code
+                    var crypto = new SimpleCrypto.PBKDF2();
+                    var encrpTempPass = crypto.Compute(tempPass);
+                    var tempPassSalt = crypto.Salt;
+                    //end encryption code
                     var member = (from m in context.memberships
                                   where (m.email.Equals(email) && m.deleted == false)
                                   select m).FirstOrDefault();
                     if (member != null)
                     {
-                        member.password = tempPass;
+                        //member.password = tempPass;  //before encryption, maria code
+                        member.password = encrpTempPass;//encrypting
+                        member.passwordSalt = tempPassSalt;//encrypting
                         UserCreation u = new UserCreation();
                         u.email = member.email;
                         u.membershipID = member.membershipID;
@@ -253,11 +266,8 @@ namespace NancyService.Modules
 
         public string checkEmail(string email)
         {
-
-
             using (conferenceadminContext context = new conferenceadminContext())
             {
-
                 try
                 {
                     var user = (from m in context.memberships
@@ -303,15 +313,28 @@ namespace NancyService.Modules
         {
             using (conferenceadminContext context = new conferenceadminContext())
             {
-
                 try
                 {
-                    var member = (from m in context.memberships
+                    /*var member = (from m in context.memberships
                                   where (m.email.Equals(u.email) && m.password== u.password && m.deleted == false)
-                                  select m).FirstOrDefault(); 
+                                  select m).FirstOrDefault(); */
+                    //same as in login, had to remove password check from query
+                    var member = (from m in context.memberships
+                                  where (m.email.Equals(u.email) && m.deleted == false)
+                                  select m).FirstOrDefault();
+                    var crypto = new SimpleCrypto.PBKDF2();
+                    if (string.Equals(crypto.Compute(u.password, member.passwordSalt), member.password, StringComparison.Ordinal)) { }//if password is the same member stays the same
+                    else member = null;
+
                     if (member != null)
                     {
-                        member.password = u.newPass;
+                        //encryption
+                        var newEncrpPass = crypto.Compute(u.newPass);
+                        var newPassSalt = crypto.Salt;
+                        //end encryption
+                        //member.password = u.newPass;//without encryption, old
+                        member.password = newEncrpPass;
+                        member.passwordSalt = newPassSalt;
                         u.membershipID = member.membershipID;
                         context.SaveChanges();
                         return u;

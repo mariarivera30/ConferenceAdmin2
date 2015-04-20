@@ -23,8 +23,14 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {                    
                     address address = new address();
-                    context.addresses.Add(address);                    
-
+                    context.addresses.Add(address); 
+                   
+                    //encryption
+                    var userPassword = mem.password;
+                    var crypto = new SimpleCrypto.PBKDF2();
+                    mem.password = crypto.Compute(userPassword);
+                    mem.passwordSalt = crypto.Salt;
+                    //end encryption                  
                     mem.emailConfirmation = true;
                     mem.deleted = false;
                     context.memberships.Add(mem);
@@ -51,7 +57,7 @@ namespace NancyService.Modules
 
                     context.SaveChanges();
 
-                    try { sendEmailConfirmation(mem.email, mem.password); }
+                    try { sendEmailConfirmation(mem.email, userPassword); }
 
                     catch (Exception ex)
                     {
