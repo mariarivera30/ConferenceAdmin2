@@ -525,7 +525,7 @@ namespace NancyService.Modules
                     {
                         userSubmissions.Add(final);
                     }
-                    return userSubmissions;
+                    return userSubmissions.OrderBy(x => x.submissionTitle).ToList();
                 }
             }
             catch (Exception ex)
@@ -1317,7 +1317,7 @@ namespace NancyService.Modules
                             email = assignment.evaluator.user.membership.email;//evaluator email
                             String subject = "Caribbean Celebration of Women in Computing Assignment Deletion";
                             String messageBody = "Greetings, \n\n " +
-                                "The request to evaluation the submission with title " + assignment.submission.title + " has been removed. It is no longer required for you to evaluate said submission.  To view all of your assigned submission please login to the system through the following link: \n\n" +
+                                "The request to evaluate the submission with title " + assignment.submission.title + " has been removed. It is no longer required for you to evaluate said submission.  To view all of your assigned submission please login to the system through the following link: \n\n" +
                                 "http://136.145.116.238/#/Login/Log" + ".";                            
                             sendAssignmentEmail(email, subject, messageBody); //inform evaluator of deleted assignment via email
                         }
@@ -1648,13 +1648,20 @@ namespace NancyService.Modules
                     addedRelation.evaluatorSubmissionID = context.evaluatiorsubmissions.Where(es => es.submissionID == relation.submissionID && es.evaluatorID == relation.evaluatorID && es.deleted == false).FirstOrDefault().evaluationsubmissionID;
 
                     //inform evaluator of assigned submission
-                    string email = relation.evaluator.user.membership.email;
-                    String subject = "Caribbean Celebration of Women in Computing Submission Assignment ";
-                    String messageBody = "Greetings, \n\n " +
-                                "You have been requested to evaluate the submission with the title " + relation.submission.title + ". To view and evaluate this submission please login to the system through the following link: \n\n" +
-                                "http://136.145.116.238/#/Login/Log" + ".";                     
-                    sendAssignmentEmail(email, subject, messageBody); //inform evaluator of assignment via email
-
+                    try
+                    {
+                        string email = relation.evaluator.user.membership.email;
+                        String subject = "Caribbean Celebration of Women in Computing Submission Assignment ";
+                        String messageBody = "Greetings, \n\n " +
+                                    "You have been requested to evaluate the submission with the title " + context.submissions.Where(c => c.submissionID == relation.submissionID).FirstOrDefault().title + ". To view and evaluate this submission please login to the system through the following link: \n\n" +
+                                    "http://136.145.116.238/#/Login/Log" + ".";
+                        sendAssignmentEmail(email, subject, messageBody); //inform evaluator of assignment via email
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write("SubmissionManager.sendAssignmentEmail error " + ex);
+                        return null;
+                    }
                     return addedRelation;
                 }
             }
@@ -1708,6 +1715,21 @@ namespace NancyService.Modules
                     evaluatiorsubmission evalSubToRemove = context.evaluatiorsubmissions.Where(c => c.evaluationsubmissionID == evaluatorSubmissionID && c.deleted == false).FirstOrDefault();
                     evalSubToRemove.deleted = true;
                     context.SaveChanges();
+                    try
+                    {
+                        string email = evalSubToRemove.evaluator.user.membership.email;//evaluator email
+                        String subject = "Caribbean Celebration of Women in Computing Assignment Deletion";
+                        String messageBody = "Greetings, \n\n " +
+                            "The request to evaluate the submission with title " + evalSubToRemove.submission.title + " has been removed. It is no longer required for you to evaluate said submission.  To view all of your assigned submission please login to the system through the following link: \n\n" +
+                            "http://136.145.116.238/#/Login/Log" + ".";
+                        sendAssignmentEmail(email, subject, messageBody); //inform evaluator of deleted assignment via email
+                    }
+
+                    catch (Exception ex)
+                    {
+                        Console.Write("SubmissionManager.addEvaluation error " + ex);
+                        return -1;
+                    }
                     return evalSubToRemove.evaluationsubmissionID;
                 }
             }
