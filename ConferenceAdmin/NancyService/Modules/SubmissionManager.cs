@@ -1245,6 +1245,7 @@ namespace NancyService.Modules
         {
             try
             {
+                String email = "";
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     submission sub = new submission();
@@ -1309,9 +1310,27 @@ namespace NancyService.Modules
                     List<evaluatiorsubmission> TBD = context.evaluatiorsubmissions.Where(c => c.submissionID == usersubTA.initialSubmissionID && c.statusEvaluation != "Evaluated" && c.deleted == false).ToList();
                     foreach (var assignment in TBD)
                     {
+                        //quitando el assignment de submission y evaluator del intial submission a los q aun no han evaluado, se les envia un email al evaluador de que no esta asignado.
                         assignment.deleted = true;
+
+                        try {
+                            email = assignment.evaluator.user.membership.email;//evaluator email
+                            String subject = "Caribbean Celebration of Women in Computing Assignment Deletion";
+                            String messageBody = "Greetings, \n\n " +
+                                "The request to evaluation the submission with title " + assignment.submission.title + " has been removed. It is no longer required for you to evaluate said submission.  To view all of your assigned submission please login to the system through the following link: \n\n" +
+                                "http://136.145.116.238/#/Login/Log" + ".";                            
+                            sendAssignmentEmail(email, subject, messageBody); //inform evaluator of deleted assignment via email
+                        }
+
+                        catch (Exception ex)
+                        {
+                            Console.Write("SubmissionManager.addEvaluation error " + ex);
+                            return null;
+                        }
+
                     }
                     context.SaveChanges();
+                    
 
                     Submission addedSub = new Submission
                     {
@@ -1332,6 +1351,27 @@ namespace NancyService.Modules
                 Console.Write("SubmissionManager.addSubmission error " + ex);
                 return null;
             }
+        }
+
+        //Send email to evaluator when an assignment to a submission was removed
+        private void sendAssignmentEmail(string email, String subject, String messageBody)
+        {
+            MailAddress ccwic = new MailAddress(ccwicEmail);
+            MailAddress user = new MailAddress(email);
+            MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
+
+            mail.Subject = subject;
+            mail.Body = messageBody;
+
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+
+            smtp.Credentials = new NetworkCredential(
+                ccwicEmail, ccwicEmailPass);
+            smtp.EnableSsl = true;
+
+            smtp.Send(mail);
         }
 
         public Submission postAdminFinalSubmission(usersubmission usersubTA, submission submissionToAdd, documentssubmitted submissionDocuments, panel pannelToAdd, workshop workshopToAdd)
@@ -1606,6 +1646,14 @@ namespace NancyService.Modules
                     addedRelation.evaluatorLastName = context.evaluators.Where(c => c.deleted == false).FirstOrDefault(c => c.evaluatorsID == evaluatorID).user.lastName;
                     addedRelation.score = 0;
                     addedRelation.evaluatorSubmissionID = context.evaluatiorsubmissions.Where(es => es.submissionID == relation.submissionID && es.evaluatorID == relation.evaluatorID && es.deleted == false).FirstOrDefault().evaluationsubmissionID;
+
+                    //inform evaluator of assigned submission
+                    string email = relation.evaluator.user.membership.email;
+                    String subject = "Caribbean Celebration of Women in Computing Submission Assignment ";
+                    String messageBody = "Greetings, \n\n " +
+                                "You have been requested to evaluate the submission with the title " + relation.submission.title + ". To view and evaluate this submission please login to the system through the following link: \n\n" +
+                                "http://136.145.116.238/#/Login/Log" + ".";                     
+                    sendAssignmentEmail(email, subject, messageBody); //inform evaluator of assignment via email
 
                     return addedRelation;
                 }
