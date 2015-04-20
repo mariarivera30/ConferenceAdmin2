@@ -2222,7 +2222,7 @@ namespace NancyService.Modules
             }
             catch (Exception ex)
             {
-                Console.Write("SubmissionManager.getDeletedSubmissions error " + ex);
+                Console.Write("SubmissionManager.getSubmissionFile error " + ex);
                 return null;
             }
         }

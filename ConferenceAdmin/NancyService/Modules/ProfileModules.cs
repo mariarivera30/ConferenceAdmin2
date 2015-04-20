@@ -245,11 +245,23 @@ namespace NancyService.Modules
                         submission.addFinalSubmission(usersubTA, submissionToAdd, submissionDocuments, pannelToAdd, workshopToAdd);
                     return Response.AsJson(newSubmission);
                 };
-
+            //get the deadline for the additon of submissions
             Get["/getSubmissionDeadline"] = parameters =>
                 {
                     return Response.AsJson(submission.getSubmissionDeadline());
                 };
+            //get the template file
+            Get["/getTemplateFile/{id}"] = parameters =>
+                {
+                    int templateID = parameters.id;
+                    return Response.AsJson(profileAuthorization.getTemplateFile(templateID));
+                };
+            //get the authorization file 
+            Get["/getAuthorizationFile/{id}"] = parameters =>
+            {
+                int authorizationID = parameters.id;
+                return Response.AsJson(profileAuthorization.getAuthorizationFile(authorizationID));
+            };
 
             //------------------------AUTHORIZATION----------------------------------
             Put["/uploadDocument"] = parameters =>
