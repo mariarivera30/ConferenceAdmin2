@@ -141,7 +141,8 @@
             getBanners: _getBanners,
             searchSubmission: _searchSubmission,
             searchDeletedSubmission: _searchDeletedSubmission,
-            searchGuest: _searchGuest
+            searchGuest: _searchGuest,
+            searchEvaluators: _searchEvaluators
 
         };
 
@@ -475,6 +476,10 @@
         function _updateEvaluatorAcceptanceStatus(data) {
             return $http.put('admin/updateEvaluatorAcceptanceStatus', { userID: data.userID, acceptanceStatus: data.acceptanceStatus })
         };
+
+        function _searchEvaluators(data) {
+            return $http.get('admin/searchEvaluators/' + data.index + '/' + data.criteria);
+        }
 
         //---------------------------------WEBSITE CONTENT----------------------------------------------
 

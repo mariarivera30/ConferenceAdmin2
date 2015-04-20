@@ -421,6 +421,13 @@ namespace NancyService.Modules
                 }
             };
 
+            Get["/searchEvaluators/{index:int}/{criteria}"] = parameters =>
+            {
+                int index = parameters.index;
+                string criteria = parameters.criteria;
+                return Response.AsJson(evaluatorManager.searchEvaluators(index, criteria));
+            };
+
             /* --------------------------------------- Registration ----------------------------------------*/
 
             Get["/getRegistrations/{index:int}"] = parameters =>
