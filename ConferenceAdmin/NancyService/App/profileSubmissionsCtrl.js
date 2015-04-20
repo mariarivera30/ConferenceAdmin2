@@ -504,7 +504,13 @@
         }
 
         function _downloadPDFFile(document) {
-            window.open(document);
+            restApi.getSubmissionFile(id).
+                success(function (data, status, headers, config) {
+                    window.open(data);
+                }).
+                error(function (data, status, headers, config) {
+                    alert("An error ocurred while downloading the file.");
+                });
         }
 
     }

@@ -238,8 +238,15 @@
         //----END PAGINATON CODE---
 
         /* Download a file through the browser */
-        function _downloadPDFFile(document) {
-            window.open(document);
+        function _downloadPDFFile(id) {
+            restApi.getSubmissionFile(id).
+                success(function (data, status, headers, config) {
+                    window.open(data);
+                }).
+                error(function (data, status, headers, config) {
+                    alert("An error ocurred while downloading the file.");
+                });
+            
         }
 
         /* Set all fields with the submission information */
@@ -837,6 +844,7 @@
                    });
         }
 
+        /* search deleted submissions within the list */
         function _searchDeletedSubmission() {
             vm.dindex = 0;
             var params = { index: vm.dindex, criteria: vm.dcriteria };
@@ -859,5 +867,7 @@
 
                 });
         }
+
+
     }
 })();

@@ -80,8 +80,15 @@
                    });
         }
 
-        function _downloadTemplate(doc) {
-            window.open(doc.authorizationDocument);
+        function _downloadTemplate(id) {
+            //window.open(doc.authorizationDocument);
+            restApi.getTemplateFile(id).
+                success(function (data, status, headers, config) {
+                    window.open(data);
+                }).
+                error(function (data, status, headers, config) {
+                    alert("An error ocurred while downloading the file.");
+                });
         }
 
         function _uploadDocument() {
@@ -111,8 +118,15 @@
                    });
         }
 
-        function _downloadDocument(doc) {
-            window.open(doc.authorizationFile);
+        function _downloadDocument(id) {
+            //window.open(doc.authorizationFile);
+            restApi.getAuthorizationFile(id).
+                success(function (data, status, headers, config) {
+                    window.open(data);
+                }).
+                error(function (data, status, headers, config) {
+                    alert("An error ocurred while downloading the file.");
+                });
         }
 
 

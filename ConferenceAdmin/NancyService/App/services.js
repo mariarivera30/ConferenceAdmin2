@@ -141,7 +141,10 @@
             getBanners: _getBanners,
             searchSubmission: _searchSubmission,
             searchDeletedSubmission: _searchDeletedSubmission,
-            searchGuest: _searchGuest
+            searchGuest: _searchGuest,
+            getSubmissionFile: _getSubmissionFile,
+            getAuthorizationFile: _getAuthorizationFile,
+            getTemplateFile: _getTemplateFile
 
         };
 
@@ -453,6 +456,13 @@
         function _getCompanionKey(data) {
             return $http.get('profile/getCompanionKey/' + data);
         };
+        function _getTemplateFile(data) {
+            return $http.get('profile/getTemplateFile/' + data);
+        };
+
+        function _getAuthorizationFile(data) {
+            return $http.get('profile/getAuthorizationFile/' + data);
+        };
 
         //-----------------------------------EVALUATORS---------------------------------
 
@@ -715,6 +725,10 @@
         //search within the list with a certain criteria
         function _searchDeletedSubmission(data) {
             return $http.get('admin/searchDeletedSubmission/' + data.index + '/' + data.criteria);
+        }
+        //get the file to download
+        function _getSubmissionFile(data) {
+            return $http.get('admin/getSubmissionFile/' + data);
         }
         //------------------------------------Banner-------------------------------------
         function _getBanners() {
