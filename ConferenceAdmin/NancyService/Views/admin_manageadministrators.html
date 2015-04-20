@@ -9,8 +9,6 @@
             <p class="after-title-field">No administradors have been added.</p><br />
         </div>
 
-        <label class="left">Search: <input ng-model="searchText" /></label>
-
         <!-- Table containing list of administrators. The table is hidden until the system has retrieved the list. -->
         <div class="atable">
             <table class="table row after-title-field" ng-show="vm.adminList.length">
@@ -24,7 +22,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="admin in vm.adminList | filter:searchText | orderBy: ['firstName', 'lastName']">
+                    <tr ng-repeat="admin in vm.adminList | orderBy: ['firstName', 'lastName']">
                         <td>{{admin.firstName}} {{admin.lastName}}</td>
                         <td>{{admin.email}}</td>
                         <td>{{admin.privilege}}</td>
