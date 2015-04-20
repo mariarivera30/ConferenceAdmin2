@@ -182,6 +182,7 @@
             vm.selectedUser = null;
             vm.selected = false;
             vm.documentsList = [];
+            vm.saved = false;
             if (vm.myFile != undefined) {
                 vm.myFile = undefined;
             }
