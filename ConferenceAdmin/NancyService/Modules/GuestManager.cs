@@ -82,7 +82,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     int pageSize = 10;
-                    var guests = context.users.Where(c => ((c.firstName + " " + c.lastName).Contains(criteria) || c.usertype.userTypeName.Contains(criteria) || c.acceptanceStatus.Contains(criteria) || c.registrationStatus.Contains(criteria)) && c.hasApplied == true && c.deleted != true).Select(i => new GuestList
+                    var guests = context.users.Where(c => ((c.firstName + " " + c.lastName).ToLower().Contains(criteria) || c.usertype.userTypeName.ToLower().Contains(criteria) || c.acceptanceStatus.ToLower().Contains(criteria) || c.registrationStatus.ToLower().Contains(criteria)) && c.hasApplied == true && c.deleted != true).Select(i => new GuestList
                     {
                         userID = (int)i.userID,
                         firstName = i.firstName,
@@ -199,8 +199,9 @@ namespace NancyService.Modules
                     authorizations = context.authorizationsubmitteds.Where(c => c.minor.userID == id && c.deleted == false).
                         Select(i => new MinorAuthorizations
                         {
+                            authorizationSubmittedID = i.authorizationSubmittedID,
                             documentName = i.documentName,
-                            documentFile = i.documentFile
+                            //documentFile = i.documentFile
                         }).ToList();
 
                     return authorizations;
@@ -257,6 +258,7 @@ namespace NancyService.Modules
 
     public class MinorAuthorizations
     {
+        public int authorizationSubmittedID;
         public String documentName;
         public String documentFile;
 

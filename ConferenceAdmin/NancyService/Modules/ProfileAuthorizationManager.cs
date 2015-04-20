@@ -12,13 +12,18 @@ namespace NancyService.Modules
         {
         }
 
-        public List<authorizationtemplate> getTemplates()
+        public List<Template> getTemplates()
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    List<authorizationtemplate> templates = context.authorizationtemplates.Where(t => t.deleted != true).ToList();
+                    List<Template> templates = context.authorizationtemplates.Where(t => t.deleted != true).
+                        Select(n => new Template
+                        {
+                            templateID = n.authorizationID,
+                            templateName = n.authorizationName,
+                        }).ToList();
                     return templates;
                 }
             }
@@ -40,7 +45,7 @@ namespace NancyService.Modules
                     { 
                         minor = new MinorUser{ userID = user.userID },
                         authorizationID = d.authorizationSubmittedID,
-                        authorizationFile = d.documentFile,
+                        //authorizationFile = d.documentFile,
                         authorizationName = d.documentName
                     }).ToList();
                     return documents;

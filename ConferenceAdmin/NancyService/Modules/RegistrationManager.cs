@@ -153,7 +153,7 @@ namespace NancyService.Modules
                 {
                     int pageSize = 10;
                     var registrationList = new List<RegisteredUser>();
-                    registrationList = context.registrations.Where(reg => ((reg.user.firstName + " " + reg.user.lastName).Contains(criteria) || reg.user.usertype.userTypeName.Contains(criteria) || reg.user.affiliationName.Contains(criteria)) && reg.deleted == false).Select(reg => new RegisteredUser
+                    registrationList = context.registrations.Where(reg => ((reg.user.firstName + " " + reg.user.lastName).ToLower().Contains(criteria) || reg.user.usertype.userTypeName.ToLower().Contains(criteria) || reg.user.affiliationName.ToLower().Contains(criteria)) && reg.deleted == false).Select(reg => new RegisteredUser
                     {
                         registrationID = reg.registrationID,
                         firstname = reg.user.firstName,
