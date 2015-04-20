@@ -1,3 +1,4 @@
+
 ﻿using NancyService.Models;
 using System;
 using System.Collections.Generic;
@@ -348,4 +349,5 @@ public class UserTypeName
     public string description;
     public double? registrationCost;
     public double? registrationLateFee;
+
 }

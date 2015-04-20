@@ -13,7 +13,7 @@
         //add sponsor fields
         vm.title = 'ushersCtrl';
         vm.sponsor;
-        vm.loading;
+        vm.loadingComp;
         vm.CCWICSponsorID = 1;
         vm.addComplementaryObj = { sponsorID: 0, quantity: 0, company: "" };
         vm.obj = {
@@ -28,6 +28,11 @@
         };
         vm.okFunc;
         vm.cancelFunc;
+
+        //Complementary Keys- Variables (Paging)
+        vm.sponsorKeys = []; //Results to Display
+        vm.sindex = 0;  //Page index [Goes from 0 to smaxIndex-1]
+        vm.smaxIndex = 0;   //Max page number
 
         vm.toggleModal = function (action) {
             if (action === "remove") {
@@ -87,24 +92,27 @@
                vm.obj.cancelbuttoText = "Cancel",
                vm.showConfirmModal = !vm.showConfirmModal;
         };
+
         // Functions
-
-
-
-        vm.getSponsorComplementaryKeys = _getSponsorComplementaryKeys;
         vm.deleteComplemetaryKey = _deleteComplemetaryKey;
         vm.deleteSponsorComplemetaryKey = _deleteSponsorComplemetaryKey;
         vm.addComplementaryKey = _addComplementaryKey;
         vm.selectedKey = _selectedKey;
+
+        //Functions- Sponsors (Paging)
+        vm.getSponsorComplimentaryKeysFromIndex = _getSponsorComplimentaryKeysFromIndex;
+        vm.previousComplimentary = _previousComplimentary;
+        vm.nextComplimentary = _nextComplimentary;
+        vm.getFirstComplimentaryPage = _getFirstComplimentaryPage;
+        vm.getLastComplimentaryPage = _getLastComplimentaryPage;
 
         activate();
 
         // Functions
         function activate() {
 
-            vm.loading = true;
+            vm.loadingComp = true;
             _getSponsorbyID();
-
         }
 
         function _selectedKey(key) {
@@ -116,29 +124,65 @@
             restApi.getSponsorbyID(vm.CCWICSponsorID).
                    success(function (data, status, headers, config) {
                        vm.sponsor = data;
-                       vm.loading = false;
-                       _getSponsorComplementaryKeys();
+                       _getSponsorComplimentaryKeysFromIndex(vm.sindex);
                    }).
                    error(function (data, status, headers, config) {
                        vm.toggleModal('error');
-                       vm.loading = false;
+                       vm.loadingComp = false;
                    });
             
         }
 
         //--------------------------Complementnary----------------------------------------
-        function _getSponsorComplementaryKeys() {
-            vm.loadingComp = true;
-            restApi.getSponsorComplementaryKeys(1).
+        function _getSponsorComplimentaryKeysFromIndex(index) {
+            var info = {
+                index: index,
+                sponsorID: 1
+            }
+            restApi.getSponsorComplementaryKeysFromIndex(info).
                    success(function (data, status, headers, config) {
-                       vm.sponsorKeys = data;
+                       vm.smaxIndex = data.maxIndex;
+                       if (vm.smaxIndex == 0) {
+                           vm.sindex = 0;
+                           vm.sponsorKeys = [];
+                       }
+                       else if (vm.sindex >= vm.smaxIndex) {
+                           vm.sindex = vm.smaxIndex - 1;
+                           _getSponsorListFromIndex(vm.sindex);
+                       }
+                       else {
+                           vm.sponsorKeys = data.results;
+                       }
                        vm.loadingComp = false;
                    }).
                    error(function (data, status, headers, config) {
-                       vm.loadingComp = false;
                        vm.toggleModal('error');
-
+                       vm.loadingComp = false;
                    });
+        }
+
+        function _nextComplimentary() {
+            if (vm.sindex < vm.smaxIndex - 1) {
+                vm.sindex += 1;
+                _getSponsorComplimentaryKeysFromIndex(vm.sindex);
+            }
+        }
+
+        function _previousComplimentary() {
+            if (vm.sindex > 0) {
+                vm.sindex -= 1;
+                _getSponsorComplimentaryKeysFromIndex(vm.sindex);
+            }
+        }
+
+        function _getFirstComplimentaryPage() {
+            vm.sindex = 0;
+            _getSponsorComplimentaryKeysFromIndex(vm.sindex);
+        }
+
+        function _getLastComplimentaryPage() {
+            vm.sindex = vm.smaxIndex - 1;
+            _getSponsorComplimentaryKeysFromIndex(vm.sindex);
         }
 
         function _deleteComplemetaryKey() {
@@ -169,19 +213,29 @@
         function _deleteSponsorComplemetaryKey() {
 
             vm.loadingRemovingComp = true;
-            restApi.deleteSponsorComplemetaryKey(vm.sponsor.sponsorID)
+            restApi.deleteSponsorComplemetaryKey(1)
             .success(function (data, status, headers, config) {
-                vm.sponsorKeys = data;
+                vm.smaxIndex = data.maxIndex;
+                if (vm.smaxIndex == 0) {
+                    vm.sindex = 0;
+                    vm.sponsorKeys = [];
+                }
+                else if (vm.sindex >= vm.smaxIndex) {
+                    vm.sindex = vm.smaxIndex - 1;
+                    _getSponsorListFromIndex(vm.sindex);
+                }
+                else {
+                    vm.sponsorKeys = data.results;
+                }
                 vm.loadingRemovingComp = false;
             })
 
             .error(function (data, status, headers, config) {
                 vm.toggleModal('error');
                 vm.loadingRemovingComp = false;
-
-
             });
         }
+
         function _addComplementaryKey() {
             vm.addComplementaryObj.sponsorID = vm.CCWICSponsorID;
             vm.addComplementaryObj.quantity = vm.quantity;
@@ -189,7 +243,18 @@
             vm.uploadingComp = true;
             restApi.addComplementaryKey(vm.addComplementaryObj)
                      .success(function (data, status, headers, config) {
-                         vm.sponsorKeys = data;
+                         vm.smaxIndex = data.maxIndex;
+                         if (vm.smaxIndex == 0) {
+                             vm.sindex = 0;
+                             vm.sponsorKeys = [];
+                         }
+                         else if (vm.sindex >= vm.smaxIndex) {
+                             vm.sindex = vm.smaxIndex - 1;
+                             _getSponsorListFromIndex(vm.sindex);
+                         }
+                         else {
+                             vm.sponsorKeys = data.results;
+                         }
                          vm.uploadingComp = false;
                          vm.quantity = 0;
 
@@ -202,14 +267,6 @@
 
                      });
         }
-
-
-
-
-
-
-
-
     }
 })();
 

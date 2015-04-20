@@ -2,12 +2,22 @@
     padding-top:20px;
 }
 
+.text-center{
+    text-align:center;
+}
+
 .table-top{
     margin-top:20px;
 }
 
 .paging-word{
     text-align:right; 
+    padding-bottom:20px;
+    position:fixed;
+}
+
+.paging-word-left{
+    text-align:left; 
     padding-bottom:20px;
     position:fixed;
 }
@@ -30,6 +40,10 @@
 
 .title-centered{
     text-align:center;
+}
+
+.btn-padding{
+    margin-bottom:40px !important;
 }
 
 .loading-right{
@@ -74,6 +88,11 @@
 
 #deadline-save{
     margin-top:20px;
+}
+
+#homeImage{
+    max-height:300px;
+    max-width:800px;
 }
 
 #g-information{

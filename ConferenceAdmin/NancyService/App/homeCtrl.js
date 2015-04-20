@@ -14,6 +14,7 @@
         vm.title = 'homeCtrl';
         vm.show = false;
         vm.disabled = false;
+        vm.saveLoading = false;
 
         //From Admin Website
         vm.temp;
@@ -94,14 +95,8 @@
                     vm.homeParagraph1 = data.homeParagraph1;
                     vm.homeTitle2 = data.homeTitle2;
                     vm.homeParagraph2 = data.homeParagraph2;
-                    vm.img = data.image;
-
-                    if (vm.img != "" && vm.img != undefined) {
-                        $scope.showContent(vm.img);
-                    }
-                    else {
-                        vm.show = false;
-                    }
+                    
+                    _getImage();
 
                     load();
                 }
@@ -112,8 +107,30 @@
             });
         }
 
+        function _getImage() {
+            restApi.getHomeImage()
+            .success(function (data, status, headers, config) {
+                if (data != null) {
+                    vm.img = data.image;
+
+                    if (vm.img != "" && vm.img != undefined) {
+                        $scope.showContent(vm.img);
+                    }
+                    else {
+                        vm.show = false;
+                    }
+                }
+            })
+
+            .error(function (error) {
+
+            });
+        }
+
         function _saveHome() {
             vm.disabled = true;
+            vm.saveLoading = true;
+
             var newHome = {
                 homeMainTitle: vm.homeMainTitle,
                 homeTitle1: vm.homeTitle1,
@@ -140,12 +157,16 @@
                     }
                     $("#updateConfirm").modal('show');
                 }
+
+                vm.saveLoading = false;
+                vm.disabled = false;
             })
             .error(function (error) {
+                vm.saveLoading = false;
+                vm.disabled = false;
                 $("#updateError").modal('show');
             });
 
-            vm.disabled = false;
         }
 
         function _removeImage() {

@@ -57,11 +57,15 @@
         <textarea class="form-control" rows="5" ng-model="vm.homeParagraph2"></textarea><br />
 
         <div class="row">
-            <div class="col-lg-10">
+            <div class="col-lg-1">
                 <button class="btn btn-ar btn-primary" ng-disabled="vm.disabled" ng-click="vm.saveHome()">Save</button>
+            </div>
+            <div class="col-lg-2">
+                <h3 ng-show="vm.saveLoading">  <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Saving</h3>
             </div>
         </div>
     </div>
+
 
     <div class="modal fade" id="viewImg" tabindex="-1" role="dialog" aria-labelledby="viewImgLabel" aria-hidden="true">
         <div class="modal-dialog">

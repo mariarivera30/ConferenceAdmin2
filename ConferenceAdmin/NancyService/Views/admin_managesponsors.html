@@ -1,30 +1,45 @@
 ﻿<h3>Manage Sponsors</h3><br>
 <div ng-controller="sponsorCtrl as vm ">
     <div class="col-lg-12" ng-hide="vm.loading">
-        <label class="left">Search: <input ng-model="searchText" /></label>
-        <table ng-table="tableParams" show-filter="true" class="table row">
-            <thead>
-                <tr>
-                    <th><b>Name</b></th>
-                    <th><b>Affiliation</b></th>
-                    <th><b>Amount</b></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="sponsor in  vm.sponsorsList | filter:searchText | orderBy: ['firstName', 'lastName']">
-                    <td data-toggle="modal" data-target="#viewSponsor" ng-click="vm.selectedSponsor(sponsor); vm.viewValues()"><a href="">{{sponsor.firstName}} {{sponsor.lastName}}</td>
-                    <td>{{sponsor.company}}</td>
-                    <td>{{sponsor.amount}}</td>
+        <div ng-hide="vm.sponsorsList.length">
+            <p class="title-field">No content to display.</p>
+            <a class="btn btn-default btn-padding" ng-click="vm.getSponsorListFromIndex(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
+        </div>
+        <div ng-show="vm.sponsorsList.length">
+            <label class="left">Search: <input ng-model="searchText" /></label>
+            <table ng-table="tableParams" class="table row">
+                <thead>
+                    <tr>
+                        <th><b>Name</b></th>
+                        <th><b>Affiliation</b></th>
+                        <th><b>Amount</b></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="sponsor in  vm.sponsorsList | filter:searchText | orderBy: ['firstName', 'lastName']">
+                        <td data-toggle="modal" data-target="#viewSponsor" ng-click="vm.selectedSponsor(sponsor); vm.viewValues()"><a href="">{{sponsor.firstName}} {{sponsor.lastName}}</td>
+                        <td>{{sponsor.company}}</td>
+                        <td>{{sponsor.amount}}</td>
 
-                    <td data-toggle="modal" ng-click="vm.selectedSponsor(sponsor);vm.editValues()" data-target="#addSponsor"><a href="">Edit</a></td>
-                    <td data-toggle="modal" data-target="#complementary" ng-click="vm.complementaryValues(sponsor)"><a href="">Complementary Keys</a></td>
-                    <td><a href="" ng-hide="sponsor.sponsorID == 1" data-toggle="modal" ng-click="vm.selectedSponsor(sponsor);vm.toggleModal('remove');"><i ng-hide="sponsor.sponsorID == 1" class="glyphicon glyphicon-remove"></i></a></td>
-                </tr>
-            </tbody>
-        </table>
+                        <td data-toggle="modal" ng-click="vm.selectedSponsor(sponsor);vm.editValues()" data-target="#addSponsor"><a href="">Edit</a></td>
+                        <td data-toggle="modal" data-target="#complementary" ng-click="vm.complementaryValues(sponsor)"><a href="">Complementary Keys</a></td>
+                        <td><a href="" ng-hide="sponsor.sponsorID == 1" data-toggle="modal" ng-click="vm.selectedSponsor(sponsor);vm.toggleModal('remove');"><i ng-hide="sponsor.sponsorID == 1" class="glyphicon glyphicon-remove"></i></a></td>
+                    </tr>
+                </tbody>
+            </table><br />
+            <div aria-live="polite" class="col-lg-6">Showing page {{vm.sindex + 1}} of {{vm.smaxIndex}}</div>
+            <div class="col-lg-6 paging-word">
+                <a class="btn btn-default" ng-click="vm.getSponsorListFromIndex(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i></a>
+                <a class="btn btn-default" ng-disabled="vm.sindex==0" ng-click="vm.getFirstSponsorPage()">First</a>
+                <a class="btn btn-default" ng-disabled="vm.sindex==0" ng-click="vm.previousSponsor()">Previous</a>
+                <!--<span><a class="btn btn-default">{{vm.sindex+1}}</a></span>-->
+                <a class="btn btn-default" ng-disabled="vm.sindex >= (vm.smaxIndex-1)" ng-click="vm.nextSponsor()">Next</a>
+                <a class="btn btn-default" ng-disabled="vm.sindex >= (vm.smaxIndex-1)" ng-click="vm.getLastSponsorPage()">Last</a>
+            </div>
+        </div>
         <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" ng-click="vm.addValues()" data-target="#addSponsor">Add Sponsor</button> <a href=""><i class="fa fa-info-circle info-icon" title="Manually Add Sponsor"> </i></a>
     </div>
 
@@ -349,20 +364,36 @@
                     <div class="row">
                         <div class="col-lg-1"></div>
                         <div ng-hide="vm.loadingComp" class="col-lg-10">
-                            <table id="keys" ng-table="tableParams" class="table row">
-                                <tr>
-                                    <td><b>Key Code</b></td>
-                                    <td><b>Used</b></td>
-                                    <td><b>Used by</b></td>
-                                    <td><b> <a href="" ng-click="vm.toggleModal('removeKeys')">Remove All</b></td>
-                                </tr>
-                                <tr ng-repeat="key in  vm.sponsorKeys">
-                                    <td>{{key.key}}</td>
-                                    <td>{{key.isUsed}}</td>
-                                    <td>{{key.name}}</td>
-                                    <td><a href="" ng-click="vm.selectedKey(key);vm.toggleModal('removeKey');" ng-hide="key.isUsed">Deactivate</a></td>
-                                </tr>
-                            </table><br /><br />
+                            <div ng-hide="vm.sponsorKeys.length">
+                                <p class="title-field">No content to display.</p>
+                                <a class="btn btn-default btn-padding" ng-click="vm.getSponsorComplementaryKeys(vm.cindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
+                            </div>
+                            <div ng-show="vm.sponsorKeys.length">
+                                <table id="keys" ng-table="tableParams" class="table row">
+                                    <tr>
+                                        <td><b>Key Code</b></td>
+                                        <td><b>Used</b></td>
+                                        <td><b>Used by</b></td>
+                                        <td><b> <a href="" ng-click="vm.toggleModal('removeKeys')">Remove All</a></b></td>
+                                    </tr>
+                                    <tr ng-repeat="key in  vm.sponsorKeys">
+                                        <td>{{key.key}}</td>
+                                        <td>{{key.isUsed}}</td>
+                                        <td>{{key.name}}</td>
+                                        <td><a href="" ng-click="vm.selectedKey(key);vm.toggleModal('removeKey');" ng-hide="key.isUsed">Deactivate</a></td>
+                                    </tr>
+                                </table>
+                                <div aria-live="polite" class="col-lg-6">Showing page {{vm.cindex + 1}} of {{vm.cmaxIndex}}</div>
+                                <div class="col-lg-10 paging-word-left">
+                                    <a class="btn btn-default" ng-click="vm.getSponsorComplementaryKeys(vm.cindex)"><i class="glyphicon glyphicon-repeat"></i></a>
+                                    <a class="btn btn-default" ng-disabled="vm.cindex==0" ng-click="vm.getFirstComplimentaryPage()">First</a>
+                                    <a class="btn btn-default" ng-disabled="vm.cindex==0" ng-click="vm.previousComplimentary()">Previous</a>
+                                    <!--<span><a class="btn btn-default">{{vm.cindex+1}}</a></span>-->
+                                    <a class="btn btn-default" ng-disabled="vm.cindex >= (vm.cmaxIndex-1)" ng-click="vm.nextComplimentary()">Next</a>
+                                    <a class="btn btn-default" ng-disabled="vm.cindex >= (vm.cmaxIndex-1)" ng-click="vm.getLastComplimentaryPage()">Last</a>
+                                </div>
+                            </div>
+                            <br />
                             <div class="col-lg-12" ng-show="vm.loadingRemovingComp">
                                 <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Removing</h3>
                             </div>

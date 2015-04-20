@@ -1,23 +1,38 @@
 ﻿<div ng-controller="adminAuthTemplates as vm">
     <h3>Manage Authorization Templates</h3><br>
     <div class="col-lg-12" ng-hide="vm.loading">
-        <table ng-table="tableParams" show-filter="true" class="table row">
-            <thead>
-                <tr>
-                    <th><b>Name</b></th>
+        <div ng-hide="vm.templatesList.length">
+            <p class="title-field">No content to display.</p>
+            <a class="btn btn-default btn-padding" ng-click="vm.getTemplatesFromIndex(vm.tindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
+        </div>
+        <div ng-show="vm.templatesList.length">
+            <table ng-table="tableParams" class="table row">
+                <thead>
+                    <tr>
+                        <th><b>Name</b></th>
 
-                    <th><b></b></th>
-                    <th></th>
+                        <th><b></b></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="template in  vm.templatesList | orderBy: ['name']">
+                    <td data-toggle="modal" data-target="#addTemplate" ng-click="vm.selectedTemplate(template);vm.viewValues()"><a href="">{{template.authorizationName}}</td>
+                    <td data-toggle="modal" data-target="#addTemplate" ng-click="vm.selectedTemplate(template);vm.editValues()"><a href="">Edit</a></td>
+                    <td><a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedTemplate(template)"><i class="glyphicon glyphicon-remove"></i></a></td>
                 </tr>
-            </thead>
-            <tr ng-repeat="template in  vm.templatesList | orderBy: ['name']">
-                <td data-toggle="modal" data-target="#addTemplate" ng-click="vm.selectedTemplate(template);vm.viewValues()"><a href="">{{template.authorizationName}}</td>
-                <td data-toggle="modal" data-target="#addTemplate" ng-click="vm.selectedTemplate(template);vm.editValues()"><a href="">Edit</a></td>
-                <td><a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedTemplate(template)"><i class="glyphicon glyphicon-remove"></i></a></td>
-            </tr>
 
-        </table>
-        <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" ng-click=" vm.addValues();" data-target="#addTemplate">Add New Template</button> <a href=""><i class="fa fa-info-circle info-icon" title="Adding a Template will include them in the Template selection option."> </i></a>
+            </table><br />
+            <div aria-live="polite" class="col-lg-6">Showing page {{vm.tindex + 1}} of {{vm.tmaxIndex}}</div>
+            <div class="col-lg-6 paging-word">
+                <a class="btn btn-default" ng-click="vm.getTemplatesFromIndex(vm.tindex)"><i class="glyphicon glyphicon-repeat"></i></a>
+                <a class="btn btn-default" ng-disabled="vm.tindex==0" ng-click="vm.getFirstTemplatePage()">First</a>
+                <a class="btn btn-default" ng-disabled="vm.tindex==0" ng-click="vm.previousTemplate()">Previous</a>
+                <!--<span><a class="btn btn-default">{{vm.tindex+1}}</a></span>-->
+                <a class="btn btn-default" ng-disabled="vm.tindex >= (vm.tmaxIndex-1)" ng-click="vm.nextTemplate()">Next</a>
+                <a class="btn btn-default" ng-disabled="vm.tindex >= (vm.tmaxIndex-1)" ng-click="vm.getLastTemplatePage()">Last</a>
+            </div>
+            <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" ng-click=" vm.addValues();" data-target="#addTemplate">Add New Template</button> <a href=""><i class="fa fa-info-circle info-icon" title="Adding a Template will include them in the Template selection option."> </i></a>
+        </div>
     </div>
     <div class="col-lg-12" ng-show="vm.loading">
         <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>

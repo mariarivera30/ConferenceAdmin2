@@ -16,6 +16,7 @@
         vm.imgExist = false;
         vm.pshow = false;
         vm.disabled = false;
+        vm.saveLoading = false;
 
         //From Admin Website
         vm.temp;
@@ -132,6 +133,8 @@
         function _saveGeneralInfo() {
 
             vm.disabled = true;
+            vm.saveLoading = true;
+
             var d1 = ""; var d2 = "";
 
             if (vm.dateFrom != null && vm.dateFrom != "Invalid Date") {
@@ -192,12 +195,14 @@
                     _clear();
                     $("#updateError2").modal('show');
                 }
+                vm.saveLoading = false;
+                vm.disabled = false;
             })
             .error(function (error) {
+                vm.saveLoading = false;
+                vm.disabled = false;
                 $("#updateError").modal('show');
             });
-
-            vm.disabled = false;
         }
 
         function _removeImage() {

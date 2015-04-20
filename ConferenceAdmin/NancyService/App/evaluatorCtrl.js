@@ -192,7 +192,8 @@
                 restApi.postNewEvaluator(vm.email)
                     .success(function (data, status, headers, config) {
                         if (data.email != null) {
-                            vm.evaluatorsList.push(data);
+                            //vm.evaluatorsList.push(data);
+                            _getEvaluatorListFromIndex(vm.eindex);
                             vm.pendingList.forEach(function (s, index) {
                                 if (s.userID == data.userID) {
                                     vm.pendingList.splice(index, 1);
@@ -233,8 +234,9 @@
                             vm.pendingList.forEach(function (s, index) {
                                 if (s.userID == vm.evaluator.userID) {
                                     s.acceptanceStatus = vm.acceptanceStatus;
-                                    vm.evaluatorsList.push(s);
+                                    //vm.evaluatorsList.push(s);
                                     vm.pendingList.splice(index, 1);
+                                    _getEvaluatorListFromIndex(vm.eindex);
                                     $("#confirmationEvaluatorAcceptanceChange").modal('show');
                                 }
                             });
