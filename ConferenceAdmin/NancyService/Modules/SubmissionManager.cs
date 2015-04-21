@@ -2258,13 +2258,18 @@ namespace NancyService.Modules
             }
         }
         //gets file with ID in parameter
-        public documentssubmitted getSubmissionFile(long documentID)
+        public File getSubmissionFile(long documentID)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    documentssubmitted file = context.documentssubmitteds.Where(c => c.documentssubmittedID == documentID).FirstOrDefault();
+                    File file = context.documentssubmitteds.Where(c => c.documentssubmittedID == documentID).
+                        Select(d => new File
+                        {
+                            documentName = d.documentName,
+                            document = d.document
+                        }).FirstOrDefault();
                     return file;
                 }
             }
@@ -2278,7 +2283,11 @@ namespace NancyService.Modules
     }
 
 
-
+    public class File
+    {
+        public String documentName;
+        public String document;
+    }
 
     public class SubmissionPagingQuery
     {
