@@ -53,6 +53,21 @@ namespace NancyService.Modules
                 home.homeTitle2 = this.getInterfaceElement("homeTitle2").content;
                 home.homeParagraph2 = this.getInterfaceElement("homeParagraph2").content;
 
+                return home;
+
+            }
+            catch (Exception ex)
+            {
+                Console.Write("WebManager.getHome error " + ex);
+                return null;
+            }
+        }
+
+        public HomeQuery getHomeImage()
+        {
+            try
+            {
+                HomeQuery home = new HomeQuery();
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
 
@@ -70,7 +85,7 @@ namespace NancyService.Modules
             }
             catch (Exception ex)
             {
-                Console.Write("WebManager.getHome error " + ex);
+                Console.Write("WebManager.getHomeImage error " + ex);
                 return null;
             }
         }

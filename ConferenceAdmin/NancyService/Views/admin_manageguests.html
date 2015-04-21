@@ -8,8 +8,8 @@
         </div>
         <div ng-show="vm.guestList.length">
             <div class="paging-height-dropdowns">
-                <label class="left">Search: <input ng-model="vm.criteria" /><!--ng-change="vm.searchGuest()" />--><button type="submit" ng-click="vm.searchGuest()"><i class="fa fa-search"></i></button></label><br />
-                <!--<label class="left">Search: <input ng-model="searchText" /></label>-->
+                <label class="left" ng-hide="vm.showResult">Search: <input ng-model="vm.criteria" /><!--ng-change="vm.searchGuest()" />--><button type="submit" ng-click="vm.searchGuest(); vm.showResult = true"><i class="fa fa-search"></i></button></label>
+                <label class="left" ng-show="vm.showResult"><button ng-click="vm.getGuestList(vm.sindex); vm.showResult = false; vm.criteria = '';"><i class="glyphicon glyphicon-arrow-left"></i> </button> Showing results for: "{{vm.criteria}}"</label><br />
                 <table ng-table="tableParams" show-filter="true" class="table row">
                     <thead>
                         <tr>
@@ -164,7 +164,7 @@
                     <h3>Authorizations</h3>
                     <div class="row">
                         <div ng-repeat="auth in vm.authorizations">
-                            <a href="" class="col-sm-7" ng-click="vm.downloadPDFFile(auth.documentFile)"> {{auth.documentName}}</a>
+                            <a href="" class="col-sm-7" ng-click="vm.downloadPDFFile(auth.authorizationSubmittedID)"> {{auth.documentName}}</a>
                         </div>
                     </div><br />
                 </div>

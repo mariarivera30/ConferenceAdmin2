@@ -12,19 +12,42 @@ namespace NancyService.Modules
         {
         }
 
-        public List<authorizationtemplate> getTemplates()
+        public List<Template> getTemplates()
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    List<authorizationtemplate> templates = context.authorizationtemplates.Where(t => t.deleted != true).ToList();
+                    List<Template> templates = context.authorizationtemplates.Where(t => t.deleted != true).
+                        Select(n => new Template
+                        {
+                            templateID = n.authorizationID,
+                            templateName = n.authorizationName,
+                        }).ToList();
                     return templates;
                 }
             }
             catch (Exception ex)
             {
                 Console.Write("ProfileAuthorizationManager.getTemplates error " + ex);
+                return null;
+            }
+        }
+
+        //get file of authorizationID
+        public String getTemplateFile(int templateID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    String file = context.authorizationtemplates.Where(c => c.authorizationID == templateID).Select(d => d.authorizationDocument).FirstOrDefault();
+                    return file;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("ProfileAuthorizationManager.getTemplateFile error " + ex);
                 return null;
             }
         }
@@ -40,7 +63,7 @@ namespace NancyService.Modules
                     { 
                         minor = new MinorUser{ userID = user.userID },
                         authorizationID = d.authorizationSubmittedID,
-                        authorizationFile = d.documentFile,
+                        //authorizationFile = d.documentFile,
                         authorizationName = d.documentName
                     }).ToList();
                     return documents;
@@ -49,6 +72,24 @@ namespace NancyService.Modules
             catch (Exception ex)
             {
                 Console.Write("ProfileAuthorizationManager.getTemplates error " + ex);
+                return null;
+            }
+        }
+
+        //get file of authorizationID
+        public String getAuthorizationFile(int authorizationID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    String file = context.authorizationsubmitteds.Where(c => c.authorizationSubmittedID == authorizationID).Select(d => d.documentFile).FirstOrDefault();
+                    return file;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("ProfileAuthorizationManager.getAuthorizationFile error " + ex);
                 return null;
             }
         }

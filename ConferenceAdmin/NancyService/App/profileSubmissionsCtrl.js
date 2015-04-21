@@ -281,6 +281,17 @@
         //para preview la imagen
         $scope.showContent = function ($fileContent) {
             vm.content = $fileContent;
+            vm.fileext = vm.myFile.name.split(".", 2)[1];
+            if (vm.fileext == "pdf" || vm.fileext == "doc" || vm.fileext == "docx" || vm.fileext == "ppt")
+                vm.ext = false;
+            else {
+                document.getElementById("documentFile").value = "";
+                vm.ext = true;
+                $scope.content = "";
+                $fileContent = "";
+                vm.myFile = undefined;
+                File.name = "";
+            }
         };
        
         function _addSubmission() {           
@@ -493,7 +504,13 @@
         }
 
         function _downloadPDFFile(document) {
-            window.open(document);
+            restApi.getSubmissionFile(id).
+                success(function (data, status, headers, config) {
+                    window.open(data);
+                }).
+                error(function (data, status, headers, config) {
+                    alert("An error ocurred while downloading the file.");
+                });
         }
 
     }

@@ -182,6 +182,7 @@
             vm.selectedUser = null;
             vm.selected = false;
             vm.documentsList = [];
+            vm.saved = false;
             if (vm.myFile != undefined) {
                 vm.myFile = undefined;
             }
@@ -237,8 +238,15 @@
         //----END PAGINATON CODE---
 
         /* Download a file through the browser */
-        function _downloadPDFFile(document) {
-            window.open(document);
+        function _downloadPDFFile(id) {
+            restApi.getSubmissionFile(id).
+                success(function (data, status, headers, config) {
+                    window.open(data);
+                }).
+                error(function (data, status, headers, config) {
+                    alert("An error ocurred while downloading the file.");
+                });
+            
         }
 
         /* Set all fields with the submission information */
@@ -571,10 +579,10 @@
                 submission.documentssubmitteds = vm.documentsList;
                 restApi.postAdminSubmission(submission)
                         .success(function (data, status, headers, config) {
-                            _getAllSubmissions();
+                            _getAllSubmissions(vm.sindex);
                         })
                         .error(function (error) {
-
+                            _getAllSubmissions(vm.sindex);
                         });
             }
             else if (vm.viewModal == 'edit') { //if updating submission
@@ -610,7 +618,7 @@
                 restApi.editSubmission(submission)
                        .success(function (data, status, headers, config) {
                            _getSubmissionView(vm.submissionID);
-                           _getAllSubmissions();
+                           _getAllSubmissions(vm.sindex);
                        })
                        .error(function (error) {
                            
@@ -649,7 +657,7 @@
                     submission.byAdmin = true;
                     restApi.postAdminFinalSubmission(submission)
                             .success(function (data, status, headers, config) {
-                                _getAllSubmissions();
+                                _getAllSubmissions(vm.sindex);
                                 vm.view = false;
                             })
                             .error(function (error) {
@@ -784,8 +792,8 @@
             restApi.deleteSubmission(id).
                 success(function (data, status, headers, config) {
                     vm.submissionsList.forEach(function (submission, index) {
-                        _getAllSubmissions();
-                        _getDeletedSubmissions();
+                        _getAllSubmissions(vm.sindex);
+                        _getDeletedSubmissions(vm.dindex);
                     });
                 }).
                 error(function (data, status, headers, config) {
@@ -796,6 +804,17 @@
         /* to preview image */
         $scope.showContent = function ($fileContent) {
             vm.content = $fileContent;
+            vm.fileext = vm.myFile.name.split(".", 2)[1];
+            if (vm.fileext == "pdf" || vm.fileext == "doc" || vm.fileext == "docx" || vm.fileext == "ppt")
+                vm.ext = false;
+            else {
+                document.getElementById("documentFile").value = "";
+                vm.ext = true;
+                $scope.content = "";
+                $fileContent = "";
+                vm.myFile = undefined;
+                File.name = "";
+            }
         };
 
 
@@ -825,6 +844,7 @@
                    });
         }
 
+        /* search deleted submissions within the list */
         function _searchDeletedSubmission() {
             vm.dindex = 0;
             var params = { index: vm.dindex, criteria: vm.dcriteria };
@@ -847,5 +867,7 @@
 
                 });
         }
+
+
     }
 })();

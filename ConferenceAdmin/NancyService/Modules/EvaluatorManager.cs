@@ -245,6 +245,45 @@ namespace NancyService.Modules
             }
         }
 
+        public EvaluatorPagingQuery searchEvaluators(int index, String criteria)
+        {
+            EvaluatorPagingQuery e = new EvaluatorPagingQuery();
+
+            try
+            {
+
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    int pageSize = 10;
+                    var query = context.users.Where(evaluator => ((evaluator.firstName.ToLower() + " " + evaluator.lastName.ToLower()).Contains(criteria.ToLower()) || evaluator.membership.email.ToLower().Contains(criteria.ToLower())) && (evaluator.evaluatorStatus == "Accepted" || evaluator.evaluatorStatus == "Rejected")).Select(evaluator => new EvaluatorQuery
+                    {
+                        userID = (long)evaluator.userID,
+                        firstName = evaluator.firstName,
+                        lastName = evaluator.lastName,
+                        email = evaluator.membership.email,
+                        acceptanceStatus = evaluator.evaluatorStatus
+
+                    }).OrderBy(x => x.email);
+
+                    e.rowCount = query.Count();
+
+                    if (e.rowCount > 0)
+                    {
+                        e.maxIndex = (int)Math.Ceiling(e.rowCount / (double)pageSize);
+                        var evaluators = query.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        e.results = evaluators;
+                    }
+
+                    return e;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("EvaluatorManager.searchEvaluators error " + ex);
+                return null;
+            }
+        }
+
     }
 
     public class EvaluatorQuery

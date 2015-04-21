@@ -13,13 +13,13 @@ namespace NancyService.Modules
 
         }
 
-        public BillReportQuery getBillReportList()
+        public BillReportQuery getBillReportList(int index)
         {
             BillReportQuery b = new BillReportQuery();
-            List<BillQuery> report = new List<BillQuery>();
 
             try
             {
+                int pageSize = 10;
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     var payments = (from s in context.registrations
@@ -60,9 +60,15 @@ namespace NancyService.Modules
                                                                          userType = "Sponsor",
                                                                          amountPaid = bill.AmountPaid,
                                                                          paymentMethod = bill.methodOfPayment
-                                                                    }));
+                                                                    })).OrderBy(x => x.name);
 
-                    b.report = payments.ToList();
+                    if (payments.Count() > 0)
+                    {
+                        b.maxIndex = (int)Math.Ceiling(payments.Count() / (double)pageSize);
+                        var report = payments.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        b.results = report;
+                    }
+
                     b.totalAmount = context.paymentbills.Where(x => x.deleted != true).Sum(x => x.AmountPaid);
                 }
 
@@ -199,12 +205,13 @@ namespace NancyService.Modules
 
     public class BillReportQuery
     {
-        public List<BillQuery> report;
+        public List<BillQuery> results;
         public double totalAmount;
+        public int maxIndex;
 
         public BillReportQuery()
         {
-            report = new List<BillQuery>();
+            results = new List<BillQuery>();
         }
     }
         

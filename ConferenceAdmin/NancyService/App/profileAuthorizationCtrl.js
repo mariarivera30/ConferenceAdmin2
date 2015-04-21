@@ -57,6 +57,17 @@
 
         $scope.showContent = function ($fileContent) {
             $scope.content = $fileContent;
+            vm.fileext = vm.myFile.name.split(".", 2)[1];
+            if (vm.fileext == "pdf" || vm.fileext == "doc" || vm.fileext == "docx" || vm.fileext == "ppt")
+                vm.ext = false;
+            else {
+                document.getElementById("input-1a").value = "";
+                vm.ext = true;
+                $scope.content = "";
+                $fileContent = "";
+                vm.myFile = undefined;
+                File.name = "";
+            }
         };
 
         function _getTemplates() {
@@ -69,8 +80,15 @@
                    });
         }
 
-        function _downloadTemplate(doc) {
-            window.open(doc.authorizationDocument);
+        function _downloadTemplate(id) {
+            //window.open(doc.authorizationDocument);
+            restApi.getTemplateFile(id).
+                success(function (data, status, headers, config) {
+                    window.open(data);
+                }).
+                error(function (data, status, headers, config) {
+                    alert("An error ocurred while downloading the file.");
+                });
         }
 
         function _uploadDocument() {
@@ -100,8 +118,15 @@
                    });
         }
 
-        function _downloadDocument(doc) {
-            window.open(doc.authorizationFile);
+        function _downloadDocument(id) {
+            //window.open(doc.authorizationFile);
+            restApi.getAuthorizationFile(id).
+                success(function (data, status, headers, config) {
+                    window.open(data);
+                }).
+                error(function (data, status, headers, config) {
+                    alert("An error ocurred while downloading the file.");
+                });
         }
 
 

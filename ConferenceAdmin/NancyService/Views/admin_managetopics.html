@@ -11,7 +11,6 @@
         
         <!-- Topics Table -->
         <div class="atable">
-            <label class="left">Search: <input ng-model="searchText" /></label>
             <table ng-table="tableParams" class="table row" ng-show="vm.topicsList.length">
                 <thead>
                     <tr>
@@ -21,7 +20,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="topiccategory in vm.topicsList | filter:searchText | orderBy: ['name']">
+                    <tr ng-repeat="topiccategory in vm.topicsList | orderBy: ['name']">
                         <td>{{topiccategory.name}}</td>
                         <td data-toggle="modal" data-target="#editTopic" ng-click="vm.selectedTopicUpdate(topiccategory.topiccategoryID, topiccategory.name)"><a href="">Edit</a></td>
                         <td><a href="" data-toggle="modal" data-target="#deleteTopic" ng-click="vm.selectedTopicDelete(topiccategory.topiccategoryID)"><i class="glyphicon glyphicon-remove"></i></a></td>

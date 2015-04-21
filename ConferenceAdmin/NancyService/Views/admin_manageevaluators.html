@@ -72,14 +72,13 @@
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse in">
                     <div class="panel-body">
-                        <div ng-hide="vm.evaluatorsList.length">
+                        <div ng-hide="vm.evaluatorsList.length || vm.showSearch">
                             <p class="title-field">No content to display.</p>
                             <a class="btn btn-default" ng-click="vm.getEvaluatorListFromIndex(vm.eindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
                         </div>
-                        <div ng-show="vm.evaluatorsList.length">
-                            <!--<div class="pdiv right"><p class="psearch"> Search:</p><input ng-model="vm.searchEvaluator"></div><br />-->
+                        <div ng-show="vm.evaluatorsList.length && !vm.showResults">
                             <div>
-                                <label class="left">Search: <input ng-model="searchEvaluator" /></label>
+                                <label class="left">Search: <input ng-model="vm.criteria" ng-change="vm.showSearch = false"/><button ng-click="vm.searchEvaluators(0)"><i class="fa fa-search"></i></button> <label ng-show="vm.showSearch && !vm.showResults"> No results found.</label></label>
                                 <table class="table table-top col-lg-12">
                                     <thead>
                                         <tr>
@@ -90,7 +89,44 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="evaluator in vm.evaluatorsList | filter:searchEvaluator | orderBy: ['firstName', 'lastName']">
+                                        <tr ng-repeat="evaluator in vm.evaluatorsList | orderBy: ['firstName', 'lastName']">
+                                            <td>{{evaluator.firstName}} {{evaluator.lastName}}</td>
+                                            <td>{{evaluator.email}}</td>
+                                            <td>{{evaluator.acceptanceStatus}}</td>
+                                            <td>
+                                                <!-- DropDown Menu showing available status options. -->
+                                                <select ng-model="evaluator.optionStatus"
+                                                        ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
+                                                <button class="btn btn-ar btn-primary" ng-click="vm.updateAcceptanceStatus(evaluator)">Apply</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table><br />
+                            </div>
+                            <div aria-live="polite" class="col-lg-6">Showing page {{vm.eindex + 1}} of {{vm.emaxIndex}}</div>
+                            <div class="col-lg-6 paging-word">
+                                <a class="btn btn-default" ng-click="vm.getEvaluatorListFromIndex(vm.eindex)"><i class="glyphicon glyphicon-repeat"></i></a>
+                                <a class="btn btn-default" ng-disabled="vm.eindex==0" ng-click="vm.getFirstEvaluatorPage()">First</a>
+                                <a class="btn btn-default" ng-disabled="vm.eindex==0" ng-click="vm.previousEvaluator()">Previous</a>
+                                <!--<span><a class="btn btn-default">{{vm.eindex+1}}</a></span>-->
+                                <a class="btn btn-default" ng-disabled="vm.eindex >= (vm.emaxIndex-1)" ng-click="vm.nextEvaluator()">Next</a>
+                                <a class="btn btn-default" ng-disabled="vm.eindex >= (vm.emaxIndex-1)" ng-click="vm.getLastEvaluatorPage()">Last</a>
+                            </div>
+                        </div>
+                        <div ng-show="vm.searchResults.length && vm.showSearch">
+                            <div>
+                                <label class="left"><button ng-click="vm.back()"><i class="glyphicon glyphicon-arrow-left"></i> </button> Showing results for: "{{vm.criteria}}"</label>
+                                <table class="table table-top col-lg-12">
+                                    <thead>
+                                        <tr>
+                                            <th><b>Name</b></th>
+                                            <th><b>Email</b></th>
+                                            <th><b>Status</b></th>
+                                            <th><b>Update</b></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="evaluator in vm.searchResults | orderBy: ['firstName', 'lastName']">
                                             <td>{{evaluator.firstName}} {{evaluator.lastName}}</td>
                                             <td>{{evaluator.email}}</td>
                                             <td>{{evaluator.acceptanceStatus}}</td>

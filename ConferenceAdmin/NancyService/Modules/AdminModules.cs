@@ -64,6 +64,12 @@ namespace NancyService.Modules
                 return Response.AsJson(templateManager.getTemplates());
             };
 
+            Get["/getTemplatesAdminListIndex/{index:int}"] = parameters =>
+            {
+                int index = parameters.index;
+                return Response.AsJson(templateManager.getTemplates(index));
+            };
+
             Put["/deleteTemplate"] = parameters =>
             {
                 var id = this.Bind<long>();
@@ -117,6 +123,12 @@ namespace NancyService.Modules
                 return Response.AsJson(authTemplateManager.getTemplates());
             };
 
+            Get["/getAuthTemplatesAdminListIndex/{index:int}"] = parameters =>
+            {
+                int index = parameters.index;
+                return Response.AsJson(authTemplateManager.getTemplates(index));
+            };
+
             Put["/deleteAuthTemplate"] = parameters =>
             {
                 var id = this.Bind<int>();
@@ -151,16 +163,8 @@ namespace NancyService.Modules
             {
 
                 var obj = this.Bind<NancyService.Modules.SponsorManager.addComplementary>();
-                List<SponsorManager.ComplementaryQuery> list = sponsorManager.addKeysTo(obj);
-                if (list != null)
-                {
-                    return Response.AsJson(list);
-                }
+                return Response.AsJson(sponsorManager.addKeysTo(obj));
 
-                else
-                {
-                    return HttpStatusCode.Conflict;
-                }
             };
             Put["/deleteComplementaryKey"] = parameters =>
             {
@@ -178,16 +182,7 @@ namespace NancyService.Modules
             Put["/deleteSponsorComplementaryKey"] = parameters =>
             {
                 var id = this.Bind<long>();
-                List<SponsorManager.ComplementaryQuery> list = sponsorManager.deleteComplementarySponsor(id);
-                if (list != null)
-                {
-                    return list;
-                }
-
-                else
-                {
-                    return HttpStatusCode.Conflict;
-                }
+                return Response.AsJson(sponsorManager.deleteComplementarySponsor(id));
             };
             Get["/getComplementaryKeys"] = parameters =>
             {
@@ -205,6 +200,18 @@ namespace NancyService.Modules
                 {
                     long id = parameters.id;
                     return Response.AsJson(sponsorManager.getSponsorComplentaryList(id));
+                }
+                catch { return null; }
+            };
+
+            Get["/getSponsorComplementaryKeysFromIndex/{index:int}/{id:long}"] = parameters =>
+            {
+                try
+                {
+                    NancyService.Modules.SponsorManager.ComplimentaryPagingQuery info = new NancyService.Modules.SponsorManager.ComplimentaryPagingQuery();
+                    info.sponsorID = parameters.id;
+                    info.index = parameters.index;
+                    return Response.AsJson(sponsorManager.getSponsorComplentaryList(info));
                 }
                 catch { return null; }
             };
@@ -250,6 +257,12 @@ namespace NancyService.Modules
                     return Response.AsJson(sponsorManager.getSponsorList());
                 }
                 catch { return null; }
+            };
+
+            Get["/getSponsorListIndex/{index:int}"] = parameters =>
+            {
+                int index = parameters.index;
+                return Response.AsJson(sponsorManager.getSponsorList(index));
             };
 
             Get["/getSponsorbyID/{id:long}"] = parameters =>
@@ -423,11 +436,19 @@ namespace NancyService.Modules
                 }
             };
 
-            /* ----- Registration -----*/
-
-            Get["/getRegistrations"] = parameters =>
+            Get["/searchEvaluators/{index:int}/{criteria}"] = parameters =>
             {
-                List<RegisteredUser> list = registration.getRegistrationList();
+                int index = parameters.index;
+                string criteria = parameters.criteria;
+                return Response.AsJson(evaluatorManager.searchEvaluators(index, criteria));
+            };
+
+            /* --------------------------------------- Registration ----------------------------------------*/
+
+            Get["/getRegistrations/{index:int}"] = parameters =>
+            {
+                int index = parameters.index;
+                var list = registration.getRegistrationList(index);
                 return Response.AsJson(list);
             };
 
@@ -467,6 +488,15 @@ namespace NancyService.Modules
             Get["/getDates"] = parameters =>
             {
                 List<string> list = registration.getDates();
+                return Response.AsJson(list);
+            };
+
+            //search within the list with a certain criteria
+            Get["/searchRegistration/{index}/{criteria}"] = parameters =>
+            {
+                int index = parameters.index;
+                string criteria = parameters.criteria;
+                var list = registration.searchRegistration(index, criteria);
                 return Response.AsJson(list);
             };
 
@@ -530,6 +560,11 @@ namespace NancyService.Modules
             Get["/getHome"] = parameters =>
             {
                 return Response.AsJson(webManager.getHome());
+            };
+
+            Get["/getHomeImage"] = parameters =>
+            {
+                return Response.AsJson(webManager.getHomeImage());
             };
 
             Put["/saveHome"] = parameters =>
@@ -689,9 +724,10 @@ namespace NancyService.Modules
                 return webManager.saveProgram(info);
             };
 
-            Get["/getBillReport"] = parameters =>
+            Get["/getBillReport/{index:int}"] = parameters =>
             {
-                return Response.AsJson(reportManager.getBillReportList());
+                int index = parameters.index;
+                return Response.AsJson(reportManager.getBillReportList(index));
             };
 
             Get["/getRegistrationPayments/{index:int}"] = parameters =>
@@ -858,6 +894,12 @@ namespace NancyService.Modules
                 var list = submissionManager.searchDeletedSubmission(index, criteria);
                 return Response.AsJson(list);
             };
+            //Gets the file for the submission with submissionID
+            Get["/getSubmissionFile/{fileID}"] = parameters =>
+                {
+                    int fileID = parameters.fileID;
+                    return Response.AsJson(submissionManager.getSubmissionFile(fileID));
+                };
 
             //------------------------------------Banner---------------------------------------------
             Get["/getBanners"] = parameters =>

@@ -77,13 +77,28 @@ namespace NancyService.Modules
 
             //------------------------EVALUATOR - SUBMISSIONS-------------------------------------------
             //Gets the list of submissions assigned to the evaluator currently logged in to the system
-            Get["/getAssignedSubmissions/{id}"] = parameters =>
+            Get["/getAssignedSubmissions/{evaluatorUserID:long}/{index:int}"] = parameters =>
             {
-                long evaluatorUserID = parameters.id; //ID of the evaluator that is currently signed in
-                List<Submission> assignedSubmissions = submission.getAssignedSubmissions(evaluatorUserID);
+                long evaluatorUserID = parameters.evaluatorUserID; //ID of the evaluator that is currently signed in
+                int index = parameters.index;
+                SubmissionPagingQuery assignedSubmissions = submission.getAssignedSubmissions(evaluatorUserID, index);
                 if (assignedSubmissions == null)
                 {
-                    assignedSubmissions = new List<Submission>();
+                    assignedSubmissions = new SubmissionPagingQuery();
+                }
+                return Response.AsJson(assignedSubmissions);
+            };
+
+            //Search within a list with a specific criteria
+            Get["/searchAssignedSubmission/{evaluatorUserID}/{index}/{criteria}"] = parameters =>
+            {
+                long evaluatorUserID = parameters.evaluatorUserID; //ID of the evaluator that is currently signed in
+                int index = parameters.index;
+                string criteria = parameters.criteria;
+                SubmissionPagingQuery assignedSubmissions = submission.searchAssignedSubmission(evaluatorUserID, index, criteria);
+                if (assignedSubmissions == null)
+                {
+                    assignedSubmissions = new SubmissionPagingQuery();
                 }
                 return Response.AsJson(assignedSubmissions);
             };
@@ -230,11 +245,23 @@ namespace NancyService.Modules
                         submission.addFinalSubmission(usersubTA, submissionToAdd, submissionDocuments, pannelToAdd, workshopToAdd);
                     return Response.AsJson(newSubmission);
                 };
-
+            //get the deadline for the additon of submissions
             Get["/getSubmissionDeadline"] = parameters =>
                 {
                     return Response.AsJson(submission.getSubmissionDeadline());
                 };
+            //get the template file
+            Get["/getTemplateFile/{id}"] = parameters =>
+                {
+                    int templateID = parameters.id;
+                    return Response.AsJson(profileAuthorization.getTemplateFile(templateID));
+                };
+            //get the authorization file 
+            Get["/getAuthorizationFile/{id}"] = parameters =>
+            {
+                int authorizationID = parameters.id;
+                return Response.AsJson(profileAuthorization.getAuthorizationFile(authorizationID));
+            };
 
             //------------------------AUTHORIZATION----------------------------------
             Put["/uploadDocument"] = parameters =>

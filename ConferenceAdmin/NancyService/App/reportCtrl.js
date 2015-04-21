@@ -15,6 +15,7 @@
         vm.copy = [];
         vm.totalAmount;
         var fontSize = 8, height = 0, doc;
+        vm.downloadLoading = false;
 
         //Registration Payments- Variables (Paging)
         vm.registrationList = []; //Results to Display
@@ -155,22 +156,35 @@
 
         //Report Method
         function _downloadBillReport() {
-
-            restApi.getBillReport()
+            vm.downloadLoading = true;
+            restApi.getBillReport(0)
             .success(function (data, status, headers, config) {
+                var report = data.results;
+                var maxIndex = data.maxIndex;
+                var i;
+                for (i = 1; i < maxIndex; i++) {
+                    restApi.getBillReport(i)
+                    .success(function (data, status, headers, config) {                   
+                        report = report.concat(data.results);
+                    })
+                    .error(function (data, status, headers, config) {
+                    });
+                }
 
                 vm.totalAmount = data.totalAmount;
-                data.report.forEach(function (pay, index) {
-                    vm.copy[index] = {
-                        "Transaction ID": pay.transactionID,
-                        "Date": pay.paymentDate,
-                        "Name": pay.name,
-                        "Affiliation": pay.affiliation,
-                        "User Type": pay.userType,
-                        "Amount Paid ($)": pay.amountPaid,
-                        "Payment Method": pay.paymentMethod
-                    }
-                });
+                if (report != null) {
+                    report.forEach(function (pay, index) {
+                        vm.copy[index] = {
+                            "Transaction ID": pay.transactionID,
+                            "Date": pay.paymentDate,
+                            "Name": pay.name,
+                            "Affiliation": pay.affiliation,
+                            "User Type": pay.userType,
+                            "Amount Paid ($)": pay.amountPaid,
+                            "Payment Method": pay.paymentMethod
+                        }
+                    });
+                }
 
                 doc = new jsPDF('p', 'pt', 'ledger', true);
                 doc.setFont("times", "normal");
@@ -188,9 +202,12 @@
                     yOffset: 10
                 });
                 doc.text(50, height + 20, "Total Amount: $" + vm.totalAmount);
+                vm.downloadLoading = false;
                 doc.save('billreport.pdf');
+                vm.copy = [];
             })
            .error(function (data, status, headers, config) {
+               vm.downloadLoading = false;
            });
         }
 

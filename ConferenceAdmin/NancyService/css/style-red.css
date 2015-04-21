@@ -3198,6 +3198,11 @@ textarea.form-control:focus {
   right: 15px;
   content: "\f107";
 }
+.non-dropdown > a:after {
+  top: 15px;
+  right: 15px;
+  content: "";
+}
 .dropdown-submenu > .dropdown-menu {
   top: -1px;
   left: 100%;
@@ -3244,6 +3249,16 @@ textarea.form-control:focus {
     top: 10px;
     right: 15px;
     content: "\f107";
+  }
+    .non-dropdown > a:after {
+    top: 10px;
+    right: 15px;
+    content: "";
+  }
+  .non-dropdown.open > a:after {
+    top: 10px;
+    right: 15px;
+    content: "";
   }
 }
 .dropdown-submenu.pull-left {
@@ -3451,10 +3466,9 @@ a.thumbnail.active {
   font-family: "Muli", sans-serif;
   word-spacing: -6px;
   -webkit-text-stroke: 0.01em;
-  background-image: url("http://i63.photobucket.com/albums/h140/alignedstars/CCWiC_Logo_3_zpsecede781.png");
   background-position: left center;
   background-repeat: no-repeat;
-  padding-left: 45px;
+  padding-left: 5px;
   background-size:45px 45px;
   color: #000;
 }
@@ -6472,6 +6486,7 @@ a.feature-icon:hover {
   }
   .navbar-dark .dropdown > a {
     border-bottom: solid 1px #555;
+    padding: 17px;
     margin: 0;
   }
   .dropdown-menu a {
@@ -7265,7 +7280,6 @@ div .agenda-division {
 }
 
 .gold-style img {
-    max-width: 100%; 
     padding-top: 20px;
     margin-top:0px;
     max-width:365px; 
@@ -7396,4 +7410,10 @@ input.disabled, input.readonly, input.readonly:hover, input.disabled:hover, sele
     width: 160px; 
     max-height: 75px; 
     overflow: hidden;
+}
+
+a.white {
+    color: white;
+    font-size: 1.2em;
+    padding: 12px;
 }

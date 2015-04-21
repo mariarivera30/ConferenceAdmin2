@@ -18,13 +18,16 @@
             deleteComplemetaryKey: _deleteComplemetaryKey,
             addComplementaryKey: _addComplementaryKey,
             getSponsorComplementaryKeys: _getSponsorComplementaryKeys,
+            getSponsorComplementaryKeysFromIndex: _getSponsorComplementaryKeysFromIndex,
             getComplemetnaryKeys: _getComplemetnaryKeys,
             deleteAuthTemplate: _deleteAuthTemplate,
             getAuthTemplatesAdmin: _getAuthTemplatesAdmin,
+            getAuthTemplatesAdminListIndex: _getAuthTemplatesAdminListIndex,
             updateAuthTemplate: _updateAuthTemplate,
             addAuthTemplate: _addAuthTemplate,
             deleteTemplate: _deleteTemplate,
             getTemplatesAdmin: _getTemplatesAdmin,
+            getTemplatesAdminListIndex: _getTemplatesAdminListIndex,
             updateTemplate: _updateTemplate,
             addTemplate: _addTemplate,
             getSponsorbyID: _getSponsorbyID,
@@ -35,10 +38,12 @@
             postNewSponsor: _postNewSponsor,
             postNewTopic: _postNewTopic,
             getSponsors: _getSponsors,
+            getSponsorsListIndex: _getSponsorsListIndex,
             getTopics: _getTopics,
             deleteTopic: _deleteTopic,
             updateTopic: _updateTopic,
             getRegistrations: _getRegistrations,
+            searchRegistration: _searchRegistration,
             postNewRegistration: _postNewRegistration,
             updateRegistration: _updateRegistration,
             deleteRegistration: _deleteRegistration,
@@ -58,6 +63,7 @@
             makePayment: _makePayment,
             complementaryPayment: _complementaryPayment,
             getAssignedSubmissions: _getAssignedSubmissions,
+            searchAssignedSubmission: _searchAssignedSubmission,
             getSubmissionDetails: _getSubmissionDetails,
             postEvaluation: _postEvaluation,
             editEvaluation: _editEvaluation,
@@ -74,6 +80,7 @@
             getNewEvaluator: _getNewEvaluator,
             postNewEvaluator: _postNewEvaluator,
             getHome: _getHome,
+            getHomeImage: _getHomeImage,
             saveHome: _saveHome,
             removeFile: _removeFile,
             getVenue: _getVenue,
@@ -135,7 +142,11 @@
             getBanners: _getBanners,
             searchSubmission: _searchSubmission,
             searchDeletedSubmission: _searchDeletedSubmission,
-            searchGuest: _searchGuest
+            searchGuest: _searchGuest,
+            searchEvaluators: _searchEvaluators,
+            getSubmissionFile: _getSubmissionFile,
+            getAuthorizationFile: _getAuthorizationFile,
+            getTemplateFile: _getTemplateFile
 
         };
 
@@ -172,6 +183,10 @@
             return $http.get('/admin/getSponsorComplementaryKeys/' + data);
         };
 
+        function _getSponsorComplementaryKeysFromIndex(data) {
+            return $http.get('/admin/getSponsorComplementaryKeysFromIndex/'+data.index+'/'+data.sponsorID);
+        };
+
         //-----------------------------------Sponsor-----------------------------------
         function _checkEmailSponsor(data) {
             return $http.get('/admin/checkEmailSponsor/' + data);
@@ -194,8 +209,13 @@
             return $http.post('/admin/addsponsor', data)
 
         };
+
         function _getSponsors() {
             return $http.get('/admin/getSponsor');
+        };
+
+        function _getSponsorsListIndex(data) {
+            return $http.get('/admin/getSponsorListIndex/'+data);
         };
 
         //-----------------------------------Templates-------------------------------
@@ -208,6 +228,10 @@
 
         function _getTemplatesAdmin() {
             return $http.get('/admin/getTemplatesAdmin');
+        };
+
+        function _getTemplatesAdminListIndex(data) {
+            return $http.get('/admin/getTemplatesAdminListIndex/'+data);
         };
 
         function _addTemplate(data) {
@@ -225,6 +249,10 @@
 
         function _getAuthTemplatesAdmin() {
             return $http.get('/admin/getAuthTemplatesAdmin');
+        };
+
+        function _getAuthTemplatesAdminListIndex(data) {
+            return $http.get('/admin/getAuthTemplatesAdminListIndex/'+data);
         };
 
         function _addAuthTemplate(data) {
@@ -309,8 +337,12 @@
 
         //-----------------------------------REGISTRATIONS-----------------------------------
 
-        function _getRegistrations() {
-            return $http.get('/admin/getRegistrations');
+        function _getRegistrations(data) {
+            return $http.get('/admin/getRegistrations/' + data);
+        };
+
+        function _searchRegistration(data) {
+            return $http.get('/admin/searchRegistration/' + data.index + '/' + data.criteria);
         };
 
         function _getUserTypes() {
@@ -386,7 +418,11 @@
         //---------------------------------PROFILE-SUBMISSIONS---------------------------
         //get list of submissions assigned to the evalutor currently logged in
         function _getAssignedSubmissions(data) {
-            return $http.get('profile/getAssignedSubmissions/' + data);
+            return $http.get('profile/getAssignedSubmissions/' + data.evaluatorUserID + '/' + data.index);
+        };
+        //Search within a list with a specific criteria
+        function _searchAssignedSubmission(data) {
+            return $http.get('profile/searchAssignedSubmission/' + data.evaluatorUserID + '/' + data.index + '/' + data.criteria);
         };
         //get details of submission with ID submissionID
         function _getSubmissionDetails(data) {
@@ -425,6 +461,13 @@
         function _getCompanionKey(data) {
             return $http.get('profile/getCompanionKey/' + data);
         };
+        function _getTemplateFile(data) {
+            return $http.get('profile/getTemplateFile/' + data);
+        };
+
+        function _getAuthorizationFile(data) {
+            return $http.get('profile/getAuthorizationFile/' + data);
+        };
 
         //-----------------------------------EVALUATORS---------------------------------
 
@@ -440,6 +483,10 @@
             return $http.get('/admin/getNewEvaluator/' + email);
         };
 
+        function _searchEvaluators(data) {
+            return $http.get('admin/searchEvaluators/' + data.index + '/' + data.criteria);
+        }
+
         function _postNewEvaluator(email) {
             return $http.post('/admin/addEvaluator/' + email);
         };
@@ -452,6 +499,10 @@
 
         function _getHome() {
             return $http.get('/admin/getHome');
+        };
+
+        function _getHomeImage() {
+            return $http.get('/admin/getHomeImage');
         };
 
         function _saveHome(data) {
@@ -566,8 +617,8 @@
             return $http.put('/admin/saveProgram', data);
         };
 
-        function _getBillReport() {
-            return $http.get('admin/getBillReport');
+        function _getBillReport(data) {
+            return $http.get('admin/getBillReport/'+data);
         };
 
         function _getRegistrationPaymentsFromIndex(data) {
@@ -683,6 +734,10 @@
         //search within the list with a certain criteria
         function _searchDeletedSubmission(data) {
             return $http.get('admin/searchDeletedSubmission/' + data.index + '/' + data.criteria);
+        }
+        //get the file to download
+        function _getSubmissionFile(data) {
+            return $http.get('admin/getSubmissionFile/' + data);
         }
         //------------------------------------Banner-------------------------------------
         function _getBanners() {

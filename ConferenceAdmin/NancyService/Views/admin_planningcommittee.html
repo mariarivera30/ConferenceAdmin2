@@ -3,7 +3,6 @@
 
     <div ng-hide="vm.planningCommitteeList.length"><p>No committee member has been added.</p><br /></div>
     <div class="col-lg-12 hide-until-loaded" id="body">
-        <label class="left">Search: <input ng-model="searchText" /></label>
         <table ng-table="tableParams" class="table row" ng-show="vm.planningCommitteeList.length">
             <thead>
                 <tr>
@@ -15,7 +14,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="committee in vm.planningCommitteeList | filter:searchText | orderBy: ['firstName', 'lastName']">
+                <tr ng-repeat="committee in vm.planningCommitteeList">
                     <td>{{committee.firstName}} {{committee.lastName}}</td>
                     <td>{{committee.affiliation}}</td>
                     <td>{{committee.description}}</td>

@@ -108,8 +108,5 @@
                 $('#homeCarousel').carousel('pause');
             });
         });
-
-
-
     }
 })();
