@@ -1273,9 +1273,29 @@ namespace NancyService.Modules
                     usersubmission usersub = context.usersubmission.Where(c => c.initialSubmissionID == usersubTA.initialSubmissionID && c.deleted == false).FirstOrDefault();
                     usersub.finalSubmissionID = finalSubmissionID;
                     context.SaveChanges();
+                    
+                    //list of all the files that the prev submission had
+                    List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(c => c.submissionID == usersubTA.initialSubmissionID).ToList();
+                    //list of all the documents of the remaining docs-the docs that are in the prev that will stay in the final
+                    List<long> remainingDocsID = submissionToAdd.documentssubmitteds.Where(c => c.document == null).Select(d => d.documentssubmittedID).ToList();
+                    //list of all documents that are in the DB and will not be removed from the submission
+                    List<documentssubmitted> remainingDocs = prevDocuments.Where(c => remainingDocsID.Contains(c.documentssubmittedID)).ToList();
+                    documentssubmitted doc = new documentssubmitted();
+                    foreach (var oldDocs in remainingDocs)
+                    {
+                        doc.submissionID = sub.submissionID;
+                        doc.documentName = oldDocs.documentName;
+                        doc.document = oldDocs.document;
+                        doc.deleted = false;
+                        context.documentssubmitteds.Add(doc);
+                        context.SaveChanges();
+                    }    
+
                     //replace every document bound to the submission
                     documentssubmitted subDocs = new documentssubmitted();
-                    foreach (var docs in submissionToAdd.documentssubmitteds)
+                    //the new documents to be submitted
+                    List<documentssubmitted> newDocs = submissionToAdd.documentssubmitteds.Where(c => c.document != null).ToList();
+                    foreach (var docs in newDocs)
                     {
                         subDocs.submissionID = sub.submissionID;
                         subDocs.documentName = docs.documentName;
@@ -1405,9 +1425,29 @@ namespace NancyService.Modules
                     usersubmission usersub = context.usersubmission.Where(c => c.initialSubmissionID == usersubTA.initialSubmissionID && c.deleted == false).FirstOrDefault();
                     usersub.finalSubmissionID = finalSubmissionID;
                     context.SaveChanges();
+
+                    //list of all the files that the prev submission had
+                    List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(c => c.submissionID == usersubTA.initialSubmissionID).ToList();
+                    //list of all the documents of the remaining docs-the docs that are in the prev that will stay in the final
+                    List<long> remainingDocsID = submissionToAdd.documentssubmitteds.Where(c => c.document == null).Select(d => d.documentssubmittedID).ToList();
+                    //list of all documents that are in the DB and will not be removed from the submission
+                    List<documentssubmitted> remainingDocs = prevDocuments.Where(c => remainingDocsID.Contains(c.documentssubmittedID)).ToList();
+                    documentssubmitted doc = new documentssubmitted();
+                    foreach (var oldDocs in remainingDocs)
+                    {
+                        doc.submissionID = sub.submissionID;
+                        doc.documentName = oldDocs.documentName;
+                        doc.document = oldDocs.document;
+                        doc.deleted = false;
+                        context.documentssubmitteds.Add(doc);
+                        context.SaveChanges();
+                    }
+
                     //replace every document bound to the submission
                     documentssubmitted subDocs = new documentssubmitted();
-                    foreach (var docs in submissionToAdd.documentssubmitteds)
+                    //the new documents to be submitted
+                    List<documentssubmitted> newDocs = submissionToAdd.documentssubmitteds.Where(c => c.document != null).ToList();
+                    foreach (var docs in newDocs)
                     {
                         subDocs.submissionID = sub.submissionID;
                         subDocs.documentName = docs.documentName;
@@ -1416,6 +1456,7 @@ namespace NancyService.Modules
                         context.documentssubmitteds.Add(subDocs);
                         context.SaveChanges();
                     }
+
                     //table pannels
                     if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
                     {
@@ -2217,13 +2258,13 @@ namespace NancyService.Modules
             }
         }
         //gets file with ID in parameter
-        public String getSubmissionFile(long documentID)
+        public documentssubmitted getSubmissionFile(long documentID)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    String file = context.documentssubmitteds.Where(c => c.documentssubmittedID == documentID).Select(u => u.document).FirstOrDefault();
+                    documentssubmitted file = context.documentssubmitteds.Where(c => c.documentssubmittedID == documentID).FirstOrDefault();
                     return file;
                 }
             }
