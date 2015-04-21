@@ -67,6 +67,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nancy.Hosting.Aspnet.1.1\lib\net40\Nancy.Hosting.Aspnet.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleCrypto">
+      <HintPath>..\packages\SimpleCrypto.0.3.30.26\lib\SimpleCrypto.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -85,6 +88,7 @@
     <Content Include="App\adminTemplateCtrl.js" />
     <Content Include="App\app.js" />
     <Content Include="App\abstractCtrl.js" />
+    <Content Include="App\bannerCtrl.js" />
     <Content Include="App\changePassCtrl.js" />
     <Content Include="App\committeeCtrl.js" />
     <Content Include="App\committeeCtrl2.js" />
@@ -95,8 +99,12 @@
     <Content Include="App\generalInfoCtrl.js" />
     <Content Include="App\guestCtrl.js" />
     <Content Include="App\homeCtrl.js" />
+    <Content Include="App\homeCtrl2.js" />
     <Content Include="App\modalController-Directive.js" />
     <Content Include="App\participationInformation.js" />
+    <Content Include="App\paymentCtrl.js" />
+    <Content Include="App\paymentErrorCtrl.js" />
+    <Content Include="App\paymentReceiptCtrl.js" />
     <Content Include="App\profileEvaluationCtrl.js" />
     <Content Include="App\profileStatusCtrl.js" />
     <Content Include="App\layoutCtrl.js" />
@@ -108,9 +116,12 @@
     <Content Include="App\profileInformationCtrl.js" />
     <Content Include="App\profileSubmissionEvaluationCtrl.js" />
     <Content Include="App\profileSubmissionsCtrl.js" />
+    <Content Include="App\programCtrl.js" />
+    <Content Include="App\programCtrl2.js" />
     <Content Include="App\registerCtrl.js" />
     <Content Include="App\registrationCtrl.js" />
     <Content Include="App\registrationWebCtrl.js" />
+    <Content Include="App\reportCtrl.js" />
     <Content Include="App\requestPassCtrl.js" />
     <Content Include="App\scheduleCtrl.js" />
     <Content Include="App\scholarshipCtrl.js" />
@@ -120,6 +131,8 @@
     <Content Include="App\sponsorInterfaceCtrl.js" />
     <Content Include="App\sponsorInterfaceCtrl2.js" />
     <Content Include="App\sponsorRegistrationCtrl.js" />
+    <Content Include="App\submissionCtrl.js" />
+    <Content Include="App\submissionsCtrl.js" />
     <Content Include="App\ushersCtrl.js" />
     <Content Include="App\topicCtrl.js" />
     <Content Include="App\validateCtrl.js" />
@@ -152,6 +165,7 @@
     <Content Include="Views\admin_manageguests.html" />
     <Content Include="Views\admin_managesubmissions.html" />
     <Content Include="Views\admin_participation.html" />
+    <Content Include="Views\admin_program.html" />
     <Content Include="Views\admin_registrationform.html" />
     <Content Include="Views\admin_registrationlist.html" />
     <Content Include="Views\admin_reports.html" />
@@ -174,6 +188,9 @@
     <Content Include="Views\login2.html" />
     <Content Include="Views\Modal.html" />
     <Content Include="Views\modalButtons.html" />
+    <Content Include="Views\paymentError.html" />
+    <Content Include="Views\paymentReceipt.html" />
+    <Content Include="Views\PaymentView.html" />
     <Content Include="Views\profile_application.html" />
     <Content Include="Views\changePassword.html" />
     <Content Include="Views\registration_form.html" />
@@ -188,6 +205,7 @@
     <Content Include="Views\profile_evaluation.html" />
     <Content Include="Views\profile_status.html" />
     <Content Include="Views\profile_submission.html" />
+    <Content Include="Views\report_layout.html" />
     <Content Include="Views\requestPass.html" />
     <Content Include="Views\schedule.html" />
     <Content Include="Views\scholarship.html" />
@@ -1443,15 +1461,20 @@
     <Compile Include="Modules\AdminManager.cs" />
     <Compile Include="Modules\AdminModules.cs" />
     <Compile Include="Modules\AuthTemplateManager.cs" />
+    <Compile Include="Modules\BannerManager.cs" />
     <Compile Include="Modules\EvaluatorManager.cs" />
     <Compile Include="Modules\GuestManager.cs" />
     <Compile Include="Modules\IndexModule.cs" />
     <Compile Include="Modules\LoginAuthenticateManager.cs" />
     <Compile Include="Modules\LoginModule.cs" />
+    <Compile Include="Modules\PaymentManager.cs" />
+    <Compile Include="Modules\PaymentModule.cs" />
+    <Compile Include="Modules\PaymentTransaction.cs" />
     <Compile Include="Modules\ProfileAuthorizationManager.cs" />
     <Compile Include="Modules\ProfileInfoManager.cs" />
     <Compile Include="Modules\ProfileModules.cs" />
     <Compile Include="Modules\RegistrationManager.cs" />
+    <Compile Include="Modules\ReportManager.cs" />
     <Compile Include="Modules\SignUpManager.cs" />
     <Compile Include="Modules\SponsorManager.cs" />
     <Compile Include="Modules\SubmissionManager.cs" />

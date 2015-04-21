@@ -12,10 +12,10 @@ namespace NancyService.Models.Mapping
 
             // Properties
             this.Property(t => t.submissionAbstract)
-                .HasMaxLength(8000);
+                .HasMaxLength(16777215);
 
             this.Property(t => t.title)
-                .HasMaxLength(100);
+                .HasMaxLength(255);
 
             this.Property(t => t.status)
                 .HasMaxLength(45);

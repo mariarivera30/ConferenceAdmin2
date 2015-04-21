@@ -12,6 +12,7 @@ namespace NancyService.Models.Mapping
 
             // Properties
             this.Property(t => t.documentName)
+                .IsRequired()
                 .HasMaxLength(100);
 
             this.Property(t => t.document)

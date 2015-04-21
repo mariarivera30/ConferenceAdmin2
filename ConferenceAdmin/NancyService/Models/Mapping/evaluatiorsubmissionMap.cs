@@ -11,9 +11,6 @@ namespace NancyService.Models.Mapping
             this.HasKey(t => t.evaluationsubmissionID);
 
             // Properties
-            this.Property(t => t.evaluationsubmissionID)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-
             this.Property(t => t.statusEvaluation)
                 .HasMaxLength(45);
 
@@ -24,6 +21,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.submissionID).HasColumnName("submissionID");
             this.Property(t => t.statusEvaluation).HasColumnName("statusEvaluation");
             this.Property(t => t.deleted).HasColumnName("deleted");
+
             // Relationships
             this.HasRequired(t => t.evaluator)
                 .WithMany(t => t.evaluatiorsubmissions)

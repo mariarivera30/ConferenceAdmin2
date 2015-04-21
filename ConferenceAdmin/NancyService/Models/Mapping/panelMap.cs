@@ -13,19 +13,19 @@ namespace NancyService.Models.Mapping
             // Properties
             this.Property(t => t.panelistNames)
                 .IsRequired()
-                .HasMaxLength(1000);
+                .HasMaxLength(16777215);
 
             this.Property(t => t.plan)
-                .HasMaxLength(6000);
+                .HasMaxLength(600);
 
             this.Property(t => t.guideQuestion)
-                .HasMaxLength(6000);
-
-            this.Property(t => t.necessaryEquipment)
-                .HasMaxLength(2000);
+                .HasMaxLength(16777215);
 
             this.Property(t => t.formatDescription)
-                .HasMaxLength(6000);
+                .HasMaxLength(16777215);
+
+            this.Property(t => t.necessaryEquipment)
+                .HasMaxLength(16777215);
 
             // Table & Column Mappings
             this.ToTable("panels", "conferenceadmin");
@@ -34,10 +34,9 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.panelistNames).HasColumnName("panelistNames");
             this.Property(t => t.plan).HasColumnName("plan");
             this.Property(t => t.guideQuestion).HasColumnName("guideQuestion");
-            this.Property(t => t.necessaryEquipment).HasColumnName("necessaryEquipment");
             this.Property(t => t.formatDescription).HasColumnName("formatDescription");
+            this.Property(t => t.necessaryEquipment).HasColumnName("necessaryEquipment");
             this.Property(t => t.deleted).HasColumnName("deleted");
-
 
             // Relationships
             this.HasRequired(t => t.submission)

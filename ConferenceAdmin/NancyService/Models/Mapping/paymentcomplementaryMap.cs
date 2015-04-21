@@ -26,6 +26,7 @@ namespace NancyService.Models.Mapping
                 .WithMany(t => t.paymentcomplementaries)
                 .HasForeignKey(d => d.paymentID);
 
+        
         }
     }
 }

@@ -26,6 +26,7 @@ namespace NancyService.Models.Mapping
             this.HasRequired(t => t.sponsor)
                 .WithMany(t => t.complementarykeys)
                 .HasForeignKey(d => d.sponsorID);
+
         }
     }
 }

@@ -17,7 +17,7 @@ namespace NancyService.Models.Mapping
 
             this.Property(t => t.content)
                 .IsRequired()
-                .HasMaxLength(8000);
+                .HasMaxLength(16777215);
 
             // Table & Column Mappings
             this.ToTable("interfaceinformation", "conferenceadmin");

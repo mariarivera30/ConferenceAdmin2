@@ -17,6 +17,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.privilegesID).HasColumnName("privilegesID");
             this.Property(t => t.userID).HasColumnName("userID");
             this.Property(t => t.deleted).HasColumnName("deleted");
+
             // Relationships
             this.HasOptional(t => t.privilege)
                 .WithMany(t => t.claims)

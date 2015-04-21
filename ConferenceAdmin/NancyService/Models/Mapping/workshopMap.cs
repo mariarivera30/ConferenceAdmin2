@@ -5,6 +5,7 @@ namespace NancyService.Models.Mapping
 {
     public class workshopMap : EntityTypeConfiguration<workshop>
     {
+     
         public workshopMap()
         {
             // Primary Key
@@ -15,13 +16,13 @@ namespace NancyService.Models.Mapping
                 .HasMaxLength(200);
 
             this.Property(t => t.delivery)
-                .HasMaxLength(8000);
+                .HasMaxLength(16777215);
 
             this.Property(t => t.plan)
-                .HasMaxLength(8000);
+                .HasMaxLength(16777215);
 
             this.Property(t => t.necessary_equipment)
-                .HasMaxLength(500);
+                .HasMaxLength(255);
 
             // Table & Column Mappings
             this.ToTable("workshops", "conferenceadmin");

@@ -11,25 +11,26 @@ namespace NancyService.Models.Mapping
             this.HasKey(t => t.evaluationsubmittedID);
 
             // Properties
+            this.Property(t => t.evaluationName)
+                .IsRequired()
+                .HasMaxLength(100);
+
             this.Property(t => t.evaluationFile)
                 .IsRequired()
                 .HasMaxLength(1073741823);
 
-            this.Property(t => t.evaluationName)
-                .HasMaxLength(100);
-
             this.Property(t => t.publicFeedback)
-                .HasMaxLength(3000);
+                .HasMaxLength(16777215);
 
             this.Property(t => t.privateFeedback)
-                .HasMaxLength(3000);
+                .HasMaxLength(16777215);
 
             // Table & Column Mappings
             this.ToTable("evaluationsubmitted", "conferenceadmin");
             this.Property(t => t.evaluationsubmittedID).HasColumnName("evaluationsubmittedID");
             this.Property(t => t.evaluatiorSubmissionID).HasColumnName("evaluatiorSubmissionID");
-            this.Property(t => t.evaluationFile).HasColumnName("evaluationFile");
             this.Property(t => t.evaluationName).HasColumnName("evaluationName");
+            this.Property(t => t.evaluationFile).HasColumnName("evaluationFile");
             this.Property(t => t.score).HasColumnName("score");
             this.Property(t => t.publicFeedback).HasColumnName("publicFeedback");
             this.Property(t => t.privateFeedback).HasColumnName("privateFeedback");
@@ -40,6 +41,7 @@ namespace NancyService.Models.Mapping
                 .WithMany(t => t.evaluationsubmitteds)
                 .HasForeignKey(d => d.evaluatiorSubmissionID);
 
+        
         }
     }
 }

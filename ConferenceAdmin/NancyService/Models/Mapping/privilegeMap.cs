@@ -19,7 +19,6 @@ namespace NancyService.Models.Mapping
             this.ToTable("privileges", "conferenceadmin");
             this.Property(t => t.privilegesID).HasColumnName("privilegesID");
             this.Property(t => t.privilegestType).HasColumnName("privilegestType");
-
         }
     }
 }

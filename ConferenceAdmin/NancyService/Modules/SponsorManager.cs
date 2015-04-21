@@ -165,7 +165,7 @@ namespace NancyService.Modules
                     bill.AmountPaid = (double)x.amount;
                     bill.deleted = false;
                     bill.ip = p.IP;
-                    bill.quantity = p.quantity;
+                    bill.quantity = int.Parse(p.quantity);
                     bill.paymentID = payment2.paymentID;
                     context.paymentbills.Add(bill);
                     context.SaveChanges();

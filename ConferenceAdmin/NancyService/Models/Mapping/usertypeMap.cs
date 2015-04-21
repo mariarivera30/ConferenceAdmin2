@@ -16,7 +16,8 @@ namespace NancyService.Models.Mapping
                 .HasMaxLength(45);
 
             this.Property(t => t.description)
-                .HasMaxLength(500);
+                .HasMaxLength(16777215);
+
             // Table & Column Mappings
             this.ToTable("usertype", "conferenceadmin");
             this.Property(t => t.userTypeID).HasColumnName("userTypeID");

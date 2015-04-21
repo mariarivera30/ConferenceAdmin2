@@ -14,6 +14,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.name)
                 .IsRequired()
                 .HasMaxLength(45);
+
             // Table & Column Mappings
             this.ToTable("paymenttype", "conferenceadmin");
             this.Property(t => t.paymentTypeID).HasColumnName("paymentTypeID");

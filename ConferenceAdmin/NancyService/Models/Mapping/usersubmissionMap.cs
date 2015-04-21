@@ -31,7 +31,6 @@ namespace NancyService.Modules.Models.Mapping
             this.HasRequired(t => t.user)
                 .WithMany(t => t.usersubmissions)
                 .HasForeignKey(d => d.userID);
-            
 
         }
     }

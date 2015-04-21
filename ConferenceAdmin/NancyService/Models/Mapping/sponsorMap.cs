@@ -13,39 +13,27 @@ namespace NancyService.Models.Mapping
             // Properties
             this.Property(t => t.firstName)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(255);
 
             this.Property(t => t.lastName)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(255);
 
             this.Property(t => t.title)
-                .HasMaxLength(100);
+                .HasMaxLength(255);
 
             this.Property(t => t.company)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(255);
 
             this.Property(t => t.phone)
                 .HasMaxLength(45);
 
             this.Property(t => t.email)
-                .HasMaxLength(100);
+                .HasMaxLength(255);
 
             this.Property(t => t.logo)
                 .HasMaxLength(1073741823);
-
-
-            // Relationships
-            this.HasOptional(t => t.address)
-                .WithMany(t => t.sponsors)
-                .HasForeignKey(d => d.addressID);
-            this.HasRequired(t => t.payment)
-                .WithMany(t => t.sponsors)
-                .HasForeignKey(d => d.paymentID);
-            this.HasRequired(t => t.sponsortype1)
-                .WithMany(t => t.sponsors)
-                .HasForeignKey(d => d.sponsorType);
 
             // Table & Column Mappings
             this.ToTable("sponsor", "conferenceadmin");
@@ -62,6 +50,19 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.logo).HasColumnName("logo");
             this.Property(t => t.deleted).HasColumnName("deleted");
             this.Property(t => t.quantityComplemetary).HasColumnName("quantityComplemetary");
+            this.Property(t => t.active).HasColumnName("active");
+
+            // Relationships
+            this.HasOptional(t => t.address)
+                .WithMany(t => t.sponsors)
+                .HasForeignKey(d => d.addressID);
+            this.HasRequired(t => t.payment)
+                .WithMany(t => t.sponsors)
+                .HasForeignKey(d => d.paymentID);
+            this.HasRequired(t => t.sponsortype1)
+                .WithMany(t => t.sponsors)
+                .HasForeignKey(d => d.sponsorType);
+
         }
     }
 }

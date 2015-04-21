@@ -10,14 +10,7 @@ namespace NancyService.Models.Mapping
             // Primary Key
             this.HasKey(t => t.interfaceDocumentID);
 
-            // Table & Column Mappings
-            this.ToTable("interfacedocument", "conferenceadmin");
-            this.Property(t => t.interfaceDocumentID).HasColumnName("interfaceDocumentID");
-            this.Property(t => t.attibuteName).HasColumnName("attibuteName");
-            this.Property(t => t.content).HasColumnName("content");
-
             // Properties
-
             this.Property(t => t.attibuteName)
                 .IsRequired()
                 .HasMaxLength(45);
@@ -25,6 +18,11 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.content)
                 .HasMaxLength(1073741823);
 
+            // Table & Column Mappings
+            this.ToTable("interfacedocument", "conferenceadmin");
+            this.Property(t => t.interfaceDocumentID).HasColumnName("interfaceDocumentID");
+            this.Property(t => t.attibuteName).HasColumnName("attibuteName");
+            this.Property(t => t.content).HasColumnName("content");
         }
     }
 }

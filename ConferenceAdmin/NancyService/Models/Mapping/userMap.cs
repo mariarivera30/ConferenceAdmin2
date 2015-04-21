@@ -5,8 +5,8 @@ namespace NancyService.Models.Mapping
 {
     public class userMap : EntityTypeConfiguration<user>
     {
-       
-      public userMap()
+
+        public userMap()
         {
             // Primary Key
             this.HasKey(t => t.userID);
@@ -14,17 +14,17 @@ namespace NancyService.Models.Mapping
             // Properties
             this.Property(t => t.firstName)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(255);
 
             this.Property(t => t.lastName)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(255);
 
             this.Property(t => t.title)
-                .HasMaxLength(100);
+                .HasMaxLength(255);
 
             this.Property(t => t.affiliationName)
-                .HasMaxLength(100);
+                .HasMaxLength(255);
 
             this.Property(t => t.phone)
                 .HasMaxLength(45);
