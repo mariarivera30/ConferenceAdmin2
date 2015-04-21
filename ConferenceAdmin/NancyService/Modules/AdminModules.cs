@@ -210,6 +210,21 @@ namespace NancyService.Modules
             };
 
             //--------------------------------------------Sponsor----------------------------
+            Get["/checkEmailSponsor/{email}"] = parameters =>
+            {
+                string email = parameters.email;
+                String result = sponsorManager.checkEmail(email);
+
+                if (result != null)
+                    return Response.AsJson(result);
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+
+            };
+            
             Post["/addsponsor"] = parameters =>
             {
 

@@ -49,6 +49,7 @@
         vm.getBenefits = _getBenefits;
         vm.sponsorPayment = _sponsorPayment;
         vm.viewInput = _viewInput;
+        vm.checkEmailBeforePayment = _checkEmailBeforePayment;
 
         vm.amountMax = vm.sponsorsTypeList[vm.sponsor.sponsorType];
         vm.amountMin;
@@ -90,10 +91,10 @@
 
         vm.toggleModal = function (action) {
              
-            if (action == "errorFile") {
+            if (action == "emailMessage") {
 
-                vm.obj.title = "File type error",
-                vm.obj.message1 = "That file extention is not support by this system. Try one of these(png, jpg, ext, gif, jpeg, pic,pict)";
+                vm.obj.title = "Email is used",
+                vm.obj.message1 = "Please if you are already are a Sponsor please click the link below to upgrade your Sponsorship account!";
 
                 vm.obj.message2 = "",
                 vm.obj.label = "",
@@ -164,37 +165,8 @@
 
 
         //---------------------------Sponsor-------------------------------------------------
-        function _sponsorPayment(File) {
-
-            vm.TYPE = vm.sponsorsTypeList[vm.sponsor.sponsorType - 1];
-            vm.sponsor.typeName = vm.TYPE.name;
-            if (File != undefined) {
-
-                vm.sponsor.logo = $scope.content;
-                vm.sponsor.logoName = File.name;
-                File = null;
-            }
-            vm.loadingUploading = true;
-            restApi.sponsorPayment(vm.sponsor)
-                     .success(function (data, status, headers, config) {
-                         vm.sponsorsList.push(data);
-                         vm.loadingUploading = false;
-                         $('#addSponsor').modal('hide');
-                         _clearSponsor();
-
-
-                     })
-
-                     .error(function (error) {
-                         vm.loadingUploading = false;
-                         $('#addSponsor').modal('hide');
-                         vm.toggleModal('error');
-                         _clearSponsor();
-                     });
-
-
-         
-        }
+        
+    
 
         function _getSponsorTypes() {
             restApi.getSponsorTypesList().
@@ -211,6 +183,27 @@
 
                    });
         }
+
+        function _checkEmailBeforePayment() {
+            vm.loadingUploading = true;
+            restApi.checkEmailSponsor(vm.sponsor.email)
+                .success(function (data, status, headers, config) {
+                    if (data != "") {
+                        vm.toggleModal('emailMessage');
+                        vm.loadingUploading = false;
+                       }
+                       else {
+                        _sponsorPayment();
+                       }
+
+                   }).
+                   error(function (data, status, headers, config) {
+
+                       vm.loadingUploading = false;
+                       $rootScope.$emit('popUp', 'error');
+                   });
+        }
+
         function _sponsorPayment() {
             vm.TYPE = vm.sponsorsTypeList[vm.sponsor.sponsorType - 1];
             vm.sponsor.typeName = vm.TYPE.name;
@@ -222,8 +215,10 @@
             }
             restApi.sponsorPayment(vm.sponsor).
                    success(function (data, status, headers, config) {
-     vm.loadingUploading = false;
-
+                       vm.loadingUploading = false;
+                       window.open(data);
+                       _clearSponsor();
+    
                    }).
                    error(function (data, status, headers, config) {
                        vm.toggleModal('error');

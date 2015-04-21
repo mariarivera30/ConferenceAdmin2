@@ -35,6 +35,7 @@ namespace NancyService.Modules
                     long paymentID = paymentManager.storePaymentBill(receipt);
                     if (paymentID == 0 || paymentID ==-1)
                     {
+                        //error storing Payment
                         return "http://localhost:12036/#/PaymentError";
                     }
                   
@@ -57,10 +58,14 @@ namespace NancyService.Modules
                     {
                         xmlTransacctionID action = paymentManager.MakeWebServiceCall(temp);
                         if (action.error == "000")
-                            return Response.AsRedirect("https://secure2.uprm.edu/payment/index.php?id=" + action.transactionID);
+                        {
+                            string secureLink = "https://secure2.uprm.edu/payment/index.php?id=" + action.transactionID;
+                            return Response.AsJson(secureLink);
+                        }
                         else
                         {
-                            return Response.AsRedirect("http://localhost:12036/#/PaymentError");
+                            string errorLink = "http://localhost:12036/#/PaymentError";
+                            return Response.AsJson(errorLink); 
                         }
                     }
 

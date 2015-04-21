@@ -20,6 +20,7 @@ namespace NancyService.Models
         public string ip { get; set; }
         public string telephone { get; set; }
         public string quantity { get; set; }
+        public bool completed { get; set; }
         public Nullable<bool> deleted { get; set; }
        // public Nullable<System.DateTime> cardExpirationDate { get; set; }
         public virtual address address { get; set; }

@@ -139,6 +139,7 @@ namespace NancyService.Modules
                     bill.deleted = false;
                     bill.ip = p.IP;
                     bill.quantity = p.quantity;
+                    bill.transactionid = x.transactionID;
                     bill.paymentID = payment2.paymentID;
                     context.paymentbills.Add(bill);
                     context.SaveChanges();
@@ -192,6 +193,7 @@ namespace NancyService.Modules
 
                     payment payment2 = new payment();
                     payment2.paymentTypeID = 1;
+                    payment2.deleted = false;
                     context.payments.Add(payment2);
                     context.SaveChanges();
 
@@ -200,9 +202,9 @@ namespace NancyService.Modules
                     bill.paymentID = payment2.paymentID;
                     bill.methodOfPayment = x.method;
                     bill.transactionid = x.transactionID;
+                    bill.deleted = false;
                     context.paymentbills.Add(bill);
                     context.SaveChanges();
-
 
                     sponsor sponsor = new sponsor();
                     sponsor.firstName = x.firstName;
@@ -306,7 +308,7 @@ namespace NancyService.Modules
                                    from type in context.sponsortypes
                                    from a in context.addresses
                                    from pay in context.paymentbills
-                                   where (s.sponsorID == x && s.sponsorType == type.sponsortypeID) && (s.addressID == a.addressID) && (s.paymentID == pay.paymentID) && (s.deleted == false)
+                                   where (s.sponsorID == x && s.sponsorType == type.sponsortypeID) && (s.addressID == a.addressID) && (s.paymentID == pay.paymentID) && (s.deleted == false) && (pay.deleted==false)
                                    select new SponsorQuery
                                    {
                                        sponsorID = s.sponsorID,
@@ -343,6 +345,43 @@ namespace NancyService.Modules
             {
                 Console.Write("SponsorManager.getSponsor error " + ex);
                 return null;
+            }
+
+        }
+
+        public string checkEmail(string email)
+        {
+            using (conferenceadminContext context = new conferenceadminContext())
+            {
+
+                try
+                {
+                    var s = (from m in context.sponsors
+                                where (m.email.Equals(email) && m.deleted == false )
+                                select m).FirstOrDefault();
+                    if (s != null)
+                    {
+                        //Check if have at leas one paymentBill completed
+                        if (s.payment.paymentbills.Count > 0)
+                        {
+                            foreach (paymentbill p in s.payment.paymentbills)
+                            {
+                                if (p.completed)
+                                    return "paid";//at leas one payment completed
+                            }
+                        }
+                         return "noPaid"; 
+                  
+                    }
+
+                    return "newSponsor";
+
+                }
+                catch (Exception ex)
+                {
+                    Console.Write("Sponsorcheckemail error " + ex);
+                    return null;
+                }
             }
 
         }
@@ -442,7 +481,8 @@ namespace NancyService.Modules
                 {
 
                     var sponsor = (from s in context.sponsors
-                                   where s.sponsorID == x
+                                   from p in context.paymentbills
+                                   where s.sponsorID == x && s.deleted ==false && s.paymentID ==p.paymentID && p.tandemID != null && p.tandemID != ""
                                    select s).FirstOrDefault();
                     if (sponsor != null)
                     {
@@ -533,8 +573,6 @@ namespace NancyService.Modules
                                         sponsorID = s.sponsorID,
                                         userID = r.userID,
                                         name = u.firstName + " " + u.lastName,
-
-
 
                                     }).ToList();
 

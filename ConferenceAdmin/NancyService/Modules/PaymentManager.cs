@@ -187,6 +187,7 @@ namespace NancyService.Modules
                         bill.email = receipt.email;
                         bill.firstName = receipt.firstName;
                         bill.lastName = receipt.lastName;
+                        bill.deleted = false;
                         context.SaveChanges();
                         return bill.paymentBillID;
 
@@ -208,9 +209,9 @@ namespace NancyService.Modules
 
         public xmlTransacctionID MakeWebServiceCall(PaymentXML payment)
         {
-            // this is what we are sending
+                // this is what we are sending
                 //string post_data = "foo=bar&baz=oof";
-                 string post_data = creatXML(payment) ;
+                 string post_data = "xml=" + creatXML(payment) ;
  
                 // this is where we will send it
                  //http://secure2.uprm.edu/secure/inittrans.php
@@ -223,7 +224,7 @@ namespace NancyService.Modules
                 request.Method = "POST";
  
                 // turn our request string into a byte stream
-                byte[] postBytes = Encoding.ASCII.GetBytes(post_data);
+                byte[] postBytes = Encoding.UTF8.GetBytes(post_data);
  
                 // this is important - make sure you specify type this way
                 request.ContentType = "application/x-www-form-urlencoded";
@@ -236,7 +237,9 @@ namespace NancyService.Modules
  
                 // grab te response and print it out to the console along with the status code
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                xmlTransacctionID res = new xmlTransacctionID();
+              //  if (((HttpWebResponse)response).StatusCode != HttpStatusCode.OK)
+            
+               
                 StreamReader reader = new StreamReader(response.GetResponseStream());
 
                 // Read the whole contents and return as a string  
@@ -245,8 +248,9 @@ namespace NancyService.Modules
                 xmlTransacctionID xmlTransaction =parseXMLTransacctionID(responseStr);
                 //Save transactionID on paymentBill
                 //catch error 
-               
-             return res; 
+                reader.Close();
+                response.Close();
+                return xmlTransaction; 
         
         }
 

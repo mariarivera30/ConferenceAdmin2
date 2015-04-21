@@ -39,6 +39,7 @@ namespace NancyService.Models.Mapping
 
             // Table & Column Mappings
             this.ToTable("paymentbill", "conferenceadmin");
+
             this.Property(t => t.paymentBillID).HasColumnName("paymentBillID");
             this.Property(t => t.paymentID).HasColumnName("paymentID");
             this.Property(t => t.addressID).HasColumnName("addressID");
@@ -54,6 +55,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.email).HasColumnName("email");
             this.Property(t => t.ip).HasColumnName("ip");
             this.Property(t => t.quantity).HasColumnName("quantity");
+            this.Property(t => t.completed).HasColumnName("completed");
             this.Property(t => t.deleted).HasColumnName("deleted");
            // this.Property(t => t.cardExpirationDate).HasColumnName("cardExpirationDate");
 
