@@ -122,7 +122,10 @@
                               vm.CTYPE = vm.topicsList[index];
                               //myFile = null;
                           }
-                      })
+                      });
+                      data.submissionFileList.forEach(function (doc, index) {
+                          vm.documentsList.push({ document: doc.document, documentName: doc.documentName });
+                      });
                       vm.submissionTypeList.forEach(function (type, index) {
                           if (type.submissionTypeID == vm.modalsubmissionTypeID) {
                               vm.TYPE = vm.submissionTypeList[index];
@@ -503,7 +506,7 @@
            });
         }
 
-        function _downloadPDFFile(document) {
+        function _downloadPDFFile(id) {
             restApi.getSubmissionFile(id).
                 success(function (data, status, headers, config) {
                     window.open(data);

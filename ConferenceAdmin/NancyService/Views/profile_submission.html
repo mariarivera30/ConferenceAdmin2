@@ -311,10 +311,10 @@
             <div ng-show="vm.modalsubmissionTypeID == 3 || vm.modalsubmissionTypeID == 5">
                 <label>Necessary Equipment</label><br />{{vm.modalequipment}}
             </div>
-            <div ng-hide="vm.modalsubmissionTypeID == 4" ng-show="vm.modalsubmissionFileList.length != 0">
+            <div ng-hide="vm.modalsubmissionTypeID == 4 vm.modalsubmissionFileList.length == 0">
                 <label>Uploaded Document(s) </label><br />
                 <div ng-repeat="file in vm.modalsubmissionFileList">
-                    <a href="" ng-show="file.document" ng-click="vm.downloadPDFFile(file.document)"> {{file.documentName}}</a>
+                    <a href="" ng-show="file.documentName" ng-click="vm.downloadPDFFile(file.documentssubmittedID)"> {{file.documentName}}</a>
                 </div>
             </div>
 

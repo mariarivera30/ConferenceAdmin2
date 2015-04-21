@@ -7,7 +7,7 @@
 
         <div class="templates-list table-box">
             <ul class="list-group list-group-striped">
-                <li ng-repeat="temp in vm.templatesList" class="list-group-item">{{temp.authorizationName}} <a href="" ng-click="vm.downloadTemplate(temp)" class="right">Download</a></li>
+                <li ng-repeat="temp in vm.templatesList" class="list-group-item">{{temp.templateName}} <a href="" ng-click="vm.downloadTemplate(temp.templateID)" class="right">Download</a></li>
             </ul>
         </div>
     </div>
