@@ -148,7 +148,9 @@
             searchEvaluators: _searchEvaluators,
             getSubmissionFile: _getSubmissionFile,
             getAuthorizationFile: _getAuthorizationFile,
-            getTemplateFile: _getTemplateFile
+            getTemplateFile: _getTemplateFile,
+            getEvaluationFile: _getEvaluationFile,
+            getEvaluationTemplate: _getEvaluationTemplate
 
         };
 
@@ -443,7 +445,14 @@
         function _editEvaluation(data) {
             return $http.put('profile/editEvaluation', data)
         };
-
+        //get the template assigned to the submission
+        function _getEvaluationTemplate(data) {
+            return $http.get('profile/getEvaluationTemplate/' + data);
+        };
+        //get the file uploaded to the submission
+        function _getEvaluationFile(data) {
+            return $http.get('profile/getEvaluationFile/' + data);
+        };
         //-----------------------------------PROFILE-AUTHORIZATION-----------------------------------
         function _uploadDocument(data) {
             return $http.put('/profile/uploadDocument/', data);

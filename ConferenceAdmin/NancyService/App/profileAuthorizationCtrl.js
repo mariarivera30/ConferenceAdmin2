@@ -84,8 +84,8 @@
             //window.open(doc.authorizationDocument);
             restApi.getTemplateFile(id).
                 success(function (data, status, headers, config) {
-                    var file = new Blob([data]);
-                    saveAs(file);
+                    var file = new Blob([data.templateFile]);
+                    saveAs(file, data.templateName);
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");
@@ -123,8 +123,8 @@
             //window.open(doc.authorizationFile);
             restApi.getAuthorizationFile(id).
                 success(function (data, status, headers, config) {
-                    var file = new Blob([data]);
-                    saveAs(file);
+                    var file = new Blob([data.authorizationFile]);
+                    saveAs(file, data.authorizationName);
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");
