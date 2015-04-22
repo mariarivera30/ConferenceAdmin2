@@ -503,7 +503,7 @@
                     vm.CTYPE = vm.topicsList[0];
             })
            .error(function (data, status, headers, config) {
-               alert("add un alert sexy");
+               alert("An error ocurred.");
            });
         }
 
