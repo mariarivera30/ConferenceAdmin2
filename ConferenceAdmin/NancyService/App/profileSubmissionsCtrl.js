@@ -47,7 +47,6 @@
         vm.prevDelivery;
         vm.prevSubIsEvaluated;
         vm.prevPublicFeedback;
-        vm.theSubmissionFile;
 
 
         vm.submissionlist = {};
@@ -511,8 +510,8 @@
         function _downloadPDFFile(id) {
             restApi.getSubmissionFile(id).
                 success(function (data, status, headers, config) {
-                    //window.open(data);
-                    vm.theSubmissionFile = data.document;
+                    var file = new Blob([data.document], { type: 'application/pdf' });
+                    saveAs(file, data.documentName);
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");

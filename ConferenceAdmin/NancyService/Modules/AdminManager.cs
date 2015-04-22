@@ -3,24 +3,33 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Net;
+using System.Net.Mail;
 
 namespace NancyService.Modules
 {
     public class AdminManager
     {
+        //ccwicEmail
+        string ccwicEmail = "ccwictest@gmail.com";
+        string ccwicEmailPass = "ccwic123456789";
+        string testEmail = "heidi.negron1@upr.edu";
+
         public AdminManager()
         {
 
         }
 
-        public List<AdministratorQuery> getAdministratorList()
+        public AdminPagingQuery getAdministratorList(int index)
         {
+            AdminPagingQuery page = new AdminPagingQuery();
+
             try
             {
-
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    var administrators = context.claims.Where(admin => admin.deleted != true && admin.privilege.privilegestType != "Master" && admin.privilege.privilegestType != "Evaluator").Select(admin => new AdministratorQuery
+                    int pageSize = 10;
+                    var query = context.claims.Where(admin => admin.deleted != true && admin.privilege.privilegestType != "Master" && admin.privilege.privilegestType != "Evaluator").Select(admin => new AdministratorQuery
                     {
                         userID = (long)admin.userID,
                         firstName = admin.user.firstName,
@@ -29,9 +38,17 @@ namespace NancyService.Modules
                         privilege = admin.privilege.privilegestType,
                         privilegeID = (int)admin.privilegesID
 
-                    }).ToList();
+                    }).OrderBy(x => x.userID);
 
-                    return administrators;
+                    page.rowCount = query.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        var administrators = query.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = administrators;
+                    }
+
+                    return page;
                 }
             }
             catch (Exception ex)
@@ -113,6 +130,7 @@ namespace NancyService.Modules
                         s.userID = userInfo.userID;
                         s.firstName = userInfo.firstName;
                         s.lastName = userInfo.lastName;
+                        s.email = userInfo.membership.email;
 
                         //Check if newAdmin has already a privilege
                         var checkAdmin = (from admin in context.claims
@@ -148,6 +166,13 @@ namespace NancyService.Modules
                                 context.SaveChanges();
                             }
 
+                            try { sendEmailConfirmation(s.email, s.privilege); }
+                            catch (Exception ex)
+                            {
+                                Console.Write("AdminManager.sendnewAdminEmail error " + ex);
+                                return null;
+                            }
+
                             if (s.privilege != "Finance")
                             {
                                 EvaluatorManager evaluator = new EvaluatorManager();
@@ -175,7 +200,7 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //Get privilege name                ///VER COMO ELIMINAR
+                    //Get privilege name
                     String privilege = (from p in context.privileges
                                         where p.privilegesID == editAdmin.privilegeID
                                         select p.privilegestType).FirstOrDefault();
@@ -201,6 +226,13 @@ namespace NancyService.Modules
                         else
                         {
                             oldAdmin.privilegesID = editAdmin.privilegeID;
+                        }
+
+                        try {sendEmailEditAdminConfirmation(oldAdmin.user.membership.email, privilege);}
+                        catch (Exception ex)
+                        {
+                            Console.Write("AdminManager.sendeditAdminEmail error " + ex);
+                            return null;
                         }
 
                         context.SaveChanges();
@@ -250,6 +282,88 @@ namespace NancyService.Modules
             }
         }
 
+        public AdminPagingQuery searchAdministrators(int index, String criteria)
+        {
+            AdminPagingQuery page = new AdminPagingQuery();
+
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    int pageSize = 10;
+                    var query = context.claims.Where(admin => (admin.deleted != true && admin.privilege.privilegestType != "Master" && admin.privilege.privilegestType != "Evaluator") && ((admin.user.firstName.ToLower() + " " + admin.user.lastName.ToLower()).Contains(criteria.ToLower()) || admin.user.membership.email.ToLower().Contains(criteria.ToLower()))).Select(admin => new AdministratorQuery
+                    {
+                        userID = (long)admin.userID,
+                        firstName = admin.user.firstName,
+                        lastName = admin.user.lastName,
+                        email = admin.user.membership.email,
+                        privilege = admin.privilege.privilegestType,
+                        privilegeID = (int)admin.privilegesID
+
+                    }).OrderBy(x => x.userID);
+
+                    page.rowCount = query.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        var administrators = query.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = administrators;
+                    }
+
+                    return page;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("AdminManager.searchAdministrators error " + ex);
+                return null;
+            }
+        }
+
+        private void sendEmailConfirmation(string email, String p)
+        {
+            MailAddress ccwic = new MailAddress(ccwicEmail);
+            MailAddress user = new MailAddress(testEmail);
+            MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
+
+            String closing = " \r\nThank you.\r\nCCWiC Administration";
+
+            mail.Subject = "Caribbean Celebration of Women in Computing- Administrator Information";
+            mail.Body = "Greetings,\r\n \r\nYou have been given a privilege within our system: " + p + ". You can now access Administrator Settings by login in ConferenceAdmin.\r\n"+closing;
+
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+
+            smtp.Credentials = new NetworkCredential(
+                ccwicEmail, ccwicEmailPass);
+            smtp.EnableSsl = true;
+
+            smtp.Send(mail);
+        }
+
+        private void sendEmailEditAdminConfirmation(string email, String p)
+        {
+            MailAddress ccwic = new MailAddress(ccwicEmail);
+            MailAddress user = new MailAddress(testEmail);
+            MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
+
+            String closing = " \r\nThank you.\r\nCCWiC Administration";
+
+            mail.Subject = "Caribbean Celebration of Women in Computing- Administrator Information";
+            mail.Body = "Greetings,\r\n \r\nYour privilege within our system has changed. You have are now: " + p + ". Remember: You can access Administrator Settings by login in ConferenceAdmin.\r\n"+closing;
+
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+
+            smtp.Credentials = new NetworkCredential(
+                ccwicEmail, ccwicEmailPass);
+            smtp.EnableSsl = true;
+
+            smtp.Send(mail);
+        }
+
     }
 
     public class AdministratorQuery
@@ -265,6 +379,19 @@ namespace NancyService.Modules
         public AdministratorQuery()
         {
 
+        }
+    }
+
+    public class AdminPagingQuery
+    {
+        public int indexPage;
+        public int maxIndex;
+        public int rowCount;
+        public List<AdministratorQuery> results;
+
+        public AdminPagingQuery()
+        {
+            results = new List<AdministratorQuery>();
         }
     }
 

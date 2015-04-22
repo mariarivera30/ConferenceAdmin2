@@ -180,6 +180,75 @@ namespace NancyService.Modules
                 return null;
             }
         }
+
+        public BillReportQuery searchReport(int index, String criteria)
+        {
+            BillReportQuery b = new BillReportQuery();
+
+            try
+            {
+                int pageSize = 10;
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    var payments = (from s in context.registrations
+                                    from bill in context.paymentbills
+                                    where ((s.payment.deleted != true && s.paymentID == bill.paymentID) && ((s.user.firstName.ToLower() + " " + s.user.lastName.ToLower()).Contains(criteria.ToLower()) || s.user.membership.email.ToLower().Contains(criteria.ToLower())))
+                                    select new BillQuery
+                                    {
+                                        transactionID = bill.transactionid,
+                                        paymentDate = bill.payment.creationDate.ToString(),
+                                        name = s.user.firstName + " " + s.user.lastName,
+                                        affiliation = s.user.affiliationName,
+                                        userType = s.user.usertype.userTypeName,
+                                        amountPaid = bill.AmountPaid,
+                                        paymentMethod = bill.methodOfPayment
+
+                                    }).Concat((from s in context.registrations
+                                               from bill in context.paymentcomplementaries
+                                               where ((s.payment.deleted != true && s.paymentID == bill.paymentID) && ((s.user.firstName.ToLower() + " " + s.user.lastName.ToLower()).Contains(criteria.ToLower()) || s.user.membership.email.ToLower().Contains(criteria.ToLower())))
+                                               select new BillQuery
+                                               {
+                                                   transactionID = "N/A",
+                                                   paymentDate = bill.payment.creationDate.ToString(),
+                                                   name = s.user.firstName + " " + s.user.lastName,
+                                                   affiliation = s.user.affiliationName,
+                                                   userType = s.user.usertype.userTypeName,
+                                                   amountPaid = 0,
+                                                   paymentMethod = "Complimentary Key:    " + bill.complementarykey.key
+
+                                               })).Concat((from s in context.sponsors
+                                                           from bill in context.paymentbills
+                                                           where ((s.payment.deleted != true && s.paymentID == bill.paymentID) && ((s.firstName.ToLower() + " " + s.lastName.ToLower()).Contains(criteria.ToLower()) || s.email.ToLower().Contains(criteria.ToLower())))
+                                                           select new BillQuery
+                                                           {
+                                                               transactionID = bill.transactionid,
+                                                               paymentDate = bill.payment.creationDate.ToString(),
+                                                               name = s.firstName + " " + s.lastName,
+                                                               affiliation = s.company,
+                                                               userType = "Sponsor",
+                                                               amountPaid = bill.AmountPaid,
+                                                               paymentMethod = bill.methodOfPayment
+                                                           })).OrderBy(x => x.name);
+
+                    if (payments.Count() > 0)
+                    {
+                        b.maxIndex = (int)Math.Ceiling(payments.Count() / (double)pageSize);
+                        var report = payments.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        b.results = report;
+                    }
+
+                    b.totalAmount = context.paymentbills.Where(x => x.deleted != true).Sum(x => x.AmountPaid);
+                }
+
+                return b;
+
+            }
+            catch (Exception ex)
+            {
+                Console.Write("WebManager.searchReport error " + ex);
+                return null;
+            }
+        }
     }
 
     public class BillQuery
@@ -201,6 +270,11 @@ namespace NancyService.Modules
         public int maxIndex;
         public int rowCount;
         public List<BillQuery> results;
+
+        public BillPagingQuery()
+        {
+            results = new List<BillQuery>();
+        }
     }
 
     public class BillReportQuery
