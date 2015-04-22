@@ -52,7 +52,7 @@ namespace NancyService.Modules
                                     deleted = c.deleted
                                 }).ToList(),
                             submissionType = sub.submission.submissiontype.name,
-                            evaluationTemplate = sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault() == null ? null : sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault().template.document,
+                            evaluationTemplateID = sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault() == null ? -1 : sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault().templateID,
                             panelistNames = null,
                             plan = null,
                             guideQuestions = null,
@@ -96,7 +96,7 @@ namespace NancyService.Modules
                                     deleted = c.deleted
                                 }).ToList(),
                             submissionType = sub.submission.submissiontype.name,
-                            evaluationTemplate = sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault() == null ? null : sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault().template.document,
+                            evaluationTemplateID = sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault() == null ? -1 : sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault().templateID,
                             panelistNames = sub.submission.panels.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.submission.panels.Where(y => y.deleted == false).FirstOrDefault().panelistNames,
                             plan = sub.submission.panels.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.submission.panels.Where(y => y.deleted == false).FirstOrDefault().plan,
                             guideQuestions = sub.submission.panels.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.submission.panels.Where(y => y.deleted == false).FirstOrDefault().guideQuestion,
@@ -140,7 +140,7 @@ namespace NancyService.Modules
                                     deleted = c.deleted
                                 }).ToList(),
                             submissionType = sub.submission.submissiontype.name,
-                            evaluationTemplate = sub.submission.templatesubmissions.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.submission.templatesubmissions.Where(y => y.deleted == false).FirstOrDefault().template.document,
+                            evaluationTemplateID = sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault() == null ? -1 : sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault().templateID,
                             panelistNames = null,
                             plan = sub.submission.workshops.Where(y => y.deleted == false).FirstOrDefault().plan,
                             guideQuestions = null,
@@ -2264,13 +2264,61 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    SubmissionDocument file = context.documentssubmitteds.Where(c => c.documentssubmittedID == documentID).
+                    SubmissionDocument file = context.documentssubmitteds.Where(c => c.documentssubmittedID == documentID && c.deleted == false).
                         Select(d => new SubmissionDocument
                         {
                             documentssubmittedID = d.documentssubmittedID,
                             submissionID = d.submissionID,
                             documentName = d.documentName,
                             document = d.document
+                        }).FirstOrDefault();
+                    return file;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getSubmissionFile error " + ex);
+                return null;
+            }
+        }
+
+        //get evaluation template
+        public Evaluation getEvaluationTemplate(long templateID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    Evaluation file = context.templates.Where(c => c.templateID == templateID && c.deleted == false).
+                        Select(d => new Evaluation
+                        {                            
+                            templateID = d.templateID,
+                            evaluationFile = d.document,
+                            evaluationFileName = d.name,
+                        }).FirstOrDefault();
+                    return file;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getSubmissionFile error " + ex);
+                return null;
+            }
+        }
+
+        //get submitted evaluation file
+        public Evaluation getEvaluationFile(long submissionID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    Evaluation file = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.deleted == false).FirstOrDefault() == null ? 
+                        new Evaluation() : context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.deleted == false).FirstOrDefault().evaluationsubmitteds.
+                        Select(d => new Evaluation
+                        {                            
+                            evaluationFile = d.evaluationFile,
+                            evaluationFileName = d.evaluationName,
                         }).FirstOrDefault();
                     return file;
                 }
@@ -2453,7 +2501,7 @@ namespace NancyService.Modules
         public List<SubmissionDocument> submissionFileList;
         public String submissionType;
         public int submissionTypeID;
-        public String evaluationTemplate;
+        public long evaluationTemplateID;
         public String panelistNames;
         public String plan;
         public String guideQuestions;

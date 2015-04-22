@@ -35,13 +35,19 @@ namespace NancyService.Modules
         }
 
         //get file of authorizationID
-        public String getTemplateFile(int templateID)
+        public Template getTemplateFile(int templateID)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    String file = context.authorizationtemplates.Where(c => c.authorizationID == templateID).Select(d => d.authorizationDocument).FirstOrDefault();
+                    Template file = context.authorizationtemplates.Where(c => c.authorizationID == templateID && c.deleted == false).
+                        Select(d => new Template
+                        {
+                            templateID = d.authorizationID,
+                            templateName = d.authorizationName,
+                            templateFile = d.authorizationDocument
+                        }).FirstOrDefault();
                     return file;
                 }
             }
@@ -77,13 +83,19 @@ namespace NancyService.Modules
         }
 
         //get file of authorizationID
-        public String getAuthorizationFile(int authorizationID)
+        public Authorization getAuthorizationFile(int authorizationID)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    String file = context.authorizationsubmitteds.Where(c => c.authorizationSubmittedID == authorizationID).Select(d => d.documentFile).FirstOrDefault();
+                    Authorization file = context.authorizationsubmitteds.Where(c => c.authorizationSubmittedID == authorizationID && c.deleted == false).
+                        Select(d => new Authorization
+                        {
+                            authorizationID = d.authorizationSubmittedID,
+                            authorizationName = d.documentName,
+                            authorizationFile = d.documentFile
+                        }).FirstOrDefault();
                     return file;
                 }
             }
