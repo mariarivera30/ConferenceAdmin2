@@ -8,8 +8,12 @@
         </div>
     </div>
 
+    <div class="col-lg-12 btn-padding2" ng-show="!vm.showResults && (vm.pendingList.length || vm.sponsorList.length)">
+        <label class="left">Search: <input ng-model="vm.criteria" ng-change="vm.showSearch = false" /><button ng-click="vm.search(0)"><i class="fa fa-search"></i></button> <label ng-show="vm.showSearch && !vm.showResults"> No results found.</label></label>
+    </div>
+
     <div class="col-lg-12 hide-until-loaded" id="body">
-        <div class="panel-group" id="accordion">
+        <div class="panel-group" id="accordion" ng-show="!vm.showResults">
             <div class="panel panel-default" id="panel1">
                 <div class="panel-heading" data-toggle="collapse" data-target="#collapseOne">
                     <h4 class="panel-title">
@@ -26,7 +30,6 @@
                         </div>
                         <div ng-show="vm.pendingList.length">
                             <div>
-                                <label class="left">Search: <input ng-model="searchPending" /></label>
                                 <table class="table table-top col-lg-12">
                                     <thead>
                                         <tr>
@@ -36,14 +39,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="evaluator in vm.pendingList | filter:searchPending | orderBy: ['firstName', 'lastName']">
+                                        <tr ng-repeat="evaluator in vm.pendingList | orderBy: ['firstName', 'lastName']">
                                             <td>{{evaluator.firstName}} {{evaluator.lastName}}</td>
                                             <td>{{evaluator.email}}</td>
                                             <td>
                                                 <!-- DropDown Menu showing available status options. -->
                                                 <select ng-model="evaluator.optionStatus"
                                                         ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
-                                                <button class="btn btn-ar btn-primary" ng-click="vm.updateAcceptanceStatus(evaluator)">Apply</button>
+                                                <button class="btn btn-ar btn-primary" ng-click="vm.selectedEvaluator(evaluator)" data-toggle="modal" data-target="#updateConfirmation">Apply</button>
                                             </td>
                                         </tr>
                                         <tr><td></td><td></td><td></td></tr>
@@ -72,13 +75,12 @@
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse in">
                     <div class="panel-body">
-                        <div ng-hide="vm.evaluatorsList.length || vm.showSearch">
+                        <div ng-hide="vm.evaluatorsList.length">
                             <p class="title-field">No content to display.</p>
                             <a class="btn btn-default" ng-click="vm.getEvaluatorListFromIndex(vm.eindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
                         </div>
-                        <div ng-show="vm.evaluatorsList.length && !vm.showResults">
+                        <div ng-show="vm.evaluatorsList.length">
                             <div>
-                                <label class="left">Search: <input ng-model="vm.criteria" ng-change="vm.showSearch = false"/><button ng-click="vm.searchEvaluators(0)"><i class="fa fa-search"></i></button> <label ng-show="vm.showSearch && !vm.showResults"> No results found.</label></label>
                                 <table class="table table-top col-lg-12">
                                     <thead>
                                         <tr>
@@ -113,48 +115,54 @@
                                 <a class="btn btn-default" ng-disabled="vm.eindex >= (vm.emaxIndex-1)" ng-click="vm.getLastEvaluatorPage()">Last</a>
                             </div>
                         </div>
-                        <div ng-show="vm.searchResults.length && vm.showSearch">
-                            <div>
-                                <label class="left"><button ng-click="vm.back()"><i class="glyphicon glyphicon-arrow-left"></i> </button> Showing results for: "{{vm.criteria}}"</label>
-                                <table class="table table-top col-lg-12">
-                                    <thead>
-                                        <tr>
-                                            <th><b>Name</b></th>
-                                            <th><b>Email</b></th>
-                                            <th><b>Status</b></th>
-                                            <th><b>Update</b></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="evaluator in vm.searchResults | orderBy: ['firstName', 'lastName']">
-                                            <td>{{evaluator.firstName}} {{evaluator.lastName}}</td>
-                                            <td>{{evaluator.email}}</td>
-                                            <td>{{evaluator.acceptanceStatus}}</td>
-                                            <td>
-                                                <!-- DropDown Menu showing available status options. -->
-                                                <select ng-model="evaluator.optionStatus"
-                                                        ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
-                                                <button class="btn btn-ar btn-primary" ng-click="vm.updateAcceptanceStatus(evaluator)">Apply</button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table><br />
-                            </div>
-                            <div aria-live="polite" class="col-lg-6">Showing page {{vm.eindex + 1}} of {{vm.emaxIndex}}</div>
-                            <div class="col-lg-6 paging-word">
-                                <a class="btn btn-default" ng-click="vm.getEvaluatorListFromIndex(vm.eindex)"><i class="glyphicon glyphicon-repeat"></i></a>
-                                <a class="btn btn-default" ng-disabled="vm.eindex==0" ng-click="vm.getFirstEvaluatorPage()">First</a>
-                                <a class="btn btn-default" ng-disabled="vm.eindex==0" ng-click="vm.previousEvaluator()">Previous</a>
-                                <!--<span><a class="btn btn-default">{{vm.eindex+1}}</a></span>-->
-                                <a class="btn btn-default" ng-disabled="vm.eindex >= (vm.emaxIndex-1)" ng-click="vm.nextEvaluator()">Next</a>
-                                <a class="btn btn-default" ng-disabled="vm.eindex >= (vm.emaxIndex-1)" ng-click="vm.getLastEvaluatorPage()">Last</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <button class="btn btn-ar btn-primary pull" data-toggle="modal" data-target="#addEvaluator">Add Evaluator</button> <a href=""><i class="fa fa-info-circle info-icon" title="Manually add an evaluator"> </i></a>
+
+        <div class="row" ng-show="!vm.showResults">
+            <div class="col-lg-12">
+                <button class="btn btn-ar btn-primary pull" data-toggle="modal" data-target="#addEvaluator">Add Evaluator</button> <a href=""><i class="fa fa-info-circle info-icon" title="Manually add an evaluator"> </i></a>
+            </div>
+        </div>
+
+        <div ng-show="vm.searchResults.length && vm.showSearch">
+            <div>
+                <label class="left"><button ng-click="vm.back()"><i class="glyphicon glyphicon-arrow-left"></i> </button> Showing results for: "{{vm.criteria}}"</label>
+                <table class="table table-top col-lg-12">
+                    <thead>
+                        <tr>
+                            <th><b>Name</b></th>
+                            <th><b>Email</b></th>
+                            <th><b>Status</b></th>
+                            <th><b>Update</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="evaluator in vm.searchResults | orderBy: ['firstName', 'lastName']">
+                            <td>{{evaluator.firstName}} {{evaluator.lastName}}</td>
+                            <td>{{evaluator.email}}</td>
+                            <td>{{evaluator.acceptanceStatus}}</td>
+                            <td>
+                                <!-- DropDown Menu showing available status options. -->
+                                <select ng-model="evaluator.optionStatus"
+                                        ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
+                                <button class="btn btn-ar btn-primary" ng-click="vm.updateAcceptanceStatus(evaluator)">Apply</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table><br />
+            </div>
+            <div aria-live="polite" class="col-lg-6">Showing page {{vm.searchIndex + 1}} of {{vm.searchMaxIndex}}</div>
+            <div class="col-lg-6 paging-word">
+                <a class="btn btn-default" ng-click="vm.search(vm.searchIndex)"><i class="glyphicon glyphicon-repeat"></i></a>
+                <a class="btn btn-default" ng-disabled="vm.searchIndex==0" ng-click="vm.getFirstSearch()">First</a>
+                <a class="btn btn-default" ng-disabled="vm.searchIndex==0" ng-click="vm.previousSearch()">Previous</a>
+                <!--<span><a class="btn btn-default">{{vm.searchIndex+1}}</a></span>-->
+                <a class="btn btn-default" ng-disabled="vm.searchIndex >= (vm.searchMaxIndex-1)" ng-click="vm.nextSearch()">Next</a>
+                <a class="btn btn-default" ng-disabled="vm.searchIndex >= (vm.searchMaxIndex-1)" ng-click="vm.getLastSearch()">Last</a>
+            </div>
+        </div>
     </div>
 
     <!-- Add Evaluators Modal: Input: Email -->
@@ -296,6 +304,26 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Delete Confirmation-->
+    <div class="modal fade" id="updateConfirmation" tabindex="-1" role="dialog" aria-labelledby="updateConfirmationLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="updateConfirmationLabel">Selection Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                   <p>Are you sure you want to update the selected evaluator?</p>
+                    <ul><li>If you are removing an evaluator with assigned submissions, he/she will not be able to complete the evaluators.</li></ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" ng-click="vm.updateAcceptanceStatus()">Confirm</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>

@@ -806,6 +806,70 @@ namespace NancyService.Modules
         {
             return Guid.NewGuid().ToString().Substring(0, 9);
         }
+
+        public SponsorPagingQuery searchSponsors(int index, String criteria)
+        {
+            SponsorPagingQuery page = new SponsorPagingQuery();
+
+            try
+            {
+                //string f = this.getComplementaryPDF();
+
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+
+                    int pageSize = 10;
+                    var sponsor = (from s in context.sponsors
+                                   from type in context.sponsortypes
+                                   from a in context.addresses
+                                   from pay in context.paymentbills
+                                   where ((s.sponsorType == type.sponsortypeID && s.addressID == a.addressID && s.paymentID == pay.paymentID && s.deleted == false) && ((s.firstName.ToLower() + " " + s.lastName.ToLower()).Contains(criteria.ToLower()) || s.email.ToLower().Contains(criteria.ToLower())))
+                                   select new SponsorQuery
+                                   {
+                                       sponsorID = s.sponsorID,
+                                       firstName = s.firstName,
+                                       lastName = s.lastName,
+                                       company = s.company,
+                                       title = s.title,
+                                       logo = s.logo,
+                                       phone = s.phone,
+                                       email = s.email,
+                                       addressID = (long)s.addressID,
+                                       city = a.city,
+                                       line1 = a.line1,
+                                       line2 = a.line2,
+                                       state = a.state,
+                                       zipcode = a.zipcode,
+                                       country = a.country,
+                                       sponsorType = s.sponsorType,
+                                       amount = pay.AmountPaid,
+                                       transactionID = pay.transactionid,
+                                       paymentID = (long)pay.paymentID,
+                                       method = pay.methodOfPayment,
+                                       typeName = type.name,
+
+                                   }).OrderBy(x => x.sponsorID);
+
+                    page.rowCount = sponsor.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        var sponsorList = sponsor.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = sponsorList;
+                    }
+
+                    return page;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SponsorManager.searchSponsor(index) error " + ex);
+                return null;
+            }
+
+        }
     }
 }
 
