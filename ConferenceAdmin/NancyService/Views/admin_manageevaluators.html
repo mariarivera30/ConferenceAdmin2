@@ -46,7 +46,7 @@
                                                 <!-- DropDown Menu showing available status options. -->
                                                 <select ng-model="evaluator.optionStatus"
                                                         ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
-                                                <button class="btn btn-ar btn-primary" ng-click="vm.updateAcceptanceStatus(evaluator)">Apply</button>
+                                                <button class="btn btn-ar btn-primary" ng-click="vm.selectedEvaluator(evaluator)" data-toggle="modal" data-target="#updateConfirmation">Apply</button>
                                             </td>
                                         </tr>
                                         <tr><td></td><td></td><td></td></tr>
@@ -304,6 +304,26 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Delete Confirmation-->
+    <div class="modal fade" id="updateConfirmation" tabindex="-1" role="dialog" aria-labelledby="updateConfirmationLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="updateConfirmationLabel">Selection Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                   <p>Are you sure you want to update the selected evaluator?</p>
+                    <ul><li>If you are removing an evaluator with assigned submissions, he/she will not be able to complete the evaluators.</li></ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" ng-click="vm.updateAcceptanceStatus()">Confirm</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>

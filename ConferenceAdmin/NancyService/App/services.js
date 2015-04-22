@@ -142,10 +142,9 @@
             searchSubmission: _searchSubmission,
             searchDeletedSubmission: _searchDeletedSubmission,
             searchGuest: _searchGuest,
-            searchEvaluators: _searchEvaluators,
             searchReport: _searchReport,
             searchSponsors: _searchSponsors,
-            searchAdmin: _searchAdmin
+            searchAdmin: _searchAdmin,
             searchEvaluators: _searchEvaluators,
             getSubmissionFile: _getSubmissionFile,
             getAuthorizationFile: _getAuthorizationFile,
