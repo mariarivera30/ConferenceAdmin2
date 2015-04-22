@@ -146,6 +146,10 @@
             searchReport: _searchReport,
             searchSponsors: _searchSponsors,
             searchAdmin: _searchAdmin
+            searchEvaluators: _searchEvaluators,
+            getSubmissionFile: _getSubmissionFile,
+            getAuthorizationFile: _getAuthorizationFile,
+            getTemplateFile: _getTemplateFile
 
         };
 
@@ -465,6 +469,13 @@
         function _getCompanionKey(data) {
             return $http.get('profile/getCompanionKey/' + data);
         };
+        function _getTemplateFile(data) {
+            return $http.get('profile/getTemplateFile/' + data);
+        };
+
+        function _getAuthorizationFile(data) {
+            return $http.get('profile/getAuthorizationFile/' + data);
+        };
 
         //-----------------------------------EVALUATORS---------------------------------
 
@@ -480,6 +491,10 @@
             return $http.get('/admin/getNewEvaluator/' + email);
         };
 
+        function _searchEvaluators(data) {
+            return $http.get('admin/searchEvaluators/' + data.index + '/' + data.criteria);
+        }
+
         function _postNewEvaluator(email) {
             return $http.post('/admin/addEvaluator/' + email);
         };
@@ -487,10 +502,6 @@
         function _updateEvaluatorAcceptanceStatus(data) {
             return $http.put('admin/updateEvaluatorAcceptanceStatus', { userID: data.userID, acceptanceStatus: data.acceptanceStatus })
         };
-
-        function _searchEvaluators(data) {
-            return $http.get('admin/searchEvaluators/' + data.index + '/' + data.criteria);
-        }
 
         //---------------------------------WEBSITE CONTENT----------------------------------------------
 
@@ -735,6 +746,10 @@
         //search within the list with a certain criteria
         function _searchDeletedSubmission(data) {
             return $http.get('admin/searchDeletedSubmission/' + data.index + '/' + data.criteria);
+        }
+        //get the file to download
+        function _getSubmissionFile(data) {
+            return $http.get('admin/getSubmissionFile/' + data);
         }
         //------------------------------------Banner-------------------------------------
         function _getBanners() {

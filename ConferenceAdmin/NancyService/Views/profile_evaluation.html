@@ -10,7 +10,8 @@
         </div>
         <div ng-show="vm.submissionlist.length">
             <div class="paging-height">
-                <label class="left">Search: <input ng-model="vm.criteria" /><button ng-click="vm.searchAssignedSubmission(0)"><i class="fa fa-search"></i></button></label><br />
+                <label class="left" ng-hide="vm.showResult">Search: <input ng-model="vm.criteria" /><button ng-click="vm.searchAssignedSubmission(0); vm.showResult = true"><i class="fa fa-search"></i></button></label>
+                <label class="left" ng-show="vm.showResult"><button ng-click="vm.getAssignedSubmissions(vm.sindex); vm.showResult = false; vm.criteria = '';"><i class="glyphicon glyphicon-arrow-left"></i> </button> Showing results for: "{{vm.criteria}}"</label><br />
                 <table ng-table="tableParams" show-filter="true" class="table row">
                     <thead>
                         <tr>

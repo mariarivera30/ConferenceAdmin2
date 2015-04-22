@@ -122,7 +122,10 @@
                               vm.CTYPE = vm.topicsList[index];
                               //myFile = null;
                           }
-                      })
+                      });
+                      data.submissionFileList.forEach(function (doc, index) {
+                          vm.documentsList.push({ documentssumittedID: doc.documentssubmittedID, documentName: doc.documentName });
+                      });
                       vm.submissionTypeList.forEach(function (type, index) {
                           if (type.submissionTypeID == vm.modalsubmissionTypeID) {
                               vm.TYPE = vm.submissionTypeList[index];
@@ -209,9 +212,10 @@
                       vm.modalsubIsEvaluated = data.subIsEvaluated;
                       vm.modalpublicFeedback = data.publicFeedback;
 
-                      data.submissionFileList.forEach(function (doc, index) {
-                          vm.documentsList.push({document: doc.document, documentName: doc.documentName});
-                      });
+                      /*data.submissionFileList.forEach(function (doc, index) {
+                          vm.documentsList.push({ documentssumittedID: doc.documentssumittedID, documentName: doc.documentName });
+                      });*/
+                      vm.documentsList = data.submissionFileList;
 
                       vm.topicsList.forEach(function (topic, index) {
                           if (topic.topiccategoryID == data.topiccategoryID) {
@@ -503,8 +507,14 @@
            });
         }
 
-        function _downloadPDFFile(document) {
-            window.open(document);
+        function _downloadPDFFile(id) {
+            restApi.getSubmissionFile(id).
+                success(function (data, status, headers, config) {
+                    window.open(data);
+                }).
+                error(function (data, status, headers, config) {
+                    alert("An error ocurred while downloading the file.");
+                });
         }
 
     }
