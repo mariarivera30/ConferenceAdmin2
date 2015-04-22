@@ -157,6 +157,16 @@ namespace NancyService.Modules
                                 updateEvaluator.deleted = true;
                             }
 
+                            //list of the the submissions assigned to the evaluator with ID evaluatorID
+                            List<evaluatiorsubmission> evaluatorAssignments = context.evaluatiorsubmissions.Where(c => c.evaluatorID == updateEvaluator.evaluatorsID && c.deleted == false).ToList();
+                            
+                            foreach (var assignment in evaluatorAssignments)
+                            {
+                                if (assignment.evaluationsubmitteds.FirstOrDefault() == null)//if no evaluation was submitted then delete the assignment
+                                {
+                                    assignment.deleted = true;
+                                }
+                            }
 
                             try { sendRejectConfirmation(updateUser.membership.email, "Rejected"); }
                             catch (Exception ex)
