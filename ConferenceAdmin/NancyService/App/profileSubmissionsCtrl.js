@@ -503,14 +503,14 @@
                     vm.CTYPE = vm.topicsList[0];
             })
            .error(function (data, status, headers, config) {
-               alert("add un alert sexy");
+               alert("An error ocurred.");
            });
         }
 
         function _downloadPDFFile(id) {
             restApi.getSubmissionFile(id).
                 success(function (data, status, headers, config) {
-                    var file = new Blob([data.document], { type: 'application/pdf' });
+                    var file = new Blob([data.document]);
                     saveAs(file, data.documentName);
                 }).
                 error(function (data, status, headers, config) {

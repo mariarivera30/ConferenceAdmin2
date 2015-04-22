@@ -84,7 +84,7 @@
             //window.open(doc.authorizationDocument);
             restApi.getTemplateFile(id).
                 success(function (data, status, headers, config) {
-                    var file = new Blob([data], { type: 'application/pdf' });
+                    var file = new Blob([data]);
                     saveAs(file);
                 }).
                 error(function (data, status, headers, config) {
@@ -123,7 +123,7 @@
             //window.open(doc.authorizationFile);
             restApi.getAuthorizationFile(id).
                 success(function (data, status, headers, config) {
-                    var file = new Blob([data], { type: 'application/pdf' });
+                    var file = new Blob([data]);
                     saveAs(file);
                 }).
                 error(function (data, status, headers, config) {

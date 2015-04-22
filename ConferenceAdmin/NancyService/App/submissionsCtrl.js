@@ -241,7 +241,7 @@
         function _downloadPDFFile(id) {
             restApi.getSubmissionFile(id).
                 success(function (data, status, headers, config) {
-                    var file = new Blob([data.document], { type: 'application/pdf' });
+                    var file = new Blob([data.document]);
                     saveAs(file, data.documentName);
                 }).
                 error(function (data, status, headers, config) {

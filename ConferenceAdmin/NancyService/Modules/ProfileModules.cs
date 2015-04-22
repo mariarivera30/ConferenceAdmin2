@@ -262,6 +262,18 @@ namespace NancyService.Modules
                 int authorizationID = parameters.id;
                 return Response.AsJson(profileAuthorization.getAuthorizationFile(authorizationID));
             };
+            //get evaluation template
+            Get["/getEvaluationTemplate/{templateID:long}"] = parameters =>
+                {
+                    int templateID = parameters.templateID;
+                    return Response.AsJson(submission.getEvaluationTemplate(templateID));
+                };
+            //get evaluation file 
+            Get["/getEvaluationFile/{submissionID:long}"] = parameters =>
+            {
+                int submissionID = parameters.submissionID;
+                return Response.AsJson(submission.getEvaluationFile(submissionID));
+            };
 
             //------------------------AUTHORIZATION----------------------------------
             Put["/uploadDocument"] = parameters =>
