@@ -142,7 +142,10 @@
             searchSubmission: _searchSubmission,
             searchDeletedSubmission: _searchDeletedSubmission,
             searchGuest: _searchGuest,
-            searchEvaluators: _searchEvaluators
+            searchEvaluators: _searchEvaluators,
+            searchReport: _searchReport,
+            searchSponsors: _searchSponsors,
+            searchAdmin: _searchAdmin
 
         };
 
@@ -210,6 +213,10 @@
         function _getSponsorsListIndex(data) {
             return $http.get('/admin/getSponsorListIndex/'+data);
         };
+
+        function _searchSponsors(data) {
+            return $http.get('admin/searchSponsors/' + data.index + '/' + data.criteria);
+        }
 
         //-----------------------------------Templates-------------------------------
         function _updateTemplate(data) {
@@ -296,8 +303,8 @@
 
         //-----------------------------------ADMINISTRATORS-----------------------------------
 
-        function _getAdministrators() {
-            return $http.get('/admin/getAdministrators');
+        function _getAdministrators(data) {
+            return $http.get('/admin/getAdministrators/'+data);
         };
 
         function _getNewAdmin(email) {
@@ -327,6 +334,10 @@
                 privilegeID: privilegeid
             });
         };
+
+        function _searchAdmin(data) {
+            return $http.get('admin/searchAdmin/' + data.index + '/' + data.criteria);
+        }
 
         //-----------------------------------REGISTRATIONS-----------------------------------
 
@@ -614,6 +625,10 @@
         function _getSponsorPaymentsFromIndex(data) {
             return $http.get('/admin/getSponsorPayments/'+data);
         };
+
+        function _searchReport(data) {
+            return $http.get('admin/searchReport/' + data.index + '/' + data.criteria);
+        }
 
         //----------------------------------USER SUBMISSIONS----------------------------------
         //gets the submissions of the user currently logged in

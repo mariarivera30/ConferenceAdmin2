@@ -3,11 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Net;
+using System.Net.Mail;
 
 namespace NancyService.Modules
 {
     public class EvaluatorManager
     {
+        //ccwicEmail
+        string ccwicEmail = "ccwictest@gmail.com";
+        string ccwicEmailPass = "ccwic123456789";
+        string testEmail = "heidi.negron1@upr.edu";
+
         public EvaluatorManager()
         {
 
@@ -149,11 +156,25 @@ namespace NancyService.Modules
                             {
                                 updateEvaluator.deleted = true;
                             }
+
+
+                            try { sendRejectConfirmation(updateUser.membership.email, "Rejected"); }
+                            catch (Exception ex)
+                            {
+                                Console.Write("AdminManager.sendRejectEvaluatorEmail error " + ex);
+                                return false;
+                            }
                         }
 
                         else if (e.acceptanceStatus == "Accepted")
                         {
                             this.addEvaluator(updateUser.membership.email);
+                            try {sendAcceptConfirmation(updateUser.membership.email, "Accepted"); }
+                            catch (Exception ex)
+                            {
+                                Console.Write("AdminManager.sendRejectEvaluatorEmail error " + ex);
+                                return false;
+                            }
                         }
 
                         context.SaveChanges();
@@ -255,7 +276,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     int pageSize = 10;
-                    var query = context.users.Where(evaluator => ((evaluator.firstName.ToLower() + " " + evaluator.lastName.ToLower()).Contains(criteria.ToLower()) || evaluator.membership.email.ToLower().Contains(criteria.ToLower())) && (evaluator.evaluatorStatus == "Accepted" || evaluator.evaluatorStatus == "Rejected")).Select(evaluator => new EvaluatorQuery
+                    var query = context.users.Where(evaluator => ((evaluator.firstName.ToLower() + " " + evaluator.lastName.ToLower()).Contains(criteria.ToLower()) || evaluator.membership.email.ToLower().Contains(criteria.ToLower())) && (evaluator.evaluatorStatus == "Accepted" || evaluator.evaluatorStatus == "Rejected" || evaluator.evaluatorStatus == "Pending")).Select(evaluator => new EvaluatorQuery
                     {
                         userID = (long)evaluator.userID,
                         firstName = evaluator.firstName,
@@ -282,6 +303,50 @@ namespace NancyService.Modules
                 Console.Write("EvaluatorManager.searchEvaluators error " + ex);
                 return null;
             }
+        }
+
+        private void sendAcceptConfirmation(string email, String p)
+        {
+            MailAddress ccwic = new MailAddress(ccwicEmail);
+            MailAddress user = new MailAddress(testEmail);
+            MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
+
+            String closing = " \r\nThank you.\r\nCCWiC Administration";
+
+            mail.Subject = "Caribbean Celebration of Women in Computing- Evaluator Information";
+            mail.Body = "Greetings,\r\n \r\nYou have been given a privilege within our system: " + p + ". You can now access Administrator Settings by login in ConferenceAdmin.\r\n"+closing;
+
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+
+            smtp.Credentials = new NetworkCredential(
+                ccwicEmail, ccwicEmailPass);
+            smtp.EnableSsl = true;
+
+            smtp.Send(mail);
+        }
+
+        private void sendRejectConfirmation(string email, String p)
+        {
+            MailAddress ccwic = new MailAddress(ccwicEmail);
+            MailAddress user = new MailAddress(testEmail);
+            MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
+
+            String closing = " \r\nThank you.\r\nCCWiC Administration";
+
+            mail.Subject = "Caribbean Celebration of Women in Computing- Evaluator Information";
+            mail.Body = "Greetings,\r\n \r\nYour evaluator status has been updated to: " + p + ".\r\n"+closing;
+
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+
+            smtp.Credentials = new NetworkCredential(
+                ccwicEmail, ccwicEmailPass);
+            smtp.EnableSsl = true;
+
+            smtp.Send(mail);
         }
 
     }

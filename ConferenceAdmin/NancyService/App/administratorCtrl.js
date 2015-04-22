@@ -10,7 +10,6 @@
         var vm = this;
         vm.activate = activate;
         vm.title = 'administratorCtrl';
-        vm.adminList = [];
         vm.privilegeList = [];
         vm.userID;
         vm.email;
@@ -21,18 +20,46 @@
         vm.privilegeDelID;
         vm.search;
 
+        //Variables (Paging)
+        vm.adminList = []; 
+        vm.index = 0;  //Page index [Goes from 0 to rmaxIndex-1]
+        vm.maxIndex = 0;   //Max page number
+
+        //Search List Variables (Paging)
+        vm.searchList = [];
+        vm.searchIndex = 0;  //Page index [Goes from 0 to pmaxIndex-1]
+        vm.searchMaxIndex = 0;   //Max page number
+        vm.criteria;
+        vm.showSearch = false;
+        vm.showResults = false;
+
         // Functions
         vm.clear = _clear;
         vm.next = _next;
-        vm.getAdmin = _getAdmin;
         vm.addAdmin = _addAdmin;
         vm.editAdmin = _editAdmin;
         vm.deleteAdmin = _deleteAdmin;
         vm.selectedAdminEdit = _selectedAdminEdit;
         vm.selectedAdminDelete = _selectedAdminDelete;
 
+        //Functions- Administrator (Paging)
+        vm.getAdmin = _getAdmin;
+        vm.previousAdmin = _previousAdmin;
+        vm.nextAdmin = _nextAdmin;
+        vm.getFirstAdminPage = _getFirstAdminPage;
+        vm.getLastAdminPage = _getLastAdminPage;
+
+        //Functions- Search (Paging)
+        vm.search = _search;
+        vm.previousSearch = _previousSearch;
+        vm.nextSearch = _nextSearch;
+        vm.getFirstSearch = _getFirstSearch;
+        vm.getLastSearch = _getLastSearch;
+        vm.back = _back;
+
+
         //Get list of administrators and privileges
-        _getAdmin();
+        _getAdmin(vm.index);
         _getPrivilegeList();
 
         function activate() {
@@ -73,15 +100,50 @@
             vm.privilegeDelID = privilegeID;
         }
 
-        function _getAdmin() {
-            restApi.getAdministrators()
+        function _getAdmin(index) {
+            restApi.getAdministrators(index)
             .success(function (data, status, headers, config) {
-                vm.adminList = data;
+                vm.maxIndex = data.maxIndex;
+                if (vm.maxIndex == 0) {
+                    vm.index = 0;
+                    vm.adminList = [];
+                }
+                else if (vm.index >= vm.maxIndex) {
+                    vm.index = vm.maxIndex - 1;
+                    _getAdmin(vm.index);
+                }
+                else {
+                    vm.adminList = data.results;
+                }
                 load();
             })
            .error(function (data, status, headers, config) {
                vm.adminList = data;
            });
+        }
+
+        function _nextAdmin() {
+            if (vm.index < vm.maxIndex - 1) {
+                vm.index += 1;
+                _getAdmin(vm.index);
+            }
+        }
+
+        function _previousAdmin() {
+            if (vm.index > 0) {
+                vm.index -= 1;
+                _getAdmin(vm.index);
+            }
+        }
+
+        function _getFirstAdminPage() {
+            vm.index = 0;
+            _getAdmin(vm.index);
+        }
+
+        function _getLastAdminPage() {
+            vm.index = vm.maxIndex - 1;
+            _getAdmin(vm.index);
         }
 
         function _getPrivilegeList() {
@@ -114,8 +176,7 @@
                     });
             }
         }
-
-
+        
         function _addAdmin() {
 
             if (vm.email != undefined && vm.email != "" && vm.privilegeID != undefined && vm.privilegeID != "") {
@@ -151,13 +212,15 @@
             if (vm.userID != undefined && vm.userID != "" && vm.privilegeID != undefined && vm.privilegeDelID != "" && vm.oldPrivilegeID != undefined && vm.oldPrivilegeID != "") {
                 restApi.editAdmin(vm.userID, vm.privilegeID, vm.oldPrivilegeID)
                 .success(function (data, status, headers, config) {
-                    vm.adminList.forEach(function (admin, index) {
-                        if (admin.userID == vm.userID) {
-                            admin.privilege = data;
-                            admin.privilegeID = vm.privilegeID;
-                        }
-                    });
-                    $("#editConfirm").modal('show');
+                    if (data != null) {
+                        vm.adminList.forEach(function (admin, index) {
+                            if (admin.userID == vm.userID) {
+                                admin.privilege = data;
+                                admin.privilegeID = vm.privilegeID;
+                            }
+                        });
+                        $("#editConfirm").modal('show');
+                    }
                 })
                 .error(function (data, status, headers, config) {
                     $("#editError").modal('show');
@@ -182,6 +245,65 @@
                     $("#deleteError").modal('show');
                 });
             }
+        }
+
+        //Search Methods
+        function _search(index) {
+            if (vm.criteria != "" && vm.criteria != null) {
+                var info = { index: index, criteria: vm.criteria };
+                restApi.searchAdmin(info).
+                       success(function (data, status, headers, config) {
+                           vm.showSearch = true;
+                           vm.searchMaxIndex = data.maxIndex;
+                           if (vm.searchMaxIndex == 0) {
+                               vm.searchIndex = 0;
+                               vm.searchResults = [];
+                               vm.showResults = false;
+                           }
+                           else if (vm.searchIndex >= vm.searchMaxIndex) {
+                               vm.searchIndex = vm.searchMaxIndex - 1;
+                               _search(vm.searchIndex);
+                           }
+                           else {
+                               vm.showResults = true;
+                               vm.searchResults = data.results;
+                           }
+                       }).
+                       error(function (data, status, headers, config) {
+                       });
+            }
+        }
+
+        function _nextSearch() {
+            if (vm.searchIndex < vm.searchMaxIndex - 1) {
+                vm.searchIndex += 1;
+                _search(vm.searchIndex);
+            }
+        }
+
+        function _previousSearch() {
+            if (vm.searchIndex > 0) {
+                vm.searchIndex -= 1;
+                _search(vm.searchIndex);
+            }
+        }
+
+        function _getFirstSearch() {
+            vm.searchIndex = 0;
+            _search(vm.searchIndex);
+        }
+
+        function _getLastSearch() {
+            vm.searchIndex = vm.searchMaxIndex - 1;
+            _search(vm.searchIndex);
+        }
+
+        function _back() {
+            vm.criteria = "";
+            vm.searchIndex = 0;
+            vm.searchResults = [];
+            vm.showSearch = false;
+            vm.showResults = false;
         }
 
         //Avoid flashing when page loads

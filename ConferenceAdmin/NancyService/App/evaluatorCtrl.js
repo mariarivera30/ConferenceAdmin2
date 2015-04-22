@@ -54,7 +54,7 @@
         vm.getLastPendingPage = _getLastPendingPage;
 
         //Functions- Search (Paging)
-        vm.searchEvaluators = _searchEvaluators;
+        vm.search = _searchEvaluators;
         vm.previousSearch = _previousSearch;
         vm.nextSearch = _nextSearch;
         vm.getFirstSearch = _getFirstSearch;
