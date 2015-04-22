@@ -289,7 +289,7 @@
             <div ng-show="vm.prevSubmissionFileList.length != 0" ng-hide="vm.submissionTypeID == 4" class="col-lg-12">
                 <label>Uploaded Document(s) </label><br />
                 <div ng-repeat="file in vm.prevSubmissionFileList">
-                    <a href="" class="col-sm-7" ng-show="file.document" ng-click="vm.downloadPDFFile(file.documentssubmittedsId)">{{file.documentName}}</a>
+                    <a href="" class="col-sm-7" ng-show="file.documentName" ng-click="vm.downloadPDFFile(file.documentssubmittedID)">{{file.documentName}}</a>
                 </div>
             </div>
         </div>
@@ -316,7 +316,7 @@
                     <div class="col-md-6"><label>Score:</label> {{vm.score}}</div>
                     <div class="col-md-12">
                         <label>Evaluation Document:</label><br />
-                        <a href="" ng-click="vm.downloadPDFFile(vm.documentssubmittedsId)"><i class="fa fa-file-text"></i> {{vm.evaluationName}}</a>
+                        <a href="" ng-click="vm.downloadPDFFile(vm.documentssubmittedID)"><i class="fa fa-file-text"></i> {{vm.evaluationName}}</a>
                     </div>
                     <div class="col-md-12">
                         <label>Public Feedback:</label><br /> {{vm.publicFeedback}}
