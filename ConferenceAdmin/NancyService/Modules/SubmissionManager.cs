@@ -1446,14 +1446,14 @@ namespace NancyService.Modules
         }
 
         //re-create final submission files
-        public bool createFinalSubmissionFiles(long subID, List<long> existingDocsID)
+        public bool createFinalSubmissionFiles(long subID, long prevID, List<long> existingDocsID)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     //all documents in DB for submission with ID SubmissionID
-                    List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(d => d.submissionID == subID).ToList<documentssubmitted>();
+                    List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(d => d.submissionID == prevID).ToList<documentssubmitted>();
                     //list of all documents that are in the DB and will be added to the final submission
                     List<documentssubmitted> existingDocs = prevDocuments.Where(c => existingDocsID.Contains(c.documentssubmittedID)).ToList();
                     //add docs to the final sub

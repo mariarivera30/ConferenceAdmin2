@@ -476,8 +476,8 @@
                                 if (doc.document == undefined || doc.document == null)
                                     IDsList.push(doc.documentssubmittedID);
                             });
-                            var params1 = { submissionID: data.submissionID, IDsList: IDsList };
-                            restApi.manageExistingFiles(params1)
+                            var params1 = { submissionID: data.submissionID, prevID: vm.modalsubmissionID, IDsList: IDsList };
+                            restApi.createFinalSubmissionFiles(params1)
                                 .success(function (data2, status2, headers2, config2) {
                                     vm.documentsList.forEach(function (doc, index) {
 

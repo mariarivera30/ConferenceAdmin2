@@ -240,7 +240,7 @@ namespace NancyService.Modules
                 else
                 {
 
-                    if (submission.createFinalSubmissionFiles(sub.submissionID, sub.IDsList))
+                    if (submission.createFinalSubmissionFiles(sub.submissionID, sub.prevID, sub.IDsList))
                         return HttpStatusCode.OK;
                     else
                         return HttpStatusCode.Conflict;
@@ -376,6 +376,7 @@ namespace NancyService.Modules
         public class ExistingFile
         {
             public long submissionID { get; set; }
+            public long prevID { get; set; }
             public List<long> IDsList { get; set; }
         }
     }
