@@ -26,6 +26,16 @@ namespace NancyService.Modules
                     AssignedSubmission subs = new AssignedSubmission();
                     evaluatiorsubmission sub;
                     bool isFinalVersion = context.usersubmission.Where(c => c.finalSubmissionID == submissionID).FirstOrDefault() == null ? false : true;
+                    long userIDofEvaluator = context.evaluators.Where(c => c.evaluatorsID == evaluatorID).FirstOrDefault() == null ?
+                        -1 : context.evaluators.Where(d => d.evaluatorsID == evaluatorID).FirstOrDefault().userID;
+                    List<claim> userClaims = context.claims.Where(c => c.userID == userIDofEvaluator).ToList();
+                    bool canAllowFinalVersion = false;
+                    foreach (var claim in userClaims)
+                    {
+                        //if user is a master, admin or committee manager allow the to allow the submitter to submit a final version
+                        if (claim.privilegesID == 1 || claim.privilegesID == 3 || claim.privilegesID == 5) 
+                            canAllowFinalVersion = true;
+                    }
 
                     sub = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.evaluatorID == evaluatorID && c.deleted == false).FirstOrDefault();
 
@@ -162,6 +172,7 @@ namespace NancyService.Modules
                         };
                     }
                     subs.isFinalVersion = isFinalVersion;
+                    subs.canAllowFinalVersion = canAllowFinalVersion;
                     return subs;
                 }
             }
@@ -2575,6 +2586,7 @@ namespace NancyService.Modules
         public String evaluatorFirstName;
         public String evaluatorLastName;
         public bool isFinalVersion;
+        public bool canAllowFinalVersion;
 
         public AssignedSubmission()
         {

@@ -38,6 +38,7 @@
         vm.publicFeedback;
         vm.isEvaluated;
         vm.isFinalSubmission;
+        vm.canAllowFinalVersion;
         vm.subIsEvaluated;
         vm.content;
         vm.currentUserID = $window.sessionStorage.getItem('userID');
@@ -227,6 +228,7 @@
                     vm.modalsubIsEvaluated = data.subIsEvaluated;
                     vm.modalAllowFinalVersion = data.allowFinalVersion;
                     vm.modalIsFinalVersion = data.isFinalVersion;
+                    vm.modalcanAllowFinalVersion = data.canAllowFinalVersion;
                     vm.modalTemplateID = data.evaluationTemplateID;
                     if (vm.modalevaluationFile == undefined || vm.modalevaluationFile == null) {
                         vm.modalhasFile = false;
