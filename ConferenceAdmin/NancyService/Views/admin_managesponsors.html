@@ -24,9 +24,9 @@
                         <td>{{sponsor.company}}</td>
                         <td>{{sponsor.amount}}</td>
 
-                        <td data-toggle="modal" ng-click="vm.selectedSponsor(sponsor);vm.editValues()" data-target="#addSponsor"><a href="">Edit</a></td>
+                        <td data-toggle="modal" ng-click="vm.selectedSponsor(sponsor);vm.editValues()" data-target="#addSponsor"><a ng-show ="sponsor.byAdmin" href="">Edit</a></td>
                         <td data-toggle="modal" data-target="#complementary" ng-click="vm.complementaryValues(sponsor)"><a href="">Complementary Keys</a></td>
-                        <td><a href="" ng-hide="sponsor.sponsorID == 1" data-toggle="modal" ng-click="vm.selectedSponsor(sponsor);vm.toggleModal('remove');"><i ng-hide="sponsor.sponsorID == 1" class="glyphicon glyphicon-remove"></i></a></td>
+                        <td ><a href="" ng-show="sponsor.byAdmin" data-toggle="modal" ng-click="vm.selectedSponsor(sponsor);vm.toggleModal('remove');"><i ng-hide="sponsor.sponsorID == 1" class="glyphicon glyphicon-remove"></i></a></td>
                     </tr>
                 </tbody>
             </table><br />
@@ -321,11 +321,12 @@
 
                         </span>
                     </div>
+                    
                     <div>
                         <br />
                         <h4 class="modal-title" id="">Payment Bill Information:</h4>
                     </div>
-                    <div class="row">
+                    <div ng-show="sponsor.byAdmin"class="row">
                         <span class=" col-lg-6">
                             <label>Method Payment:</label> {{vm.sponsor.method}}
                         </span>

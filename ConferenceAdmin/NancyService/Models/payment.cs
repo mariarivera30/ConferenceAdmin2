@@ -11,6 +11,7 @@ namespace NancyService.Models
             this.paymentcomplementaries = new List<paymentcomplementary>();
             this.paymentbills = new List<paymentbill>();
             this.registrations = new List<registration>();
+            this.sponsors2 = new List<sponsor2>();
         }
 
         public long paymentID { get; set; }
@@ -21,6 +22,7 @@ namespace NancyService.Models
         public virtual ICollection<paymentcomplementary> paymentcomplementaries { get; set; }
         public virtual ICollection<paymentbill> paymentbills { get; set; }
         public virtual ICollection<registration> registrations { get; set; }
+        public virtual ICollection<sponsor2> sponsors2 { get; set; }
         public virtual paymenttype paymenttype { get; set; }
     }
 }

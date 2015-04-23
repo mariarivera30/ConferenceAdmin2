@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.IO;
 using Nancy;
+using System.Drawing;
 
 
 namespace NancyService.Modules
@@ -42,6 +43,8 @@ namespace NancyService.Modules
             public string method { get; set; }
             public string typeName { get; set; }
             public long paymentID { get; set; }
+            public bool byAdmin { get; set; }
+            
 
 
         }
@@ -93,6 +96,7 @@ namespace NancyService.Modules
             public int maxIndex { get; set; }
             public int rowCount { get; set; }
             public long sponsorID { get; set; }
+            public long userID { get; set; }
             public int index { get; set; }
             public List<ComplementaryQuery> results { get; set; }
 
@@ -102,42 +106,7 @@ namespace NancyService.Modules
             }
         }
 
-        //public static string getComplementaryPDF()
-        //{
-
-        //    var uploadDirectory = Path.Combine(pathProvider.GetRootPath(), "Content", "uploads");
-
-        //    if (!Directory.Exists(uploadDirectory))
-        //    {
-        //        Directory.CreateDirectory(uploadDirectory);
-        //    }
-
-        //    foreach (var file in Request.Files)
-        //    {
-        //        var filename = Path.Combine(uploadDirectory, file.Name);
-        //        using (FileStream fileStream = new FileStream(filename, FileMode.Create))
-        //        {
-        //            file.Value.CopyTo(fileStream);
-        //        }
-        //    }
-
-        //    Document doc = new Document(iTextSharp.text.PageSize.LETTER, 10, 10, 42, 35);
-        //    PdfWriter wri = PdfWriter.GetInstance(doc, new FileStream("Test.pdf", FileMode.Create));
-        //    Paragraph par = new Paragraph("Test\n\n");
-        //    doc.Add(par);
-        //    doc.Close();
-
-        //    System.IO.MemoryStream memoryStream = new System.IO.MemoryStream();
-
-
-        //    PdfWriter writer = PdfWriter.GetInstance(doc, memoryStream);
-
-        //    byte[] bytes = memoryStream.ToArray();
-
-        //    String stringToStore = Convert.ToBase64String(bytes,Base64FormattingOptions.InsertLineBreaks);
-        //    return stringToStore;
-        //}
-
+       
         public SponsorQuery addSponsorPaid(SponsorQuery x, PaymentXML p)
         {
             try
@@ -217,6 +186,17 @@ namespace NancyService.Modules
                     context.addresses.Add(address);
                     context.SaveChanges();
 
+                    user user = new user();
+                    user.membershipID = 1;
+                    user.firstName = x.firstName;
+                    user.lastName = x.lastName;
+                    user.phone = x.phone;
+                    user.addressID = address.addressID;
+                    user.affiliationName = x.company;
+                    user.userTypeID = 7;
+                    context.users.Add(user);
+                    context.SaveChanges();
+
                     payment payment2 = new payment();
                     payment2.paymentTypeID = 1;
                     context.payments.Add(payment2);
@@ -227,30 +207,30 @@ namespace NancyService.Modules
                     bill.paymentID = payment2.paymentID;
                     bill.methodOfPayment = x.method;
                     bill.transactionid = x.transactionID;
+                    bill.completed = true;
+                    bill.quantity = 0;
                     context.paymentbills.Add(bill);
                     context.SaveChanges();
 
-
-                    sponsor sponsor = new sponsor();
-                    sponsor.firstName = x.firstName;
-                    sponsor.lastName = x.lastName;
-                    sponsor.company = x.company;
-                    sponsor.email = x.email;
+                    sponsor2 sponsor = new sponsor2();
+                    sponsor.userID = user.userID;
+                    sponsor.emailInfo = x.email;
                     sponsor.logo = x.logo;
-                    sponsor.phone = x.phone;
                     sponsor.sponsorType = x.sponsorType;
-                    sponsor.addressID = address.addressID;
-                    sponsor.paymentID = payment2.paymentID;
+                    sponsor.totalAmount = x.amount;
+                    sponsor.method = x.method;
                     sponsor.deleted = false;
-
-
-                    context.sponsors.Add(sponsor);
+                    sponsor.byAdmin = true;
+                    sponsor.active = true;
+                    sponsor.paymentID = payment2.paymentID;
+                    
+                    context.sponsor2.Add(sponsor);
                     context.SaveChanges();
                     x.sponsorID = sponsor.sponsorID;
-                    x.paymentID = payment2.paymentID;
                     x.addressID = address.addressID;
                     return x;
                 }
+        
 
 
             }
@@ -261,6 +241,8 @@ namespace NancyService.Modules
             }
 
         }
+   
+
 
         public List<SponsorQuery> getSponsorList()
         {
@@ -274,9 +256,8 @@ namespace NancyService.Modules
 
                     var sponsor = (from s in context.sponsors
                                    from type in context.sponsortypes
-                                   from a in context.addresses
                                    from pay in context.paymentbills
-                                   where (s.sponsorType == type.sponsortypeID) && (s.addressID == a.addressID) && (s.paymentID == pay.paymentID) && (s.deleted == false)
+                                   where (s.sponsorType == type.sponsortypeID) && (s.paymentID == pay.paymentID) && (s.deleted == false) && s.active ==true
                                    select new SponsorQuery
                                    {
                                        sponsorID = s.sponsorID,
@@ -288,18 +269,18 @@ namespace NancyService.Modules
                                        phone = s.phone,
                                        email = s.email,
                                        addressID = (long)s.addressID,
-                                       city = a.city,
-                                       line1 = a.line1,
-                                       line2 = a.line2,
-                                       state = a.state,
-                                       zipcode = a.zipcode,
-                                       country = a.country,
+                                       city = s.address.city,
+                                       line1 = s.address.line1,
+                                       line2 = s.address.line2,
+                                       state = s.address.state,
+                                       zipcode = s.address.zipcode,
+                                       country = s.address.country,
                                        sponsorType = s.sponsorType,
                                        amount = pay.AmountPaid,
                                        transactionID = pay.transactionid,
                                        paymentID = (long)pay.paymentID,
                                        method = pay.methodOfPayment,
-                                       typeName = type.name,
+                                       //typeName = type.name,
 
                                    }).ToList();
 
@@ -329,34 +310,33 @@ namespace NancyService.Modules
                 {
 
                     int pageSize = 10;
-                    var sponsor = (from s in context.sponsors
-                                   from type in context.sponsortypes
-                                   from a in context.addresses
-                                   from pay in context.paymentbills
-                                   where (s.sponsorType == type.sponsortypeID) && (s.addressID == a.addressID) && (s.paymentID == pay.paymentID) && (s.deleted == false)
+                    var sponsor = (from s in context.sponsor2
+                                   from b in context.paymentbills
+                                   where s.active==true && (s.deleted == false) && b.paymentID ==s.paymentID
                                    select new SponsorQuery
                                    {
                                        sponsorID = s.sponsorID,
-                                       firstName = s.firstName,
-                                       lastName = s.lastName,
-                                       company = s.company,
-                                       title = s.title,
+                                       firstName = s.user.firstName,
+                                       lastName = s.user.lastName,
+                                       company = s.user.affiliationName,
+                                       title = s.user.title,
+                                       email = s.emailInfo == null ? s.user.membership.email : s.emailInfo,
                                        logo = s.logo,
-                                       phone = s.phone,
-                                       email = s.email,
-                                       addressID = (long)s.addressID,
-                                       city = a.city,
-                                       line1 = a.line1,
-                                       line2 = a.line2,
-                                       state = a.state,
-                                       zipcode = a.zipcode,
-                                       country = a.country,
-                                       sponsorType = s.sponsorType,
-                                       amount = pay.AmountPaid,
-                                       transactionID = pay.transactionid,
-                                       paymentID = (long)pay.paymentID,
-                                       method = pay.methodOfPayment,
-                                       typeName = type.name,
+                                       phone = s.user.phone,
+                                       addressID = s.user.addressID,
+                                       city = s.user.address.city,
+                                       line1 = s.user.address.line1,
+                                       line2 = s.user.address.line2,
+                                       state = s.user.address.state,
+                                       zipcode = s.user.address.zipcode,
+                                       country = s.user.address.country,
+                                       sponsorType = (int)s.sponsorType,
+                                       amount = b.AmountPaid,
+                                       method = b.methodOfPayment,
+                                       transactionID = b.transactionid,
+                                       byAdmin =s.byAdmin,                                       
+                                       typeName = s.sponsortype1.name,
+                                      
 
                                    }).OrderBy(x => x.sponsorID);
 
@@ -391,34 +371,31 @@ namespace NancyService.Modules
                 {
 
 
-                    var sponsor = (from s in context.sponsors
-                                   from type in context.sponsortypes
-                                   from a in context.addresses
-                                   from pay in context.paymentbills
-                                   where (s.sponsorID == x && s.sponsorType == type.sponsortypeID) && (s.addressID == a.addressID) && (s.paymentID == pay.paymentID) && (s.deleted == false)
+                    var sponsor = (from s in context.sponsor2
+                                   where (s.user.userID == x ) && (s.deleted == false) && (s.active==true)
                                    select new SponsorQuery
                                    {
                                        sponsorID = s.sponsorID,
-                                       firstName = s.firstName,
-                                       lastName = s.lastName,
+                                       firstName = s.user.firstName,
+                                       lastName = s.user.lastName,
                                        company = s.company,
-                                       title = s.title,
+                                       title = s.user.title,
                                        logo = s.logo,
-                                       phone = s.phone,
-                                       email = s.email,
-                                       addressID = (long)s.addressID,
-                                       city = a.city,
-                                       line1 = a.line1,
-                                       line2 = a.line2,
-                                       state = a.state,
-                                       zipcode = a.zipcode,
-                                       country = a.country,
-                                       sponsorType = s.sponsorType,
-                                       amount = pay.AmountPaid,
-                                       transactionID = pay.transactionid,
-                                       paymentID = (long)pay.paymentID,
-                                       method = pay.methodOfPayment,
-                                       typeName = type.name,
+                                       phone = s.user.phone,
+                                       email = s.emailInfo == null ? s.user.membership.email : s.emailInfo,
+                                       addressID = (long)s.user.addressID,
+                                       city = s.user.address.city,
+                                       line1 = s.user.address.line1,
+                                       line2 = s.user.address.line2,
+                                       state = s.user.address.state,
+                                       zipcode = s.user.address.zipcode,
+                                       country = s.user.address.country,
+                                       sponsorType = (int)s.sponsorType,
+                                       amount = s.totalAmount,
+                                       transactionID = s.byAdmin == true &&s.payment.paymentbills.FirstOrDefault() != null ? s.payment.paymentbills.FirstOrDefault().transactionid : null,
+                                       paymentID = s.payment.paymentID,
+                                       method = s.byAdmin == true &&  s.payment.paymentbills.FirstOrDefault() == null? null: s.payment.paymentbills.FirstOrDefault().methodOfPayment,
+                                       typeName = s.sponsortype1.name,
 
                                    }).FirstOrDefault();
 
@@ -478,38 +455,31 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    var sponsor = (from s in context.sponsors
+                    var sponsor = (from s in context.sponsor2
                                    where s.sponsorID == x.sponsorID
                                    select s).FirstOrDefault();
                     if (sponsor != null)
                     {
-                        sponsor.firstName = x.firstName;
-                        sponsor.lastName = x.lastName;
+                        sponsor.user.firstName = x.firstName;
+                        sponsor.user.lastName = x.lastName;
                         sponsor.company = x.company;
-                        sponsor.email = x.email;
                         sponsor.logo = x.logo;
-                        sponsor.phone = x.phone;
+                        sponsor.user.phone = x.phone;
                         sponsor.sponsorType = x.sponsorType;
 
-                        var payment = (from p in context.paymentbills
-                                       where p.paymentID == x.paymentID
-                                       select p).First();
-                        payment.AmountPaid = x.amount;
-                        payment.transactionid = x.transactionID;
+                        sponsor.user.address.city = x.city;
+                        sponsor.user.address.country = x.country;
+                        sponsor.user.address.state = x.state;
+                        sponsor.user.address.zipcode = x.zipcode;
+                        sponsor.user.address.line1 = x.line1;
+                        sponsor.user.address.line2 = x.line2;
 
-                        var address = (from a in context.addresses
-                                       where (a.addressID == x.addressID)
-                                       select a).First();
-                        address.city = x.city;
-                        address.country = x.country;
-                        address.state = x.state;
-                        address.zipcode = x.zipcode;
-                        address.line1 = x.line1;
-                        address.line2 = x.line2;
-
+                        sponsor.payment.paymentbills.First().AmountPaid = x.amount;
+                        sponsor.payment.paymentbills.First().methodOfPayment = x.method;
+                        sponsor.payment.paymentbills.First().transactionid = x.transactionID;
+                        sponsor.payment.paymentbills.First().quantity = 0;
                         context.SaveChanges();
-                        x.addressID = address.addressID;
-                        x.paymentID = payment.paymentID;
+            
 
                     }
 
@@ -530,11 +500,13 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
 
-                    var sponsor = (from s in context.sponsors
+                    var sponsor = (from s in context.sponsor2
                                    where s.sponsorID == x
                                    select s).FirstOrDefault();
                     if (sponsor != null)
                     {
+                        sponsor.user.membership.deleted = true;
+                        sponsor.user.deleted = true;
                         sponsor.deleted = true;
                         context.SaveChanges();
                     }
@@ -613,7 +585,7 @@ namespace NancyService.Modules
                                     from k in context.payments
                                     from r in context.registrations
                                     from u in context.users
-                                    where s.sponsorID == id && s.isUsed == true && s.deleted == false && pay.paymentID == k.paymentID &&
+                                    where s.sponsorID2 == id && s.isUsed == true && s.deleted == false && pay.paymentID == k.paymentID &&
                                     s.complementarykeyID == pay.complementaryKeyID && r.paymentID == k.paymentID &&
                                     r.userID == u.userID
                                     select new ComplementaryQuery
@@ -621,7 +593,7 @@ namespace NancyService.Modules
                                         complementarykeyID = s.complementarykeyID,
                                         key = s.key,
                                         isUsed = (bool)s.isUsed,
-                                        sponsorID = s.sponsorID,
+                                        sponsorID = s.sponsorID2,
                                         userID = r.userID,
                                         name = u.firstName + " " + u.lastName,
 
@@ -630,7 +602,7 @@ namespace NancyService.Modules
                                     }).ToList();
 
                     var keysUnused = (from s in context.complementarykeys
-                                      where s.sponsorID == id && s.isUsed == false && s.deleted == false
+                                      where s.sponsorID2 == id && s.isUsed == false && s.deleted == false
                                       select new ComplementaryQuery
                                       {
                                           complementarykeyID = s.complementarykeyID,
@@ -642,8 +614,6 @@ namespace NancyService.Modules
 
                     var list = keysUnused.Concat(keysUsed).ToList();
                     return list;
-
-
 
                 }
 
@@ -663,13 +633,13 @@ namespace NancyService.Modules
                 int pageSize = 10;
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-
+                  
                     var keys = (from s in context.complementarykeys
                                 from pay in context.paymentcomplementaries
                                 from k in context.payments
                                 from r in context.registrations
                                 from u in context.users
-                                where s.sponsorID == page.sponsorID && s.isUsed == true && s.deleted == false && pay.paymentID == k.paymentID &&
+                                where s.sponsorID2 == page.sponsorID  && s.isUsed == true && s.deleted == false && pay.paymentID == k.paymentID &&
                                 s.complementarykeyID == pay.complementaryKeyID && r.paymentID == k.paymentID &&
                                 r.userID == u.userID
                                 select new ComplementaryQuery
@@ -677,17 +647,17 @@ namespace NancyService.Modules
                                     complementarykeyID = s.complementarykeyID,
                                     key = s.key,
                                     isUsed = (bool)s.isUsed,
-                                    sponsorID = s.sponsorID,
+                                    sponsorID = s.sponsorID2,
                                     userID = r.userID,
                                     name = u.firstName + " " + u.lastName,
                                 }).Concat((from s in context.complementarykeys
-                                           where s.sponsorID == page.sponsorID && s.isUsed == false && s.deleted == false
+                                           where s.sponsorID2 == page.sponsorID && s.isUsed == false && s.deleted == false
                                            select new ComplementaryQuery
                                            {
                                                complementarykeyID = s.complementarykeyID,
                                                key = s.key,
                                                isUsed = (bool)s.isUsed,
-                                               sponsorID = s.sponsorID,
+                                               sponsorID = s.sponsorID2,
                                                userID = 0,
                                                name = "",
                                            })).OrderBy(x => x.complementarykeyID);
@@ -746,7 +716,7 @@ namespace NancyService.Modules
                 {
                     //delete si nadie ha pagado con el hasta este momento. 
                     context.complementarykeys
-                               .Where(s => s.sponsorID == x && s.isUsed == false)
+                               .Where(s => s.sponsorID2 == x && s.isUsed == false)
                                .ToList().ForEach(s => { s.deleted = true; });
 
                     context.SaveChanges();
@@ -777,7 +747,8 @@ namespace NancyService.Modules
                     for (int i = 0; i < obj.quantity; i++)
                     {
                         complementarykey c = new complementarykey();
-                        c.sponsorID = obj.sponsorID;
+                        c.sponsorID2 = obj.sponsorID;
+                        c.sponsorID = 1;
                         c.isUsed = false;
                         c.deleted = false;
                         c.key = "CCWIC-" + obj.company + "-" + GenerateComplementary(30);

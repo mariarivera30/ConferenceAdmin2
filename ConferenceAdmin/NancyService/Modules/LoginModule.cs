@@ -112,6 +112,7 @@ namespace NancyService.Modules
                 var member = this.Bind<membership>();
                 var address = this.Bind<address>();
                 
+                
 
                 if (user == null)
                 {

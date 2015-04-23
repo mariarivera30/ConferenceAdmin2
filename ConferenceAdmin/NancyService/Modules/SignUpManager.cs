@@ -82,6 +82,29 @@ namespace NancyService.Modules
                         context.SaveChanges();
 
                     }
+                    else if (user.userTypeID == 7)
+                    {
+                        sponsor2 sponsor = new sponsor2();
+                        //sponsor.company = sponsor2.company;
+                        //sponsor.logo = sponsor2.logo;
+                        sponsor.deleted = false;
+                        sponsor.userID = user.userID;
+                        sponsor.active = false;
+                        sponsor.company = user.affiliationName;
+                        sponsor.sponsorType = 1;
+                        sponsor.byAdmin = false;
+                        sponsor.active = false;
+                        sponsor.totalAmount = 0;
+                        
+                        payment payment2 = new payment();
+                        payment2.paymentTypeID = 1;
+                        context.payments.Add(payment2);
+                        context.SaveChanges();
+                        sponsor.paymentID = payment2.paymentID;
+                        context.sponsor2.Add(sponsor);
+                        context.SaveChanges();
+
+                    }
                     else if (user.userTypeID == 6)
                     {
                         companion companion = new companion();

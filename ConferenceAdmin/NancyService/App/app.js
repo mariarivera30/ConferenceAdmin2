@@ -537,6 +537,39 @@
                 }
             }
         })
+            .state('profile.sponsorcomplementary', { 
+                url: "/sponsorcomplementary",
+                views: {
+                    'profilePage': {
+                        templateUrl: "views/profileSponsorComplementary.html"
+                    }
+                }
+            })
+             .state('profile.sponsorpaymentBill', { 
+                 url: "/sponsorpaymentbill",
+                 views: {
+                     'profilePage': {
+                         templateUrl: "views/profileSponsorPaymentBills.html"
+                     }
+                 }
+             })
+             .state('profile.sponsorinformation', { 
+                 url: "/sponsorgeneralinformation",
+                 views: {
+                     'profilePage': {
+                         templateUrl: "views/profileSponsor.html"
+                     }
+                 }
+             })
+                 .state('profile.sponsordonate', {
+                     url: "/sponsordonate",
+                     views: {
+                         'profilePage': {
+                             templateUrl: "views/profileSponsorDonate.html"
+                         }
+                     }
+                 })
+
         .state('profile.receiptinformation', {
             url: "/ReceiptInformation",
             views: {

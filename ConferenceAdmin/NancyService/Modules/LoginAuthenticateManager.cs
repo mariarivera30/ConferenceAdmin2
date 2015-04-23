@@ -56,6 +56,9 @@ namespace NancyService.Modules
                     case 6:
                         claims.Add("companion");
                         break;
+                    case 7:
+                        claims.Add("sponsor");
+                        break;
                     default:
                         {
                             claims.Add("participant");

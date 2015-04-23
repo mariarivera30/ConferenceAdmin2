@@ -8,6 +8,7 @@ namespace NancyService.Models
         public sponsortype()
         {
             this.sponsors = new List<sponsor>();
+            this.sponsors2 = new List<sponsor2>();
         }
 
         public int sponsortypeID { get; set; }
@@ -25,5 +26,6 @@ namespace NancyService.Models
         public string benefit10 { get; set; }
         public Nullable<bool> deleted { get; set; }
         public virtual ICollection<sponsor> sponsors { get; set; }
+        public virtual ICollection<sponsor2> sponsors2 { get; set; }
     }
 }

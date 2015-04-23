@@ -18,6 +18,7 @@
         vm.receipt = false;
         vm.evaluation = false;
         vm.isAdmin = false;
+        vm.isSponsor =false;
         
         
 
@@ -38,6 +39,18 @@
                         vm.application = true;
                         vm.submission = true;
                         vm.receipt = true;
+                        $rootScope.$emit('Loginpart');
+
+                    }
+                    if (claim.localeCompare('sponsor') == 0) {
+                        vm.generalInfo = true;
+                        vm.application = false;
+                        vm.submission = false;
+                        vm.receipt = false;
+                        vm.donate = true;
+                        vm.complementary = true;
+                        vm.paymentBill = true;
+                        vm.isSponsor = true;
                         $rootScope.$emit('Loginpart');
 
                     }
