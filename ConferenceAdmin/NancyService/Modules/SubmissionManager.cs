@@ -1022,6 +1022,59 @@ namespace NancyService.Modules
             }
         }
 
+        public bool addSubmissionFile(documentssubmitted file)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {                   
+                        documentssubmitted subDoc = new documentssubmitted();
+
+                        subDoc.submissionID = file.submissionID;
+                        subDoc.documentName = file.documentName;
+                        subDoc.document = file.document;
+                        subDoc.deleted = false;
+                        context.documentssubmitteds.Add(subDoc);
+                        context.SaveChanges();                                
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.addSubmission error " + ex);
+                return false;
+            }
+        }
+
+        public bool manageExistingFiles(long subID, List<long> existingDocsID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    //all documents in DB for submission with ID SubmissionID
+                    List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(d => d.submissionID == subID).ToList<documentssubmitted>();
+                    //list of all documents that are in the DB and will not be removed from the submission
+                    List<documentssubmitted> existingDocs = prevDocuments.Where(c => existingDocsID.Contains(c.documentssubmittedID)).ToList();
+                    //list of all the documents that used to belong to the submission but where deleted by the user
+                    List<documentssubmitted> docsInDBtbd = prevDocuments.Except(existingDocs).ToList();
+                    //remove from the DB all items delete by the user
+                    foreach (var docTBD in docsInDBtbd)
+                    {
+                        docTBD.deleted = true;
+                        context.SaveChanges();
+                    }
+                                     
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.addSubmission error " + ex);
+                return false;
+            }
+        }
+
         public Submission editSubmission(submission submissionToEdit, panel pannelToEdit, workshop workshopToEdit)
         {
             try
@@ -1067,37 +1120,37 @@ namespace NancyService.Modules
                     };
 
 
-                    if (submissionToEdit.submissionTypeID != 4)
-                    {
-                        //all documents in DB for submission with ID SubmissionID
-                        List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(d => d.submissionID == sub.submissionID).ToList<documentssubmitted>();
-                        //list of all new documents that are being added to the submission
-                        List<documentssubmitted> addedDocs = submissionToEdit.documentssubmitteds.Where(c => c.document != null ).ToList();
-                        //list of IDs of all documents that are in the DB and will not be removed from the submission
-                        List <long> remainingDocsID = submissionToEdit.documentssubmitteds.Where(c => c.document == null).Select(d => d.documentssubmittedID).ToList();
-                        //list of all documents that are in the DB and will not be removed from the submission
-                        List<documentssubmitted> remainingDocs = prevDocuments.Where(c => remainingDocsID.Contains(c.documentssubmittedID)).ToList();
-                        //list of all the documents that used to belong to the submission but where deleted by the user
-                        List<documentssubmitted> docsInDBtbd = prevDocuments.Except(remainingDocs).ToList();
-                        //remove from the DB all items delete by the user
-                        foreach (var docTBD in docsInDBtbd)
-                        {
-                            context.documentssubmitteds.Remove(docTBD);
-                        }
-                        context.SaveChanges();
+                    /* if (submissionToEdit.submissionTypeID != 4)
+                     {
+                         //all documents in DB for submission with ID SubmissionID
+                         List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(d => d.submissionID == sub.submissionID).ToList<documentssubmitted>();
+                         //list of all new documents that are being added to the submission
+                         List<documentssubmitted> addedDocs = submissionToEdit.documentssubmitteds.Where(c => c.document != null ).ToList();
+                         //list of IDs of all documents that are in the DB and will not be removed from the submission
+                         List <long> remainingDocsID = submissionToEdit.documentssubmitteds.Where(c => c.document == null).Select(d => d.documentssubmittedID).ToList();
+                         //list of all documents that are in the DB and will not be removed from the submission
+                         List<documentssubmitted> remainingDocs = prevDocuments.Where(c => remainingDocsID.Contains(c.documentssubmittedID)).ToList();
+                         //list of all the documents that used to belong to the submission but where deleted by the user
+                         List<documentssubmitted> docsInDBtbd = prevDocuments.Except(remainingDocs).ToList();
+                         //remove from the DB all items delete by the user
+                         foreach (var docTBD in docsInDBtbd)
+                         {
+                             context.documentssubmitteds.Remove(docTBD);
+                         }
+                         context.SaveChanges();
 
-                        //add to the DB all new documents added to the submission
-                        documentssubmitted subDocs = new documentssubmitted();
-                        foreach (var docs in addedDocs)
-                        {
-                            subDocs.submissionID = sub.submissionID;
-                            subDocs.documentName = docs.documentName;
-                            subDocs.document = docs.document;
-                            subDocs.deleted = false;
-                            context.documentssubmitteds.Add(subDocs);
-                            context.SaveChanges();
-                        }
-                    }
+                         //add to the DB all new documents added to the submission
+                         documentssubmitted subDocs = new documentssubmitted();
+                         foreach (var docs in addedDocs)
+                         {
+                             subDocs.submissionID = sub.submissionID;
+                             subDocs.documentName = docs.documentName;
+                             subDocs.document = docs.document;
+                             subDocs.deleted = false;
+                             context.documentssubmitteds.Add(subDocs);
+                             context.SaveChanges();
+                         }
+                     }*/
                     return editedSub;
                 }
             }
@@ -1274,6 +1327,7 @@ namespace NancyService.Modules
                     usersub.finalSubmissionID = finalSubmissionID;
                     context.SaveChanges();
                     
+                    /*
                     //list of all the files that the prev submission had
                     List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(c => c.submissionID == usersubTA.initialSubmissionID).ToList();
                     //list of all the documents of the remaining docs-the docs that are in the prev that will stay in the final
@@ -1303,7 +1357,7 @@ namespace NancyService.Modules
                         subDocs.deleted = false;
                         context.documentssubmitteds.Add(subDocs);
                         context.SaveChanges();
-                    }
+                    }*/
                     //table pannels
                     if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
                     {
@@ -1425,7 +1479,7 @@ namespace NancyService.Modules
                     usersubmission usersub = context.usersubmission.Where(c => c.initialSubmissionID == usersubTA.initialSubmissionID && c.deleted == false).FirstOrDefault();
                     usersub.finalSubmissionID = finalSubmissionID;
                     context.SaveChanges();
-
+                    /*
                     //list of all the files that the prev submission had
                     List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(c => c.submissionID == usersubTA.initialSubmissionID).ToList();
                     //list of all the documents of the remaining docs-the docs that are in the prev that will stay in the final
@@ -1455,7 +1509,7 @@ namespace NancyService.Modules
                         subDocs.deleted = false;
                         context.documentssubmitteds.Add(subDocs);
                         context.SaveChanges();
-                    }
+                    }*/
 
                     //table pannels
                     if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)

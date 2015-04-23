@@ -199,6 +199,35 @@ namespace NancyService.Modules
                 return Response.AsJson(newSubmission);
 
             };
+            //add new file to submission
+            Put["/addSubmissionFile"] = parameters =>
+                {
+                    documentssubmitted doc = this.Bind<documentssubmitted>();
+
+                    if (submission.addSubmissionFile(doc))
+                        return HttpStatusCode.OK;
+                    else
+                        return HttpStatusCode.Conflict;
+                };
+            //manage existing files for a submission
+            Put["/manageExistingFiles"] = parameters =>
+                {
+                    //documentssubmitted sub = this.Bind<documentssubmitted>();
+                    ExistingFile sub = this.Bind<ExistingFile>();
+                    if (sub.IDsList.Count == 0)
+                    {
+                        return HttpStatusCode.OK;
+                    }
+                    else
+                    {
+
+                        if (submission.manageExistingFiles(sub.submissionID, sub.IDsList))
+                            return HttpStatusCode.OK;
+                        else
+                            return HttpStatusCode.Conflict;
+                    }
+                };
+
             //edit submission
             Put["/editSubmission"] = parameters =>
             {
@@ -325,7 +354,11 @@ namespace NancyService.Modules
 
 
         }
-
+        public class ExistingFile
+        {
+            public long submissionID { get; set; }
+            public List<long> IDsList { get; set; }
+        }
     }
 }
 
