@@ -7258,8 +7258,8 @@ div .agenda-division {
 
 .diamond-style img {
     padding-top: 20px;
-    max-width:500px; 
-    max-height:225px
+    max-width:600px; 
+    max-height:250px
 }
 
 .platinum-container {
@@ -7267,10 +7267,9 @@ div .agenda-division {
 }
 
 .platinum-style img {
-    max-width: 100%; 
     padding-top: 20px;
     max-width:450px; 
-    max-height:225px
+    max-height:250px
 }
 
 .gold-container{
@@ -7282,8 +7281,8 @@ div .agenda-division {
 .gold-style img {
     padding-top: 20px;
     margin-top:0px;
-    max-width:365px; 
-    max-height:100px
+    max-width:400px; 
+    max-height:125px
 }
 
 .silver-container{
@@ -7294,8 +7293,8 @@ div .agenda-division {
 .silver-style img {
     max-width: 100%; 
     padding-top: 20px;
-    max-width:270px; 
-    max-height:100px
+    max-width:300px; 
+    max-height:125px
 }
 
 .bronze-container{
@@ -7306,8 +7305,8 @@ div .agenda-division {
 .bronze-style img {
     max-width: 100%; 
     padding-top: 40px;
-    max-width:170px; 
-    max-height:100px
+    max-width:200px; 
+    max-height:125px;
 }
 
 .margin-fix {
