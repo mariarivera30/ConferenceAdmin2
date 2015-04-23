@@ -200,7 +200,7 @@ namespace NancyService.Modules
 
             };
             //add new file to submission
-            Post["/addSubmissionFile"] = parameters =>
+            Put["/addSubmissionFile"] = parameters =>
                 {
                     documentssubmitted doc = this.Bind<documentssubmitted>();
 
@@ -212,16 +212,16 @@ namespace NancyService.Modules
             //manage existing files for a submission
             Put["/manageExistingFiles"] = parameters =>
                 {
-                    documentssubmitted sub = this.Bind<documentssubmitted>();
-                    List<long> documentsID = this.Bind<List<long>>();
-                    if (documentsID.Count == 0)
+                    //documentssubmitted sub = this.Bind<documentssubmitted>();
+                    ExistingFile sub = this.Bind<ExistingFile>();
+                    if (sub.IDsList.Count == 0)
                     {
                         return HttpStatusCode.OK;
                     }
                     else
                     {
 
-                        if (submission.manageExistingFiles(sub, documentsID))
+                        if (submission.manageExistingFiles(sub.submissionID, sub.IDsList))
                             return HttpStatusCode.OK;
                         else
                             return HttpStatusCode.Conflict;
@@ -354,7 +354,11 @@ namespace NancyService.Modules
 
 
         }
-
+        public class ExistingFile
+        {
+            public long submissionID { get; set; }
+            public List<long> IDsList { get; set; }
+        }
     }
 }
 

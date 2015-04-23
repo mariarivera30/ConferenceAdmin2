@@ -1046,14 +1046,14 @@ namespace NancyService.Modules
             }
         }
 
-        public bool manageExistingFiles(documentssubmitted sub, List<long> existingDocsID)
+        public bool manageExistingFiles(long subID, List<long> existingDocsID)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     //all documents in DB for submission with ID SubmissionID
-                    List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(d => d.submissionID == sub.submissionID).ToList<documentssubmitted>();
+                    List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(d => d.submissionID == subID).ToList<documentssubmitted>();
                     //list of all documents that are in the DB and will not be removed from the submission
                     List<documentssubmitted> existingDocs = prevDocuments.Where(c => existingDocsID.Contains(c.documentssubmittedID)).ToList();
                     //list of all the documents that used to belong to the submission but where deleted by the user
