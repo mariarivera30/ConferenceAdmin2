@@ -1022,6 +1022,58 @@ namespace NancyService.Modules
             }
         }
 
+        public bool addSubmissionFile(documentssubmitted file)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {                   
+                        documentssubmitted subDoc = new documentssubmitted();
+
+                        subDoc.submissionID = file.submissionID;
+                        subDoc.documentName = file.documentName;
+                        subDoc.document = file.document;
+                        subDoc.deleted = false;
+                        context.documentssubmitteds.Add(subDoc);
+                        context.SaveChanges();                                
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.addSubmission error " + ex);
+                return false;
+            }
+        }
+
+        public bool manageExistingFiles(documentssubmitted sub, List<long> existingDocsID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    //all documents in DB for submission with ID SubmissionID
+                    List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(d => d.submissionID == sub.submissionID).ToList<documentssubmitted>();
+                    //list of all documents that are in the DB and will not be removed from the submission
+                    List<documentssubmitted> existingDocs = prevDocuments.Where(c => existingDocsID.Contains(c.documentssubmittedID)).ToList();
+                    //list of all the documents that used to belong to the submission but where deleted by the user
+                    List<documentssubmitted> docsInDBtbd = prevDocuments.Except(existingDocs).ToList();
+                    //remove from the DB all items delete by the user
+                    foreach (var docTBD in docsInDBtbd)
+                    {
+                        context.documentssubmitteds.Remove(docTBD);
+                    }
+                    context.SaveChanges();                   
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.addSubmission error " + ex);
+                return false;
+            }
+        }
+
         public Submission editSubmission(submission submissionToEdit, panel pannelToEdit, workshop workshopToEdit)
         {
             try
