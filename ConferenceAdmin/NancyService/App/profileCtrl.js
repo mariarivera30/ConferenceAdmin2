@@ -43,7 +43,8 @@
 
                     }
                     if (claim.localeCompare('sponsor') == 0) {
-                        vm.generalInfo = true;
+                        vm.generalInfo = false;
+                        vm.sponsorInfo = true;
                         vm.application = false;
                         vm.submission = false;
                         vm.receipt = false;

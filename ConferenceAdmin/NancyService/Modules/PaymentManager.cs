@@ -82,6 +82,77 @@ namespace NancyService.Modules
         public  PaymentManager()
         {}
 
+
+        public List<PaymentQuery> getSponsorPayments(long id)
+        {
+
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    var paymentInfo = (from s in context.paymentbills
+                                       from sp in context.sponsor2
+                                       where sp.userID == id && s.deleted == false && sp.paymentID == s.paymentID && s.completed==true
+                                       select new PaymentQuery
+                                       {
+                                           paymentBillID = s.paymentBillID,
+                                           date = (DateTime)s.payment.creationDate,
+                                           transactionid = s.transactionid,
+                                           AmountPaid = s.AmountPaid,
+                                           authorizationID = s.authorizationID,
+                                           methodOfPayment = s.methodOfPayment,
+                                           firstName = s.firstName,
+                                           lastName = s.lastName,
+                                           email = s.email,
+                                           tandemID = s.tandemID,
+                                           batchID = s.batchID,
+                                           userFirstName = sp.user.firstName,
+                                           userLastName = sp.user.lastName,
+                                           affiliationName = sp.company,
+                                           type = sp.sponsortype1.name,
+                                           description = "Sponsor Donation"
+
+                                       }).ToList();
+
+
+                    //if (paymentInfo == null)
+                    //{
+                    //    paymentInfo = (from s in context.paymentbills
+                    //                   from r in context.registrations
+                    //                   where s.paymentBillID == id && s.deleted == false && r.paymentID == s.paymentID
+                    //                   select new PaymentQuery
+                    //                   {
+                    //                       paymentBillID = s.paymentBillID,
+                    //                       date = (DateTime)s.payment.creationDate,
+                    //                       transactionid = s.transactionid,
+                    //                       AmountPaid = s.AmountPaid,
+                    //                       authorizationID = s.authorizationID,
+                    //                       methodOfPayment = s.methodOfPayment,
+                    //                       firstName = s.firstName,
+                    //                       lastName = s.lastName,
+                    //                       email = s.email,
+                    //                       tandemID = s.tandemID,
+                    //                       batchID = s.batchID,
+                    //                       userFirstName = r.user.firstName,
+                    //                       userLastName = r.user.lastName,
+                    //                       affiliationName = r.user.affiliationName,
+                    //                       type = r.user.usertype.userTypeName,
+                    //                       description = "User Registration."
+                    //                   }).FirstOrDefault();
+                    //}
+
+                    return paymentInfo;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.Write("PaymetnManager.getPaymentSponsorsReceiptInfo error " + ex);
+                return null;
+            }
+
+
+        }
        public PaymentQuery getPayment(long id)
         {
           

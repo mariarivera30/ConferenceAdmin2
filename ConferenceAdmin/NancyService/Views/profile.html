@@ -38,7 +38,9 @@
 
 
                     <!--Sposnor Profile-->
-
+                    <li ng-show="vm.sponsorInfo" ng-click="selectedTab='general';" ng-class="{active: selectedTab=='general'}">
+                        <a href="#/Profile/sponsorgeneralinformation"><i class="fa fa-pencil"> </i>General Information</a>
+                    </li>
                     <li ng-show="vm.complementary" ng-click="selectedTab='complementary';" ng-class="{active: selectedTab=='complementary'}">
                         <a href="#/Profile/sponsorcomplementary"><i class="fa fa-pencil"> </i>Complementary Keys</a>
                     </li>

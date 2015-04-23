@@ -24,6 +24,7 @@ namespace NancyService
             conventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("fonts", @"fonts"));
             conventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("img", @"img"));
             conventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("js", @"js"));
+            conventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("sponsorlogos", @"sponsorlogos"));
 
         }
 
@@ -40,5 +41,7 @@ namespace NancyService
 
             Nancy.Json.JsonSettings.MaxJsonLength = int.MaxValue;
         }
+
+       
     }
 }

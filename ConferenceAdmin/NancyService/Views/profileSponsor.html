@@ -1,23 +1,23 @@
 ﻿<h3>Manage Sponsors</h3><br>
-<div ng-controller="sponsorCtrl as vm ">
+<div ng-controller="profileSponsorCtrl as vm ">
   
 
     <div class="col-lg-12" ng-show="vm.loading">
         <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
     </div>
 
-    <form ng-hide="vm.loading" name=" addsponsorform" id="addSponsorForm" novalidate>
+    <form ng-hide="vm.loading" name="addSponsorForm" id="addSponsorForm" novalidate >
         <div class="row">
-            <span class="col-lg-6">
+            <div class="col-lg-6">
                 <label>Name:</label>
                 <input class="form-control" type="text" name="name" ng-model="vm.sponsor.firstName" required>
                 <p ng-show="addSponsorForm.name.$invalid && !addSponsorForm.name.$pristine" class="help-block">First name is required.</p>
-            </span>
-            <span class="col-lg-6">
+            </div>
+            <div class="col-lg-6">
                 <label>Last Name:</label>
                 <input class="form-control" type="text" name="last" ng-model="vm.sponsor.lastName" required>
                 <p ng-show="addSponsorForm.last.$invalid && !addSponsorForm.last.$pristine" class="help-block">Last name is required.</p>
-            </span>
+            </div>
         </div>
         <div class="row">
 
@@ -35,14 +35,14 @@
                 <input class="form-control" type="text" name="company" ng-model="vm.sponsor.company" required>
                 <p ng-show="addSponsorForm.company.$invalid && !addSponsorForm.company.$pristine" class="help-block">Company name is required.</p>
             </div>
-            </div>
+        </div>
 
         <h4>Address</h4>
         <div class="row">
             <div class="col-lg-12">
                 <label>Line 1</label>
                 <input class="form-control" type="text" name="line1" ng-model="vm.sponsor.line1" required>
-                <p ng-show="addSponsorForm.line1.$invalid && !addSponsorForm.line1.$pristine" class="help-block">First name is required.</p>
+                <p ng-show="addSponsorForm.line1.$invalid && !addSponsorForm.line1.$pristine" class="help-block">Address is requiered.</p>
             </div>
         </div>
         <div class="row">
@@ -51,7 +51,7 @@
                 <input class="form-control" type="text" name="" ng-model="vm.sponsor.line2">
             </div>
         </div>
-      
+
         <div class="row">
             <div class="col-lg-3">
                 <label>City:</label>
@@ -83,58 +83,75 @@
                 <p ng-show="addSponsorForm.email.$invalid && !addSponsorForm.email.$pristine" class="help-block">Email is required.</p>
 
             </div>
-            <div class="col-lg-6">
+            <span class="col-lg-6">
                 <label>Phone Number:</label>
                 <input class="form-control" type="text" name="phone" ng-model="vm.sponsor.phone" ng-minlength="9" ng-maxlength="10" required>
                 <p ng-show="addSponsorForm.phone.$invalid && !addSponsorForm.phone.$pristine" class="help-block">Phone number is required.</p>
-            </div>
+            </span>
 
         </div>
-       
-
-
 
 
         <div class="row">
 
-
-            <span class=" col-lg-6">
+            <div class=" col-md-12">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <label> Upload Logo </label> <input id="inputFile" type="file" class="form-control" name="upload" file-model="File" on-read-file="showContent($fileContent, File)" required>
                         <a ng-if="content" type="submit" ng-click="vm.clearPic(File)"><i class="glyphicon glyphicon-trash"></i></a>
                         <p ng-show="vm.ext" class="help-block">Try pic,pict, png, jpg, jpeg or gif extention.</p>
+                        <div id="fileModel-load" class="col-lg-12">
+
+                        </div>
                     </div>
+                    <div class=" col-md-6">
 
+                        <label>Logo Image File:</label><br />
+                        <button class="form-control" type="submit" class="btn btn-ar btn-primary right" ng-click="vm.downloadLogo()">Download</button>
+
+
+                    </div>
                 </div>
 
+                <div class="col-md-12">
 
-                <div id="fileModel-load" class="col-lg-12">
+                    <div class="row">
 
-                </div>
-
-                <div class="col-sm-6 col-md-6">
-                    <div ng-if="content">
                         <br />
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <img class="img-responsive" ng-src="{{content}}" />
-                            </div>
 
+                        <div class=" col-md-6">
+                            <label ng-if="content">New Logo:</label>
+                            <img ng-if="content" class="img-responsive" ng-src="{{content}}" />
 
 
                         </div>
 
 
 
+                        <div ng-if="vm.currentSponsor.logo" class=" col-md-6   ">
+                            <label>Current Logo:</label>
+                            <div>
+                                <img class="img-responsive" src="{{vm.currentSponsor.logo}}" />
+                            </div>
+                        </div>
+
                     </div>
+
+
+
                 </div>
+            </div>
 
 
 
 
 
-            </span>
+
+
+
+        </div>
+        <div id="fileModel-load" class="col-md-6">
+
         </div>
 
 
@@ -142,8 +159,7 @@
             <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Uploading</h3>
         </div>
         <div ng-hide=" vm.view" class="modal-footer">
-            <button ng-show="false" type="submit" class="btn btn-ar btn-primary right" ng-click="vm.addSponsor(File)" ng-disabled="addSponsorForm.$invalid || vm.edit ==true ||vm.ext">Add</button>
-            <button ng-show="true" type="submit" class="btn btn-ar btn-primary right" ng-click="vm.updateSponsor(File)" ng-disabled="addSponsorForm.$invalid || vm.add ==true || vm.ext">Save</button>
+            <button ng-show="true" type="submit" class="btn btn-ar btn-primary right" ng-click="vm.updateSponsor(File)" ng-disabled="addSponsorForm.$invalid || vm.ext">Save</button>
             <button class="btn btn-ar btn-default right" data-dismiss="modal" ng-click=" vm.clearSponsor();">Cancel</button>
         </div>
 
@@ -151,118 +167,12 @@
 
 
     </form>
-                </div>
+           
 
-    <div class="modal fade" id="complementary" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-                    <h4 class="modal-title" id="deleteLabel">Manage Complementary Codes</h4>
-                </div>
-                <div class="modal-body">
-
-                    <div class="row">
-                        <div class="col-lg-1"  ></div>
-                        <div ng-hide="vm.loadingComp" class="col-lg-10">
-                            <div ng-hide="vm.sponsorKeys.length">
-                                <p class="title-field">No content to display.</p>
-                                <a class="btn btn-default btn-padding" ng-click="vm.getSponsorComplementaryKeys(vm.cindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
-                            </div>
-                            <div ng-show="vm.sponsorKeys.length">
-                                <table id="keys" ng-table="tableParams" class="table row">
-                                    <tr>
-                                        <td><b>Key Code</b></td>
-                                        <td><b>Used</b></td>
-                                        <td><b>Used by</b></td>
-                                        <td><b> <a href="" ng-click="vm.toggleModal('removeKeys')">Remove All</a></b></td>
-                                    </tr>
-                                    <tr ng-repeat="key in  vm.sponsorKeys">
-                                        <td>{{key.key}}</td>
-                                        <td>{{key.isUsed}}</td>
-                                        <td>{{key.name}}</td>
-                                        <td><a href="" ng-click="vm.selectedKey(key);vm.toggleModal('removeKey');" ng-hide="key.isUsed">Deactivate</a></td>
-                                    </tr>
-                                </table>
-                                <div aria-live="polite" class="col-lg-6">Showing page {{vm.cindex + 1}} of {{vm.cmaxIndex}}</div>
-                                <div class="col-lg-10 paging-word-left">
-                                    <a class="btn btn-default" ng-click="vm.getSponsorComplementaryKeys(vm.cindex)"><i class="glyphicon glyphicon-repeat"></i></a>
-                                    <a class="btn btn-default" ng-disabled="vm.cindex==0" ng-click="vm.getFirstComplimentaryPage()">First</a>
-                                    <a class="btn btn-default" ng-disabled="vm.cindex==0" ng-click="vm.previousComplimentary()">Previous</a>
-                                    <!--<span><a class="btn btn-default">{{vm.cindex+1}}</a></span>-->
-                                    <a class="btn btn-default" ng-disabled="vm.cindex >= (vm.cmaxIndex-1)" ng-click="vm.nextComplimentary()">Next</a>
-                                    <a class="btn btn-default" ng-disabled="vm.cindex >= (vm.cmaxIndex-1)" ng-click="vm.getLastComplimentaryPage()">Last</a>
-                                </div>
-                            </div>
-                            <br />
-                            <div class="col-lg-12" ng-show="vm.loadingRemovingComp">
-                                <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Removing</h3>
-                            </div>
-
-                        </div>
-                        <div class="col-lg-12" ng-show="vm.loadingComp">
-                            <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
-                        </div>
-
-
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="col-lg-1"></div>
-                            <div ng-hide="vm.loadingRemovingComp" class="col-lg-10">
-                                <div class="panel-group" id="accordion">
-                                    <div class="panel panel-default">
-
-                                        <div class="panel-heading panel-heading-link">
-                                            <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" aria-expanded="false" class="collapsed">
-                                                Add Complementary keys
-                                            </a>
-                                        </div>
-                                        <div id="collapseOne" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-                                            <div class="panel-body">
-                                                <div class="row">
-                                                    <div class="col-lg-1"></div>
-                                                    <label>Quantity of Complementary Keys</label>
-                                                </div>
-                                                <div ng-hide="vm.uploadingComp" class="row">
-                                                    <div class="col-lg-1"></div>
-                                                    <form name="addComple" novalidate>
-                                                        <div class="col-lg-2">
-
-                                                            <input type="number" ng-model="vm.quantity" required>
-                                                        </div>
-
-                                                        <div class="col-lg-8"><button class="btn btn-ar btn-primary right" ng-disabled="addComple.$invalid" ng-click="vm.addComplementaryKey()">Add</button></div>
-
-
-                                                    </form>
-
-                                                </div>
-                                                <div class="col-lg-12" ng-show="vm.uploadingComp">
-                                                    <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>Creating</h3>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-1"></div>
-
-                        </div>
-
-                    </div>
-                </div>
-                <div class="modal-footer">
-
-                </div>
-            </div>
-        </div>
-
-    </div>
+    
     <div class="col-lg-6">
         <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
     </div>
 
+</div>
 </div>

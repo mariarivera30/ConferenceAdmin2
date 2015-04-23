@@ -365,8 +365,6 @@ namespace NancyService.Modules
         {
             try
             {
-
-
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
 
@@ -473,11 +471,9 @@ namespace NancyService.Modules
                         sponsor.user.address.zipcode = x.zipcode;
                         sponsor.user.address.line1 = x.line1;
                         sponsor.user.address.line2 = x.line2;
-
-                        sponsor.payment.paymentbills.First().AmountPaid = x.amount;
-                        sponsor.payment.paymentbills.First().methodOfPayment = x.method;
-                        sponsor.payment.paymentbills.First().transactionid = x.transactionID;
-                        sponsor.payment.paymentbills.First().quantity = 0;
+                        sponsor.payment.paymentbills.First().AmountPaid = x.byAdmin == true && sponsor.payment.paymentbills.FirstOrDefault() != null ? x.amount : sponsor.payment.paymentbills.First().AmountPaid;
+                        sponsor.payment.paymentbills.First().methodOfPayment = x.byAdmin == true && sponsor.payment.paymentbills.FirstOrDefault() != null ? x.method : sponsor.payment.paymentbills.First().methodOfPayment;
+                        sponsor.payment.paymentbills.First().transactionid = x.byAdmin == true && sponsor.payment.paymentbills.FirstOrDefault() != null ? x.transactionID : sponsor.payment.paymentbills.First().transactionid;
                         context.SaveChanges();
             
 

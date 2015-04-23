@@ -8,6 +8,7 @@
 
     function addrestApi($http) {
         var service = {
+            getSponsorPayments:_getSponsorPayments,
             checkEmailSponsor:_checkEmailSponsor,
             changePassword: _changePassword,
             checkEmail: _checkEmail,
@@ -160,6 +161,10 @@
         function _getPayment(data) {
             return $http.get('/payment/GetPayment/' + data);
         };
+        function _getSponsorPayments(data) {
+            return $http.get('/payment/getsponsorpayments/' + data);
+        };
+        
         //-----------------------------------Sponsor Complementary-----------------------------------
         
 

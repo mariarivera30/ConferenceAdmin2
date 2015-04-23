@@ -226,13 +226,10 @@
                             <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Uploading</h3>
                         </div>
                         <div ng-hide=" vm.view" class="modal-footer">
-                            <button ng-show="vm.add" type="submit" class="btn btn-ar btn-primary left" ng-click="vm.addSponsor(File)" ng-disabled="addSponsorForm.$invalid || vm.edit ==true ||vm.ext">Add</button>
-                            <button ng-show="vm.edit" type="submit" class="btn btn-ar btn-primary left" ng-click="vm.updateSponsor(File)" ng-disabled="addSponsorForm.$invalid || vm.add ==true || vm.ext">Save</button>
-                            <button class="btn btn-ar btn-default left" data-dismiss="modal" ng-click=" vm.clearSponsor();">Cancel</button>
+                            <button ng-show="vm.add" type="submit" class="btn btn-ar btn-primary right" ng-click="vm.addSponsor(File)" ng-disabled="addSponsorForm.$invalid || vm.edit ==true ||vm.ext">Add</button>
+                            <button ng-show="vm.edit" type="submit" class="btn btn-ar btn-primary right" ng-click="vm.updateSponsor(File)" ng-disabled="addSponsorForm.$invalid || vm.add ==true || vm.ext">Save</button>
+                            <button class="btn btn-ar btn-default right" data-dismiss="modal" ng-click=" vm.clearSponsor();">Cancel</button>
                         </div>
-
-
-
 
                     </form>
                 </div>

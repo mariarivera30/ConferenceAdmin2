@@ -1,9 +1,173 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-</head>
-<body>
+﻿<h3>Payment Bills</h3><br />
+<div ng-controller="profileSponsorBillCtrl as vm">
 
-</body>
-</html>
+
+
+
+    <div ng-repeat="payment in  vm.bills " >
+        <div class="col-lg-12">
+           
+            <div ng-hide="vm.loadingRemovingComp" class="col-md-12">
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading panel-heading-link">
+                            <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" aria-expanded="false" class="collapsed">
+                                Receipt: {{payment.affiliationName}} - {{payment.transactionid}}
+                            </a>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                            <div class="panel-body">
+                                <div ng-hide="vm.loading" class="col-lg-12 margin-fix-banner">
+                                    <br />
+                                    <div class="row">
+                                        <h2 id="g-information">Receipt Information </h2>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 print-align">
+                                            <span class="label-simple">Merchant Name:</span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            Caribbean Celebration of Women in Computing (UPRM)
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3 print-align">
+                                            <span class="label-simple">URL:</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            http://secure.uprm.edu
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 print-align">
+                                            <span class="label-simple">Registration by:</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{payment.userFirstName}} {{payment.userLastName}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 print-align">
+                                            <span class="label-simple">Affiliation:</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{payment.affiliationName}}
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-3 print-align">
+                                            <span class="label-simple">Paid by:</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{payment.firstName}} {{payment.lastName}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3 print-align">
+                                            <span class="label-simple">Date:</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{payment.date}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3 print-align">
+                                            <span class="label-simple">TransactionID:</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{payment.transactionid}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3 print-align">
+                                            <span class="label-simple">Tandem Id:</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{payment.tandemID}}
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-lg-12 margin-fix-banner">
+
+                                    <b>Payment Method</b>
+
+                                    <div class="row">
+                                        <div class=" col-md-3 print-align">
+                                            <span class="label-simple">Method of Payment:</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{payment.methodOfPayment}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class=" col-md-3 print-align">
+                                            <span class="label-simple">Amount Paid:</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{payment.amountPaid}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class=" col-md-3 print-align">
+                                            <span class="label-simple">Payment Type:</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{payment.type}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class=" col-md-3 print-align">
+                                            <span class="label-simple">Quantity:</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            1
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class=" col-md-3 print-align">
+                                            <span class="label-simple">Description</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{payment.description}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class=" col-md-12 print-align">
+                                            <button class="btn btn-ar btn-primary right noPrint" onclick="window.print();">Download Bill</button>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+            <div class="col-lg-1"></div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6">
+        <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
+    </div>
+</div>

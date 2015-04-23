@@ -51,6 +51,7 @@ namespace NancyService.Models
         public DbSet<usersubmission> usersubmission { get; set; }
         public DbSet<usertype> usertypes { get; set; }
         public DbSet<workshop> workshops { get; set; }
+        public DbSet<sponsor2> sponsor2 { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -88,6 +89,7 @@ namespace NancyService.Models
             modelBuilder.Configurations.Add(new usersubmissionMap());
             modelBuilder.Configurations.Add(new usertypeMap());
             modelBuilder.Configurations.Add(new workshopMap());
+            modelBuilder.Configurations.Add(new sponsor2Map());
         }
     }
 }

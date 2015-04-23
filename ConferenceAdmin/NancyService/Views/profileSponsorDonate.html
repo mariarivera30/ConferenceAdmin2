@@ -1,20 +1,38 @@
-﻿<span class=" col-lg-3">
-    <label>Sponsor Type:     </label>
+﻿<div ng-controller =" sponsorDonateCtrl as vm ">
 
-    </><br />
+    <div class= "row">
+        <div class=" col-md-6">
+            <h3>Actual Status</h3>
+            <label>Sponsor Active:</label><br/>
+            <label>Sponsor Type:</label><br />
+            <label>Amount Donated:</label><br />
+           
+        </div>
+        <div class=" col-md-6">
+            <h3>Donate</h3>
+            <div class=" col-md-6">
+                <label>Sponsor Type:     </label>
+                <select ng-model="vm.sponsor.sponsorType"
+                        ng-options="type.sponsortypeID as type.name for type in vm.sponsorsTypeList" class="form-control"></select>
+            </div>
 
+            <div class=" col-md-6">
+                <label ng-show="vm.sponsor.sponsorType == 1">Amount: ${{vm.sponsorsTypeList[vm.sponsor.sponsorType ].amount+1}}- ${{vm.sponsorsTypeList[vm.sponsor.sponsorType-1].amount}}+</label>
+                <input ng-show="vm.sponsor.sponsorType == 1" class="form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" min="{{vm.sponsorsTypeList[vm.sponsor.sponsorType ].amount+1}}" step="any" name="amount" ng-model="vm.sponsor.amount" required>
+                <label ng-show="vm.sponsor.sponsorType ==5">Amount: $0 - ${{vm.sponsorsTypeList[vm.sponsor.sponsorType -1].amount}} </label>
+                <input ng-show="vm.sponsor.sponsorType ==5" class="form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" min="0" max="{{vm.sponsorsTypeList[vm.sponsor.sponsorType -1 ].amount}}" step="any" name="amount" ng-model="vm.sponsor.amount" required>
+                <label ng-hide="vm.viewInput()">Amount: ${{vm.sponsorsTypeList[vm.sponsor.sponsorType].amount+1 }} -${{vm.sponsorsTypeList[vm.sponsor.sponsorType-1].amount}}</label>
+                <input ng-hide="vm.viewInput()" class="form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" min="{{vm.sponsorsTypeList[vm.sponsor.sponsorType].amount+1 }}" max="{{vm.sponsorsTypeList[vm.sponsor.sponsorType-1].amount}}" step="any" name="amount" ng-model="vm.sponsor.amount" required>
+                <p ng-show="addSponsorForm.amount.$invalid && !addSponsorForm.amount.$pristine" class="help-block">Valid amount paid is required.</p>
+                <br />
+                <button type="submit" ng-click="vm.sponsorPayment()" class="btn btn-ar btn-primary right" ng-disabled="addSponsorForm.$invalid || vm.edit ==true ||vm.ext">Donate</button>
 
-    <select ng-model="vm.sponsor.sponsorType"
-            ng-options="type.sponsortypeID as type.name for type in vm.sponsorsTypeList" class="form-control"></select>
+            </div>
 
-</span>
-<span class=" col-lg-2">
+            <div class=" row ">
+               <br/>
+               
+         </div>
+    </div>
 
-    <label ng-show="vm.sponsor.sponsorType == 1">Amount: ${{vm.sponsorsTypeList[vm.sponsor.sponsorType ].amount+1}}- ${{vm.sponsorsTypeList[vm.sponsor.sponsorType-1].amount}}+</label>
-    <input ng-show="vm.sponsor.sponsorType == 1" class="form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" min="{{vm.sponsorsTypeList[vm.sponsor.sponsorType ].amount+1}}" step="any" name="amount" ng-model="vm.sponsor.amount" required>
-    <label ng-show="vm.sponsor.sponsorType ==5">Amount: $0 - ${{vm.sponsorsTypeList[vm.sponsor.sponsorType -1].amount}} </label>
-    <input ng-show="vm.sponsor.sponsorType ==5" class="form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" min="0" max="{{vm.sponsorsTypeList[vm.sponsor.sponsorType -1 ].amount}}" step="any" name="amount" ng-model="vm.sponsor.amount" required>
-    <label ng-hide="vm.viewInput()">Amount: ${{vm.sponsorsTypeList[vm.sponsor.sponsorType].amount+1 }} -${{vm.sponsorsTypeList[vm.sponsor.sponsorType-1].amount}}</label>
-    <input ng-hide="vm.viewInput()" class="form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" min="{{vm.sponsorsTypeList[vm.sponsor.sponsorType].amount+1 }}" max="{{vm.sponsorsTypeList[vm.sponsor.sponsorType-1].amount}}" step="any" name="amount" ng-model="vm.sponsor.amount" required>
-    <p ng-show="addSponsorForm.amount.$invalid && !addSponsorForm.amount.$pristine" class="help-block">Valid amount paid is required.</p>
-</span>
+</div>

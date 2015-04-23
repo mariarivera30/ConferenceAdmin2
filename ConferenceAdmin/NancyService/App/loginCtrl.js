@@ -177,7 +177,7 @@
         }
         
         function _login() {
-
+            vm.uploadingComp = true;
             restApi.login(vm)
                    .success(function (data, status, headers, config) {
 

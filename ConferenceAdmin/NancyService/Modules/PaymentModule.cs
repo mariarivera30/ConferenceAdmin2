@@ -97,6 +97,25 @@ namespace NancyService.Modules
 
 
             };
+
+            Get["/getsponsorpayments/{id:long}"] = parameters =>
+            {
+                long id = parameters.id;
+
+                List<PaymentQuery> result = paymentManager.getSponsorPayments(id);
+
+                if (result != null)
+                {
+                    return Response.AsJson(result);
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+
+
+            };
         
 
         }

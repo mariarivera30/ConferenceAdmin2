@@ -14,7 +14,7 @@
         vm.title = 'ushersCtrl';
         vm.sponsor;
         vm.loadingComp;
-        vm.CCWICSponsorID = 1;
+        vm.CCWICSponsorID = 1;//userID =1 is default membership which is use for ccwwic sponsor
         vm.addComplementaryObj = { sponsorID: 0, quantity: 0, company: "" };
         vm.obj = {
             title: "",
