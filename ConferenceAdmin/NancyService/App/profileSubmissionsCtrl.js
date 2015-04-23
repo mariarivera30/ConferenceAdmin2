@@ -122,7 +122,10 @@
                               vm.CTYPE = vm.topicsList[index];
                               //myFile = null;
                           }
-                      })
+                      });
+                      data.submissionFileList.forEach(function (doc, index) {
+                          vm.documentsList.push({ documentssumittedID: doc.documentssubmittedID, documentName: doc.documentName });
+                      });
                       vm.submissionTypeList.forEach(function (type, index) {
                           if (type.submissionTypeID == vm.modalsubmissionTypeID) {
                               vm.TYPE = vm.submissionTypeList[index];
@@ -209,9 +212,10 @@
                       vm.modalsubIsEvaluated = data.subIsEvaluated;
                       vm.modalpublicFeedback = data.publicFeedback;
 
-                      data.submissionFileList.forEach(function (doc, index) {
-                          vm.documentsList.push({document: doc.document, documentName: doc.documentName});
-                      });
+                      /*data.submissionFileList.forEach(function (doc, index) {
+                          vm.documentsList.push({ documentssumittedID: doc.documentssumittedID, documentName: doc.documentName });
+                      });*/
+                      vm.documentsList = data.submissionFileList;
 
                       vm.topicsList.forEach(function (topic, index) {
                           if (topic.topiccategoryID == data.topiccategoryID) {
@@ -325,14 +329,40 @@
                     submission.documentName = vm.myFile.name;
                     vm.myFile.name = "";
                 }
-                submission.documentssubmitteds = vm.documentsList;
+                //submission.documentssubmitteds = vm.documentsList;
+
                 restApi.postSubmission(submission)
                         .success(function (data, status, headers, config) {
+
+                            //manage existing list of files
+                            var IDsList = [];
+                            vm.documentsList.forEach(function (doc, index) {
+                                if(doc.document == undefined || doc.document == null)
+                                    IDsList.push(doc.documentssubmittedID);
+                            });
+                            var params1 = { submissionID: data.submissionID, IDsList: IDsList };
+                            restApi.manageExistingFiles(params1)
+                                .success(function (data2, status2, headers2, config2) {
+                                    vm.documentsList.forEach(function (doc, index) {
+
+                                        //add new files
+                                        var params = { documentssubmittedID: doc.documentssubmittedID, documentName: doc.documentName, document: doc.document, submissionID: data.submissionID };
+                                        restApi.addFileToSubmission(params)
+                                            .success(function (data3, status3, headers3, config3) {
+
+                                            })
+                                            .error(function (error) {
+                                            });
+                                        //end add new files
+                                    });
+                                })
+                                .error(function (error) {
+                                });
+                            //end manage existing list of files
+
                             vm.submissionlist.push(data);
-                            //myFile = null;
                         })
                         .error(function (error) {
-
                         });
             }
             else if (vm.viewModal == 'Edit') { //if updating submission
@@ -364,13 +394,40 @@
                     submission.documentName = vm.myFile.name;
                     vm.myFile.name = "";
                 }
-                submission.documentssubmitteds = vm.documentsList;
+                //submission.documentssubmitteds = vm.documentsList;
                 restApi.editSubmission(submission)
                        .success(function (data, status, headers, config) {
+
+                           //manage existing list of files
+                           var IDsList = [];
+                           vm.documentsList.forEach(function (doc, index) {
+                               if (doc.document == undefined || doc.document == null)
+                                   IDsList.push(doc.documentssubmittedID);
+                           });
+                           var params1 = { submissionID: data.submissionID, IDsList: IDsList };
+                           restApi.manageExistingFiles(params1)
+                               .success(function (data2, status2, headers2, config2) {
+                                   vm.documentsList.forEach(function (doc, index) {
+
+                                       //add new files
+                                       var params = { documentssubmittedID: doc.documentssubmittedID, documentName: doc.documentName, document: doc.document, submissionID: data.submissionID };
+                                       restApi.addFileToSubmission(params)
+                                           .success(function (data3, status3, headers3, config3) {
+
+                                           })
+                                           .error(function (error) {
+                                           });
+                                       //end add new files
+                                   });
+                               })
+                               .error(function (error) {
+                               });
+                           //end manage existing list of files
+
                            vm.submissionlist.forEach(function (submission, index) {
                                if (submission.submissionID == vm.modalsubmissionID) {
                                    submission.submissionTitle = data.submissionTitle;
-                                   _clear();
+                                   //_clear();
                                }                               
                            }
                        )
@@ -409,10 +466,36 @@
                     submission.documentName = vm.myFile.name;
                     vm.myFile.name = "";
                 }
-                submission.documentssubmitteds = vm.documentsList;
+                //submission.documentssubmitteds = vm.documentsList;
                 restApi.postFinalSubmission(submission)
                         .success(function (data, status, headers, config) {
-                            
+
+                            //manage existing list of files
+                            var IDsList = [];
+                            vm.documentsList.forEach(function (doc, index) {
+                                if (doc.document == undefined || doc.document == null)
+                                    IDsList.push(doc.documentssubmittedID);
+                            });
+                            var params1 = { submissionID: data.submissionID, prevID: vm.modalsubmissionID, IDsList: IDsList };
+                            restApi.createFinalSubmissionFiles(params1)
+                                .success(function (data2, status2, headers2, config2) {
+                                    vm.documentsList.forEach(function (doc, index) {
+
+                                        //add new files
+                                        var params = { documentssubmittedID: doc.documentssubmittedID, documentName: doc.documentName, document: doc.document, submissionID: data.submissionID };
+                                        restApi.addFileToSubmission(params)
+                                            .success(function (data3, status3, headers3, config3) {
+
+                                            })
+                                            .error(function (error) {
+                                            });
+                                        //end add new files
+                                    });
+                                })
+                                .error(function (error) {
+                                });
+                            //end manage existing list of files
+
                             vm.submissionlist.forEach(function (submission, index) {
                                 if (submission.submissionID == vm.modalsubmissionID) {
                                     vm.submissionlist.splice(index, 1);
@@ -499,14 +582,15 @@
                     vm.CTYPE = vm.topicsList[0];
             })
            .error(function (data, status, headers, config) {
-               alert("add un alert sexy");
+               alert("An error ocurred.");
            });
         }
 
-        function _downloadPDFFile(document) {
+        function _downloadPDFFile(id) {
             restApi.getSubmissionFile(id).
                 success(function (data, status, headers, config) {
-                    window.open(data);
+                    var file = new Blob([data.document]);
+                    saveAs(file, data.documentName);
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");

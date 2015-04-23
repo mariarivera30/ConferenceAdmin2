@@ -54,7 +54,7 @@
         vm.getLastPendingPage = _getLastPendingPage;
 
         //Functions- Search (Paging)
-        vm.searchEvaluators = _searchEvaluators;
+        vm.search = _searchEvaluators;
         vm.previousSearch = _previousSearch;
         vm.nextSearch = _nextSearch;
         vm.getFirstSearch = _getFirstSearch;
@@ -65,6 +65,7 @@
         vm.clear = _clear;
         vm.addEvaluator = _addEvaluator;
         vm.updateAcceptanceStatus = _updateAcceptanceStatus;
+        vm.selectedEvaluator = _selectedEvaluator;
         vm.next = _next;
         vm.load = _load;
 
@@ -232,44 +233,50 @@
             }
         }
 
-        function _updateAcceptanceStatus(evaluator) {
-
+        function _selectedEvaluator(evaluator) {
             vm.evaluator = JSON.parse(JSON.stringify(evaluator));
-            if (vm.evaluator.optionStatus == "Accept") {
-                vm.acceptanceStatus = "Accepted";
-            }
-            else if (vm.evaluator.optionStatus == "Reject") {
-                vm.acceptanceStatus = "Rejected";
-            }
+        }
 
-            if (vm.acceptanceStatus != undefined && vm.acceptanceStatus != "") {
-                var changeStatus = { userID: vm.evaluator.userID, acceptanceStatus: vm.acceptanceStatus };
-                restApi.updateEvaluatorAcceptanceStatus(changeStatus)
-                    .success(function (data, status, headers, config) {
-                        if (vm.evaluator.acceptanceStatus == "Pending") {
-                            vm.pendingList.forEach(function (s, index) {
-                                if (s.userID == vm.evaluator.userID) {
-                                    s.acceptanceStatus = vm.acceptanceStatus;
-                                    //vm.evaluatorsList.push(s);
-                                    vm.pendingList.splice(index, 1);
-                                    _getEvaluatorListFromIndex(vm.eindex);
-                                    $("#confirmationEvaluatorAcceptanceChange").modal('show');
-                                }
-                            });
-                        }
-                        else {
-                            vm.evaluatorsList.forEach(function (eva, index) {
-                                if (eva.userID == vm.evaluator.userID) {
-                                    eva.acceptanceStatus = vm.acceptanceStatus;
-                                    $("#confirmationEvaluatorAcceptanceChange").modal('show');
-                                }
-                            });
-                        }
-                    })
+        function _updateAcceptanceStatus() {
 
-                    .error(function (error) {
-                        $("#editError").modal('show');
-                    });
+            if (vm.evaluator != null) {
+
+                if (vm.evaluator.optionStatus == "Accept") {
+                    vm.acceptanceStatus = "Accepted";
+                }
+                else if (vm.evaluator.optionStatus == "Reject") {
+                    vm.acceptanceStatus = "Rejected";
+                }
+
+                if (vm.acceptanceStatus != undefined && vm.acceptanceStatus != "") {
+                    var changeStatus = { userID: vm.evaluator.userID, acceptanceStatus: vm.acceptanceStatus };
+                    restApi.updateEvaluatorAcceptanceStatus(changeStatus)
+                        .success(function (data, status, headers, config) {
+                            if (vm.evaluator.acceptanceStatus == "Pending") {
+                                vm.pendingList.forEach(function (s, index) {
+                                    if (s.userID == vm.evaluator.userID) {
+                                        s.acceptanceStatus = vm.acceptanceStatus;
+                                        //vm.evaluatorsList.push(s);
+                                        vm.pendingList.splice(index, 1);
+                                        _getEvaluatorListFromIndex(vm.eindex);
+                                        $("#confirmationEvaluatorAcceptanceChange").modal('show');
+                                    }
+                                });
+                            }
+                            else {
+                                vm.evaluatorsList.forEach(function (eva, index) {
+                                    if (eva.userID == vm.evaluator.userID) {
+                                        eva.acceptanceStatus = vm.acceptanceStatus;
+                                        $("#confirmationEvaluatorAcceptanceChange").modal('show');
+                                    }
+                                });
+                            }
+                        })
+
+                        .error(function (error) {
+                            $("#editError").modal('show');
+                        });
+                }
             }
         }
 

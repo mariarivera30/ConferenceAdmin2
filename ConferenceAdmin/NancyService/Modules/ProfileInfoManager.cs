@@ -225,6 +225,8 @@ namespace NancyService.Modules
                 {
                     user newUser = context.users.Where(u => u.userID == user.userID).FirstOrDefault();
                     newUser.hasApplied = true;
+                    if (newUser.userTypeID == 1)
+                        context.minors.Where(m => m.userID == user.userID).FirstOrDefault().authorizationStatus = true;
 
                     context.SaveChanges();
                     return true;

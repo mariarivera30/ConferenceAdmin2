@@ -248,6 +248,7 @@
                                         <div class="input-group-btn">
                                             <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="documentFile" type="file" class="file" ng-model="vm.modalevaluationFile" class="form-control" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)" required></div>
                                         </div>
+                                        <p ng-show="vm.ext" class="help-block">* Try .doc, .docx, .ppt, .pdf files.</p>
                                     </div>
                                 </div>
                             </form>
@@ -311,10 +312,10 @@
             <div ng-show="vm.modalsubmissionTypeID == 3 || vm.modalsubmissionTypeID == 5">
                 <label>Necessary Equipment</label><br />{{vm.modalequipment}}
             </div>
-            <div ng-hide="vm.modalsubmissionTypeID == 4" ng-show="vm.modalsubmissionFileList.length != 0">
+            <div ng-hide="vm.modalsubmissionTypeID == 4 || vm.modalsubmissionFileList.length == 0">
                 <label>Uploaded Document(s) </label><br />
                 <div ng-repeat="file in vm.modalsubmissionFileList">
-                    <a href="" ng-show="file.document" ng-click="vm.downloadPDFFile(file.document)"> {{file.documentName}}</a>
+                    <a href="" ng-show="file.documentName" ng-click="vm.downloadPDFFile(file.documentssubmittedID)"> {{file.documentName}}</a>
                 </div>
             </div>
 
@@ -355,11 +356,11 @@
                 <div ng-show="vm.modalsubmissionTypeID == 5 || vm.modalsubmissionTypeID == 3">
                     <label>Necessary Equipment</label><br />{{vm.modalprevEquipment}}
                 </div>
-                <div ng-show="vm.modalprevSubmissionFileList.length != 0" ng-hide="vm.modalsubmissionTypeID == 4">
+                <div ng-show="vm.modalprevSubmissionFileList.length != 0 || vm.modalsubmissionTypeID != 4">
                     <label>Uploaded Document(s) </label><br />
                     <div ng-repeat="file in vm.modalprevSubmissionFileList">
-                        <a href="" ng-show="file.document" ng-click="vm.downloadPDFFile(file.document)"> {{file.documentName}}</a>
-                    </div>
+                        <a href="" data-toggle="modal" ng-show="file.documentName" data-target="#iframe" ng-click="vm.downloadPDFFile(file.documentssubmittedID)"> {{file.documentName}}</a>
+</div>
                 </div>
                 <div ng-show="vm.modalprevSubIsEvaluated">
                     <label>Evaluation Feedback</label><br />{{vm.modalprevPublicFeedback}}
@@ -369,76 +370,7 @@
             <button class="btn btn-ar btn-default" ng-click="vm.backToList()">Back</button>
         </div>
     </div>
-    <!----------------------------------------------------VIEW END--------------------------------------------------------->
-    <!----------------------------------------------------EDIT START------------------------------------------------------->
-    <div ng-show="vm.view == 'Edit1'" class="container">
-        <div class="panel-body">
-            <h4>Title: {{vm.modalDocumentName}}</h4>
-
-            <div ng-show="vm.itemSubmissionType == 'Extended Paper'" class="panel panel-default padding-10">
-                <h5>Extended Paper</h5>
-                <div class="row">
-                    <div class="col-md-4">
-                        Topic category
-                        <select class="form-control">
-                            <option>Select</option>
-                            <option>Topic 1</option>
-                            <option>Topic 2</option>
-                            <option>Topic 3</option>
-                        </select>
-                    </div>
-                </div><br />
-                <div class="row">
-                    <div class="col-md-8">
-                        Abstract <textarea class="form-control abstract"></textarea>
-                    </div>
-                </div><br />
-                <div class="row">
-                    <div class="col-lg-3">
-                        PDF file <input type="file" class="form-control">
-                    </div>
-                </div>
-            </div>
-
-            <div ng-show="vm.itemSubmissionType == 'Poster'" class="row panel panel-default padding-10">
-                <h5>Poster</h5>
-                Topic category <input type="text" class="form-control">
-                Abstract <textarea class="form-control abstract"></textarea>
-                PDF file <input type="text" class="form-control">
-            </div>
-
-            <div ng-show="vm.itemSubmissionType == 'Pannel'" class="row panel panel-default padding-10">
-                <h5>Pannel</h5>
-                Topic category <input type="text" class="form-control">
-                List of panelists with their biographies <input type="text" class="form-control">
-                Abstract <textarea class="form-control abstract"></textarea>
-                Plan <input type="text" class="form-control">
-                Guiding Questions <input type="text" class="form-control">
-                Format Description <input type="text" class="form-control">
-                PDF file(s) <input type="text" class="form-control">
-                Necessary Equipment <input type="text" class="form-control">
-            </div>
-
-            <div ng-show="vm.itemSubmissionType == 'BoF'" class="row panel panel-default padding-10">
-                <h5>BoF</h5>
-                Title (topic) <input type="text" class="form-control">
-                Description <textarea class="form-control abstract"></textarea>
-            </div>
-
-            <div ng-show="vm.itemSubmissionType == 'Workshop'" class="row panel panel-default padding-10">
-                <h5>Workshop</h5>
-                Abstract <textarea class="form-control abstract"></textarea>
-                Duration <input type="text" class="form-control">
-                Delivery <input type="text" class="form-control">
-                Plan <input type="text" class="form-control">
-                PDF presentations <input type="text" class="form-control">
-                Necessary equipment <input type="text" class="form-control">
-            </div>
-            <button class="btn btn-ar btn-primary left">Submit</button>
-            <button class="btn btn-ar btn-default" ng-click="vm.backToList()">Back</button>
-        </div>
-    </div>
-    <!---------------------------------------------------EDIT END----------------------------------------------------->
+    <!----------------------------------------------------VIEW END--------------------------------------------------------->    
     <!-----------------------------------------------DELETE START------------------------------------------------->
     <div class="modal fade" id="deleteSubmission" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
         <div class="modal-dialog">

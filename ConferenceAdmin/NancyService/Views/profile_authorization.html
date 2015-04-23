@@ -7,7 +7,7 @@
 
         <div class="templates-list table-box">
             <ul class="list-group list-group-striped">
-                <li ng-repeat="temp in vm.templatesList" class="list-group-item">{{temp.authorizationName}} <a href="" ng-click="vm.downloadTemplate(temp)" class="right">Download</a></li>
+                <li ng-repeat="temp in vm.templatesList" class="list-group-item">{{temp.templateName}}<a href="" ng-click="vm.downloadTemplate(temp.templateID)" class="right">Download</a></li>
             </ul>
         </div>
     </div>
@@ -31,7 +31,7 @@
         <h5>Uploaded Documents:</h5>
         <div class="templates-list table-box">
             <ul class="list-group list-group-striped">
-                <li ng-repeat="doc in vm.documentsList" class="list-group-item">{{doc.authorizationName}} <span class="right"><a href="" ng-click="vm.downloadDocument(doc.authorizationID)">View</a> <span ng-hide="vm.hasApplied">| <a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedDocumentDelete(doc.authorizationID)">Delete</a></span></span></li>
+                <li ng-repeat="doc in vm.documentsList" class="list-group-item">{{doc.authorizationName}}<span class="right"><a href="" ng-click="vm.downloadDocument(doc.authorizationID)">View</a> <span ng-hide="vm.hasApplied">| <a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedDocumentDelete(doc.authorizationID)">Delete</a></span></span></li>
             </ul>
         </div>
         <div class="block line-tall">

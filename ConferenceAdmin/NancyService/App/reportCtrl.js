@@ -29,6 +29,14 @@
         vm.smaxIndex = 0;   //Max page number
         vm.sfirstPage = true;
 
+        //Search List Variables (Paging)
+        vm.searchList = [];
+        vm.searchIndex = 0;  //Page index [Goes from 0 to pmaxIndex-1]
+        vm.searchMaxIndex = 0;   //Max page number
+        vm.criteria;
+        vm.showSearch = false;
+        vm.showResults = false;
+
         // Functions- General
         vm.downloadBillReport = _downloadBillReport;
         vm.load = _load;
@@ -46,6 +54,14 @@
         vm.nextSponsor = _nextSponsor;
         vm.getFirstSponsorPage = _getFirstSponsorPage;
         vm.getLastSponsorPage = _getLastSponsorPage;
+
+        //Functions- Search (Paging)
+        vm.search = _search;
+        vm.previousSearch = _previousSearch;
+        vm.nextSearch = _nextSearch;
+        vm.getFirstSearch = _getFirstSearch;
+        vm.getLastSearch = _getLastSearch;
+        vm.back = _back;
 
         activate();
 
@@ -209,6 +225,65 @@
            .error(function (data, status, headers, config) {
                vm.downloadLoading = false;
            });
+        }
+
+        //Search Methods
+        function _search(index) {
+            if (vm.criteria != "" && vm.criteria != null) {
+                var info = { index: index, criteria: vm.criteria };
+                restApi.searchReport(info).
+                       success(function (data, status, headers, config) {
+                           vm.showSearch = true;
+                           vm.searchMaxIndex = data.maxIndex;
+                           if (vm.searchMaxIndex == 0) {
+                               vm.searchIndex = 0;
+                               vm.searchResults = [];
+                               vm.showResults = false;
+                           }
+                           else if (vm.searchIndex >= vm.searchMaxIndex) {
+                               vm.searchIndex = vm.searchMaxIndex - 1;
+                               _search(vm.searchIndex);
+                           }
+                           else {
+                               vm.showResults = true;
+                               vm.searchResults = data.results;
+                           }
+                       }).
+                       error(function (data, status, headers, config) {
+                       });
+            }
+        }
+
+        function _nextSearch() {
+            if (vm.searchIndex < vm.searchMaxIndex - 1) {
+                vm.searchIndex += 1;
+                _search(vm.searchIndex);
+            }
+        }
+
+        function _previousSearch() {
+            if (vm.searchIndex > 0) {
+                vm.searchIndex -= 1;
+                _search(vm.searchIndex);
+            }
+        }
+
+        function _getFirstSearch() {
+            vm.searchIndex = 0;
+            _search(vm.searchIndex);
+        }
+
+        function _getLastSearch() {
+            vm.searchIndex = vm.searchMaxIndex - 1;
+            _search(vm.searchIndex);
+        }
+
+        function _back() {
+            vm.criteria = "";
+            vm.searchIndex = 0;
+            vm.searchResults = [];
+            vm.showSearch = false;
+            vm.showResults = false;
         }
 
         //Load

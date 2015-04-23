@@ -6,7 +6,7 @@
     text-align:center;
 }
 
-.table-top{
+.table-top, .uploading-top{
     margin-top:20px;
 }
 
@@ -46,6 +46,10 @@
     margin-bottom:40px !important;
 }
 
+.btn-padding2{
+    margin-bottom:20px !important;
+}
+
 .loading-right{
     text-align:right;
 }
@@ -70,6 +74,11 @@
 }
 
 .reduced-margin{
+    margin-bottom:0px;
+}
+
+.reduced-margin2{
+    margin-top:0px;
     margin-bottom:0px;
 }
 

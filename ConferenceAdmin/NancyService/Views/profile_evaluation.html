@@ -71,7 +71,7 @@
                         <li ng-show="vm.modalequipment" class="list-group-item">Equipment<a href="" data-toggle="modal" data-target="#evaluationModal" ng-click="vm.getDocumentSubmitted(vm.modalequipment, 'Equipment')"><span class="right">Open</span></a></li>
                         <li ng-show="vm.modalduration" class="list-group-item">Duration<a href="" data-toggle="modal" data-target="#evaluationModal" ng-click="vm.getDocumentSubmitted(vm.modalduration, 'Duration')"><span class="right">Open</span></a></li>
                         <li ng-show="vm.modaldelivery" class="list-group-item">Delivery<a href="" data-toggle="modal" data-target="#evaluationModal" ng-click="vm.getDocumentSubmitted(vm.modaldelivery, 'Delivery')"><span class="right">Open</span></a></li>
-                        <li ng-repeat="file in vm.modalsubmissionFileList" class="list-group-item">{{file.documentName}} <a href="" data-toggle="modal" ng-click="vm.openDocumentSubmitted(file.document, file.documentName)"><span class="right">Open</span></a></li>
+                        <li ng-repeat="file in vm.modalsubmissionFileList" class="list-group-item">{{file.documentName}} <a href="" data-toggle="modal" ng-click="vm.openDocumentSubmitted(file.documentssubmittedID)"><span class="right">Open</span></a></li>
                     </ul>
 
                 </div>
@@ -86,7 +86,7 @@
 
                 <div class="col-lg-3">
                     <div class="document-name"></div>
-                    <button type="submit" class="btn btn-ar btn-primary full-width" data-dismiss="modal" ng-click="vm.downloadEvaluationTemplate()">Download Template</button>
+                    <button type="submit" class="btn btn-ar btn-primary full-width" data-dismiss="modal" ng-click="vm.downloadEvaluationTemplate(vm.modalTemplateID)">Download Template</button>
                 </div>
 
                 <div class="col-lg-3">
@@ -119,7 +119,7 @@
                     <input class="small-input form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" step="any" name="modalevaluationScore" ng-model="vm.modalevaluationScore" required>
                     <p ng-show="addEvaluationForm.modalevaluationScore.$invalid" class="help-block">Score is required.</p>
                 </div>
-                <div ng-hide="vm.modalIsFinalVersion == true" class="col-lg-6">
+                <div ng-hide="vm.modalIsFinalVersion == true || vm.modalcanAllowFinalVersion == false"  class="col-lg-6">
                     <br /><br />
                     <input type="checkbox" ng-model="vm.modalAllowFinalVersion" id="allowFinalVersionCheck" value="AllowFinalVersion"> Allow submitter to add a final version to this submission.
                 </div>

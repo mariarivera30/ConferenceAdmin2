@@ -318,6 +318,14 @@ namespace NancyService.Modules
                     return HttpStatusCode.Conflict;
                 }
             };
+
+            Get["/searchSponsors/{index:int}/{criteria}"] = parameters =>
+            {
+                int index = parameters.index;
+                string criteria = parameters.criteria;
+                return Response.AsJson(sponsorManager.searchSponsors(index, criteria));
+            };
+
             /* ----- Topic -----*/
 
             Get["/getTopic"] = parameters =>
@@ -359,13 +367,12 @@ namespace NancyService.Modules
                 return adminManager.checkNewAdmin(parameters.email);
             };
 
-            Get["/getAdministrators"] = parameters =>
+            Get["/getAdministrators/{index:int}"] = parameters =>
             {
                 try
                 {
-                    //this.RequiresAuthentication();
-                    //this.RequiresClaims(new[] { "admin" });
-                    return Response.AsJson(adminManager.getAdministratorList());
+                   int index = parameters.index;
+                   return Response.AsJson(adminManager.getAdministratorList(index));
                 }
                 catch { return null; }
             };
@@ -397,6 +404,13 @@ namespace NancyService.Modules
             {
                 var delAdmin = this.Bind<AdministratorQuery>();
                 return adminManager.deleteAdministrator(delAdmin);
+            };
+
+            Get["/searchAdmin/{index:int}/{criteria}"] = parameters =>
+            {
+                int index = parameters.index;
+                string criteria = parameters.criteria;
+                return Response.AsJson(adminManager.searchAdministrators(index, criteria));
             };
 
             /*------ Evaluators -----*/
@@ -728,6 +742,13 @@ namespace NancyService.Modules
             {
                 int index = parameters.index;
                 return Response.AsJson(reportManager.getBillReportList(index));
+            };
+
+            Get["/searchReport/{index:int}/{criteria}"] = parameters =>
+            {
+                int index = parameters.index;
+                string criteria = parameters.criteria;
+                return Response.AsJson(reportManager.searchReport(index, criteria));
             };
 
             Get["/getRegistrationPayments/{index:int}"] = parameters =>

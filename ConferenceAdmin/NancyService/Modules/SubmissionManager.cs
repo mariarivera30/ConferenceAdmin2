@@ -26,6 +26,16 @@ namespace NancyService.Modules
                     AssignedSubmission subs = new AssignedSubmission();
                     evaluatiorsubmission sub;
                     bool isFinalVersion = context.usersubmission.Where(c => c.finalSubmissionID == submissionID).FirstOrDefault() == null ? false : true;
+                    long userIDofEvaluator = context.evaluators.Where(c => c.evaluatorsID == evaluatorID).FirstOrDefault() == null ?
+                        -1 : context.evaluators.Where(d => d.evaluatorsID == evaluatorID).FirstOrDefault().userID;
+                    List<claim> userClaims = context.claims.Where(c => c.userID == userIDofEvaluator).ToList();
+                    bool canAllowFinalVersion = false;
+                    foreach (var claim in userClaims)
+                    {
+                        //if user is a master, admin or committee manager allow the to allow the submitter to submit a final version
+                        if (claim.privilegesID == 1 || claim.privilegesID == 3 || claim.privilegesID == 5) 
+                            canAllowFinalVersion = true;
+                    }
 
                     sub = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.evaluatorID == evaluatorID && c.deleted == false).FirstOrDefault();
 
@@ -52,7 +62,7 @@ namespace NancyService.Modules
                                     deleted = c.deleted
                                 }).ToList(),
                             submissionType = sub.submission.submissiontype.name,
-                            evaluationTemplate = sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault() == null ? null : sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault().template.document,
+                            evaluationTemplateID = sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault() == null ? -1 : sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault().templateID,
                             panelistNames = null,
                             plan = null,
                             guideQuestions = null,
@@ -96,7 +106,7 @@ namespace NancyService.Modules
                                     deleted = c.deleted
                                 }).ToList(),
                             submissionType = sub.submission.submissiontype.name,
-                            evaluationTemplate = sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault() == null ? null : sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault().template.document,
+                            evaluationTemplateID = sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault() == null ? -1 : sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault().templateID,
                             panelistNames = sub.submission.panels.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.submission.panels.Where(y => y.deleted == false).FirstOrDefault().panelistNames,
                             plan = sub.submission.panels.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.submission.panels.Where(y => y.deleted == false).FirstOrDefault().plan,
                             guideQuestions = sub.submission.panels.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.submission.panels.Where(y => y.deleted == false).FirstOrDefault().guideQuestion,
@@ -140,7 +150,7 @@ namespace NancyService.Modules
                                     deleted = c.deleted
                                 }).ToList(),
                             submissionType = sub.submission.submissiontype.name,
-                            evaluationTemplate = sub.submission.templatesubmissions.Where(y => y.deleted == false).FirstOrDefault() == null ? null : sub.submission.templatesubmissions.Where(y => y.deleted == false).FirstOrDefault().template.document,
+                            evaluationTemplateID = sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault() == null ? -1 : sub.submission.templatesubmissions.Where(u => u.deleted == false).FirstOrDefault().templateID,
                             panelistNames = null,
                             plan = sub.submission.workshops.Where(y => y.deleted == false).FirstOrDefault().plan,
                             guideQuestions = null,
@@ -162,6 +172,7 @@ namespace NancyService.Modules
                         };
                     }
                     subs.isFinalVersion = isFinalVersion;
+                    subs.canAllowFinalVersion = canAllowFinalVersion;
                     return subs;
                 }
             }
@@ -1022,6 +1033,59 @@ namespace NancyService.Modules
             }
         }
 
+        public bool addSubmissionFile(documentssubmitted file)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {                   
+                        documentssubmitted subDoc = new documentssubmitted();
+
+                        subDoc.submissionID = file.submissionID;
+                        subDoc.documentName = file.documentName;
+                        subDoc.document = file.document;
+                        subDoc.deleted = false;
+                        context.documentssubmitteds.Add(subDoc);
+                        context.SaveChanges();                                
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.addSubmission error " + ex);
+                return false;
+            }
+        }
+
+        public bool manageExistingFiles(long subID, List<long> existingDocsID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    //all documents in DB for submission with ID SubmissionID
+                    List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(d => d.submissionID == subID).ToList<documentssubmitted>();
+                    //list of all documents that are in the DB and will not be removed from the submission
+                    List<documentssubmitted> existingDocs = prevDocuments.Where(c => existingDocsID.Contains(c.documentssubmittedID)).ToList();
+                    //list of all the documents that used to belong to the submission but where deleted by the user
+                    List<documentssubmitted> docsInDBtbd = prevDocuments.Except(existingDocs).ToList();
+                    //remove from the DB all items delete by the user
+                    foreach (var docTBD in docsInDBtbd)
+                    {
+                        docTBD.deleted = true;
+                        context.SaveChanges();
+                    }
+                                     
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.addSubmission error " + ex);
+                return false;
+            }
+        }
+
         public Submission editSubmission(submission submissionToEdit, panel pannelToEdit, workshop workshopToEdit)
         {
             try
@@ -1067,30 +1131,37 @@ namespace NancyService.Modules
                     };
 
 
-                    if (submissionToEdit.submissionTypeID != 4)
-                    {
-                        //delete every existent document bound to the submission
-                        List<documentssubmitted> documents = context.documentssubmitteds.Where(d => d.submissionID == sub.submissionID).ToList<documentssubmitted>();
-                        foreach (var doc in documents)
-                        {
-                            context.documentssubmitteds.Remove(doc);
-                        }
-                        context.SaveChanges();
+                    /* if (submissionToEdit.submissionTypeID != 4)
+                     {
+                         //all documents in DB for submission with ID SubmissionID
+                         List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(d => d.submissionID == sub.submissionID).ToList<documentssubmitted>();
+                         //list of all new documents that are being added to the submission
+                         List<documentssubmitted> addedDocs = submissionToEdit.documentssubmitteds.Where(c => c.document != null ).ToList();
+                         //list of IDs of all documents that are in the DB and will not be removed from the submission
+                         List <long> remainingDocsID = submissionToEdit.documentssubmitteds.Where(c => c.document == null).Select(d => d.documentssubmittedID).ToList();
+                         //list of all documents that are in the DB and will not be removed from the submission
+                         List<documentssubmitted> remainingDocs = prevDocuments.Where(c => remainingDocsID.Contains(c.documentssubmittedID)).ToList();
+                         //list of all the documents that used to belong to the submission but where deleted by the user
+                         List<documentssubmitted> docsInDBtbd = prevDocuments.Except(remainingDocs).ToList();
+                         //remove from the DB all items delete by the user
+                         foreach (var docTBD in docsInDBtbd)
+                         {
+                             context.documentssubmitteds.Remove(docTBD);
+                         }
+                         context.SaveChanges();
 
-                        //replace every document bound to the submission
-                        documentssubmitted subDocs = new documentssubmitted();
-                        foreach (var docs in submissionToEdit.documentssubmitteds)
-                        {
-                            subDocs.submissionID = sub.submissionID;
-                            subDocs.documentName = docs.documentName;
-                            subDocs.document = docs.document;
-                            subDocs.deleted = false;
-                            context.documentssubmitteds.Add(subDocs);
-                            context.SaveChanges();
-                        }
-
-                    }
-
+                         //add to the DB all new documents added to the submission
+                         documentssubmitted subDocs = new documentssubmitted();
+                         foreach (var docs in addedDocs)
+                         {
+                             subDocs.submissionID = sub.submissionID;
+                             subDocs.documentName = docs.documentName;
+                             subDocs.document = docs.document;
+                             subDocs.deleted = false;
+                             context.documentssubmitteds.Add(subDocs);
+                             context.SaveChanges();
+                         }
+                     }*/
                     return editedSub;
                 }
             }
@@ -1266,9 +1337,30 @@ namespace NancyService.Modules
                     usersubmission usersub = context.usersubmission.Where(c => c.initialSubmissionID == usersubTA.initialSubmissionID && c.deleted == false).FirstOrDefault();
                     usersub.finalSubmissionID = finalSubmissionID;
                     context.SaveChanges();
+                    
+                    /*
+                    //list of all the files that the prev submission had
+                    List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(c => c.submissionID == usersubTA.initialSubmissionID).ToList();
+                    //list of all the documents of the remaining docs-the docs that are in the prev that will stay in the final
+                    List<long> remainingDocsID = submissionToAdd.documentssubmitteds.Where(c => c.document == null).Select(d => d.documentssubmittedID).ToList();
+                    //list of all documents that are in the DB and will not be removed from the submission
+                    List<documentssubmitted> remainingDocs = prevDocuments.Where(c => remainingDocsID.Contains(c.documentssubmittedID)).ToList();
+                    documentssubmitted doc = new documentssubmitted();
+                    foreach (var oldDocs in remainingDocs)
+                    {
+                        doc.submissionID = sub.submissionID;
+                        doc.documentName = oldDocs.documentName;
+                        doc.document = oldDocs.document;
+                        doc.deleted = false;
+                        context.documentssubmitteds.Add(doc);
+                        context.SaveChanges();
+                    }    
+
                     //replace every document bound to the submission
                     documentssubmitted subDocs = new documentssubmitted();
-                    foreach (var docs in submissionToAdd.documentssubmitteds)
+                    //the new documents to be submitted
+                    List<documentssubmitted> newDocs = submissionToAdd.documentssubmitteds.Where(c => c.document != null).ToList();
+                    foreach (var docs in newDocs)
                     {
                         subDocs.submissionID = sub.submissionID;
                         subDocs.documentName = docs.documentName;
@@ -1276,7 +1368,7 @@ namespace NancyService.Modules
                         subDocs.deleted = false;
                         context.documentssubmitteds.Add(subDocs);
                         context.SaveChanges();
-                    }
+                    }*/
                     //table pannels
                     if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
                     {
@@ -1353,6 +1445,39 @@ namespace NancyService.Modules
             }
         }
 
+        //re-create final submission files
+        public bool createFinalSubmissionFiles(long subID, long prevID, List<long> existingDocsID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    //all documents in DB for submission with ID SubmissionID
+                    List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(d => d.submissionID == prevID).ToList<documentssubmitted>();
+                    //list of all documents that are in the DB and will be added to the final submission
+                    List<documentssubmitted> existingDocs = prevDocuments.Where(c => existingDocsID.Contains(c.documentssubmittedID)).ToList();
+                    //add docs to the final sub
+                    documentssubmitted doc;
+                    foreach (var docTBA in existingDocs)
+                    {
+                        doc = new documentssubmitted();
+                        doc.submissionID = subID;
+                        doc.documentName = docTBA.documentName;
+                        doc.document = docTBA.document;
+                        doc.deleted = false;
+                        context.documentssubmitteds.Add(doc);
+                        context.SaveChanges();
+                    }                                     
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.createFinalSubmissionFiles error " + ex);
+                return false;
+            }
+        }
+
         //Send email to evaluator when an assignment to a submission was removed
         private void sendAssignmentEmail(string email, String subject, String messageBody)
         {
@@ -1398,9 +1523,29 @@ namespace NancyService.Modules
                     usersubmission usersub = context.usersubmission.Where(c => c.initialSubmissionID == usersubTA.initialSubmissionID && c.deleted == false).FirstOrDefault();
                     usersub.finalSubmissionID = finalSubmissionID;
                     context.SaveChanges();
+                    /*
+                    //list of all the files that the prev submission had
+                    List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(c => c.submissionID == usersubTA.initialSubmissionID).ToList();
+                    //list of all the documents of the remaining docs-the docs that are in the prev that will stay in the final
+                    List<long> remainingDocsID = submissionToAdd.documentssubmitteds.Where(c => c.document == null).Select(d => d.documentssubmittedID).ToList();
+                    //list of all documents that are in the DB and will not be removed from the submission
+                    List<documentssubmitted> remainingDocs = prevDocuments.Where(c => remainingDocsID.Contains(c.documentssubmittedID)).ToList();
+                    documentssubmitted doc = new documentssubmitted();
+                    foreach (var oldDocs in remainingDocs)
+                    {
+                        doc.submissionID = sub.submissionID;
+                        doc.documentName = oldDocs.documentName;
+                        doc.document = oldDocs.document;
+                        doc.deleted = false;
+                        context.documentssubmitteds.Add(doc);
+                        context.SaveChanges();
+                    }
+
                     //replace every document bound to the submission
                     documentssubmitted subDocs = new documentssubmitted();
-                    foreach (var docs in submissionToAdd.documentssubmitteds)
+                    //the new documents to be submitted
+                    List<documentssubmitted> newDocs = submissionToAdd.documentssubmitteds.Where(c => c.document != null).ToList();
+                    foreach (var docs in newDocs)
                     {
                         subDocs.submissionID = sub.submissionID;
                         subDocs.documentName = docs.documentName;
@@ -1408,7 +1553,8 @@ namespace NancyService.Modules
                         subDocs.deleted = false;
                         context.documentssubmitteds.Add(subDocs);
                         context.SaveChanges();
-                    }
+                    }*/
+
                     //table pannels
                     if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
                     {
@@ -2210,13 +2356,68 @@ namespace NancyService.Modules
             }
         }
         //gets file with ID in parameter
-        public String getSubmissionFile(long documentID)
+        public SubmissionDocument getSubmissionFile(long documentID)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    String file = context.documentssubmitteds.Where(c => c.documentssubmittedID == documentID).Select(u => u.document).FirstOrDefault();
+                    SubmissionDocument file = context.documentssubmitteds.Where(c => c.documentssubmittedID == documentID && c.deleted == false).
+                        Select(d => new SubmissionDocument
+                        {
+                            documentssubmittedID = d.documentssubmittedID,
+                            submissionID = d.submissionID,
+                            documentName = d.documentName,
+                            document = d.document
+                        }).FirstOrDefault();
+                    return file;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getSubmissionFile error " + ex);
+                return null;
+            }
+        }
+
+        //get evaluation template
+        public Evaluation getEvaluationTemplate(long templateID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    Evaluation file = context.templates.Where(c => c.templateID == templateID && c.deleted == false).
+                        Select(d => new Evaluation
+                        {                            
+                            templateID = d.templateID,
+                            evaluationFile = d.document,
+                            evaluationFileName = d.name,
+                        }).FirstOrDefault();
+                    return file;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getSubmissionFile error " + ex);
+                return null;
+            }
+        }
+
+        //get submitted evaluation file
+        public Evaluation getEvaluationFile(long submissionID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    Evaluation file = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.deleted == false).FirstOrDefault() == null ? 
+                        new Evaluation() : context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.deleted == false).FirstOrDefault().evaluationsubmitteds.
+                        Select(d => new Evaluation
+                        {                            
+                            evaluationFile = d.evaluationFile,
+                            evaluationFileName = d.evaluationName,
+                        }).FirstOrDefault();
                     return file;
                 }
             }
@@ -2228,8 +2429,6 @@ namespace NancyService.Modules
         }
 
     }
-
-
 
 
     public class SubmissionPagingQuery
@@ -2400,7 +2599,7 @@ namespace NancyService.Modules
         public List<SubmissionDocument> submissionFileList;
         public String submissionType;
         public int submissionTypeID;
-        public String evaluationTemplate;
+        public long evaluationTemplateID;
         public String panelistNames;
         public String plan;
         public String guideQuestions;
@@ -2420,6 +2619,7 @@ namespace NancyService.Modules
         public String evaluatorFirstName;
         public String evaluatorLastName;
         public bool isFinalVersion;
+        public bool canAllowFinalVersion;
 
         public AssignedSubmission()
         {

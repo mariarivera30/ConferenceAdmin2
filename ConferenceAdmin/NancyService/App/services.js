@@ -144,11 +144,18 @@
             searchSubmission: _searchSubmission,
             searchDeletedSubmission: _searchDeletedSubmission,
             searchGuest: _searchGuest,
+            searchReport: _searchReport,
+            searchSponsors: _searchSponsors,
+            searchAdmin: _searchAdmin,
             searchEvaluators: _searchEvaluators,
             getSubmissionFile: _getSubmissionFile,
             getAuthorizationFile: _getAuthorizationFile,
-            getTemplateFile: _getTemplateFile
-
+            getTemplateFile: _getTemplateFile,
+            getEvaluationFile: _getEvaluationFile,
+            getEvaluationTemplate: _getEvaluationTemplate,
+            addFileToSubmission: _addFileToSubmission,
+            manageExistingFiles: _manageExistingFiles,
+            createFinalSubmissionFiles: _createFinalSubmissionFiles
         };
 
         return service;
@@ -222,6 +229,10 @@
         function _getSponsorsListIndex(data) {
             return $http.get('/admin/getSponsorListIndex/'+data);
         };
+
+        function _searchSponsors(data) {
+            return $http.get('admin/searchSponsors/' + data.index + '/' + data.criteria);
+        }
 
         //-----------------------------------Templates-------------------------------
         function _updateTemplate(data) {
@@ -308,8 +319,8 @@
 
         //-----------------------------------ADMINISTRATORS-----------------------------------
 
-        function _getAdministrators() {
-            return $http.get('/admin/getAdministrators');
+        function _getAdministrators(data) {
+            return $http.get('/admin/getAdministrators/'+data);
         };
 
         function _getNewAdmin(email) {
@@ -339,6 +350,10 @@
                 privilegeID: privilegeid
             });
         };
+
+        function _searchAdmin(data) {
+            return $http.get('admin/searchAdmin/' + data.index + '/' + data.criteria);
+        }
 
         //-----------------------------------REGISTRATIONS-----------------------------------
 
@@ -439,9 +454,28 @@
         };
         //edit evaluation for a submission
         function _editEvaluation(data) {
-            return $http.put('profile/editEvaluation', data)
+            return $http.put('profile/editEvaluation', data);
         };
-
+        //get the template assigned to the submission
+        function _getEvaluationTemplate(data) {
+            return $http.get('profile/getEvaluationTemplate/' + data);
+        };
+        //get the file uploaded to the submission
+        function _getEvaluationFile(data) {
+            return $http.get('profile/getEvaluationFile/' + data);
+        };
+        //add a single file to a submission
+        function _addFileToSubmission(data) {
+            return $http.put('profile/addSubmissionFile', data);
+        };
+        //manage existing list of files
+        function _manageExistingFiles(data) {
+            return $http.put('profile/manageExistingFiles', data);
+        }
+        //re-create final submission files
+        function _createFinalSubmissionFiles(data) {
+            return $http.put('profile/createFinalSubmissionFiles', data);
+        };
         //-----------------------------------PROFILE-AUTHORIZATION-----------------------------------
         function _uploadDocument(data) {
             return $http.put('/profile/uploadDocument/', data);
@@ -633,6 +667,10 @@
         function _getSponsorPaymentsFromIndex(data) {
             return $http.get('/admin/getSponsorPayments/'+data);
         };
+
+        function _searchReport(data) {
+            return $http.get('admin/searchReport/' + data.index + '/' + data.criteria);
+        }
 
         //----------------------------------USER SUBMISSIONS----------------------------------
         //gets the submissions of the user currently logged in

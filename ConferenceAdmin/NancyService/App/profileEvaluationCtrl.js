@@ -38,6 +38,7 @@
         vm.publicFeedback;
         vm.isEvaluated;
         vm.isFinalSubmission;
+        vm.canAllowFinalVersion;
         vm.subIsEvaluated;
         vm.content;
         vm.currentUserID = $window.sessionStorage.getItem('userID');
@@ -96,10 +97,26 @@
         }
 
        function _downloadEvaluationFile() {
-           window.open(vm.modalevaluationFile);
+           //window.open(vm.modalevaluationFile);
+           restApi.getEvaluationFile(vm.modalsubmissionID).
+                success(function (data, status, headers, config) {
+                    var file = new Blob([data.evaluationFile]);
+                    saveAs(file, data.evaluationFileName);
+                }).
+                error(function (data, status, headers, config) {
+                    alert("An error ocurred while downloading the file.");
+                });
        }
-       function _downloadEvaluationTemplate() {
-           window.open(vm.modalevaluationTemplate);
+       function _downloadEvaluationTemplate(id) {
+           //window.open(vm.modalevaluationTemplate);
+           restApi.getEvaluationTemplate(id).
+                success(function (data, status, headers, config) {
+                    var file = new Blob([data.evaluationFile]);
+                    saveAs(file, data.evaluationFileName);
+                }).
+                error(function (data, status, headers, config) {
+                    alert("An error ocurred while downloading the file.");
+                });
        };
 
         function _hideEvaluationForm() {
@@ -118,10 +135,15 @@
             vm.modalDocumentName = documentName;            
         }
         //opens the documents in another screen
-        function _openDocumentSubmitted(document, documentName) {
-            vm.modalDocument = document;
-            vm.modalDocumentName = documentName;
-            window.open(vm.modalDocument);
+        function _openDocumentSubmitted(id) {
+            restApi.getSubmissionFile(id).
+                success(function (data, status, headers, config) {
+                    var file = new Blob([data.document]);
+                    saveAs(file, data.documentName);
+                }).
+                error(function (data, status, headers, config) {
+                    alert("An error ocurred while downloading the file.");
+                });
         }
 
         function _getAssignedSubmissions(index) {
@@ -206,6 +228,8 @@
                     vm.modalsubIsEvaluated = data.subIsEvaluated;
                     vm.modalAllowFinalVersion = data.allowFinalVersion;
                     vm.modalIsFinalVersion = data.isFinalVersion;
+                    vm.modalcanAllowFinalVersion = data.canAllowFinalVersion;
+                    vm.modalTemplateID = data.evaluationTemplateID;
                     if (vm.modalevaluationFile == undefined || vm.modalevaluationFile == null) {
                         vm.modalhasFile = false;
                     }
