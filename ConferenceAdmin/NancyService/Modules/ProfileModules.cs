@@ -214,11 +214,18 @@ namespace NancyService.Modules
                 {
                     documentssubmitted sub = this.Bind<documentssubmitted>();
                     List<long> documentsID = this.Bind<List<long>>();
-
-                    if (submission.manageExistingFiles(sub, documentsID))
+                    if (documentsID.Count == 0)
+                    {
                         return HttpStatusCode.OK;
+                    }
                     else
-                        return HttpStatusCode.Conflict;
+                    {
+
+                        if (submission.manageExistingFiles(sub, documentsID))
+                            return HttpStatusCode.OK;
+                        else
+                            return HttpStatusCode.Conflict;
+                    }
                 };
 
             //edit submission
