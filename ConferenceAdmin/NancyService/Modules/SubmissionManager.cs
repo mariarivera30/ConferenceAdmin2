@@ -1327,6 +1327,7 @@ namespace NancyService.Modules
                     usersub.finalSubmissionID = finalSubmissionID;
                     context.SaveChanges();
                     
+                    /*
                     //list of all the files that the prev submission had
                     List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(c => c.submissionID == usersubTA.initialSubmissionID).ToList();
                     //list of all the documents of the remaining docs-the docs that are in the prev that will stay in the final
@@ -1356,7 +1357,7 @@ namespace NancyService.Modules
                         subDocs.deleted = false;
                         context.documentssubmitteds.Add(subDocs);
                         context.SaveChanges();
-                    }
+                    }*/
                     //table pannels
                     if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
                     {
@@ -1478,7 +1479,7 @@ namespace NancyService.Modules
                     usersubmission usersub = context.usersubmission.Where(c => c.initialSubmissionID == usersubTA.initialSubmissionID && c.deleted == false).FirstOrDefault();
                     usersub.finalSubmissionID = finalSubmissionID;
                     context.SaveChanges();
-
+                    /*
                     //list of all the files that the prev submission had
                     List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(c => c.submissionID == usersubTA.initialSubmissionID).ToList();
                     //list of all the documents of the remaining docs-the docs that are in the prev that will stay in the final
@@ -1508,7 +1509,7 @@ namespace NancyService.Modules
                         subDocs.deleted = false;
                         context.documentssubmitteds.Add(subDocs);
                         context.SaveChanges();
-                    }
+                    }*/
 
                     //table pannels
                     if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
