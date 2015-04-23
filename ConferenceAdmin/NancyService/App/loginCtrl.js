@@ -42,7 +42,7 @@
         vm.signUp = _signUp;
         vm.loginIfEmail = _loginIfEmail;
         vm.getGeneralInfo = _getGeneralInfo;
-
+        vm.uploadingComp;
 
         //alerts Directive
         function _goToLogin() { $location.path("/Login/Log"); }
@@ -147,17 +147,17 @@
         }
 
         function _loginIfEmail() {
-            vm.creatingUser = true;
+          vm.uploadingComp = true;
             restApi.checkEmail(vm.email).
                   success(function (data, status, headers, config) {
                       if (data == "") {
                           vm.message = "This email is not registered.";
-                          vm.creatingUser = false;
+                          vm.uploadingComp = false;
                           return;
                       }
                       else if (data == "notconfirmed") {
                           vm.message = "Please verify your email to confirm your account before login.";
-                          vm.creatingUser = false;
+                          vm.uploadingComp = false;
                           return;
                       }
                       else {
@@ -177,7 +177,7 @@
         }
         
         function _login() {
-            vm.uploadingComp = true;
+         
             restApi.login(vm)
                    .success(function (data, status, headers, config) {
 
