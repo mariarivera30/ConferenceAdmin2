@@ -150,8 +150,9 @@
             getAuthorizationFile: _getAuthorizationFile,
             getTemplateFile: _getTemplateFile,
             getEvaluationFile: _getEvaluationFile,
-            getEvaluationTemplate: _getEvaluationTemplate
-
+            getEvaluationTemplate: _getEvaluationTemplate,
+            addFileToSubmission: _addFileToSubmission,
+            manageExistingFiles: _manageExistingFiles
         };
 
         return service;
@@ -443,7 +444,7 @@
         };
         //edit evaluation for a submission
         function _editEvaluation(data) {
-            return $http.put('profile/editEvaluation', data)
+            return $http.put('profile/editEvaluation', data);
         };
         //get the template assigned to the submission
         function _getEvaluationTemplate(data) {
@@ -453,6 +454,14 @@
         function _getEvaluationFile(data) {
             return $http.get('profile/getEvaluationFile/' + data);
         };
+        //add a single file to a submission
+        function _addFileToSubmission(data) {
+            return $http.put('profile/addSubmissionFile', data);
+        };
+        //manage existing list of files
+        function _manageExistingFiles(data) {
+            return $http.put('profile/manageExistingFiles', data);
+        }
         //-----------------------------------PROFILE-AUTHORIZATION-----------------------------------
         function _uploadDocument(data) {
             return $http.put('/profile/uploadDocument/', data);
