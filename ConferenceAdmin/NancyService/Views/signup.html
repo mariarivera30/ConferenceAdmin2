@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="form-group">
+                <div ng-hide="vm.TYPE.userTypeID == 7 || vm.TYPE.userTypeID==1 || vm.TYPE.userTypeID==6" class="form-group" >
                     <br /><br />
                     <label class="checkbox-inline after-title-field black-label">
                         <input type="checkbox" ng-model="vm.evaluator"> Participate as Evaluator.
