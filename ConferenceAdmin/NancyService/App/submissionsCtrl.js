@@ -577,9 +577,36 @@
                     submission.documentName = vm.myFile.name;
                     vm.myFile.name = "";
                 }
-                submission.documentssubmitteds = vm.documentsList;
+                //submission.documentssubmitteds = vm.documentsList;
                 restApi.postAdminSubmission(submission)
                         .success(function (data, status, headers, config) {
+
+                            //manage existing list of files
+                            var IDsList = [];
+                            vm.documentsList.forEach(function (doc, index) {
+                                if (doc.document == undefined || doc.document == null)
+                                    IDsList.push(doc.documentssubmittedID);
+                            });
+                            var params1 = { submissionID: data.submissionID, IDsList: IDsList };
+                            restApi.manageExistingFiles(params1)
+                                .success(function (data2, status2, headers2, config2) {
+                                    vm.documentsList.forEach(function (doc, index) {
+
+                                        //add new files
+                                        var params = { documentssubmittedID: doc.documentssubmittedID, documentName: doc.documentName, document: doc.document, submissionID: data.submissionID };
+                                        restApi.addFileToSubmission(params)
+                                            .success(function (data3, status3, headers3, config3) {
+
+                                            })
+                                            .error(function (error) {
+                                            });
+                                        //end add new files
+                                    });
+                                })
+                                .error(function (error) {
+                                });
+                            //end manage existing list of files
+
                             _getAllSubmissions(vm.sindex);
                         })
                         .error(function (error) {
@@ -615,11 +642,38 @@
                     submission.documentName = vm.myFile.name;
                     vm.myFile.name = "";
                 }
-                submission.documentssubmitteds = vm.documentsList;
+                //submission.documentssubmitteds = vm.documentsList;
                 restApi.editSubmission(submission)
                        .success(function (data, status, headers, config) {
-                           _getSubmissionView(vm.submissionID);
-                           _getAllSubmissions(vm.sindex);
+
+                           //manage existing list of files
+                           var IDsList = [];
+                           vm.documentsList.forEach(function (doc, index) {
+                               if (doc.document == undefined || doc.document == null)
+                                   IDsList.push(doc.documentssubmittedID);
+                           });
+                           var params1 = { submissionID: data.submissionID, IDsList: IDsList };
+                           restApi.manageExistingFiles(params1)
+                               .success(function (data2, status2, headers2, config2) {
+                                   vm.documentsList.forEach(function (doc, index) {
+
+                                       //add new files
+                                       var params = { documentssubmittedID: doc.documentssubmittedID, documentName: doc.documentName, document: doc.document, submissionID: data.submissionID };
+                                       restApi.addFileToSubmission(params)
+                                           .success(function (data3, status3, headers3, config3) {
+                                               _getSubmissionView(vm.submissionID);
+                                               _getAllSubmissions(vm.sindex);
+                                           })
+                                           .error(function (error) {
+                                           });
+                                       //end add new files
+                                   });
+                               })
+                               .error(function (error) {
+                               });
+                           //end manage existing list of files
+
+                           
                        })
                        .error(function (error) {
                            
@@ -654,10 +708,37 @@
                         submission.documentName = vm.myFile.name;
                         vm.myFile.name = "";
                     }
-                    submission.documentssubmitteds = vm.documentsList;
+                    //submission.documentssubmitteds = vm.documentsList;
                     submission.byAdmin = true;
                     restApi.postAdminFinalSubmission(submission)
                             .success(function (data, status, headers, config) {
+
+                                //manage existing list of files
+                                var IDsList = [];
+                                vm.documentsList.forEach(function (doc, index) {
+                                    if (doc.document == undefined || doc.document == null)
+                                        IDsList.push(doc.documentssubmittedID);
+                                });
+                                var params1 = { submissionID: data.submissionID, IDsList: IDsList };
+                                restApi.manageExistingFiles(params1)
+                                    .success(function (data2, status2, headers2, config2) {
+                                        vm.documentsList.forEach(function (doc, index) {
+
+                                            //add new files
+                                            var params = { documentssubmittedID: doc.documentssubmittedID, documentName: doc.documentName, document: doc.document, submissionID: data.submissionID };
+                                            restApi.addFileToSubmission(params)
+                                                .success(function (data3, status3, headers3, config3) {
+
+                                                })
+                                                .error(function (error) {
+                                                });
+                                            //end add new files
+                                        });
+                                    })
+                                    .error(function (error) {
+                                    });
+                                //end manage existing list of files
+
                                 _getAllSubmissions(vm.sindex);
                                 vm.view = false;
                             })
