@@ -152,7 +152,8 @@
             getEvaluationFile: _getEvaluationFile,
             getEvaluationTemplate: _getEvaluationTemplate,
             addFileToSubmission: _addFileToSubmission,
-            manageExistingFiles: _manageExistingFiles
+            manageExistingFiles: _manageExistingFiles,
+            createFinalSubmissionFiles: _createFinalSubmissionFiles
         };
 
         return service;
@@ -462,6 +463,10 @@
         function _manageExistingFiles(data) {
             return $http.put('profile/manageExistingFiles', data);
         }
+        //re-create final submission files
+        function _createFinalSubmissionFiles(data) {
+            return $http.put('profile/createFinalSubmissionFiles', data);
+        };
         //-----------------------------------PROFILE-AUTHORIZATION-----------------------------------
         function _uploadDocument(data) {
             return $http.put('/profile/uploadDocument/', data);

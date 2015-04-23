@@ -1445,6 +1445,39 @@ namespace NancyService.Modules
             }
         }
 
+        //re-create final submission files
+        public bool createFinalSubmissionFiles(long subID, List<long> existingDocsID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    //all documents in DB for submission with ID SubmissionID
+                    List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(d => d.submissionID == subID).ToList<documentssubmitted>();
+                    //list of all documents that are in the DB and will be added to the final submission
+                    List<documentssubmitted> existingDocs = prevDocuments.Where(c => existingDocsID.Contains(c.documentssubmittedID)).ToList();
+                    //add docs to the final sub
+                    documentssubmitted doc;
+                    foreach (var docTBA in existingDocs)
+                    {
+                        doc = new documentssubmitted();
+                        doc.submissionID = subID;
+                        doc.documentName = docTBA.documentName;
+                        doc.document = docTBA.document;
+                        doc.deleted = false;
+                        context.documentssubmitteds.Add(doc);
+                        context.SaveChanges();
+                    }                                     
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.createFinalSubmissionFiles error " + ex);
+                return false;
+            }
+        }
+
         //Send email to evaluator when an assignment to a submission was removed
         private void sendAssignmentEmail(string email, String subject, String messageBody)
         {

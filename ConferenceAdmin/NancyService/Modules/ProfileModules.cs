@@ -228,6 +228,25 @@ namespace NancyService.Modules
                     }
                 };
 
+            //re-create final submission files
+            Put["/createFinalSubmissionFiles"] = parameters =>
+            {
+                //documentssubmitted sub = this.Bind<documentssubmitted>();
+                ExistingFile sub = this.Bind<ExistingFile>();
+                if (sub.IDsList.Count == 0)
+                {
+                    return HttpStatusCode.OK;
+                }
+                else
+                {
+
+                    if (submission.createFinalSubmissionFiles(sub.submissionID, sub.IDsList))
+                        return HttpStatusCode.OK;
+                    else
+                        return HttpStatusCode.Conflict;
+                }
+            };
+
             //edit submission
             Put["/editSubmission"] = parameters =>
             {
