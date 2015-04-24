@@ -380,7 +380,7 @@ namespace NancyService.Modules
                                        title = s.user.title,
                                        logo = s.logo,
                                        phone = s.user.phone,
-                                       email = s.emailInfo == null ? s.user.membership.email : s.emailInfo,
+                                       email = s.byAdmin == false ? s.user.membership.email : s.emailInfo,
                                        addressID = (long)s.user.addressID,
                                        city = s.user.address.city,
                                        line1 = s.user.address.line1,
@@ -704,6 +704,69 @@ namespace NancyService.Modules
 
         }
 
+        public SponsorPagingQuery searchSponsors(int index, String criteria)
+        {
+            SponsorPagingQuery page = new SponsorPagingQuery();
+
+            try
+            {
+                //string f = this.getComplementaryPDF();
+
+
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+
+                    int pageSize = 10;
+                    var sponsor = (from s in context.sponsor2
+                                   where ((s.active==true && s.deleted == false) && ((s.user.firstName.ToLower() + " " + s.user.lastName.ToLower()).Contains(criteria.ToLower()) || s.user.membership.email.ToLower().Contains(criteria.ToLower())))
+                                   select new SponsorQuery
+                                   {
+                                       sponsorID = s.sponsorID,
+                                       firstName = s.user.firstName,
+                                       lastName = s.user.lastName,
+                                       company = s.company,
+                                       title = s.user.title,
+                                       logo = s.logo,
+                                       phone = s.user.phone,
+                                       email = s.byAdmin == true ? s.emailInfo : s.user.membership.email,
+                                       addressID = (long)s.user.address.addressID,
+                                       city = s.user.address.city,
+                                       line1 = s.user.address.line1,
+                                       line2 = s.user.address.line2,
+                                       state = s.user.address.state,
+                                       zipcode = s.user.address.zipcode,
+                                       country = s.user.address.country,
+                                       sponsorType = s.sponsortype1.sponsortypeID,
+                                       amount = s.totalAmount,                                    
+                                       transactionID = s.byAdmin == true && s.payment.paymentbills.FirstOrDefault() != null ? s.payment.paymentbills.FirstOrDefault().transactionid : null,
+                                       paymentID = s.payment.paymentID,
+                                       method = s.byAdmin == true && s.payment.paymentbills.FirstOrDefault() == null ? null : s.payment.paymentbills.FirstOrDefault().methodOfPayment,
+                                       typeName = s.sponsortype1.name,
+
+                                   }).OrderBy(x => x.sponsorID);
+
+                    page.rowCount = sponsor.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        var sponsorList = sponsor.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = sponsorList;
+                    }
+
+                    return page;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SponsorManager.searchSponsor(index) error " + ex);
+                return null;
+            }
+
+        }
+    
+
         public ComplimentaryPagingQuery deleteComplementarySponsor(long x)
         {
             try
@@ -768,6 +831,7 @@ namespace NancyService.Modules
 
 
         }
+
         public string checkEmail(string email)
         {
             using (conferenceadminContext context = new conferenceadminContext())
@@ -805,12 +869,13 @@ namespace NancyService.Modules
 
         }
 
-       
+
 
         private string GenerateComplementary(int length)
         {
             return Guid.NewGuid().ToString().Substring(0, 9);
         }
     }
+
 }
 

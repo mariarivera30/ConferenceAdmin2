@@ -323,8 +323,8 @@ namespace NancyService.Modules
             {
                 int index = parameters.index;
                 string criteria = parameters.criteria;
-                return Response.AsJson("");
-                //sponsorManager.searchSponsors(index, criteria)
+                return Response.AsJson(sponsorManager.searchSponsors(index, criteria));
+                //
             };
 
             /* ----- Topic -----*/

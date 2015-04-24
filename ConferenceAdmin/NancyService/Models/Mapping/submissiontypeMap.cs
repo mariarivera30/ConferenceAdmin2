@@ -24,6 +24,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.submissiontypeID).HasColumnName("submissiontypeID");
             this.Property(t => t.name).HasColumnName("name");
             this.Property(t => t.description).HasColumnName("description");
+            this.Property(t => t.deadline).HasColumnName("deadline");
         }
     }
 }
