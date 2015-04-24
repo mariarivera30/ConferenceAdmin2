@@ -194,11 +194,13 @@ namespace NancyService.Modules
                     user.addressID = address.addressID;
                     user.affiliationName = x.company;
                     user.userTypeID = 7;
+                    user.deleted = false;
                     context.users.Add(user);
                     context.SaveChanges();
 
                     payment payment2 = new payment();
                     payment2.paymentTypeID = 1;
+                    payment2.deleted = false;
                     context.payments.Add(payment2);
                     context.SaveChanges();
 
@@ -209,6 +211,7 @@ namespace NancyService.Modules
                     bill.transactionid = x.transactionID;
                     bill.completed = true;
                     bill.quantity = 0;
+                    bill.deleted = false;
                     context.paymentbills.Add(bill);
                     context.SaveChanges();
 
