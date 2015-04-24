@@ -25,6 +25,7 @@
         vm.deadline5;
         vm.deadlineDate5;
         vm.submissionDeadline;
+        vm.loading = false;
 
         //Interface
         vm.ideadline1;
@@ -101,7 +102,7 @@
         }
 
         function _saveDeadlines() {
-
+            vm.loading = true;
             var d1 = ""; var d2 = ""; var d3 = ""; var d4 = ""; var d5 = ""; var d6 = "";
 
             if (vm.deadlineDate1 == null || vm.deadlineDate1 == "Invalid Date") {
@@ -164,12 +165,14 @@
 
             restApi.saveDeadlines(newDeadlines)
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data != "") {
                     vm.temp = newDeadlines;
                     $("#updateConfirm").modal('show');
                 }
+                vm.loading = false;
             })
             .error(function (error) {
+                vm.loading = false;
                 $("#updateError").modal('show');
             });
         }

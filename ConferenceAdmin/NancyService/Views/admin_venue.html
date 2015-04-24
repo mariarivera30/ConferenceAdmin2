@@ -48,7 +48,7 @@
         <textarea ng-model="vm.venueParagraphContentBox" class="form-control" rows="5"></textarea><br>
         <div class="row">
             <div class="col-lg-10">
-                <button class="btn btn-ar btn-primary" ng-click="vm.saveVenue()">Save</button>
+                <button class="btn btn-ar btn-primary" ng-click="vm.saveVenue()" ng-disabled="vm.loading">Save</button>
             </div>
         </div>
     </div>

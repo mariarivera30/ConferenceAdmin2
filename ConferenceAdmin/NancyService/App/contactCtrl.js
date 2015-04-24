@@ -18,6 +18,7 @@
         vm.contactPhone;
         vm.contactEmail;
         vm.contactAdditionalInfo;
+        vm.loading=false;
 
         //Interface
         vm.icontactName;
@@ -68,6 +69,7 @@
         }
 
         function _saveContact() {
+            vm.loading = true;
             var newContact = {
                 contactName: vm.contactName,
                 contactPhone: vm.contactPhone,
@@ -81,10 +83,12 @@
                     vm.temp.contactPhone = newContact.contactPhone;
                     vm.temp.contactEmail = newContact.contactEmail;
                     vm.temp.contactAdditionalInfo = newContact.contactAdditionalInfo;
+                    vm.loading = false;
                     $("#updateConfirm").modal('show');
                 }
             })
             .error(function (error) {
+                vm.loading = false;
                 $("#updateError").modal('show');
             });
         }

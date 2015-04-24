@@ -19,6 +19,7 @@
         vm.oldPrivilegeID;
         vm.privilegeDelID;
         vm.search;
+        vm.loading = false;
 
         //Variables (Paging)
         vm.adminList = []; 
@@ -158,6 +159,7 @@
 
         //This function checks if there is a user in the system with the email that has been provided
         function _next() {
+            vm.loading = true;
             if (vm.email != undefined && vm.email != "" && vm.privilegeID != undefined && vm.privilegeID != "") {
                 restApi.getNewAdmin(vm.email)
                     .success(function (data, status, headers, config) {
@@ -167,11 +169,13 @@
                         }
                         else {
                             //Email not found: Show modal displaying error
+                            vm.loading = false;
                             $("#addError2").modal('show');
                         }
                     })
 
                     .error(function (error) {
+                        vm.loading = false;
                         $("#addError3").modal('show');
                     });
             }
@@ -188,14 +192,16 @@
                 }
                 restApi.postNewAdmin(info)
                     .success(function (data, status, headers, config) {
-                        if (data.email != null) {
+                        if (data.email != null && data.email !="") {
                             vm.adminList.push(data);
+                            vm.loading = false;
                             $("#addAdmin").modal('hide');
                             _clear();
                             $("#addConfirm").modal('show');
                         }
                         else {
                             //User has already another privilege assigned
+                            vm.loading = false;
                             $("#addAdmin").modal('hide');
                             _clear();
                             $("#addError").modal('show');
@@ -203,12 +209,15 @@
                     })
 
                     .error(function (error) {
+                        vm.loading = false;
+                        $("#addAdmin").modal('hide');
                         $("#addError3").modal('show');
                     });
             }
         }
 
         function _editAdmin() {
+            vm.loading = true;
             if (vm.userID != undefined && vm.userID != "" && vm.privilegeID != undefined && vm.privilegeDelID != "" && vm.oldPrivilegeID != undefined && vm.oldPrivilegeID != "") {
                 restApi.editAdmin(vm.userID, vm.privilegeID, vm.oldPrivilegeID)
                 .success(function (data, status, headers, config) {
@@ -219,10 +228,14 @@
                                 admin.privilegeID = vm.privilegeID;
                             }
                         });
+                        vm.loading = false;
+                        $("#editPrivilege").modal('hide');
                         $("#editConfirm").modal('show');
                     }
                 })
                 .error(function (data, status, headers, config) {
+                    vm.loading = false;
+                    $("#editPrivilege").modal('hide');
                     $("#editError").modal('show');
                 });
             }

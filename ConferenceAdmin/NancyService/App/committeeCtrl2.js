@@ -18,6 +18,7 @@
         vm.name;
         vm.lname;
         vm.affiliation;
+        vm.loading = false;
 
         //Functions
         vm.clear = _clear;
@@ -73,6 +74,7 @@
         }
 
         function _addMember() {
+            vm.loading = true;
             if (vm.name != undefined && vm.name != "" && vm.lname != undefined && vm.name != "" && vm.position != undefined) {
                 var committee = {
                     firstName: vm.name,
@@ -92,15 +94,19 @@
                             $("#addError").modal('show');
                             _clear();
                         }
+                        vm.loading = false;
+                        $("#addMember").modal('hide');
                     })
 
                     .error(function (error) {
-
+                        vm.loading = false;
+                        $("#addMember").modal('hide');
                     });
             }
         }
 
         function _editMember() {
+            vm.loading = true;
             if (vm.committeeID != undefined && vm.committeeID != "" && vm.position != undefined && vm.position != "") {
                 var info = {
                     committeeID: vm.committeeID,
@@ -113,9 +119,13 @@
                             s.description = vm.position;
                         }
                     });
+                    vm.loading = false;
+                    $("#editPosition").modal('hide');
                     $("#editConfirm").modal('show');
                 })
                 .error(function (data, status, headers, config) {
+                    vm.loading = false;
+                    $("#editPosition").modal('hide');
                 });
             }
         }

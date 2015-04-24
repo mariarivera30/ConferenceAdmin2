@@ -26,6 +26,8 @@
         vm.participationParagraph4;
         vm.participationParagraph5;
 
+        vm.loading = false;
+
         //Interface
         vm.iparticipationTitle1;
         vm.iparticipationTitle2;
@@ -100,6 +102,7 @@
         }
 
         function _saveParticipation() {
+            vm.loading = true;
             var newParticipation = {
                 participationTitle1: vm.participationTitle1,
                 participationTitle2: vm.participationTitle2,
@@ -114,7 +117,7 @@
             }
             restApi.saveParticipation(newParticipation)
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data != "") {
 
                     vm.temp.participationTitle1 = newParticipation.participationTitle1;
                     vm.temp.participationTitle2 = newParticipation.participationTitle2;
@@ -127,10 +130,12 @@
                     vm.temp.participationParagraph4 = newParticipation.participationParagraph4;
                     vm.temp.participationParagraph5 = newParticipation.participationParagraph5;
 
+                    vm.loading = false;
                     $("#updateConfirm").modal('show');
                 }
             })
             .error(function (error) {
+                vm.loading = false;
                 $("#updateError").modal('show');
             });
         }

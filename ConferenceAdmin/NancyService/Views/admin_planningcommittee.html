@@ -71,7 +71,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.editMember()">Save</button>
+                    <button class="btn btn-ar btn-primary left" ng-click="vm.editMember()" ng-disabled="vm.loading">Save</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
@@ -96,17 +96,17 @@
                         <br /><label>Affiliation:</label>
                         <input type="text" ng-model="vm.affiliation" required /><br>
                         <label>Select Position:</label><br>
-                        <input name="position" type="radio" ng-model="vm.position" value="Conference Chair">&nbsp;&nbsp;Conference Chair<br />
-                        <input name="position" type="radio" ng-model="vm.position" value="Conference Co-Chair">&nbsp;&nbsp;Conference Co-Chair<br />
-                        <input name="position" type="radio" ng-model="vm.position" value="Treasurer">&nbsp;&nbsp;Treasurer<br />
-                        <input name="position" type="radio" ng-model="vm.position" value="Conference Coordinator">&nbsp;&nbsp;Conference Coordinator<br />
-                        <input name="position" type="radio" ng-model="vm.position" value="Conference Assistant">&nbsp;&nbsp;Conference Assistant<br />
-                        <input name="position" type="radio" ng-model="vm.position" value="Conference Accountant">&nbsp;&nbsp;Conference Accountant<br />
+                        <input name="position" type="radio" ng-model="vm.position" value="Conference Chair" required>&nbsp;&nbsp;Conference Chair<br />
+                        <input name="position" type="radio" ng-model="vm.position" value="Conference Co-Chair" required>&nbsp;&nbsp;Conference Co-Chair<br />
+                        <input name="position" type="radio" ng-model="vm.position" value="Treasurer" required>&nbsp;&nbsp;Treasurer<br />
+                        <input name="position" type="radio" ng-model="vm.position" value="Conference Coordinator" required>&nbsp;&nbsp;Conference Coordinator<br />
+                        <input name="position" type="radio" ng-model="vm.position" value="Conference Assistant" required>&nbsp;&nbsp;Conference Assistant<br />
+                        <input name="position" type="radio" ng-model="vm.position" value="Conference Accountant" required>&nbsp;&nbsp;Conference Accountant<br />
                         <label class="help-inline" ng-show="addCommitteeForm.position.$invalid && !addCommitteeForm.position.$pristine">Select a position.</label>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addMember()" ng-disabled="addCommitteeForm.$invalid">Add</button>
+                    <button class="btn btn-ar btn-primary left" ng-click="vm.addMember()" ng-disabled="addCommitteeForm.$invalid || vm.loading">Add</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal" ng-click="vm.clear()">Cancel</button>
                 </div>
             </div>

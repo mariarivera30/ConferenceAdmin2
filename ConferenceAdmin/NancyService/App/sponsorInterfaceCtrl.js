@@ -17,6 +17,7 @@
         vm.amount;
         vm.benefits = {};
         vm.instructions;
+        vm.loading = false;
 
         //Functions
         vm.getBenefits = _getBenefits;
@@ -68,7 +69,7 @@
         function _getBenefits(sname) {
             restApi.getAdminSponsorBenefits(sname)
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data != "") {
                     if (sname == "Diamond") {
                         vm.amount = data.diamondAmount;
                         vm.benefits = data.diamondBenefits;
@@ -103,6 +104,7 @@
         }
 
         function _saveBenefits() {
+            vm.loading = true;
             var saveSponsor = {
                 name: vm.sponsorType,
                 amount: vm.amount,
@@ -110,11 +112,15 @@
             }
             restApi.saveAdminSponsorBenefits(saveSponsor)
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data != "") {
+                    vm.loading = false;
+                    $("#editSponsorBenefits").modal('hide');
                     $("#updateConfirm").modal('show');
                 }
             })
             .error(function (error) {
+                vm.loading = false;
+                $("#editSponsorBenefits").modal('hide');
                 $("#updateError").modal('show');
             });
         }
@@ -122,7 +128,7 @@
         function _getInstructions() {
             restApi.getInstructions()
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data != "") {
                     vm.temp = data;
                     vm.instructions = data;
                 }
@@ -132,14 +138,17 @@
         }
 
         function _saveInstructions() {
+            vm.loading = true;
             restApi.saveInstructions(vm.instructions)
             .success(function (data, status, headers, config) {
                 if (data) {
                     vm.temp = vm.instructions;
+                    vm.loading = false;
                     $("#updateConfirm").modal('show');
                 }
             })
             .error(function (error) {
+                vm.loading = false;
                 $("#updateError").modal('show');
             });
         }

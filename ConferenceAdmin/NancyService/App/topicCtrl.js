@@ -15,6 +15,7 @@
         vm.currentid;
         vm.topicsList = [];
         vm.search;
+        vm.loading = false;
 
         // Functions
         vm.activate = activate;
@@ -58,21 +59,27 @@
         }
 
         function _addTopic() {
+            vm.loading = true;
             var topicname = vm.name;
             if (topicname != null && topicname != "") {
                 restApi.postNewTopic(vm.name)
                     .success(function (data, status, headers, config) {
                         vm.topicsList.push(data);
                         _clear();
+                        vm.loading = false;
+                        $("#addTopic").modal('hide');
                         $("#addConfirm").modal('show');
                     })
                     .error(function (error) {
+                        vm.loading = false;
+                        $("#addTopic").modal('hide');
                         $("#addError").modal('show');
                     });
             }
         }
 
         function _updateTopic() {
+            vm.loading = true;
             if (vm.currentid != undefined && vm.currentid != "" && vm.editname != null && vm.editname != "") {
                 var topic = { topiccategoryID: vm.currentid, name: vm.editname }
                 restApi.updateTopic(topic)
@@ -83,9 +90,14 @@
                         }
                     });
                     _clear();
+                    vm.loading = false;
+                    $("#editTopic").modal('hide');
                     $("#editConfirm").modal('show');
                 })
                 .error(function (data, status, headers, config) {
+                    vm.loading = false;
+                    $("#editTopic").modal('hide');
+                    $("#editError").modal('show');
                 });
             }
         }

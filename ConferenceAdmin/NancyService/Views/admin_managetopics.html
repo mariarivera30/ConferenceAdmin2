@@ -53,7 +53,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addTopic()" ng-disabled="addTopicForm.$invalid">Add</button>
+                    <button class="btn btn-ar btn-primary left" ng-click="vm.addTopic()" ng-disabled="addTopicForm.$invalid || vm.loading">Add</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal" ng-click="vm.clear()">Cancel</button>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.updateTopic()" ng-disabled="editTopicForm.$invalid">Save</button>
+                    <button class="btn btn-ar btn-primary left" ng-click="vm.updateTopic()" ng-disabled="editTopicForm.$invalid || vm.loading">Save</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
@@ -194,6 +194,26 @@
                     <p>
                         The topic has not been deleted.
                         <ul><li>There are submissions submitted under this topic category.</li></ul>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--EditError-->
+    <div class="modal fade" id="editError" tabindex="-1" role="dialog" aria-labelledby="editErrorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="editErrorLabel">Topic not updated</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The topic has not been updated. Try again later.
                     </p>
                 </div>
                 <div class="modal-footer">

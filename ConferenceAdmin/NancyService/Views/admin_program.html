@@ -36,7 +36,7 @@
 
         <div class="row">
             <div class="col-lg-10">
-                <button class="btn btn-ar btn-primary" ng-disabled="vm.disabled" ng-click="vm.saveProgram()">Save</button>
+                <button class="btn btn-ar btn-primary" ng-click="vm.saveProgram()" ng-disabled="vm.loading || (!pfile && !afile)">Save</button>
             </div>
         </div>
     </div>

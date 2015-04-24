@@ -19,7 +19,7 @@
         vm.name;
         vm.myFile;
         vm.myFile2;
-        vm.disabled = false;
+        vm.loading = false;
 
         //Functions
         vm.getProgram = _getProgram;
@@ -115,7 +115,7 @@
         function _getProgram() {
             restApi.getProgram()
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data != "") {
                     vm.program = data.program;
                     vm.abstracts = data.abstracts;
 
@@ -134,7 +134,7 @@
         }
 
         function _saveProgram() {
-            vm.disabled = true;
+            vm.loading = true;
             var info = {
                 program: $scope.pfile,
                 abstracts: $scope.afile
@@ -160,11 +160,12 @@
                     _clear();
                     $("#updateError2").modal('show');
                 }
+                vm.loading = false;
             })
             .error(function (error) {
+                vm.loading = false;
                 $("#updateError2").modal('show');
             });
-            vm.disabled = false;
         }
 
         function _removeFile() {

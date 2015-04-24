@@ -61,7 +61,7 @@
 
     <div class="row">
         <div class="col-lg-10 title-field">
-            <button class="btn btn-ar btn-primary" ng-click="vm.saveInstructions()">Save</button>
+            <button class="btn btn-ar btn-primary" ng-click="vm.saveInstructions()" ng-disabled="vm.loading">Save</button>
         </div>
     </div>
 
@@ -116,7 +116,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-disabled="editSponsorForm.$invalid" ng-click="vm.saveBenefits()">Save</button>
+                    <button class="btn btn-ar btn-primary left" ng-disabled="editSponsorForm.$invalid || vm.loading" ng-click="vm.saveBenefits()">Save</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal" ng-click="vm.clear()">Cancel</button>
                 </div>
             </div>

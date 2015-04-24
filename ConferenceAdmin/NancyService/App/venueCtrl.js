@@ -20,6 +20,7 @@
         vm.venueParagraph2;
         vm.venueTitleBox;
         vm.venueParagraphContentBox;
+        vm.loading = false;
 
         //InterfaceElements
         vm.ivenueTitle1;
@@ -78,7 +79,7 @@
         }
 
         function _saveVenue() {
-
+            vm.loading = true;
             var newVenue = {
                 venueTitle1: vm.venueTitle1,
                 venueParagraph1: vm.venueParagraph1,
@@ -89,7 +90,7 @@
             }
             restApi.saveVenue(newVenue)
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data != "") {
                     vm.temp.venueTitle1 = newVenue.venueTitle1;
                     vm.temp.venueParagraph1 = newVenue.venueParagraph1;
                     vm.temp.venueTitle2 = newVenue.venueTitle2;
@@ -98,8 +99,10 @@
                     vm.temp.venueParagraphContentBox = newVenue.venueParagraphContentBox;
                     $("#updateConfirm").modal('show');
                 }
+                vm.loading = false;
             })
             .error(function (error) {
+                vm.loading = false;
                 $("#updateError").modal('show');
             });
         }

@@ -38,6 +38,7 @@
         vm.currentid;
         vm.acceptanceStatusList = ['Accept', 'Reject'];
         vm.searchEvaluator;
+        vm.loading = false;
 
         //Functions- Past Evaluators (Paging)
         vm.getEvaluatorListFromIndex = _getEvaluatorListFromIndex;
@@ -185,6 +186,7 @@
 
         //General Methods
         function _next() {
+            vm.loading = true;
             if (vm.email != undefined && vm.email != "") {
                 restApi.getNewEvaluator(vm.email)
                     .success(function (data, status, headers, config) {
@@ -194,11 +196,13 @@
                         }
                         else {
                             //Email not found. Show modal displaying error.
+                            vm.loading = false;
                             $("#addError").modal('show');
                         }
                     })
 
                     .error(function (error) {
+                        vm.loading = false;
                         $("#addError3").modal('show');
                     });
             }
@@ -208,7 +212,7 @@
             if (vm.email != undefined && vm.email != "") {
                 restApi.postNewEvaluator(vm.email)
                     .success(function (data, status, headers, config) {
-                        if (data.email != null) {
+                        if (data.email != null && data.email != "") {
                             //vm.evaluatorsList.push(data);
                             _getEvaluatorListFromIndex(vm.eindex);
                             vm.pendingList.forEach(function (s, index) {
@@ -216,11 +220,13 @@
                                     vm.pendingList.splice(index, 1);
                                 }
                             });
+                            vm.loading = false;
                             $("#addEvaluator").modal('hide');
                             _clear();
                             $("#addConfirm").modal('show');
                         }
                         else {
+                            vm.loading = false;
                             $("#addEvaluator").modal('hide');
                             _clear();
                             $("#addError2").modal('show');
@@ -228,6 +234,7 @@
                     })
 
                     .error(function (error) {
+                        vm.loading = false;
                         $("#addError3").modal('show');
                     });
             }

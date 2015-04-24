@@ -32,6 +32,7 @@
         vm.companionStudentLateFee;
         vm.professionalAcademyLateFee;
         vm.professionalIndustryLateFee;
+        vm.loading = false;
 
         //InterfaceElements
         vm.iregistrationTitle1;
@@ -90,7 +91,7 @@
         function _getRegistrationInfo() {
             restApi.getRegistrationDetails()
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data != "") {
                     vm.temp = data;
                     vm.iregistrationTitle1 = data.registrationTitle1;
                     vm.iregistrationParagraph1 = data.registrationParagraph1;
@@ -142,6 +143,7 @@
         }
 
         function _saveRegistrationInfo() {
+            vm.loading = true;
             var newRegistration = {
                 registrationTitle1: vm.registrationTitle1,
                 registrationParagraph1: vm.registrationParagraph1,
@@ -165,12 +167,14 @@
             }
             restApi.saveRegistrationInfo(newRegistration)
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data != "") {
                     vm.temp = newRegistration;
                     $("#updateConfirm").modal('show');
                 }
+                vm.loading = false;
             })
             .error(function (error) {
+                vm.loading = false;
                 $("#updateError").modal('show');
             });
         }

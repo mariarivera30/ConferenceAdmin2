@@ -127,7 +127,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" ng-click="vm.next()" ng-disabled="addPrivilegeForm.$invalid">Add</button>
+                    <button class="btn btn-ar btn-primary left" ng-click="vm.next()" ng-disabled="addPrivilegeForm.$invalid || vm.loading">Add</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal" ng-click="vm.clear()">Cancel</button>
                 </div>
             </div>
@@ -151,7 +151,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.editAdmin()" ng-disabled="editPrivilegeForm.$invalid">Save</button>
+                    <button class="btn btn-ar btn-primary left" ng-click="vm.editAdmin()" ng-disabled="editPrivilegeForm.$invalid || vm.loading">Save</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

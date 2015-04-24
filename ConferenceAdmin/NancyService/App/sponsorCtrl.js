@@ -585,20 +585,22 @@
                 var info = { index: index, criteria: vm.criteria };
                 restApi.searchSponsors(info).
                        success(function (data, status, headers, config) {
-                           vm.showSearch = true;
-                           vm.searchMaxIndex = data.maxIndex;
-                           if (vm.searchMaxIndex == 0) {
-                               vm.searchIndex = 0;
-                               vm.searchResults = [];
-                               vm.showResults = false;
-                           }
-                           else if (vm.searchIndex >= vm.searchMaxIndex) {
-                               vm.searchIndex = vm.searchMaxIndex - 1;
-                               _search(vm.searchIndex);
-                           }
-                           else {
-                               vm.showResults = true;
-                               vm.searchResults = data.results;
+                           if (data != undefined && data != "") {
+                               vm.showSearch = true;
+                               vm.searchMaxIndex = data.maxIndex;
+                               if (vm.searchMaxIndex == 0) {
+                                   vm.searchIndex = 0;
+                                   vm.searchResults = [];
+                                   vm.showResults = false;
+                               }
+                               else if (vm.searchIndex >= vm.searchMaxIndex) {
+                                   vm.searchIndex = vm.searchMaxIndex - 1;
+                                   _search(vm.searchIndex);
+                               }
+                               else {
+                                   vm.showResults = true;
+                                   vm.searchResults = data.results;
+                               }
                            }
                        }).
                        error(function (data, status, headers, config) {

@@ -182,7 +182,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" ng-click="vm.next()" ng-disabled="addEvaluatorForm.$invalid">Add</button>
+                    <button class="btn btn-ar btn-primary left" ng-click="vm.next()" ng-disabled="addEvaluatorForm.$invalid || vm.loading">Add</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal" ng-click="vm.clear()">Cancel</button>
                 </div>
             </div>

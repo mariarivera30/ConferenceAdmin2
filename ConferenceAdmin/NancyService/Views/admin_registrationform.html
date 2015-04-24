@@ -102,7 +102,7 @@
 
         <div class="row">
             <div class="col-lg-10">
-                <button class="btn btn-ar btn-primary" ng-disabled="costForm1.$invalid || costForm2.$invalid ||costForm3.$invalid || costForm4.$invalid || costForm5.$invalid || costForm6.$invalid || costForm7.$invalid || costForm8.$invalid || costForm9.$invalid || costForm10.$invalid || costForm11.$invalid || costForm12.$invalid" ng-click="vm.saveRegistrationInfo()">Save</button>
+                <button class="btn btn-ar btn-primary" ng-disabled="costForm1.$invalid || costForm2.$invalid ||costForm3.$invalid || costForm4.$invalid || costForm5.$invalid || costForm6.$invalid || costForm7.$invalid || costForm8.$invalid || costForm9.$invalid || costForm10.$invalid || costForm11.$invalid || costForm12.$invalid || vm.loading" ng-click="vm.saveRegistrationInfo()">Save</button>
                 <label class="help-inline" ng-show="costForm1.$invalid || costForm2.$invalid ||costForm3.$invalid || costForm4.$invalid || costForm5.$invalid || costForm6.$invalid || costForm7.$invalid || costForm8.$invalid || costForm9.$invalid || costForm10.$invalid || costForm11.$invalid || costForm12.$invalid">Check the registration costs. Please, provide a valid amount.</label>
             </div>
         </div>

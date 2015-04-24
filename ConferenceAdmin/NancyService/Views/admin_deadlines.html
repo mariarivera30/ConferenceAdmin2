@@ -52,7 +52,7 @@
             <h5 class="text-dark after-title-field">Submission Deadline</h5>
             <p>This deadline will be used for closing submissions.</p>
             <input type="date" class="form-control2" ng-model="vm.submissionDeadline"><br />
-            <button class="btn btn-ar btn-primary" ng-click="vm.saveDeadlines()">Save</button>
+            <button class="btn btn-ar btn-primary" ng-click="vm.saveDeadlines()" ng-disabled="vm.loading">Save</button>
         </div>
     </div>
 
