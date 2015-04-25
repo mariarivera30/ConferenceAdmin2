@@ -324,6 +324,38 @@ namespace NancyService.Modules
                 return xmlTransaction; 
         
         }
+        public void createPaymentBill(long paymentID, double amount, string transactionID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    double quantity = amount * 100;
+                    var sponsor = (from p in context.sponsor2
+                                    where p.paymentID == paymentID
+                                    select p).FirstOrDefault();
+                    if (sponsor != null) { 
+                    paymentbill bill = new paymentbill();
+                    bill.AmountPaid = amount;
+                    bill.paymentID = (long)sponsor.paymentID;
+                    bill.completed = false;
+                    bill.transactionid = transactionID;
+                    bill.quantity = (int)quantity;
+                    bill.deleted = false;
+                    bill.date = DateTime.Now;
+                    context.paymentbills.Add(bill);
+                    context.SaveChanges();
+                    }
+                 
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("PaymentManager.makePayment error " + ex);
+               
+            }
+         
+        }
 
         /*THIS METHOD extract values from string*/
         public PaymentXML parseXMLString(string xml)
