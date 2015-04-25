@@ -5,11 +5,17 @@ using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Net;
+using System.Net.Mail;
 
 namespace NancyService.Modules
 {
     public class WebManager
     {
+        string ccwicEmail = "ccwictest@gmail.com";
+        string ccwicEmailPass = "ccwic123456789";
+        string testEmail = "heidi.negron1@upr.edu";
+
         public WebManager()
         {
 
@@ -29,6 +35,41 @@ namespace NancyService.Modules
                         content = inter.content
 
                     }).FirstOrDefault();
+
+                    if (webInterface.content == null)
+                    {
+                        webInterface.content = "";
+                    }
+
+                    return webInterface;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("WebManager.get" + element + " error " + ex);
+                return null;
+            }
+
+        }
+
+        public ContentQuery getDeadlineElement(String element)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    ContentQuery webInterface = new ContentQuery();
+
+                    webInterface = context.submissiontypes.Where(inter => inter.name == element).Select(inter => new ContentQuery
+                    {
+                        content = inter.deadline
+
+                    }).FirstOrDefault();
+
+                    if (webInterface.content == null)
+                    {
+                        webInterface.content = "";
+                    }
 
                     return webInterface;
                 }
@@ -313,6 +354,36 @@ namespace NancyService.Modules
             catch (Exception ex)
             {
                 Console.Write("WebManger.saveContact error " + ex);
+                return false;
+            }
+        }
+
+        public bool sendContactEmail(ContactEmailQuery info)
+        {
+            try {
+                
+                MailAddress sender = new MailAddress(info.email);
+                MailAddress user = new MailAddress(testEmail); //info.contactEmail
+                MailMessage mail = new System.Net.Mail.MailMessage(sender, user);
+
+                mail.Subject = "CCWiC Inquire";
+                mail.Body = "Name: " + info.name + "\r\n \r\nMessage: " + info.message;
+
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.Port = 587;
+
+                smtp.Credentials = new NetworkCredential(ccwicEmail, ccwicEmailPass); //OJO
+                smtp.EnableSsl = true;
+
+                smtp.Send(mail);
+
+                return true;
+            
+            }
+            catch (Exception ex)
+            {
+                Console.Write("WebManager.sendContactEmail error " + ex);
                 return false;
             }
         }
@@ -627,13 +698,114 @@ namespace NancyService.Modules
                 deadline.deadlineDate4 = this.getInterfaceElement("deadlineDate4").content;
                 deadline.deadline5 = this.getInterfaceElement("deadline5").content;
                 deadline.deadlineDate5 = this.getInterfaceElement("deadlineDate5").content;
-                deadline.submissionDeadline = this.getInterfaceElement("submissionDeadline").content;
+
+                //Papers
+                deadline.extendedPaperDeadline = this.getDeadlineElement("Extended Paper").content;
+                deadline.posterDeadline = this.getDeadlineElement("Poster ").content;
+                deadline.panelDeadline = this.getDeadlineElement("Panel").content;
+                deadline.bofDeadline = this.getDeadlineElement("BoF").content;
+                deadline.workshopDeadline = this.getDeadlineElement("Workshop").content;
+                deadline.sponsorDeadline = this.getInterfaceElement("sponsorDeadline").content;
 
                 return deadline;
             }
             catch (Exception ex)
             {
                 Console.Write("WebManager.getDeadline error " + ex);
+                return null;
+            }
+        }
+
+        public DeadlinesQuery getInterfaceDeadlines()
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    DeadlinesQuery deadline = new DeadlinesQuery();
+                    deadline.deadline1 = this.getInterfaceElement("deadline1").content;
+                    deadline.deadlineDate1 = this.getInterfaceElement("deadlineDate1").content;
+                    deadline.deadline2 = this.getInterfaceElement("deadline2").content;
+                    deadline.deadlineDate2 = this.getInterfaceElement("deadlineDate2").content;
+                    deadline.deadline3 = this.getInterfaceElement("deadline3").content;
+                    deadline.deadlineDate3 = this.getInterfaceElement("deadlineDate3").content;
+                    deadline.deadline4 = this.getInterfaceElement("deadline4").content;
+                    deadline.deadlineDate4 = this.getInterfaceElement("deadlineDate4").content;
+                    deadline.deadline5 = this.getInterfaceElement("deadline5").content;
+                    deadline.deadlineDate5 = this.getInterfaceElement("deadlineDate5").content;
+
+                    if (deadline.deadlineDate1 != null && deadline.deadlineDate1 != "")
+                    {
+                        string[] date = deadline.deadlineDate1.Split('/');
+                        if (date.Count() == 3)
+                        {
+                            DateTime d = new DateTime( // Constructor (Year, Month, Day)
+                                Convert.ToInt32(date[2]),
+                                Convert.ToInt32(date[0]),
+                                Convert.ToInt32(date[1]));
+                            deadline.deadlineDate1 = d.DayOfWeek + ", " + d.ToString("MMMM", CultureInfo.InvariantCulture) + " " + d.Day + ", " + d.Year;
+                        }
+                    }
+
+                    if (deadline.deadlineDate2 != null && deadline.deadlineDate2 != "")
+                    {
+                        string[] date = deadline.deadlineDate2.Split('/');
+                        if (date.Count() == 3)
+                        {
+                            DateTime d = new DateTime( // Constructor (Year, Month, Day)
+                                Convert.ToInt32(date[2]),
+                                Convert.ToInt32(date[0]),
+                                Convert.ToInt32(date[1]));
+                            deadline.deadlineDate2 = d.DayOfWeek + ", " + d.ToString("MMMM", CultureInfo.InvariantCulture) + " " + d.Day + ", " + d.Year;
+                        }
+                    }
+
+                    if (deadline.deadlineDate3 != null && deadline.deadlineDate3 != "")
+                    {
+                        string[] date = deadline.deadlineDate3.Split('/');
+                        if (date.Count() == 3)
+                        {
+                            DateTime d = new DateTime( // Constructor (Year, Month, Day)
+                                Convert.ToInt32(date[2]),
+                                Convert.ToInt32(date[0]),
+                                Convert.ToInt32(date[1]));
+                            deadline.deadlineDate3 = d.DayOfWeek + ", " + d.ToString("MMMM", CultureInfo.InvariantCulture) + " " + d.Day + ", " + d.Year;
+                        }
+                    }
+
+                    if (deadline.deadlineDate4 != null && deadline.deadlineDate4 != "")
+                    {
+                        string[] date = deadline.deadlineDate4.Split('/');
+                        if (date.Count() == 3)
+                        {
+                            DateTime d = new DateTime( // Constructor (Year, Month, Day)
+                                Convert.ToInt32(date[2]),
+                                Convert.ToInt32(date[0]),
+                                Convert.ToInt32(date[1]));
+                            deadline.deadlineDate4 = d.DayOfWeek + ", " + d.ToString("MMMM", CultureInfo.InvariantCulture) + " " + d.Day + ", " + d.Year;
+                        }
+                    }
+
+                    if (deadline.deadlineDate5 != null && deadline.deadlineDate5 != "")
+                    {
+                        string[] date = deadline.deadlineDate5.Split('/');
+                        if (date.Count() == 3)
+                        {
+                            DateTime d = new DateTime( // Constructor (Year, Month, Day)
+                                Convert.ToInt32(date[2]),
+                                Convert.ToInt32(date[0]),
+                                Convert.ToInt32(date[1]));
+                            deadline.deadlineDate5 = d.DayOfWeek + ", " + d.ToString("MMMM", CultureInfo.InvariantCulture) + " " + d.Day + ", " + d.Year;
+                        }
+                    }
+
+                    
+                    return deadline;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("WebManager.getInterfaceDeadlines error " + ex);
                 return null;
             }
         }
@@ -667,9 +839,35 @@ namespace NancyService.Modules
                     newDeadline.deadlineDate5 = "";
                 }
 
-                if (newDeadline.submissionDeadline == "Invalid Date")
+                //Papers
+                if (newDeadline.extendedPaperDeadline == "Invalid Date")
                 {
-                    newDeadline.submissionDeadline = "";
+                    newDeadline.extendedPaperDeadline = "";
+                }
+
+                if (newDeadline.posterDeadline == "Invalid Date")
+                {
+                    newDeadline.posterDeadline = "";
+                }
+
+                if (newDeadline.panelDeadline == "Invalid Date")
+                {
+                    newDeadline.panelDeadline = "";
+                }
+
+                if (newDeadline.bofDeadline == "Invalid Date")
+                {
+                    newDeadline.bofDeadline = "";
+                }
+
+                if (newDeadline.workshopDeadline == "Invalid Date")
+                {
+                    newDeadline.workshopDeadline = "";
+                }
+
+                if (newDeadline.sponsorDeadline == "Invalid Date")
+                {
+                    newDeadline.sponsorDeadline = "";
                 }
 
                 using (conferenceadminContext context = new conferenceadminContext())
@@ -742,12 +940,48 @@ namespace NancyService.Modules
                     if (deadlineDate5 != null)
                         deadlineDate5.content = newDeadline.deadlineDate5;
 
-                    var submissionDeadline = (from s in context.interfaceinformations
-                                              where s.attribute == "submissionDeadline"
+                    var sponsorDeadline = (from s in context.interfaceinformations
+                                              where s.attribute == "sponsorDeadline"
                                               select s).FirstOrDefault();
 
-                    if (submissionDeadline != null)
-                        submissionDeadline.content = newDeadline.submissionDeadline;
+                    if (sponsorDeadline != null)
+                        sponsorDeadline.content = newDeadline.sponsorDeadline;
+
+                    //Papers
+                    var extendedPaperDeadline = (from s in context.submissiontypes
+                                              where s.deadline == "Extended Paper"
+                                              select s).FirstOrDefault();
+
+                    if (extendedPaperDeadline != null)
+                        extendedPaperDeadline.deadline = newDeadline.extendedPaperDeadline;
+
+                    var posterDeadline = (from s in context.submissiontypes
+                                                 where s.deadline == "Poster"
+                                                 select s).FirstOrDefault();
+
+                    if (posterDeadline != null)
+                        posterDeadline.deadline = newDeadline.posterDeadline;
+
+                    var panelDeadline = (from s in context.submissiontypes
+                                         where s.deadline == "Panel"
+                                         select s).FirstOrDefault();
+
+                    if (panelDeadline != null)
+                        panelDeadline.deadline = newDeadline.panelDeadline;
+
+                    var bofDeadline = (from s in context.submissiontypes
+                                              where s.deadline == "BoF"
+                                              select s).FirstOrDefault();
+
+                    if (bofDeadline != null)
+                        bofDeadline.deadline = newDeadline.bofDeadline;
+
+                    var workshopDeadline = (from s in context.submissiontypes
+                                              where s.deadline == "Workshop"
+                                              select s).FirstOrDefault();
+
+                    if (workshopDeadline != null)
+                        workshopDeadline.deadline = newDeadline.workshopDeadline;
 
                     context.SaveChanges();
                     return true;
@@ -1152,8 +1386,9 @@ namespace NancyService.Modules
             }
         }
 
-        public bool saveInstructions(String instructions)
+        public bool saveInstructions(SponsorInterfaceBenefits info)
         {
+            String instructions = info.instructions;
 
             try
             {
@@ -1326,24 +1561,38 @@ namespace NancyService.Modules
                     info.dateTo = this.getInterfaceElement("conferenceDay2").content;
                 }
 
-                using (conferenceadminContext context = new conferenceadminContext())
-                {
-
-                    var logo = (from s in context.interfacedocuments
-                                where s.attibuteName == "logo"
-                                select s).FirstOrDefault();
-
-                    if (logo != null)
-                    {
-                        info.logo = logo.content;
-                    }
-                }
-
                 return info;
             }
             catch (Exception ex)
             {
                 Console.Write("WebManager.getGeneralInfo error " + ex);
+                return null;
+            }
+        }
+
+        public GeneralInfoQuery getWebsiteLogo()
+        {
+            try
+            {
+                GeneralInfoQuery logo = new GeneralInfoQuery();
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+
+                    var img = (from s in context.interfacedocuments
+                               where s.attibuteName == "logo"
+                               select s).FirstOrDefault();
+
+                    if (img != null)
+                    {
+                        logo.logo = img.content;
+                    }
+                }
+
+                return logo;
+            }
+            catch (Exception ex)
+            {
+                Console.Write("WebManager.getWebsiteLogo error " + ex);
                 return null;
             }
         }
@@ -1720,7 +1969,12 @@ namespace NancyService.Modules
         public String deadlineDate4;
         public String deadline5;
         public String deadlineDate5;
-        public String submissionDeadline;
+        public String extendedPaperDeadline;
+        public String posterDeadline;
+        public String panelDeadline;
+        public String bofDeadline;
+        public String workshopDeadline;
+        public String sponsorDeadline;
     }
 
     public class PlanningCommitteeQuery
@@ -1775,6 +2029,7 @@ namespace NancyService.Modules
 
     public class SponsorInterfaceBenefits
     {
+        public String instructions;
         public double diamondAmount;
         public double platinumAmount;
         public double goldAmount;
@@ -1815,5 +2070,13 @@ namespace NancyService.Modules
         {
 
         }
+    }
+
+    public class ContactEmailQuery
+    {
+        public String name;
+        public String email;
+        public String contactEmail;
+        public String message;
     }
 }

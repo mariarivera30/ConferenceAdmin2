@@ -68,7 +68,7 @@
         function _getParticipation() {
             restApi.getParticipation()
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data!="") {
                     vm.temp = data;
                     vm.iparticipationTitle1 = data.participationTitle1;
                     vm.iparticipationTitle2 = data.participationTitle2;

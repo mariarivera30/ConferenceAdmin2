@@ -209,12 +209,26 @@
         function _getGeneralInfo() {
             restApi.getGeneralInfo()
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data != "") {
                     vm.conferenceAcronym = data.conferenceAcronym;
                     vm.conferenceName = data.conferenceName;
+                    
+                    _getImage();
+                }
+            })
+            .error(function (error) {
+
+            });
+        }
+
+        function _getImage() {
+            restApi.getWebsiteLogo()
+            .success(function (data, status, headers, config) {
+                if (data != null && data != "") {
                     vm.conferenceLogo = data.logo;
                 }
             })
+
             .error(function (error) {
 
             });

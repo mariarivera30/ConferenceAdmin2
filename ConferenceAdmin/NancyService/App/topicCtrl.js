@@ -64,11 +64,13 @@
             if (topicname != null && topicname != "") {
                 restApi.postNewTopic(vm.name)
                     .success(function (data, status, headers, config) {
-                        vm.topicsList.push(data);
-                        _clear();
-                        vm.loading = false;
-                        $("#addTopic").modal('hide');
-                        $("#addConfirm").modal('show');
+                        if (data != null && data != "") {
+                            vm.topicsList.push(data);
+                            _clear();
+                            vm.loading = false;
+                            $("#addTopic").modal('hide');
+                            $("#addConfirm").modal('show');
+                        }
                     })
                     .error(function (error) {
                         vm.loading = false;
@@ -84,15 +86,17 @@
                 var topic = { topiccategoryID: vm.currentid, name: vm.editname }
                 restApi.updateTopic(topic)
                 .success(function (data, status, headers, config) {
-                    vm.topicsList.forEach(function (topic, index) {
-                        if (topic.topiccategoryID == vm.currentid) {
-                            topic.name = vm.editname;
-                        }
-                    });
-                    _clear();
-                    vm.loading = false;
-                    $("#editTopic").modal('hide');
-                    $("#editConfirm").modal('show');
+                    if (data) {
+                        vm.topicsList.forEach(function (topic, index) {
+                            if (topic.topiccategoryID == vm.currentid) {
+                                topic.name = vm.editname;
+                            }
+                        });
+                        _clear();
+                        vm.loading = false;
+                        $("#editTopic").modal('hide');
+                        $("#editConfirm").modal('show');
+                    }
                 })
                 .error(function (data, status, headers, config) {
                     vm.loading = false;

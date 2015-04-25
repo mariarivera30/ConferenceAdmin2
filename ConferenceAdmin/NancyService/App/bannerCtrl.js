@@ -71,23 +71,25 @@
         function _getBanners() {
             restApi.getBanners()
             .success(function (data, status, headers, config) {
-                vm.diamondSponsors = data.diamond;
-                vm.platinumSponsors = data.platinum;
-                vm.goldSponsors = data.gold;
-                vm.silverSponsors = data.silver;
-                vm.bronzeSponsors = data.bronze;
+                if (data != null && data != "") {
+                    vm.diamondSponsors = data.diamond;
+                    vm.platinumSponsors = data.platinum;
+                    vm.goldSponsors = data.gold;
+                    vm.silverSponsors = data.silver;
+                    vm.bronzeSponsors = data.bronze;
 
-                if (vm.platinumSponsors.length > 0) {
-                    _showPlatinum();
-                }
-                if (vm.goldSponsors.length > 0) {
-                    _showGold();
-                }
-                if (vm.silverSponsors.length > 0) {
-                    _showSilver();
-                }
-                if (vm.bronzeSponsors.length > 0) {
-                    _showBronze();
+                    if (vm.platinumSponsors.length > 0) {
+                        _showPlatinum();
+                    }
+                    if (vm.goldSponsors.length > 0) {
+                        _showGold();
+                    }
+                    if (vm.silverSponsors.length > 0) {
+                        _showSilver();
+                    }
+                    if (vm.bronzeSponsors.length > 0) {
+                        _showBronze();
+                    }
                 }
 
             })

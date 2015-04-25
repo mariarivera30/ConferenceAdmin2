@@ -8,6 +8,8 @@
     </div>
 
     <div class="col-lg-8 hide-until-loaded" id="body">
+        <h5 class="after-title-field">Conference Deadlines</h5>
+        <p>These deadlines will be used for informational purposes on the Deadlines section of the website.</p>
         <table class="table after-title-field">
             <colgroup>
                 <col span="1" style="width: 75%;">
@@ -48,12 +50,53 @@
                 </tr>
             </tbody>
         </table>
-        <div class="col-lg-8">
-            <h5 class="text-dark after-title-field">Submission Deadline</h5>
-            <p>This deadline will be used for closing submissions.</p>
-            <input type="date" class="form-control2" ng-model="vm.submissionDeadline"><br />
+
+            <h5 class="title-field2">Submission Deadlines</h5>
+            <p>These deadlines will be used for closing submissions.</p>
+
+            <table class="table after-title-field" id="deadlinetable">
+                <thead>
+                    <tr>
+                        <th class="text-left">Deadline</th>
+                        <th class="text-left">Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td class="text-left"><p class="after-title-field text-dark">Extended Paper Deadline</p></td>
+                        <td class="text-left"><input type="date" class="form-control2" ng-model="vm.extendedPaperDeadline"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-left"><p class="after-title-field text-dark">Poster Deadline</p></td>
+                        <td class="text-left"><input type="date" class="form-control2" ng-model="vm.posterDeadline"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-left"><p class="after-title-field text-dark">Panel Deadline</p></td>
+                        <td class="text-left"><input type="date" class="form-control2" ng-model="vm.panelDeadline"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-left"><p class="after-title-field text-dark">BoF Deadline</p></td>
+                        <td class="text-left"><input type="date" class="form-control2" ng-model="vm.bofDeadline"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-left"><p class="after-title-field text-dark">Workshop Deadline</p></td>
+                        <td class="text-left"><input type="date" class="form-control2" ng-model="vm.workshopDeadline"></td>
+                    </tr>
+
+                    <tr>
+                        <td class="text-left"><p class="after-title-field text-dark">Sponsor Deadline</p></td>
+                        <td class="text-left"><input type="date" class="form-control2" ng-model="vm.sponsorDeadline"></td>
+                    </tr>
+
+                </tbody>
+            </table>
+
             <button class="btn btn-ar btn-primary" ng-click="vm.saveDeadlines()" ng-disabled="vm.loading">Save</button>
-        </div>
     </div>
 
     <div class="modal fade" id="updateConfirm" tabindex="-1" role="dialog" aria-labelledby="updateConfirmLabel" aria-hidden="true">

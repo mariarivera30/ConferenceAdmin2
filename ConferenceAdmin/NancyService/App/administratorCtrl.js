@@ -104,22 +104,23 @@
         function _getAdmin(index) {
             restApi.getAdministrators(index)
             .success(function (data, status, headers, config) {
-                vm.maxIndex = data.maxIndex;
-                if (vm.maxIndex == 0) {
-                    vm.index = 0;
-                    vm.adminList = [];
-                }
-                else if (vm.index >= vm.maxIndex) {
-                    vm.index = vm.maxIndex - 1;
-                    _getAdmin(vm.index);
-                }
-                else {
-                    vm.adminList = data.results;
+                if (data != null && data != "") {
+                    vm.maxIndex = data.maxIndex;
+                    if (vm.maxIndex == 0) {
+                        vm.index = 0;
+                        vm.adminList = [];
+                    }
+                    else if (vm.index >= vm.maxIndex) {
+                        vm.index = vm.maxIndex - 1;
+                        _getAdmin(vm.index);
+                    }
+                    else {
+                        vm.adminList = data.results;
+                    }
                 }
                 load();
             })
            .error(function (data, status, headers, config) {
-               vm.adminList = data;
            });
         }
 
@@ -150,10 +151,11 @@
         function _getPrivilegeList() {
             restApi.getPrivilegesList()
             .success(function (data, status, headers, config) {
-                vm.privilegeList = data;
+                if (data != null && data != "") {
+                    vm.privilegeList = data;
+                }
             })
            .error(function (data, status, headers, config) {
-               vm.privilegeList = data;
            });
         }
 
@@ -201,11 +203,12 @@
                         }
                         else {
                             //User has already another privilege assigned
-                            vm.loading = false;
-                            $("#addAdmin").modal('hide');
+                        $("#addAdmin").modal('hide');
                             _clear();
                             $("#addError").modal('show');
                         }
+                        vm.loading = false;
+
                     })
 
                     .error(function (error) {
@@ -221,17 +224,17 @@
             if (vm.userID != undefined && vm.userID != "" && vm.privilegeID != undefined && vm.privilegeDelID != "" && vm.oldPrivilegeID != undefined && vm.oldPrivilegeID != "") {
                 restApi.editAdmin(vm.userID, vm.privilegeID, vm.oldPrivilegeID)
                 .success(function (data, status, headers, config) {
-                    if (data != null) {
+                    if (data != null && data != "") {
                         vm.adminList.forEach(function (admin, index) {
                             if (admin.userID == vm.userID) {
                                 admin.privilege = data;
                                 admin.privilegeID = vm.privilegeID;
                             }
                         });
-                        vm.loading = false;
                         $("#editPrivilege").modal('hide');
                         $("#editConfirm").modal('show');
                     }
+                    vm.loading = false;
                 })
                 .error(function (data, status, headers, config) {
                     vm.loading = false;
@@ -266,20 +269,22 @@
                 var info = { index: index, criteria: vm.criteria };
                 restApi.searchAdmin(info).
                        success(function (data, status, headers, config) {
-                           vm.showSearch = true;
-                           vm.searchMaxIndex = data.maxIndex;
-                           if (vm.searchMaxIndex == 0) {
-                               vm.searchIndex = 0;
-                               vm.searchResults = [];
-                               vm.showResults = false;
-                           }
-                           else if (vm.searchIndex >= vm.searchMaxIndex) {
-                               vm.searchIndex = vm.searchMaxIndex - 1;
-                               _search(vm.searchIndex);
-                           }
-                           else {
-                               vm.showResults = true;
-                               vm.searchResults = data.results;
+                           if (data != null && data != "") {
+                               vm.showSearch = true;
+                               vm.searchMaxIndex = data.maxIndex;
+                               if (vm.searchMaxIndex == 0) {
+                                   vm.searchIndex = 0;
+                                   vm.searchResults = [];
+                                   vm.showResults = false;
+                               }
+                               else if (vm.searchIndex >= vm.searchMaxIndex) {
+                                   vm.searchIndex = vm.searchMaxIndex - 1;
+                                   _search(vm.searchIndex);
+                               }
+                               else {
+                                   vm.showResults = true;
+                                   vm.searchResults = data.results;
+                               }
                            }
                        }).
                        error(function (data, status, headers, config) {

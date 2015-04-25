@@ -29,12 +29,14 @@
         function _getCommitteeInterface() {
             restApi.getCommitteeInterface()
            .success(function (data, status, headers, config) {
-               vm.conferenceChairList = data.conferenceChairList;
-               vm.conferenceCoChairList = data.conferenceCoChairList;
-               vm.conferenceCoordinatorList = data.conferenceCoordinatorList;
-               vm.conferenceTreasurerList = data.conferenceTreasurerList;
-               vm.conferenceAssistantList = data.conferenceAssistantList;
-               vm.conferenceAccountantList = data.conferenceAccountantList;
+               if (data != null && data != undefined) {
+                   vm.conferenceChairList = data.conferenceChairList;
+                   vm.conferenceCoChairList = data.conferenceCoChairList;
+                   vm.conferenceCoordinatorList = data.conferenceCoordinatorList;
+                   vm.conferenceTreasurerList = data.conferenceTreasurerList;
+                   vm.conferenceAssistantList = data.conferenceAssistantList;
+                   vm.conferenceAccountantList = data.conferenceAccountantList;
+               }
 
                load();
            })

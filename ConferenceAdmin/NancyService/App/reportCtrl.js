@@ -16,6 +16,7 @@
         vm.totalAmount;
         var fontSize = 8, height = 0, doc;
         vm.downloadLoading = false;
+        vm.loading = false;
 
         //Registration Payments- Variables (Paging)
         vm.registrationList = []; //Results to Display
@@ -75,23 +76,21 @@
         function _getRegistrationListFromIndex(index) {
             restApi.getRegistrationPaymentsFromIndex(index)
             .success(function (data, status, headers, config) {
-                vm.rmaxIndex = data.maxIndex;
-                if (vm.rmaxIndex == 0) {
-                    vm.rindex = 0;
-                    vm.registrationList = [];
-                }
-                else if (vm.rindex >= vm.rmaxIndex) {
-                    vm.rindex = vm.rmaxIndex - 1;
-                    _getRegistrationListFromIndex(vm.rindex);
-                }
-                else {
-                    vm.registrationList = data.results;
-                }
-
-                /*if (vm.rfirstPage) {
-                    vm.rfirstPage = false;
+                if (data != null && data != "") {
                     vm.rmaxIndex = data.maxIndex;
-                }*/
+                    if (vm.rmaxIndex == 0) {
+                        vm.rindex = 0;
+                        vm.registrationList = [];
+                    }
+                    else if (vm.rindex >= vm.rmaxIndex) {
+                        vm.rindex = vm.rmaxIndex - 1;
+                        _getRegistrationListFromIndex(vm.rindex);
+                    }
+                    else {
+                        vm.registrationList = data.results;
+                    }
+                }
+                
             })
            .error(function (data, status, headers, config) {
            });
@@ -125,22 +124,24 @@
         function _getSponsorListFromIndex(index) {
             restApi.getSponsorPaymentsFromIndex(index)
             .success(function (data, status, headers, config) {
-                vm.smaxIndex = data.maxIndex;
-                if (vm.smaxIndex == 0) {
-                    vm.sindex = 0;
-                    vm.sponsorList = [];
-                }
-                else if (vm.sindex >= vm.smaxIndex) {
-                    vm.sindex = vm.smaxIndex - 1;
-                    _getSponsorListFromIndex(vm.sindex);
-                }
-                else {
-                    vm.sponsorList = data.results;
-                }
-                /*if (vm.sfirstPage) {
-                    vm.sfirstPage = false;
+                if (data != null && data != "") {
                     vm.smaxIndex = data.maxIndex;
-                }*/
+                    if (vm.smaxIndex == 0) {
+                        vm.sindex = 0;
+                        vm.sponsorList = [];
+                    }
+                    else if (vm.sindex >= vm.smaxIndex) {
+                        vm.sindex = vm.smaxIndex - 1;
+                        _getSponsorListFromIndex(vm.sindex);
+                    }
+                    else {
+                        vm.sponsorList = data.results;
+                    }
+                    /*if (vm.sfirstPage) {
+                        vm.sfirstPage = false;
+                        vm.smaxIndex = data.maxIndex;
+                    }*/
+                }
             })
            .error(function (data, status, headers, config) {
            });
@@ -172,57 +173,36 @@
 
         //Report Method
         function _downloadBillReport() {
+            vm.loading = true;
             vm.downloadLoading = true;
             restApi.getBillReport(0)
             .success(function (data, status, headers, config) {
-                var report = data.results;
-                var maxIndex = data.maxIndex;
-                var i;
-                for (i = 1; i < maxIndex; i++) {
-                    restApi.getBillReport(i)
-                    .success(function (data, status, headers, config) {                   
-                        report = report.concat(data.results);
-                    })
-                    .error(function (data, status, headers, config) {
-                    });
-                }
+                if (data != null && data != "") {
+                    var report = data.results;
+                    var maxIndex = data.maxIndex;
+                    vm.downloadLoading = false;
 
-                vm.totalAmount = data.totalAmount;
-                if (report != null) {
-                    report.forEach(function (pay, index) {
-                        vm.copy[index] = {
-                            "Transaction ID": pay.transactionID,
-                            "Date": pay.paymentDate,
-                            "Name": pay.name,
-                            "Affiliation": pay.affiliation,
-                            "User Type": pay.userType,
-                            "Amount Paid ($)": pay.amountPaid,
-                            "Payment Method": pay.paymentMethod
-                        }
-                    });
-                }
+                    var i;
+                    for (i = 1; i < maxIndex; i++) {
 
-                doc = new jsPDF('p', 'pt', 'ledger', true);
-                doc.setFont("times", "normal");
-                doc.setFontSize(fontSize);
-                doc.text(30, 20, "Caribbean Celebration of Women in Computing- Bill Report");
-                var d = new Date();
-                var n = d.toDateString();
-                doc.text(425, 20, n);
-                height = doc.drawTable(vm.copy, {
-                    xstart: 50,
-                    ystart: 50,
-                    tablestart: 50,
-                    marginright: 40,
-                    xOffset: 10,
-                    yOffset: 10
-                });
-                doc.text(50, height + 20, "Total Amount: $" + vm.totalAmount);
-                vm.downloadLoading = false;
-                doc.save('billreport.pdf');
-                vm.copy = [];
+                        restApi.getBillReport(i)
+                        .success(function (data, status, headers, config) {
+                            report = report.concat(data.results);
+                        })
+                        .error(function (data, status, headers, config) {
+                        });
+                    }
+
+                    vm.loading = false;
+
+                    if (report != "" && report != undefined) {
+                        var blob = new Blob([report], { type: "text/plain;charset=utf-8" });
+                        saveAs(blob, "report.csv");
+                    }
+                }
             })
            .error(function (data, status, headers, config) {
+               vm.loading = false;
                vm.downloadLoading = false;
            });
         }

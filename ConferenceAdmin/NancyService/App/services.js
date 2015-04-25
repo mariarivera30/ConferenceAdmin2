@@ -82,6 +82,7 @@
             postNewEvaluator: _postNewEvaluator,
             getHome: _getHome,
             getHomeImage: _getHomeImage,
+            getWebsiteLogo: _getWebsiteLogo,
             saveHome: _saveHome,
             removeFile: _removeFile,
             getVenue: _getVenue,
@@ -93,6 +94,7 @@
             saveRegistrationInfo: _saveRegistrationInfo,
             getRegistrationDetails: _getRegistrationDetails,
             getDeadlines: _getDeadlines,
+            getInterfaceDeadlines: _getInterfaceDeadlines,
             saveDeadlines: _saveDeadlines,
             getPlanningCommittee: _getPlanningCommittee,
             postNewCommittee: _postNewCommittee,
@@ -121,6 +123,7 @@
             postFinalSubmission: _postFinalSubmission,
             getAllSubmissions: _getAllSubmissions,
             getBillReport: _getBillReport,
+            getAttendanceReport: _getAttendanceReport,
             getRegistrationPaymentsFromIndex: _getRegistrationPaymentsFromIndex,
             getSponsorPaymentsFromIndex: _getSponsorPaymentsFromIndex,
             getEvaluationsForSubmission: _getEvaluationsForSubmission,
@@ -155,7 +158,8 @@
             getEvaluationTemplate: _getEvaluationTemplate,
             addFileToSubmission: _addFileToSubmission,
             manageExistingFiles: _manageExistingFiles,
-            createFinalSubmissionFiles: _createFinalSubmissionFiles
+            createFinalSubmissionFiles: _createFinalSubmissionFiles,
+            sendContactEmail: _sendContactEmail
         };
 
         return service;
@@ -384,6 +388,10 @@
         function _getDates() {
             return $http.get('/admin/getDates');
         };
+
+        function _getAttendanceReport(data) {
+            return $http.get('admin/getAttendanceReport/' + data);
+        };
         //-----------------------------------GUESTS-----------------------------------
         //get guest list for admin
         function _getGuestList(data) {
@@ -544,6 +552,10 @@
             return $http.get('/admin/getHomeImage');
         };
 
+        function _getWebsiteLogo() {
+            return $http.get('/admin/getWebsiteLogo');
+        };
+
         function _saveHome(data) {
             return $http.put('/admin/saveHome', data);
         };
@@ -568,6 +580,10 @@
             return $http.put('/admin/saveContact', data);
         };
 
+        function _sendContactEmail(data) {
+            return $http.post('/admin/sendContactEmail', data);
+        };
+
         function _getParticipation() {
             return $http.get('/admin/getParticipation');
         };
@@ -586,6 +602,10 @@
 
         function _getDeadlines() {
             return $http.get('/admin/getDeadlines');
+        };
+
+        function _getInterfaceDeadlines() {
+            return $http.get('/admin/getInterfaceDeadlines');
         };
 
         function _saveDeadlines(data) {
@@ -621,7 +641,7 @@
         };
 
         function _saveInstructions(data) {
-            return $http.put('/admin/saveInstructions/' + data);
+            return $http.put('/admin/saveInstructions', data);
         };
 
         function _getInstructions() {

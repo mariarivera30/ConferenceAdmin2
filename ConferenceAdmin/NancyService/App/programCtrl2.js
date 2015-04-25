@@ -32,7 +32,7 @@
 
             restApi.getProgramDocument()
                 .success(function (data, status, headers, config) {
-                    if (data != null) {
+                    if (data != null && data != "") {
                         vm.program = data.program;
                         if (vm.program != undefined && vm.program != "") {
                             window.open(vm.program);
@@ -48,7 +48,7 @@
         function _viewAbstract() {
             restApi.getAbstractDocument()
                .success(function (data, status, headers, config) {
-                   if (data != null) {
+                   if (data != null && data != "") {
                        vm.abstracts = data.abstracts;
                        if (vm.abstracts != undefined && vm.abstracts != "") {
                            window.open(vm.abstracts);

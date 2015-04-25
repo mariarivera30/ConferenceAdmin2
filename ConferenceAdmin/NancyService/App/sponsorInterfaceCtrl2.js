@@ -37,7 +37,7 @@
         function _getBenefits() {
             restApi.getAllSponsorBenefits()
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data != "") {
                     vm.idiamondAmount = data.diamondAmount;
                     vm.idiamondBenefits = data.diamondBenefits;
                     vm.iplatinumAmount = data.platinumAmount;
@@ -60,7 +60,7 @@
         function _getInstructions() {
             restApi.getInstructions()
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data != "") {
                     vm.instructions = data;
                 }
             })

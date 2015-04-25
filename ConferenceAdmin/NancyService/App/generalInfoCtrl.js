@@ -46,8 +46,7 @@
         }
 
         function _reset() {
-            if (vm.temp != null) {
-
+            if (vm.temp != null && vm.temp != "") {
                 vm.conferenceAcronym = vm.temp.conferenceAcronym;
                 vm.conferenceName = vm.temp.conferenceName;
                 vm.dateFrom = new Date(vm.temp.dateFrom.split('/')[2], vm.temp.dateFrom.split('/')[0] - 1, vm.temp.dateFrom.split('/')[1]); //Date(yyyy,mm-1,dd)
@@ -101,7 +100,7 @@
         function _getGeneralInfo() {
             restApi.getGeneralInfo()
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data != "") {
                     vm.temp = data;
                     vm.iconferenceAcronym = data.conferenceAcronym;
                     vm.iconferenceName = data.conferenceName;
@@ -112,7 +111,23 @@
                     vm.dateFrom = new Date(data.dateFrom.split('/')[2], data.dateFrom.split('/')[0] - 1, data.dateFrom.split('/')[1]); //Date(yyyy,mm-1,dd)
                     vm.dateTo = new Date(data.dateTo.split('/')[2], data.dateTo.split('/')[0] - 1, data.dateTo.split('/')[1]);
 
+                    _getImage();
+
+                    load();
+                }
+            })
+
+            .error(function (error) {
+
+            });
+        }
+
+        function _getImage() {
+            restApi.getWebsiteLogo()
+            .success(function (data, status, headers, config) {
+                if (data != null && data != "") {
                     vm.logo = data.logo;
+                    vm.temp.logo = data.logo;
 
                     if (vm.logo != "" && vm.logo != undefined) {
                         $scope.showContent(vm.logo);
@@ -120,8 +135,6 @@
                     else {
                         vm.imgExist = false;
                     }
-
-                    load();
                 }
             })
 

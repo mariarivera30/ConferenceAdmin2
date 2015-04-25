@@ -5,29 +5,32 @@
         </div>
         <div class="col-md-8">
             <section>
-                <p ng-show="vm.icontactAdditionalInfo">{{vm.icontactAdditionalInfo}}</p>
-                <form role="form">
+                <p ng-show="vm.icontactAdditionalInfo" parse-url="props" ng-model="vm.icontactAdditionalInfo"></p>
+                <form role="form" name="contactForm" novalidate>
                     <div class="row">
-                        <div class="form-group col-md-4">
-                            <label for="InputName" class="black-label">Name</label>
-                            <input type="email" class="form-control" id="InputName">
+                        <div class="col-md-4">
+                            <label for="name" class="black-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" ng-model="vm.senderName" required>
+                            <label class="help-inline" ng-show="contactForm.name.$invalid && !contactForm.name.$pristine">Name is required.</label>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="form-group col-md-4">
-                            <label for="InputEmail1" class="black-label">Email address</label>
-                            <input type="email" class="form-control" id="InputEmail1">
+                        <div class="col-md-4">
+                            <label for="email" class="black-label">Email address</label>
+                            <input type="email" class="form-control" id="email" name="email" ng-model="vm.senderEmail" required>
+                            <label class="help-inline" ng-show="contactForm.email.$invalid && !contactForm.email.$pristine">Email is required.</label>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="form-group col-md-8">
-                            <label for="InputMessage" class="black-label">Message</label>
-                            <textarea class="form-control" id="InputMessage" rows="8"></textarea>
+                            <label for="message" class="black-label">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="8" ng-model="vm.senderMessage" required></textarea>
+                            <label class="help-inline" ng-show="contactForm.message.$invalid && !contactForm.message.$pristine">A message is required.</label>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-ar btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-ar btn-primary btn-padding" ng-click="vm.sendEmail()" ng-disabled="contactForm.$invalid || vm.iloading">Submit</button>
                     <div class="clearfix"></div>
                 </form>
             </section>
@@ -45,6 +48,44 @@
                     </div>
                 </div>
             </section>
+        </div>
+    </div>
+
+    <div class="modal fade" id="emailConfirm" tabindex="-1" role="dialog" aria-labelledby="emailConfirmLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="emailConfirmLabel">Email Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Your message has been sent.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="emailError" tabindex="-1" role="dialog" aria-labelledby="emailErrorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="emailErrorLabel">Email Error</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Your message has not been sent. Try again later, or send an email to: {{vm.icontactEmail}}.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -66,7 +66,9 @@
         function _getCommittee() {
             restApi.getPlanningCommittee()
            .success(function (data, status, headers, config) {
-               vm.planningCommitteeList = data;
+               if (data != null && data != "") {
+                   vm.planningCommitteeList = data;
+               }
                load();
            })
           .error(function (data, status, headers, config) {
@@ -85,7 +87,7 @@
 
                 restApi.postNewCommittee(committee)
                     .success(function (data, status, headers, config) {
-                        if (data.firstName != null) {
+                        if (data.firstName != null && data.firstName != "") {
                             vm.planningCommitteeList.push(data);
                             _clear();
                             $("#addConfirm").modal('show');
@@ -114,11 +116,13 @@
                 }
                 restApi.editCommittee(info)
                 .success(function (data, status, headers, config) {
-                    vm.planningCommitteeList.forEach(function (s, index) {
-                        if (s.committeeID == vm.committeeID) {
-                            s.description = vm.position;
-                        }
-                    });
+                    if (data != null && data != "") {
+                        vm.planningCommitteeList.forEach(function (s, index) {
+                            if (s.committeeID == vm.committeeID) {
+                                s.description = vm.position;
+                            }
+                        });
+                    }
                     vm.loading = false;
                     $("#editPosition").modal('hide');
                     $("#editConfirm").modal('show');

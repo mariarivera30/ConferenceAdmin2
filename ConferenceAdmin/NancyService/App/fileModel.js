@@ -36,6 +36,27 @@ angular.module('app').directive('onReadFile', function ($parse) {
     };
 });
 
+angular.module('app').directive('parseUrl', function () {
+    var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        replace: true,
+        scope: {
+            props: '=parseUrl',
+            ngModel: '=ngModel'
+        },
+        link: function compile(scope, element, attrs, controller) {
+            scope.$watch('ngModel', function (value) {
+                if (value != undefined) {
+                    var html = value.replace(urlPattern, '<a target="' + '_blank' + '" href="$&">$&</a>');
+                    element.html(html);
+                }
+            });
+        }
+    };
+});
+
 
 
 

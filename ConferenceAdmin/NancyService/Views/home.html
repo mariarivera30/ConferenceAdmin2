@@ -5,9 +5,9 @@
             <section>
                 <img ng-show="vm.iimg" src="{{vm.iimg}}" class="img-responsive imageborder" alt="Image" id="homeImage">
                 <h4>{{vm.ihomeTitle1}}</h4>
-                <p class="p-lg">{{vm.ihomeParagraph1}}</p>
+                <p class="p-lg" parse-url="props" ng-model="vm.ihomeParagraph1"></p>
                 <h4>{{vm.ihomeTitle2}}</h4>
-                <p class="p-lg">{{vm.ihomeParagraph2}}</p>
+                <p class="p-lg" parse-url="props" ng-model="vm.ihomeParagraph2"></p>
             </section>
         </div>
     </div> <!-- row -->

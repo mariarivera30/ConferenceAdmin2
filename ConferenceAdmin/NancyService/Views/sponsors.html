@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <p ng-hide="vm.instructions || vm.idiamondAmount || vm.iplatinumAmount || vm.igoldAmount || vm.isilverAmount || vm.ibronzeAmount">No content to display.</p>
-                <p>{{vm.instructions}}</p><br />
+                <p parse-url="props" ng-model="vm.instructions"></p><br />
             </div>
 
             <div class="col-lg-3 col-sm-6" ng-show="vm.idiamondAmount">

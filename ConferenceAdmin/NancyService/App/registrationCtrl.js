@@ -280,65 +280,38 @@
         }
 
         function _downloadAttendanceList() {
+            //vm.loading = true;
+            //vm.downloadLoading = true;
+            restApi.getAttendanceReport(0)
+            .success(function (data, status, headers, config) {
+                if (data != null && data != "") {
+                    var report = data.results;
+                    var maxIndex = data.maxIndex;
+                    //vm.downloadLoading = false;
 
-            var copy = [];
+                    var i;
+                    for (i = 1; i < maxIndex; i++) {
 
-            vm.registrationsList.forEach(function (reg, index) {
+                        restApi.getBillReport(i)
+                        .success(function (data, status, headers, config) {
+                            report = report.concat(data.results);
+                        })
+                        .error(function (data, status, headers, config) {
+                        });
+                    }
 
-                var dates = "";
+                    //vm.loading = false;
 
-                if (reg.date1) {
-                    if (vm.datesList.length >= 1) {
-                        dates += vm.datesList[0].split(',').slice(1);
-                        if (reg.date2 || reg.date3 && vm.datesList.length >= 2) {
-                            dates += " &";
-                        }
+                    if (report != "" && report != undefined) {
+                        var blob = new Blob([report], { type: "text/plain;charset=utf-8" });
+                        saveAs(blob, "attendancereport.csv");
                     }
                 }
-
-                if (reg.date2) {
-                    if (vm.datesList.length >= 2) {
-                        dates += vm.datesList[1].split(',').slice(1);
-                        if (reg.date3 && vm.datesList.length >= 3) {
-                            dates += " &";
-                        }
-                    }
-                }
-
-                if (reg.date3) {
-                    if (vm.datesList.length >= 3) {
-                        dates += vm.datesList[2].split(',').slice(1);
-                    }
-                }
-
-                copy[index] = {
-                    "Name": reg.firstname + " " + reg.lastname,
-                    "Affiliation": reg.affiliationName,
-                    "User Type": reg.usertypeid,
-                    "Participation Days": dates,
-                    "Notes": reg.notes
-                }
-            });
-
-
-            var fontSize = 8, height = 0, doc;
-            doc = new jsPDF('p', 'pt', 'ledger', true);
-            doc.setFont("times", "normal");
-            doc.setFontSize(fontSize);
-            doc.text(30, 20, "Caribbean Celebration of Women in Computing- Registration Report");
-            var d = new Date();
-            var n = d.toDateString();
-            doc.text(425, 20, n);
-            height = doc.drawTable(copy, {
-                xstart: 50,
-                ystart: 50,
-                tablestart: 50,
-                marginright: 40,
-                xOffset: 10,
-                yOffset: 10
-            });
-            doc.text(50, height + 20, '');
-            doc.save('registrationreport.pdf');
+            })
+           .error(function (data, status, headers, config) {
+               //vm.loading = false;
+               //vm.downloadLoading = false;
+           });
         }
 
         function _searchRegistration() {

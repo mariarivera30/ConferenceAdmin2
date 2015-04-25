@@ -515,6 +515,12 @@ namespace NancyService.Modules
                 return Response.AsJson(list);
             };
 
+            Get["/getAttendanceReport/{index:int}"] = parameters =>
+            {
+                int index = parameters.index;
+                return Response.AsJson(reportManager.getAttendanceReport(index));
+            };
+
             //-------------------------------------GUESTS---------------------------------------------
             //Guest list for admins
             Get["/getGuestList/{index:int}"] = parameters =>
@@ -582,6 +588,11 @@ namespace NancyService.Modules
                 return Response.AsJson(webManager.getHomeImage());
             };
 
+            Get["/getWebsiteLogo"] = parameters =>
+            {
+                return Response.AsJson(webManager.getWebsiteLogo());
+            };
+
             Put["/saveHome"] = parameters =>
             {
                 var home = this.Bind<HomeQuery>();
@@ -615,6 +626,12 @@ namespace NancyService.Modules
                 return webManager.saveContact(contact);
             };
 
+            Post["/sendContactEmail"] = parameters =>
+            {
+                var emailInfo = this.Bind<ContactEmailQuery>();
+                return Response.AsJson(webManager.sendContactEmail(emailInfo));
+            };
+
             Get["/getParticipation"] = parameters =>
             {
                 return Response.AsJson(webManager.getParticipation());
@@ -640,6 +657,11 @@ namespace NancyService.Modules
             Get["/getDeadlines"] = parameters =>
             {
                 return Response.AsJson(webManager.getDeadlines());
+            };
+
+            Get["/getInterfaceDeadlines"] = parameters =>
+            {
+                return Response.AsJson(webManager.getInterfaceDeadlines());
             };
 
             Put["/saveDeadlines"] = parameters =>
@@ -687,14 +709,11 @@ namespace NancyService.Modules
                 return webManager.saveSponsorBenefits(sponsor);
             };
 
+
             Put["/saveInstructions"] = parameters =>
             {
-                return webManager.saveInstructions("");
-            };
-
-            Put["/saveInstructions/{data}"] = parameters =>
-            {
-                return webManager.saveInstructions(parameters.data);
+                var info = this.Bind<SponsorInterfaceBenefits>();
+                return webManager.saveInstructions(info);
             };
 
             Get["/getSponsorInstructions"] = parameters =>

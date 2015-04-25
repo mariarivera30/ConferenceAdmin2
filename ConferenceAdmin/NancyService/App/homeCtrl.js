@@ -88,7 +88,7 @@
         function _getHome() {
             restApi.getHome()
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data != "") {
                     vm.temp = data;
                     vm.homeMainTitle = data.homeMainTitle;
                     vm.homeTitle1 = data.homeTitle1;
@@ -110,8 +110,9 @@
         function _getImage() {
             restApi.getHomeImage()
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data != "") {
                     vm.img = data.image;
+                    vm.temp.image = data.image;
 
                     if (vm.img != "" && vm.img != undefined) {
                         $scope.showContent(vm.img);
@@ -141,7 +142,7 @@
             }
             restApi.saveHome(newHome)
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data != "") {
 
                     vm.temp.homeMainTitle = newHome.homeMainTitle;
                     vm.temp.homeTitle1 = newHome.homeTitle1;

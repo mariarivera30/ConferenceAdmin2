@@ -13,7 +13,7 @@ namespace NancyService.Models
         public int submissiontypeID { get; set; }
         public string name { get; set; }
         public string description { get; set; }
-        public DateTime deadline { get; set; }
+        public string deadline { get; set; }
         public virtual ICollection<submission> submissions { get; set; }
     }
 }

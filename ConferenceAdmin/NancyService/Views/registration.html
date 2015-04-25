@@ -3,9 +3,9 @@
         <div class="col-md-12">
             <h2 class="section-title no-margin-top">Registration Fees</h2>
             <p ng-hide="vm.registrationNotes || vm.registrationTitle1 || vm.registrationParagraph1 || vm.registrationTitle2 || vm.registrationParagraph2 || vm.undergraduateStudentFee || vm.undergraduateStudentLateFee || vm.graduateStudentFee || vm.graduateStudentLateFee || vm.highSchoolStudentFee || vm.highSchoolStudentLateFee || vm.companionStudentFee || vm.companionStudentLateFee || vm.professionalAcademyFee || vm.professionalAcademyLateFee || vm.professionalIndustryFee || vm.professionalIndustryLateFee">No content to display.</p>
-            <h4>{{vm.iregistrationNotes}} </h4>
+            <h4 parse-url="props" ng-model="vm.iregistrationNotes"></h4>
             <h5 class="black-label">{{vm.iregistrationTitle1}}</h5>
-            <p class="p-lg">{{vm.iregistrationParagraph1}}</p>
+            <p class="p-lg" parse-url="props" ng-model="vm.iregistrationParagraph1"></p>
         </div>
 
         <div class="col-md-8">
@@ -95,7 +95,7 @@
 
         <div class="col-md-12">
             <h5 class="black-label">{{vm.iregistrationTitle2}}</h5>
-            <p class="p-lg">{{vm.iregistrationParagraph2}}</p>
+            <p class="p-lg" parse-url="props" ng-model="vm.iregistrationParagraph2"></p>
         </div>
 
     </div>

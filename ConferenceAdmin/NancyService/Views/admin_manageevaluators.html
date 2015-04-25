@@ -15,12 +15,10 @@
     <div class="col-lg-12 hide-until-loaded" id="body">
         <div class="panel-group" id="accordion" ng-show="!vm.showResults">
             <div class="panel panel-default" id="panel1">
-                <div class="panel-heading" data-toggle="collapse" data-target="#collapseOne">
-                    <h4 class="panel-title">
-                        <a href="">
-                            Pending Applications for Evaluator
-                        </a>
-                    </h4>
+                <div class="panel-heading panel-heading-link">
+                    <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" aria-expanded="false">
+                        Pending Applications for Evaluator
+                    </a>
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse in">
                     <div class="panel-body">
@@ -66,14 +64,12 @@
                 </div>
             </div>
             <div class="panel panel-default" id="panel2">
-                <div class="panel-heading" data-toggle="collapse" data-target="#collapseTwo">
-                    <h4 class="panel-title">
-                        <a href="">
-                            Past Applications for Evaluator
-                        </a>
-                    </h4>
+                <div class="panel-heading panel-heading-link">
+                    <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo" aria-expanded="false" class="collapsed">
+                        Past Applications for Evaluator
+                    </a>
                 </div>
-                <div id="collapseTwo" class="panel-collapse collapse in">
+                <div id="collapseTwo" class="panel-collapse collapse">
                     <div class="panel-body">
                         <div ng-hide="vm.evaluatorsList.length">
                             <p class="title-field">No content to display.</p>

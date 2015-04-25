@@ -53,7 +53,7 @@
         function _getVenue() {
             restApi.getVenue()
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data != "") {
                     vm.temp = data;
                     vm.ivenueTitle1 = data.venueTitle1;
                     vm.ivenueParagraph1 = data.venueParagraph1;

@@ -139,7 +139,10 @@
 
         function _saveInstructions() {
             vm.loading = true;
-            restApi.saveInstructions(vm.instructions)
+            var info = {
+                instructions: vm.instructions
+            }
+            restApi.saveInstructions(info)
             .success(function (data, status, headers, config) {
                 if (data) {
                     vm.temp = vm.instructions;

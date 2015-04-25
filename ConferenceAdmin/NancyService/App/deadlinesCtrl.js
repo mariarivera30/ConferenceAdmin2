@@ -24,61 +24,56 @@
         vm.deadlineDate4;
         vm.deadline5;
         vm.deadlineDate5;
-        vm.submissionDeadline;
+
+        vm.sponsorDeadline;
+        vm.extendedPaperDeadline;
+        vm.posterDeadline;
+        vm.panelDeadline;
+        vm.bofDeadline;
+        vm.workshopDeadline;
+
         vm.loading = false;
 
-        //Interface
-        vm.ideadline1;
-        vm.ideadlineDate1;
-        vm.ideadline2;
-        vm.ideadlineDate2;
-        vm.ideadline3;
-        vm.ideadlineDate3;
-        vm.ideadline4;
-        vm.ideadlineDate4;
-        vm.ideadline5;
-        vm.ideadlineDate5;
-
-        //Functions
+         //Functions
         vm.getDeadlines = _getDeadlines;
         vm.saveDeadlines = _saveDeadlines;
         vm.reset = _reset;
 
         _getDeadlines();
-
+        
         function activate() {
 
         }
 
         function _reset() {
-            vm.deadline1 = vm.temp.deadline1;
-            vm.deadlineDate1 = new Date(vm.temp.deadlineDate1.split('/')[2], vm.temp.deadlineDate1.split('/')[0] - 1, vm.temp.deadlineDate1.split('/')[1]);
-            vm.deadline2 = vm.temp.deadline2;
-            vm.deadlineDate2 = new Date(vm.temp.deadlineDate2.split('/')[2], vm.temp.deadlineDate2.split('/')[0] - 1, vm.temp.deadlineDate2.split('/')[1]);
-            vm.deadline3 = vm.temp.deadline3;
-            vm.deadlineDate3 = new Date(vm.temp.deadlineDate3.split('/')[2], vm.temp.deadlineDate3.split('/')[0] - 1, vm.temp.deadlineDate3.split('/')[1]);
-            vm.deadline4 = vm.temp.deadline4;
-            vm.deadlineDate4 = new Date(vm.temp.deadlineDate4.split('/')[2], vm.temp.deadlineDate4.split('/')[0] - 1, vm.temp.deadlineDate4.split('/')[1]);
-            vm.deadline5 = vm.temp.deadline5;
-            vm.deadlineDate5 = new Date(vm.temp.deadlineDate5.split('/')[2], vm.temp.deadlineDate5.split('/')[0] - 1, vm.temp.deadlineDate5.split('/')[1]);
-            vm.submissionDeadline = new Date(vm.temp.submissionDeadline.split('/')[2], vm.temp.submissionDeadline.split('/')[0] - 1, vm.temp.submissionDeadline.split('/')[1]);
+            if (vm.temp != null && vm.temp != "") {
+                vm.deadline1 = vm.temp.deadline1;
+                vm.deadlineDate1 = new Date(vm.temp.deadlineDate1.split('/')[2], vm.temp.deadlineDate1.split('/')[0] - 1, vm.temp.deadlineDate1.split('/')[1]);
+                vm.deadline2 = vm.temp.deadline2;
+                vm.deadlineDate2 = new Date(vm.temp.deadlineDate2.split('/')[2], vm.temp.deadlineDate2.split('/')[0] - 1, vm.temp.deadlineDate2.split('/')[1]);
+                vm.deadline3 = vm.temp.deadline3;
+                vm.deadlineDate3 = new Date(vm.temp.deadlineDate3.split('/')[2], vm.temp.deadlineDate3.split('/')[0] - 1, vm.temp.deadlineDate3.split('/')[1]);
+                vm.deadline4 = vm.temp.deadline4;
+                vm.deadlineDate4 = new Date(vm.temp.deadlineDate4.split('/')[2], vm.temp.deadlineDate4.split('/')[0] - 1, vm.temp.deadlineDate4.split('/')[1]);
+                vm.deadline5 = vm.temp.deadline5;
+                vm.deadlineDate5 = new Date(vm.temp.deadlineDate5.split('/')[2], vm.temp.deadlineDate5.split('/')[0] - 1, vm.temp.deadlineDate5.split('/')[1]);
+                vm.sponsorDeadline = new Date(vm.temp.sponsorDeadline.split('/')[2], vm.temp.sponsorDeadline.split('/')[0] - 1, vm.temp.sponsorDeadline.split('/')[1]);
+
+                //Papers Deadlines
+                vm.extendedPaperDeadline = new Date(vm.temp.extendedPaperDeadline.split('/')[2], vm.temp.extendedPaperDeadline.split('/')[0] - 1, vm.temp.extendedPaperDeadline.split('/')[1]);
+                vm.posterDeadline = new Date(vm.temp.posterDeadline.split('/')[2], vm.temp.posterDeadline.split('/')[0] - 1, vm.temp.posterDeadline.split('/')[1]);
+                vm.panelDeadline = new Date(vm.temp.panelDeadline.split('/')[2], vm.temp.panelDeadline.split('/')[0] - 1, vm.temp.panelDeadline.split('/')[1]);
+                vm.bofDeadline = new Date(vm.temp.bofDeadline.split('/')[2], vm.temp.bofDeadline.split('/')[0] - 1, vm.temp.bofDeadline.split('/')[1]);
+                vm.workshopDeadline = new Date(vm.temp.workshopDeadline.split('/')[2], vm.temp.workshopDeadline.split('/')[0] - 1, vm.temp.workshopDeadline.split('/')[1]);
+
+            }
         }
 
         function _getDeadlines() {
             restApi.getDeadlines()
             .success(function (data, status, headers, config) {
-                if (data != null) {
+                if (data != null && data != "") {
                     vm.temp = data;
-                    vm.ideadline1 = data.deadline1;
-                    vm.ideadlineDate1 = data.deadlineDate1;
-                    vm.ideadline2 = data.deadline2;
-                    vm.ideadlineDate2 = data.deadlineDate2;
-                    vm.ideadline3 = data.deadline3;
-                    vm.ideadlineDate3 = data.deadlineDate3;
-                    vm.ideadline4 = data.deadline4;
-                    vm.ideadlineDate4 = data.deadlineDate4;
-                    vm.ideadline5 = data.deadline5;
-                    vm.ideadlineDate5 = data.deadlineDate5;
 
                     vm.deadline1 = data.deadline1;
                     vm.deadlineDate1 = new Date(data.deadlineDate1.split('/')[2], data.deadlineDate1.split('/')[0] - 1, data.deadlineDate1.split('/')[1]); //Date(yyyy,mm-1,dd)
@@ -90,7 +85,14 @@
                     vm.deadlineDate4 = new Date(data.deadlineDate4.split('/')[2], data.deadlineDate4.split('/')[0] - 1, data.deadlineDate4.split('/')[1]);
                     vm.deadline5 = data.deadline5;
                     vm.deadlineDate5 = new Date(data.deadlineDate5.split('/')[2], data.deadlineDate5.split('/')[0] - 1, data.deadlineDate5.split('/')[1]);
-                    vm.submissionDeadline = new Date(data.submissionDeadline.split('/')[2], data.submissionDeadline.split('/')[0] - 1, data.submissionDeadline.split('/')[1]);
+                    vm.sponsorDeadline = new Date(data.sponsorDeadline.split('/')[2], data.sponsorDeadline.split('/')[0] - 1, data.sponsorDeadline.split('/')[1]);
+
+                    //Papers Deadlines
+                    vm.extendedPaperDeadline = new Date(data.extendedPaperDeadline.split('/')[2], data.extendedPaperDeadline.split('/')[0] - 1, data.extendedPaperDeadline.split('/')[1]);
+                    vm.posterDeadline = new Date(data.posterDeadline.split('/')[2], data.posterDeadline.split('/')[0] - 1, data.posterDeadline.split('/')[1]);
+                    vm.panelDeadline = new Date(data.panelDeadline.split('/')[2], data.panelDeadline.split('/')[0] - 1, data.panelDeadline.split('/')[1]);
+                    vm.bofDeadline = new Date(data.bofDeadline.split('/')[2], data.bofDeadline.split('/')[0] - 1, data.bofDeadline.split('/')[1]);
+                    vm.workshopDeadline = new Date(data.workshopDeadline.split('/')[2], data.workshopDeadline.split('/')[0] - 1, data.workshopDeadline.split('/')[1]);
 
                     load();
                 }
@@ -101,9 +103,12 @@
             });
         }
 
-        function _saveDeadlines() {
-            vm.loading = true;
-            var d1 = ""; var d2 = ""; var d3 = ""; var d4 = ""; var d5 = ""; var d6 = "";
+         function _saveDeadlines() {
+             vm.loading = true;
+
+            var d1 = "", d2 = "", d3 = "", d4 = "", d5 = "", d6 = "";
+
+            var s1 = "", s2 = "", s3 = "", s4 = "", s5 = "";
 
             if (vm.deadlineDate1 == null || vm.deadlineDate1 == "Invalid Date") {
                 vm.deadlineDate1 = new Date("");
@@ -140,11 +145,47 @@
                 d5 = (vm.deadlineDate5.getUTCMonth() + 1) + "/" + vm.deadlineDate5.getUTCDate() + "/" + vm.deadlineDate5.getUTCFullYear();
             }
 
-            if (vm.submissionDeadline == null || vm.submissionDeadline == "Invalid Date") {
-                vm.submissionDeadline = new Date("");
+            if (vm.sponsorDeadline == null || vm.sponsorDeadline == "Invalid Date") {
+                vm.sponsorDeadline = new Date("");
             }
             else {
-                d6 = (vm.submissionDeadline.getUTCMonth() + 1) + "/" + vm.submissionDeadline.getUTCDate() + "/" + vm.submissionDeadline.getUTCFullYear();
+                d6 = (vm.sponsorDeadline.getUTCMonth() + 1) + "/" + vm.sponsorDeadline.getUTCDate() + "/" + vm.sponsorDeadline.getUTCFullYear();
+            }
+
+             //Submission deadlines
+            if (vm.extendedPaperDeadline == null || vm.extendedPaperDeadline == "Invalid Date") {
+                vm.extendedPaperDeadline = new Date("");
+            }
+            else {
+                s1 = (vm.extendedPaperDeadline.getUTCMonth() + 1) + "/" + vm.extendedPaperDeadline.getUTCDate() + "/" + vm.extendedPaperDeadline.getUTCFullYear();
+            }
+
+            if (vm.posterDeadline == null || vm.posterDeadline == "Invalid Date") {
+                vm.posterDeadline = new Date("");
+            }
+            else {
+                s2 = (vm.posterDeadline.getUTCMonth() + 1) + "/" + vm.posterDeadline.getUTCDate() + "/" + vm.posterDeadline.getUTCFullYear();
+            }
+
+            if (vm.panelDeadline == null || vm.panelDeadline == "Invalid Date") {
+                vm.panelDeadline = new Date("");
+            }
+            else {
+                s3 = (vm.panelDeadline.getUTCMonth() + 1) + "/" + vm.panelDeadline.getUTCDate() + "/" + vm.panelDeadline.getUTCFullYear();
+            }
+
+            if (vm.bofDeadline == null || vm.bofDeadline == "Invalid Date") {
+                vm.bofDeadline = new Date("");
+            }
+            else {
+                s4 = (vm.bofDeadline.getUTCMonth() + 1) + "/" + vm.bofDeadline.getUTCDate() + "/" + vm.bofDeadline.getUTCFullYear();
+            }
+
+            if (vm.workshopDeadline == null || vm.workshopDeadline == "Invalid Date") {
+                vm.workshopDeadline = new Date("");
+            }
+            else {
+                s5 = (vm.workshopDeadline.getUTCMonth() + 1) + "/" + vm.workshopDeadline.getUTCDate() + "/" + vm.workshopDeadline.getUTCFullYear();
             }
 
             var newDeadlines = {
@@ -158,7 +199,12 @@
                 deadlineDate4: d4,
                 deadline5: vm.deadline5,
                 deadlineDate5: d5,
-                submissionDeadline: d6
+                sponsorDeadline: d6,
+                extendedPaperDeadline: s1,
+                posterDeadline:s2,
+                panelDeadline:s3,
+                bofDeadline:s4,
+                workshopDeadline:s5
             }
             //alert(vm.deadlineDate1.toLocaleDateString());
             //alert((vm.deadlineDate1.getUTCMonth()+1) + "/" + vm.deadlineDate1.getUTCDate() + "/" + vm.deadlineDate1.getUTCFullYear());
@@ -177,7 +223,7 @@
             });
         }
 
-        //Avoid flashing when page loads
+         //Avoid flashing when page loads
         var load = function () {
             document.getElementById("body").style.visibility = "visible";
         };

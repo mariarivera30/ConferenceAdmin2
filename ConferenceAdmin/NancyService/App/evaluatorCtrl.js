@@ -84,25 +84,27 @@
         function _getPendingListFromIndex(index) {
             restApi.getPendingListFromIndex(index)
             .success(function (data, status, headers, config) {
-                vm.pmaxIndex = data.maxIndex;
-                if (vm.pmaxIndex == 0) {
-                    vm.pindex = 0;
-                    vm.pendingList = [];
-                }
-                else if (vm.pindex >= vm.pmaxIndex) {
-                    vm.pindex = vm.pmaxIndex - 1;
-                    _getPendingListFromIndex(vm.pindex);
-                }
-                else {
-                    vm.pendingList = data.results;
-                }
-
-                _getEvaluatorListFromIndex(vm.eindex);
-
-                /*if (vm.pfirstPage) {
-                    vm.pfirstPage = false;
+                if (data != null && data != "") {
                     vm.pmaxIndex = data.maxIndex;
-                }*/
+                    if (vm.pmaxIndex == 0) {
+                        vm.pindex = 0;
+                        vm.pendingList = [];
+                    }
+                    else if (vm.pindex >= vm.pmaxIndex) {
+                        vm.pindex = vm.pmaxIndex - 1;
+                        _getPendingListFromIndex(vm.pindex);
+                    }
+                    else {
+                        vm.pendingList = data.results;
+                    }
+
+                    _getEvaluatorListFromIndex(vm.eindex);
+
+                    /*if (vm.pfirstPage) {
+                        vm.pfirstPage = false;
+                        vm.pmaxIndex = data.maxIndex;
+                    }*/
+                }
             })
            .error(function (data, status, headers, config) {
            });
@@ -136,25 +138,27 @@
         function _getEvaluatorListFromIndex(index) {
             restApi.getEvaluatorListFromIndex(index)
             .success(function (data, status, headers, config) {
-                vm.emaxIndex = data.maxIndex;
-                if (vm.emaxIndex == 0) {
-                    vm.eindex = 0;
-                    vm.evaluatorsList = [];
-                }
-                else if (vm.eindex >= vm.emaxIndex) {
-                    vm.eindex = vm.emaxIndex - 1;
-                    _getEvaluatorListFromIndex(vm.eindex);
-                }
-                else {
-                    vm.evaluatorsList = data.results;
-                }
-
-                _load();
-
-                /*if (vm.efirstPage) {
-                    vm.efirstPage = false;
+                if (data != null && data != "") {
                     vm.emaxIndex = data.maxIndex;
-                }*/
+                    if (vm.emaxIndex == 0) {
+                        vm.eindex = 0;
+                        vm.evaluatorsList = [];
+                    }
+                    else if (vm.eindex >= vm.emaxIndex) {
+                        vm.eindex = vm.emaxIndex - 1;
+                        _getEvaluatorListFromIndex(vm.eindex);
+                    }
+                    else {
+                        vm.evaluatorsList = data.results;
+                    }
+
+                    _load();
+
+                    /*if (vm.efirstPage) {
+                        vm.efirstPage = false;
+                        vm.emaxIndex = data.maxIndex;
+                    }*/
+                }
             })
            .error(function (data, status, headers, config) {
            });
@@ -259,24 +263,26 @@
                     var changeStatus = { userID: vm.evaluator.userID, acceptanceStatus: vm.acceptanceStatus };
                     restApi.updateEvaluatorAcceptanceStatus(changeStatus)
                         .success(function (data, status, headers, config) {
-                            if (vm.evaluator.acceptanceStatus == "Pending") {
-                                vm.pendingList.forEach(function (s, index) {
-                                    if (s.userID == vm.evaluator.userID) {
-                                        s.acceptanceStatus = vm.acceptanceStatus;
-                                        //vm.evaluatorsList.push(s);
-                                        vm.pendingList.splice(index, 1);
-                                        _getEvaluatorListFromIndex(vm.eindex);
-                                        $("#confirmationEvaluatorAcceptanceChange").modal('show');
-                                    }
-                                });
-                            }
-                            else {
-                                vm.evaluatorsList.forEach(function (eva, index) {
-                                    if (eva.userID == vm.evaluator.userID) {
-                                        eva.acceptanceStatus = vm.acceptanceStatus;
-                                        $("#confirmationEvaluatorAcceptanceChange").modal('show');
-                                    }
-                                });
+                            if (data != null && data != ""){
+                                if (vm.evaluator.acceptanceStatus == "Pending") {
+                                    vm.pendingList.forEach(function (s, index) {
+                                        if (s.userID == vm.evaluator.userID) {
+                                            s.acceptanceStatus = vm.acceptanceStatus;
+                                            //vm.evaluatorsList.push(s);
+                                            vm.pendingList.splice(index, 1);
+                                            _getEvaluatorListFromIndex(vm.eindex);
+                                            $("#confirmationEvaluatorAcceptanceChange").modal('show');
+                                        }
+                                    });
+                                }
+                                else {
+                                    vm.evaluatorsList.forEach(function (eva, index) {
+                                        if (eva.userID == vm.evaluator.userID) {
+                                            eva.acceptanceStatus = vm.acceptanceStatus;
+                                            $("#confirmationEvaluatorAcceptanceChange").modal('show');
+                                        }
+                                    });
+                                }
                             }
                         })
 
@@ -293,20 +299,22 @@
                 var info = { index: index, criteria: vm.criteria };
                 restApi.searchEvaluators(info).
                        success(function (data, status, headers, config) {
-                           vm.showSearch = true;
-                           vm.searchMaxIndex = data.maxIndex;
-                           if (vm.searchMaxIndex == 0) {
-                               vm.searchIndex = 0;
-                               vm.searchResults = [];
-                               vm.showResults = false;
-                           }
-                           else if (vm.searchIndex >= vm.searchMaxIndex) {
-                               vm.searchIndex = vm.searchMaxIndex - 1;
-                               _searchEvaluators(vm.searchIndex);
-                           }
-                           else {
-                               vm.showResults = true;
-                               vm.searchResults = data.results;
+                           if (data != null && data != "") {
+                               vm.showSearch = true;
+                               vm.searchMaxIndex = data.maxIndex;
+                               if (vm.searchMaxIndex == 0) {
+                                   vm.searchIndex = 0;
+                                   vm.searchResults = [];
+                                   vm.showResults = false;
+                               }
+                               else if (vm.searchIndex >= vm.searchMaxIndex) {
+                                   vm.searchIndex = vm.searchMaxIndex - 1;
+                                   _searchEvaluators(vm.searchIndex);
+                               }
+                               else {
+                                   vm.showResults = true;
+                                   vm.searchResults = data.results;
+                               }
                            }
                        }).
                        error(function (data, status, headers, config) {
