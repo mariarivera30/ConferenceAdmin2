@@ -98,7 +98,10 @@ namespace NancyService.Modules
                         
                         payment payment2 = new payment();
                         payment2.paymentTypeID = 1;
+                        payment2.deleted = false;
+                        payment2.creationDate = DateTime.Now;
                         context.payments.Add(payment2);
+                      
                         context.SaveChanges();
                         sponsor.paymentID = payment2.paymentID;
                         context.sponsor2.Add(sponsor);

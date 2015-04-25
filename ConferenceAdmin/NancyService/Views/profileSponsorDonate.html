@@ -2,37 +2,249 @@
 
     <div class= "row">
         <div class=" col-md-6">
+            <br/>
             <h3>Actual Status</h3>
-            <label>Sponsor Active:</label><br/>
-            <label>Sponsor Type:</label><br />
-            <label>Amount Donated:</label><br />
-           
+            <p ng-hide="true">Inactive sponsor make your first donation!</p>
+            <div class="row" ng-show="true"><!--vm.sponsor.active-->
+                <div class=" col-md-12">
+                   <div class="row">
+                       <div class="col-md-5">
+                           <span class="label-simple">Sponsor Type:</span>
+                       </div>
+                       <div class="col-md-2">
+                  
+                           {{vm.sponsor.typeName}}
+                       </div>
+                   </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <span class="label-simple">Donated </span>
+                        </div>
+                        <div class="col-md-5">
+
+                            ${{vm.sponsor.amount}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <span class="label-simple">Benefits:</span>
+                        </div>
+                        <div class="col-md-6">
+
+                            <a href="" data-toggle="modal" ng-click="vm.showDetails(vm.sponsor.sponsorType)" data-target="#viewType">Details</a>
+                        </div>
+                    </div>
+                
+                </div>
+                <div class=" col-md-4">
+                  
+                </div>
+            </div>
         </div>
         <div class=" col-md-6">
+            <br/>
             <h3>Donate</h3>
             <div class=" col-md-6">
-                <label>Sponsor Type:     </label>
-                <select ng-model="vm.sponsor.sponsorType"
-                        ng-options="type.sponsortypeID as type.name for type in vm.sponsorsTypeList" class="form-control"></select>
+                <label>Upgrade Sponsor Type:</label>
+                <select ng-model="vm.sponsorType"
+                        ng-options="type.sponsortypeID as type.name for type in vm.dropDown" class="form-control"></select>
+                <a href="" data-toggle="modal" ng-click="vm.showDetails(vm.sponsorType)" data-target="#viewType">Details</a>
             </div>
 
-            <div class=" col-md-6">
-                <label ng-show="vm.sponsor.sponsorType == 1">Amount: ${{vm.sponsorsTypeList[vm.sponsor.sponsorType ].amount+1}}- ${{vm.sponsorsTypeList[vm.sponsor.sponsorType-1].amount}}+</label>
-                <input ng-show="vm.sponsor.sponsorType == 1" class="form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" min="{{vm.sponsorsTypeList[vm.sponsor.sponsorType ].amount+1}}" step="any" name="amount" ng-model="vm.sponsor.amount" required>
-                <label ng-show="vm.sponsor.sponsorType ==5">Amount: $0 - ${{vm.sponsorsTypeList[vm.sponsor.sponsorType -1].amount}} </label>
-                <input ng-show="vm.sponsor.sponsorType ==5" class="form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" min="0" max="{{vm.sponsorsTypeList[vm.sponsor.sponsorType -1 ].amount}}" step="any" name="amount" ng-model="vm.sponsor.amount" required>
-                <label ng-hide="vm.viewInput()">Amount: ${{vm.sponsorsTypeList[vm.sponsor.sponsorType].amount+1 }} -${{vm.sponsorsTypeList[vm.sponsor.sponsorType-1].amount}}</label>
-                <input ng-hide="vm.viewInput()" class="form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" min="{{vm.sponsorsTypeList[vm.sponsor.sponsorType].amount+1 }}" max="{{vm.sponsorsTypeList[vm.sponsor.sponsorType-1].amount}}" step="any" name="amount" ng-model="vm.sponsor.amount" required>
-                <p ng-show="addSponsorForm.amount.$invalid && !addSponsorForm.amount.$pristine" class="help-block">Valid amount paid is required.</p>
-                <br />
-                <button type="submit" ng-click="vm.sponsorPayment()" class="btn btn-ar btn-primary right" ng-disabled="addSponsorForm.$invalid || vm.edit ==true ||vm.ext">Donate</button>
+            <div class=" col-md-4">
+                <div class="row" >
+                    <label ng-show="vm.sponsorType == 1">Amount: ${{vm.sponsorsTypeList[vm.sponsorType ].amount+1}}- ${{vm.sponsorsTypeList[vm.sponsorType-1].amount}}+</label>
+                    <label ng-show="vm.sponsorType ==5">Amount: $1 - ${{vm.sponsorsTypeList[vm.sponsorType -1].amount}} </label>
+                    <label ng-hide="vm.sponsorType == 1 || vm.sponsorType ==5">Amount: ${{vm.sponsorsTypeList[vm.sponsorType].amount+1 }} -${{vm.sponsorsTypeList[vm.sponsorType-1].amount}}</label>
+                    <input class="form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" ng-change="vm.rangeInvalid()" name="amount" ng-model="vm.donation" required>
+                    <p ng-show="addSponsorForm.amount.$invalid && !addSponsorForm.amount.$pristine" class="help-block">Valid amount paid is required.</p>
+                    <p ng-show="vm.rangeInvalid()">Amount out of range</p>
+                    <br />
+                    
 
+                </div>
+                
+            </div>
+            <div class=" col-lg-1">
+                <br /><br />
+                
             </div>
 
-            <div class=" row ">
-               <br/>
-               
-         </div>
+       
     </div>
+     
 
+</div>
+    <div class=" row ">
+      
+        <div class=" col-lg-4"></div>
+        <div class=" col-lg-7 ">
+            <div class=" row">
+
+                <p class="right">Total:   ${{vm.sponsor.amount}} +${{vm.donation}} = ${{vm.sponsor.amount + vm.donation}}</p>
+            </div>
+            <div class=" row">
+                <p class="right">Amount to pay: ${{vm.donation}}</p> 
+            </div>
+
+            <div class=" row">
+                <button type="submit" ng-click="vm.sponsorPayment()" class="btn btn-ar btn-primary right" ng-disabled="addSponsorForm.$invalid || vm.edit ==true ||vm.ext ||vm.rangeInvalid()">Donate</button>
+            </div>
+        </div> 
+
+        <div class=" col-lg-1"></div>
+        
+       
+        </div>
+    <div class="modal fade" id="viewType" tabindex="-1" role="dialog" aria-labelledby=viewSponsorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-md-8"><h3>Sponsor Benefits</h3></div>
+                        <div class="col-md-4">
+                          
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button></div>
+                    </div>
+
+
+                </div>
+
+                <div class="modal-body">
+                    <section id="body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                            </div>
+
+                            <div class="col-lg-12" ng-show="vm.detailType == 1">
+                                <div class="pricing-box animated fadeInUp animation-delay-1">
+                                    <div class="pricing-box-header diamond">
+                                        <h2>Diamond</h2>
+                                        <p>Pricing & Benefits</p>
+                                    </div>
+                                    <div class="pricing-box-price">
+                                        <h3>$ {{vm.idiamondAmount}}</h3>
+                                    </div>
+                                    <div class="pricing-box-content">
+                                        <ul>
+                                            <li ng-show="vm.idiamondBenefits.benefit1"><center>{{vm.idiamondBenefits.benefit1}}</center></li>
+                                            <li ng-show="vm.idiamondBenefits.benefit2"><center>{{vm.idiamondBenefits.benefit2}}</center></li>
+                                            <li ng-show="vm.idiamondBenefits.benefit3"><center>{{vm.idiamondBenefits.benefit3}}</center></li>
+                                            <li ng-show="vm.idiamondBenefits.benefit4"><center>{{vm.idiamondBenefits.benefit4}}</center></li>
+                                            <li ng-show="vm.idiamondBenefits.benefit5"><center>{{vm.idiamondBenefits.benefit5}}</center></li>
+                                            <li ng-show="vm.idiamondBenefits.benefit6"><center>{{vm.idiamondBenefits.benefit6}}</center></li>
+                                            <li ng-show="vm.idiamondBenefits.benefit7"><center>{{vm.idiamondBenefits.benefit7}}</center></li>
+                                            <li ng-show="vm.idiamondBenefits.benefit8"><center>{{vm.idiamondBenefits.benefit8}}</center></li>
+                                            <li ng-show="vm.idiamondBenefits.benefit9"><center>{{vm.idiamondBenefits.benefit9}}</center></li>
+                                            <li ng-show="vm.idiamondBenefits.benefit10"><center>{{vm.idiamondBenefits.benefit10}}</center></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class=" col-md-12" ng-show="vm.detailType == 2">
+                                <div class="pricing-box ">
+                                    <div class="pricing-box-header platinum">
+                                        <h2>Platinum- $ {{vm.iplatinumAmount}}</h2>
+
+                                    </div>
+
+                                    <div class="pricing-box-content">
+                                        <ul>
+                                            <li ng-show="vm.iplatinumBenefits.benefit1"><center> {{vm.iplatinumBenefits.benefit1}} </center></li>
+                                            <li ng-show="vm.iplatinumBenefits.benefit2"><center> {{vm.iplatinumBenefits.benefit2}} </center></li>
+                                            <li ng-show="vm.iplatinumBenefits.benefit3"><center> {{vm.iplatinumBenefits.benefit3}} </center></li>
+                                            <li ng-show="vm.iplatinumBenefits.benefit4"><center> {{vm.iplatinumBenefits.benefit4}} </center></li>
+                                            <li ng-show="vm.iplatinumBenefits.benefit5"><center> {{vm.iplatinumBenefits.benefit5}} </center></li>
+                                            <li ng-show="vm.iplatinumBenefits.benefit6"><center> {{vm.iplatinumBenefits.benefit6}} </center></li>
+                                            <li ng-show="vm.iplatinumBenefits.benefit7"><center> {{vm.iplatinumBenefits.benefit7}} </center></li>
+                                            <li ng-show="vm.iplatinumBenefits.benefit8"><center> {{vm.iplatinumBenefits.benefit8}} </center></li>
+                                            <li ng-show="vm.iplatinumBenefits.benefit9"><center> {{vm.iplatinumBenefits.benefit9}} </center></li>
+                                            <li ng-show="vm.iplatinumBenefits.benefit10"><center> {{vm.iplatinumBenefits.benefit10}} </center></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" ng-show="vm.detailType == 3">
+                                <div class="pricing-box ">
+                                    <div class="pricing-box-header gold">
+                                        <h2>Gold-$ {{vm.igoldAmount}}</h2>
+
+                                    </div>
+
+                                    <div class="pricing-box-content">
+                                        <ul>
+                                            <li ng-show="vm.igoldBenefits.benefit1"><center>{{vm.igoldBenefits.benefit1}}</center></li>
+                                            <li ng-show="vm.igoldBenefits.benefit2"><center>{{vm.igoldBenefits.benefit2}}</center></li>
+                                            <li ng-show="vm.igoldBenefits.benefit3"><center>{{vm.igoldBenefits.benefit3}}</center></li>
+                                            <li ng-show="vm.igoldBenefits.benefit4"><center>{{vm.igoldBenefits.benefit4}}</center></li>
+                                            <li ng-show="vm.igoldBenefits.benefit5"><center>{{vm.igoldBenefits.benefit5}}</center></li>
+                                            <li ng-show="vm.igoldBenefits.benefit6"><center>{{vm.igoldBenefits.benefit6}}</center></li>
+                                            <li ng-show="vm.igoldBenefits.benefit7"><center>{{vm.igoldBenefits.benefit7}}</center></li>
+                                            <li ng-show="vm.igoldBenefits.benefit8"><center>{{vm.igoldBenefits.benefit8}}</center></li>
+                                            <li ng-show="vm.igoldBenefits.benefit9"><center>{{vm.igoldBenefits.benefit9}}</center></li>
+                                            <li ng-show="vm.igoldBenefits.benefit10"><center>{{vm.igoldBenefits.benefit10}}</center></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" ng-show="vm.detailType == 4">
+                                <div class="pricing-box ">
+                                    <div class="pricing-box-header silver">
+                                        <h2>Silver-$ {{vm.isilverAmount}}</h2>
+
+                                    </div>
+
+                                    <div class="pricing-box-content">
+                                        <ul>
+                                            <li ng-show="vm.isilverBenefits.benefit1"><center>{{vm.isilverBenefits.benefit1}}</center></li>
+                                            <li ng-show="vm.isilverBenefits.benefit2"><center>{{vm.isilverBenefits.benefit2}}</center></li>
+                                            <li ng-show="vm.isilverBenefits.benefit3"><center>{{vm.isilverBenefits.benefit3}}</center></li>
+                                            <li ng-show="vm.isilverBenefits.benefit4"><center>{{vm.isilverBenefits.benefit4}}</center></li>
+                                            <li ng-show="vm.isilverBenefits.benefit5"><center>{{vm.isilverBenefits.benefit5}}</center></li>
+                                            <li ng-show="vm.isilverBenefits.benefit6"><center>{{vm.isilverBenefits.benefit6}}</center></li>
+                                            <li ng-show="vm.isilverBenefits.benefit7"><center>{{vm.isilverBenefits.benefit7}}</center></li>
+                                            <li ng-show="vm.isilverBenefits.benefit8"><center>{{vm.isilverBenefits.benefit8}}</center></li>
+                                            <li ng-show="vm.isilverBenefits.benefit9"><center>{{vm.isilverBenefits.benefit9}}</center></li>
+                                            <li ng-show="vm.isilverBenefits.benefit10"><center>{{vm.isilverBenefits.benefit10}}</center></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" ng-show="vm.detailType == 5">
+                                <div class="pricing-box">
+                                    <div class="pricing-box-header bronze">
+                                        <h2>Bronze-$ {{vm.ibronzeAmount}}</h2>
+
+                                    </div>
+
+                                    <div class="pricing-box-content">
+                                        <ul>
+                                            <li ng-show="vm.ibronzeBenefits.benefit1"><center>{{vm.ibronzeBenefits.benefit1}}</center></li>
+                                            <li ng-show="vm.ibronzeBenefits.benefit2"><center>{{vm.ibronzeBenefits.benefit2}}</center></li>
+                                            <li ng-show="vm.ibronzeBenefits.benefit3"><center>{{vm.ibronzeBenefits.benefit3}}</center></li>
+                                            <li ng-show="vm.ibronzeBenefits.benefit4"><center>{{vm.ibronzeBenefits.benefit4}}</center></li>
+                                            <li ng-show="vm.ibronzeBenefits.benefit5"><center>{{vm.ibronzeBenefits.benefit5}}</center></li>
+                                            <li ng-show="vm.ibronzeBenefits.benefit6"><center>{{vm.ibronzeBenefits.benefit6}}</center></li>
+                                            <li ng-show="vm.ibronzeBenefits.benefit7"><center>{{vm.ibronzeBenefits.benefit7}}</center></li>
+                                            <li ng-show="vm.ibronzeBenefits.benefit8"><center>{{vm.ibronzeBenefits.benefit8}}</center></li>
+                                            <li ng-show="vm.ibronzeBenefits.benefit9"><center>{{vm.ibronzeBenefits.benefit9}}</center></li>
+                                            <li ng-show="vm.ibronzeBenefits.benefit10"><center>{{vm.ibronzeBenefits.benefit10}}</center></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>

@@ -17,13 +17,13 @@ namespace NancyService.Modules
         {
          
             
-            Get["/BillError"] = parameters =>
+            Get["/billerror"] = parameters =>
             {
                 return Response.AsRedirect("http://localhost:12036/#/PaymentError");
             };
 
 
-           Put["/Reentry"] = parameters =>
+           Put["/reentry"] = parameters =>
             {
               
                 var xml = this.Bind<String>();
@@ -46,38 +46,64 @@ namespace NancyService.Modules
                 else { return "http://localhost:12036/#/PaymentError"; }
            
             };
-      
+      //
             Put["/SponsorPayment"] = parameters =>
                 {
                     var sponsor = this.Bind<NancyService.Modules.SponsorManager.SponsorQuery>();
                     var temp = this.Bind<PaymentXML>();
-                    temp.quantity = (sponsor.amount * 100).ToString();
+                    temp.quantity = (sponsor.newAmount * 100).ToString();
                     temp.IP =HttpContext.Current.Request.UserHostAddress;
-                    SponsorManager.SponsorQuery added = sponsorManager.addSponsorPaid(sponsor,temp);
-                    if (added != null)
-                    {
-                        xmlTransacctionID action = paymentManager.MakeWebServiceCall(temp);
-                        if (action.error == "000")
+                   
+                    xmlTransacctionID action = paymentManager.MakeWebServiceCall(temp);
+                    if (action.error == "000")
                         {
-                            string secureLink = "https://secure2.uprm.edu/payment/index.php?id=" + action.transactionID;
-                            return Response.AsJson(secureLink);
+                            long paymentId= sponsorManager.getPaymentID(sponsor.sponsorID);
+                           if (paymentId != 0) { //dont exist a user 
+                                paymentManager.createPaymentBill(paymentId,sponsor.newAmount,action.transactionID);
+                                string secureLink = "https://secure2.uprm.edu/payment/index.php?id=" + action.transactionID;
+                                return Response.AsJson(secureLink);
+                           }
+                            else
+                           {
+                                return HttpStatusCode.Conflict;
+                            }
                         }
-                        else
+                     else
                         {
                             string errorLink = "http://localhost:12036/#/PaymentError";
                             return Response.AsJson(errorLink); 
-                        }
-                    }
-
-                    else
-                    {
-                        return HttpStatusCode.Conflict;
-                    }
-
-                   
-                   
-
+                        }   
+                 
                 };
+
+            Put["/UserPayment"] = parameters =>
+            {
+              var sponsor = this.Bind<NancyService.Modules.SponsorManager.SponsorQuery>();
+                var temp = this.Bind<PaymentXML>();
+                temp.quantity = (sponsor.newAmount * 100).ToString();
+                temp.IP = HttpContext.Current.Request.UserHostAddress;
+
+                xmlTransacctionID action = paymentManager.MakeWebServiceCall(temp);
+                if (action.error == "000")
+                {
+                    //   long userId= sponsorManager.getUserID(sponsor.sponsorID);
+                    //   if (userId != 0) { //dont exist a user 
+                    paymentManager.createPaymentBill(sponsor.sponsorID,sponsor.newAmount, action.transactionID);
+                    string secureLink = "https://secure2.uprm.edu/payment/index.php?id=" + action.transactionID;
+                    return Response.AsJson(secureLink);
+                    // }
+                    //else
+                    //{
+                    //    return HttpStatusCode.Conflict;
+                    //}
+                }
+                else
+                {
+                    string errorLink = "http://localhost:12036/#/PaymentError";
+                    return Response.AsJson(errorLink);
+                }
+
+            };
 
             Get["/GetPayment/{id:long}"] = parameters =>
             {

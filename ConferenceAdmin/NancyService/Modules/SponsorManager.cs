@@ -44,8 +44,8 @@ namespace NancyService.Modules
             public string typeName { get; set; }
             public long paymentID { get; set; }
             public bool byAdmin { get; set; }
-            
-
+            public bool active { get; set; }
+            public double newAmount { get; set; }
 
         }
         public class SponsorTypeQuery
@@ -134,6 +134,7 @@ namespace NancyService.Modules
                     bill.AmountPaid = (double)x.amount;
                     bill.deleted = false;
                     bill.ip = p.IP;
+                    bill.completed = true;
                     bill.quantity = int.Parse(p.quantity);
                     bill.paymentID = payment2.paymentID;
                     context.paymentbills.Add(bill);
@@ -149,6 +150,8 @@ namespace NancyService.Modules
                     sponsor.sponsorType = x.sponsorType;
                     sponsor.addressID = address.addressID;
                     sponsor.paymentID = payment2.paymentID;
+                    sponsor.active = true;
+                    
                     sponsor.deleted = false;
 
 
@@ -201,6 +204,7 @@ namespace NancyService.Modules
                     payment payment2 = new payment();
                     payment2.paymentTypeID = 1;
                     payment2.deleted = false;
+                    payment2.creationDate = DateTime.Now;
                     context.payments.Add(payment2);
                     context.SaveChanges();
 
@@ -244,8 +248,30 @@ namespace NancyService.Modules
             }
 
         }
-   
 
+        public long getPaymentID(long sponsorID)
+        {
+            try
+            {
+                using(conferenceadminContext context = new conferenceadminContext()){
+                    var sponsor = (from s in context.sponsor2
+                             where s.sponsorID == sponsorID
+                             select s).FirstOrDefault();
+                    if(sponsor!= null)
+                        return (long)sponsor.paymentID;
+                    else
+                    {
+                        return 0;
+                    }
+
+                }
+            }
+
+            catch(Exception ex){
+                Console.Write("SponsorManger.getUserID error + ex");
+                return -1;
+            }
+        }
 
         public List<SponsorQuery> getSponsorList()
         {
@@ -397,6 +423,7 @@ namespace NancyService.Modules
                                        paymentID = s.payment.paymentID,
                                        method = s.byAdmin == true &&  s.payment.paymentbills.FirstOrDefault() == null? null: s.payment.paymentbills.FirstOrDefault().methodOfPayment,
                                        typeName = s.sponsortype1.name,
+                                       active = (bool)s.active,
 
                                    }).FirstOrDefault();
 
