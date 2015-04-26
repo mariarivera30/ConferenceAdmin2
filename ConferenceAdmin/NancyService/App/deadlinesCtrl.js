@@ -25,6 +25,9 @@
         vm.deadline5;
         vm.deadlineDate5;
 
+        vm.deadlineTitle1;
+        vm.deadlineParagraph1;
+
         vm.sponsorDeadline;
         vm.extendedPaperDeadline;
         vm.posterDeadline;
@@ -59,6 +62,9 @@
                 vm.deadlineDate5 = new Date(vm.temp.deadlineDate5.split('/')[2], vm.temp.deadlineDate5.split('/')[0] - 1, vm.temp.deadlineDate5.split('/')[1]);
                 vm.sponsorDeadline = new Date(vm.temp.sponsorDeadline.split('/')[2], vm.temp.sponsorDeadline.split('/')[0] - 1, vm.temp.sponsorDeadline.split('/')[1]);
 
+                vm.deadlineTitle1 = vm.temp.title;
+                vm.deadlineParagraph1 = vm.temp.paragraph;
+
                 //Papers Deadlines
                 vm.extendedPaperDeadline = new Date(vm.temp.extendedPaperDeadline.split('/')[2], vm.temp.extendedPaperDeadline.split('/')[0] - 1, vm.temp.extendedPaperDeadline.split('/')[1]);
                 vm.posterDeadline = new Date(vm.temp.posterDeadline.split('/')[2], vm.temp.posterDeadline.split('/')[0] - 1, vm.temp.posterDeadline.split('/')[1]);
@@ -86,6 +92,9 @@
                     vm.deadline5 = data.deadline5;
                     vm.deadlineDate5 = new Date(data.deadlineDate5.split('/')[2], data.deadlineDate5.split('/')[0] - 1, data.deadlineDate5.split('/')[1]);
                     vm.sponsorDeadline = new Date(data.sponsorDeadline.split('/')[2], data.sponsorDeadline.split('/')[0] - 1, data.sponsorDeadline.split('/')[1]);
+
+                    vm.deadlineTitle1 = data.title;
+                    vm.deadlineParagraph1 = data.paragraph;
 
                     //Papers Deadlines
                     vm.extendedPaperDeadline = new Date(data.extendedPaperDeadline.split('/')[2], data.extendedPaperDeadline.split('/')[0] - 1, data.extendedPaperDeadline.split('/')[1]);
@@ -204,7 +213,9 @@
                 posterDeadline:s2,
                 panelDeadline:s3,
                 bofDeadline:s4,
-                workshopDeadline:s5
+                workshopDeadline: s5,
+                title: vm.deadlineTitle1,
+                paragraph: vm.deadlineParagraph1
             }
             //alert(vm.deadlineDate1.toLocaleDateString());
             //alert((vm.deadlineDate1.getUTCMonth()+1) + "/" + vm.deadlineDate1.getUTCDate() + "/" + vm.deadlineDate1.getUTCFullYear());

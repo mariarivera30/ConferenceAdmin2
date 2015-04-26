@@ -698,6 +698,8 @@ namespace NancyService.Modules
                 deadline.deadlineDate4 = this.getInterfaceElement("deadlineDate4").content;
                 deadline.deadline5 = this.getInterfaceElement("deadline5").content;
                 deadline.deadlineDate5 = this.getInterfaceElement("deadlineDate5").content;
+                deadline.title = this.getInterfaceElement("deadlineTitle1").content;
+                deadline.paragraph = this.getInterfaceElement("deadlineParagraph1").content;
 
                 //Papers
                 deadline.extendedPaperDeadline = this.getDeadlineElement("Extended Paper").content;
@@ -714,6 +716,26 @@ namespace NancyService.Modules
                 Console.Write("WebManager.getDeadline error " + ex);
                 return null;
             }
+        }
+
+        public String convertDates(String deadline)
+        {
+            String result = "";
+
+            if (deadline != null && deadline != "")
+            {
+                string[] date = deadline.Split('/');
+                if (date.Count() == 3)
+                {
+                    DateTime d = new DateTime( // Constructor (Year, Month, Day)
+                        Convert.ToInt32(date[2]),
+                        Convert.ToInt32(date[0]),
+                        Convert.ToInt32(date[1]));
+                    result = d.DayOfWeek + ", " + d.ToString("MMMM", CultureInfo.InvariantCulture) + " " + d.Day + ", " + d.Year;
+                }
+            }
+
+            return result;
         }
 
         public DeadlinesQuery getInterfaceDeadlines()
@@ -733,73 +755,29 @@ namespace NancyService.Modules
                     deadline.deadlineDate4 = this.getInterfaceElement("deadlineDate4").content;
                     deadline.deadline5 = this.getInterfaceElement("deadline5").content;
                     deadline.deadlineDate5 = this.getInterfaceElement("deadlineDate5").content;
+                    deadline.title = this.getInterfaceElement("deadlineTitle1").content;
+                    deadline.paragraph = this.getInterfaceElement("deadlineParagraph1").content;
 
-                    if (deadline.deadlineDate1 != null && deadline.deadlineDate1 != "")
-                    {
-                        string[] date = deadline.deadlineDate1.Split('/');
-                        if (date.Count() == 3)
-                        {
-                            DateTime d = new DateTime( // Constructor (Year, Month, Day)
-                                Convert.ToInt32(date[2]),
-                                Convert.ToInt32(date[0]),
-                                Convert.ToInt32(date[1]));
-                            deadline.deadlineDate1 = d.DayOfWeek + ", " + d.ToString("MMMM", CultureInfo.InvariantCulture) + " " + d.Day + ", " + d.Year;
-                        }
-                    }
+                    deadline.extendedPaperDeadline = this.getDeadlineElement("Extended Paper").content;
+                    deadline.posterDeadline = this.getDeadlineElement("Poster ").content;
+                    deadline.panelDeadline = this.getDeadlineElement("Panel").content;
+                    deadline.bofDeadline = this.getDeadlineElement("BoF").content;
+                    deadline.workshopDeadline = this.getDeadlineElement("Workshop").content;
+                    deadline.sponsorDeadline = this.getInterfaceElement("sponsorDeadline").content;
 
-                    if (deadline.deadlineDate2 != null && deadline.deadlineDate2 != "")
-                    {
-                        string[] date = deadline.deadlineDate2.Split('/');
-                        if (date.Count() == 3)
-                        {
-                            DateTime d = new DateTime( // Constructor (Year, Month, Day)
-                                Convert.ToInt32(date[2]),
-                                Convert.ToInt32(date[0]),
-                                Convert.ToInt32(date[1]));
-                            deadline.deadlineDate2 = d.DayOfWeek + ", " + d.ToString("MMMM", CultureInfo.InvariantCulture) + " " + d.Day + ", " + d.Year;
-                        }
-                    }
-
-                    if (deadline.deadlineDate3 != null && deadline.deadlineDate3 != "")
-                    {
-                        string[] date = deadline.deadlineDate3.Split('/');
-                        if (date.Count() == 3)
-                        {
-                            DateTime d = new DateTime( // Constructor (Year, Month, Day)
-                                Convert.ToInt32(date[2]),
-                                Convert.ToInt32(date[0]),
-                                Convert.ToInt32(date[1]));
-                            deadline.deadlineDate3 = d.DayOfWeek + ", " + d.ToString("MMMM", CultureInfo.InvariantCulture) + " " + d.Day + ", " + d.Year;
-                        }
-                    }
-
-                    if (deadline.deadlineDate4 != null && deadline.deadlineDate4 != "")
-                    {
-                        string[] date = deadline.deadlineDate4.Split('/');
-                        if (date.Count() == 3)
-                        {
-                            DateTime d = new DateTime( // Constructor (Year, Month, Day)
-                                Convert.ToInt32(date[2]),
-                                Convert.ToInt32(date[0]),
-                                Convert.ToInt32(date[1]));
-                            deadline.deadlineDate4 = d.DayOfWeek + ", " + d.ToString("MMMM", CultureInfo.InvariantCulture) + " " + d.Day + ", " + d.Year;
-                        }
-                    }
-
-                    if (deadline.deadlineDate5 != null && deadline.deadlineDate5 != "")
-                    {
-                        string[] date = deadline.deadlineDate5.Split('/');
-                        if (date.Count() == 3)
-                        {
-                            DateTime d = new DateTime( // Constructor (Year, Month, Day)
-                                Convert.ToInt32(date[2]),
-                                Convert.ToInt32(date[0]),
-                                Convert.ToInt32(date[1]));
-                            deadline.deadlineDate5 = d.DayOfWeek + ", " + d.ToString("MMMM", CultureInfo.InvariantCulture) + " " + d.Day + ", " + d.Year;
-                        }
-                    }
-
-                    
+                    //Convert Dates
+                    deadline.deadlineDate1 = this.convertDates(deadline.deadlineDate1);
+                    deadline.deadlineDate2 = this.convertDates(deadline.deadlineDate2);
+                    deadline.deadlineDate3 = this.convertDates(deadline.deadlineDate3);
+                    deadline.deadlineDate4 = this.convertDates(deadline.deadlineDate4);
+                    deadline.deadlineDate5 = this.convertDates(deadline.deadlineDate5);
+                    deadline.extendedPaperDeadline = this.convertDates(deadline.extendedPaperDeadline);
+                    deadline.posterDeadline = this.convertDates(deadline.posterDeadline);
+                    deadline.panelDeadline = this.convertDates(deadline.panelDeadline);
+                    deadline.bofDeadline = this.convertDates(deadline.bofDeadline);
+                    deadline.workshopDeadline = this.convertDates(deadline.workshopDeadline);
+                    deadline.sponsorDeadline = this.convertDates(deadline.sponsorDeadline);
+                                       
                     return deadline;
                 }
             }
@@ -872,6 +850,18 @@ namespace NancyService.Modules
 
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    var title = (from s in context.interfaceinformations
+                                     where s.attribute == "deadlineTitle1"
+                                     select s).FirstOrDefault();
+                    if (title != null)
+                        title.content = newDeadline.title;
+
+                    var paragraph = (from s in context.interfaceinformations
+                                     where s.attribute == "deadlineParagraph1"
+                                     select s).FirstOrDefault();
+                    if (paragraph != null)
+                        paragraph.content = newDeadline.paragraph;
+
                     var deadline1 = (from s in context.interfaceinformations
                                      where s.attribute == "deadline1"
                                      select s).FirstOrDefault();
@@ -949,36 +939,36 @@ namespace NancyService.Modules
 
                     //Papers
                     var extendedPaperDeadline = (from s in context.submissiontypes
-                                              where s.deadline == "Extended Paper"
+                                              where s.name == "Extended Paper"
                                               select s).FirstOrDefault();
 
                     if (extendedPaperDeadline != null)
                         extendedPaperDeadline.deadline = newDeadline.extendedPaperDeadline;
 
                     var posterDeadline = (from s in context.submissiontypes
-                                                 where s.deadline == "Poster"
-                                                 select s).FirstOrDefault();
+                                          where s.name == "Poster"
+                                          select s).FirstOrDefault();
 
                     if (posterDeadline != null)
                         posterDeadline.deadline = newDeadline.posterDeadline;
 
                     var panelDeadline = (from s in context.submissiontypes
-                                         where s.deadline == "Panel"
+                                         where s.name == "Panel"
                                          select s).FirstOrDefault();
 
                     if (panelDeadline != null)
                         panelDeadline.deadline = newDeadline.panelDeadline;
 
                     var bofDeadline = (from s in context.submissiontypes
-                                              where s.deadline == "BoF"
+                                       where s.name == "BoF"
                                               select s).FirstOrDefault();
 
                     if (bofDeadline != null)
                         bofDeadline.deadline = newDeadline.bofDeadline;
 
                     var workshopDeadline = (from s in context.submissiontypes
-                                              where s.deadline == "Workshop"
-                                              select s).FirstOrDefault();
+                                            where s.name == "Workshop"
+                                            select s).FirstOrDefault();
 
                     if (workshopDeadline != null)
                         workshopDeadline.deadline = newDeadline.workshopDeadline;
@@ -1975,6 +1965,8 @@ namespace NancyService.Modules
         public String bofDeadline;
         public String workshopDeadline;
         public String sponsorDeadline;
+        public String title;
+        public String paragraph;
     }
 
     public class PlanningCommitteeQuery

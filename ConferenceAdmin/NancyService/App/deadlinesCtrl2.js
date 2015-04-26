@@ -25,6 +25,15 @@
         vm.ideadlineDate5;
         vm.idateFrom;
         vm.idateTo;
+        vm.ideadlineTitle1;
+        vm.ideadlineParagraph1;
+
+        vm.isponsorDeadline;
+        vm.iextendedPaperDeadline;
+        vm.iposterDeadline;
+        vm.ipanelDeadline;
+        vm.ibofDeadline;
+        vm.iworkshopDeadline;
 
         //Functions
         _getInterfaceDeadlines();
@@ -48,6 +57,15 @@
                     vm.ideadlineDate4 = data.deadlineDate4;
                     vm.ideadline5 = data.deadline5;
                     vm.ideadlineDate5 = data.deadlineDate5;
+                    vm.ideadlineTitle1 = data.title;
+                    vm.ideadlineParagraph1 = data.paragraph;
+
+                    vm.isponsorDeadline = data.sponsorDeadline;
+                    vm.iextendedPaperDeadline = data.extendedPaperDeadline;
+                    vm.iposterDeadline = data.posterDeadline;
+                    vm.ipanelDeadline = data.panelDeadline;
+                    vm.ibofDeadline = data.bofDeadline;
+                    vm.iworkshopDeadline = data.workshopDeadline;
 
                     load();
                 }

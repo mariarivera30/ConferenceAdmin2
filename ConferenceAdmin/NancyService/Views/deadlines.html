@@ -2,7 +2,9 @@
     <h2 class="section-title">Deadlines</h2>
     <div class="col-md-9">
         <div class="col-md-10 hide-until-loaded" id="body">
-            <p ng-hide="vm.ideadline1 || vm.ideadlineDate1 || vm.ideadline2 || vm.ideadlineDate2 || vm.ideadline3 || vm.ideadlineDate3 || vm.ideadline4 || vm.ideadlineDate4 || vm.ideadline5 || vm.ideadlineDate5">No content to display.</p>
+            <p ng-hide="vm.ideadlineTitle1 || vm.ideadlineParagraph1 || vm.ideadline1 || vm.ideadlineDate1 || vm.ideadline2 || vm.ideadlineDate2 || vm.ideadline3 || vm.ideadlineDate3 || vm.ideadline4 || vm.ideadlineDate4 || vm.ideadline5 || vm.ideadlineDate5">No content to display.</p>
+            <h5>{{vm.ideadlineTitle1}}</h5>
+            <p class="p-lg" parse-url="props" ng-model="vm.ideadlineParagraph1"></p>
             <table class="table after-title-field" id="deadlinetable" ng-show="vm.ideadline1 || vm.ideadlineDate1 || vm.ideadline2 || vm.ideadlineDate2 || vm.ideadline3 || vm.ideadlineDate3 || vm.ideadline4 || vm.ideadlineDate4 || vm.ideadline5 || vm.ideadlineDate5">
                 <thead>
                     <tr>
@@ -12,6 +14,37 @@
                 </thead>
 
                 <tbody>
+                    <!--Papers-->
+                    <tr ng-show="vm.iextendedPaperDeadline">
+                        <td class="text-left"><h5 class="after-title-field">Submission for Extended Papers</h5></td>
+                        <td class="text-left">{{vm.iextendedPaperDeadline}}</td>
+                    </tr>
+
+                    <tr ng-show="vm.iposterDeadline">
+                        <td class="text-left"><h5 class="after-title-field">Submission for Posters</h5></td>
+                        <td class="text-left">{{vm.iposterDeadline}}</td>
+                    </tr>
+
+                    <tr ng-show="vm.ipanelDeadline">
+                        <td class="text-left"><h5 class="after-title-field">Submission for Panels</h5></td>
+                        <td class="text-left">{{vm.ipanelDeadline}}</td>
+                    </tr>
+
+                    <tr ng-show="vm.ibofDeadline">
+                        <td class="text-left"><h5 class="after-title-field">Submission for BoF</h5></td>
+                        <td class="text-left">{{vm.ibofDeadline}}</td>
+                    </tr>
+
+                    <tr ng-show="vm.iworkshopDeadline">
+                        <td class="text-left"><h5 class="after-title-field">Submission for Workshops</h5></td>
+                        <td class="text-left">{{vm.iworkshopDeadline}}</td>
+                    </tr>
+
+                    <tr ng-show="vm.isponsorDeadline">
+                        <td class="text-left"><h5 class="after-title-field">Sponsorship</h5></td>
+                        <td class="text-left">{{vm.isponsorDeadline}}</td>
+                    </tr>
+
                     <tr ng-show="vm.ideadline1">
                         <td class="text-left"><h5 class="after-title-field">{{vm.ideadline1}}</h5></td>
                         <td class="text-left">{{vm.ideadlineDate1}}</td>
@@ -36,6 +69,7 @@
                         <td class="text-left"><h5 class="after-title-field">{{vm.ideadline5}}</h5></td>
                         <td class="text-left">{{vm.ideadlineDate5}}</td>
                     </tr>
+
                 </tbody>
             </table>
         </div>
