@@ -220,10 +220,10 @@ namespace NancyService.Modules
 
                         if (check != null)
                         {
+                            e.evaluatorStatus = "Accepted";
                             //User is already in evaluator/claim table
                             if ((bool)check.deleted)
                             {
-                                e.evaluatorStatus = "Accepted";
                                 check.deleted = false;
                                 var claims = (from s in context.claims
                                               where s.userID == e.userID && s.privilege.privilegestType == "Evaluator"
@@ -235,13 +235,11 @@ namespace NancyService.Modules
                                 context.SaveChanges();
                             }
 
-                            return null;
                         }
 
                         else
                         {
                             //Change status in table user
-                            e.evaluatorStatus = "Accepted";
                             EvaluatorQuery newEvaluator = new EvaluatorQuery();
                             newEvaluator.userID = e.userID;
                             newEvaluator.firstName = e.firstName;
@@ -261,6 +259,8 @@ namespace NancyService.Modules
                             newEva.userID = e.userID;
                             newEva.deleted = false;
                             context.evaluators.Add(newEva);
+
+                            e.evaluatorStatus = "Accepted";
 
                             context.SaveChanges();
                             return newEvaluator;

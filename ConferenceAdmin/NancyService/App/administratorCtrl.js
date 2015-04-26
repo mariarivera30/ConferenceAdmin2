@@ -34,6 +34,34 @@
         vm.showSearch = false;
         vm.showResults = false;
 
+        //For error modal:
+        vm.obj = {
+            title: "",
+            message1: "",
+            message2: "",
+            label: "",
+            okbutton: false,
+            okbuttonText: "",
+            cancelbutton: false,
+            cancelbuttoText: "Cancel",
+        };
+        vm.okFunc;
+        vm.cancelFunc;
+
+        vm.toggleModal = function (action) {
+
+            if (action == "error")
+                vm.obj.title = "Server Error",
+                vm.obj.message1 = "Please refresh the page and try again.",
+                vm.obj.message2 = "",
+                vm.obj.label = "",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "OK",
+                vm.obj.cancelbutton = false,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.showConfirmModal = !vm.showConfirmModal;
+        };
+
         // Functions
         vm.clear = _clear;
         vm.next = _next;
@@ -121,6 +149,8 @@
                 load();
             })
            .error(function (data, status, headers, config) {
+               load();
+               vm.toggleModal('error');
            });
         }
 
@@ -156,6 +186,7 @@
                 }
             })
            .error(function (data, status, headers, config) {
+               vm.toggleModal('error');
            });
         }
 
@@ -178,7 +209,7 @@
 
                     .error(function (error) {
                         vm.loading = false;
-                        $("#addError3").modal('show');
+                        vm.toggleModal('error');
                     });
             }
         }
@@ -214,7 +245,7 @@
                     .error(function (error) {
                         vm.loading = false;
                         $("#addAdmin").modal('hide');
-                        $("#addError3").modal('show');
+                        vm.toggleModal('error');
                     });
             }
         }
@@ -239,7 +270,7 @@
                 .error(function (data, status, headers, config) {
                     vm.loading = false;
                     $("#editPrivilege").modal('hide');
-                    $("#editError").modal('show');
+                    vm.toggleModal('error');
                 });
             }
         }
@@ -258,7 +289,7 @@
                     }
                 })
                 .error(function (data, status, headers, config) {
-                    $("#deleteError").modal('show');
+                    vm.toggleModal('error');
                 });
             }
         }
@@ -288,6 +319,7 @@
                            }
                        }).
                        error(function (data, status, headers, config) {
+                           vm.toggleModal('error');
                        });
             }
         }

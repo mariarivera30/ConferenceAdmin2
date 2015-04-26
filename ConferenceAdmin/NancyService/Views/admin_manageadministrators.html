@@ -282,63 +282,9 @@
         </div>
     </div>
 
-    <!-- Add Error: Unknown. Try again? -->
-    <div class="modal fade" id="addError3" tabindex="-1" role="dialog" aria-labelledby="addError3Label" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="addError3Label">Administrator not added</h4>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        The administrator could not be added with the specified privilege. Try again later.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
-                </div>
-            </div>
-        </div>
+    <!-- Server Error: Unknown. Try again? -->
+    <div class="col-lg-6">
+        <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
     </div>
 
-    <!-- Edit Error: Unknown. Try again? -->
-    <div class="modal fade" id="editError" tabindex="-1" role="dialog" aria-labelledby="editErrorLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="editErrorLabel">Administrator not updated</h4>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        The administrator could not be updated with the specified privilege. Try again later.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Error: Unknown. Try again? -->
-    <div class="modal fade" id="deleteError" tabindex="-1" role="dialog" aria-labelledby="deleteErrorLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="deleteErrorLabel">Administrator not deleted</h4>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        The administrator could not be deleted. Try again later.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>

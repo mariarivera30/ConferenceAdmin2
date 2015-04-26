@@ -40,6 +40,34 @@
         vm.searchEvaluator;
         vm.loading = false;
 
+        //For error modal:
+        vm.obj = {
+            title: "",
+            message1: "",
+            message2: "",
+            label: "",
+            okbutton: false,
+            okbuttonText: "",
+            cancelbutton: false,
+            cancelbuttoText: "Cancel",
+        };
+        vm.okFunc;
+        vm.cancelFunc;
+
+        vm.toggleModal = function (action) {
+
+            if (action == "error")
+                vm.obj.title = "Server Error",
+                vm.obj.message1 = "Please refresh the page and try again.",
+                vm.obj.message2 = "",
+                vm.obj.label = "",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "OK",
+                vm.obj.cancelbutton = false,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.showConfirmModal = !vm.showConfirmModal;
+        };
+
         //Functions- Past Evaluators (Paging)
         vm.getEvaluatorListFromIndex = _getEvaluatorListFromIndex;
         vm.previousEvaluator = _previousEvaluator;
@@ -107,6 +135,7 @@
                 }
             })
            .error(function (data, status, headers, config) {
+               vm.toggleModal('error');
            });
         }
 
@@ -161,6 +190,8 @@
                 }
             })
            .error(function (data, status, headers, config) {
+               _load();
+               vm.toggleModal('error');
            });
         }
 
@@ -207,7 +238,7 @@
 
                     .error(function (error) {
                         vm.loading = false;
-                        $("#addError3").modal('show');
+                        vm.toggleModal('error');
                     });
             }
         }
@@ -239,7 +270,7 @@
 
                     .error(function (error) {
                         vm.loading = false;
-                        $("#addError3").modal('show');
+                        vm.toggleModal('error');
                     });
             }
         }
@@ -252,6 +283,14 @@
 
             if (vm.evaluator != null) {
 
+                var element = document.getElementById("loading-" + vm.evaluator.userID);
+                var btn = document.getElementById("button-" + vm.evaluator.userID);
+
+
+                if (element != null && btn != null) {
+                    btn.style.display = "none";
+                    element.className= "glyphicon glyphicon-refresh glyphicon-refresh-animate";
+                }
                 if (vm.evaluator.optionStatus == "Accept") {
                     vm.acceptanceStatus = "Accepted";
                 }
@@ -263,7 +302,7 @@
                     var changeStatus = { userID: vm.evaluator.userID, acceptanceStatus: vm.acceptanceStatus };
                     restApi.updateEvaluatorAcceptanceStatus(changeStatus)
                         .success(function (data, status, headers, config) {
-                            if (data != null && data != ""){
+                            if (data){
                                 if (vm.evaluator.acceptanceStatus == "Pending") {
                                     vm.pendingList.forEach(function (s, index) {
                                         if (s.userID == vm.evaluator.userID) {
@@ -271,6 +310,10 @@
                                             //vm.evaluatorsList.push(s);
                                             vm.pendingList.splice(index, 1);
                                             _getEvaluatorListFromIndex(vm.eindex);
+                                            if (element != null && btn != null) {
+                                                element.className = "";
+                                                btn.style.display = "";
+                                            }
                                             $("#confirmationEvaluatorAcceptanceChange").modal('show');
                                         }
                                     });
@@ -279,6 +322,10 @@
                                     vm.evaluatorsList.forEach(function (eva, index) {
                                         if (eva.userID == vm.evaluator.userID) {
                                             eva.acceptanceStatus = vm.acceptanceStatus;
+                                            if (element != null && btn != null) {
+                                                element.className = "";
+                                                btn.style.display = "";
+                                            }
                                             $("#confirmationEvaluatorAcceptanceChange").modal('show');
                                         }
                                     });
@@ -287,7 +334,10 @@
                         })
 
                         .error(function (error) {
-                            $("#editError").modal('show');
+                            if (element != null && btn != null) { element.className = ""; btn.style.display = ""; }
+                            btn.style.display = "";
+                            element.className = "";
+                            vm.toggleModal('error');
                         });
                 }
             }
@@ -318,6 +368,7 @@
                            }
                        }).
                        error(function (data, status, headers, config) {
+                           vm.toggleModal('error');
                        });
             }
         }

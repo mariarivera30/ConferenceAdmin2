@@ -170,23 +170,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="addError" tabindex="-1" role="dialog" aria-labelledby="addErrorLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="addErrorLabel">Member not added</h4>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        The committee member could not be added with the specified description.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
-                </div>
-            </div>
-        </div>
+    <div class="col-lg-6">
+        <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
     </div>
 
 </div>

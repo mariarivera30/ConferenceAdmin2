@@ -344,16 +344,7 @@ namespace NancyService.Modules
             Put["/updateTopic"] = parameters =>
             {
                 var topic = this.Bind<topiccategory>();
-
-                if (topicManager.updateTopic(topic))
-                {
-                    return HttpStatusCode.OK;
-                }
-
-                else
-                {
-                    return HttpStatusCode.Conflict;
-                }
+                return (topicManager.updateTopic(topic));
             };
 
             Put["/deleteTopic/{topiccategoryID:int}"] = parameters =>
@@ -441,14 +432,7 @@ namespace NancyService.Modules
             Put["/updateEvaluatorAcceptanceStatus"] = parameters =>
             {
                 var updateEvaluator = this.Bind<EvaluatorQuery>();
-                if (evaluatorManager.updateAcceptanceStatus(updateEvaluator))
-                {
-                    return HttpStatusCode.OK;
-                }
-                else
-                {
-                    return HttpStatusCode.Conflict;
-                }
+                return (evaluatorManager.updateAcceptanceStatus(updateEvaluator));
             };
 
             Get["/searchEvaluators/{index:int}/{criteria}"] = parameters =>

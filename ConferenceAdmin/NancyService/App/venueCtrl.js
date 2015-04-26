@@ -35,6 +35,34 @@
         vm.saveVenue = _saveVenue;
         vm.reset = _reset;
 
+        //For error modal:
+        vm.obj = {
+            title: "",
+            message1: "",
+            message2: "",
+            label: "",
+            okbutton: false,
+            okbuttonText: "",
+            cancelbutton: false,
+            cancelbuttoText: "Cancel",
+        };
+        vm.okFunc;
+        vm.cancelFunc;
+
+        vm.toggleModal = function (action) {
+
+          if (action == "error")
+               vm.obj.title = "Server Error",
+               vm.obj.message1 = "Please refresh the page and try again.",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+            };
+
         _getVenue();
 
         function activate() {
@@ -74,7 +102,8 @@
             })
 
             .error(function (error) {
-
+                load();
+                vm.toggleModal('error');
             });
         }
 
@@ -102,13 +131,16 @@
                 vm.loading = false;
             })
             .error(function (error) {
-                vm.loading = false;
-                $("#updateError").modal('show');
+                vm.loading = false
+                vm.toggleModal('error');
             });
         }
 
         //Avoid flashing when page loads
         var load = function () {
+            if (document.getElementById('loading-icon') != null) {
+                document.getElementById("loading-icon").style.visibility = "hidden";
+            }
             document.getElementById("body").style.visibility = "visible";
         };
 

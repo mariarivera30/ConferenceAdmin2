@@ -162,26 +162,6 @@
         </div>
     </div>
 
-    <!-- Add Error -->
-    <div class="modal fade" id="addError" tabindex="-1" role="dialog" aria-labelledby="addErrorLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="addErrorLabel">Topic not added</h4>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        The topic has not been added. Try again later.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Delete Error -->
     <div class="modal fade" id="deleteError" tabindex="-1" role="dialog" aria-labelledby="deleteErrorLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -203,23 +183,7 @@
         </div>
     </div>
 
-    <!--EditError-->
-    <div class="modal fade" id="editError" tabindex="-1" role="dialog" aria-labelledby="editErrorLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="editErrorLabel">Topic not updated</h4>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        The topic has not been updated. Try again later.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
-                </div>
-            </div>
-        </div>
+    <div class="col-lg-6">
+        <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
     </div>
 </div>

@@ -18,6 +18,34 @@
         vm.downloadLoading = false;
         vm.loading = false;
 
+        //For error modal:
+        vm.obj = {
+            title: "",
+            message1: "",
+            message2: "",
+            label: "",
+            okbutton: false,
+            okbuttonText: "",
+            cancelbutton: false,
+            cancelbuttoText: "Cancel",
+        };
+        vm.okFunc;
+        vm.cancelFunc;
+
+        vm.toggleModal = function (action) {
+
+            if (action == "error")
+                vm.obj.title = "Server Error",
+                vm.obj.message1 = "Please refresh the page and try again.",
+                vm.obj.message2 = "",
+                vm.obj.label = "",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "OK",
+                vm.obj.cancelbutton = false,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.showConfirmModal = !vm.showConfirmModal;
+        };
+
         //Registration Payments- Variables (Paging)
         vm.registrationList = []; //Results to Display
         vm.rindex = 0;  //Page index [Goes from 0 to rmaxIndex-1]
@@ -93,6 +121,7 @@
                 
             })
            .error(function (data, status, headers, config) {
+               vm.toggleModal('error');
            });
         }
 
@@ -144,6 +173,7 @@
                 }
             })
            .error(function (data, status, headers, config) {
+               vm.toggleModal('error');
            });
         }
 
@@ -190,6 +220,7 @@
                             report = report.concat(data.results);
                         })
                         .error(function (data, status, headers, config) {
+                            vm.toggleModal('error');
                         });
                     }
 
@@ -197,13 +228,14 @@
 
                     if (report != "" && report != undefined) {
                         var blob = new Blob([report], { type: "text/plain;charset=utf-8" });
-                        saveAs(blob, "report.csv");
+                        saveAs(blob, "billreport.csv");
                     }
                 }
             })
            .error(function (data, status, headers, config) {
                vm.loading = false;
                vm.downloadLoading = false;
+               vm.toggleModal('error');
            });
         }
 
@@ -230,6 +262,8 @@
                            }
                        }).
                        error(function (data, status, headers, config) {
+                           _back();
+                           vm.toggleModal('error');
                        });
             }
         }

@@ -121,26 +121,6 @@
         </div>
     </div>
 
-    <!-- Image Delete Error -->
-    <div class="modal fade" id="deleteImgError" tabindex="-1" role="dialog" aria-labelledby="deleteImgErrorLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="deleteImgErrorLabel">Image</h4>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        The image could not be removed at this moment.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Update Confirmation -->
     <div class="modal fade" id="updateConfirm" tabindex="-1" role="dialog" aria-labelledby="updateConfirmLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -162,23 +142,8 @@
     </div>
 
     <!-- Update Error -->
-    <div class="modal fade" id="updateError" tabindex="-1" role="dialog" aria-labelledby="updateErrorLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="updateErrorLabel">General Update Error</h4>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        The information could not be updated.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
-                </div>
-            </div>
-        </div>
+    <div class="col-lg-6">
+        <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
     </div>
 
     <!-- Update Error: Dates -->
