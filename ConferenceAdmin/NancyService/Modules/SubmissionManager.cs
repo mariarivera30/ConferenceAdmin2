@@ -1721,25 +1721,31 @@ namespace NancyService.Modules
             }
         }
 
-        public bool getSubmissionDeadline()
+        public List<bool> getSubmissionDeadlines()
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    String submissionDeadlineString = context.interfaceinformations.Where(c => c.attribute == "submissionDeadline").Select(d => d.content).FirstOrDefault();
-                    var Day = Convert.ToInt32(submissionDeadlineString.Split('/')[1]);
-                    var Month = Convert.ToInt32(submissionDeadlineString.Split('/')[0]);
-                    var Year = Convert.ToInt32(submissionDeadlineString.Split('/')[2]);
+                    List<bool> deadlines = new List<bool>();
+                    for (int i = 1; i < 6; i++)
+                    {
+                        String deadline = context.submissiontypes.Where(c => c.submissiontypeID == i).Select(d => d.deadline).FirstOrDefault();
 
-                    DateTime submissionDeadline = new DateTime(Year, Month, Day);
-                    return (DateTime.Compare(submissionDeadline, DateTime.Now.Date) >= 0);
+                        var Day = Convert.ToInt32(deadline.Split('/')[1]);
+                        var Month = Convert.ToInt32(deadline.Split('/')[0]);
+                        var Year = Convert.ToInt32(deadline.Split('/')[2]);
+
+                        DateTime submissionDeadline = new DateTime(Year, Month, Day);
+                        deadlines.Add(DateTime.Compare(submissionDeadline, DateTime.Now.Date) >= 0);
+                    }
+                    return deadlines;
                 }
             }
             catch (Exception ex)
             {
                 Console.Write("SubmissionManager.getSubmissionDeadline error " + ex);
-                return false;
+                return null;
             }
         }
 

@@ -296,7 +296,7 @@ namespace NancyService.Modules
             //get the deadline for the additon of submissions
             Get["/getSubmissionDeadline"] = parameters =>
                 {
-                    return Response.AsJson(submission.getSubmissionDeadline());
+                    return Response.AsJson(submission.getSubmissionDeadlines());
                 };
             //get the template file
             Get["/getTemplateFile/{id}"] = parameters =>
