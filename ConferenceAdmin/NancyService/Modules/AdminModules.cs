@@ -766,7 +766,7 @@ namespace NancyService.Modules
                 int index = parameters.index;
                 return Response.AsJson(reportManager.getSponsorPayments(index));
             };
-
+            //-----------------SUBMISSIONS- JAIMEIRIS------------------------------------
             //Gets all submissions in the system that have not been deleted
             Get["/getAllSubmissions/{index:int}"] = parameters =>
                 {
@@ -924,6 +924,11 @@ namespace NancyService.Modules
                 {
                     int fileID = parameters.fileID;
                     return Response.AsJson(submissionManager.getSubmissionFile(fileID));
+                };
+            //get submission report
+            Get["/getSubmissionsReport"] = parameters =>
+                {
+                    return Response.AsJson(reportManager.getSubmissionsReport());
                 };
 
             //------------------------------------Banner---------------------------------------------

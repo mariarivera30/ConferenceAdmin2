@@ -159,7 +159,8 @@
             addFileToSubmission: _addFileToSubmission,
             manageExistingFiles: _manageExistingFiles,
             createFinalSubmissionFiles: _createFinalSubmissionFiles,
-            sendContactEmail: _sendContactEmail
+            sendContactEmail: _sendContactEmail,
+            getSubmissionsReport: _getSubmissionsReport
         };
 
         return service;
@@ -802,6 +803,10 @@
         function _getSubmissionFile(data) {
             return $http.get('admin/getSubmissionFile/' + data);
         }
+        //get submissions report
+        function _getSubmissionsReport() {
+            return $http.get('admin/getSubmissionsReport');
+        };
         //------------------------------------Banner-------------------------------------
         function _getBanners() {
             return $http.get('admin/getBanners')
