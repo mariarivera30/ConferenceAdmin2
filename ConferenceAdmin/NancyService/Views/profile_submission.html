@@ -21,8 +21,8 @@
                         <td class="text-left"><i class="fa fa-file-text-o"> </i><a href="" data-toggle="modal" data-target="#viewSubmission" ng-click="vm.viewTheView(submission.submissionTypeName, submission.submissionID)"> {{submission.submissionTitle}}</a></td>
                         <td>{{submission.submissionTypeName}}</td>
                         <td>
-                            <a ng-hide="submission.isAssigned || submission.status != 'Pending' || !vm.submissionDeadlinePassed" href="" data-toggle="modal" data-target="#editSubmissionModal" ng-click="vm.selectedSubmission(submission.topiccategoryID); vm.viewEditForm(submission.submissionID); vm.clear();">Edit </a><span ng-hide="submission.isAssigned || submission.status != 'Pending' || !vm.submissionDeadlinePassed"> | </span>
-                            <a ng-hide="submission.isAssigned || submission.status != 'Pending' || !vm.submissionDeadlinePassed" href="" data-toggle="modal" data-target="#deleteSubmission" ng-click="vm.deleteSelectedSubmission(submission.submissionID) ">Delete</a>
+                            <a ng-hide="submission.isAssigned || submission.status != 'Pending'" href="" data-toggle="modal" data-target="#editSubmissionModal" ng-click="vm.selectedSubmission(submission.topiccategoryID); vm.viewEditForm(submission.submissionID); vm.clear();">Edit </a><span ng-hide="submission.isAssigned || submission.status != 'Pending'"> | </span>
+                            <a ng-hide="submission.isAssigned || submission.status != 'Pending'" href="" data-toggle="modal" data-target="#deleteSubmission" ng-click="vm.deleteSelectedSubmission(submission.submissionID) ">Delete</a>
                             <a ng-show="submission.finalSubmissionAllowed && !submission.isFinalSubmission" href="" data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.selectFinalversion(submission.submissionID); vm.clear();">Add final version</a>
 
                         </td>
@@ -47,9 +47,6 @@
                     ng-options="type as type.submissionTypeName for type in vm.submissionTypeList" required></select>
         <button data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.checkDeadline(vm.TYPE.submissionTypeID); vm.viewAdd();" class="btn btn-ar btn-primary">Add New</button>
             <br />
-            <div ng-show="!vm.submissionDeadlinePassed">
-                The deadline for submissions has passed.
-            </div>
         </div>
 
     <div class="modal fade" id="addSubmissionModal" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
@@ -169,7 +166,7 @@
                 </div>
 
                 <div class="modal-body">
-                    The deadline of thist type of submission has already passed. You can try another type.
+                    The deadline of this type of submission has already passed.
                 </div>
 
                 <div class="modal-footer">
