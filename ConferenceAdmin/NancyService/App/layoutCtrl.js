@@ -43,7 +43,7 @@
             if (action == "changed") {
 
                 vm.obj.title = "Reset Password";
-                vm.obj.message1 = "Your temporary Password was send to your email!";
+                vm.obj.message1 = "Your temporary Password was sent to your email!";
                 vm.obj.message2 = "";
                 vm.obj.label = "";
                 vm.obj.okbutton = true;
@@ -58,7 +58,7 @@
             if (action == "confirm") {
 
                 vm.obj.title = "Account Confirmation";
-                vm.obj.message1 = "Congratulation your account was confirmed!";
+                vm.obj.message1 = "Congratulations, your account was confirmed!";
                 vm.obj.message2 = "";
                 vm.obj.label = "";
                 vm.obj.okbutton = true;
@@ -72,7 +72,7 @@
             if (action == "makeConfirmation") {
 
                 vm.obj.title = "Next Step Account Confirmation",
-                vm.obj.message1 = "Please check you email to confirm your account!",
+                vm.obj.message1 = "Please check your email to confirm your account!",
                 vm.obj.message2 ="",
                 vm.obj.label = "",
                 vm.obj.okbutton = true,
