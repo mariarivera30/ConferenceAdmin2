@@ -968,6 +968,11 @@ namespace NancyService.Modules
                     usersub.finalSubmissionID = null;
                     context.usersubmission.Add(usersub);
                     context.SaveChanges();
+                    //automatically apply user
+                    user user = context.users.Where(c => c.userID == usersubTA.userID).FirstOrDefault();
+                    user.hasApplied = true;
+                    context.SaveChanges();
+
                     //table documents submitted
                     if (submissionToAdd.submissionTypeID != 4)
                     {
@@ -1902,7 +1907,7 @@ namespace NancyService.Modules
                     submission sub = context.submissions.Where(c => c.submissionID == submissionID && c.deleted == false).FirstOrDefault();
                     sub.status = newStatus;
                     context.SaveChanges();
-                    if (newStatus == "Accepted" && sub.byAdmin != true)
+                    if (newStatus == "Accepted")
                     {
                         user u = sub.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault() == null ? null : sub.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault().user;
 
@@ -2001,6 +2006,11 @@ namespace NancyService.Modules
                     usersub.finalSubmissionID = null;
                     context.usersubmission.Add(usersub);
                     context.SaveChanges();
+                    //automatically apply user
+                    user user = context.users.Where(c => c.userID == usersubTA.userID).FirstOrDefault();
+                    user.hasApplied = true;
+                    context.SaveChanges();
+
                     //table documents submitted
                     if (submissionToAdd.submissionTypeID != 4)
                     {
