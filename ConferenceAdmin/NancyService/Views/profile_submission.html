@@ -43,9 +43,9 @@
             <br />
             <!-------------------------------------------------ADD SUBMISSION---------------------------------------------------->
 
-            <select ng-disabled="!vm.submissionDeadlinePassed" class="disabled" ng-model="vm.TYPE"
+            <select ng-model="vm.TYPE"
                     ng-options="type as type.submissionTypeName for type in vm.submissionTypeList" required></select>
-            <button ng-disabled="!vm.submissionDeadlinePassed" data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.viewAdd()" class="btn btn-ar btn-primary">Add New</button>
+        <button data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.checkDeadline(vm.TYPE.submissionTypeID); vm.viewAdd();" class="btn btn-ar btn-primary">Add New</button>
             <br />
             <div ng-show="!vm.submissionDeadlinePassed">
                 The deadline for submissions has passed.
@@ -54,7 +54,7 @@
 
     <div class="modal fade" id="addSubmissionModal" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" ng-show="vm.onTime">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 ng-show="vm.viewModal == 'Add'" class="modal-title" id="evaluationModalLabel">Add {{vm.TYPE.submissionTypeName}}</h4>
@@ -75,7 +75,7 @@
                                         ng-options="type as type.name for type in vm.topicsList"></select>
                             </div>
                             <div>
-                                <label>Abstract</label><br />
+                                <label>Abstract <other ng-show="vm.TYPE.submissionTypeID == 4">&amp; Brief Description</other></label><br />
                                 <textarea class="form-control" name="modalsubmissionAbstract" ng-model="vm.modalsubmissionAbstract" required>{{vm.modalsubmissionAbstract}}</textarea>
                                 <p ng-show="addSubmissionForm.modalsubmissionAbstract.$invalid && !addSubmissionForm.modalsubmissionAbstract.$pristine" class="help-block">Abstract is required.</p>
                             </div>
@@ -117,11 +117,11 @@
 
                             <div ng-hide="vm.TYPE.submissionTypeID == 4">
                                 <label>Uploaded Documents:</label>
-                                    <div class="templates-list table-box">
-                                        <ul class="list-group list-group-striped">
-                                            <li ng-repeat="doc in vm.documentsList" class="list-group-item">{{doc.documentName}} <span class="right"><a href="" ng-click="vm.deleteDocument(doc.documentssubmittedID)">Delete</a></span></li>
-                                        </ul>
-                                    </div>
+                                <div class="templates-list table-box">
+                                    <ul class="list-group list-group-striped">
+                                        <li ng-repeat="doc in vm.documentsList" class="list-group-item">{{doc.documentName}} <span class="right"><a href="" ng-click="vm.deleteDocument(doc.documentssubmittedID)">Delete</a></span></li>
+                                    </ul>
+                                </div>
 
 
                                 <div class="document-name text-right">
@@ -137,7 +137,7 @@
                                     </div>
                                     <p ng-show="vm.ext" class="help-block">* Try .doc, .docx, .ppt, .pdf files.</p>
                                 </div>
-                            </div>                            
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -160,6 +160,23 @@
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
+
+            <!------- Deadline Alert ------->
+            <div class="modal-content" ng-hide="vm.onTime">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h5>Add Submission Alert!</h5>
+                </div>
+
+                <div class="modal-body">
+                    The deadline of thist type of submission has already passed. You can try another type.
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!------------------------------>
 
         </div>
         
@@ -189,7 +206,7 @@
                                             ng-options="type as type.name for type in vm.topicsList"></select>
                                 </div>
                                 <div>
-                                    <label>Abstract</label><br />
+                                    <label>Abstract <other ng-show="vm.TYPE.submissionTypeID == 4">&amp; Brief Description</other></label><br />
                                     <textarea class="form-control" name="modalsubmissionAbstract" ng-model="vm.modalsubmissionAbstract" required>{{vm.modalsubmissionAbstract}}</textarea>
                                     <p ng-show="editSubmissionForm.modalsubmissionAbstract.$invalid" class="help-block">Abstract is required.</p>
                                 </div>
@@ -289,7 +306,7 @@
                 <label>Topic category</label><br />{{vm.modaltopic}}
             </div>
             <div>
-                <label>Abstract</label><br />{{vm.modalsubmissionAbstract}}
+                <label>Abstract <other ng-show="vm.TYPE.submissionTypeID == 4">&amp; Brief Description</other></label><br />{{vm.modalsubmissionAbstract}}
             </div>
             <div ng-show="vm.modalsubmissionTypeID == 3">
                 <label>List of panelists with their biographies</label><br />{{vm.modalpanelistNames}}
@@ -333,7 +350,7 @@
                     <label>Topic</label><br/>{{vm.modalprevTopic}}
                 </div>
                 <div>
-                    <label>Abstract</label><br />{{vm.modalprevSubmissionAbstract}}
+                    <label>Abstract <other ng-show="vm.TYPE.submissionTypeID == 4">&amp; Brief Description</other></label><br />{{vm.modalprevSubmissionAbstract}}
                 </div>
                 <div ng-show="vm.modalsubmissionTypeID == 3">
                     <label>List of panelists with their biographies</label><br />{{vm.modalprevPanelistNames}}

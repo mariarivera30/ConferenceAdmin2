@@ -99,6 +99,8 @@
         vm.isMaster = _isMaster;
         vm.searchSubmission = _searchSubmission;
         vm.searchDeletedSubmission = _searchDeletedSubmission;
+        vm.checkDeadline = _checkDeadline;
+        vm.getSubmissionsReport = _getSubmissionsReport;
 
         // function calls
         _getAllSubmissions(vm.sindex);
@@ -107,6 +109,7 @@
         _getTemplates();
         _getDeletedSubmissions(vm.dindex);
         _isMaster();
+        _getSubmissionDeadlines();
 
 
         // functions implementations
@@ -528,6 +531,10 @@
                        vm.submissionTypeList = data;
                        if (data != null)
                            vm.TYPE = vm.submissionTypeList[0];
+                       var other = vm.submissionTypeList[3];
+                       var last = vm.submissionTypeList[4];
+                       vm.submissionTypeList[3] = last;
+                       vm.submissionTypeList[4] = other;
                    }).
                    error(function (data, status, headers, config) {
                    });
@@ -950,6 +957,32 @@
                 });
         }
 
+        /* get whether a deadline has passed or not */
+        function _getSubmissionDeadlines() {
+            restApi.getSubmissionDeadlines().
+                success(function (data, status, headers, config) {
+                    vm.deadlinesList = data;
+                }).
+                error(function (data, status, headers, config) {
 
+                });
+        }
+
+        /* return whether deadline has passed or not */
+        function _checkDeadline(i) {
+            vm.onTime = vm.deadlinesList[i-1];
+        }
+
+        /* download submissions report */
+        function _getSubmissionsReport() {
+            restApi.getSubmissionsReport().
+                success(function (data, status, headers, config) {
+                    var file = new Blob([data]);
+                    saveAs(file, "Submissions_Report.csv");
+                }).
+                error(function (data, status, headers, config) {
+
+                });
+        }
     }
 })();

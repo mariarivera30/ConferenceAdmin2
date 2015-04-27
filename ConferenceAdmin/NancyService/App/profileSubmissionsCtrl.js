@@ -69,11 +69,13 @@
         vm.addDocument = _addDocument;
         vm.deleteDocument = _deleteDocument;
         vm.getSubmissionDeadline = _getSubmissionDeadline;
+        vm.checkDeadline = _checkDeadline;
 
         _getSubmissionDeadline();
         _getUserSubmissions(currentUserID);
         _getSubmissionTypes();
         _getTopics();
+        _getSubmissionDeadlines();
 
         //Functions:
         function activate() {
@@ -567,7 +569,11 @@
                    success(function (data, status, headers, config) {
                        vm.submissionTypeList = data;
                        if (data != null)
-                           vm.TYPE = vm.submissionTypeList[0];                      
+                           vm.TYPE = vm.submissionTypeList[0];
+                       var other = vm.submissionTypeList[3];
+                       var last = vm.submissionTypeList[4];
+                       vm.submissionTypeList[3] = last;
+                       vm.submissionTypeList[4] = other;
                    }).
                    error(function (data, status, headers, config) {
                        alert("add un alert de submission type list");
@@ -595,6 +601,22 @@
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");
                 });
+        }
+
+        /* get whether a deadline has passed or not */
+        function _getSubmissionDeadlines() {
+            restApi.getSubmissionDeadlines().
+                success(function (data, status, headers, config) {
+                    vm.deadlinesList = data;
+                }).
+                error(function (data, status, headers, config) {
+
+                });
+        }
+
+        /* return whether deadline has passed or not */
+        function _checkDeadline(i) {
+            vm.onTime = vm.deadlinesList[i-1];
         }
 
     }

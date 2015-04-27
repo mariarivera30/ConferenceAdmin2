@@ -294,7 +294,7 @@ namespace NancyService.Modules
                     return Response.AsJson(newSubmission);
                 };
             //get the deadline for the additon of submissions
-            Get["/getSubmissionDeadline"] = parameters =>
+            Get["/getSubmissionDeadlines"] = parameters =>
                 {
                     return Response.AsJson(submission.getSubmissionDeadlines());
                 };

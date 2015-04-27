@@ -1,7 +1,8 @@
 ﻿<div ng-controller="submissionsCtrl as vm">
 
     <div ng-hide="vm.view">
-        <h3>Manage Submissions</h3><br>
+        <h3>Manage Submissions</h3>
+        <button class="btn btn-ar btn-primary right" ng-click="vm.getSubmissionsReport()">Download Report</button><br>
         <div class="col-lg-12">
             <div ng-hide="vm.submissionsList.length">
                 <p class="title-field">No content to display.</p>
@@ -10,7 +11,8 @@
             <div ng-show="vm.submissionsList.length">
                 <div class="paging-height-dropdowns">
                     <label class="left" ng-hide="vm.showResult">Search: <input ng-model="vm.criteria" /><button ng-click="vm.searchSubmission(); vm.showResult = true"><i class="fa fa-search"></i></button></label>
-                    <label class="left" ng-show="vm.showResult"><button ng-click="vm.getAllSubmissions(vm.sindex); vm.showResult = false; vm.criteria = '';"><i class="glyphicon glyphicon-arrow-left"></i> </button> Showing results for: "{{vm.criteria}}"</label><br />
+                    <label class="left" ng-show="vm.showResult"><button ng-click="vm.getAllSubmissions(vm.sindex); vm.showResult = false; vm.criteria = '';"><i class="glyphicon glyphicon-arrow-left"></i> </button> Showing results for: "{{vm.criteria}}"</label>
+                    <br />
                     <table ng-table="tableParams" class="table row">
                         <thead>
                             <tr>
@@ -52,11 +54,11 @@
                     <a class="btn btn-default" ng-disabled="vm.sindex >= (vm.smaxIndex-1)" ng-click="vm.nextSubmission()">Next</a>
                     <a class="btn btn-default" ng-disabled="vm.sindex >= (vm.smaxIndex-1)" ng-click="vm.getLastSubmissionPage()">Last</a>
                 </div>
-            <br />
+            
+        </div><br />
             <select ng-model="vm.TYPE"
                     ng-options="type as type.submissionTypeName for type in vm.submissionTypeList" required></select>
-            <button data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.clear(); vm.viewAdd(); vm.getListOfUsers(); vm.viewModal = 'add';" class="btn btn-ar btn-primary">Add New</button>
-        </div>
+            <button data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.checkDeadline(vm.TYPE.submissionTypeID); vm.clear(); vm.viewAdd(); vm.getListOfUsers(); vm.viewModal = 'add';" class="btn btn-ar btn-primary">Add New</button>
         </div>
         <hr class="col-lg-11" />
         <!-- Deleted Submissions -->
@@ -202,7 +204,7 @@
         </div>
 
         <div class="col-lg-12">
-            <label>Abstract</label><br />{{vm.submissionAbstract}}
+            <label>Abstract <other ng-show="vm.TYPE.submissionTypeID == 4">&amp; Brief Description</other></label><br />{{vm.submissionAbstract}}
         </div>
 
         <div ng-show="vm.submissionTypeID == 3" class="col-lg-12">
@@ -263,7 +265,7 @@
                 </table>
             </div>
             <div class="col-lg-12">
-                <label>Abstract</label><br />{{vm.prevSubmissionAbstract}}
+                <label>Abstract <other ng-show="vm.TYPE.submissionTypeID == 4">&amp; Brief Description</other></label><br />{{vm.prevSubmissionAbstract}}
             </div>
             <div ng-show="vm.submissionTypeID == 3" class="col-lg-12">
                 <label>List of panelists with their biographies</label><br />{{vm.prevPanelistNames}}
@@ -340,7 +342,7 @@
 
     <div class="modal fade" id="addSubmissionModal" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" ng-show="vm.onTime">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4><span ng-show="vm.viewModal == 'add';">Add New</span><span ng-show="vm.viewModal == 'edit';">Edit</span><span ng-show="vm.viewModal == 'final';">Add Final</span> Submission</h4>
@@ -373,7 +375,7 @@
                                         ng-options="type as type.name for type in vm.topicsList"></select>
                             </div>
                             <div>
-                                <label>Abstract:</label><br />
+                                <label>Abstract <other ng-show="vm.TYPE.submissionTypeID == 4">&amp; Brief Description</other>:</label><br />
                                 <textarea class="form-control" name="modalsubmissionAbstract" ng-model="vm.modalsubmissionAbstract" required>{{vm.modalsubmissionAbstract}}</textarea>
                                 <p ng-show="addSubmissionForm.modalsubmissionAbstract.$invalid && !addSubmissionForm.modalsubmissionAbstract.$pristine" class="help-block">Abstract is required.</p>
                             </div>
@@ -439,6 +441,7 @@
                         </form>
                     </div>
                 </div>
+
                 <div class="modal-footer">
                     <button ng-show="vm.TYPE.submissionTypeID == 1" ng-disabled="addSubmissionForm.modalsubmissionTitle.$invalid || (vm.viewModal =='add' && !vm.selected) || addSubmissionForm.modalsubmissionAbstract.$invalid" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addAdminSubmission()">
                         Submit
@@ -458,6 +461,23 @@
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
+
+            <!------- Deadline Alert ------->
+            <div class="modal-content" ng-hide="vm.onTime">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h5>Add Submission Alert!</h5>
+                </div>
+
+                <div class="modal-body">
+                    The deadline of thist type of submission has already passed. You can try another type.
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!------------------------------>
 
         </div>
 
@@ -500,7 +520,7 @@
                                         ng-options="type as type.name for type in vm.topicsList"></select>
                             </div>
                             <div>
-                                <label>Abstract:</label><br />
+                                <label>Abstract <other ng-show="vm.TYPE.submissionTypeID == 4">&amp; Brief Description</other>:</label><br />
                                 <textarea class="form-control" name="modalsubmissionAbstract" ng-model="vm.modalsubmissionAbstract" required>{{vm.modalsubmissionAbstract}}</textarea>
                                 <p ng-show="addSubmissionForm.modalsubmissionAbstract.$invalid && !addSubmissionForm.modalsubmissionAbstract.$pristine" class="help-block">Abstract is required.</p>
                             </div>

@@ -160,7 +160,8 @@
             manageExistingFiles: _manageExistingFiles,
             createFinalSubmissionFiles: _createFinalSubmissionFiles,
             sendContactEmail: _sendContactEmail,
-            getSubmissionsReport: _getSubmissionsReport
+            getSubmissionsReport: _getSubmissionsReport,
+            getSubmissionDeadlines: _getSubmissionDeadlines
         };
 
         return service;
@@ -807,6 +808,10 @@
         function _getSubmissionsReport() {
             return $http.get('admin/getSubmissionsReport');
         };
+        //get submission deadlines
+        function _getSubmissionDeadlines() {
+            return $http.get('profile/getSubmissionDeadlines');
+        }
         //------------------------------------Banner-------------------------------------
         function _getBanners() {
             return $http.get('admin/getBanners')
