@@ -22,35 +22,35 @@ namespace NancyService.Modules
 
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    banners.diamond = context.sponsors.Where(x => x.deleted != true && x.sponsortype1.name == "Diamond" && x.logo != "" && x.logo != null).Select(x => new BannerQuery
+                    banners.diamond = context.sponsors.Where(x => x.deleted != true && x.sponsortype1.name == "Diamond" && x.logo != "" && x.logo != null && x.sponsorID != 1).Select(x => new BannerQuery
                     {
                         sponsor = x.company,
                         logo = x.logo
 
                     }).ToList();
 
-                    banners.platinum = context.sponsors.Where(x => x.deleted != true && x.sponsortype1.name == "Platinium" && x.logo != "" && x.logo != null).Select(x => new BannerQuery
+                    banners.platinum = context.sponsors.Where(x => x.deleted != true && x.sponsortype1.name == "Platinum" && x.logo != "" && x.logo != null && x.sponsorID != 1).Select(x => new BannerQuery
                     {
                         sponsor= x.company,
                         logo=x.logo
 
                     }).ToList();
 
-                    banners.gold = context.sponsors.Where(x => x.deleted != true && x.sponsortype1.name == "Gold" && x.logo != "" && x.logo != null).Select(x => new BannerQuery
+                    banners.gold = context.sponsors.Where(x => x.deleted != true && x.sponsortype1.name == "Gold" && x.logo != "" && x.logo != null && x.sponsorID != 1).Select(x => new BannerQuery
                     {
                         sponsor = x.company,
                         logo = x.logo
 
                     }).ToList();
 
-                    banners.silver = context.sponsors.Where(x => x.deleted != true && x.sponsortype1.name == "Silver" && x.logo != "" && x.logo != null).Select(x => new BannerQuery
+                    banners.silver = context.sponsors.Where(x => x.deleted != true && x.sponsortype1.name == "Silver" && x.logo != "" && x.logo != null && x.sponsorID != 1).Select(x => new BannerQuery
                     {
                         sponsor = x.company,
                         logo = x.logo
 
                     }).ToList();
 
-                    banners.bronze = context.sponsors.Where(x => x.deleted != true && x.sponsortype1.name == "Bronze" && x.logo != "" && x.logo != null).Select(x => new BannerQuery
+                    banners.bronze = context.sponsors.Where(x => x.deleted != true && x.sponsortype1.name == "Bronze" && x.logo != "" && x.logo != null && x.sponsorID != 1).Select(x => new BannerQuery
                     {
                         sponsor = x.company,
                         logo = x.logo

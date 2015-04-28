@@ -1062,7 +1062,7 @@ namespace NancyService.Modules
                     else if (name == "Platinum")
                     {
                         var platinum = (from s in context.sponsortypes
-                                        where s.name == "Platinium"
+                                        where s.name == "Platinum"
                                         select s).FirstOrDefault();
                         if (platinum != null)
                         {
@@ -1181,7 +1181,7 @@ namespace NancyService.Modules
                     else if (sponsorBenefits.name == "Platinum")
                     {
                         sponsor = (from s in context.sponsortypes
-                                   where s.name == "Platinium"
+                                   where s.name == "Platinum"
                                    select s).FirstOrDefault();
                     }
                     else if (sponsorBenefits.name == "Gold")
@@ -1300,7 +1300,7 @@ namespace NancyService.Modules
                     }
 
                     var platinum = (from s in context.sponsortypes
-                                    where s.name == "Platinium"
+                                    where s.name == "Platinum"
                                     select s).FirstOrDefault();
                     if (platinum != null)
                     {
