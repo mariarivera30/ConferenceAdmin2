@@ -32,7 +32,7 @@
         vm.iextendedPaperDeadline;
         vm.iposterDeadline;
         vm.ipanelDeadline;
-        vm.ibofDeadline;
+        vm.iothersDeadline;
         vm.iworkshopDeadline;
 
         //For error modal:
@@ -92,7 +92,7 @@
                     vm.iextendedPaperDeadline = data.extendedPaperDeadline;
                     vm.iposterDeadline = data.posterDeadline;
                     vm.ipanelDeadline = data.panelDeadline;
-                    vm.ibofDeadline = data.bofDeadline;
+                    vm.iothersDeadline = data.othersDeadline;
                     vm.iworkshopDeadline = data.workshopDeadline;
 
                     load();

@@ -2,9 +2,9 @@
     <h2 class="section-title">Deadlines</h2>
     <div class="col-md-9">
         <div class="col-md-10 hide-until-loaded" id="body">
-            <p ng-hide="vm.ideadlineParagraph1 || vm.ideadline1 || vm.ideadlineDate1 || vm.ideadline2 || vm.ideadlineDate2 || vm.ideadline3 || vm.ideadlineDate3 || vm.ideadline4 || vm.ideadlineDate4 || vm.ideadline5 || vm.ideadlineDate5">No content to display.</p>
+            <p ng-hide="vm.ideadlineParagraph1 || vm.iothersDeadline || vm.isponsorDeadline || vm.iworkshopDeadline || vm.ipanelDeadline || vm.iposterDeadline || vm.iextendedPaperDeadline || vm.ideadline1 || vm.ideadlineDate1 || vm.ideadline2 || vm.ideadlineDate2 || vm.ideadline3 || vm.ideadlineDate3 || vm.ideadline4 || vm.ideadlineDate4 || vm.ideadline5 || vm.ideadlineDate5">No content to display.</p>
             <div class="p-lg" ng-model="vm.ideadlineParagraph1" ckhtml></div>
-            <table class="table after-title-field" id="deadlinetable" ng-show="vm.ideadline1 || vm.ideadlineDate1 || vm.ideadline2 || vm.ideadlineDate2 || vm.ideadline3 || vm.ideadlineDate3 || vm.ideadline4 || vm.ideadlineDate4 || vm.ideadline5 || vm.ideadlineDate5">
+            <table class="table after-title-field" id="deadlinetable" ng-show="vm.iothersDeadline || vm.isponsorDeadline || vm.iworkshopDeadline || vm.iposterDeadline || vm.ipanelDeadline || vm.iextendedPaperDeadline || vm.ideadline1 || vm.ideadlineDate1 || vm.ideadline2 || vm.ideadlineDate2 || vm.ideadline3 || vm.ideadlineDate3 || vm.ideadline4 || vm.ideadlineDate4 || vm.ideadline5 || vm.ideadlineDate5">
                 <thead>
                     <tr>
                         <th class="text-left">Deadline</th>
@@ -66,7 +66,7 @@
 
                     <tr ng-show="vm.ibofDeadline">
                         <td class="text-left"><h5 class="after-title-field">Others</h5></td>
-                        <td class="text-left">{{vm.ibofDeadline}}</td>
+                        <td class="text-left">{{vm.iothersDeadline}}</td>
                     </tr>
 
                 </tbody>

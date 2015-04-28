@@ -567,7 +567,7 @@ namespace NancyService.Modules
                 deadline.extendedPaperDeadline = this.getDeadlineElement("Extended Paper").content;
                 deadline.posterDeadline = this.getDeadlineElement("Poster ").content;
                 deadline.panelDeadline = this.getDeadlineElement("Panel").content;
-                deadline.bofDeadline = this.getDeadlineElement("BoF").content;
+                deadline.othersDeadline = this.getDeadlineElement("Others").content;
                 deadline.workshopDeadline = this.getDeadlineElement("Workshop").content;
                 deadline.sponsorDeadline = this.getInterfaceElement("sponsorDeadline").content;
 
@@ -622,7 +622,7 @@ namespace NancyService.Modules
                     deadline.extendedPaperDeadline = this.getDeadlineElement("Extended Paper").content;
                     deadline.posterDeadline = this.getDeadlineElement("Poster ").content;
                     deadline.panelDeadline = this.getDeadlineElement("Panel").content;
-                    deadline.bofDeadline = this.getDeadlineElement("BoF").content;
+                    deadline.othersDeadline = this.getDeadlineElement("Others").content;
                     deadline.workshopDeadline = this.getDeadlineElement("Workshop").content;
                     deadline.sponsorDeadline = this.getInterfaceElement("sponsorDeadline").content;
 
@@ -635,7 +635,7 @@ namespace NancyService.Modules
                     deadline.extendedPaperDeadline = this.convertDates(deadline.extendedPaperDeadline);
                     deadline.posterDeadline = this.convertDates(deadline.posterDeadline);
                     deadline.panelDeadline = this.convertDates(deadline.panelDeadline);
-                    deadline.bofDeadline = this.convertDates(deadline.bofDeadline);
+                    deadline.othersDeadline = this.convertDates(deadline.othersDeadline);
                     deadline.workshopDeadline = this.convertDates(deadline.workshopDeadline);
                     deadline.sponsorDeadline = this.convertDates(deadline.sponsorDeadline);
                                        
@@ -694,9 +694,9 @@ namespace NancyService.Modules
                     newDeadline.panelDeadline = "";
                 }
 
-                if (newDeadline.bofDeadline == "Invalid Date")
+                if (newDeadline.othersDeadline == "Invalid Date")
                 {
-                    newDeadline.bofDeadline = "";
+                    newDeadline.othersDeadline = "";
                 }
 
                 if (newDeadline.workshopDeadline == "Invalid Date")
@@ -814,12 +814,12 @@ namespace NancyService.Modules
                     if (panelDeadline != null)
                         panelDeadline.deadline = newDeadline.panelDeadline;
 
-                    var bofDeadline = (from s in context.submissiontypes
-                                       where s.name == "BoF"
+                    var othersDeadline = (from s in context.submissiontypes
+                                       where s.name == "Others"
                                               select s).FirstOrDefault();
 
-                    if (bofDeadline != null)
-                        bofDeadline.deadline = newDeadline.bofDeadline;
+                    if (othersDeadline != null)
+                        othersDeadline.deadline = newDeadline.othersDeadline;
 
                     var workshopDeadline = (from s in context.submissiontypes
                                             where s.name == "Workshop"
@@ -1799,7 +1799,7 @@ namespace NancyService.Modules
         public String extendedPaperDeadline;
         public String posterDeadline;
         public String panelDeadline;
-        public String bofDeadline;
+        public String othersDeadline;
         public String workshopDeadline;
         public String sponsorDeadline;
         public String paragraph;

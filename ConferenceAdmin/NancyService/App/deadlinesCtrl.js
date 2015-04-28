@@ -31,7 +31,7 @@
         vm.extendedPaperDeadline;
         vm.posterDeadline;
         vm.panelDeadline;
-        vm.bofDeadline;
+        vm.othersDeadline;
         vm.workshopDeadline;
 
         vm.loading = false;
@@ -95,7 +95,7 @@
                 vm.extendedPaperDeadline = new Date(vm.temp.extendedPaperDeadline.split('/')[2], vm.temp.extendedPaperDeadline.split('/')[0] - 1, vm.temp.extendedPaperDeadline.split('/')[1]);
                 vm.posterDeadline = new Date(vm.temp.posterDeadline.split('/')[2], vm.temp.posterDeadline.split('/')[0] - 1, vm.temp.posterDeadline.split('/')[1]);
                 vm.panelDeadline = new Date(vm.temp.panelDeadline.split('/')[2], vm.temp.panelDeadline.split('/')[0] - 1, vm.temp.panelDeadline.split('/')[1]);
-                vm.bofDeadline = new Date(vm.temp.bofDeadline.split('/')[2], vm.temp.bofDeadline.split('/')[0] - 1, vm.temp.bofDeadline.split('/')[1]);
+                vm.othersDeadline = new Date(vm.temp.othersDeadline.split('/')[2], vm.temp.othersDeadline.split('/')[0] -1, vm.temp.othersDeadline.split('/')[1]);
                 vm.workshopDeadline = new Date(vm.temp.workshopDeadline.split('/')[2], vm.temp.workshopDeadline.split('/')[0] - 1, vm.temp.workshopDeadline.split('/')[1]);
 
             }
@@ -125,7 +125,7 @@
                     vm.extendedPaperDeadline = new Date(data.extendedPaperDeadline.split('/')[2], data.extendedPaperDeadline.split('/')[0] - 1, data.extendedPaperDeadline.split('/')[1]);
                     vm.posterDeadline = new Date(data.posterDeadline.split('/')[2], data.posterDeadline.split('/')[0] - 1, data.posterDeadline.split('/')[1]);
                     vm.panelDeadline = new Date(data.panelDeadline.split('/')[2], data.panelDeadline.split('/')[0] - 1, data.panelDeadline.split('/')[1]);
-                    vm.bofDeadline = new Date(data.bofDeadline.split('/')[2], data.bofDeadline.split('/')[0] - 1, data.bofDeadline.split('/')[1]);
+                    vm.othersDeadline = new Date(data.othersDeadline.split('/')[2], data.othersDeadline.split('/')[0] - 1, data.othersDeadline.split('/')[1]);
                     vm.workshopDeadline = new Date(data.workshopDeadline.split('/')[2], data.workshopDeadline.split('/')[0] - 1, data.workshopDeadline.split('/')[1]);
 
                     load();
@@ -210,11 +210,11 @@
                 s3 = (vm.panelDeadline.getUTCMonth() + 1) + "/" + vm.panelDeadline.getUTCDate() + "/" + vm.panelDeadline.getUTCFullYear();
             }
 
-            if (vm.bofDeadline == null || vm.bofDeadline == "Invalid Date") {
-                vm.bofDeadline = new Date("");
+            if (vm.othersDeadline == null || vm.othersDeadline == "Invalid Date") {
+                vm.othersDeadline = new Date("");
             }
             else {
-                s4 = (vm.bofDeadline.getUTCMonth() + 1) + "/" + vm.bofDeadline.getUTCDate() + "/" + vm.bofDeadline.getUTCFullYear();
+                s4 = (vm.othersDeadline.getUTCMonth() + 1) + "/" + vm.othersDeadline.getUTCDate() + "/" + vm.othersDeadline.getUTCFullYear();
             }
 
             if (vm.workshopDeadline == null || vm.workshopDeadline == "Invalid Date") {
@@ -239,7 +239,7 @@
                 extendedPaperDeadline: s1,
                 posterDeadline:s2,
                 panelDeadline:s3,
-                bofDeadline:s4,
+                othersDeadline: s4,
                 workshopDeadline: s5,
                 paragraph: vm.deadlineParagraph1
             }
