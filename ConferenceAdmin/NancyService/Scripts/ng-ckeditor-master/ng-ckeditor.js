@@ -147,6 +147,7 @@
                     loaded = true;
                 }
                 if (loaded) {
+                    CKEDITOR.config.contentsCss = '../css/style-red.css';
                     onLoad();
                 } else {
                     $defer.promise.then(onLoad);
