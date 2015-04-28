@@ -473,6 +473,7 @@
 
         /* Assign an evaluator to a submission */
         function _assignEvaluator(submissionID, evaluatorID) {
+            vm.processing = true;
             var IDs = { submissionID: submissionID, evaluatorID: evaluatorID }
 
             vm.exists = false;
@@ -487,6 +488,7 @@
                   success(function (data, status, headers, config) {
                       vm.evaluationsList.push(data);
                       vm.evaluatorID = "";
+                      vm.processing = false;
                   }).
                   error(function (data, status, headers, config) {
 

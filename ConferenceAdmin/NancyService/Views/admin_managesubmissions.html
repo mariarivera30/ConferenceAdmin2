@@ -151,10 +151,12 @@
                     </table>
                     <p ng-show="vm.evaluationsList.length == 0">No evaluators have been assigned yet.</p>
                     <br />
-                    <select ng-model="vm.evaluatorID" ng-options="evaluator.evaluatorID as evaluator.firstName + ' ' + evaluator.lastName for evaluator in vm.evaluatorsList"></select>
-                    <button class="btn btn-ar btn-primary" ng-click="vm.assignEvaluator(vm.submissionID, vm.evaluatorID);">Assign <i class="fa fa-arrow-up"> </i></button>
+                    <select ng-hide ="vm.processing" ng-model="vm.evaluatorID" ng-options="evaluator.evaluatorID as evaluator.firstName + ' ' + evaluator.lastName for evaluator in vm.evaluatorsList"></select>
+                    <button ng-hide="vm.processing" class="btn btn-ar btn-primary" ng-click="vm.assignEvaluator(vm.submissionID, vm.evaluatorID);">Assign <i class="fa fa-arrow-up"> </i></button>
                     <p ng-show="vm.exists">This Evaluator has already been assigned.</p>
-
+                    <div class="block" ng-show="vm.processing">
+                        <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>Processing</h3>
+                    </div>
                     
                 </div>
 
