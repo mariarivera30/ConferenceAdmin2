@@ -19,10 +19,7 @@
         //From Admin Website
         vm.temp;
         vm.homeMainTitle;
-        vm.homeTitle1;
         vm.homeParagraph1;
-        vm.homeTitle2;
-        vm.homeParagraph2;
         vm.img;
 
         //Functions
@@ -70,10 +67,7 @@
         function _reset() {
             if (vm.temp != null) {
                 vm.homeMainTitle = vm.temp.homeMainTitle;
-                vm.homeTitle1 = vm.temp.homeTitle1;
                 vm.homeParagraph1 = vm.temp.homeParagraph1;
-                vm.homeTitle2 = vm.temp.homeTitle2;
-                vm.homeParagraph2 = vm.temp.homeParagraph2;
                 vm.img = vm.temp.image;
                 _clear();
             }
@@ -119,10 +113,7 @@
                 if (data != null && data != "") {
                     vm.temp = data;
                     vm.homeMainTitle = data.homeMainTitle;
-                    vm.homeTitle1 = data.homeTitle1;
                     vm.homeParagraph1 = data.homeParagraph1;
-                    vm.homeTitle2 = data.homeTitle2;
-                    vm.homeParagraph2 = data.homeParagraph2;
                     
                     _getImage();
 
@@ -163,10 +154,7 @@
 
             var newHome = {
                 homeMainTitle: vm.homeMainTitle,
-                homeTitle1: vm.homeTitle1,
                 homeParagraph1: vm.homeParagraph1,
-                homeTitle2: vm.homeTitle2,
-                homeParagraph2: vm.homeParagraph2,
                 image: $scope.img
             }
             restApi.saveHome(newHome)
@@ -174,10 +162,7 @@
                 if (data != null && data != "") {
 
                     vm.temp.homeMainTitle = newHome.homeMainTitle;
-                    vm.temp.homeTitle1 = newHome.homeTitle1;
                     vm.temp.homeParagraph1 = newHome.homeParagraph1;
-                    vm.temp.homeTitle2 = newHome.homeTitle2;
-                    vm.temp.homeParagraph2 = newHome.homeParagraph2;
 
                     if (newHome.image != "" && newHome.image != undefined) {
                         vm.img = newHome.image;

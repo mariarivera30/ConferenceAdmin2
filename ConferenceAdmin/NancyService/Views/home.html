@@ -4,10 +4,7 @@
             <h2 ng-show="vm.ihomeMainTitle" class="section-title">{{vm.ihomeMainTitle}}</h2>
             <section>
                 <img ng-show="vm.iimg" src="{{vm.iimg}}" class="img-responsive imageborder" alt="Image" id="homeImage">
-                <h4>{{vm.ihomeTitle1}}</h4>
-                <p class="p-lg" parse-url="props" ng-model="vm.ihomeParagraph1"></p>
-                <h4>{{vm.ihomeTitle2}}</h4>
-                <p class="p-lg" parse-url="props" ng-model="vm.ihomeParagraph2"></p>
+                <div class="p-lg" ng-model="vm.ihomeParagraph1" ckhtml></div>
             </section>
         </div>
     </div> <!-- row -->

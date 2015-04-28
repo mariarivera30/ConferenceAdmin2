@@ -1,35 +1,18 @@
 ﻿<div class="row" ng-controller="registrationWebCtrl as vm">
 
-    <div class="row">
-        <div class="col-lg-6"><h3>Registration</h3></div>
-
-        <div class="col-lg-3">
-            <button class="btn btn-ar btn-primary right" ng-click="vm.reset()">Reset</button>
-        </div>
+        <div class="col-lg-9"><h3>Registration Content</h3></div>
 
         <!-- Loading icon, appearing while table is loading its contents. -->
         <div class="col-lg-3 loading-right">
             <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
         </div>
-    </div>
 
     <div class="col-lg-10 hide-until-loaded" id="body">
-        <h5 class="after-title-field">Highlight Notes</h5>
-        <textarea class="form-control" rows="5" ng-model="vm.registrationNotes"></textarea><br />
 
-        <div class="row">
-            <div class="col-md-7">
-                <div class="form-group">
-                    <h5 class="after-title-field">Title 1</h5>
-                    <input type="text" class="form-control" ng-model="vm.registrationTitle1">
-                </div>
-            </div>
-        </div>
-
-        <h5 class="after-title-field">Paragraph 1</h5>
-        <textarea class="form-control" rows="5" ng-model="vm.registrationParagraph1"></textarea><br />
+        <textarea class="form-control" ng-model="vm.registrationParagraph1" ckeditor="200px"></textarea><br />
         <div class="row">
             <div class="col-md-8">
+                <h5 class="after-title-field">Registration Fees:</h5>
                 <table class="table after-title-field">
                     <colgroup>
                         <col span="1" style="width: 50%;">
@@ -84,29 +67,14 @@
                     </tbody>
                 </table>
             </div>
-
-            <!--<div class="col-md-4">
-                <br /><br />
-                <b>Remember the registration costs must be numbers!</b>
-            </div>-->
-
         </div>
 
-        <div class="row">
-            <div class="col-md-7">
-                <div class="form-group">
-                    <br />
-                    <h5 class="after-title-field">Title 2</h5>
-                    <input type="text" class="form-control" ng-model="vm.registrationTitle2">
-                </div>
-            </div>
-        </div>
-
-        <h5 class="after-title-field">Paragraph 2</h5>
-        <textarea class="form-control" rows="5" ng-model="vm.registrationParagraph2"></textarea><br />
+        <h5 class="after-title-field">Additional Information:</h5>
+        <textarea class="form-control" ng-model="vm.registrationParagraph2" ckeditor="150px"></textarea><br />
 
         <div class="row">
             <div class="col-lg-10">
+                <button class="btn btn-ar btn-default" ng-click="vm.reset()">Reload</button>
                 <button class="btn btn-ar btn-primary" ng-disabled="costForm1.$invalid || costForm2.$invalid ||costForm3.$invalid || costForm4.$invalid || costForm5.$invalid || costForm6.$invalid || costForm7.$invalid || costForm8.$invalid || costForm9.$invalid || costForm10.$invalid || costForm11.$invalid || costForm12.$invalid || vm.loading" ng-click="vm.saveRegistrationInfo()">Save</button>
                 <label class="help-inline" ng-show="costForm1.$invalid || costForm2.$invalid ||costForm3.$invalid || costForm4.$invalid || costForm5.$invalid || costForm6.$invalid || costForm7.$invalid || costForm8.$invalid || costForm9.$invalid || costForm10.$invalid || costForm11.$invalid || costForm12.$invalid">Check the registration costs. Please, provide a valid amount.</label>
             </div>

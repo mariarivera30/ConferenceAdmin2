@@ -25,7 +25,6 @@
         vm.deadline5;
         vm.deadlineDate5;
 
-        vm.deadlineTitle1;
         vm.deadlineParagraph1;
 
         vm.sponsorDeadline;
@@ -90,7 +89,6 @@
                 vm.deadlineDate5 = new Date(vm.temp.deadlineDate5.split('/')[2], vm.temp.deadlineDate5.split('/')[0] - 1, vm.temp.deadlineDate5.split('/')[1]);
                 vm.sponsorDeadline = new Date(vm.temp.sponsorDeadline.split('/')[2], vm.temp.sponsorDeadline.split('/')[0] - 1, vm.temp.sponsorDeadline.split('/')[1]);
 
-                vm.deadlineTitle1 = vm.temp.title;
                 vm.deadlineParagraph1 = vm.temp.paragraph;
 
                 //Papers Deadlines
@@ -121,7 +119,6 @@
                     vm.deadlineDate5 = new Date(data.deadlineDate5.split('/')[2], data.deadlineDate5.split('/')[0] - 1, data.deadlineDate5.split('/')[1]);
                     vm.sponsorDeadline = new Date(data.sponsorDeadline.split('/')[2], data.sponsorDeadline.split('/')[0] - 1, data.sponsorDeadline.split('/')[1]);
 
-                    vm.deadlineTitle1 = data.title;
                     vm.deadlineParagraph1 = data.paragraph;
 
                     //Papers Deadlines
@@ -141,8 +138,9 @@
             });
         }
 
-         function _saveDeadlines() {
-             vm.loading = true;
+        function _saveDeadlines() {
+
+            vm.loading = true;
 
             var d1 = "", d2 = "", d3 = "", d4 = "", d5 = "", d6 = "";
 
@@ -243,7 +241,6 @@
                 panelDeadline:s3,
                 bofDeadline:s4,
                 workshopDeadline: s5,
-                title: vm.deadlineTitle1,
                 paragraph: vm.deadlineParagraph1
             }
             //alert(vm.deadlineDate1.toLocaleDateString());

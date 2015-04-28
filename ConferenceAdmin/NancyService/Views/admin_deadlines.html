@@ -1,32 +1,20 @@
 ﻿<div class="row" ng-controller="deadlinesCtrl as vm">
 
-    <div class="row">
-        <div class="col-lg-6"><h3>Deadlines</h3></div>
-        <div class="col-lg-3">
-            <button class="btn btn-ar btn-primary right" ng-click="vm.reset()">Reset</button>
-        </div>
+        <div class="col-lg-9"><h3>Deadlines Information</h3></div>
+
         <!-- Loading icon, appearing while table is loading its contents. -->
         <div class="col-lg-3 loading-right">
             <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
-        </div>
+        </div><br />
+  
+    <div class="col-lg-10">
+        <textarea class="form-control" ng-model="vm.deadlineParagraph1" ckeditor="150px"></textarea><br />
     </div>
 
     <div class="col-lg-8 hide-until-loaded" id="body">
 
-        <div class="row">
-            <div class="col-md-7">
-                <div class="form-group">
-                    <h5 class="after-title-field">Title 1</h5>
-                    <input type="text" class="form-control" ng-model="vm.deadlineTitle1">
-                </div>
-            </div>
-        </div>
-
-        <h5 class="after-title-field">Paragraph 1</h5>
-        <textarea class="form-control" rows="5" ng-model="vm.deadlineParagraph1"></textarea>
-
-        <h5 class="title-field2">Submission Deadlines</h5>
-        <p>These deadlines will be used for closing submissions.</p>
+        <h5 class="after-title-field">Submission Deadlines</h5>
+        <p>These deadlines are used for closing submissions.</p>
 
         <table class="table after-title-field" id="deadlinetable">
             <thead>
@@ -53,11 +41,6 @@
                 </tr>
 
                 <tr>
-                    <td class="text-left"><p class="after-title-field text-dark">BoF Deadline</p></td>
-                    <td class="text-left"><input type="date" class="form-control2" ng-model="vm.bofDeadline"></td>
-                </tr>
-
-                <tr>
                     <td class="text-left"><p class="after-title-field text-dark">Workshop Deadline</p></td>
                     <td class="text-left"><input type="date" class="form-control2" ng-model="vm.workshopDeadline"></td>
                 </tr>
@@ -67,11 +50,16 @@
                     <td class="text-left"><input type="date" class="form-control2" ng-model="vm.sponsorDeadline"></td>
                 </tr>
 
+                <tr>
+                    <td class="text-left"><p class="after-title-field text-dark">Others (e.g. BoF)</p></td>
+                    <td class="text-left"><input type="date" class="form-control2" ng-model="vm.bofDeadline"></td>
+                </tr>
+
             </tbody>
         </table>
 
         <h5 class="after-title-field">Conference Deadlines</h5>
-        <p>These deadlines will be used for informational purposes on the Deadlines section of the website.</p>
+        <p>These deadlines are used for informational purposes only on the "Deadlines" section of the website.</p>
         <table class="table after-title-field">
             <colgroup>
                 <col span="1" style="width: 75%;">
@@ -113,7 +101,8 @@
             </tbody>
         </table>
 
-            <button class="btn btn-ar btn-primary" ng-click="vm.saveDeadlines()" ng-disabled="vm.loading">Save</button>
+        <button class="btn btn-ar btn-default" ng-click="vm.reset()">Reload</button>
+        <button class="btn btn-ar btn-primary" ng-click="vm.saveDeadlines()" ng-disabled="vm.loading">Save</button>
     </div>
 
     <div class="modal fade" id="updateConfirm" tabindex="-1" role="dialog" aria-labelledby="updateConfirmLabel" aria-hidden="true">

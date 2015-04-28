@@ -1,71 +1,63 @@
-﻿<div ng-controller="sponsorInterfaceCtrl as vm">
+﻿<div class="row" ng-controller="sponsorInterfaceCtrl as vm">
 
-    <div class="row">
-        <div class="col-lg-6"><h3>Sponsors</h3></div>
-
-        <div class="col-lg-3">
-            <button class="btn btn-ar btn-primary right" ng-click="vm.reset()">Reset</button>
-        </div>
-
-        <!-- Loading icon, appearing while table is loading its contents. -->
-        <div class="col-lg-3 loading-right">
-            <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
-        </div>
-
+    <div class="col-lg-9">
+        <h3>Sponsors Information</h3>
     </div>
 
-    <div class="row hide-until-loaded" id="body">
+    <!-- Loading icon, appearing while table is loading its contents. -->
+    <div class="col-lg-3 loading-right">
+        <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
+    </div>
+
+    <div class="hide-until-loaded" id="body">
         <div class="col-lg-10">
             <h5 class="after-title-field">Instructions for Sponsors and Donations</h5>
-            <textarea class="form-control" rows="5" ng-model="vm.instructions"></textarea><br>
+            <textarea class="form-control" ng-model="vm.instructions" ckeditor="200px"></textarea><br>
             <h5 class="after-title-field">Sponsor Pricing and Benefits</h5><br />
         </div>
 
-        <div class="row center-block">
-            <div class="col-lg-6">
-                <table class="table row after-title-field">
-                    <tr>
-                        <td><b>Sponsor Type</b></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Diamond</td>
-                        <td>
-                            <a href="" ng-click="vm.selectedSponsor('Diamond')">Edit Pricing & Benefits</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Platinum</td>
-                        <td>
-                            <a href="" ng-click="vm.selectedSponsor('Platinum')">Edit Pricing & Benefits</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Gold</td>
-                        <td>
-                            <a href="" ng-click="vm.selectedSponsor('Gold')">Edit Pricing & Benefits</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Silver</td>
-                        <td>
-                            <a href="" ng-click="vm.selectedSponsor('Silver')">Edit Pricing & Benefits</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Bronze</td>
-                        <td>
-                            <a href="" ng-click="vm.selectedSponsor('Bronze')">Edit Pricing & Benefits</a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+        <div class="col-lg-6">
+            <table class="table row after-title-field">
+                <tr>
+                    <td><b>Sponsor Type</b></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Diamond</td>
+                    <td>
+                        <a href="" ng-click="vm.selectedSponsor('Diamond')">Edit Pricing & Benefits</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Platinum</td>
+                    <td>
+                        <a href="" ng-click="vm.selectedSponsor('Platinum')">Edit Pricing & Benefits</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Gold</td>
+                    <td>
+                        <a href="" ng-click="vm.selectedSponsor('Gold')">Edit Pricing & Benefits</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Silver</td>
+                    <td>
+                        <a href="" ng-click="vm.selectedSponsor('Silver')">Edit Pricing & Benefits</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Bronze</td>
+                    <td>
+                        <a href="" ng-click="vm.selectedSponsor('Bronze')">Edit Pricing & Benefits</a>
+                    </td>
+                </tr>
+            </table>
         </div>
 
-        <div class="row">
-            <div class="col-lg-10 title-field">
-                <button class="btn btn-ar btn-primary" ng-click="vm.saveInstructions()" ng-disabled="vm.loading">Save</button>
-            </div>
+        <div class="col-lg-10 title-field">
+            <button class="btn btn-ar btn-default" ng-click="vm.reset()">Reload</button>
+            <button class="btn btn-ar btn-primary" ng-click="vm.saveInstructions()" ng-disabled="vm.loading">Save</button>
         </div>
     </div>
 

@@ -15,12 +15,8 @@
         vm.title = 'homeCtrl2';
 
         //InterfaceElements
-        vm.iconferenceName;
         vm.ihomeMainTitle;
-        vm.ihomeTitle1;
         vm.ihomeParagraph1;
-        vm.ihomeTitle2;
-        vm.ihomeParagraph2;
         vm.iimg;
 
         //For error modal:
@@ -66,10 +62,7 @@
             .success(function (data, status, headers, config) {
                 if (data != null && data != "") {
                     vm.ihomeMainTitle = data.homeMainTitle;
-                    vm.ihomeTitle1 = data.homeTitle1;
                     vm.ihomeParagraph1 = data.homeParagraph1;
-                    vm.ihomeTitle2 = data.homeTitle2;
-                    vm.ihomeParagraph2 = data.homeParagraph2;
 
                     _getImage();
 

@@ -87,12 +87,8 @@ namespace NancyService.Modules
             try
             {
                 HomeQuery home = new HomeQuery();
-                home.conferenceName = this.getInterfaceElement("conferenceName").content;
                 home.homeMainTitle = this.getInterfaceElement("homeMainTitle").content;
-                home.homeTitle1 = this.getInterfaceElement("homeTitle1").content;
                 home.homeParagraph1 = this.getInterfaceElement("homeParagraph1").content;
-                home.homeTitle2 = this.getInterfaceElement("homeTitle2").content;
-                home.homeParagraph2 = this.getInterfaceElement("homeParagraph2").content;
 
                 return home;
 
@@ -143,33 +139,12 @@ namespace NancyService.Modules
                     if (homeMainTitle != null)
                         homeMainTitle.content = newHome.homeMainTitle;
 
-                    var homeTitle1 = (from s in context.interfaceinformations
-                                      where s.attribute == "homeTitle1"
-                                      select s).FirstOrDefault();
-
-                    if (homeTitle1 != null)
-                        homeTitle1.content = newHome.homeTitle1;
-
                     var homeParagraph1 = (from s in context.interfaceinformations
                                           where s.attribute == "homeParagraph1"
                                           select s).FirstOrDefault();
 
                     if (homeParagraph1 != null)
                         homeParagraph1.content = newHome.homeParagraph1;
-
-                    var homeTitle2 = (from s in context.interfaceinformations
-                                      where s.attribute == "homeTitle2"
-                                      select s).FirstOrDefault();
-
-                    if (homeTitle2 != null)
-                        homeTitle2.content = newHome.homeTitle2;
-
-                    var homeParagraph2 = (from s in context.interfaceinformations
-                                          where s.attribute == "homeParagraph2"
-                                          select s).FirstOrDefault();
-
-                    if (homeParagraph2 != null)
-                        homeParagraph2.content = newHome.homeParagraph2;
 
                     var img = (from s in context.interfacedocuments
                                where s.attibuteName == "homeImage"
@@ -218,10 +193,7 @@ namespace NancyService.Modules
             try
             {
                 VenueQuery venue = new VenueQuery();
-                venue.venueTitle1 = this.getInterfaceElement("venueTitle1").content;
                 venue.venueParagraph1 = this.getInterfaceElement("venueParagraph1").content;
-                venue.venueTitle2 = this.getInterfaceElement("venueTitle2").content;
-                venue.venueParagraph2 = this.getInterfaceElement("venueParagraph2").content;
                 venue.venueTitleBox = this.getInterfaceElement("venueTitleBox").content;
                 venue.venueParagraphContentBox = this.getInterfaceElement("venueParagraphContentBox").content;
 
@@ -240,35 +212,11 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    var venueTitle1 = (from s in context.interfaceinformations
-                                       where s.attribute == "venueTitle1"
-                                       select s).FirstOrDefault();
-                    if (venueTitle1 != null)
-                        venueTitle1.content = newVenue.venueTitle1;
-
-
                     var venueParagraph1 = (from s in context.interfaceinformations
                                            where s.attribute == "venueParagraph1"
                                            select s).FirstOrDefault();
                     if (venueParagraph1 != null)
                         venueParagraph1.content = newVenue.venueParagraph1;
-
-
-                    var venueTitle2 = (from s in context.interfaceinformations
-                                       where s.attribute == "venueTitle2"
-                                       select s).FirstOrDefault();
-
-                    if (venueTitle2 != null)
-                        venueTitle2.content = newVenue.venueTitle2;
-
-
-                    var venueParagraph2 = (from s in context.interfaceinformations
-                                           where s.attribute == "venueParagraph2"
-                                           select s).FirstOrDefault();
-
-                    if (venueParagraph2 != null)
-                        venueParagraph2.content = newVenue.venueParagraph2;
-
 
                     var venueTitleBox = (from s in context.interfaceinformations
                                          where s.attribute == "venueTitleBox"
@@ -393,16 +341,7 @@ namespace NancyService.Modules
             try
             {
                 ParticipationQuery participation = new ParticipationQuery();
-                participation.participationTitle1 = this.getInterfaceElement("participationTitle1").content;
                 participation.participationParagraph1 = this.getInterfaceElement("participationParagraph1").content;
-                participation.participationTitle2 = this.getInterfaceElement("participationTitle2").content;
-                participation.participationParagraph2 = this.getInterfaceElement("participationParagraph2").content;
-                participation.participationTitle3 = this.getInterfaceElement("participationTitle3").content;
-                participation.participationParagraph3 = this.getInterfaceElement("participationParagraph3").content;
-                participation.participationTitle4 = this.getInterfaceElement("participationTitle4").content;
-                participation.participationParagraph4 = this.getInterfaceElement("participationParagraph4").content;
-                participation.participationTitle5 = this.getInterfaceElement("participationTitle5").content;
-                participation.participationParagraph5 = this.getInterfaceElement("participationParagraph5").content;
 
                 return participation;
             }
@@ -419,65 +358,11 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    var participationTitle1 = (from s in context.interfaceinformations
-                                               where s.attribute == "participationTitle1"
-                                               select s).FirstOrDefault();
-                    if (participationTitle1 != null)
-                        participationTitle1.content = newParticipation.participationTitle1;
-
-                    var participationTitle2 = (from s in context.interfaceinformations
-                                               where s.attribute == "participationTitle2"
-                                               select s).FirstOrDefault();
-                    if (participationTitle2 != null)
-                        participationTitle2.content = newParticipation.participationTitle2;
-
-                    var participationTitle3 = (from s in context.interfaceinformations
-                                               where s.attribute == "participationTitle3"
-                                               select s).FirstOrDefault();
-                    if (participationTitle3 != null)
-                        participationTitle3.content = newParticipation.participationTitle3;
-
-                    var participationTitle4 = (from s in context.interfaceinformations
-                                               where s.attribute == "participationTitle4"
-                                               select s).FirstOrDefault();
-                    if (participationTitle4 != null)
-                        participationTitle4.content = newParticipation.participationTitle4;
-
-                    var participationTitle5 = (from s in context.interfaceinformations
-                                               where s.attribute == "participationTitle5"
-                                               select s).FirstOrDefault();
-                    if (participationTitle5 != null)
-                        participationTitle5.content = newParticipation.participationTitle5;
-
                     var participationParagraph1 = (from s in context.interfaceinformations
                                                    where s.attribute == "participationParagraph1"
                                                    select s).FirstOrDefault();
                     if (participationParagraph1 != null)
                         participationParagraph1.content = newParticipation.participationParagraph1;
-
-                    var participationParagraph2 = (from s in context.interfaceinformations
-                                                   where s.attribute == "participationParagraph2"
-                                                   select s).FirstOrDefault();
-                    if (participationParagraph2 != null)
-                        participationParagraph2.content = newParticipation.participationParagraph2;
-
-                    var participationParagraph3 = (from s in context.interfaceinformations
-                                                   where s.attribute == "participationParagraph3"
-                                                   select s).FirstOrDefault();
-                    if (participationParagraph3 != null)
-                        participationParagraph3.content = newParticipation.participationParagraph3;
-
-                    var participationParagraph4 = (from s in context.interfaceinformations
-                                                   where s.attribute == "participationParagraph4"
-                                                   select s).FirstOrDefault();
-                    if (participationParagraph4 != null)
-                        participationParagraph4.content = newParticipation.participationParagraph4;
-
-                    var participationParagraph5 = (from s in context.interfaceinformations
-                                                   where s.attribute == "participationParagraph5"
-                                                   select s).FirstOrDefault();
-                    if (participationParagraph5 != null)
-                        participationParagraph5.content = newParticipation.participationParagraph5;
 
                     context.SaveChanges();
                     return true;
@@ -495,11 +380,8 @@ namespace NancyService.Modules
             try
             {
                 RegistrationQuery registration = new RegistrationQuery();
-                registration.registrationTitle1 = this.getInterfaceElement("registrationTitle1").content;
                 registration.registrationParagraph1 = this.getInterfaceElement("registrationParagraph1").content;
-                registration.registrationTitle2 = this.getInterfaceElement("registrationTitle2").content;
                 registration.registrationParagraph2 = this.getInterfaceElement("registrationParagraph2").content;
-                registration.registrationNotes = this.getInterfaceElement("registrationNotes").content;
 
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
@@ -579,24 +461,11 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    var registrationTitle1 = (from s in context.interfaceinformations
-                                              where s.attribute == "registrationTitle1"
-                                              select s).FirstOrDefault();
-                    if (registrationTitle1 != null)
-                        registrationTitle1.content = newRegistration.registrationTitle1;
-
                     var registrationParagraph1 = (from s in context.interfaceinformations
                                                   where s.attribute == "registrationParagraph1"
                                                   select s).FirstOrDefault();
                     if (registrationParagraph1 != null)
                         registrationParagraph1.content = newRegistration.registrationParagraph1;
-
-                    var registrationTitle2 = (from s in context.interfaceinformations
-                                              where s.attribute == "registrationTitle2"
-                                              select s).FirstOrDefault();
-
-                    if (registrationTitle2 != null)
-                        registrationTitle2.content = newRegistration.registrationTitle2;
 
                     var registrationParagraph2 = (from s in context.interfaceinformations
                                                   where s.attribute == "registrationParagraph2"
@@ -605,12 +474,6 @@ namespace NancyService.Modules
                     if (registrationParagraph2 != null)
                         registrationParagraph2.content = newRegistration.registrationParagraph2;
 
-                    var registrationNotes = (from s in context.interfaceinformations
-                                             where s.attribute == "registrationNotes"
-                                             select s).FirstOrDefault();
-
-                    if (registrationNotes != null)
-                        registrationNotes.content = newRegistration.registrationNotes;
 
                     var undergraduateStudentFee = (from s in context.usertypes
                                                    where s.userTypeName == "Undergraduate Student"
@@ -698,7 +561,6 @@ namespace NancyService.Modules
                 deadline.deadlineDate4 = this.getInterfaceElement("deadlineDate4").content;
                 deadline.deadline5 = this.getInterfaceElement("deadline5").content;
                 deadline.deadlineDate5 = this.getInterfaceElement("deadlineDate5").content;
-                deadline.title = this.getInterfaceElement("deadlineTitle1").content;
                 deadline.paragraph = this.getInterfaceElement("deadlineParagraph1").content;
 
                 //Papers
@@ -755,7 +617,6 @@ namespace NancyService.Modules
                     deadline.deadlineDate4 = this.getInterfaceElement("deadlineDate4").content;
                     deadline.deadline5 = this.getInterfaceElement("deadline5").content;
                     deadline.deadlineDate5 = this.getInterfaceElement("deadlineDate5").content;
-                    deadline.title = this.getInterfaceElement("deadlineTitle1").content;
                     deadline.paragraph = this.getInterfaceElement("deadlineParagraph1").content;
 
                     deadline.extendedPaperDeadline = this.getDeadlineElement("Extended Paper").content;
@@ -850,12 +711,6 @@ namespace NancyService.Modules
 
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    var title = (from s in context.interfaceinformations
-                                     where s.attribute == "deadlineTitle1"
-                                     select s).FirstOrDefault();
-                    if (title != null)
-                        title.content = newDeadline.title;
-
                     var paragraph = (from s in context.interfaceinformations
                                      where s.attribute == "deadlineParagraph1"
                                      select s).FirstOrDefault();
@@ -1849,10 +1704,7 @@ namespace NancyService.Modules
     {
         public String conferenceName;
         public String homeMainTitle;
-        public String homeTitle1;
         public String homeParagraph1;
-        public String homeTitle2;
-        public String homeParagraph2;
         public String image;
 
         public HomeQuery()
@@ -1876,10 +1728,7 @@ namespace NancyService.Modules
 
     public class VenueQuery
     {
-        public String venueTitle1;
         public String venueParagraph1;
-        public String venueTitle2;
-        public String venueParagraph2;
         public String venueTitleBox;
         public String venueParagraphContentBox;
 
@@ -1904,16 +1753,7 @@ namespace NancyService.Modules
 
     public class ParticipationQuery
     {
-        public String participationTitle1;
         public String participationParagraph1;
-        public String participationTitle2;
-        public String participationParagraph2;
-        public String participationTitle3;
-        public String participationParagraph3;
-        public String participationTitle4;
-        public String participationParagraph4;
-        public String participationTitle5;
-        public String participationParagraph5;
 
         public ParticipationQuery()
         {
@@ -1923,11 +1763,8 @@ namespace NancyService.Modules
 
     public class RegistrationQuery
     {
-        public String registrationTitle1;
         public String registrationParagraph1;
-        public String registrationTitle2;
         public String registrationParagraph2;
-        public String registrationNotes;
         public double undergraduateStudentFee;
         public double graduateStudentFee;
         public double highSchoolStudentFee;
@@ -1965,7 +1802,6 @@ namespace NancyService.Modules
         public String bofDeadline;
         public String workshopDeadline;
         public String sponsorDeadline;
-        public String title;
         public String paragraph;
     }
 

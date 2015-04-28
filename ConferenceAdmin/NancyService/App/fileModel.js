@@ -38,6 +38,8 @@ angular.module('app').directive('onReadFile', function ($parse) {
 
 angular.module('app').directive('parseUrl', function () {
     var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
+    var urlPattern2 = /(www)\.[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
+
     return {
         restrict: 'A',
         require: 'ngModel',
@@ -50,6 +52,8 @@ angular.module('app').directive('parseUrl', function () {
             scope.$watch('ngModel', function (value) {
                 if (value != undefined) {
                     var html = value.replace(urlPattern, '<a target="' + '_blank' + '" href="$&">$&</a>');
+                        html = html.replace(urlPattern2, '<a target="' + '_blank' + '" href="http://$&">$&</a>');
+
                     element.html(html);
                 }
             });

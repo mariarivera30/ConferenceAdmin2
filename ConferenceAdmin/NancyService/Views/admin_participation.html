@@ -1,83 +1,21 @@
 ﻿<div class="row" ng-controller="participationCtrl as vm">
 
-    <div class="row">
-        <div class="col-lg-6"><h3>Participation</h3></div>
-
-        <div class="col-lg-3">
-            <button class="btn btn-ar btn-primary right" ng-click="vm.reset()">Reset</button>
-        </div>
+        <div class="col-lg-9"><h3>Call for Participation</h3></div>
 
         <!-- Loading icon, appearing while table is loading its contents. -->
         <div class="col-lg-3 loading-right">
             <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
         </div>
-    </div>
 
 
     <div class="col-lg-10 hide-until-loaded" id="body">
 
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <h5 class="after-title-field">Title 1</h5>
-                    <input type="text" class="form-control" ng-model="vm.participationTitle1">
-                </div>
-            </div>
-        </div>
-
-        <h5 class="after-title-field">Paragraph 1</h5>
-        <textarea ng-model="vm.participationParagraph1" class="form-control" rows="5"></textarea><br />
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <h5 class="after-title-field">Title 2</h5>
-                    <input type="text" class="form-control" ng-model="vm.participationTitle2">
-                </div>
-            </div>
-        </div>
-
-        <h5 class="after-title-field">Paragraph 2</h5>
-        <textarea ng-model="vm.participationParagraph2" class="form-control" rows="5"></textarea><br />
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <h5 class="after-title-field">Title 3</h5>
-                    <input type="text" class="form-control" ng-model="vm.participationTitle3">
-                </div>
-            </div>
-        </div>
-
-        <h5 class="after-title-field">Paragraph 3</h5>
-        <textarea ng-model="vm.participationParagraph3" class="form-control" rows="5"></textarea><br />
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <h5 class="after-title-field">Title 4</h5>
-                    <input type="text" class="form-control" ng-model="vm.participationTitle4">
-                </div>
-            </div>
-        </div>
-
-        <h5 class="after-title-field">Paragraph 4</h5>
-        <textarea class="form-control" rows="5" ng-model="vm.participationParagraph4"></textarea><br />
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <h5 class="after-title-field">Title 5</h5>
-                    <input type="text" class="form-control" ng-model="vm.participationTitle5">
-                </div>
-            </div>
-        </div>
-
-        <h5 class="after-title-field">Paragraph 5</h5>
-        <textarea class="form-control" rows="5" ng-model="vm.participationParagraph5"></textarea><br />
+        <p>You can provide information on the different ways students and professionals can participate in the conference (e.g instructions for applications and submissions).</p>
+        <textarea ng-model="vm.participationParagraph1" class="form-control" ckeditor="300px"></textarea><br />
 
         <div class="row">
             <div class="col-lg-10">
+                <button class="btn btn-ar btn-default" ng-click="vm.reset()">Reload</button>
                 <button class="btn btn-ar btn-primary" ng-click="vm.saveParticipation()" ng-disabled="vm.loading">Save</button>
             </div>
         </div>

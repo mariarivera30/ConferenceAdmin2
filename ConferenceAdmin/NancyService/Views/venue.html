@@ -2,12 +2,9 @@
     <div class="row hide-until-loaded" id="body">
         <div class="col-md-9">
             <h2 class="section-title">Venue</h2>
-            <p ng-hide="vm.ivenueTitle1 || vm.ivenueParagraph1 || vm.ivenueTitle2 || vm.ivenueParagraph2">No content to display.</p>
+            <p ng-hide="vm.ivenueParagraph1">No content to display.</p>
             <section>
-                <h3>{{vm.ivenueTitle1}}</h3>
-                <p class="p-lg" parse-url="props" ng-model="vm.ivenueParagraph1"></p>
-                <h3>{{vm.ivenueTitle2}}</h3>
-                <p class="p-lg" parse-url="props" ng-model="vm.ivenueParagraph2"></p>
+                <div ng-model="vm.ivenueParagraph1" ckhtml></div>
             </section>
         </div>
         <div class="col-md-3">
@@ -15,9 +12,7 @@
             <div class="row">
                 <div class="col-md-12 col-sm-4">
                     <p ng-hide="vm.ivenueParagraphContentBox">No content to display.</p>
-                    <div class="home-news-box">
-                        <p parse-url="props" ng-model="vm.ivenueParagraphContentBox"></p>
-                    </div>
+                    <div class="home-news-box" ng-model="vm.ivenueParagraphContentBox" ckhtml></div>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 ﻿<div ng-controller="committeeCtrl2 as vm">
-    <h3>Planning Committee</h3><br>
-
+    <h3>Planning Committee</h3>
+    <p>The planning committee is used for informational purposes only. It is displayed on the "Planning Committee" section of the website.</p>
     <div ng-hide="vm.planningCommitteeList.length"><p>No committee member has been added.</p><br /></div>
     <div class="col-lg-12 hide-until-loaded" id="body">
         <table ng-table="tableParams" class="table row" ng-show="vm.planningCommitteeList.length">

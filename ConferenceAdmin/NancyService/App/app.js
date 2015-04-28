@@ -9,7 +9,8 @@
         'ngAnimate',        // animations
         'ngRoute',           // routing
         'ui.router',
-        'ngSanitize'      
+        'ngSanitize',
+        'ngCkeditor'
         // Custom modules 
 
         // 3rd Party Modules

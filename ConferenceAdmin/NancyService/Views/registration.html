@@ -2,15 +2,13 @@
     <div class="row hide-until-loaded" id="body">
         <div class="col-md-12">
             <h2 class="section-title no-margin-top">Registration Fees</h2>
-            <p ng-hide="vm.registrationNotes || vm.registrationTitle1 || vm.registrationParagraph1 || vm.registrationTitle2 || vm.registrationParagraph2 || vm.undergraduateStudentFee || vm.undergraduateStudentLateFee || vm.graduateStudentFee || vm.graduateStudentLateFee || vm.highSchoolStudentFee || vm.highSchoolStudentLateFee || vm.companionStudentFee || vm.companionStudentLateFee || vm.professionalAcademyFee || vm.professionalAcademyLateFee || vm.professionalIndustryFee || vm.professionalIndustryLateFee">No content to display.</p>
-            <h4 parse-url="props" ng-model="vm.iregistrationNotes"></h4>
-            <h5 class="black-label">{{vm.iregistrationTitle1}}</h5>
-            <p class="p-lg" parse-url="props" ng-model="vm.iregistrationParagraph1"></p>
+            <p ng-hide="vm.iregistrationParagraph1 || vm.iregistrationParagraph2 || vm.iundergraduateStudentFee || vm.iundergraduateStudentLateFee || vm.igraduateStudentFee || vm.igraduateStudentLateFee || vm.ihighSchoolStudentFee || vm.ihighSchoolStudentLateFee || vm.icompanionStudentFee || vm.icompanionStudentLateFee || vm.iprofessionalAcademyFee || vm.iprofessionalAcademyLateFee || vm.iprofessionalIndustryFee || vm.iprofessionalIndustryLateFee">No content to display.</p>
+            <div class="p-lg" ng-model="vm.iregistrationParagraph1" ckhtml></div>
         </div>
 
         <div class="col-md-8">
 
-            <table class="table" ng-show="vm.undergraduateStudentFee || vm.undergraduateStudentLateFee || vm.graduateStudentFee || vm.graduateStudentLateFee || vm.highSchoolStudentFee || vm.highSchoolStudentLateFee || vm.companionStudentFee || vm.companionStudentLateFee || vm.professionalAcademyFee || vm.professionalAcademyLateFee || vm.professionalIndustryFee || vm.professionalIndustryLateFee">
+            <table class="table" ng-show="vm.iundergraduateStudentFee || vm.iundergraduateStudentLateFee || vm.igraduateStudentFee || vm.igraduateStudentLateFee || vm.ihighSchoolStudentFee || vm.ihighSchoolStudentLateFee || vm.icompanionStudentFee || vm.icompanionStudentLateFee || vm.iprofessionalAcademyFee || vm.iprofessionalAcademyLateFee || vm.iprofessionalIndustryFee || vm.iprofessionalIndustryLateFee">
 
                 <thead>
 
@@ -93,10 +91,7 @@
             </table>
         </div>
 
-        <div class="col-md-12">
-            <h5 class="black-label">{{vm.iregistrationTitle2}}</h5>
-            <p class="p-lg" parse-url="props" ng-model="vm.iregistrationParagraph2"></p>
-        </div>
+        <div class="col-md-12" ng-model="vm.iregistrationParagraph2" ckhtml></div>
 
     </div>
 

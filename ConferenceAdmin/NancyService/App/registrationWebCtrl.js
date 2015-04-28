@@ -13,11 +13,8 @@
 
         //From Admin Website
         vm.temp;
-        vm.registrationTitle1;
         vm.registrationParagraph1;
-        vm.registrationTitle2;
         vm.registrationParagraph2;
-        vm.registrationNotes;
 
         vm.undergraduateStudentFee;
         vm.graduateStudentFee;
@@ -35,11 +32,8 @@
         vm.loading = false;
 
         //InterfaceElements
-        vm.iregistrationTitle1;
         vm.iregistrationParagraph1;
-        vm.iregistrationTitle2;
         vm.iregistrationParagraph2;
-        vm.iregistrationNotes;
 
         vm.iundergraduateStudentFee;
         vm.igraduateStudentFee;
@@ -95,11 +89,8 @@
         }
 
         function _reset() {
-            vm.registrationTitle1 = vm.temp.registrationTitle1;
             vm.registrationParagraph1 = vm.temp.registrationParagraph1;
-            vm.registrationTitle2 = vm.temp.registrationTitle2;
             vm.registrationParagraph2 = vm.temp.registrationParagraph2;
-            vm.registrationNotes = vm.temp.registrationNotes;
 
             vm.undergraduateStudentFee = vm.temp.undergraduateStudentFee;
             vm.graduateStudentFee = vm.temp.graduateStudentFee;
@@ -121,11 +112,8 @@
             .success(function (data, status, headers, config) {
                 if (data != null && data != "") {
                     vm.temp = data;
-                    vm.iregistrationTitle1 = data.registrationTitle1;
                     vm.iregistrationParagraph1 = data.registrationParagraph1;
-                    vm.iregistrationTitle2 = data.registrationTitle2;
                     vm.iregistrationParagraph2 = data.registrationParagraph2;
-                    vm.iregistrationNotes = data.registrationNotes;
 
                     vm.iundergraduateStudentFee = data.undergraduateStudentFee;
                     vm.igraduateStudentFee = data.graduateStudentFee;
@@ -141,11 +129,8 @@
                     vm.iprofessionalAcademyLateFee = data.professionalAcademyLateFee;
                     vm.iprofessionalIndustryLateFee = data.professionalIndustryLateFee;
 
-                    vm.registrationTitle1 = data.registrationTitle1;
                     vm.registrationParagraph1 = data.registrationParagraph1;
-                    vm.registrationTitle2 = data.registrationTitle2;
                     vm.registrationParagraph2 = data.registrationParagraph2;
-                    vm.registrationNotes = data.registrationNotes;
 
                     vm.undergraduateStudentFee = data.undergraduateStudentFee;
                     vm.graduateStudentFee = data.graduateStudentFee;
@@ -174,11 +159,8 @@
         function _saveRegistrationInfo() {
             vm.loading = true;
             var newRegistration = {
-                registrationTitle1: vm.registrationTitle1,
                 registrationParagraph1: vm.registrationParagraph1,
-                registrationTitle2: vm.registrationTitle2,
                 registrationParagraph2: vm.registrationParagraph2,
-                registrationNotes: vm.registrationNotes,
 
                 undergraduateStudentFee: vm.undergraduateStudentFee,
                 graduateStudentFee: vm.graduateStudentFee,
