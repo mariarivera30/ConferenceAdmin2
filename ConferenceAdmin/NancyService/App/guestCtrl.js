@@ -229,8 +229,9 @@
         function _downloadPDFFile(id) {
             restApi.getAuthorizationFile(id).
                 success(function (data, status, headers, config) {
-                    var file = new Blob([data]);
-                    saveAs(file);
+                    window.open(data);
+                    //var file = new Blob([data]);
+                    //saveAs(file);
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");

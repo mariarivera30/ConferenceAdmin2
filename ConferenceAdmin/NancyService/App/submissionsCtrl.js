@@ -244,8 +244,9 @@
         function _downloadPDFFile(id) {
             restApi.getSubmissionFile(id).
                 success(function (data, status, headers, config) {
-                    var file = new Blob([data.document]);
-                    saveAs(file, data.documentName);
+                    window.open(data.document);
+                    //var file = new Blob([data.document]);
+                    //saveAs(file, data.documentName);
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");
@@ -979,8 +980,9 @@
         function _getSubmissionsReport() {
             restApi.getSubmissionsReport().
                 success(function (data, status, headers, config) {
-                    var file = new Blob([data]);
-                    saveAs(file, "Submissions_Report.csv");
+                    window.open(data);
+                    //var file = new Blob([data]);
+                    //saveAs(file, "Submissions_Report.csv");
                 }).
                 error(function (data, status, headers, config) {
 
