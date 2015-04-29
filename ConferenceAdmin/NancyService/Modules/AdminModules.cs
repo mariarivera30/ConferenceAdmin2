@@ -248,16 +248,16 @@ namespace NancyService.Modules
                 }
             };
 
-            Get["/getSponsor"] = parameters =>
-            {
-                try
-                {
-                    // this.RequiresAuthentication();
-                    // this.RequiresClaims(new[] { "minor" });
-                    return Response.AsJson(sponsorManager.getSponsorList());
-                }
-                catch { return null; }
-            };
+            //Get["/getSponsor"] = parameters =>
+            //{
+            //    try
+            //    {
+            //        // this.RequiresAuthentication();
+            //        // this.RequiresClaims(new[] { "minor" });
+            //        return Response.AsJson(sponsorManager.getSponsorList());
+            //    }
+            //    catch { return null; }
+            //};
 
             Get["/getSponsorListIndex/{index:int}"] = parameters =>
             {

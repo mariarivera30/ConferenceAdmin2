@@ -17,7 +17,7 @@
             <br />
             {{vm.message}}
 
-            <button type="submit" class="btn btn-ar btn-primary pull-right" ng-click="vm.loginIfEmail()" ng-disabled="loginForm.$invalid  ">Login</button>
+            <button type="submit" class="btn btn-ar btn-primary pull-right" ng-click="vm.loginIfEmail()" ng-disabled="(loginForm.$invalid || vm.uploadingComp) ">Login</button>
 
             <div class="clearfix"></div>
 

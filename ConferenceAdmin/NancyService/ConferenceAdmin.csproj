@@ -105,7 +105,10 @@
     <Content Include="App\paymentCtrl.js" />
     <Content Include="App\paymentErrorCtrl.js" />
     <Content Include="App\paymentReceiptCtrl.js" />
+    <Content Include="App\profileComplementaryCtrl.js" />
     <Content Include="App\profileEvaluationCtrl.js" />
+    <Content Include="App\profileSponsorBillCtrl.js" />
+    <Content Include="App\profileSponsorCtrl.js" />
     <Content Include="App\profileStatusCtrl.js" />
     <Content Include="App\layoutCtrl.js" />
     <Content Include="App\loginCtrl.js" />
@@ -128,6 +131,7 @@
     <Content Include="App\services.js" />
     <Content Include="App\signUpCtrl.js" />
     <Content Include="App\sponsorCtrl.js" />
+    <Content Include="App\sponsorDonateCtrl.js" />
     <Content Include="App\sponsorInterfaceCtrl.js" />
     <Content Include="App\sponsorInterfaceCtrl2.js" />
     <Content Include="App\sponsorRegistrationCtrl.js" />
@@ -191,6 +195,10 @@
     <Content Include="Views\paymentError.html" />
     <Content Include="Views\paymentReceipt.html" />
     <Content Include="Views\PaymentView.html" />
+    <Content Include="Views\profileSponsor.html" />
+    <Content Include="Views\profileSponsorComplementary.html" />
+    <Content Include="Views\profileSponsorDonate.html" />
+    <Content Include="Views\profileSponsorPaymentBills.html" />
     <Content Include="Views\profile_application.html" />
     <Content Include="Views\changePassword.html" />
     <Content Include="Views\registration_form.html" />
@@ -1427,6 +1435,7 @@
     <Compile Include="Models\Mapping\paymenttypeMap.cs" />
     <Compile Include="Models\Mapping\privilegeMap.cs" />
     <Compile Include="Models\Mapping\registrationMap.cs" />
+    <Compile Include="Models\Mapping\sponsor2Map.cs" />
     <Compile Include="Models\Mapping\sponsorMap.cs" />
     <Compile Include="Models\Mapping\sponsortypeMap.cs" />
     <Compile Include="Models\Mapping\submissionMap.cs" />
@@ -1448,6 +1457,7 @@
     <Compile Include="Models\privilege.cs" />
     <Compile Include="Models\registration.cs" />
     <Compile Include="Models\sponsor.cs" />
+    <Compile Include="Models\sponsor2.cs" />
     <Compile Include="Models\sponsortype.cs" />
     <Compile Include="Models\submission.cs" />
     <Compile Include="Models\submissiontype.cs" />
@@ -1512,6 +1522,7 @@
   <ItemGroup>
     <Folder Include="img\demopage\" />
     <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="sponsorlogo\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

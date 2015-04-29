@@ -36,22 +36,20 @@
                     </div>
                 
                 </div>
-                <div class=" col-md-4">
-                  
-                </div>
+              
             </div>
         </div>
         <div class=" col-md-6">
             <br/>
             <h3>Donate</h3>
-            <div class=" col-md-6">
+            <div class=" col-md-5">
                 <label>Upgrade Sponsor Type:</label>
                 <select ng-model="vm.sponsorType"
                         ng-options="type.sponsortypeID as type.name for type in vm.dropDown" class="form-control"></select>
                 <a href="" data-toggle="modal" ng-click="vm.showDetails(vm.sponsorType)" data-target="#viewType">Details</a>
             </div>
 
-            <div class=" col-md-4">
+            <div class=" col-md-5">
                 <div class="row" >
                     <label ng-show="vm.sponsorType == 1">Amount: ${{vm.sponsorsTypeList[vm.sponsorType ].amount+1}}- ${{vm.sponsorsTypeList[vm.sponsorType-1].amount}}+</label>
                     <label ng-show="vm.sponsorType ==5">Amount: $1 - ${{vm.sponsorsTypeList[vm.sponsorType -1].amount}} </label>

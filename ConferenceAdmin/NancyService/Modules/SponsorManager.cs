@@ -235,6 +235,7 @@ namespace NancyService.Modules
                     context.SaveChanges();
                     x.sponsorID = sponsor.sponsorID;
                     x.addressID = address.addressID;
+                    x.byAdmin = true;
                     return x;
                 }
         
@@ -273,59 +274,59 @@ namespace NancyService.Modules
             }
         }
 
-        public List<SponsorQuery> getSponsorList()
-        {
-            try
-            {
-                //string f = this.getComplementaryPDF();
+        //public List<SponsorQuery> getSponsorList()
+        //{
+        //    try
+        //    {
+        //        //string f = this.getComplementaryPDF();
 
-                using (conferenceadminContext context = new conferenceadminContext())
-                {
-
-
-                    var sponsor = (from s in context.sponsors
-                                   from type in context.sponsortypes
-                                   from pay in context.paymentbills
-                                   where (s.sponsorType == type.sponsortypeID) && (s.paymentID == pay.paymentID) && (s.deleted == false) && s.active ==true
-                                   select new SponsorQuery
-                                   {
-                                       sponsorID = s.sponsorID,
-                                       firstName = s.firstName,
-                                       lastName = s.lastName,
-                                       company = s.company,
-                                       title = s.title,
-                                       logo = s.logo,
-                                       phone = s.phone,
-                                       email = s.email,
-                                       addressID = (long)s.addressID,
-                                       city = s.address.city,
-                                       line1 = s.address.line1,
-                                       line2 = s.address.line2,
-                                       state = s.address.state,
-                                       zipcode = s.address.zipcode,
-                                       country = s.address.country,
-                                       sponsorType = s.sponsorType,
-                                       amount = pay.AmountPaid,
-                                       transactionID = pay.transactionid,
-                                       paymentID = (long)pay.paymentID,
-                                       method = pay.methodOfPayment,
-                                       //typeName = type.name,
-
-                                   }).ToList();
+        //        using (conferenceadminContext context = new conferenceadminContext())
+        //        {
 
 
-                    return sponsor;
-                }
+        //            var sponsor = (from s in context.sponsors
+        //                           from type in context.sponsortypes
+        //                           from pay in context.paymentbills
+        //                           where (s.sponsorType == type.sponsortypeID) && (s.paymentID == pay.paymentID) && (s.deleted == false) && s.active ==true
+        //                           select new SponsorQuery
+        //                           {
+        //                               sponsorID = s.sponsorID,
+        //                               firstName = s.firstName,
+        //                               lastName = s.lastName,
+        //                               company = s.company,
+        //                               title = s.title,
+        //                               logo = s.logo,
+        //                               phone = s.phone,
+        //                               email = s.email,
+        //                               addressID = (long)s.addressID,
+        //                               city = s.address.city,
+        //                               line1 = s.address.line1,
+        //                               line2 = s.address.line2,
+        //                               state = s.address.state,
+        //                               zipcode = s.address.zipcode,
+        //                               country = s.address.country,
+        //                               sponsorType = s.sponsorType,
+        //                               amount = pay.AmountPaid,
+        //                               transactionID = pay.transactionid,
+        //                               paymentID = (long)pay.paymentID,
+        //                               method = pay.methodOfPayment,
+        //                               //typeName = type.name,
+
+        //                           }).ToList();
 
 
-            }
-            catch (Exception ex)
-            {
-                Console.Write("SponsorManager.getSponsor error " + ex);
-                return null;
-            }
+        //            return sponsor;
+        //        }
 
-        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.Write("SponsorManager.getSponsor error " + ex);
+        //        return null;
+        //    }
+
+        //}
 
         public SponsorPagingQuery getSponsorList(int index)
         {
@@ -360,7 +361,7 @@ namespace NancyService.Modules
                                        zipcode = s.user.address.zipcode,
                                        country = s.user.address.country,
                                        sponsorType = (int)s.sponsorType,
-                                       amount = b.AmountPaid,
+                                       amount = s.totalAmount,
                                        method = b.methodOfPayment,
                                        transactionID = b.transactionid,
                                        byAdmin =s.byAdmin,                                       
@@ -424,6 +425,7 @@ namespace NancyService.Modules
                                        method = s.byAdmin == true &&  s.payment.paymentbills.FirstOrDefault() == null? null: s.payment.paymentbills.FirstOrDefault().methodOfPayment,
                                        typeName = s.sponsortype1.name,
                                        active = (bool)s.active,
+                                       byAdmin = s.byAdmin,
 
                                    }).FirstOrDefault();
 
