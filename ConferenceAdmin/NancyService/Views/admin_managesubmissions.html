@@ -4,11 +4,11 @@
         <h3>Manage Submissions</h3>
         <button class="btn btn-ar btn-primary right" ng-click="vm.getSubmissionsReport()">Download Report</button><br>
         <div class="col-lg-12">
-            <div ng-hide="vm.submissionsList.length">
+            <div ng-show="vm.empty1">
                 <p class="title-field">No content to display.</p>
                 <a class="btn btn-default" ng-click="vm.getAllSubmissions(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
             </div>
-            <div ng-show="vm.submissionsList.length">
+            <div ng-hide="vm.empty1">
                 <div class="paging-height-dropdowns">
                     <label class="left" ng-hide="vm.showResult">Search: <input ng-model="vm.criteria" /><button ng-click="vm.searchSubmission(); vm.showResult = true"><i class="fa fa-search"></i></button></label>
                     <label class="left" ng-show="vm.showResult"><button ng-click="vm.getAllSubmissions(vm.sindex); vm.showResult = false; vm.criteria = '';"><i class="glyphicon glyphicon-arrow-left"></i> </button> Showing results for: "{{vm.criteria}}"</label>
@@ -74,11 +74,11 @@
                     </div>
                     <div id="collapseOne" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
                         <div class="panel-body">
-                            <div ng-hide="vm.deletedSubmissionsList.length">
+                            <div ng-show="vm.empty2">
                                 <p class="title-field">No content to display.</p>
                                 <a class="btn btn-default" ng-click="vm.getGuestList(vm.dindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
                             </div>
-                            <div ng-show="vm.deletedSubmissionsList.length">
+                            <div ng-hide="vm.empty2">
                                 <div class="paging-height">
                                     <label class="left">Search: <input ng-model="vm.dcriteria" /><button ng-click="vm.searchDeletedSubmission()"><i class="fa fa-search"></i></button></label><br />
                                     <table ng-table="tableParams" class="table row">
@@ -152,7 +152,7 @@
                     <p ng-show="vm.evaluationsList.length == 0">No evaluators have been assigned yet.</p>
                     <br />
                     <select ng-hide ="vm.processing" ng-model="vm.evaluatorID" ng-options="evaluator.evaluatorID as evaluator.firstName + ' ' + evaluator.lastName for evaluator in vm.evaluatorsList"></select>
-                    <button ng-hide="vm.processing" class="btn btn-ar btn-primary" ng-click="vm.assignEvaluator(vm.submissionID, vm.evaluatorID);">Assign <i class="fa fa-arrow-up"> </i></button>
+                    <button ng-hide="vm.processing" class="btn btn-ar btn-primary" ng-click="vm.assignEvaluator(vm.submissionID, vm.evaluatorID);" ng-disabled="vm.evaluatorID == ''">Assign <i class="fa fa-arrow-up"> </i></button>
                     <p ng-show="vm.exists">This Evaluator has already been assigned.</p>
                     <div class="block" ng-show="vm.processing">
                         <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>Processing</h3>
@@ -231,9 +231,9 @@
             <label>Necessary Equipment</label><br />{{vm.equipment}}
         </div>
         <div ng-hide="vm.submissionTypeID == 4" ng-show="vm.submissionFileList.length != 0" class="col-lg-12">
-            <label>Uploaded Document(s) </label><br />
+            <label>Uploaded Document(s) <a href=""><i class="fa fa-info-circle" title="Double-click the file name to open."></i></a></label><br />
             <div ng-repeat="file in vm.submissionFileList">
-                <a href="" ng-show="file.documentName" ng-click="vm.downloadPDFFile(file.documentssubmittedID)"> {{file.documentName}}</a>
+                <a href="" ng-show="file.documentName" ng-click="vm.downloadPDFFile(file.documentssubmittedID)" id="file-{{file.documentssubmittedID}}" class="file-link"><i class="fa fa-file-text file-icon"></i> {{file.documentName}}</a>
             </div>
         </div>
 
@@ -291,9 +291,9 @@
                 <label>Necessary Equipment</label><br />{{vm.prevEquipment}}
             </div>
             <div ng-show="vm.prevSubmissionFileList.length != 0" ng-hide="vm.submissionTypeID == 4" class="col-lg-12">
-                <label>Uploaded Document(s) </label><br />
+                <label>Uploaded Document(s) <a href=""><i class="fa fa-info-circle" title="Double-click the file name to open."></i></a></label><br />
                 <div ng-repeat="file in vm.prevSubmissionFileList">
-                    <a href="" class="col-sm-7" ng-show="file.documentName" ng-click="vm.downloadPDFFile(file.documentssubmittedID)">{{file.documentName}}</a>
+                    <a href="" ng-show="file.documentName" ng-click="vm.downloadPDFFile(file.documentssubmittedID)" id="file-{{file.documentssubmittedID}}" class="file-link"><i class="fa fa-file-text file-icon"></i> {{file.documentName}}</a>
                 </div>
             </div>
         </div>

@@ -139,6 +139,8 @@
         function _getGuestList(index) {
             restApi.getGuestList(index).
                    success(function (data, status, headers, config) {
+                       if (data.results == null)
+                           vm.empty = true;
                        vm.smaxIndex = data.maxIndex;
                        if (vm.smaxIndex == 0) {
                            vm.sindex = 0;

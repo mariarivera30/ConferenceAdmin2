@@ -195,6 +195,8 @@
         function _getAllSubmissions(index) {
             restApi.getAllSubmissions(index).
                    success(function (data, status, headers, config) {
+                       if (data.results == null)
+                           vm.empty1 = true;
                        vm.smaxIndex = data.maxIndex;
                        if (vm.smaxIndex == 0) {
                            vm.sindex = 0;
@@ -244,14 +246,16 @@
         function _downloadPDFFile(id) {
             restApi.getSubmissionFile(id).
                 success(function (data, status, headers, config) {
-                    window.open(data.document);
+                    //window.open(data.document);
+                    $("#file-"+id).attr("href", data.document).attr("download", data.documentName);
+                    
+                    //document.createElement("A", )
                     //var file = new Blob([data.document]);
                     //saveAs(file, data.documentName);
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");
                 });
-            
         }
 
         /* Set all fields with the submission information */
@@ -826,6 +830,8 @@
         function _getDeletedSubmissions(index) {
             restApi.getDeletedSubmissions(index).
                    success(function (data, status, headers, config) {
+                       if (data.results == null)
+                           vm.empty2 = true;
                        vm.dmaxIndex = data.maxIndex;
                        if (vm.dmaxIndex == 0) {
                            vm.dindex = 0;

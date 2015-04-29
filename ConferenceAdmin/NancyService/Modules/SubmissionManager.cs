@@ -2270,7 +2270,7 @@ namespace NancyService.Modules
                     avgScore = 0.00;
                     numOfEvaluations = 0;
                     //get all submissions that do not have a final submission
-                    List<usersubmission> subList2 = context.usersubmission.Where(c => (c.submission.title.ToLower().Contains(criteria) || c.submission.topiccategory.name.ToLower().Contains(criteria) || c.submission.submissiontype.name.ToLower().Contains(criteria)) && c.deleted == false && c.finalSubmissionID == null).ToList();
+                    List<usersubmission> subList2 = context.usersubmission.Where(c => (c.submission1.title.ToLower().Contains(criteria) || c.submission1.topiccategory.name.ToLower().Contains(criteria) || c.submission1.submissiontype.name.ToLower().Contains(criteria)) && c.deleted == false && c.finalSubmissionID == null).ToList();
                     foreach (var sub in subList2)
                     {
                         long userID = sub.userID;

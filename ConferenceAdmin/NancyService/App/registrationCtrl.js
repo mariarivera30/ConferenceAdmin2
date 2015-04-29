@@ -121,6 +121,7 @@
         function _addRegistration() {
             var userTypeName = vm.usertypeid.userTypeName;
             vm.usertypeid = vm.usertypeid.userTypeID;
+            vm.processing = true;
 
             restApi.postNewRegistration(vm)
                 .success(function (data, status, headers, config) {
@@ -128,8 +129,10 @@
                     vm.registrationsList.push(vm.newReg);
                     clear();
                     vm.recoverType = parseInt(data.split(",")[1]);
-                    vm.recoverID = parseInt(data.split(",")[0]);*/
-                    _getRegistrations();
+                    vm.recoverID = parseInt(data.split(",")[0]);*/                    
+                    _getRegistrations(vm.sindex);
+                    vm.processing = false;
+                    $('#register').modal('hide');
                 })
 
                 .error(function (error) {
@@ -143,6 +146,8 @@
         function _getRegistrations(index) {
             restApi.getRegistrations(index).
                    success(function (data, status, headers, config) {
+                       if (data.results == null)
+                           vm.empty = true;
                        vm.smaxIndex = data.maxIndex;
                        if (vm.smaxIndex == 0) {
                            vm.sindex = 0;

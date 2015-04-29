@@ -2,11 +2,11 @@
 
     <h3>Manage Guests</h3><br>
     <div class="col-lg-12">
-        <div ng-hide="vm.guestList.length">
+        <div ng-show="vm.empty">
             <p class="title-field">No content to display.</p>
             <a class="btn btn-default" ng-click="vm.getGuestList(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
         </div>
-        <div ng-show="vm.guestList.length">
+        <div ng-hide="vm.empty">
             <div class="paging-height-dropdowns">
                 <label class="left" ng-hide="vm.showResult">Search: <input ng-model="vm.criteria" /><!--ng-change="vm.searchGuest()" />--><button type="submit" ng-click="vm.searchGuest(); vm.showResult = true"><i class="fa fa-search"></i></button></label>
                 <label class="left" ng-show="vm.showResult"><button ng-click="vm.getGuestList(vm.sindex); vm.showResult = false; vm.criteria = '';"><i class="glyphicon glyphicon-arrow-left"></i> </button> Showing results for: "{{vm.criteria}}"</label><br />
