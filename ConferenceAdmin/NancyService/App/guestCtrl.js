@@ -137,8 +137,10 @@
         }
         //START PAGINATION CODE
         function _getGuestList(index) {
+            vm.uploadingComp = true;
             restApi.getGuestList(index).
                    success(function (data, status, headers, config) {
+                       vm.uploadingComp = false;
                        vm.smaxIndex = data.maxIndex;
                        if (vm.smaxIndex == 0) {
                            vm.sindex = 0;
@@ -153,6 +155,7 @@
                        }
                    }).
                    error(function (data, status, headers, config) {
+                       vm.uploadingComp = false;
                    });
         }
             function _nextGuest() {
