@@ -506,11 +506,13 @@
 
         /* Remove an assigned evaluator from a submission */
         function _removeEvaluator(evaluatorSubmissionID) {
+            vm.removing = true;
             restApi.removeEvaluator(evaluatorSubmissionID).
                   success(function (data, status, headers, config) {
                       vm.evaluationsList.forEach(function (eva, index) {
                           if (eva.evaluatorSubmissionID == data) {
                               vm.evaluationsList.splice(index, 1);
+                              vm.removing = false;
                           }
                       });
                   }).

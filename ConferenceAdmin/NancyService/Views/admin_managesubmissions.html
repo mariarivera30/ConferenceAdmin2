@@ -144,7 +144,7 @@
                                 <td>{{eval.evaluatorFirstName + ' ' + eval.evaluatorLastName}}</td>
                                 <td>{{eval.score}}</td>
                                 <td>
-                                    <button class="btn btn-ar btn-primary" ng-click="vm.removeEvaluator(eval.evaluatorSubmissionID)" ng-disabled="eval.score">Remove</button>
+                                    <button class="btn btn-ar btn-primary" ng-click="vm.removeEvaluator(eval.evaluatorSubmissionID)" ng-disabled="eval.score || vm.removing">Remove</button> <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate" ng-show="vm.removing"></i>
                                 </td>
                             </tr>
                         </tbody>
