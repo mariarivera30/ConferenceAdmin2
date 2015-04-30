@@ -7,7 +7,7 @@
 
         <div class="templates-list table-box">
             <ul class="list-group list-group-striped">
-                <li ng-repeat="temp in vm.templatesList" class="list-group-item">{{temp.templateName}}<a href="" ng-click="vm.downloadTemplate(temp.templateID)" class="right">Download</a></li>
+                <li ng-repeat="temp in vm.templatesList" class="list-group-item">{{temp.templateName}}<a href="" ng-mouseover="vm.downloadTemplate(temp.templateID)" ng-mouseleave="vm.resetDownloadLink(temp.templateID)" id="file-{{temp.templateID}}" class="right">Download</a></li>
             </ul>
         </div>
     </div>
@@ -34,7 +34,7 @@
                 <li ng-repeat="doc in vm.documentsList" class="list-group-item">
                 <div class="one-line-high">
                     <span class="authorization-list">{{doc.authorizationName}}</span>
-                    <span class="right"><a href="" ng-click="vm.downloadDocument(doc.authorizationID)"> View</a> <span ng-hide="vm.hasApplied">| <a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedDocumentDelete(doc.authorizationID)">Delete</a></span></span>
+                    <span class="right"><a href="" ng-mouseover="vm.downloadDocument(doc.authorizationID)" ng-mouseleave="vm.resetDownloadLink(doc.authorizationID)" id="file-{{doc.authorizationID}}"> View</a> <span ng-hide="vm.hasApplied">| <a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedDocumentDelete(doc.authorizationID)">Delete</a></span></span>
                 </div>
                 </li>
             </ul>

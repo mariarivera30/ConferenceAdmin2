@@ -166,10 +166,9 @@
                 </div>
 
                 <div class="modal-body">
-                    <h3>Authorizations</h3>
-                    <div class="row">
+                    <div class="">
                         <div ng-repeat="auth in vm.authorizations">
-                            <a href="" class="col-sm-7" ng-click="vm.downloadPDFFile(auth.authorizationSubmittedID)"> {{auth.documentName}}</a>
+                            <a href="" ng-mouseover="vm.downloadPDFFile(auth.authorizationSubmittedID)" ng-mouseleave="vm.resetDownloadLink(auth.authorizationSubmittedID)" id="file-{{auth.authorizationSubmittedID}}" class="file-link"><i class="fa fa-file-text file-icon"></i> {{auth.documentName}}</a>
                         </div>
                     </div><br />
                 </div>

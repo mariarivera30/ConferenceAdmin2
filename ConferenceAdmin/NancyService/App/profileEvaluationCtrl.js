@@ -154,6 +154,8 @@
             var data = { evaluatorUserID: vm.currentUserID, index: index }
             restApi.getAssignedSubmissions(data).
                    success(function (data, status, headers, config) {
+                       if (data.results == null)
+                           vm.empty = true;
                        vm.uploadingComp = false;
                        vm.smaxIndex = data.maxIndex;
                        if (vm.smaxIndex == 0) {

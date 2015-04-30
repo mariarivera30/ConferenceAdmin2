@@ -232,13 +232,21 @@
         function _downloadPDFFile(id) {
             restApi.getAuthorizationFile(id).
                 success(function (data, status, headers, config) {
-                    window.open(data);
+                    //window.open(data);
+
+                    $("#file-" + id).attr("href", data.authorizationFile).attr("download", data.authorizationName);
+
                     //var file = new Blob([data]);
                     //saveAs(file);
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");
                 });
+        }
+
+        /* reset the link to default */
+        function _resetDownloadLink(id) {
+            $("#file-" + id).attr("href", "").removeAttr("download");
         }
 
         /* Search within the list with a certain criteria */

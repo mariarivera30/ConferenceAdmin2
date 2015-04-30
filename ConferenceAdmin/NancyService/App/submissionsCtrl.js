@@ -101,6 +101,7 @@
         vm.searchDeletedSubmission = _searchDeletedSubmission;
         vm.checkDeadline = _checkDeadline;
         vm.getSubmissionsReport = _getSubmissionsReport;
+        vm.resetDownloadLink = _resetDownloadLink;
 
         // function calls
         _getAllSubmissions(vm.sindex);
@@ -249,13 +250,17 @@
                     //window.open(data.document);
                     $("#file-"+id).attr("href", data.document).attr("download", data.documentName);
                     
-                    //zzdocument.createElement("A", )
                     //var file = new Blob([data.document]);
                     //saveAs(file, data.documentName);
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");
                 });
+        }
+
+        /* reset the link to default */
+        function _resetDownloadLink(id) {
+            $("#file-" + id).attr("href", "").removeAttr("download");
         }
 
         /* Set all fields with the submission information */

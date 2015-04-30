@@ -128,8 +128,8 @@
                 </div>
                 <div class="modal-body">
                     <label class="no-margin">Select an Evaluation Template for this Submission:</label><br />
-                    <select ng-model="vm.TEMP" ng-options="template as template.name for template in vm.templatesList" ng-change="vm.changeTemp = true;"></select>
-                    <button class="btn btn-ar btn-primary" ng-click="vm.assignTemplate(vm.submissionID, vm.TEMP.templateID)" ng-disabled="vm.TEMP == null || vm.changeTemp != true">Submit</button> <i class="fa fa-check accepted" ng-show="vm.saved"> Submitted</i><br />
+                    <select ng-model="vm.TEMP" ng-options="template as template.name for template in vm.templatesList" ng-change="vm.changeTemp = true; vm.saved = false"></select>
+                    <button class="btn btn-ar btn-primary" ng-click="vm.assignTemplate(vm.submissionID, vm.TEMP.templateID)" ng-disabled="vm.TEMP == null || vm.changeTemp != true || vm.saved">Submit</button> <i class="fa fa-check accepted" ng-show="vm.saved"> Submitted</i><br />
                     <br />
                     <table class="table col-md-12">
                         <thead>
@@ -233,7 +233,7 @@
         <div ng-hide="vm.submissionTypeID == 4" ng-show="vm.submissionFileList.length != 0" class="col-lg-12">
             <label>Uploaded Document(s) <a href=""><i class="fa fa-info-circle" title="Double-click the file name to open."></i></a></label><br />
             <div ng-repeat="file in vm.submissionFileList">
-                <a href="" ng-show="file.documentName" ng-click="vm.downloadPDFFile(file.documentssubmittedID)" id="file-{{file.documentssubmittedID}}" class="file-link"><i class="fa fa-file-text file-icon"></i> {{file.documentName}}</a>
+                <a href="" ng-show="file.documentName" ng-mouseover="vm.downloadPDFFile(file.documentssubmittedID)" ng-mouseleave="vm.resetDownloadLink(file.documentssubmittedID)" id="file-{{file.documentssubmittedID}}" class="file-link"><i class="fa fa-file-text file-icon"></i> {{file.documentName}}</a>
             </div>
         </div>
 
@@ -293,7 +293,7 @@
             <div ng-show="vm.prevSubmissionFileList.length != 0" ng-hide="vm.submissionTypeID == 4" class="col-lg-12">
                 <label>Uploaded Document(s) <a href=""><i class="fa fa-info-circle" title="Double-click the file name to open."></i></a></label><br />
                 <div ng-repeat="file in vm.prevSubmissionFileList">
-                    <a href="" ng-show="file.documentName" ng-click="vm.downloadPDFFile(file.documentssubmittedID)" id="file-{{file.documentssubmittedID}}" class="file-link"><i class="fa fa-file-text file-icon"></i> {{file.documentName}}</a>
+                    <a href="" ng-show="file.documentName" ng-mouseover="vm.downloadPDFFile(file.documentssubmittedID)" ng-mouseleave="vm.resetDownloadLink(file.documentssubmittedID)" id="file-{{file.documentssubmittedID}}" class="file-link"><i class="fa fa-file-text file-icon"></i> {{file.documentName}}</a>
                 </div>
             </div>
         </div>
