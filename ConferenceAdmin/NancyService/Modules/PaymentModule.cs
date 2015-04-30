@@ -105,7 +105,7 @@ namespace NancyService.Modules
 
             };
 
-            Get["/GetPayment/{id:long}"] = parameters =>
+          /*  Get["/GetPayment/{id:long}"] = parameters =>
             {
                 long id = parameters.id;
 
@@ -122,7 +122,7 @@ namespace NancyService.Modules
                 }
 
 
-            };
+            };*/
 
             Get["/getsponsorpayments/{id:long}"] = parameters =>
             {

@@ -29,6 +29,7 @@
         //Functions
         vm.getGeneralInfo = _getGeneralInfo;
         vm.tabViewControl = _tabViewControl;
+        vm.profileView = _profileView;
         vm.logout = _logout;
         vm.goTo = _goTo;
 
@@ -147,7 +148,24 @@
 
         });
 
+        function _profileView() {
+            vm.isSponsor = false;
+            var list = JSON.parse($window.sessionStorage.getItem('claims'));
+            if (list != null) {
+                list.forEach(function (claim) {
+                    if (claim.localeCompare('sponsor') == 0) {
+                        vm.isSponsor = true;
+                    }
 
+                });
+            }
+            if (vm.isSponsor) {
+                $location.path('/Profile/sponsorgeneralinformation');
+            }
+            else {
+                $location.path('/Profile/GeneralInformation');
+            }
+        }
         function activate() {
 
             _tabViewControl();

@@ -8,8 +8,8 @@
 
     function addrestApi($http) {
         var service = {
+            getSponsorDeadline:_getSponsorDeadline,
             getSponsorPayments:_getSponsorPayments,
-            checkEmailSponsor:_checkEmailSponsor,
             changePassword: _changePassword,
             checkEmail: _checkEmail,
             requestPass: _requestPass,
@@ -206,8 +206,8 @@
         };
 
         //-----------------------------------Sponsor-----------------------------------
-        function _checkEmailSponsor(data) {
-            return $http.get('/admin/checkEmailSponsor/' + data);
+        function _getSponsorDeadline() {
+            return $http.get('/admin/getSponsorDeadline/' );
         };
         function _updateSponsor(data) {
             return $http.put('/admin/updateSponsor', data);

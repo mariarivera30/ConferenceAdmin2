@@ -77,7 +77,7 @@ namespace NancyService.Modules
                                                                          paymentMethod = bill.methodOfPayment,
                                                                          name = s.user.firstName + " " + s.user.lastName,
                                                                          email = s.byAdmin == false ? s.user.membership.email : s.emailInfo,
-                                                                         affiliation = s.company,
+                                                                         affiliation = s.user.affiliationName,
                                                                          userType = "Sponsor",
                                                                          phoneNumber = bill.telephone,
                                                                          address1 = bill.address.line1,
@@ -258,7 +258,7 @@ namespace NancyService.Modules
                                      paymentDate = bill.payment.creationDate.ToString(),
                                      name = s.user.firstName + " " + s.user.lastName,
                                      email = s.byAdmin == false ? s.user.membership.email : s.emailInfo,
-                                     affiliation = s.company,
+                                     affiliation = s.user.affiliationName,
                                      userType = "Sponsor",
                                      amountPaid = bill.AmountPaid,
                                      paymentMethod = bill.methodOfPayment
@@ -330,7 +330,7 @@ namespace NancyService.Modules
                                                                paymentDate = bill.payment.creationDate.ToString(),
                                                                name = s.user.firstName + " " + s.user.lastName,
                                                                email = s.byAdmin == false ? s.user.membership.email : s.emailInfo,
-                                                               affiliation = s.company,
+                                                               affiliation = s.user.affiliationName,
                                                                userType = "Sponsor",
                                                                amountPaid = bill.AmountPaid,
                                                                paymentMethod = bill.methodOfPayment

@@ -108,7 +108,7 @@ namespace NancyService.Modules
                                            batchID = s.batchID,
                                            userFirstName = sp.user.firstName,
                                            userLastName = sp.user.lastName,
-                                           affiliationName = sp.company,
+                                           affiliationName = sp.user.affiliationName,
                                            type = sp.sponsortype1.name,
                                            description = "Sponsor Donation"
 
@@ -153,76 +153,76 @@ namespace NancyService.Modules
 
 
         }
-       public PaymentQuery getPayment(long id)
-        {
+       //public PaymentQuery getPayment(long id)
+       // {
           
-                try
-            {
-                using (conferenceadminContext context = new conferenceadminContext())
-                {
-                    var paymentInfo = (from s in context.paymentbills
-                                       from sp in context.sponsors
-                                       where s.paymentBillID ==id && s.deleted==false && sp.paymentID ==s.paymentID 
-                                 select new PaymentQuery
-                                 {
-                                      paymentBillID = s.paymentBillID,
-                                      date =(DateTime) s.payment.creationDate,
-                                      transactionid=s.transactionid,
-                                      AmountPaid =s.AmountPaid,
-                                      authorizationID =s.authorizationID,
-                                      methodOfPayment = s.methodOfPayment,
-                                      firstName = s.firstName,
-                                      lastName =s.lastName,
-                                      email = s.email,
-                                      tandemID =s.tandemID,
-                                      batchID =s.batchID,
-                                      userFirstName= sp.firstName,
-                                      userLastName= sp.lastName,
-                                      affiliationName = sp.company,
-                                      type = sp.sponsortype1.name,
-                                      description = "Sponsor Donation"
+       //         try
+       //     {
+       //         using (conferenceadminContext context = new conferenceadminContext())
+       //         {
+       //             var paymentInfo = (from s in context.paymentbills
+       //                                from sp in context.sponsor2
+       //                                where s.paymentBillID ==id && s.deleted==false && sp.paymentID ==s.paymentID 
+       //                          select new PaymentQuery
+       //                          {
+       //                               paymentBillID = s.paymentBillID,
+       //                               date =(DateTime) s.payment.creationDate,
+       //                               transactionid=s.transactionid,
+       //                               AmountPaid =s.AmountPaid,
+       //                               authorizationID =s.authorizationID,
+       //                               methodOfPayment = s.methodOfPayment,
+       //                               firstName = s.firstName,
+       //                               lastName =s.lastName,
+       //                               email = s.email,
+       //                               tandemID =s.tandemID,
+       //                               batchID =s.batchID,
+       //                               userFirstName= sp.firstName,
+       //                               userLastName= sp.lastName,
+       //                               affiliationName = sp.company,
+       //                               type = sp.sponsortype1.name,
+       //                               description = "Sponsor Donation"
 
-                                 }).FirstOrDefault();
+       //                          }).FirstOrDefault();
 
 
-                    if (paymentInfo == null)
-                    {
-                        paymentInfo = (from s in context.paymentbills
-                                           from r in context.registrations
-                                           where s.paymentBillID == id && s.deleted == false && r.paymentID == s.paymentID
-                                           select new PaymentQuery
-                                           {
-                                               paymentBillID = s.paymentBillID,
-                                               date = (DateTime)s.payment.creationDate,
-                                               transactionid = s.transactionid,
-                                               AmountPaid = s.AmountPaid,
-                                               authorizationID = s.authorizationID,
-                                               methodOfPayment = s.methodOfPayment,
-                                               firstName = s.firstName,
-                                               lastName = s.lastName,
-                                               email = s.email,
-                                               tandemID = s.tandemID,
-                                               batchID = s.batchID,
-                                               userFirstName = r.user.firstName,
-                                               userLastName = r.user.lastName,                                               
-                                               affiliationName = r.user.affiliationName,
-                                               type = r.user.usertype.userTypeName,
-                                               description = "User Registration."
-                                           }).FirstOrDefault();
-                    }
+       //             if (paymentInfo == null)
+       //             {
+       //                 paymentInfo = (from s in context.paymentbills
+       //                                    from r in context.registrations
+       //                                    where s.paymentBillID == id && s.deleted == false && r.paymentID == s.paymentID
+       //                                    select new PaymentQuery
+       //                                    {
+       //                                        paymentBillID = s.paymentBillID,
+       //                                        date = (DateTime)s.payment.creationDate,
+       //                                        transactionid = s.transactionid,
+       //                                        AmountPaid = s.AmountPaid,
+       //                                        authorizationID = s.authorizationID,
+       //                                        methodOfPayment = s.methodOfPayment,
+       //                                        firstName = s.firstName,
+       //                                        lastName = s.lastName,
+       //                                        email = s.email,
+       //                                        tandemID = s.tandemID,
+       //                                        batchID = s.batchID,
+       //                                        userFirstName = r.user.firstName,
+       //                                        userLastName = r.user.lastName,                                               
+       //                                        affiliationName = r.user.affiliationName,
+       //                                        type = r.user.usertype.userTypeName,
+       //                                        description = "User Registration."
+       //                                    }).FirstOrDefault();
+       //             }
 
-                    return paymentInfo;
-                }
+       //             return paymentInfo;
+       //         }
 
-            }
-            catch (Exception ex)
-            {
-                Console.Write("PaymetnManager.getPaymentReceiptInfo error " + ex);
-                return null;
-            }
+       //     }
+       //     catch (Exception ex)
+       //     {
+       //         Console.Write("PaymetnManager.getPaymentReceiptInfo error " + ex);
+       //         return null;
+       //     }
 
       
-        }
+       // }
         public string creatXML(PaymentXML payment)
         {   
           string xml  = "<VERSION>" + version +"</VERSION>\n" +

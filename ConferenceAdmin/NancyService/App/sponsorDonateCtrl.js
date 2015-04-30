@@ -14,6 +14,7 @@
         vm.title = 'sponsorDonateCtrl';
         vm.sponsor = {};
         vm.loading;
+        vm.deadlineInvalid = "Unfortunately the deadline to become a sponsor expired. ";
         vm.addComplementaryObj = { sponsorID: 0, quantity: 0, company: "" };
         vm.TYPE = {};
         vm.obj = {
@@ -55,7 +56,6 @@
         vm.rangeInvalid = _rangeInvalid;
         vm.checkEmailBeforePayment = _checkEmailBeforePayment;
         vm.showDetails = _showDetails;
-        
 
         activate();
 
@@ -64,14 +64,27 @@
         function activate() {
             _getSponsorbyID();
     
+            _getSponsorDeadline();
             vm.loading = true;
             _getBenefits();
             vm.donation = 0;
 
 
         }
+        
+        function _getSponsorDeadline() {
+            restApi.getSponsorDeadline()
+            .success(function (data, status, headers, config) {
+                vm.onTime = data;
 
+                
+            })
 
+            .error(function (error) {
+                load();
+                vm.toggleModal('error');
+            });
+        }
 
         function _getSponsorbyID() {
             restApi.getSponsorbyID(vm.userID).
@@ -158,17 +171,27 @@
                        vm.dropDown = JSON.parse(JSON.stringify(data));
                        if (data != null) {
                            if (vm.sponsor.active) {
-                               if (vm.sponsor.sponsorType==5) {
-                                   vm.dropDown.splice(vm.sponsor.sponsorType, 5 - vm.sponsor.sponsorType);
-                                   vm.sponsorType = vm.sponsor.sponsorType +1;
+                               if (vm.sponsor.sponsorType == 5) {
+                                   if (vm.sponsor.amount == vm.sponsorsTypeList[vm.sponsor.sponsorType - 1].amount) {
+                                       vm.dropDown.splice(vm.sponsor.sponsorType -1, 5 - vm.sponsor.sponsorType + 1);
+                                       vm.sponsorType = vm.sponsor.sponsorType -1;
+                                   }
+                                   else {
+                                       vm.dropDown.splice(vm.sponsor.sponsorType, 5 - vm.sponsor.sponsorType);
+                                       vm.sponsorType = vm.sponsor.sponsorType;
+                                   }
+                               }
+                               else if (vm.sponsor.amount == vm.sponsorsTypeList[vm.sponsor.sponsorType - 1].amount && vm.sponsor.sponsorType != 1) {
+                                   vm.dropDown.splice(vm.sponsor.sponsorType-1, 5 - vm.sponsor.sponsorType + 1);
+                                   vm.sponsorType = vm.sponsor.sponsorType - 1;
+                               }
+                               else if (vm.sponsor.amount == vm.sponsorsTypeList[vm.sponsor.sponsorType -1].amount) {
+                                   vm.dropDown.splice(vm.sponsor.sponsorType, 5 - vm.sponsor.sponsorType+1 );
+                                   vm.sponsorType = vm.sponsor.sponsorType ;
                                }
                               
-                               else if (vm.sponsor.amount == vm.sponsorsTypeList[vm.sponsor.sponsorType -1].amount) {
-                                   vm.dropDown.splice(vm.sponsor.sponsorType-1, 5 - vm.sponsor.sponsorType+1 );
-                                   vm.sponsorType = vm.sponsor.sponsorType -1;
-                               }
                                else  {
-                                   vm.dropDown.splice(vm.sponsor.sponsorType, 5 - vm.sponsor.sponsorType);
+                                   vm.dropDown.splice(vm.sponsor.sponsorType, 5 - vm.sponsor.sponsorType );
                                    vm.sponsorType = vm.sponsor.sponsorType;
                                }
                            }

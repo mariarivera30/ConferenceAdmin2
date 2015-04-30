@@ -85,12 +85,10 @@ namespace NancyService.Modules
                     else if (user.userTypeID == 7)
                     {
                         sponsor2 sponsor = new sponsor2();
-                        //sponsor.company = sponsor2.company;
-                        //sponsor.logo = sponsor2.logo;
+                       
                         sponsor.deleted = false;
                         sponsor.userID = user.userID;
                         sponsor.active = false;
-                        sponsor.company = user.affiliationName;
                         sponsor.sponsorType = 1;
                         sponsor.byAdmin = false;
                         sponsor.active = false;

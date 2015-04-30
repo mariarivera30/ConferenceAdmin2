@@ -2,15 +2,15 @@
 <div ng-controller="profileSponsorBillCtrl as vm">
 
 
-
+    <div ng-show="vm.messageVisible">{{vm.noPaymentMessage}}</div>  
 
     <div ng-repeat="payment in  vm.bills " >
         <div class="col-lg-12">
-           
+        
             <div ng-hide="vm.loadingRemovingComp" class="col-md-12">
                 <div class="panel-group" id="accordion">
                     <div class="panel panel-default">
-
+                       
                         <div class="panel-heading panel-heading-link">
                             <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" aria-expanded="false" class="collapsed">
                                 Receipt: {{payment.affiliationName}} - {{payment.transactionid}}

@@ -117,7 +117,6 @@
             $scope.content = "";
             $scope.$fileContent = "";
             File = undefined;
-            vm.sponsor.logo = "";
             vm.ext = false;
             document.getElementById("inputFile").value = "";
         }
@@ -134,6 +133,7 @@
         function _downloadLogo() {
             if (vm.sponsor.logo != undefined && vm.sponsor.logo != "")
                 window.open(vm.sponsor.logo);
+            
 
         }
 
@@ -158,9 +158,10 @@
             vm.TYPE = vm.sponsorsTypeList[vm.sponsor.sponsorType - 1];
             vm.sponsor.typeName = vm.TYPE.name;
 
-            if (myFile != undefined) {
+            if (myFile != undefined && $scope.content != "" && $scope.content != undefined) {
                 vm.sponsor.logoName = myFile.name;
                 vm.sponsor.logo = $scope.content;
+                myFile = undefined;
 
             }
 

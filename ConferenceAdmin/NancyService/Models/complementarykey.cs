@@ -11,13 +11,11 @@ namespace NancyService.Models
         }
 
         public long complementarykeyID { get; set; }
-        public long sponsorID { get; set; }
         public long sponsorID2 { get; set; }
         public string key { get; set; }
         public Nullable<bool> isUsed { get; set; }
         public Nullable<bool> deleted { get; set; }
         public virtual ICollection<paymentcomplementary> paymentcomplementaries { get; set; }
-        public virtual sponsor sponsor { get; set; }
         public virtual sponsor2 sponsor2 { get; set; }
     }
 }

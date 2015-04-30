@@ -11,8 +11,6 @@ namespace NancyService.Models
         public Nullable<bool> active { get; set; }
         public Nullable<int> sponsorType { get; set; }
         public Nullable<long> paymentID { get; set; }
-        public string company { get; set; }
-        public string method { get; set; }
         public string emailInfo { get; set; }
         public bool byAdmin { get; set; }
         public double totalAmount { get; set; }

@@ -14,7 +14,7 @@
         vm.title = 'profileSponsorBillCtrl';
         vm.sponsor;
         vm.loadingComp;
-        vm.mesageEmptyList ="You dont have payment bills.";
+        vm.noPaymentMessage = "No content to display.";
         if ($window.sessionStorage.getItem('userID') != null)
             vm.userID = $window.sessionStorage.getItem('userID');
         else {
