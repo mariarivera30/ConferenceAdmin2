@@ -36,6 +36,7 @@
         vm.selectedDocumentDelete = _selectedDocumentDelete;
         vm.apply = _apply;
         vm.getProfileInfo = _getProfileInfo;
+        vm.resetDownloadLink = _resetDownloadLink;
 
         _getTemplates();
         _getDocuments();
@@ -84,13 +85,21 @@
             //window.open(doc.authorizationDocument);
             restApi.getTemplateFile(id).
                 success(function (data, status, headers, config) {
-                    window.open(data.templateFile);
+                    //window.open(data.templateFile);
+
+                    $("#file-" + id).attr("href", data.templateFile).attr("download", data.templateName);
+
                     //var file = new Blob([data.templateFile]);
                     //saveAs(file, data.templateName);
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");
                 });
+        }
+
+        /* reset the link to default */
+        function _resetDownloadLink(id) {
+            $("#file-" + id).attr("href", "").removeAttr("download");
         }
 
         function _uploadDocument() {
@@ -102,6 +111,7 @@
                      .success(function (data, status, headers, config) {
                          vm.myFile.authorizationID = data;
                          vm.documentsList.push(vm.myFile);
+                         vm.myFile = null;
                      })
 
                      .error(function (error) {
@@ -124,7 +134,10 @@
             //window.open(doc.authorizationFile);
             restApi.getAuthorizationFile(id).
                 success(function (data, status, headers, config) {
-                    window.open(data.authorizationFile);
+                    //window.open(data.authorizationFile);
+
+                    $("#file-" + id).attr("href", data.authorizationFile).attr("download", data.authorizationName);
+
                     //var file = new Blob([data.authorizationFile]);
                     //saveAs(file, data.authorizationName);
                 }).

@@ -150,9 +150,13 @@
         }
 
         function _getAssignedSubmissions(index) {
-            var data = {evaluatorUserID: vm.currentUserID, index: index}
+            vm.uploadingComp = true;
+            var data = { evaluatorUserID: vm.currentUserID, index: index }
             restApi.getAssignedSubmissions(data).
                    success(function (data, status, headers, config) {
+                       if (data.results == null)
+                           vm.empty = true;
+                       vm.uploadingComp = false;
                        vm.smaxIndex = data.maxIndex;
                        if (vm.smaxIndex == 0) {
                            vm.sindex = 0;
@@ -167,6 +171,7 @@
                        }
                    }).
                    error(function (data, status, headers, config) {
+                       vm.uploadingComp = false;
                    });
         }
 

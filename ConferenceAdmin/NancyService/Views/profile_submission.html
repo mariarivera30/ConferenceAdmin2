@@ -4,6 +4,11 @@
         <div ng-hide="vm.submissionlist.length">
             <p class="title-field">No content to display.</p>
             <a class="btn btn-default" ng-click="vm.getAssignedSubmissions(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
+            <!-----------------------loading start--------------------->
+            <div class="col-lg-12" ng-show="vm.uploadingComp">
+                <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>Loading</h3>
+            </div>
+            <!-----------------------loading end--------------------->
         </div>
         <div ng-show="vm.submissionlist.length">
             <table ng-table="tableParams" show-filter="true" class="table row">
@@ -34,12 +39,7 @@
                     </tr>
                 </tbody>
             </table>
-            </div>
-            <!-----------------------loading start--------------------->
-            <div class="col-lg-12" ng-show="vm.uploadingComp">
-                <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>Creating</h3>
-            </div>
-            <!-----------------------loading end--------------------->
+            </div>            
             <br />
             <!-------------------------------------------------ADD SUBMISSION---------------------------------------------------->
 
@@ -329,7 +329,7 @@
             <div ng-hide="vm.modalsubmissionTypeID == 4 || vm.modalsubmissionFileList.length == 0">
                 <label>Uploaded Document(s) </label><br />
                 <div ng-repeat="file in vm.modalsubmissionFileList">
-                    <a href="" ng-show="file.documentName" ng-click="vm.downloadPDFFile(file.documentssubmittedID)"> {{file.documentName}}</a>
+                    <a href="" ng-show="file.documentName" ng-mouseover="vm.downloadPDFFile(file.documentssubmittedID)" ng-mouseleave="vm.resetDownloadLink(file.documentssubmittedID)" id="file-{{file.documentssubmittedID}}" class="file-link"><i class="fa fa-file-text file-icon"></i> {{file.documentName}}</a>
                 </div>
             </div>
 
@@ -373,8 +373,8 @@
                 <div ng-show="vm.modalprevSubmissionFileList.length != 0 || vm.modalsubmissionTypeID != 4">
                     <label>Uploaded Document(s) </label><br />
                     <div ng-repeat="file in vm.modalprevSubmissionFileList">
-                        <a href="" data-toggle="modal" ng-show="file.documentName" data-target="#iframe" ng-click="vm.downloadPDFFile(file.documentssubmittedID)"> {{file.documentName}}</a>
-</div>
+                        <a href="" ng-show="file.documentName" ng-mouseover="vm.downloadPDFFile(file.documentssubmittedID)" ng-mouseleave="vm.resetDownloadLink(file.documentssubmittedID)" id="file-{{file.documentssubmittedID}}" class="file-link"><i class="fa fa-file-text file-icon"></i> {{file.documentName}}</a>
+                    </div>
                 </div>
                 <div ng-show="vm.modalprevSubIsEvaluated">
                     <label>Evaluation Feedback</label><br />{{vm.modalprevPublicFeedback}}

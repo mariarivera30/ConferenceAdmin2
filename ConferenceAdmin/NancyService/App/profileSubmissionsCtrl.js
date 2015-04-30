@@ -592,16 +592,24 @@
            });
         }
 
+        /* Download a file through the browser */
         function _downloadPDFFile(id) {
             restApi.getSubmissionFile(id).
                 success(function (data, status, headers, config) {
-                    window.open(data.document);
+                    //window.open(data.document);
+                    $("#file-" + id).attr("href", data.document).attr("download", data.documentName);
+
                     //var file = new Blob([data.document]);
                     //saveAs(file, data.documentName);
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");
                 });
+        }
+
+        /* reset the link to default */
+        function _resetDownloadLink(id) {
+            $("#file-" + id).attr("href", "").removeAttr("download");
         }
 
         /* get whether a deadline has passed or not */
