@@ -249,7 +249,7 @@
                     //window.open(data.document);
                     $("#file-"+id).attr("href", data.document).attr("download", data.documentName);
                     
-                    //document.createElement("A", )
+                    //zzdocument.createElement("A", )
                     //var file = new Blob([data.document]);
                     //saveAs(file, data.documentName);
                 }).

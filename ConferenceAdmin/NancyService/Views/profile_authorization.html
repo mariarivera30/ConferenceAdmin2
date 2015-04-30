@@ -20,7 +20,7 @@
             </div>
             <div class="input-group-btn">
                 <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="input-1a" type="file" class="file" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)"></div>
-                <br /><br /><button type="submit" class="full-width btn btn-primary btn-ar kv-fileinput-upload fileinput-upload-button" ng-click="vm.uploadDocument()"><i class="glyphicon glyphicon-upload"></i> Upload</button>
+                <br /><br /><button type="submit" ng-disabled="vm.myFile == null" class="full-width btn btn-primary btn-ar kv-fileinput-upload fileinput-upload-button" ng-click="vm.uploadDocument()"><i class="glyphicon glyphicon-upload"></i> Upload</button>
             </div>
             <p ng-show="vm.ext" class="help-block">* Try .doc, .docx, .ppt, .pdf files.</p>
         </div>
@@ -31,7 +31,12 @@
         <h5>Uploaded Documents:</h5>
         <div class="templates-list table-box">
             <ul class="list-group list-group-striped">
-                <li ng-repeat="doc in vm.documentsList" class="list-group-item">{{doc.authorizationName}}<span class="right"><a href="" ng-click="vm.downloadDocument(doc.authorizationID)">View</a> <span ng-hide="vm.hasApplied">| <a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedDocumentDelete(doc.authorizationID)">Delete</a></span></span></li>
+                <li ng-repeat="doc in vm.documentsList" class="list-group-item">
+                <div class="one-line-high">
+                    <span class="authorization-list">{{doc.authorizationName}}</span>
+                    <span class="right"><a href="" ng-click="vm.downloadDocument(doc.authorizationID)"> View</a> <span ng-hide="vm.hasApplied">| <a href="" data-toggle="modal" data-target="#delete" ng-click="vm.selectedDocumentDelete(doc.authorizationID)">Delete</a></span></span>
+                </div>
+                </li>
             </ul>
         </div>
         <div class="block line-tall">
