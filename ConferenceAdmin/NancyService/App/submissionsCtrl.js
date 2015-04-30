@@ -677,13 +677,14 @@
                                        var params = { documentssubmittedID: doc.documentssubmittedID, documentName: doc.documentName, document: doc.document, submissionID: data.submissionID };
                                        restApi.addFileToSubmission(params)
                                            .success(function (data3, status3, headers3, config3) {
-                                               _getSubmissionView(vm.submissionID);
+                                               
                                                _getAllSubmissions(vm.sindex);
                                            })
                                            .error(function (error) {
                                            });
                                        //end add new files
                                    });
+                                   _getSubmissionView(vm.submissionID);
                                })
                                .error(function (error) {
                                });
