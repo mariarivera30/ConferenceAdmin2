@@ -102,6 +102,7 @@
                      .success(function (data, status, headers, config) {
                          vm.myFile.authorizationID = data;
                          vm.documentsList.push(vm.myFile);
+                         vm.myFile = null;
                      })
 
                      .error(function (error) {

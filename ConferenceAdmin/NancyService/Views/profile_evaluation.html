@@ -4,7 +4,7 @@
 
     <h4 id="g-information">Evaluations</h4>
     <div ng-hide="vm.evaluate">
-        <div ng-hide="vm.submissionlist.length">
+        <div ng-show="vm.empty">
             <p class="title-field">No content to display.</p>
             <a class="btn btn-default" ng-click="vm.getAssignedSubmissions(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
             <!-----------------------loading start--------------------->
@@ -13,7 +13,7 @@
             </div>
             <!-----------------------loading end--------------------->
         </div>
-        <div ng-show="vm.submissionlist.length">
+        <div ng-hide="vm.empty">
             <div class="paging-height">
                 <label class="left" ng-hide="vm.showResult">Search: <input ng-model="vm.criteria" /><button ng-click="vm.searchAssignedSubmission(0); vm.showResult = true"><i class="fa fa-search"></i></button></label>
                 <label class="left" ng-show="vm.showResult"><button ng-click="vm.getAssignedSubmissions(vm.sindex); vm.showResult = false; vm.criteria = '';"><i class="glyphicon glyphicon-arrow-left"></i> </button> Showing results for: "{{vm.criteria}}"</label><br />

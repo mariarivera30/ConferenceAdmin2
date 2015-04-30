@@ -195,6 +195,8 @@
         function _getAllSubmissions(index) {
             restApi.getAllSubmissions(index).
                    success(function (data, status, headers, config) {
+                       if (data.results == null)
+                           vm.empty1 = true;
                        vm.smaxIndex = data.maxIndex;
                        if (vm.smaxIndex == 0) {
                            vm.sindex = 0;
@@ -244,14 +246,16 @@
         function _downloadPDFFile(id) {
             restApi.getSubmissionFile(id).
                 success(function (data, status, headers, config) {
-                    window.open(data.document);
+                    //window.open(data.document);
+                    $("#file-"+id).attr("href", data.document).attr("download", data.documentName);
+                    
+                    //zzdocument.createElement("A", )
                     //var file = new Blob([data.document]);
                     //saveAs(file, data.documentName);
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");
                 });
-            
         }
 
         /* Set all fields with the submission information */
@@ -502,11 +506,13 @@
 
         /* Remove an assigned evaluator from a submission */
         function _removeEvaluator(evaluatorSubmissionID) {
+            vm.removing = true;
             restApi.removeEvaluator(evaluatorSubmissionID).
                   success(function (data, status, headers, config) {
                       vm.evaluationsList.forEach(function (eva, index) {
                           if (eva.evaluatorSubmissionID == data) {
                               vm.evaluationsList.splice(index, 1);
+                              vm.removing = false;
                           }
                       });
                   }).
@@ -826,6 +832,8 @@
         function _getDeletedSubmissions(index) {
             restApi.getDeletedSubmissions(index).
                    success(function (data, status, headers, config) {
+                       if (data.results == null)
+                           vm.empty2 = true;
                        vm.dmaxIndex = data.maxIndex;
                        if (vm.dmaxIndex == 0) {
                            vm.dindex = 0;
