@@ -98,9 +98,13 @@
 
        function _downloadEvaluationFile() {
            //window.open(vm.modalevaluationFile);
-           restApi.getEvaluationFile(vm.modalsubmissionID).
+           var data = {submissionID: vm.modalsubmissionID, evaluatorID: vm.modalevaluatorID};
+           restApi.getEvaluationFile(data).
                 success(function (data, status, headers, config) {
-                    window.open(data.evaluationFile);
+                    //window.open(data.evaluationFile);
+
+                    $("#file-").attr("href", data.evaluationFile).attr("download", data.evaluationFileName);
+
                     //var file = new Blob([data.evaluationFile]);
                     //saveAs(file, data.evaluationFileName);
                 }).
@@ -140,13 +144,21 @@
         function _openDocumentSubmitted(id) {
             restApi.getSubmissionFile(id).
                 success(function (data, status, headers, config) {
-                    window.open(data.document);
+                    //window.open(data.document);
+
+                    $("#file-" + id).attr("href", data.document).attr("download", data.documentName);
+
                     //var file = new Blob([data.document]);
                     //saveAs(file, data.documentName);
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");
                 });
+        }
+
+        /* reset the link to default */
+        function _resetDownloadLink(id) {
+            $("#file-" + id).attr("href", "").removeAttr("download");
         }
 
         function _getAssignedSubmissions(index) {
