@@ -209,7 +209,23 @@
 
                        vm.uploadingComp = false;
                        
-                        
+                       vm.isSponsor = false;
+                       var list = JSON.parse($window.sessionStorage.getItem('claims'));
+                       if (list != null) {
+                           list.forEach(function (claim) {
+                               if (claim.localeCompare('sponsor') == 0) {
+                                   vm.isSponsor = true;
+                               }
+
+                           });
+                       }
+                       if (vm.isSponsor) {
+                           $location.path('/Profile/sponsorgeneralinformation');
+                       }
+                       else {
+                           $location.path('/Profile/GeneralInformation');
+                       }
+
                   
 
                        })
