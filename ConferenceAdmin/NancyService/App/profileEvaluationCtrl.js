@@ -116,7 +116,10 @@
            //window.open(vm.modalevaluationTemplate);
            restApi.getEvaluationTemplate(id).
                 success(function (data, status, headers, config) {
-                    window.open(data.evaluationFile);
+                    //window.open(data.evaluationFile);
+
+                    $("#file-" + id).attr("href", data.evaluationFile).attr("download", data.evaluationFileName);
+
                     //var file = new Blob([data.evaluationFile]);
                     //saveAs(file, data.evaluationFileName);
                 }).

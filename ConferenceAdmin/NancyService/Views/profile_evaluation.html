@@ -91,7 +91,7 @@
 
                 <div class="col-lg-3">
                     <div class="document-name"></div>
-                    <button type="submit" class="btn btn-ar btn-primary full-width" data-dismiss="modal" ng-click="vm.downloadEvaluationTemplate(vm.modalTemplateID)">Download Template</button>
+                    <a href="" class="btn btn-ar btn-primary full-width" ng-mouseover="vm.downloadEvaluationTemplate(vm.modalTemplateID)" ng-mouseleave="vm.resetDownloadLink(vm.modalTemplateID)" id="file-{{vm.modalTemplateID}}">Download Template</a>
                 </div>
 
                 <div class="col-lg-3">
