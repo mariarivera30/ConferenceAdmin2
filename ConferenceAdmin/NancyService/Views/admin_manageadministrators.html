@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-lg-8"><h3>Manage Administrators</h3></div>
         <!-- Loading icon, appearing while table is loading its contents. -->
-        <div class="col-lg-3 loading-right" ng-show="vm.loading">
+        <div class="col-lg-3 loading-right">
             <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
         </div>
     </div>
@@ -15,7 +15,7 @@
         </div>
 
         <div class="col-lg-12 btn-padding2" ng-show="!vm.showResults && vm.adminList.length">
-            <label class="left">Search: <input ng-model="vm.criteria" ng-change="vm.showSearch = false" /><button ng-click="vm.search(0)"><i class="fa fa-search"></i></button> <label ng-show="vm.showSearch && !vm.showResults"> No results found.</label></label>
+            <label class="left">Search: <input ng-model="vm.criteria" ng-change="vm.showSearch = false" /><button ng-click="vm.search(0)" ng-disabled="vm.loadingSearch"><i class="fa fa-search"></i></button><label ng-show="vm.showSearch && !vm.showResults"> No results found.</label></label>
         </div>
 
         <!-- Table containing list of administrators. The table is hidden until the system has retrieved the list. -->
@@ -129,6 +129,7 @@
                 <div class="modal-footer">
                     <button class="btn btn-ar btn-primary left" ng-click="vm.next()" ng-disabled="addPrivilegeForm.$invalid || vm.loading">Add</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal" ng-click="vm.clear()">Cancel</button>
+                    <span ng-show="vm.loading" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
                 </div>
             </div>
         </div>
@@ -153,6 +154,7 @@
                 <div class="modal-footer">
                     <button class="btn btn-ar btn-primary left" ng-click="vm.editAdmin()" ng-disabled="editPrivilegeForm.$invalid || vm.loading">Save</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                    <span ng-show="vm.loading" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
                 </div>
             </div>
         </div>
@@ -170,8 +172,9 @@
                     Are you sure you want to remove the selection?
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.deleteAdmin()">Remove</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.deleteAdmin()" ng-disabled="vm.loading">Remove</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                    <span ng-show="vm.loading" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
                 </div>
             </div>
         </div>

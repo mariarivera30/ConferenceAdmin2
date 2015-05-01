@@ -167,6 +167,7 @@
         }
 
         function _deleteMember() {
+            vm.loading = true;
             if (vm.committeeID != undefined && vm.committeeID != "" && vm.position != undefined && vm.position != "") {
                 var info = {
                     committeeID: vm.committeeID,
@@ -180,10 +181,16 @@
                                 vm.planningCommitteeList.splice(index, 1);
                             }
                         });
+                        $("#delete").modal('hide');
                         $("#deleteConfirm").modal('show');
                     }
+                    else {
+                        vm.toggleModal('error');
+                    }
+                    vm.loading = false;
                 })
                 .error(function (data, status, headers, config) {
+                    vm.loading = false;
                     vm.toggleModal('error');
                 });
             }

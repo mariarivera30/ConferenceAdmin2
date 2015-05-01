@@ -161,7 +161,8 @@
             createFinalSubmissionFiles: _createFinalSubmissionFiles,
             sendContactEmail: _sendContactEmail,
             getSubmissionsReport: _getSubmissionsReport,
-            getSubmissionDeadlines: _getSubmissionDeadlines
+            getSubmissionDeadlines: _getSubmissionDeadlines,
+            searchKeyCodes: _searchKeyCodes
         };
 
         return service;
@@ -204,6 +205,10 @@
         function _getSponsorComplementaryKeysFromIndex(data) {
             return $http.get('/admin/getSponsorComplementaryKeysFromIndex/'+data.index+'/'+data.sponsorID);
         };
+
+        function _searchKeyCodes(data) {
+            return $http.get('admin/searchKeyCodes/' + data.index + '/' + data.sponsorID +'/'+ data.criteria);
+        }
 
         //-----------------------------------Sponsor-----------------------------------
         function _checkEmailSponsor(data) {
@@ -391,8 +396,8 @@
             return $http.get('/admin/getDates');
         };
 
-        function _getAttendanceReport(data) {
-            return $http.get('admin/getAttendanceReport/' + data);
+        function _getAttendanceReport() {
+            return $http.get('admin/getAttendanceReport');
         };
         //-----------------------------------GUESTS-----------------------------------
         //get guest list for admin
@@ -521,7 +526,7 @@
         //-----------------------------------EVALUATORS---------------------------------
 
         function _getEvaluatorListFromIndex(data) {
-            return $http.get('admin/getEvaluatorListFromIndex/'+data);
+            return $http.get('admin/getEvaluatorListFromIndex/' + data.index + '/' + data.id);
         };
 
         function _getPendingListFromIndex(data) {
@@ -678,8 +683,8 @@
             return $http.put('/admin/saveProgram', data);
         };
 
-        function _getBillReport(data) {
-            return $http.get('admin/getBillReport/'+data);
+        function _getBillReport() {
+            return $http.get('admin/getBillReport');
         };
 
         function _getRegistrationPaymentsFromIndex(data) {

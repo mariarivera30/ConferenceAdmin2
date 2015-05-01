@@ -136,25 +136,27 @@
         }
 
         function _sendEmail() {
-            vm.iloading = true;
-            var info = {
-                name: vm.senderName,
-                email: vm.senderEmail,
-                message: vm.senderMessage,
-                contactEmail: vm.contactEmail
-            }
-            restApi.sendContactEmail(info)
-            .success(function (data, status, headers, config) {
-                if (data) {
-                    vm.iloading = false;
-                    _clear();
-                    $("#emailConfirm").modal('show');
+            if (vm.contactEmail != null && vm.contactEmail != "") {
+                vm.iloading = true;
+                var info = {
+                    name: vm.senderName,
+                    email: vm.senderEmail,
+                    message: vm.senderMessage,
+                    contactEmail: vm.contactEmail
                 }
-            })
-            .error(function (error) {
-                vm.iloading = false;
-                vm.toggleModal('error');
-            });
+                restApi.sendContactEmail(info)
+                .success(function (data, status, headers, config) {
+                    if (data) {
+                        vm.iloading = false;
+                        _clear();
+                        $("#emailConfirm").modal('show');
+                    }
+                })
+                .error(function (error) {
+                    vm.iloading = false;
+                    vm.toggleModal('error');
+                });
+            }
         }
 
         //Avoid flashing when page loads

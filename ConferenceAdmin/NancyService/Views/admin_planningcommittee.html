@@ -3,7 +3,7 @@
     <p>The planning committee is used for informational purposes only. It is displayed on the "Planning Committee" section of the website.</p>
     <div ng-hide="vm.planningCommitteeList.length"><p>No committee member has been added.</p><br /></div>
     <div class="col-lg-12 hide-until-loaded" id="body">
-        <table ng-table="tableParams" class="table row" ng-show="vm.planningCommitteeList.length">
+        <table class="table" ng-show="vm.planningCommitteeList.length">
             <thead>
                 <tr>
                     <th><b>Name</b></th>
@@ -28,6 +28,7 @@
             </tbody>
         </table>
         <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" data-target="#addMember">Add New Member</button> <a href=""><i class="fa fa-info-circle info-icon" title="The committee members will be displayed on the website."> </i></a>
+        <a class="btn btn-default right" ng-click="vm.getCommittee()"><i class="glyphicon glyphicon-repeat"></i></a>
     </div>
 
     <div class="col-lg-12">
@@ -45,8 +46,9 @@
                     Are you sure you want to remove the selection?
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.deleteMember()">Remove</button>
+                    <button class="btn btn-ar btn-primary left" ng-click="vm.deleteMember()" ng-disabled="vm.loading">Remove</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                    <span ng-show="vm.loading" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
                 </div>
             </div>
         </div>
@@ -73,6 +75,7 @@
                 <div class="modal-footer">
                     <button class="btn btn-ar btn-primary left" ng-click="vm.editMember()" ng-disabled="vm.loading">Save</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                    <span ng-show="vm.loading" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
                 </div>
             </div>
         </div>
@@ -108,6 +111,7 @@
                 <div class="modal-footer">
                     <button class="btn btn-ar btn-primary left" ng-click="vm.addMember()" ng-disabled="addCommitteeForm.$invalid || vm.loading">Add</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal" ng-click="vm.clear()">Cancel</button>
+                    <span ng-show="vm.loading" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
                 </div>
             </div>
         </div>

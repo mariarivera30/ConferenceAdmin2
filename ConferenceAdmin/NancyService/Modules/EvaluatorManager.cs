@@ -46,7 +46,7 @@ namespace NancyService.Modules
             }
         }
 
-        public EvaluatorPagingQuery getEvaluatorList(int index)
+        public EvaluatorPagingQuery getEvaluatorList(int index, int id)
         {
             EvaluatorPagingQuery e = new EvaluatorPagingQuery();
 
@@ -56,7 +56,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     int pageSize = 10;
-                    var query = context.users.Where(evaluator => evaluator.evaluatorStatus == "Accepted" || evaluator.evaluatorStatus == "Rejected").Select(evaluator => new EvaluatorQuery
+                    var query = context.users.Where(evaluator => (evaluator.evaluatorStatus == "Accepted" || evaluator.evaluatorStatus == "Rejected") && evaluator.userID != id && context.claims.Where(x => x.userID == evaluator.userID && (x.privilege.privilegesID == 1 || x.privilege.privilegesID == 3 || x.privilege.privilegesID == 5)).Select(x => x.userID).Count() == 0).Select(evaluator => new EvaluatorQuery
                     {
                         userID = (long)evaluator.userID,
                         firstName = evaluator.firstName,
@@ -136,7 +136,6 @@ namespace NancyService.Modules
                     {
                         if (e.acceptanceStatus == "Rejected")
                         {
-                            updateUser.evaluatorStatus = e.acceptanceStatus;
                             //Remove from claim table
                             var updateClaim = (from s in context.claims
                                                where s.userID == e.userID && s.privilege.privilegestType == "Evaluator"
@@ -167,6 +166,8 @@ namespace NancyService.Modules
                                     assignment.deleted = true;
                                 }
                             }
+
+                            updateUser.evaluatorStatus = e.acceptanceStatus;
 
                             try { sendRejectConfirmation(updateUser.membership.email, "Rejected"); }
                             catch (Exception ex)
@@ -220,21 +221,26 @@ namespace NancyService.Modules
 
                         if (check != null)
                         {
-                            e.evaluatorStatus = "Accepted";
-                            //User is already in evaluator/claim table
-                            if ((bool)check.deleted)
+                            //User is already in evaluator
+                            check.deleted = false;
+                            var claims = (from s in context.claims
+                                          where s.userID == e.userID && s.privilege.privilegestType == "Evaluator"
+                                          select s).FirstOrDefault();
+                            if (claims != null)
                             {
-                                check.deleted = false;
-                                var claims = (from s in context.claims
-                                              where s.userID == e.userID && s.privilege.privilegestType == "Evaluator"
-                                              select s).FirstOrDefault();
-                                if (claims != null)
-                                {
-                                    claims.deleted = false;
-                                }
-                                context.SaveChanges();
+                                claims.deleted = false;
+                            }
+                            else
+                            {
+                                //Add claim 
+                                claim newClaim = new claim();
+                                newClaim.privilegesID = 4;
+                                newClaim.deleted = false;
+                                newClaim.userID = e.userID;
+                                context.claims.Add(newClaim);
                             }
 
+                            e.evaluatorStatus = "Accepted";
                         }
 
                         else
@@ -265,6 +271,8 @@ namespace NancyService.Modules
                             context.SaveChanges();
                             return newEvaluator;
                         }
+
+                        context.SaveChanges();
                     }
                     return null;
                 }

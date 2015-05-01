@@ -899,7 +899,61 @@ namespace NancyService.Modules
 
         }
 
+        public ComplimentaryPagingQuery searchKeyCodes(ComplimentaryPagingQuery page, String criteria)
+        {
+            ComplimentaryPagingQuery e = new ComplimentaryPagingQuery();
 
+            try
+            {
+                int pageSize = 10;
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+
+                    var keys = (from s in context.complementarykeys
+                                from pay in context.paymentcomplementaries
+                                from k in context.payments
+                                from r in context.registrations
+                                from u in context.users
+                                where (s.sponsorID2 == page.sponsorID && s.isUsed == true && s.deleted == false && pay.paymentID == k.paymentID &&
+                                s.complementarykeyID == pay.complementaryKeyID && r.paymentID == k.paymentID &&
+                                r.userID == u.userID) && ((u.firstName.ToLower() + " " + u.lastName.ToLower()).Contains(criteria.ToLower()) || s.key.ToLower().Contains(criteria.ToLower()))
+                                select new ComplementaryQuery
+                                {
+                                    complementarykeyID = s.complementarykeyID,
+                                    key = s.key,
+                                    isUsed = (bool)s.isUsed,
+                                    sponsorID = s.sponsorID2,
+                                    userID = r.userID,
+                                    name = u.firstName + " " + u.lastName,
+                                }).Concat((from s in context.complementarykeys
+                                           where (s.sponsorID2 == page.sponsorID && s.isUsed == false && s.deleted == false) && (s.key.ToLower().Contains(criteria.ToLower()))
+                                           select new ComplementaryQuery
+                                           {
+                                               complementarykeyID = s.complementarykeyID,
+                                               key = s.key,
+                                               isUsed = (bool)s.isUsed,
+                                               sponsorID = s.sponsorID2,
+                                               userID = 0,
+                                               name = "",
+                                           })).OrderBy(x => x.complementarykeyID);
+
+                    page.rowCount = keys.Count();
+                    if (page.rowCount > 0)
+                    {
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        var keyList = keys.Skip(pageSize * page.index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = keyList;
+                    }
+
+                    return page;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SponsorManager.searchKeyCodes error " + ex);
+                return null;
+            }
+        }
 
         private string GenerateComplementary(int length)
         {

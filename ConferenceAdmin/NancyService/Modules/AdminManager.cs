@@ -221,11 +221,23 @@ namespace NancyService.Modules
                         {
                             admin.deleted = false;
                             oldAdmin.deleted = true;
+                            
+                            if (privilege != "Finance")
+                            {
+                                EvaluatorManager evaluator = new EvaluatorManager();
+                                evaluator.addEvaluator(admin.user.membership.email);
+                            }
                         }
 
                         else
                         {
                             oldAdmin.privilegesID = editAdmin.privilegeID;
+
+                            if (privilege != "Finance")
+                            {
+                                EvaluatorManager evaluator = new EvaluatorManager();
+                                evaluator.addEvaluator(oldAdmin.user.membership.email);
+                            }
                         }
 
                         try {sendEmailEditAdminConfirmation(oldAdmin.user.membership.email, privilege);}
@@ -351,7 +363,7 @@ namespace NancyService.Modules
             String closing = " \r\nThank you.\r\nCCWiC Administration";
 
             mail.Subject = "Caribbean Celebration of Women in Computing- Administrator Information";
-            mail.Body = "Greetings,\r\n \r\nYour privilege within our system has changed. You have are now: " + p + ". Remember: You can access Administrator Settings by login in ConferenceAdmin.\r\n"+closing;
+            mail.Body = "Greetings,\r\n \r\nYour privilege within our system has changed. You are now: " + p + ". Remember: You can access Administrator Settings by login in ConferenceAdmin.\r\n"+closing;
 
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";

@@ -136,6 +136,7 @@
         }
 
         function _deleteTopic() {
+            vm.loading = true;
             if (vm.currentid != undefined && vm.currentid != "") {
                 restApi.deleteTopic(vm.currentid)
                 .success(function (data, status, headers, config) {
@@ -145,13 +146,16 @@
                                 vm.topicsList.splice(index, 1);
                             }
                         });
+                        vm.loading = false;
                         $("#deleteConfirm").modal('show');
                     }
                     else {
+                        vm.loading = false;
                         $("#deleteError").modal('show');
                     }
                 })
                 .error(function (data, status, headers, config) {
+                    vm.loading = false;
                     vm.toggleModal('error');
                 });
             }

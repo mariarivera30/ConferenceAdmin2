@@ -27,10 +27,11 @@
 
         <div class="row">
             <div class="col-md-6">
-                <div class="form-group">
+                <form name="contactInfo" novalidate>
                     <h5 class="after-title-field">Contact Email</h5>
-                    <input type="text" class="form-control" ng-model="vm.contactEmail">
-                </div>
+                    <input id="email" name="email" type="email" ng-model="vm.contactEmail" />
+                    <label class="help-inline" ng-show="contactInfo.email.$invalid && !contactInfo.email.$pristine">Provide a valid email.</label>
+                </form>
             </div>
         </div>
 
@@ -40,7 +41,7 @@
         <div class="row">
             <div class="col-lg-10">
                 <button class="btn btn-ar btn-default" ng-click="vm.reset()">Reload</button>
-                <button class="btn btn-ar btn-primary" ng-click="vm.saveContact()" ng-disabled="vm.loading">Save</button>
+                <button class="btn btn-ar btn-primary" ng-click="vm.saveContact()" ng-disabled="contactInfo.$invalid || vm.loading">Save</button>
             </div>
         </div>
     </div>
