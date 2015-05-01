@@ -474,7 +474,7 @@
         };
         //get the file uploaded to the submission
         function _getEvaluationFile(data) {
-            return $http.get('profile/getEvaluationFile/' + data);
+            return $http.get('profile/getEvaluationFile/' + data.submissionID + '/' + data.evaluatorID);
         };
         //add a single file to a submission
         function _addFileToSubmission(data) {
