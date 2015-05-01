@@ -96,11 +96,8 @@
             getDeadlines: _getDeadlines,
             getInterfaceDeadlines: _getInterfaceDeadlines,
             saveDeadlines: _saveDeadlines,
-            getPlanningCommittee: _getPlanningCommittee,
-            postNewCommittee: _postNewCommittee,
-            editCommittee: _editCommittee,
-            deleteCommittee: _deleteCommittee,
             getCommitteeInterface: _getCommitteeInterface,
+            saveCommitteeInterface: _saveCommitteeInterface,
             getAdminSponsorBenefits: _getAdminSponsorBenefits,
             saveAdminSponsorBenefits: _saveAdminSponsorBenefits,
             saveInstructions: _saveInstructions,
@@ -619,24 +616,12 @@
             return $http.put('/admin/saveDeadlines', data);
         };
 
-        function _getPlanningCommittee() {
-            return $http.get('admin/getPlanningCommittee');
-        };
-
-        function _postNewCommittee(data) {
-            return $http.post('/admin/addNewCommittee', data);
-        };
-
-        function _editCommittee(data) {
-            return $http.put('/admin/editCommittee', data);
-        };
-
-        function _deleteCommittee(data) {
-            return $http.put('/admin/deleteCommittee', data);
-        };
-
         function _getCommitteeInterface() {
             return $http.get('admin/getCommitteeInterface');
+        };
+
+        function _saveCommitteeInterface(data) {
+            return $http.put('/admin/saveCommitteeInterface', data);
         };
 
         function _getAdminSponsorBenefits(data) {

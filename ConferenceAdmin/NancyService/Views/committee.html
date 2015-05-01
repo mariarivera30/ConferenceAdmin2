@@ -1,48 +1,9 @@
 ﻿<div class="container" ng-controller="committeeCtrl as vm">
     <div class="row hide-until-loaded" id="body">
-        <h2 class="section-title">Planning Committee</h2>
-        <div ng-hide="vm.conferenceChairList.length"><p>No content to display.</p></div>
-        <div class="col-md-12" ng-show="vm.conferenceChairList.length">
-            <h3>Conference Chair</h3>
-            <div ng-repeat="committee in vm.conferenceChairList">
-                <p class="p-lg"><b>{{committee.firstName}} {{committee.lastName}}</b><br />{{committee.affiliation}}</p>
-            </div>
-            <hr class="dotted">
-        </div>
-        <div class="col-md-12" ng-show="vm.conferenceCoChairList.length">
-            <h3>Conference Co-Chairs</h3>
-            <div ng-repeat="committee in vm.conferenceCoChairList">
-                <p class="p-lg"><b>{{committee.firstName}} {{committee.lastName}}</b><br />{{committee.affiliation}}</p>
-            </div>
-            <hr class="dotted">
-        </div>
-        <div class="col-md-12" ng-show="vm.conferenceTreasurerList.length">
-            <h3>Treasurer</h3>
-            <div ng-repeat="committee in vm.conferenceTreasurerList">
-                <p class="p-lg"><b>{{committee.firstName}} {{committee.lastName}}</b><br />{{committee.affiliation}}</p>
-            </div>
-            <hr class="dotted">
-        </div>
-        <div class="col-md-12" ng-show="vm.conferenceCoordinatorList.length">
-            <h3>Conference Coordinator</h3>
-            <div ng-repeat="committee in vm.conferenceCoordinatorList">
-                <p class="p-lg"><b>{{committee.firstName}} {{committee.lastName}}</b><br />{{committee.affiliation}}</p>
-            </div>
-            <hr class="dotted">
-        </div>
-        <div class="col-md-12" ng-show="vm.conferenceAssistantList.length">
-            <h3>Conference Assistant</h3>
-            <div ng-repeat="committee in vm.conferenceAssistantList">
-                <p class="p-lg"><b>{{committee.firstName}} {{committee.lastName}}</b><br />{{committee.affiliation}}</p>
-            </div>
-            <hr class="dotted">
-        </div>
-        <div class="col-md-12" ng-show="vm.conferenceAccountantList.length">
-            <h3>Conference Accountant</h3>
-            <div ng-repeat="committee in vm.conferenceAccountantList">
-                <p class="p-lg"><b>{{committee.firstName}} {{committee.lastName}}</b><br />{{committee.affiliation}}</p>
-            </div>
-            <br>
+        <h2 class="section-title">Committee</h2>
+        <div ng-hide="vm.icommittee"><p>No content to display.</p></div>
+        <div class="row" ng-show="vm.icommittee">
+            <div class="col-md-12 p-lg" ng-model="vm.icommittee" ckhtml></div>
         </div>
     </div> <!-- row -->
     <div class="col-lg-6">

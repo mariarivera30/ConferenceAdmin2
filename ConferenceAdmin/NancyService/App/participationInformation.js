@@ -88,7 +88,7 @@
             }
             restApi.saveParticipation(newParticipation)
             .success(function (data, status, headers, config) {
-                if (data != null && data != "") {
+                if (data) {
                     vm.temp.participationParagraph1 = newParticipation.participationParagraph1;
                     vm.loading = false;
                     $("#updateConfirm").modal('show');

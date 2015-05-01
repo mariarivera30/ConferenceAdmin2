@@ -667,32 +667,15 @@ namespace NancyService.Modules
                 return webManager.saveDeadlines(deadlines);
             };
 
-            Get["/getPlanningCommittee"] = parameters =>
-            {
-                return Response.AsJson(webManager.getPlanningCommittee());
-            };
-
-            Post["/addNewCommittee"] = parameters =>
-            {
-                var committee = this.Bind<PlanningCommitteeQuery>();
-                return Response.AsJson(webManager.addCommittee(committee));
-            };
-
-            Put["/editCommittee"] = parameters =>
-            {
-                var committee = this.Bind<PlanningCommitteeQuery>();
-                return webManager.editCommittee(committee);
-            };
-
-            Put["/deleteCommittee"] = parameters =>
-            {
-                var committee = this.Bind<PlanningCommitteeQuery>();
-                return webManager.deleteCommittee(committee);
-            };
-
             Get["/getCommitteeInterface"] = parameters =>
             {
-                return Response.AsJson(webManager.getCommitteeInterface());
+                return Response.AsJson(webManager.getCommittee());
+            };
+
+            Put["/saveCommitteeInterface"] = parameters =>
+            {
+                var info = this.Bind<CommitteeQuery>();
+                return webManager.saveCommittee(info);
             };
 
             Get["/getAdminSponsorBenefits/{data}"] = parameters =>

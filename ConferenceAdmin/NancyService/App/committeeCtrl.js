@@ -10,12 +10,7 @@
         var vm = this;
         vm.activate = activate;
         vm.title = 'committeeCtrl';
-        vm.conferenceChairList = {};
-        vm.conferenceCoChairList = {};
-        vm.conferenceCoordinatorList = {};
-        vm.conferenceTreasurerList = {};
-        vm.conferenceAssistantList = {};
-        vm.conferenceAccountantList = {};
+        vm.icommittee;
 
         //For error modal:
         vm.obj = {
@@ -58,12 +53,8 @@
             restApi.getCommitteeInterface()
            .success(function (data, status, headers, config) {
                if (data != null && data != undefined) {
-                   vm.conferenceChairList = data.conferenceChairList;
-                   vm.conferenceCoChairList = data.conferenceCoChairList;
-                   vm.conferenceCoordinatorList = data.conferenceCoordinatorList;
-                   vm.conferenceTreasurerList = data.conferenceTreasurerList;
-                   vm.conferenceAssistantList = data.conferenceAssistantList;
-                   vm.conferenceAccountantList = data.conferenceAccountantList;
+
+                   vm.icommittee = data.committee;
                }
 
                load();
