@@ -120,7 +120,7 @@
             }
             restApi.saveContact(newContact)
             .success(function (data, status, headers, config) {
-                if (data != null && data != "") {
+                if (data) {
                     vm.temp.contactName = newContact.contactName;
                     vm.temp.contactPhone = newContact.contactPhone;
                     vm.temp.contactEmail = newContact.contactEmail;

@@ -178,7 +178,7 @@
             }
             restApi.saveRegistrationInfo(newRegistration)
             .success(function (data, status, headers, config) {
-                if (data != null && data != "") {
+                if (data) {
                     vm.temp = newRegistration;
                     $("#updateConfirm").modal('show');
                 }

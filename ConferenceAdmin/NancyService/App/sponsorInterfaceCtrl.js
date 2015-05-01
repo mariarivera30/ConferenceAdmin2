@@ -140,7 +140,7 @@
             }
             restApi.saveAdminSponsorBenefits(saveSponsor)
             .success(function (data, status, headers, config) {
-                if (data != null && data != "") {
+                if (data) {
                     vm.loading = false;
                     $("#editSponsorBenefits").modal('hide');
                     $("#updateConfirm").modal('show');
