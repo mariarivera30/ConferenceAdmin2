@@ -183,7 +183,7 @@
                 $location.path('/Administrator/ManageEvaluators');
             }
             else {
-                $location.path('#/Administrator/GeneralInformation');
+                $location.path('/Administrator/GeneralInformation');
             }
         }
         function activate() {
