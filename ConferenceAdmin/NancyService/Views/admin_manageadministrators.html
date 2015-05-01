@@ -14,8 +14,11 @@
             <p class="after-title-field">No administradors have been added.</p><br />
         </div>
 
-        <div class="col-lg-12 btn-padding2" ng-show="!vm.showResults && vm.adminList.length">
+        <div class="col-lg-9 btn-padding2" ng-show="!vm.showResults && vm.adminList.length">
             <label class="left">Search: <input ng-model="vm.criteria" ng-change="vm.showSearch = false" /><button ng-click="vm.search(0)" ng-disabled="vm.loadingSearch"><i class="fa fa-search"></i></button><label ng-show="vm.showSearch && !vm.showResults"> No results found.</label></label>
+        </div>
+        <div class="col-lg-3 title-field" ng-show="!vm.showResults && vm.adminList.length">
+            <a class="right" href="" data-toggle="modal" data-target="#info">Privileges Description</a>
         </div>
 
         <!-- Table containing list of administrators. The table is hidden until the system has retrieved the list. -->
@@ -102,6 +105,59 @@
             <!--<span><a class="btn btn-default">{{vm.searchIndex+1}}</a></span>-->
             <a class="btn btn-default" ng-disabled="vm.searchIndex >= (vm.searchMaxIndex-1)" ng-click="vm.nextSearch()">Next</a>
             <a class="btn btn-default" ng-disabled="vm.searchIndex >= (vm.searchMaxIndex-1)" ng-click="vm.getLastSearch()">Last</a>
+        </div>
+    </div>
+
+    <!-- Info Modal:-->
+    <div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="infoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="infoLabel">Privileges</h4>
+                </div>
+                <div class="modal-body">
+                   <p>Actions allowed by the different privileges:</p>
+                   <p>Administrator:
+                    <ul><li>Manage Website Content</li>
+                        <li>Manage Evaluators</li>
+                        <li>Manage Submissions</li>
+                        <li>Manage Registrations</li>
+                        <li>Manage Sponsors</li>
+                        <li>Manage Comlimentary Codes</li>
+                        <li>Manage Topics</li>
+                        <li>Manage Templates</li>
+                        <li>Access Reports</li>
+                       </ul></p>
+                    <p>
+                        Finance:
+                        <ul>
+                            <li>Manage Website Content: Sponsors & Benefits</li>
+                            <li>Manage Registrations</li>
+                            <li>Manage Sponsors</li>
+                            <li>Manage Complimentary Codes</li>
+                            <li>Access Reports</li>
+                        </ul>
+                    </p>
+                    <p>
+                        Committee Evaluator:
+                        <ul>
+                            <li>Manage Website Content</li>
+                            <li>Manage Evaluators</li>
+                            <li>Manage Submissions</li>
+                            <li>Manage Registrations</li>
+                            <li>Manage Topics</li>
+                            <li>Manage Templates</li>
+                            <li>Access Reports</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                    <span ng-show="vm.loading" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+                </div>
+            </div>
         </div>
     </div>
 
