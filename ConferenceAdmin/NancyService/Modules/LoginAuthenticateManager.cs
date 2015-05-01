@@ -10,6 +10,7 @@ namespace NancyService.Modules
 {
     public class LoginAuthenticateManager
     {
+
         public class UserAuth
         {
             public string email { get; set; }
@@ -27,7 +28,7 @@ namespace NancyService.Modules
 
             }
             private IUserIdentity _identity;
-
+            
             public IUserIdentity GetIdentity()
             {
                 if (_identity != null)
@@ -84,6 +85,7 @@ namespace NancyService.Modules
 
         public static UserAuth login(membership param)
         {
+            
             using (conferenceadminContext contx = new conferenceadminContext())
             {
                
@@ -96,7 +98,7 @@ namespace NancyService.Modules
                 UserAuth user = (from g in contx.memberships
                                  join u in contx.users on g.membershipID equals u.membershipID
                                  where g.email == param.email && g.deleted == false && u.deleted == false
-                                 select new UserAuth { userID = u.userID, memberID = g.membershipID, password = g.password, passwordSalt = g.passwordSalt, email = g.email, userType = u.userTypeID }).FirstOrDefault();
+                                 select new UserAuth { userID = u.userID, memberID = g.membershipID, password = g.password, email = g.email, userType = u.userTypeID }).FirstOrDefault();
                
 
                 if (user == null)
@@ -107,7 +109,8 @@ namespace NancyService.Modules
                 else
                 {
                    var crypto = new SimpleCrypto.PBKDF2();
-                   if( string.Equals(crypto.Compute(param.password, user.passwordSalt), user.password, StringComparison.Ordinal))
+                   if (Security.ValidateSHA1HashData(param.password, user.password))
+                  // if( string.Equals(crypto.Compute(param.password, user.passwordSalt), user.password, StringComparison.Ordinal))
                         return user;
                    else{
                        return null;

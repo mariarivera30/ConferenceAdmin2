@@ -24,10 +24,30 @@
 
         // Functions
         vm.tabViewControl = _tabViewControl;
+        vm.adminView = _adminView;
         activate();
         function activate() {
            _tabViewControl();
             
+        }
+
+        function _adminView() {
+            vm.isCommittee = false;
+            var list = JSON.parse($window.sessionStorage.getItem('claims'));
+            if (list != null) {
+                list.forEach(function (claim) {
+                    if (claim.localeCompare('CommitteEvaluator') == 0) {
+                        vm.isCommittee = true;
+                    }
+
+                });
+            }
+            if (vm.isCommittee) {
+                $location.path('/Administrator/ManageEvaluators');
+            }
+            else {
+                $location.path('#/Administrator/GeneralInformation');
+            }
         }
 
         function _tabViewControl() {

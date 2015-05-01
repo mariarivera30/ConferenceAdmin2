@@ -248,7 +248,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     var bill = (from s in context.paymentbills
-                                  where s.transactionid == receipt.transactionID && s.deleted == false
+                                  where s.transactionid == receipt.transactionID 
                                   select s).FirstOrDefault();
                     if (bill != null)
                     {
@@ -261,6 +261,34 @@ namespace NancyService.Modules
                         bill.deleted = false;
                         context.SaveChanges();
                         return bill.paymentBillID;
+
+                        var billList = (from s in context.sponsor2
+                                       from b in context.paymentbills
+                                    where s.paymentID == b.paymentBillID 
+                                        select b).ToList();
+                        //is sponsor Payment Update sponsor totalAmount
+                        if (billList.Count()>0)
+                        {
+                            double total = 0;
+                            foreach (paymentbill b in billList)
+                            {
+                                total += b.AmountPaid;
+                            }
+
+                            var sponsor = (from s in context.sponsor2
+                                           where (s.paymentID == bill.paymentID)
+                                           select s).First();
+                            sponsor.totalAmount = total;
+                            context.SaveChanges();
+                        }
+
+                        else
+                        {
+                            //updateRegistration for A user
+
+                        }
+
+
 
                     }
                     else return 0;

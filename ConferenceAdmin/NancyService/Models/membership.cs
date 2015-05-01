@@ -15,7 +15,6 @@ namespace NancyService.Models
         public string password { get; set; }
         public Nullable<bool> emailConfirmation { get; set; }
         public string confirmationKey { get; set; }
-        public string passwordSalt { get; set; }
         public Nullable<bool> deleted { get; set; }
         public virtual ICollection<user> users { get; set; }
     }

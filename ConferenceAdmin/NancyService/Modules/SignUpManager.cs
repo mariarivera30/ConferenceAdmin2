@@ -5,10 +5,65 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Security.Cryptography;
+using System.Text;
 
 
 namespace NancyService.Modules
 {
+     public static class Security
+   {
+       /// <summary>
+       /// take any string and encrypt it using SHA1 then
+       /// return the encrypted data
+       /// </summary>
+       /// <param name="data">input text you will enterd to encrypt it</param>
+       /// <returns>return the encrypted text as hexadecimal string</returns>
+       public static string GetSHA1HashData(string data)
+       {
+           //create new instance of md5
+           SHA1 sha1 = SHA1.Create();
+
+           //convert the input text to array of bytes
+           byte[] hashData = sha1.ComputeHash(Encoding.Default.GetBytes(data));
+
+           //create new instance of StringBuilder to save hashed data
+           StringBuilder returnValue = new StringBuilder();
+
+           //loop for each byte and add it to StringBuilder
+           for (int i = 0; i < hashData.Length; i++)
+           {
+               returnValue.Append(hashData[i].ToString());
+           }
+
+           // return hexadecimal string
+           return returnValue.ToString();
+       }
+
+       /// <summary>
+       /// encrypt input text using SHA1 and compare it with
+       /// the stored encrypted text
+       /// </summary>
+       /// <param name="inputData">input text you will enterd to encrypt it</param>
+       /// <param name="storedHashData">the encrypted
+       ///           text stored on file or database ... etc</param>
+       /// <returns>true or false depending on input validation</returns>
+
+       public static bool ValidateSHA1HashData(string inputData, string storedHashData)
+       {
+           //hash input text and save it string variable
+           string getHashInputData = GetSHA1HashData(inputData);
+
+           if (string.Compare(getHashInputData, storedHashData) == 0)
+           {
+               return true;
+           }
+           else
+           {
+               return false;
+           }
+       }
+   }
     public class SignUpManager
     {
         public class UserCreation
@@ -47,10 +102,10 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     //code for password encryption
-                    var crypto = new SimpleCrypto.PBKDF2();
-                    var encrpPass = crypto.Compute(member.password);
+                  
+                    var encrpPass = Security.GetSHA1HashData(member.password);
                     member.password = encrpPass;
-                    member.passwordSalt = crypto.Salt;
+                   
                     //end password encryption
                     member.deleted = false;
                     member.emailConfirmation = false;
@@ -248,9 +303,9 @@ namespace NancyService.Modules
                     string tempPass = generateEmailConfirmationKey().Substring(0, 9);
                     tempPass = tempPass.Replace("-", "");
                     //encryption code
-                    var crypto = new SimpleCrypto.PBKDF2();
-                    var encrpTempPass = crypto.Compute(tempPass);
-                    var tempPassSalt = crypto.Salt;
+                    
+                    var encrpTempPass = Security.GetSHA1HashData(tempPass);
+                  
                     //end encryption code
                     var member = (from m in context.memberships
                                   where (m.email.Equals(email) && m.deleted == false)
@@ -259,7 +314,7 @@ namespace NancyService.Modules
                     {
                         //member.password = tempPass;  //before encryption, maria code
                         member.password = encrpTempPass;//encrypting
-                        member.passwordSalt = tempPassSalt;//encrypting
+                       
                         UserCreation u = new UserCreation();
                         u.email = member.email;
                         u.membershipID = member.membershipID;
@@ -347,19 +402,19 @@ namespace NancyService.Modules
                     var member = (from m in context.memberships
                                   where (m.email.Equals(u.email) && m.deleted == false)
                                   select m).FirstOrDefault();
-                    var crypto = new SimpleCrypto.PBKDF2();
-                    if (string.Equals(crypto.Compute(u.password, member.passwordSalt), member.password, StringComparison.Ordinal)) { }//if password is the same member stays the same
+                    
+                    if (Security.ValidateSHA1HashData(u.password, member.password)) { }//if password is the same member stays the same
                     else member = null;
 
                     if (member != null)
                     {
                         //encryption
-                        var newEncrpPass = crypto.Compute(u.newPass);
-                        var newPassSalt = crypto.Salt;
+                        var newEncrpPass = Security.GetSHA1HashData(u.newPass);
+                      
                         //end encryption
                         //member.password = u.newPass;//without encryption, old
                         member.password = newEncrpPass;
-                        member.passwordSalt = newPassSalt;
+                       
                         u.membershipID = member.membershipID;
                         context.SaveChanges();
                         return u;
