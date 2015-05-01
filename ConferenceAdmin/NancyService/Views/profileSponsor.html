@@ -1,12 +1,13 @@
-﻿<h3>Manage Sponsors</h3><br>
+﻿<h3>Manage Sponsors</h3>
 <div ng-controller="profileSponsorCtrl as vm ">
   
 
     <div class="col-lg-12" ng-show="vm.loading">
         <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
     </div>
-
+    
     <form ng-hide="vm.loading" name="addSponsorForm" id="addSponsorForm" novalidate >
+        <div class=" col-lg-12 right "><div class="right"><a href="#/ChangePassword">Change Password</a></div></div>
         <div class="row">
             <div class="col-lg-6">
                 <label>Name:</label>
@@ -23,12 +24,11 @@
 
             <div class=" col-lg-6">
                 <label>Sponsor Type:</label>
-                <br />
-
-
-                <select ng-model="vm.sponsor.sponsorType"
-                        ng-options="type.sponsortypeID as type.name for type in vm.sponsorsTypeList" class="form-control"></select>
-
+                
+                <input ng-show="vm.sponsor.active"   class=" form-control readonly" type="text" name="company" ng-model="vm.sponsor.typeName"  readonly>
+                
+                <div ng-show="!vm.sponsor.active">Unactive Sponsor</div>
+                
             </div>
             <div class=" col-lg-6">
                 <label>Company:</label>
@@ -104,7 +104,7 @@
 
                         </div>
                     </div>
-                    <div class=" col-md-6">
+                    <div ng-show="vm.sponsor.logo!= '' " class= "col-md-6">
 
                         <label>Logo Image File:</label><br />
                         <button class="form-control" type="submit" class="btn btn-ar btn-primary right" ng-click="vm.downloadLogo()">Download</button>
@@ -117,12 +117,9 @@
 
                     <div class="row">
 
-                        <br />
-
                         <div class=" col-md-6">
                             <label ng-if="content">New Logo:</label>
                             <img ng-if="content" class="img-responsive" ng-src="{{content}}" />
-
 
                         </div>
 
@@ -133,6 +130,7 @@
                             <div>
                                 <img class="img-responsive" src="{{vm.currentSponsor.logo}}" />
                             </div>
+                            <br />
                         </div>
 
                     </div>
@@ -159,8 +157,9 @@
             <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Uploading</h3>
         </div>
         <div ng-hide=" vm.view" class="modal-footer">
-            <button ng-show="true" type="submit" class="btn btn-ar btn-primary right" ng-click="vm.updateSponsor(File)" ng-disabled="addSponsorForm.$invalid || vm.ext">Save</button>
-            <button class="btn btn-ar btn-default right" data-dismiss="modal" ng-click=" vm.clearSponsor();">Cancel</button>
+            <br/>
+            <button ng-show="true" type="submit" class="btn btn-ar btn-primary left" ng-click="vm.updateSponsor(File)" ng-disabled="(addSponsorForm.$invalid || vm.ext ||vm.loadingUploading)">Save</button>
+            <button class="btn btn-ar btn-default left" data-dismiss="modal" ng-click=" vm.clearSponsor();">Cancel</button>
         </div>
 
 

@@ -31,12 +31,18 @@
             cancelbuttoText: "Cancel",
         };
         function _goTo()
-        { $location.path('/Login/Log'); }
+        {
+            if (vm.actionPopUp == "changed")
+                $location.path('/Login/Log');
+            else {
+                vm.credentials = {};
+            }
+        }
 
         vm.toggleModal = function (action) {
           
             if (action == "changed") {
-
+                vm.actionPopUp = "changed";
                 vm.obj.title = "Your Password was changed!";
                 vm.obj.message1 = "Please Login!",
                 vm.obj.message2 = vm.credentials.email,
@@ -49,7 +55,7 @@
                 
             }
             if (action == "notchanged") {
-
+                
                 vm.obj.title = "Your Password cannot be changed!",
                 vm.obj.message1 = "Verify your credentials and try again",
                 vm.obj.message2 = vm.credentials.email,
@@ -80,21 +86,24 @@
         }
 
         function _changePassword() {
-            vm.loadingRemovingComp = true;
+            vm.loadingUploading = true;
             restApi.changePassword(vm.credentials)
             .success(function (data, status, headers, config) {
                 if (data != null && data != "") {
+                    vm.loadingUploading = false;
                     vm.toggleModal('changed');
-                 
+                    
                 }
 
                 else {
+                    vm.loadingUploading = false;
                     vm.toggleModal('notchanged');
                   }
 
             })
 
             .error(function (data, status, headers, config) {
+                vm.loadingUploading = false;
                 vm.toggleModal('error');
               
 

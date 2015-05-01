@@ -9,7 +9,7 @@ namespace NancyService.Models
         {
             this.paymentbills = new List<paymentbill>();
             this.users = new List<user>();
-            this.sponsors = new List<sponsor>();
+          
         }
 
         public long addressID { get; set; }
@@ -21,6 +21,6 @@ namespace NancyService.Models
         public string zipcode { get; set; }
         public virtual ICollection<paymentbill> paymentbills { get; set; }
         public virtual ICollection<user> users { get; set; }
-        public virtual ICollection<sponsor> sponsors { get; set; }
+  
     }
 }

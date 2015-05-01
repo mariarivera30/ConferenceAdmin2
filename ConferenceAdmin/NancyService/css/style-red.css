@@ -7416,3 +7416,25 @@ a.white {
     font-size: 1.2em;
     padding: 12px;
 }
+
+.file-icon {
+    color: #e73c3c;
+}
+
+.file-link {
+    color: #666;
+    font-size: .9em;
+}
+
+.authorization-list {
+    width: 230px; 
+    overflow: hidden; 
+    display: block; 
+    float: left; 
+    white-space: nowrap;
+}
+
+.one-line-high {
+    display: block; 
+    height: 2em;
+}

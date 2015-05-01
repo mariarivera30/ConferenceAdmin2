@@ -14,8 +14,7 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.logo)
                 .HasMaxLength(1073741823);
 
-            this.Property(t => t.company)
-                .HasMaxLength(255);
+          
 
             // Table & Column Mappings
             this.ToTable("sponsor2", "conferenceadmin");
@@ -24,12 +23,10 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.deleted).HasColumnName("deleted");
             this.Property(t => t.active).HasColumnName("active");
             this.Property(t => t.sponsorType).HasColumnName("sponsorType");
-            this.Property(t => t.company).HasColumnName("company");
             this.Property(t => t.userID).HasColumnName("userID");
             this.Property(t => t.paymentID).HasColumnName("paymentID");
             this.Property(t => t.totalAmount).HasColumnName("totalAmount");
             this.Property(t => t.byAdmin).HasColumnName("byAdmin");
-            this.Property(t => t.method).HasColumnName("method");
             this.Property(t => t.emailInfo).HasColumnName("emailInfo");
             // Relationships
             this.HasOptional(t => t.sponsortype1)

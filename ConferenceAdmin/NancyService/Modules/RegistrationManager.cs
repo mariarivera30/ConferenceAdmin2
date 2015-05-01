@@ -28,9 +28,9 @@ namespace NancyService.Modules
                    
                     //encryption
                     var userPassword = mem.password;
-                    var crypto = new SimpleCrypto.PBKDF2();
-                    mem.password = crypto.Compute(userPassword);
-                    mem.passwordSalt = crypto.Salt;
+                    
+                    mem.password = Security.GetSHA1HashData(mem.password);
+                    
                     //end encryption                  
                     mem.emailConfirmation = true;
                     mem.deleted = false;

@@ -100,8 +100,9 @@
            //window.open(vm.modalevaluationFile);
            restApi.getEvaluationFile(vm.modalsubmissionID).
                 success(function (data, status, headers, config) {
-                    var file = new Blob([data.evaluationFile]);
-                    saveAs(file, data.evaluationFileName);
+                    window.open(data.evaluationFile);
+                    //var file = new Blob([data.evaluationFile]);
+                    //saveAs(file, data.evaluationFileName);
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");
@@ -111,8 +112,9 @@
            //window.open(vm.modalevaluationTemplate);
            restApi.getEvaluationTemplate(id).
                 success(function (data, status, headers, config) {
-                    var file = new Blob([data.evaluationFile]);
-                    saveAs(file, data.evaluationFileName);
+                    window.open(data.evaluationFile);
+                    //var file = new Blob([data.evaluationFile]);
+                    //saveAs(file, data.evaluationFileName);
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");
@@ -138,8 +140,9 @@
         function _openDocumentSubmitted(id) {
             restApi.getSubmissionFile(id).
                 success(function (data, status, headers, config) {
-                    var file = new Blob([data.document]);
-                    saveAs(file, data.documentName);
+                    window.open(data.document);
+                    //var file = new Blob([data.document]);
+                    //saveAs(file, data.documentName);
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");
@@ -147,9 +150,13 @@
         }
 
         function _getAssignedSubmissions(index) {
-            var data = {evaluatorUserID: vm.currentUserID, index: index}
+            vm.uploadingComp = true;
+            var data = { evaluatorUserID: vm.currentUserID, index: index }
             restApi.getAssignedSubmissions(data).
                    success(function (data, status, headers, config) {
+                       if (data.results == null)
+                           vm.empty = true;
+                       vm.uploadingComp = false;
                        vm.smaxIndex = data.maxIndex;
                        if (vm.smaxIndex == 0) {
                            vm.sindex = 0;
@@ -164,6 +171,7 @@
                        }
                    }).
                    error(function (data, status, headers, config) {
+                       vm.uploadingComp = false;
                    });
         }
 

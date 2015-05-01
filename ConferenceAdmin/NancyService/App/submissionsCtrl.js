@@ -101,6 +101,7 @@
         vm.searchDeletedSubmission = _searchDeletedSubmission;
         vm.checkDeadline = _checkDeadline;
         vm.getSubmissionsReport = _getSubmissionsReport;
+        vm.resetDownloadLink = _resetDownloadLink;
 
         // function calls
         _getAllSubmissions(vm.sindex);
@@ -195,6 +196,8 @@
         function _getAllSubmissions(index) {
             restApi.getAllSubmissions(index).
                    success(function (data, status, headers, config) {
+                       if (data.results == null)
+                           vm.empty1 = true;
                        vm.smaxIndex = data.maxIndex;
                        if (vm.smaxIndex == 0) {
                            vm.sindex = 0;
@@ -244,13 +247,20 @@
         function _downloadPDFFile(id) {
             restApi.getSubmissionFile(id).
                 success(function (data, status, headers, config) {
-                    var file = new Blob([data.document]);
-                    saveAs(file, data.documentName);
+                    //window.open(data.document);
+                    $("#file-"+id).attr("href", data.document).attr("download", data.documentName);
+                    
+                    //var file = new Blob([data.document]);
+                    //saveAs(file, data.documentName);
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");
                 });
-            
+        }
+
+        /* reset the link to default */
+        function _resetDownloadLink(id) {
+            $("#file-" + id).attr("href", "").removeAttr("download");
         }
 
         /* Set all fields with the submission information */
@@ -473,6 +483,7 @@
 
         /* Assign an evaluator to a submission */
         function _assignEvaluator(submissionID, evaluatorID) {
+            vm.processing = true;
             var IDs = { submissionID: submissionID, evaluatorID: evaluatorID }
 
             vm.exists = false;
@@ -487,6 +498,7 @@
                   success(function (data, status, headers, config) {
                       vm.evaluationsList.push(data);
                       vm.evaluatorID = "";
+                      vm.processing = false;
                   }).
                   error(function (data, status, headers, config) {
 
@@ -499,11 +511,13 @@
 
         /* Remove an assigned evaluator from a submission */
         function _removeEvaluator(evaluatorSubmissionID) {
+            vm.removing = true;
             restApi.removeEvaluator(evaluatorSubmissionID).
                   success(function (data, status, headers, config) {
                       vm.evaluationsList.forEach(function (eva, index) {
                           if (eva.evaluatorSubmissionID == data) {
                               vm.evaluationsList.splice(index, 1);
+                              vm.removing = false;
                           }
                       });
                   }).
@@ -668,13 +682,14 @@
                                        var params = { documentssubmittedID: doc.documentssubmittedID, documentName: doc.documentName, document: doc.document, submissionID: data.submissionID };
                                        restApi.addFileToSubmission(params)
                                            .success(function (data3, status3, headers3, config3) {
-                                               _getSubmissionView(vm.submissionID);
+                                               
                                                _getAllSubmissions(vm.sindex);
                                            })
                                            .error(function (error) {
                                            });
                                        //end add new files
                                    });
+                                   _getSubmissionView(vm.submissionID);
                                })
                                .error(function (error) {
                                });
@@ -823,6 +838,8 @@
         function _getDeletedSubmissions(index) {
             restApi.getDeletedSubmissions(index).
                    success(function (data, status, headers, config) {
+                       if (data.results == null)
+                           vm.empty2 = true;
                        vm.dmaxIndex = data.maxIndex;
                        if (vm.dmaxIndex == 0) {
                            vm.dindex = 0;
@@ -977,8 +994,9 @@
         function _getSubmissionsReport() {
             restApi.getSubmissionsReport().
                 success(function (data, status, headers, config) {
-                    var file = new Blob([data]);
-                    saveAs(file, "Submissions_Report.csv");
+                    window.open(data);
+                    //var file = new Blob([data]);
+                    //saveAs(file, "Submissions_Report.csv");
                 }).
                 error(function (data, status, headers, config) {
 

@@ -40,7 +40,6 @@ namespace NancyService.Models
         public DbSet<paymenttype> paymenttypes { get; set; }
         public DbSet<privilege> privileges { get; set; }
         public DbSet<registration> registrations { get; set; }
-        public DbSet<sponsor> sponsors { get; set; }
         public DbSet<sponsortype> sponsortypes { get; set; }
         public DbSet<submission> submissions { get; set; }
         public DbSet<submissiontype> submissiontypes { get; set; }
@@ -78,7 +77,6 @@ namespace NancyService.Models
             modelBuilder.Configurations.Add(new paymenttypeMap());
             modelBuilder.Configurations.Add(new privilegeMap());
             modelBuilder.Configurations.Add(new registrationMap());
-            modelBuilder.Configurations.Add(new sponsorMap());
             modelBuilder.Configurations.Add(new sponsortypeMap());
             modelBuilder.Configurations.Add(new submissionMap());
             modelBuilder.Configurations.Add(new submissiontypeMap());

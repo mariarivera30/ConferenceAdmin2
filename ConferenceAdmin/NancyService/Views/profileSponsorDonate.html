@@ -1,21 +1,21 @@
 ﻿<div ng-controller =" sponsorDonateCtrl as vm ">
 
-    <div class= "row">
+    <div  class= "row">
         <div class=" col-md-6">
-            <br/>
             <h3>Actual Status</h3>
-            <p ng-hide="true">Inactive sponsor make your first donation!</p>
-            <div class="row" ng-show="true"><!--vm.sponsor.active-->
+            <p ng-show="!vm.sponsor.active">Inactive sponsor make your first donation!</p>
+            <div ng-show="vm.sponsor.active" class="row" ng-show="true">
+                <!--vm.sponsor.active-->
                 <div class=" col-md-12">
-                   <div class="row">
-                       <div class="col-md-5">
-                           <span class="label-simple">Sponsor Type:</span>
-                       </div>
-                       <div class="col-md-2">
-                  
-                           {{vm.sponsor.typeName}}
-                       </div>
-                   </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <span class="label-simple">Sponsor Type:</span>
+                        </div>
+                        <div class="col-md-2">
+
+                            {{vm.sponsor.typeName}}
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-5">
                             <span class="label-simple">Donated </span>
@@ -34,25 +34,28 @@
                             <a href="" data-toggle="modal" ng-click="vm.showDetails(vm.sponsor.sponsorType)" data-target="#viewType">Details</a>
                         </div>
                     </div>
-                
+
                 </div>
-                <div class=" col-md-4">
-                  
-                </div>
+
             </div>
         </div>
-        <div class=" col-md-6">
-            <br/>
+        <div ng-hide="(vm.sponsor.active || vm.onTime )" class=" col-md-6">
+            <h3>Deadline Expired!</h3>
+            {{vm.deadlineInvalid}}
+        </div>
+        <div ng-show="(vm.sponsor.active || vm.onTime )" class=" col-md-6">
+            <br />
+
             <h3>Donate</h3>
-            <div class=" col-md-6">
+            <div class=" col-md-5">
                 <label>Upgrade Sponsor Type:</label>
                 <select ng-model="vm.sponsorType"
                         ng-options="type.sponsortypeID as type.name for type in vm.dropDown" class="form-control"></select>
                 <a href="" data-toggle="modal" ng-click="vm.showDetails(vm.sponsorType)" data-target="#viewType">Details</a>
             </div>
 
-            <div class=" col-md-4">
-                <div class="row" >
+            <div class=" col-md-5">
+                <div class="row">
                     <label ng-show="vm.sponsorType == 1">Amount: ${{vm.sponsorsTypeList[vm.sponsorType ].amount+1}}- ${{vm.sponsorsTypeList[vm.sponsorType-1].amount}}+</label>
                     <label ng-show="vm.sponsorType ==5">Amount: $1 - ${{vm.sponsorsTypeList[vm.sponsorType -1].amount}} </label>
                     <label ng-hide="vm.sponsorType == 1 || vm.sponsorType ==5">Amount: ${{vm.sponsorsTypeList[vm.sponsorType].amount+1 }} -${{vm.sponsorsTypeList[vm.sponsorType-1].amount}}</label>
@@ -60,23 +63,23 @@
                     <p ng-show="addSponsorForm.amount.$invalid && !addSponsorForm.amount.$pristine" class="help-block">Valid amount paid is required.</p>
                     <p ng-show="vm.rangeInvalid()">Amount out of range</p>
                     <br />
-                    
+
 
                 </div>
-                
+
             </div>
             <div class=" col-lg-1">
                 <br /><br />
-                
+
             </div>
 
-       
-    </div>
-     
 
-</div>
-    <div class=" row ">
-      
+        </div>
+
+
+        </div>
+    <div ng-show="(vm.sponsor.active || (vm.onTime ))" class=" row ">
+
         <div class=" col-lg-4"></div>
         <div class=" col-lg-7 ">
             <div class=" row">
@@ -84,18 +87,18 @@
                 <p class="right">Total:   ${{vm.sponsor.amount}} +${{vm.donation}} = ${{vm.sponsor.amount + vm.donation}}</p>
             </div>
             <div class=" row">
-                <p class="right">Amount to pay: ${{vm.donation}}</p> 
+                <p class="right">Amount to pay: ${{vm.donation}}</p>
             </div>
 
             <div class=" row">
                 <button type="submit" ng-click="vm.sponsorPayment()" class="btn btn-ar btn-primary right" ng-disabled="addSponsorForm.$invalid || vm.edit ==true ||vm.ext ||vm.rangeInvalid()">Donate</button>
             </div>
-        </div> 
+        </div>
 
         <div class=" col-lg-1"></div>
-        
-       
-        </div>
+
+
+    </div>
     <div class="modal fade" id="viewType" tabindex="-1" role="dialog" aria-labelledby=viewSponsorLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

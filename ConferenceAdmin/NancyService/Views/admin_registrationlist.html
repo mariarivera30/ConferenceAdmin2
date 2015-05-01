@@ -2,11 +2,11 @@
 
     <h3>Registration List</h3><br>
     <div class="col-lg-12">
-        <div ng-hide="vm.registrationsList.length">
+        <div ng-show="vm.empty">
             <p class="title-field">No content to display.</p>
-            <a class="btn btn-default" ng-click="vm.getRegistrations(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
+            <a class="btn btn-default" ng-click="vm.getRegistrations(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a><br /><br />
         </div>
-        <div ng-show="vm.registrationsList.length">
+        <div ng-hide="vm.empty">
             <div class="paging-height">
                 <table ng-table="tableParams" class="table row">
                     <thead>
@@ -55,7 +55,7 @@
         </div>
         <div class="row">
             <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" data-target="#register" ng-click="vm.clear()">Add Attendee</button> <a href=""><i class="fa fa-info-circle info-icon" title="Add to registration without paying fees."> </i></a>
-            <button class="btn btn-ar btn-primary right" ng-click="vm.downloadAttendanceList()">Download Attendance List</button>
+            <button class="btn btn-ar btn-primary right" ng-click="vm.downloadAttendanceList()" ng-hide="vm.empty">Download Attendance List</button>
         </div>
     </div>
 
@@ -152,13 +152,16 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addRegistration()" ng-disabled="addRegistrationForm.$invalid
+                            <button ng-hide="vm.processing" class="btn btn-ar btn-primary left" ng-click="vm.addRegistration()" ng-disabled="addRegistrationForm.$invalid
                             || (vm.datesList.length==3 && (vm.date3==false && vm.date2==false && vm.date1==false))
                             || (vm.datesList.length==2 && (vm.date2==false && vm.date1==false))
                             || (vm.datesList.length==1 && (vm.date1==false))">
                                 Add
                             </button>
-                            <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                            <button ng-hide="vm.processing" class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                            <div class="block" ng-show="vm.processing">
+                                <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate left"></span>Processing</h3>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -175,7 +178,7 @@
                             <h4 class="modal-title" id="editAttendeeLabel" ng-show="!vm.viewing">Edit Attendee</h4>
                             <h4 class="modal-title" id="editAttendeeLabel" ng-show="vm.viewing">View Attendee</h4>
                         </div>
-                        <div class="">
+                        <div class="modal-body row">
                             <form name="editRegistrationForm" novalidate>
                                 <div class="col-md-6">
                                     <h5 class="after-title-field">First Name</h5>

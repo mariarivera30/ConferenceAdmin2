@@ -81,6 +81,7 @@
         vm.viewValues = _viewValues;
         vm.download = _download;
         vm.getTopics = _getTopics;
+        vm.getSubmissionTypes = _getSubmissionTypes;
 
         //Functions- Template (Paging)
         vm.getTemplatesFromIndex = _getTemplatesFromIndex;
@@ -111,7 +112,8 @@
         // Functions
         function activate() {
             _getTemplatesFromIndex(vm.tindex);
-            _getTopics();
+            //_getTopics();
+            _getSubmissionTypes();
 
         }
 
@@ -186,12 +188,24 @@
                 window.open($scope.content);
         }
 
+        /* Get Submission Types for Dropdown menu */
+        function _getSubmissionTypes() {
+            restApi.getSubmissionTypes().
+                   success(function (data, status, headers, config) {
+                       vm.topicsList = data;
+                       if (data != null)
+                           vm.topicObj = vm.topicsList[0];
+                   }).
+                   error(function (data, status, headers, config) {
+                   });
+        }
+
         function _addTemplate(File) {
           
             vm.template.document = $scope.content;
             if ($scope.content !="" && $scope.content != undefined) {
                 vm.template.name = File.name;
-                vm.template.topic = vm.topicObj.name;
+                vm.template.topic = vm.topicObj.submissionTypeName;
                 vm.loadingUpload = true;
 
 
@@ -288,7 +302,7 @@
                 vm.template.document = $scope.content;
                 vm.template.name = File.name;
             }
-            vm.template.topic = vm.topicObj.name;
+            vm.template.topic = vm.topicObj.submissionTypeName;
             restApi.updateTemplate(vm.template)
             .success(function (data, status, headers, config) {
                 vm.templatesList.forEach(function (template, index) {

@@ -29,6 +29,8 @@
         //Functions
         vm.getGeneralInfo = _getGeneralInfo;
         vm.tabViewControl = _tabViewControl;
+        vm.profileView = _profileView;
+        vm.adminView = _adminView;
         vm.logout = _logout;
         vm.goTo = _goTo;
 
@@ -119,7 +121,7 @@
                 vm.showConfirmModal = data;
             }
 
-        });
+        }); 
 
 
         $rootScope.$on('Login', function (event, data) {
@@ -147,7 +149,43 @@
 
         });
 
+        function _profileView() {
+            vm.isSponsor = false;
+            var list = JSON.parse($window.sessionStorage.getItem('claims'));
+            if (list != null) {
+                list.forEach(function (claim) {
+                    if (claim.localeCompare('sponsor') == 0) {
+                        vm.isSponsor = true;
+                    }
 
+                });
+            }
+            if (vm.isSponsor) {
+                $location.path('/Profile/sponsorgeneralinformation');
+            }
+            else {
+                $location.path('/Profile/GeneralInformation');
+            }
+        }
+
+        function _adminView() {
+            vm.isCommittee = false;
+            var list = JSON.parse($window.sessionStorage.getItem('claims'));
+            if (list != null) {
+                list.forEach(function (claim) {
+                    if (claim.localeCompare('CommitteEvaluator') == 0) {
+                        vm.isCommittee = true;
+                    }
+
+                });
+            }
+            if (vm.isCommittee) {
+                $location.path('/Administrator/ManageEvaluators');
+            }
+            else {
+                $location.path('/Administrator/GeneralInformation');
+            }
+        }
         function activate() {
 
             _tabViewControl();

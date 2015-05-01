@@ -22,7 +22,6 @@ namespace NancyService.Modules
             EvaluatorManager evaluatorManager = new EvaluatorManager();
             TopicManager topicManager = new TopicManager();
             SponsorManager sponsorManager = new SponsorManager();
-            List<sponsor> sponsorList = new List<sponsor>();
             RegistrationManager registration = new RegistrationManager();
             GuestManager guest = new GuestManager();
             TemplateManager templateManager = new TemplateManager();
@@ -199,7 +198,7 @@ namespace NancyService.Modules
                 try
                 {
                     long id = parameters.id;
-                    return Response.AsJson(sponsorManager.getSponsorComplentaryList(id));
+                    return Response.AsJson(sponsorManager.getSponsorComplementaryList(id));
                 }
                 catch { return null; }
             };
@@ -211,7 +210,7 @@ namespace NancyService.Modules
                     NancyService.Modules.SponsorManager.ComplimentaryPagingQuery info = new NancyService.Modules.SponsorManager.ComplimentaryPagingQuery();
                     info.sponsorID = parameters.id;
                     info.index = parameters.index;
-                    return Response.AsJson(sponsorManager.getSponsorComplentaryList(info));
+                    return Response.AsJson(sponsorManager.getSponsorComplementaryList(info));
                 }
                 catch { return null; }
             };
@@ -230,19 +229,10 @@ namespace NancyService.Modules
             };
 
             //--------------------------------------------Sponsor----------------------------
-            Get["/checkEmailSponsor/{email}"] = parameters =>
+
+            Get["/getSponsorDeadline/"] = parameters =>
             {
-                string email = parameters.email;
-                String result = sponsorManager.checkEmail(email);
-
-                if (result != null)
-                    return Response.AsJson(result);
-
-                else
-                {
-                    return HttpStatusCode.Conflict;
-                }
-
+                return  Response.AsJson(sponsorManager.getSponsorDeadline());
             };
             
             Post["/addsponsor"] = parameters =>
@@ -259,17 +249,6 @@ namespace NancyService.Modules
                 {
                     return HttpStatusCode.Conflict;
                 }
-            };
-
-            Get["/getSponsor"] = parameters =>
-            {
-                try
-                {
-                    // this.RequiresAuthentication();
-                    // this.RequiresClaims(new[] { "minor" });
-                    return Response.AsJson(sponsorManager.getSponsorList());
-                }
-                catch { return null; }
             };
 
             Get["/getSponsorListIndex/{index:int}"] = parameters =>
@@ -682,7 +661,7 @@ namespace NancyService.Modules
             {
                 return webManager.getAdminSponsorBenefits(parameters.data);
             };
-
+            
             Put["/saveAdminSponsorBenefits"] = parameters =>
             {
                 var sponsor = this.Bind<SaveSponsorQuery>();
