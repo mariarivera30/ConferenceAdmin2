@@ -98,8 +98,7 @@
 
        function _downloadEvaluationFile() {
            //window.open(vm.modalevaluationFile);
-           var data = {submissionID: vm.modalsubmissionID, evaluatorID: vm.modalevaluatorID};
-           restApi.getEvaluationFile(data).
+           restApi.getEvaluationFile(vm.modalsubmissionID).
                 success(function (data, status, headers, config) {
                     //window.open(data.evaluationFile);
 
