@@ -108,7 +108,7 @@ namespace NancyService.Modules
             {
                 long submissionID = parameters.submissionID;
                 long evaluatorID = parameters.evaluatorID;
-                AssignedSubmission sub = submission.getSubmission(submissionID, evaluatorID);
+                AssignedSubmission sub = submission.getSubmissionForEvaluation(submissionID, evaluatorID);
                 if (sub == null)
                 {
                     sub = new AssignedSubmission();
@@ -317,10 +317,11 @@ namespace NancyService.Modules
                     return Response.AsJson(submission.getEvaluationTemplate(templateID));
                 };
             //get evaluation file 
-            Get["/getEvaluationFile/{submissionID:long}"] = parameters =>
+            Get["/getEvaluationFile/{submissionID:long}/{evaluatorID:long}"] = parameters =>
             {
-                int submissionID = parameters.submissionID;
-                return Response.AsJson(submission.getEvaluationFile(submissionID));
+                long submissionID = parameters.submissionID;
+                long evaluatorID = parameters.evaluatorID;
+                return Response.AsJson(submission.getEvaluationFile(submissionID, evaluatorID));
             };
 
             //------------------------AUTHORIZATION----------------------------------

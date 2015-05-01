@@ -16,7 +16,7 @@ namespace NancyService.Modules
         string ccwicEmailPass = "ccwic123456789";
 
         //Jaimeiris - gets the submission with ID submission ID to be evaluated by evaluator with evaluatorID
-        public AssignedSubmission getSubmission(long submissionID, long evaluatorID)
+        public AssignedSubmission getSubmissionForEvaluation(long submissionID, long evaluatorID)
         {
             try
             {
@@ -2421,14 +2421,14 @@ namespace NancyService.Modules
         }
 
         //get submitted evaluation file
-        public Evaluation getEvaluationFile(long submissionID)
+        public Evaluation getEvaluationFile(long submissionID, long evaluatorID)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    Evaluation file = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.deleted == false).FirstOrDefault() == null ? 
-                        new Evaluation() : context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.deleted == false).FirstOrDefault().evaluationsubmitteds.
+                    Evaluation file = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.evaluatorID == evaluatorID && c.deleted == false).FirstOrDefault() == null ?
+                        new Evaluation() : context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.evaluatorID == evaluatorID && c.deleted == false).FirstOrDefault().evaluationsubmitteds.
                         Select(d => new Evaluation
                         {                            
                             evaluationFile = d.evaluationFile,
