@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CCWiC</title>
     <link rel="shortcut icon" href="img/favicon.png">
     <meta name="description" content="">
@@ -68,8 +67,6 @@
     <script src="/App/registrationWebCtrl.js"></script>
     <script src="/App/sponsorInterfaceCtrl.js"></script>
     <script src="/App/sponsorInterfaceCtrl2.js"></script>
-    <script src="/App/scheduleCtrl.js"></script>
-    <script src="/App/scholarshipCtrl.js"></script>
     <script src="/App/sponsorCtrl.js"></script>
     <script src="/App/topicCtrl.js"></script>
     <script src="/App/venueCtrl.js"></script>
@@ -150,6 +147,7 @@
                             <li ng-show="vm.showProfile"><a href="#/Home" ng-click="vm.logout()">Logout | {{vm.messageLogOut.split('@')[0]}}</a></li>
 
                         </ul>
+    
                     </nav>
                 </div> <!-- container -->
             </header> <!-- header-full -->
@@ -162,44 +160,98 @@
                             <span class="sr-only">Toggle navigation</span>
                             <i class="fa fa-bars"></i>
                         </button>
-                        <a class="navbar-brand hidden-lg hidden-md hidden-sm" href="#/Home"><span>CCWiC</span></a>
-                        <a class="white right hidden-lg" ng-hide="vm.showProfile" href="#/Login/Log"><i class="fa fa-user"></i> Login | Sign-Up</a>
-                    </div> <!-- navbar-header -->
+                        <a class="navbar-brand hidden-lg hidden-md hidden-sm col-xs-4" href="#/Home"><span>CCWiC</span></a>
+                        <a class="white right hidden-lg col-sm-4" ng-hide="vm.showProfile" href="#/Login/Log"><i class="fa fa-user"></i> Login | Sign-Up</a>
+
+                     </div> <!-- navbar-header -->
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li class="dropdown non-dropdown">
+
+                            <li class="visible-xs dropdown" ng-show="vm.showProfile">
+                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">CCWiC Account</a>
+                                <ul class="dropdown-menu dropdown-menu-left">
+                                    <li class="visible-xs dropdown non-dropdown">
+                                        <a ng-show="vm.showProfile" href="" ng-click="vm.profileView()" data-toggle="collapse" data-target=".navbar-collapse">My Profile</a>
+                                    </li>
+                                    <li class="visible-xs dropdown non-dropdown">
+                                        <a ng-show="vm.showAdminsitrator" href="" ng-click="vm.adminView()" data-toggle="collapse" data-target=".navbar-collapse">Administrator Settings</a>
+                                    </li>
+                                    <li class="visible-xs dropdown non-dropdown">
+                                        <a ng-show="vm.showProfile" href="#/Home" ng-click="vm.logout()" data-toggle="collapse" data-target=".navbar-collapse">Log Out</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="hidden-xs dropdown non-dropdown">
                                 <a href="#/Home">Home</a>
                             </li>
-                            <li class="dropdown non-dropdown">
+                            <li class="visible-xs dropdown non-dropdown">
+                                <a href="#/Home" data-toggle="collapse" data-target=".navbar-collapse">Home</a>
+                            </li>
+
+                            <li class="hidden-xs dropdown non-dropdown">
                                 <a href="#/Committee">Committee</a>
                             </li>
-                            <li class="dropdown non-dropdown">
+                            <li class="visible-xs dropdown non-dropdown">
+                                <a href="#/Committee" data-toggle="collapse" data-target=".navbar-collapse">Committee</a>
+                            </li>
+                            
+
+                            <li class="hidden-xs dropdown non-dropdown">
                                 <a href="#/Venue">Venue</a>
                             </li>
-                            <li class="dropdown non-dropdown">
+                            <li class="visible-xs dropdown non-dropdown">
+                                <a href="#/Venue" data-toggle="collapse" data-target=".navbar-collapse">Venue</a>
+                            </li>
+
+
+                            <li class="hidden-xs dropdown non-dropdown">
                                 <a href="#/Deadlines">Deadlines</a>
                             </li>
-                            <li class="dropdown non-dropdown">
+                            <li class="visible-xs dropdown non-dropdown">
+                                <a href="#/Deadlines" data-toggle="collapse" data-target=".navbar-collapse">Deadlines</a>
+                            </li>
+
+
+                            <li class="hidden-xs dropdown non-dropdown">
                                 <a href="#/Registration">Registration</a>
                             </li>
-                            <li class="dropdown non-dropdown">
+                            <li class="visible-xs dropdown non-dropdown">
+                                <a href="#/Registration" data-toggle="collapse" data-target=".navbar-collapse">Registration</a>
+                            </li>
+
+
+                            <li class="hidden-xs dropdown non-dropdown">
                                 <a href="#/Participation">Call for Participation</a>
+                            </li>
+                            <li class="visible-xs dropdown non-dropdown">
+                                <a href="#/Participation" data-toggle="collapse" data-target=".navbar-collapse">Call for Participation</a>
                             </li>
 
                             <li class="dropdown" ng-controller="programCtrl2 as vm">
                                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Program</a>
                                 <ul class="dropdown-menu dropdown-menu-left">
-                                    <li><a href="" ng-click="vm.viewProgram()">Program Schedule</a></li>
-                                    <li><a href="" ng-click="vm.viewAbstract()">Abstracts / Bios</a></li>
+                                    <li><a class="hidden-xs" href="" ng-click="vm.viewProgram()">Program Schedule</a></li>
+                                    <li><a class="hidden-xs" href="" ng-click="vm.viewAbstract()">Abstracts / Bios</a></li>
+
+                                    <li><a class="visible-xs" data-toggle="collapse" data-target=".navbar-collapse" href="" ng-click="vm.viewProgram()">Program Schedule</a></li>
+                                    <li><a class="visible-xs" data-toggle="collapse" data-target=".navbar-collapse" href="" ng-click="vm.viewAbstract()">Abstracts / Bios</a></li>
                                 </ul>
                             </li>
 
-                            <li class="dropdown non-dropdown">
+                            <li class="hidden-xs dropdown non-dropdown">
                                 <a href="#/Sponsors">Sponsors</a>
                             </li>
-                            <li class="dropdown non-dropdown">
+                            <li class="visible-xs dropdown non-dropdown">
+                                <a href="#/Sponsors" data-toggle="collapse" data-target=".navbar-collapse">Sponsors</a>
+                            </li>
+
+                            <li class="hidden-xs dropdown non-dropdown">
                                 <a href="#/Contact">Contact</a>
+                            </li>
+                            <li class="visible-xs dropdown non-dropdown">
+                                <a href="#/Contact" data-toggle="collapse" data-target=".navbar-collapse">Contact</a>
                             </li>
 
                         </ul>
@@ -207,7 +259,7 @@
                 </div><!-- container -->
             </nav>
 
-            <div id="content" class="container" >
+            <div id="content" class="container">
 
                 <div class="row " style="min-height:550px">
 
@@ -217,15 +269,15 @@
                     </div>
                 </div>
                 <div class="row btn-padding">
-                    <div id="content" class="noPrint ">
+                    <div id="content" class="noPrint">
 
-                        <div ui-view="banner" autoscroll="false" class="margin-fix-banner">
+                        <div ui-view="banner" autoscroll="false" class="col-lg-12 col-md-12 col-sm-12 margin-fix-banner">
                         </div>
 
                     </div>
 
                 </div>
-                
+
             </div>
             <div class="col-lg-6">
                 <modal source="vm.obj" okcallback="vm.goTo(vm.goPath);" visible="vm.showConfirmModal"></modal>

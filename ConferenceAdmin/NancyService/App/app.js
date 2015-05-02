@@ -203,18 +203,6 @@
 
             }
         })
-        .state('schedule', {
-            url: "/Schedule",
-            views: {
-                'banner': {
-                    templateUrl: "views/banner.html"
-                },
-                'dynamic': {
-                    templateUrl: "views/schedule.html"
-                }
-                
-            }
-        })
         .state('abstracts', {
             url: "/Abstracts",
             views: {

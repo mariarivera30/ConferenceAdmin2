@@ -14,6 +14,18 @@
     margin-top:20px;
 }
 
+.content-width{
+    width: 1230px!important;
+}
+
+.editor-width{
+    width: 780px!important;
+}
+
+.img-response{
+    max-width:100% !important;
+}
+
 .paging-word{
     text-align:right; 
     padding-bottom:20px;
