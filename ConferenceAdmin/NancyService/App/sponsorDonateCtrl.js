@@ -54,7 +54,6 @@
         vm.getBenefits = _getBenefits;
         vm.sponsorPayment = _sponsorPayment;
         vm.rangeInvalid = _rangeInvalid;
-        vm.checkEmailBeforePayment = _checkEmailBeforePayment;
         vm.showDetails = _showDetails;
 
         activate();
@@ -77,9 +76,7 @@
             .success(function (data, status, headers, config) {
                 vm.onTime = data;
 
-                
             })
-
             .error(function (error) {
                 load();
                 vm.toggleModal('error');
@@ -103,13 +100,13 @@
 
         function _sponsorPayment() {
         
-           
-
             restApi.sponsorPayment(vm.sponsor)
                 .success(function (data, status, headers, config) {
-                       vm.loadingUploading = false;
-                       window.open(data);
-                      
+                   
+                        vm.loadingUploading = false;
+                        window.open(data);
+                    
+                  
 
                    }).
                    error(function (data, status, headers, config) {
@@ -124,14 +121,14 @@
         function _rangeInvalid() {
             if (vm.sponsor != undefined && vm.sponsorType != undefined) {
             
-                if (vm.sponsorType == 1 && (vm.sponsor.amount + vm.donation) < (vm.sponsorsTypeList[vm.sponsorType].amount + 1)) {
+                if (vm.sponsorType == 1 && (vm.sponsor.amount + vm.donation) < (vm.sponsorsTypeList[vm.sponsorType].amount)) {
                     return true;
                 }
-                if (vm.sponsorType == 5 && (vm.sponsor.amount + vm.donation) < 1 || (vm.sponsor.amount + vm.donation) > (vm.sponsorsTypeList[vm.sponsorType - 1].amount)) {
+                if (vm.sponsorType == 5 && (vm.sponsor.amount + vm.donation) < 1 || (vm.sponsor.amount + vm.donation) > (vm.sponsorsTypeList[vm.sponsorType - 1].amount -1)) {
 
                     return true;
                 }
-                if ((vm.sponsorType != 1 && vm.sponsorType != 5) && (vm.sponsor.amount + vm.donation) < (vm.sponsorsTypeList[vm.sponsorType].amount + 1) || vm.donation > (vm.sponsorsTypeList[vm.sponsorType - 1].amount)) {
+                if ((vm.sponsorType != 1 && vm.sponsorType != 5) && (vm.sponsor.amount + vm.donation) < (vm.sponsorsTypeList[vm.sponsorType].amount ) || vm.donation > (vm.sponsorsTypeList[vm.sponsorType - 1].amount-1)) {
                     return true;
                 }
                 else if (vm.donation == 0 || vm.donation == undefined) {
@@ -148,7 +145,7 @@
         vm.toggleModal = function (action) {
 
     
-             if (action == "error")
+            if (action == "error") {
                 vm.obj.title = "Server Error",
                vm.obj.message1 = "Please refresh the page and try again.",
                vm.obj.message2 = "",
@@ -158,11 +155,10 @@
                vm.obj.cancelbutton = false,
                vm.obj.cancelbuttoText = "Cancel",
                vm.showConfirmModal = !vm.showConfirmModal;
+            }
         };
 
         //---------------------------Sponsor-------------------------------------------------
-
-
 
         function _getSponsorTypes() {
             restApi.getSponsorTypesList().
@@ -171,6 +167,18 @@
                        vm.dropDown = JSON.parse(JSON.stringify(data));
                        if (data != null) {
                            if (vm.sponsor.active) {
+
+                               if (vm.sponsor.amount == vm.sponsorsTypeList[vm.sponsor.sponsorType].amount)
+                               {
+                                   vm.dropDown.splice(vm.sponsor.sponsorType - 1, 5 - vm.sponsor.sponsorType + 1);
+                                   vm.sponsorType = vm.sponsor.sponsorType - 1;
+                               }
+
+                               else {
+                                   vm.dropDown.splice(vm.sponsor.sponsorType, 5 - vm.sponsor.sponsorType);
+                                   vm.sponsorType = vm.sponsor.sponsorType;
+                               }
+                               /*
                                if (vm.sponsor.sponsorType == 5) {
                                    if (vm.sponsor.amount == vm.sponsorsTypeList[vm.sponsor.sponsorType - 1].amount) {
                                        vm.dropDown.splice(vm.sponsor.sponsorType -1, 5 - vm.sponsor.sponsorType + 1);
@@ -194,6 +202,7 @@
                                    vm.dropDown.splice(vm.sponsor.sponsorType, 5 - vm.sponsor.sponsorType );
                                    vm.sponsorType = vm.sponsor.sponsorType;
                                }
+                               */
                            }
                            
                            else {
@@ -207,50 +216,6 @@
 
                    });
         }
-
-        function _checkEmailBeforePayment() {
-            vm.loadingUploading = true;
-            restApi.checkEmailSponsor(vm.sponsor.email)
-                .success(function (data, status, headers, config) {
-                    if (data != "") {
-                        vm.toggleModal('emailMessage');
-                        vm.loadingUploading = false;
-                    }
-                    else {
-                        _sponsorPayment();
-                    }
-
-                }).
-                   error(function (data, status, headers, config) {
-
-                       vm.loadingUploading = false;
-                       $rootScope.$emit('popUp', 'error');
-                   });
-        }
-
-        function _sponsorPayment() {
-            vm.TYPE = vm.sponsorsTypeList[vm.sponsorType - 1];
-            vm.sponsor.typeName = vm.TYPE.name;
-            if (File != undefined) {
-
-                vm.sponsor.logo = $scope.content;
-                vm.sponsor.logoName = File.name;
-                File = null;
-            }
-            restApi.sponsorPayment(vm.sponsor).
-                   success(function (data, status, headers, config) {
-                       vm.loadingUploading = false;
-                       window.open(data);
-                       _clearSponsor();
-
-                   }).
-                   error(function (data, status, headers, config) {
-                       vm.toggleModal('error');
-
-                   });
-        }
-
-
 
         function _getBenefits() {
             restApi.getAllSponsorBenefits()

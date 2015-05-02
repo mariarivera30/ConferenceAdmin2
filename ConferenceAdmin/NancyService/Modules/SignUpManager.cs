@@ -144,7 +144,7 @@ namespace NancyService.Modules
                         sponsor.deleted = false;
                         sponsor.userID = user.userID;
                         sponsor.active = false;
-                        sponsor.sponsorType = 1;
+                        sponsor.sponsorType = 5;
                         sponsor.byAdmin = false;
                         sponsor.active = false;
                         sponsor.totalAmount = 0;

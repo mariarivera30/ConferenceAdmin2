@@ -25,13 +25,12 @@ namespace NancyService.Modules
 
            Post["/reentry"] = parameters =>
             {
-                //string xml ="xml=%3CVERSION%3E1.1.0%3C/VERSION%3E%0A%3CTRANSACTIONID%3E9999999999999999999%3C/TRANSACTIONID%3E%0A%3CMERCHANT_NAME%3EUPRM%3C/MERCHANT_NAME%3E%0A%3CMERCHANT_URL%3Ehttp%3A//secure.uprm.edu%3C/MERCHANT_URL%3E%0A%3CNAME%3ENombre%3C/NAME%3E%0A%3CLASTNAME%3EApellido%3C/LASTNAME%3E%0A%3CTANDEMID%3E000000%3C/TANDEMID%3E%0A%3CBATCHID%3E000000%3C/BATCHID%3E%0A%3CTRANSACTION_TYPE%3EATH%20-%20Purchase%3C/TRANSACTION_TYPE%3E%0A%3CEMAIL%3Eemail%40upr.edu%3C/EMAIL%3E%0A%3CERROR%3E0%3C/ERROR%3E%0A%3CMESSAGE%3C/MESSAGE%3E;
                 var xml = this.Request.Form["xml"];
                 
                 /*store on db the payment information*/
                 XMLReceiptInfo receipt = paymentManager.parseReceiptInfo(xml);
 
-                if (receipt.error == "000")
+                if (receipt.error == "0")
                 {
                     long paymentID = paymentManager.storePaymentBill(receipt);
                     if (paymentID == 0 || paymentID ==-1)
@@ -58,8 +57,8 @@ namespace NancyService.Modules
                     xmlTransacctionID action = paymentManager.MakeWebServiceCall(temp);
                     if (action.error == "000")
                         {
-                            long paymentId= sponsorManager.getPaymentID(sponsor.sponsorID);
-                           if (paymentId != 0) { //dont exist a user 
+                           long paymentId= sponsorManager.getPaymentID(sponsor.sponsorID);
+                           if (paymentId != 0) { //dont exist a sponsor 
                                 paymentManager.createPaymentBill(paymentId,sponsor.newAmount,action.transactionID);
                                 string secureLink = "https://secure2.uprm.edu/payment/index.php?id=" + action.transactionID;
                                 return Response.AsJson(secureLink);
@@ -106,7 +105,7 @@ namespace NancyService.Modules
 
             };
 
-          /*  Get["/GetPayment/{id:long}"] = parameters =>
+            Get["/GetPayment/{id:long}"] = parameters =>
             {
                 long id = parameters.id;
 
@@ -123,7 +122,7 @@ namespace NancyService.Modules
                 }
 
 
-            };*/
+            };
 
             Get["/getsponsorpayments/{id:long}"] = parameters =>
             {

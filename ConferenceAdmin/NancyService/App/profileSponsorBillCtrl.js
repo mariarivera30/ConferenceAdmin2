@@ -14,6 +14,7 @@
         vm.title = 'profileSponsorBillCtrl';
         vm.sponsor;
         vm.loadingComp;
+        vm.payment;
         vm.noPaymentMessage = "No content to display.";
         if ($window.sessionStorage.getItem('userID') != null)
             vm.userID = $window.sessionStorage.getItem('userID');
@@ -41,7 +42,7 @@
         vm.toggleModal = function (action) {
 
 
-            if (action == "error")
+            if (action == "error") {
                 vm.obj.title = "Server Error",
                vm.obj.message1 = "Please refresh the page and try again.",
                vm.obj.message2 = "",
@@ -51,12 +52,14 @@
                vm.obj.cancelbutton = false,
                vm.obj.cancelbuttoText = "Cancel",
                vm.showConfirmModal = !vm.showConfirmModal;
+            }
         };
 
 
 
         vm.selectedKey = _selectedKey;
-
+        vm.selectedReceipt = _selectedReceipt;
+        vm.close = _close;
 
         activate();
 
@@ -72,7 +75,13 @@
             vm.key = key;
             vm.keyPop = key.key;
         }
-
+        function _selectedReceipt(payment) {
+            vm.payment = payment;
+            vm.show = true;
+        }
+        function _close(){
+            vm.show =false;
+        }
         function _getSponsorbyID() {
             restApi.getSponsorbyID(vm.userID).
                    success(function (data, status, headers, config) {
@@ -95,7 +104,10 @@
                        vm.bills = data;
                        vm.loadingComp = false;
                        if (vm.bills.length ==0)
-                           vm.messageVisible =true;
+                           vm.messageVisible = true;
+                       else {
+                           vm.payment = vm.bills[0];
+                       }
                    }).
                    error(function (data, status, headers, config) {
                        vm.toggleModal('error');

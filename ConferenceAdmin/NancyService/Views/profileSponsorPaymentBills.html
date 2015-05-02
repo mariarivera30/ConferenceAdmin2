@@ -3,17 +3,25 @@
 
 
     <div ng-show="vm.messageVisible">{{vm.noPaymentMessage}}</div>  
+    <div class="col-md-4">
+        <div ng-repeat="payment in  vm.bills ">
+            <a href="" ng-click="vm.selectedReceipt(payment)" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" aria-expanded="false" class="collapsed">
+                Receipt: {{payment.affiliationName}} - {{payment.transactionid}}
+            </a>
 
-    <div ng-repeat="payment in  vm.bills " >
-        <div class="col-lg-12">
-        
-            <div ng-hide="vm.loadingRemovingComp" class="col-md-12">
+        </div>
+    </div>
+      
+    <div class="col-md-8">
+        <div>
+
+            <div class="col-md-12">
                 <div class="panel-group" id="accordion">
                     <div class="panel panel-default">
-                       
+
                         <div class="panel-heading panel-heading-link">
-                            <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" aria-expanded="false" class="collapsed">
-                                Receipt: {{payment.affiliationName}} - {{payment.transactionid}}
+                            <a ng-click="vm.close()" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" aria-expanded="false" class="collapsed">
+                                Receipt: {{vm.payment.affiliationName}} - {{vm.payment.transactionid}}
                             </a>
                         </div>
                         <div id="collapseOne" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
@@ -44,16 +52,16 @@
                                         <div class="col-md-3 print-align">
                                             <span class="label-simple">Registration by:</span>
                                         </div>
-                                        <div class="col-md-3">
-                                            {{payment.userFirstName}} {{payment.userLastName}}
+                                        <div class="col-md-5">
+                                            {{vm.payment.userFirstName}} {{vm.payment.userLastName}}
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3 print-align">
                                             <span class="label-simple">Affiliation:</span>
                                         </div>
-                                        <div class="col-md-3">
-                                            {{payment.affiliationName}}
+                                        <div class="col-md-5">
+                                            {{vm.payment.affiliationName}}
                                         </div>
                                     </div>
 
@@ -62,8 +70,8 @@
                                         <div class="col-md-3 print-align">
                                             <span class="label-simple">Paid by:</span>
                                         </div>
-                                        <div class="col-md-3">
-                                            {{payment.firstName}} {{payment.lastName}}
+                                        <div class="col-md-5">
+                                            {{vm.payment.firstName}} {{payment.lastName}}
                                         </div>
                                     </div>
 
@@ -71,8 +79,16 @@
                                         <div class="col-md-3 print-align">
                                             <span class="label-simple">Date:</span>
                                         </div>
-                                        <div class="col-md-3">
-                                            {{payment.date}}
+                                        <div class="col-md-5">
+                                            {{vm.payment.date.split('T')[0]}}   
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 print-align">
+                                            <span class="label-simple">Time:</span>
+                                        </div>
+                                        <div class="col-md-5">
+                                            {{vm.payment.date.substr(11, 5)}}
                                         </div>
                                     </div>
 
@@ -80,8 +96,8 @@
                                         <div class="col-md-3 print-align">
                                             <span class="label-simple">TransactionID:</span>
                                         </div>
-                                        <div class="col-md-3">
-                                            {{payment.transactionid}}
+                                        <div class="col-md-5">
+                                            {{vm.payment.transactionid}}
                                         </div>
                                     </div>
 
@@ -89,8 +105,8 @@
                                         <div class="col-md-3 print-align">
                                             <span class="label-simple">Tandem Id:</span>
                                         </div>
-                                        <div class="col-md-3">
-                                            {{payment.tandemID}}
+                                        <div class="col-md-5">
+                                            {{vm.payment.tandemID}}
                                         </div>
                                     </div>
 
@@ -98,14 +114,14 @@
 
                                 <div class="col-lg-12 margin-fix-banner">
 
-                                    <b>Payment Method</b>
+                                    
 
                                     <div class="row">
                                         <div class=" col-md-3 print-align">
-                                            <span class="label-simple">Method of Payment:</span>
+                                            <span class="label-simple">Method:</span>
                                         </div>
-                                        <div class="col-md-3">
-                                            {{payment.methodOfPayment}}
+                                        <div class="col-md-5">
+                                            {{vm.payment.methodOfPayment}}
                                         </div>
                                     </div>
 
@@ -114,15 +130,15 @@
                                             <span class="label-simple">Amount Paid:</span>
                                         </div>
                                         <div class="col-md-3">
-                                            {{payment.amountPaid}}
+                                            ${{vm.payment.amountPaid | number:2 }}
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class=" col-md-3 print-align">
-                                            <span class="label-simple">Payment Type:</span>
+                                            <span class="label-simple">User Type:</span>
                                         </div>
                                         <div class="col-md-3">
-                                            {{payment.type}}
+                                            Sponsor
                                         </div>
                                     </div>
 
@@ -140,7 +156,7 @@
                                             <span class="label-simple">Description</span>
                                         </div>
                                         <div class="col-md-3">
-                                            {{payment.description}}
+                                            {{vm.payment.description}}
                                         </div>
                                     </div>
                                     <div class="row">
@@ -159,15 +175,15 @@
                         </div>
                     </div>
                 </div>
-               
+
             </div>
             <div class="col-lg-1"></div>
 
+    </div>
+
         </div>
 
+        <div class="col-lg-6">
+            <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
+        </div>
     </div>
-
-    <div class="col-lg-6">
-        <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
-    </div>
-</div>

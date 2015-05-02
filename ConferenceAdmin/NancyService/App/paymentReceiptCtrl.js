@@ -11,6 +11,7 @@
         var vm = this;
         vm.paymentID;
         vm.activate = activate;
+        vm.obj = {};
         vm.title = 'paymentReceiptCtrl';
 
 
@@ -30,16 +31,17 @@
        vm.toggleModal = function (action) {
         
   
-            if (action == "error")
+           if (action == "error") {
                vm.obj.title = "Server Error",
-              vm.obj.message1 = "Please refresh the page and try again.",
-              vm.obj.message2 = "",
-              vm.obj.label = "",
-              vm.obj.okbutton = true,
-              vm.obj.okbuttonText = "OK",
-              vm.obj.cancelbutton = false,
-              vm.obj.cancelbuttoText = "Cancel",
-              vm.showConfirmModal = !vm.showConfirmModal;
+               vm.obj.message1 = "Please refresh the page and try again.",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+           }
        };
      
 
@@ -52,8 +54,9 @@
 
                    }).
                    error(function (data, status, headers, config) {
-                       vm.toggleModal('error');
+                       
                        vm.loading = false;
+                       vm.toggleModal('error');
                    });
         }
         
