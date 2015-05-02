@@ -282,19 +282,12 @@ namespace NancyService.Modules
                 string responseStr = reader.ReadToEnd();
               
                 xmlTransacctionID xmlTransaction =parseXMLTransacctionID(responseStr);
-                if (xmlTransaction.error == "000")
-                {
+               
                    
-                    reader.Close();
-                    response.Close();
-
-                    return xmlTransaction;
-                }
-                else {
-                    reader.Close();
-                    response.Close(); 
-                    return null;
-                }
+                reader.Close();
+                response.Close();
+                return xmlTransaction;
+               
                
                 
         }

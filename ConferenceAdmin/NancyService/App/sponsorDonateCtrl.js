@@ -103,10 +103,16 @@
             restApi.sponsorPayment(vm.sponsor)
                 .success(function (data, status, headers, config) {
                    
-                        vm.loadingUploading = false;
+                    vm.loadingUploading = false;
+                    if (data == null) {
+                        vm.toggleModal('error');
                         window.open(data);
-                    
-                  
+                    }
+                    else {
+                        
+                    }
+                      
+                                        
 
                    }).
                    error(function (data, status, headers, config) {
@@ -121,23 +127,29 @@
         function _rangeInvalid() {
             if (vm.sponsor != undefined && vm.sponsorType != undefined) {
             
-                if (vm.sponsorType == 1 && (vm.sponsor.amount + vm.donation) < (vm.sponsorsTypeList[vm.sponsorType].amount)) {
+                if ((vm.sponsorType == 1) && ((vm.sponsor.amount + vm.donation) < (vm.sponsorsTypeList[vm.sponsorType-1].amount))) {
                     return true;
                 }
-                if (vm.sponsorType == 5 && (vm.sponsor.amount + vm.donation) < 1 || (vm.sponsor.amount + vm.donation) > (vm.sponsorsTypeList[vm.sponsorType - 1].amount -1)) {
+                else if (vm.sponsorType == 5) {
 
-                    return true;
-                }
-                if ((vm.sponsorType != 1 && vm.sponsorType != 5) && (vm.sponsor.amount + vm.donation) < (vm.sponsorsTypeList[vm.sponsorType].amount ) || vm.donation > (vm.sponsorsTypeList[vm.sponsorType - 1].amount-1)) {
-                    return true;
+                    if ((vm.sponsor.amount + vm.donation) < 1 || ((vm.sponsor.amount + vm.donation) > (vm.sponsorsTypeList[vm.sponsorType - 1].amount - 1))) {
+                        return true;
+                    }
+
                 }
                 else if (vm.donation == 0 || vm.donation == undefined) {
                     return true;
+                }
+                else if (vm.sponsorType != 1 && vm.sponsorType != 5) {
+                    if ((vm.sponsor.amount + vm.donation) < (vm.sponsorsTypeList[vm.sponsorType - 1].amount) || (vm.sponsor.amount + vm.donation) > (vm.sponsorsTypeList[vm.sponsorType - 2].amount - 1)) {
+                        return true;
+                    }
                 }
                 else {
                     vm.sponsor.newAmount = vm.donation;
                     return false;
                 }
+                
             }
      
         else{return true;}

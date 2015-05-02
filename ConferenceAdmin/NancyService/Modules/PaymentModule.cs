@@ -70,7 +70,7 @@ namespace NancyService.Modules
                         }
                      else
                         {
-                            string errorLink = "http://localhost:12036/#/PaymentError";
+                            string errorLink = null;
                             return Response.AsJson(errorLink); 
                         }   
                  
