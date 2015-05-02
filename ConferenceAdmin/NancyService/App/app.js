@@ -211,6 +211,7 @@
 
             }
         })
+
         .state('schedule', {
             url: "/schedule",
             views: {
@@ -223,6 +224,7 @@
                 
             }
         })
+
         .state('abstracts', {
             url: "/abstracts",
             views: {

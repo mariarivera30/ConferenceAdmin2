@@ -20,6 +20,7 @@
         vm.privilegeDelID;
         vm.search;
         vm.loading = false;
+        vm.loadingSearch = false;
 
         //Variables (Paging)
         vm.adminList = []; 
@@ -276,6 +277,7 @@
         }
 
         function _deleteAdmin() {
+            vm.loading = true;
             if (vm.userID != undefined && vm.userID != "" && vm.privilegeDelID != undefined && vm.privilegeDelID != "") {
                 restApi.deleteAdmin(vm.userID, vm.privilegeDelID)
                 .success(function (data, status, headers, config) {
@@ -285,10 +287,16 @@
                                 vm.adminList.splice(index, 1);
                             }
                         });
+                        vm.loading = false;
                         $("#deleteConfirm").modal('show');
+                    }
+                    else {
+                        vm.loading = false;
+                        vm.toggleModal('error');
                     }
                 })
                 .error(function (data, status, headers, config) {
+                    vm.loading = false;
                     vm.toggleModal('error');
                 });
             }
@@ -297,10 +305,12 @@
         //Search Methods
         function _search(index) {
             if (vm.criteria != "" && vm.criteria != null) {
+                vm.loadingSearch = true;
                 var info = { index: index, criteria: vm.criteria };
                 restApi.searchAdmin(info).
                        success(function (data, status, headers, config) {
                            if (data != null && data != "") {
+                               vm.loadingSearch = false;
                                vm.showSearch = true;
                                vm.searchMaxIndex = data.maxIndex;
                                if (vm.searchMaxIndex == 0) {
@@ -319,6 +329,7 @@
                            }
                        }).
                        error(function (data, status, headers, config) {
+                           _back;
                            vm.toggleModal('error');
                        });
             }
@@ -354,6 +365,7 @@
             vm.searchResults = [];
             vm.showSearch = false;
             vm.showResults = false;
+            vm.loadingSearch = false;
         }
 
         //Avoid flashing when page loads

@@ -63,7 +63,7 @@
                     <label>Tittle:</label> {{vm.modalsubmissionTitle}}<br />
                     <label>Topic:</label> {{vm.modaltopic}}<br />
                     <label>Submission Type:</label> {{vm.modalsubmissionType}}<br />
-                    <span class="document-name" ng-show="vm.modalevaluationFile != null || vm.modalevaluationFile != undefined"><label>Evaluation File:</label> <a href="" class="black-label" ng-click="vm.downloadEvaluationFile()"><i class="fa fa-file-o"> </i> {{vm.modalevaluationName}}</a></span>
+                    <span class="document-name" ng-show="vm.modalevaluationFile != null || vm.modalevaluationFile != undefined"><label>Evaluation File:</label> <a href="" class="black-label" ng-mouseover="vm.downloadEvaluationFile()" ng-mouseleave="vm.resetDownloadLink('')" id="file-"><i class="fa fa-file-o"> </i> {{vm.modalevaluationName}}</a></span>
                 </div>
                 <div class="col-lg-6 ">
                     <label>Documents:</label>
@@ -76,7 +76,7 @@
                         <li ng-show="vm.modalequipment" class="list-group-item">Equipment<a href="" data-toggle="modal" data-target="#evaluationModal" ng-click="vm.getDocumentSubmitted(vm.modalequipment, 'Equipment')"><span class="right">Open</span></a></li>
                         <li ng-show="vm.modalduration" class="list-group-item">Duration<a href="" data-toggle="modal" data-target="#evaluationModal" ng-click="vm.getDocumentSubmitted(vm.modalduration, 'Duration')"><span class="right">Open</span></a></li>
                         <li ng-show="vm.modaldelivery" class="list-group-item">Delivery<a href="" data-toggle="modal" data-target="#evaluationModal" ng-click="vm.getDocumentSubmitted(vm.modaldelivery, 'Delivery')"><span class="right">Open</span></a></li>
-                        <li ng-repeat="file in vm.modalsubmissionFileList" class="list-group-item">{{file.documentName}} <a href="" data-toggle="modal" ng-click="vm.openDocumentSubmitted(file.documentssubmittedID)"><span class="right">Open</span></a></li>
+                        <li ng-repeat="file in vm.modalsubmissionFileList" class="list-group-item">{{file.documentName}} <a href="" data-toggle="modal" ng-mouseover="vm.openDocumentSubmitted(file.documentssubmittedID)" ng-mouseleave="vm.resetDownloadLink(file.documentssubmittedID)" id="file-{{file.documentssubmittedID}}"><span class="right">Open</span></a></li>
                     </ul>
 
                 </div>
@@ -91,7 +91,7 @@
 
                 <div class="col-lg-3">
                     <div class="document-name"></div>
-                    <button type="submit" class="btn btn-ar btn-primary full-width" data-dismiss="modal" ng-click="vm.downloadEvaluationTemplate(vm.modalTemplateID)">Download Template</button>
+                    <a href="" class="btn btn-ar btn-primary full-width" ng-mouseover="vm.downloadEvaluationTemplate(vm.modalTemplateID)" ng-mouseleave="vm.resetDownloadLink(vm.modalTemplateID)" id="file-{{vm.modalTemplateID}}">Download Template</a>
                 </div>
 
                 <div class="col-lg-3">

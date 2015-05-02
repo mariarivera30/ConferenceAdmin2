@@ -198,7 +198,7 @@ namespace NancyService.Modules
                 try
                 {
                     long id = parameters.id;
-                    return Response.AsJson(sponsorManager.getSponsorComplentaryList(id));
+                    return Response.AsJson(sponsorManager.getSponsorComplementaryList(id));
                 }
                 catch { return null; }
             };
@@ -210,7 +210,20 @@ namespace NancyService.Modules
                     NancyService.Modules.SponsorManager.ComplimentaryPagingQuery info = new NancyService.Modules.SponsorManager.ComplimentaryPagingQuery();
                     info.sponsorID = parameters.id;
                     info.index = parameters.index;
-                    return Response.AsJson(sponsorManager.getSponsorComplentaryList(info));
+                    return Response.AsJson(sponsorManager.getSponsorComplementaryList(info));
+                }
+                catch { return null; }
+            };
+
+            Get["/searchKeyCodes/{index:int}/{id:long}/{criteria}"] = parameters =>
+            {
+                try
+                {
+                    NancyService.Modules.SponsorManager.ComplimentaryPagingQuery info = new NancyService.Modules.SponsorManager.ComplimentaryPagingQuery();
+                    info.sponsorID = parameters.id;
+                    info.index = parameters.index;
+                    string criteria = parameters.criteria;
+                    return Response.AsJson(sponsorManager.searchKeyCodes(info, criteria));
                 }
                 catch { return null; }
             };
@@ -386,10 +399,11 @@ namespace NancyService.Modules
 
             /*------ Evaluators -----*/
 
-            Get["/getEvaluatorListFromIndex/{index:int}"] = parameters =>
+            Get["/getEvaluatorListFromIndex/{index:int}/{id:int}"] = parameters =>
             {
                 int index = parameters.index;
-                return Response.AsJson(evaluatorManager.getEvaluatorList(index));
+                int id = parameters.id;
+                return Response.AsJson(evaluatorManager.getEvaluatorList(index,id));
             };
 
             Get["/getPendingListFromIndex/{index:int}"] = parameters =>
@@ -478,10 +492,9 @@ namespace NancyService.Modules
                 return Response.AsJson(list);
             };
 
-            Get["/getAttendanceReport/{index:int}"] = parameters =>
+            Get["/getAttendanceReport"] = parameters =>
             {
-                int index = parameters.index;
-                return Response.AsJson(reportManager.getAttendanceReport(index));
+                return Response.AsJson(reportManager.getAttendanceReport());
             };
 
             //-------------------------------------GUESTS---------------------------------------------
@@ -633,32 +646,15 @@ namespace NancyService.Modules
                 return webManager.saveDeadlines(deadlines);
             };
 
-            Get["/getPlanningCommittee"] = parameters =>
-            {
-                return Response.AsJson(webManager.getPlanningCommittee());
-            };
-
-            Post["/addNewCommittee"] = parameters =>
-            {
-                var committee = this.Bind<PlanningCommitteeQuery>();
-                return Response.AsJson(webManager.addCommittee(committee));
-            };
-
-            Put["/editCommittee"] = parameters =>
-            {
-                var committee = this.Bind<PlanningCommitteeQuery>();
-                return webManager.editCommittee(committee);
-            };
-
-            Put["/deleteCommittee"] = parameters =>
-            {
-                var committee = this.Bind<PlanningCommitteeQuery>();
-                return webManager.deleteCommittee(committee);
-            };
-
             Get["/getCommitteeInterface"] = parameters =>
             {
-                return Response.AsJson(webManager.getCommitteeInterface());
+                return Response.AsJson(webManager.getCommittee());
+            };
+
+            Put["/saveCommitteeInterface"] = parameters =>
+            {
+                var info = this.Bind<CommitteeQuery>();
+                return webManager.saveCommittee(info);
             };
 
             Get["/getAdminSponsorBenefits/{data}"] = parameters =>
@@ -721,10 +717,9 @@ namespace NancyService.Modules
                 return webManager.saveProgram(info);
             };
 
-            Get["/getBillReport/{index:int}"] = parameters =>
+            Get["/getBillReport"] = parameters =>
             {
-                int index = parameters.index;
-                return Response.AsJson(reportManager.getBillReportList(index));
+                return Response.AsJson(reportManager.getBillReportList());
             };
 
             Get["/searchReport/{index:int}/{criteria}"] = parameters =>

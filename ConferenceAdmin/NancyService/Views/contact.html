@@ -4,9 +4,8 @@
             <h2 class="section-title">Send Message</h2>
         </div>
         <div class="col-md-8">
-            <section>
                 <div class="p-lg" ng-show="vm.icontactAdditionalInfo" ng-model="vm.icontactAdditionalInfo" ckhtml></div>
-                <form role="form" name="contactForm" novalidate>
+                <form role="form" name="contactForm" novalidate ng-show="vm.icontactEmail">
                     <div class="row">
                         <div class="col-md-4">
                             <label for="name" class="black-label">Name</label>
@@ -33,7 +32,6 @@
                     <button type="submit" class="btn btn-ar btn-primary btn-padding" ng-click="vm.sendEmail()" ng-disabled="contactForm.$invalid || vm.iloading">Submit</button>
                     <div class="clearfix"></div>
                 </form>
-            </section>
         </div>
 
         <div class="col-md-4">

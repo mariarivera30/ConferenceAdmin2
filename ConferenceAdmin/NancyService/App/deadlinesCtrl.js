@@ -248,7 +248,7 @@
 
             restApi.saveDeadlines(newDeadlines)
             .success(function (data, status, headers, config) {
-                if (data != null && data != "") {
+                if (data) {
                     vm.temp = newDeadlines;
                     $("#updateConfirm").modal('show');
                 }

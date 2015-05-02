@@ -8,7 +8,7 @@
     </div>
 
     <div class="col-lg-12 btn-padding2" ng-show="!vm.showResults && (vm.registrationList.length || vm.sponsorList.length)">
-        <label class="left">Search: <input ng-model="vm.criteria" ng-change="vm.showSearch = false" /><button ng-click="vm.search(0)"><i class="fa fa-search"></i></button> <label ng-show="vm.showSearch && !vm.showResults"> No results found.</label></label>
+        <label class="left">Search: <input ng-model="vm.criteria" ng-change="vm.showSearch = false" /><button ng-click="vm.search(0)" ng-disabled="vm.loadingSearch"><i class="fa fa-search"></i></button> <label ng-show="vm.showSearch && !vm.showResults"> No results found.</label></label>
     </div>
 
     <div class="col-lg-12 hide-until-loaded" id="body">

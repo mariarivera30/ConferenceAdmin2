@@ -96,11 +96,8 @@
             getDeadlines: _getDeadlines,
             getInterfaceDeadlines: _getInterfaceDeadlines,
             saveDeadlines: _saveDeadlines,
-            getPlanningCommittee: _getPlanningCommittee,
-            postNewCommittee: _postNewCommittee,
-            editCommittee: _editCommittee,
-            deleteCommittee: _deleteCommittee,
             getCommitteeInterface: _getCommitteeInterface,
+            saveCommitteeInterface: _saveCommitteeInterface,
             getAdminSponsorBenefits: _getAdminSponsorBenefits,
             saveAdminSponsorBenefits: _saveAdminSponsorBenefits,
             saveInstructions: _saveInstructions,
@@ -161,7 +158,8 @@
             createFinalSubmissionFiles: _createFinalSubmissionFiles,
             sendContactEmail: _sendContactEmail,
             getSubmissionsReport: _getSubmissionsReport,
-            getSubmissionDeadlines: _getSubmissionDeadlines
+            getSubmissionDeadlines: _getSubmissionDeadlines,
+            searchKeyCodes: _searchKeyCodes
         };
 
         return service;
@@ -204,6 +202,10 @@
         function _getSponsorComplementaryKeysFromIndex(data) {
             return $http.get('/admin/getSponsorComplementaryKeysFromIndex/'+data.index+'/'+data.sponsorID);
         };
+
+        function _searchKeyCodes(data) {
+            return $http.get('admin/searchKeyCodes/' + data.index + '/' + data.sponsorID +'/'+ data.criteria);
+        }
 
         //-----------------------------------Sponsor-----------------------------------
         function _getSponsorDeadline() {
@@ -391,8 +393,8 @@
             return $http.get('/admin/getDates');
         };
 
-        function _getAttendanceReport(data) {
-            return $http.get('admin/getAttendanceReport/' + data);
+        function _getAttendanceReport() {
+            return $http.get('admin/getAttendanceReport');
         };
         //-----------------------------------GUESTS-----------------------------------
         //get guest list for admin
@@ -472,7 +474,7 @@
         };
         //get the file uploaded to the submission
         function _getEvaluationFile(data) {
-            return $http.get('profile/getEvaluationFile/' + data);
+            return $http.get('profile/getEvaluationFile/' + data.submissionID + '/' + data.evaluatorID);
         };
         //add a single file to a submission
         function _addFileToSubmission(data) {
@@ -521,7 +523,7 @@
         //-----------------------------------EVALUATORS---------------------------------
 
         function _getEvaluatorListFromIndex(data) {
-            return $http.get('admin/getEvaluatorListFromIndex/'+data);
+            return $http.get('admin/getEvaluatorListFromIndex/' + data.index + '/' + data.id);
         };
 
         function _getPendingListFromIndex(data) {
@@ -614,24 +616,12 @@
             return $http.put('/admin/saveDeadlines', data);
         };
 
-        function _getPlanningCommittee() {
-            return $http.get('admin/getPlanningCommittee');
-        };
-
-        function _postNewCommittee(data) {
-            return $http.post('/admin/addNewCommittee', data);
-        };
-
-        function _editCommittee(data) {
-            return $http.put('/admin/editCommittee', data);
-        };
-
-        function _deleteCommittee(data) {
-            return $http.put('/admin/deleteCommittee', data);
-        };
-
         function _getCommitteeInterface() {
             return $http.get('admin/getCommitteeInterface');
+        };
+
+        function _saveCommitteeInterface(data) {
+            return $http.put('/admin/saveCommitteeInterface', data);
         };
 
         function _getAdminSponsorBenefits(data) {
@@ -678,8 +668,8 @@
             return $http.put('/admin/saveProgram', data);
         };
 
-        function _getBillReport(data) {
-            return $http.get('admin/getBillReport/'+data);
+        function _getBillReport() {
+            return $http.get('admin/getBillReport');
         };
 
         function _getRegistrationPaymentsFromIndex(data) {

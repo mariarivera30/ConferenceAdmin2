@@ -287,24 +287,11 @@
         function _downloadAttendanceList() {
             //vm.loading = true;
             //vm.downloadLoading = true;
-            restApi.getAttendanceReport(0)
+            restApi.getAttendanceReport()
             .success(function (data, status, headers, config) {
                 if (data != null && data != "") {
                     var report = data.results;
-                    var maxIndex = data.maxIndex;
                     //vm.downloadLoading = false;
-
-                    var i;
-                    for (i = 1; i < maxIndex; i++) {
-
-                        restApi.getBillReport(i)
-                        .success(function (data, status, headers, config) {
-                            report = report.concat(data.results);
-                        })
-                        .error(function (data, status, headers, config) {
-                        });
-                    }
-
                     //vm.loading = false;
 
                     if (report != "" && report != undefined) {

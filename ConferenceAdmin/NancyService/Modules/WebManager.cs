@@ -839,191 +839,46 @@ namespace NancyService.Modules
             }
         }
 
-        public List<PlanningCommitteeQuery> getPlanningCommittee()
+        public CommitteeQuery getCommittee()
         {
             try
             {
+                var committee = new CommitteeQuery();
 
-                using (conferenceadminContext context = new conferenceadminContext())
-                {
-                    var committee = context.committeeinterfaces.Select(s => new PlanningCommitteeQuery
-                    {
-                        firstName = s.firstName,
-                        lastName = s.lastName,
-                        affiliation = s.affiliation,
-                        description = s.description,
-                        committeeID = s.committeID
+                committee.committee = this.getInterfaceElement("committee").content;
 
-                    }).ToList();
-
-                    return committee;
-                }
+                return committee;
             }
             catch (Exception ex)
             {
-                Console.Write("WebManager.getPlanningCommitteeList error " + ex);
+                Console.Write("WebManager.getCommittee error " + ex);
                 return null;
             }
         }
 
-        public PlanningCommitteeQuery addCommittee(PlanningCommitteeQuery committee)
+        public bool saveCommittee(CommitteeQuery info)
         {
+            String committee= info.committee;
+
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    committeeinterface s = new committeeinterface();
-                    s.firstName = committee.firstName;
-                    s.lastName = committee.lastName;
-                    s.affiliation = committee.affiliation;
-                    s.description = committee.description;
-                    context.committeeinterfaces.Add(s);
+                    var i = (from s in context.interfaceinformations
+                             where s.attribute == "committee"
+                             select s).FirstOrDefault();
+
+                    if (i != null)
+                        i.content = committee;
+
                     context.SaveChanges();
-                    committee.committeeID = s.committeID;
-                    return committee;
+                    return true;
                 }
             }
             catch (Exception ex)
             {
-                Console.Write("WebManager.addCommittee error " + ex);
-                return committee;
-            }
-        }
-
-        public bool editCommittee(PlanningCommitteeQuery committee)
-        {
-            try
-            {
-                using (conferenceadminContext context = new conferenceadminContext())
-                {
-                    var edit = (from s in context.committeeinterfaces
-                                where s.committeID == committee.committeeID
-                                select s).FirstOrDefault();
-
-                    if (edit != null)
-                    {
-                        edit.description = committee.description;
-                        context.SaveChanges();
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.Write("WebManager.editCommittee error " + ex);
+                Console.Write("WebManger.saveCommittee error " + ex);
                 return false;
-            }
-        }
-
-        public bool deleteCommittee(PlanningCommitteeQuery committee)
-        {
-            try
-            {
-                using (conferenceadminContext context = new conferenceadminContext())
-                {
-                    var delete = (from s in context.committeeinterfaces
-                                  where s.committeID == committee.committeeID
-                                  select s).FirstOrDefault();
-
-                    if (delete != null)
-                    {
-                        context.committeeinterfaces.Remove(delete);
-                        context.SaveChanges();
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.Write("WebManager.deleteCommittee error " + ex);
-                return false;
-            }
-        }
-
-        public CommitteeInterfaceQuery getCommitteeInterface()
-        {
-            try
-            {
-                var committee = new CommitteeInterfaceQuery();
-
-                using (conferenceadminContext context = new conferenceadminContext())
-                {
-                    committee.conferenceChairList = context.committeeinterfaces.Where(s => s.description == "Conference Chair").Select(s => new PlanningCommitteeQuery
-                    {
-                        firstName = s.firstName,
-                        lastName = s.lastName,
-                        affiliation = s.affiliation,
-                        description = s.description,
-                        committeeID = s.committeID
-
-                    }).ToList();
-
-                    committee.conferenceCoChairList = context.committeeinterfaces.Where(s => s.description == "Conference Co-Chair").Select(s => new PlanningCommitteeQuery
-                    {
-                        firstName = s.firstName,
-                        lastName = s.lastName,
-                        affiliation = s.affiliation,
-                        description = s.description,
-                        committeeID = s.committeID
-
-                    }).ToList();
-
-                    committee.conferenceCoordinatorList = context.committeeinterfaces.Where(s => s.description == "Conference Coordinator").Select(s => new PlanningCommitteeQuery
-                    {
-                        firstName = s.firstName,
-                        lastName = s.lastName,
-                        affiliation = s.affiliation,
-                        description = s.description,
-                        committeeID = s.committeID
-
-                    }).ToList();
-
-                    committee.conferenceTreasurerList = context.committeeinterfaces.Where(s => s.description == "Treasurer").Select(s => new PlanningCommitteeQuery
-                    {
-                        firstName = s.firstName,
-                        lastName = s.lastName,
-                        affiliation = s.affiliation,
-                        description = s.description,
-                        committeeID = s.committeID
-
-                    }).ToList();
-
-                    committee.conferenceAssistantList = context.committeeinterfaces.Where(s => s.description == "Conference Assistant").Select(s => new PlanningCommitteeQuery
-                    {
-                        firstName = s.firstName,
-                        lastName = s.lastName,
-                        affiliation = s.affiliation,
-                        description = s.description,
-                        committeeID = s.committeID
-
-                    }).ToList();
-
-                    committee.conferenceAccountantList = context.committeeinterfaces.Where(s => s.description == "Conference Accountant").Select(s => new PlanningCommitteeQuery
-                    {
-                        firstName = s.firstName,
-                        lastName = s.lastName,
-                        affiliation = s.affiliation,
-                        description = s.description,
-                        committeeID = s.committeID
-
-                    }).ToList();
-
-                }
-
-                return committee;
-            }
-            catch (Exception ex)
-            {
-                Console.Write("WebManager.getCommitteeInterface error " + ex);
-                return null;
             }
         }
 
@@ -1805,35 +1660,13 @@ namespace NancyService.Modules
         public String paragraph;
     }
 
-    public class PlanningCommitteeQuery
+    public class CommitteeQuery
     {
-        public String firstName;
-        public String lastName;
-        public String affiliation;
-        public String description;
-        public int committeeID;
-
-        public PlanningCommitteeQuery()
+        public String committee;
+        public CommitteeQuery()
         {
 
         }
-    }
-
-    public class CommitteeInterfaceQuery
-    {
-        public List<PlanningCommitteeQuery> conferenceChairList = new List<PlanningCommitteeQuery>();
-        public List<PlanningCommitteeQuery> conferenceCoChairList = new List<PlanningCommitteeQuery>();
-        public List<PlanningCommitteeQuery> conferenceCoordinatorList = new List<PlanningCommitteeQuery>();
-        public List<PlanningCommitteeQuery> conferenceTreasurerList = new List<PlanningCommitteeQuery>();
-        public List<PlanningCommitteeQuery> conferenceAssistantList = new List<PlanningCommitteeQuery>();
-        public List<PlanningCommitteeQuery> conferenceAccountantList = new List<PlanningCommitteeQuery>();
-
-        public CommitteeInterfaceQuery()
-        {
-
-        }
-
-
     }
 
     public class SponsorBenefitsQuery

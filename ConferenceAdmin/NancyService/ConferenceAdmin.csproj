@@ -94,6 +94,7 @@
     <Content Include="App\committeeCtrl2.js" />
     <Content Include="App\contactCtrl.js" />
     <Content Include="App\deadlinesCtrl.js" />
+    <Content Include="App\deadlinesCtrl2.js" />
     <Content Include="App\evaluatorCtrl.js" />
     <Content Include="App\fileModel.js" />
     <Content Include="App\generalInfoCtrl.js" />
@@ -1436,7 +1437,6 @@
     <Compile Include="Models\Mapping\privilegeMap.cs" />
     <Compile Include="Models\Mapping\registrationMap.cs" />
     <Compile Include="Models\Mapping\sponsor2Map.cs" />
-    <Compile Include="Models\Mapping\sponsorMap.cs" />
     <Compile Include="Models\Mapping\sponsortypeMap.cs" />
     <Compile Include="Models\Mapping\submissionMap.cs" />
     <Compile Include="Models\Mapping\submissiontypeMap.cs" />
@@ -1456,7 +1456,6 @@
     <Compile Include="Models\paymenttype.cs" />
     <Compile Include="Models\privilege.cs" />
     <Compile Include="Models\registration.cs" />
-    <Compile Include="Models\sponsor.cs" />
     <Compile Include="Models\sponsor2.cs" />
     <Compile Include="Models\sponsortype.cs" />
     <Compile Include="Models\submission.cs" />
@@ -1522,7 +1521,6 @@
   <ItemGroup>
     <Folder Include="img\demopage\" />
     <Folder Include="obj\Debug\TempPE\" />
-    <Folder Include="sponsorlogo\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

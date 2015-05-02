@@ -11,7 +11,7 @@
         
         <!-- Topics Table -->
         <div class="atable">
-            <table ng-table="tableParams" class="table row" ng-show="vm.topicsList.length">
+            <table class="table" ng-show="vm.topicsList.length">
                 <thead>
                     <tr>
                         <th><b>Topic Name</b></th>
@@ -29,6 +29,7 @@
             </table>
         </div>
         <button class="btn btn-ar btn-primary" data-toggle="modal" data-target="#addTopic">Add Topic</button> <a href=""><i class="fa fa-info-circle info-icon" title="Add a new topic"> </i></a>
+        <a class="btn btn-default right" ng-click="vm.getTopics()"><i class="glyphicon glyphicon-repeat"></i></a>
         <br>
     </div>
 
@@ -55,6 +56,7 @@
                 <div class="modal-footer">
                     <button class="btn btn-ar btn-primary left" ng-click="vm.addTopic()" ng-disabled="addTopicForm.$invalid || vm.loading">Add</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal" ng-click="vm.clear()">Cancel</button>
+                    <span ng-show="vm.loading" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
                 </div>
             </div>
         </div>
@@ -78,6 +80,7 @@
                 <div class="modal-footer">
                     <button class="btn btn-ar btn-primary left" ng-click="vm.updateTopic()" ng-disabled="editTopicForm.$invalid || vm.loading">Save</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                    <span ng-show="vm.loading" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
                 </div>
             </div>
         </div>
@@ -95,8 +98,9 @@
                     Are you sure you want to remove the selection?
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.deleteTopic()">Remove</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.deleteTopic()" ng-disabled="vm.loading">Remove</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                    <span ng-show="vm.loading" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
                 </div>
             </div>
         </div>

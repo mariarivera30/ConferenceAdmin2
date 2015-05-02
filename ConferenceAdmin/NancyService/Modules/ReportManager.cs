@@ -14,14 +14,13 @@ namespace NancyService.Modules
 
         }
 
-        public ReportQuery getBillReportList(int index)
+        public ReportQuery getBillReportList()
         {
             ReportQuery b = new ReportQuery();
             String csv = "";
 
             try
             {
-                int pageSize = 10;
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     var payments = (from s in context.registrations
@@ -89,47 +88,8 @@ namespace NancyService.Modules
                                                  
                                                                     })).OrderBy(x => x.name);
 
-                    /*if (csv.Count() > 0)
-                    {
-                        
-                        SaveFileDialog saveFile = new SaveFileDialog();
-
-                        saveFile.Filter = "csv files (*.csv)|*.csv|All files (*.*)|*.*";
-                        saveFile.FilterIndex = 2;
-                        saveFile.FileName = "billreport";
-                        saveFile.DefaultExt = ".csv";
-                        saveFile.OverwritePrompt=true;
-
-                        DialogState state = new DialogState();
-                        state.dialog = saveFile;
-                        Thread t = new Thread(state.ThreadProcShowDialog);
-                        t.SetApartmentState(System.Threading.ApartmentState.STA);
-                        t.Start();
-                        t.Join();
-
-                        //saveFile.ShowDialog() == DialogResult.OK
-
-                        if (state.result == DialogResult.OK)
-                        {
-                            if (saveFile.OpenFile() != null)
-                            {
-                                String location = saveFile.FileName;
-                                state.dialog.Dispose(); 
-                                //File.WriteAllLines(location, csv);    
-                                var myFile = File.Create(location);
-                                myFile.Close();
-                            }
-                        }
-                    }*/
-
                     if (payments.Count() > 0)
                     {
-                        b.maxIndex = (int)Math.Ceiling(payments.Count() / (double)pageSize);
-                        var report = payments.Skip(pageSize * index).Take(pageSize); //Skip past rows and take new elements
-
-                        //Add columns
-                        if (index == 0)
-                        {
                             csv += ("\"Transaction ID\"," +
                                     "\"Payment Date\"," +
                                     "\"Amount Paid\"," +
@@ -145,9 +105,8 @@ namespace NancyService.Modules
                                     "\"State\"," +
                                     "\"Country\"," +
                                     "\"Zip Code\"\r\n");
-                        }
 
-                        foreach (var p in report)
+                        foreach (var p in payments)
                         {
                             csv += ("\"" + p.transactionID + "\"," +
                                     "\"" + p.paymentDate + "\"," +
@@ -168,8 +127,6 @@ namespace NancyService.Modules
                         
                         b.results = csv;
                     }
-
-                    b.totalAmount = context.paymentbills.Where(x => x.deleted != true).Sum(x => x.AmountPaid);
                 }
 
                 return b;
@@ -355,7 +312,7 @@ namespace NancyService.Modules
             }
         }
 
-        public ReportQuery getAttendanceReport(int index)
+        public ReportQuery getAttendanceReport()
         {
             ReportQuery b = new ReportQuery();
             String csv = "";
@@ -364,7 +321,6 @@ namespace NancyService.Modules
 
             try
             {
-                int pageSize = 10;
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     var registrationList = new List<RegisteredUserInformation>();
@@ -392,12 +348,6 @@ namespace NancyService.Modules
 
                     if (registrationList.Count() > 0)
                     {
-                        b.maxIndex = (int)Math.Ceiling(registrationList.Count() / (double)pageSize);
-                        var report = registrationList.Skip(pageSize * index).Take(pageSize); //Skip past rows and take new elements
-
-                        //Add columns
-                        if (index == 0)
-                        {
                             csv += ("\"Registration ID\"," +
                                     "\"Name\"," +
                                     "\"Email\"," +
@@ -431,10 +381,9 @@ namespace NancyService.Modules
                                     "\"Country\"," +
                                     "\"Zip Code\"," +
                                     "\"Notes\"\r\n");
-                        }
 
-                        foreach (var p in report)
-                        {
+                            foreach (var p in registrationList)
+                            {
                             csv += ("\"" + p.registrationID + "\"," +
                                     "\"" + p.name + "\"," +
                                     "\"" + p.email + "\"," +

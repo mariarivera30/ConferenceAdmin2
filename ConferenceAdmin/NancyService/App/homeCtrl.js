@@ -159,7 +159,7 @@
             }
             restApi.saveHome(newHome)
             .success(function (data, status, headers, config) {
-                if (data != null && data != "") {
+                if (data) {
 
                     vm.temp.homeMainTitle = newHome.homeMainTitle;
                     vm.temp.homeParagraph1 = newHome.homeParagraph1;

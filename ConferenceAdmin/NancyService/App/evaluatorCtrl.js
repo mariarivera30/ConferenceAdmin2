@@ -3,9 +3,9 @@
 
     var controllerId = 'evaluatorCtrl';
     angular.module('app').controller(controllerId,
-        ['$scope', '$http', 'restApi', evaluatorCtrl]);
+        ['$scope', '$http', 'restApi', '$window', evaluatorCtrl]);
 
-    function evaluatorCtrl($scope, $http, restApi) {
+    function evaluatorCtrl($scope, $http, restApi, $window) {
         //Variables
         var vm = this;
         vm.activate = activate;
@@ -24,6 +24,7 @@
         vm.criteria;
         vm.showSearch = false;
         vm.showResults = false;
+        vm.loadingSearch = false;
 
         //Pending List Variables (Paging)
         vm.pendingList = [];
@@ -165,7 +166,11 @@
 
         //Past Evaluator List Methods
         function _getEvaluatorListFromIndex(index) {
-            restApi.getEvaluatorListFromIndex(index)
+            var info = {
+                index: index,
+                id: $window.sessionStorage.getItem('userID')
+            }
+            restApi.getEvaluatorListFromIndex(info)
             .success(function (data, status, headers, config) {
                 if (data != null && data != "") {
                     vm.emaxIndex = data.maxIndex;
@@ -346,6 +351,7 @@
         //Search Methods
         function _searchEvaluators(index) {
             if (vm.criteria != "" && vm.criteria != null) {
+                vm.loadingSearch = true;
                 var info = { index: index, criteria: vm.criteria };
                 restApi.searchEvaluators(info).
                        success(function (data, status, headers, config) {
@@ -366,8 +372,10 @@
                                    vm.searchResults = data.results;
                                }
                            }
+                           vm.loadingSearch = false;
                        }).
                        error(function (data, status, headers, config) {
+                           _back;
                            vm.toggleModal('error');
                        });
             }
@@ -403,6 +411,7 @@
             vm.searchResults = [];
             vm.showSearch = false;
             vm.showResults = false;
+            vm.loadingSearch = false;
         }
 
         //Avoid flashing when page loads

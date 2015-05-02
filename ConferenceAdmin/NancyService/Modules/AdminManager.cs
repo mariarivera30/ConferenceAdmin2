@@ -35,7 +35,7 @@ namespace NancyService.Modules
                         firstName = admin.user.firstName,
                         lastName = admin.user.lastName,
                         email = admin.user.membership.email,
-                        privilege = admin.privilege.privilegestType,
+                        privilege = admin.privilege.privilegestType == "Admin" ? "Administrator" : admin.privilege.privilegestType == "CommitteEvaluator" ? "Committee Evaluator" : admin.privilege.privilegestType,
                         privilegeID = (int)admin.privilegesID
 
                     }).OrderBy(x => x.userID);
@@ -94,7 +94,7 @@ namespace NancyService.Modules
                     var privileges = context.privileges.Where(privilege => privilege.privilegestType != "Master" && privilege.privilegestType != "Evaluator").Select(privilege => new PrivilegeQuery()
                     {
                         privilegeID = privilege.privilegesID,
-                        name = privilege.privilegestType,
+                        name = privilege.privilegestType == "Admin" ? "Administrator" : privilege.privilegestType == "CommitteEvaluator" ? "Committee Evaluator" : privilege.privilegestType,
 
                     }).ToList();
 
@@ -221,11 +221,23 @@ namespace NancyService.Modules
                         {
                             admin.deleted = false;
                             oldAdmin.deleted = true;
+                            
+                            if (privilege != "Finance")
+                            {
+                                EvaluatorManager evaluator = new EvaluatorManager();
+                                evaluator.addEvaluator(admin.user.membership.email);
+                            }
                         }
 
                         else
                         {
                             oldAdmin.privilegesID = editAdmin.privilegeID;
+
+                            if (privilege != "Finance")
+                            {
+                                EvaluatorManager evaluator = new EvaluatorManager();
+                                evaluator.addEvaluator(oldAdmin.user.membership.email);
+                            }
                         }
 
                         try {sendEmailEditAdminConfirmation(oldAdmin.user.membership.email, privilege);}
@@ -236,7 +248,7 @@ namespace NancyService.Modules
                         }
 
                         context.SaveChanges();
-                        return privilege;
+                        return privilege == "Admin" ? "Administrator" : privilege == "CommitteEvaluator" ? "Committee Evaluator" : privilege;
                     }
                     return null;
                 }
@@ -322,6 +334,19 @@ namespace NancyService.Modules
 
         private void sendEmailConfirmation(string email, String p)
         {
+            if (p == "Admin")
+            {
+                p = "Administrator";
+            }
+            else if (p == "CommitteEvaluator")
+            {
+                p = "Committee Manager";
+            }
+            else if (p == "Finance")
+            {
+                p = "Finance Manager";
+            }
+
             MailAddress ccwic = new MailAddress(ccwicEmail);
             MailAddress user = new MailAddress(testEmail);
             MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
@@ -344,6 +369,19 @@ namespace NancyService.Modules
 
         private void sendEmailEditAdminConfirmation(string email, String p)
         {
+            if (p == "Admin")
+            {
+                p = "Administrator";
+            }
+            else if (p == "CommitteEvaluator")
+            {
+                p = "Committee Manager";
+            }
+            else if (p == "Finance")
+            {
+                p = "Finance Manager";
+            }
+            
             MailAddress ccwic = new MailAddress(ccwicEmail);
             MailAddress user = new MailAddress(testEmail);
             MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
@@ -351,7 +389,7 @@ namespace NancyService.Modules
             String closing = " \r\nThank you.\r\nCCWiC Administration";
 
             mail.Subject = "Caribbean Celebration of Women in Computing- Administrator Information";
-            mail.Body = "Greetings,\r\n \r\nYour privilege within our system has changed. You have are now: " + p + ". Remember: You can access Administrator Settings by login in ConferenceAdmin.\r\n"+closing;
+            mail.Body = "Greetings,\r\n \r\nYour privilege within our system has changed. You are now: " + p + ". Remember: You can access Administrator Settings by login in ConferenceAdmin.\r\n"+closing;
 
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";

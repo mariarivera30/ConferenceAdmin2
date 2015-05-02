@@ -101,7 +101,7 @@
             }
             restApi.saveVenue(newVenue)
             .success(function (data, status, headers, config) {
-                if (data != null && data != "") {
+                if (data) {
                     vm.temp.venueParagraph1 = newVenue.venueParagraph1;
                     vm.temp.venueTitleBox = newVenue.venueTitleBox;
                     vm.temp.venueParagraphContentBox = newVenue.venueParagraphContentBox;

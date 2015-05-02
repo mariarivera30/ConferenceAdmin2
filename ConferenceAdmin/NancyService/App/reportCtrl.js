@@ -65,6 +65,7 @@
         vm.criteria;
         vm.showSearch = false;
         vm.showResults = false;
+        vm.loadingSearch = false;
 
         // Functions- General
         vm.downloadBillReport = _downloadBillReport;
@@ -205,25 +206,11 @@
         function _downloadBillReport() {
             vm.loading = true;
             vm.downloadLoading = true;
-            restApi.getBillReport(0)
+            restApi.getBillReport()
             .success(function (data, status, headers, config) {
                 if (data != null && data != "") {
                     var report = data.results;
-                    var maxIndex = data.maxIndex;
                     vm.downloadLoading = false;
-
-                    var i;
-                    for (i = 1; i < maxIndex; i++) {
-
-                        restApi.getBillReport(i)
-                        .success(function (data, status, headers, config) {
-                            report = report.concat(data.results);
-                        })
-                        .error(function (data, status, headers, config) {
-                            vm.toggleModal('error');
-                        });
-                    }
-
                     vm.loading = false;
 
                     if (report != "" && report != undefined) {
@@ -242,6 +229,7 @@
         //Search Methods
         function _search(index) {
             if (vm.criteria != "" && vm.criteria != null) {
+                vm.loadingSearch = true;
                 var info = { index: index, criteria: vm.criteria };
                 restApi.searchReport(info).
                        success(function (data, status, headers, config) {
@@ -260,9 +248,10 @@
                                vm.showResults = true;
                                vm.searchResults = data.results;
                            }
+                           vm.loadingSearch = false;
                        }).
                        error(function (data, status, headers, config) {
-                           _back();
+                           _back;
                            vm.toggleModal('error');
                        });
             }
@@ -298,6 +287,7 @@
             vm.searchResults = [];
             vm.showSearch = false;
             vm.showResults = false;
+            vm.loadingSearch = false;
         }
 
         //Load
