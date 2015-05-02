@@ -332,7 +332,7 @@ namespace NancyService.Modules
             String closing = " \r\nThank you.\r\nCCWiC Administration";
 
             mail.Subject = "Caribbean Celebration of Women in Computing- Evaluator Information";
-            mail.Body = "Greetings,\r\n \r\nYou have been given a privilege within our system: " + p + ". You can now access Administrator Settings by login in ConferenceAdmin.\r\n"+closing;
+            mail.Body = "Greetings,\r\n \r\nYour evaluator status has been updated to: " + p + ". You can now access Administrator Settings by login in ConferenceAdmin.\r\n" + closing;
 
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";
