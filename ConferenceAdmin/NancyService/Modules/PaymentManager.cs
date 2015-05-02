@@ -97,7 +97,7 @@ namespace NancyService.Modules
                                        select new PaymentQuery
                                        {
                                            paymentBillID = s.paymentBillID,
-                                           date = (DateTime)s.payment.creationDate,
+                                           date = s.date,
                                            transactionid = s.transactionid,
                                            AmountPaid = s.AmountPaid,
                                            methodOfPayment = s.methodOfPayment,
@@ -166,7 +166,7 @@ namespace NancyService.Modules
                                        select new PaymentQuery
                                        {
                                            paymentBillID = s.paymentBillID,
-                                           date = (DateTime)s.payment.creationDate,
+                                           date = s.date,
                                            affiliationName = sp.user.affiliationName,
                                            transactionid = s.transactionid,
                                            AmountPaid = s.AmountPaid,
@@ -346,6 +346,7 @@ namespace NancyService.Modules
                         bill.lastName = receipt.lastName;
                         bill.deleted = false;
                         bill.completed = true;
+                        bill.date = DateTime.Now;
 
                         context.SaveChanges();
 

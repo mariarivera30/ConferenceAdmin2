@@ -66,7 +66,15 @@
  
    app.config(function ($stateProvider, $urlRouterProvider,$httpProvider) {
 
-        
+       $urlRouterProvider.rule(function ($injector, $location) {
+           //what this function returns will be set as the $location.url
+           var path = $location.path(), normalized = path.toLowerCase();
+           if (path != normalized) {
+               //instead of returning a new url string, I'll just change the $location.path directly so I don't have to worry about constructing a new url string and so a new state change is not triggered
+               $location.replace().path(normalized);
+           }
+           // because we've returned nothing, no state change occurs
+       });
        ///); 
         // For any unmatched url, redirect to /state1
        $httpProvider.interceptors.push('AuthInterceptor');
@@ -75,7 +83,7 @@
         // Now set up the states
         $stateProvider
           .state('home', {
-              url: "/Home",
+              url: "/home",
               views: {
                   'banner': {
                       templateUrl: "views/banner.html"
@@ -87,7 +95,7 @@
               }
           })
         .state('committee', {
-            url: "/Committee",
+            url: "/committee",
             views: {
                 'banner': {
                     templateUrl: "views/banner.html"
@@ -99,7 +107,7 @@
             }
         })
         .state('venue', {
-            url: "/Venue",
+            url: "/venue",
             views: {
                 'banner': {
                     templateUrl: "views/banner.html"
@@ -111,7 +119,7 @@
             }
         })
         .state('deadline', {
-            url: "/Deadlines",
+            url: "/deadlines",
             views: {
                 'banner': {
                     templateUrl: "views/banner.html"
@@ -123,7 +131,7 @@
             }
         })
         .state('registration', {
-            url: "/Registration",
+            url: "/registration",
             views: {
                 'banner': {
                     templateUrl: "views/banner.html"
@@ -135,7 +143,7 @@
             }
         })
         .state('sponsorregistration', {
-            url: "/SponsorRegistration",
+            url: "/sponsorregistration",
             views: {
                 'banner': {
                     templateUrl: "views/banner.html"
@@ -147,7 +155,7 @@
             }
         })
             .state('payment', {
-                url: "/Payment",
+                url: "/payment",
                 views: {
                     'banner': {
                         templateUrl: ""
@@ -160,7 +168,7 @@
             })
 
              .state('paymentbill', {
-                 url: "/PaymentBill/:paymentId",
+                 url: "/paymentbill/:paymentId",
                  views: {
                      
                      'dynamic': {
@@ -170,7 +178,7 @@
                  }
              })
              .state('paymenterror', {
-                 url: "/PaymentError",
+                 url: "/paymenterror",
                  views: {
                      'dynamic': {
                          templateUrl: "views/paymentError.html"
@@ -179,7 +187,7 @@
                  }
              })
         .state('sponsors', {
-            url: "/Sponsors",
+            url: "/sponsors",
             views: {
                 'banner': {
                     templateUrl: "views/banner.html"
@@ -192,7 +200,7 @@
         })
         
         .state('contact', {
-            url: "/Contact",
+            url: "/contact",
             views: {
                 'banner': {
                     templateUrl: "views/banner.html"
@@ -204,7 +212,7 @@
             }
         })
         .state('schedule', {
-            url: "/Schedule",
+            url: "/schedule",
             views: {
                 'banner': {
                     templateUrl: "views/banner.html"
@@ -216,7 +224,7 @@
             }
         })
         .state('abstracts', {
-            url: "/Abstracts",
+            url: "/abstracts",
             views: {
                 'banner': {
                     templateUrl: "views/banner.html"
@@ -228,7 +236,7 @@
             }
         })
          .state('workshops', {
-             url: "/Workshops",
+             url: "/workshops",
              views: {
                  'banner': {
                      templateUrl: "views/banner.html"
@@ -241,7 +249,7 @@
          }
          )
          .state('register', {
-             url: "/Register",
+             url: "/register",
              views: {
                  'banner': {
                      templateUrl: "views/banner.html"
@@ -254,7 +262,7 @@
          }
          )
               .state('changePassword', {
-                  url: "/ChangePassword",
+                  url: "/changepassword",
                   views: {
                       'dynamic': {
                           templateUrl: "views/changePassword.html"
@@ -263,7 +271,7 @@
 
                   }
               }).state('login', {
-             url: "/Login",
+             url: "/login",
              views: {
                  'dynamic': {
                      templateUrl: "views/login.html"
@@ -273,7 +281,7 @@
              }
 
          }).state('login.log', {
-             url: "/Log",
+             url: "/log",
              views: {
                  'login': {
                      templateUrl: "views/login2.html"
@@ -283,7 +291,7 @@
              }
          })
          .state('login.signup', {
-               url: "/Signup",
+               url: "/signup",
                views: {
                    'login': {
                        templateUrl: "views/signup.html"
@@ -293,7 +301,7 @@
                }
            })
             .state('validate', {
-                url: "/Validate",
+                url: "/validate",
                 views: {
                     'dynamic': {
                         templateUrl: "views/validateAccount.html"
@@ -303,7 +311,7 @@
                 }
             })
              .state('login.request', {
-                 url: "/RequestPass",
+                 url: "/requestpass",
                  views: {
                      'login': {
                          templateUrl: "views/requestPass.html"
@@ -314,7 +322,7 @@
              })
 
         .state('administrator', {
-             url: "/Administrator",
+             url: "/administrator",
              views: {
                  'dynamic': {
                      templateUrl: "views/administrator.html"
@@ -326,7 +334,7 @@
              }
          })
         .state('administrator.information', { //Start Administrator Menu
-            url: "/GeneralInformation",
+            url: "/generalinformation",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_generalInformation.html"
@@ -335,7 +343,7 @@
         })
 
         .state('administrator.home', {
-            url: "/Home",
+            url: "/home",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_home.html"
@@ -344,7 +352,7 @@
         })
 
         .state('administrator.managetopics', {
-            url: "/ManageTopics",
+            url: "/managetopics",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_managetopics.html"
@@ -352,7 +360,7 @@
             }
         })
          .state('administrator.venue', { 
-             url: "/Venue",
+             url: "/venue",
              views: {
                  'adminPage': {
                      templateUrl: "views/admin_venue.html"
@@ -360,7 +368,7 @@
              }
          })
         .state('administrator.deadlines', {
-            url: "/Deadlines",
+            url: "/deadlines",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_deadlines.html"
@@ -368,7 +376,7 @@
             }
         })
         .state('administrator.contact', {
-            url: "/Contact",
+            url: "/contact",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_contact.html"
@@ -376,7 +384,7 @@
             }
         })
         .state('administrator.participation', {
-            url: "/Participation",
+            url: "/participation",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_participation.html"
@@ -385,7 +393,7 @@
         })
 
         .state('administrator.program', {
-            url: "/Program",
+            url: "/program",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_program.html"
@@ -394,7 +402,7 @@
         })
 
         .state('administrator.registration', {
-            url: "/RegistrationForm",
+            url: "/registrationform",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_registrationform.html"
@@ -402,7 +410,7 @@
             }
         })
         .state('administrator.registrationlist', {
-            url: "/RegistrationList",
+            url: "/registrationlist",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_registrationlist.html"
@@ -410,7 +418,7 @@
             }
         })
         .state('administrator.agenda', {
-            url: "/Agenda",
+            url: "/agenda",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_agenda.html"
@@ -418,7 +426,7 @@
             }
         })
         .state('administrator.sponsors', {
-            url: "/Sponsors",
+            url: "/sponsors",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_sponsors.html"
@@ -426,7 +434,7 @@
             }
         })
         .state('administrator.managesponsors', {
-            url: "/ManageSponsors",
+            url: "/managesponsors",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_managesponsors.html",
@@ -435,7 +443,7 @@
             }
         })
         .state('administrator.manageadministrators', {
-            url: "/ManageAdministrators",
+            url: "/manageadministrators",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_manageadministrators.html"
@@ -444,7 +452,7 @@
         })
 
         .state('administrator.manageevaluators', {
-            url: "/ManageEvaluators",
+            url: "/manageevaluators",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_manageevaluators.html"
@@ -453,7 +461,7 @@
         })
 
         .state('administrator.planningcommittee', {
-            url: "/PlanningCommittee",
+            url: "/planningcommittee",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_planningcommittee.html"
@@ -461,7 +469,7 @@
             }
         })
         .state('administrator.managetemplates', {
-            url: "/ManageTemplates",
+            url: "/managetemplates",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_managetemplates.html"
@@ -469,7 +477,7 @@
             }
         })
             .state('administrator.manageAuthtemplates', {
-                url: "/ManageAuthTemplates",
+                url: "/manageauthtemplates",
                 views: {
                     'adminPage': {
                         templateUrl: "views/admin_manageAuthorizationTemplate.html"
@@ -477,7 +485,7 @@
                 }
             })
         .state('administrator.guests', {
-            url: "/ManageGuests",
+            url: "/manageguests",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_manageguests.html"
@@ -485,7 +493,7 @@
             }
         })
         .state('administrator.managekeycodes', {
-            url: "/ManageKeyCodes",
+            url: "/managekeycodes",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_managekeycodes.html"
@@ -493,7 +501,7 @@
             }
         })
         .state('administrator.submissions', {
-            url: "/ManageSubmissions",
+            url: "/managesubmissions",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_managesubmissions.html"
@@ -501,7 +509,7 @@
             }
         })
         .state('administrator.reports', {
-            url: "/Reports",
+            url: "/reports",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_reports.html"
@@ -509,7 +517,7 @@
             }
         })
         .state('administrator.evaluationdetails', {
-            url: "/EvaluationDetails",
+            url: "/evaluationdetails",
             views: {
                 'adminPage': {
                     templateUrl: "views/admin_evaluationDetails.html"
@@ -518,7 +526,7 @@
         })
 
         .state('profile', {
-            url: "/Profile",
+            url: "/profile",
             views: {
                 'dynamic': {
                     templateUrl: "views/profile.html"
@@ -530,7 +538,7 @@
             }
         })
         .state('profile.information', { //Start Administrator Menu
-            url: "/GeneralInformation",
+            url: "/generalinformation",
             views: {
                 'profilePage': {
                     templateUrl: "views/profile_information.html"
@@ -571,7 +579,7 @@
                  })
 
         .state('profile.receiptinformation', {
-            url: "/ReceiptInformation",
+            url: "/receiptinformation",
             views: {
                 'profilePage': {
                     templateUrl: "views/profile_receiptinfo.html"
@@ -579,7 +587,7 @@
             }
         })
         .state('profile.benefits', {
-            url: "/Benefits",
+            url: "/benefits",
             views: {
                 'profilePage': {
                     templateUrl: "views/profile_benefits.html"
@@ -587,7 +595,7 @@
             }
         })
         .state('profile.status', {
-            url: "/Status",
+            url: "/status",
             views: {
                 'profilePage': {
                     templateUrl: "views/profile_status.html"
@@ -595,7 +603,7 @@
             }
         })
         .state('profile.evaluation', {
-            url: "/Evaluations",
+            url: "/evaluations",
             views: {
                 'profilePage': {
                     templateUrl: "views/profile_evaluation.html"
@@ -607,7 +615,7 @@
         })
       
         .state('profile.submission', {
-            url: "/Submissions",
+            url: "/submissions",
             views: {
                 'profilePage': {
                     templateUrl: "views/profile_submission.html"
@@ -615,7 +623,7 @@
             }
         })
             .state('profile.evaluateSubmission', {
-                url: "/EvaluateSubmission",
+                url: "/evaluatesubmission",
                 views: {
                     'viewEvaluation': {
                         templateUrl: "views/evaluation.html"
@@ -623,7 +631,7 @@
                 }
             })
         .state('profile.authorization', {
-            url: "/Authorization",
+            url: "/authorization",
             views: {
                 'profilePage': {
                     templateUrl: "views/profile_authorization.html"
@@ -631,7 +639,7 @@
             }
         })
         .state('profile.apply', {
-            url: "/Application",
+            url: "/application",
             views: {
                 'profilePage': {
                     templateUrl: "views/profile_application.html"
@@ -639,7 +647,7 @@
             }
         })
         .state('participation', {
-            url: "/Participation",
+            url: "/participation",
             views: {
                 'dynamic': {
                     templateUrl: "views/participation_Information.html"

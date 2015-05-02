@@ -11,7 +11,6 @@ namespace NancyService.Models
         public string transactionid { get; set; }
         public double AmountPaid { get; set; }
         public string methodOfPayment { get; set; }
-        public string authorizationID { get; set; }
         public bool deleted { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }

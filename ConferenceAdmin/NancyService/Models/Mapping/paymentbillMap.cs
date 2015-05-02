@@ -17,9 +17,6 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.methodOfPayment)
                 .HasMaxLength(255);
 
-            this.Property(t => t.authorizationID)
-                .HasMaxLength(255);
-
             this.Property(t => t.firstName)
                 .HasMaxLength(255);
 
@@ -49,7 +46,6 @@ namespace NancyService.Models.Mapping
             this.Property(t => t.transactionid).HasColumnName("transactionid");
             this.Property(t => t.AmountPaid).HasColumnName("AmountPaid");
             this.Property(t => t.methodOfPayment).HasColumnName("methodOfPayment");
-            this.Property(t => t.authorizationID).HasColumnName("authorizationID");
             this.Property(t => t.deleted).HasColumnName("deleted");
             this.Property(t => t.firstName).HasColumnName("firstName");
             this.Property(t => t.lastName).HasColumnName("lastName");

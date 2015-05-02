@@ -135,17 +135,18 @@
 
                             <!-- <li><a href="#" class="animated fadeIn animation-delay-9 instagram"><i class="fa fa-instagram"></i></a></li> -->
                         </ul>
-                        <ul class="top-nav-social hidden-sm">
-                            <li><a ng-hide="vm.showProfile" href="#/Login/Log"><i class="fa fa-user"></i> Login | Sign-Up</a></li>
-                            <li><a ng-show="vm.showProfile" href="" ng-click="vm.profileView()"><i class="fa fa-user"></i> Profile</a></li>
+                        <ul class="top-nav-social hidden-xs hidden-sm">
+                            <li><a ng-hide="vm.showProfile" href="#/Login/Log"><i class=" fa fa-user"></i> Login | Sign-Up</a></li>
+                            <li><a ng-show="vm.showProfile" href="" ng-click="vm.profileView()"><i class="  fa fa-user"></i> Profile</a></li>
 
-                            <li><a ng-show="vm.showAdminsitrator" href="" ng-click="vm.adminView()"><i class="fa fa-gear"></i> Administrator </a></li>   
+                            <li><a ng-show="vm.showAdminsitrator" href="" ng-click="vm.adminView()"><i class="hidden-xs hidden-sm fa fa-gear"></i> Administrator </a></li>
 
-                            <li></li> <li></li>
-                       
-                             <!-- <li><a href="#" class="animated fadeIn animation-delay-9 instagram"><i class="fa fa-instagram"></i></a></li> -->
-                      </ul>
-                        <ul ng-show="vm.showProfile" class="top-nav-social hidden-sm">
+                            <li></li>
+                            <li></li>
+
+                            <!-- <li><a href="#" class="animated fadeIn animation-delay-9 instagram"><i class="fa fa-instagram"></i></a></li> -->
+                        </ul>
+                        <ul ng-show="vm.showProfile" class=" hidden-xs hidden-sm top-nav-social hidden-sm">
 
                             <li ng-show="vm.showProfile"><a href="#/Home" ng-click="vm.logout()">Logout | {{vm.messageLogOut.split('@')[0]}}</a></li>
 
@@ -162,32 +163,37 @@
                             <span class="sr-only">Toggle navigation</span>
                             <i class="fa fa-bars"></i>
                         </button>
-                        <a class="navbar-brand hidden-lg hidden-md hidden-sm" href="#/Home"><span>CCWiC</span></a>
-                        <a class="white right hidden-lg" ng-hide="vm.showProfile" href="#/Login/Log"><i class="fa fa-user"></i> Login | Sign-Up</a>
+                        <a class="navbar-brand visible-xs visible-sm" href="#/Home"><span>CCWiC</span></a>
+                        <a class="visible-xs visible-sm white  right  " ng-hide=" vm.showProfile" href="#/Login/Log"><span><i class="  fa fa-user"></i> Login | Sign-Up</span></a>
+                        <a class="visible-xs visible-sm white right " ng-show="vm.showProfile" href=" #/Home" ng-click="vm.logout()"><span><i class="  fa fa-user"></i>Logout | {{vm.messageLogOut.split('@')[0]}}</span></a>
+
                     </div> <!-- navbar-header -->
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li class="dropdown non-dropdown">
+                           
+                            
+
+                            <li class="visible-md visible-lg dropdown non-dropdown">
                                 <a href="#/Home">Home</a>
                             </li>
-                            <li class="dropdown non-dropdown">
+                            <li class="visible-md visible-lg dropdown non-dropdown">
                                 <a href="#/Committee">Planning Committee</a>
                             </li>
-                            <li class="dropdown non-dropdown">
+                            <li class="visible-md visible-lg dropdown non-dropdown">
                                 <a href="#/Venue">Venue</a>
                             </li>
-                            <li class="dropdown non-dropdown">
+                            <li class="visible-md visible-lg dropdown non-dropdown">
                                 <a href="#/Deadlines">Deadlines</a>
                             </li>
-                            <li class="dropdown non-dropdown">
+                            <li class="visible-md visible-lg dropdown non-dropdown">
                                 <a href="#/Registration">Registration</a>
                             </li>
-                            <li class="dropdown non-dropdown">
+                            <li class="visible-md visible-lg dropdown non-dropdown">
                                 <a href="#/Participation">Call for Participation</a>
                             </li>
 
-                            <li class="dropdown" ng-controller="programCtrl2 as vm">
+                            <li class="visible-md visible-lg dropdown" ng-controller="programCtrl2 as vm">
                                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Program</a>
                                 <ul class="dropdown-menu dropdown-menu-left">
                                     <li><a href="" ng-click="vm.viewProgram()">Program Schedule</a></li>
@@ -195,14 +201,53 @@
                                 </ul>
                             </li>
 
-                            <li class="dropdown non-dropdown">
+                            <li class="visible-md visible-lg dropdown non-dropdown">
                                 <a href="#/Sponsors">Sponsors</a>
                             </li>
-                            <li class="dropdown non-dropdown">
+                            <li class="visible-md visible-lg dropdown non-dropdown">
                                 <a href="#/Contact">Contact</a>
                             </li>
+                            <!-------Mobile --->
 
-                        </ul>
+
+                            <li ng-show="vm.showProfile" class=" visible-xs visible-sm dropdown non-dropdown">
+                                <a ng-show="vm.showAdminsitrator" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="" ng-click="vm.adminView()">Administrator </a>
+                            </li>
+
+                            <li class=" visible-xs visible-sm dropdown non-dropdown">
+                                <a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="#/Home">Home</a>
+                            </li>
+                            <li class =" visible-xs visible-sm dropdown non-dropdown">
+                                <a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="#/Committee">Planning Committee</a>
+                                </li>
+                            <li class=" visible-xs visible-sm dropdown non-dropdown">
+                                <a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="#/Venue">Venue</a>
+                            </li>
+                            <li class=" visible-xs visible-sm dropdown non-dropdown">
+                                <a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="#/Deadlines">Deadlines</a>
+                            </li>
+                            <li class=" visible-xs visible-sm dropdown non-dropdown">
+                                <a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="#/Registration">Registration</a>
+                            </li>
+                            <li class=" visible-xs visible-sm dropdown non-dropdown">
+                                <a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="#/Participation">Call for Participation</a>
+                            </li>
+
+                            <li class=" visible-xs visible-sm dropdown" ng-controller="programCtrl2 as vm">
+                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Program</a>
+                                <ul class="dropdown-menu dropdown-menu-left">
+                                    <li><a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="" ng-click="vm.viewProgram()">Program Schedule</a></li>
+                                    <li><a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="" ng-click="vm.viewAbstract()">Abstracts / Bios</a></li>
+                                </ul>
+                            </li>
+
+                            <li class=" visible-xs visible-sm dropdown non-dropdown">
+                                <a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="#/Sponsors">Sponsors</a>
+                            </li>
+                            <li class=" visible-xs visible-sm dropdown non-dropdown">
+                                <a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="#/Contact">Contact</a>
+                            </li>
+</ul>
                     </div><!-- navbar-collapse -->
                 </div><!-- container -->
             </nav>

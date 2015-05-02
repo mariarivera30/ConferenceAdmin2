@@ -51,8 +51,8 @@ namespace NancyService.Modules
                 {
                     var sponsor = this.Bind<NancyService.Modules.SponsorManager.SponsorQuery>();
                     var temp = this.Bind<PaymentXML>();
-                    temp.quantity = (sponsor.newAmount * 100).ToString();
-                    temp.IP =HttpContext.Current.Request.UserHostAddress;
+                    
+                    temp.IP =this.Request.UserHostAddress;
                    
                     xmlTransacctionID action = paymentManager.MakeWebServiceCall(temp);
                     if (action.error == "000")

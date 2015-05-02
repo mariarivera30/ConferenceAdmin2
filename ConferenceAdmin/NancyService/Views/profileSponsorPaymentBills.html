@@ -3,7 +3,7 @@
 
 
     <div ng-show="vm.messageVisible">{{vm.noPaymentMessage}}</div>  
-    <div class="col-md-4">
+    <div class="  col-sm-4 col-md-4">
         <div ng-repeat="payment in  vm.bills ">
             <a href="" ng-click="vm.selectedReceipt(payment)" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" aria-expanded="false" class="collapsed">
                 Receipt: {{payment.affiliationName}} - {{payment.transactionid}}
@@ -14,7 +14,7 @@
       
     <div class="col-md-8">
         <div>
-
+           
             <div class="col-md-12">
                 <div class="panel-group" id="accordion">
                     <div class="panel panel-default">
@@ -32,80 +32,80 @@
                                         <h2 id="g-information">Receipt Information </h2>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3 print-align">
+                                        <div class="  col-xm-3 col-sm-3 col-md-3 print-align">
                                             <span class="label-simple">Merchant Name:</span>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class=" col-sm-6 col-md-6">
                                             Caribbean Celebration of Women in Computing (UPRM)
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-3 print-align">
+                                        <div class=" col-xm-3 col-sm-3 col-md-3 print-align">
                                             <span class="label-simple">URL:</span>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class=" col-xm-3 col-sm-3 col-md-3">
                                             http://secure.uprm.edu
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3 print-align">
+                                        <div class="col-sm-3 col-md-3 print-align">
                                             <span class="label-simple">Registration by:</span>
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class=" col-xm-5 col-sm-5 col-md-5">
                                             {{vm.payment.userFirstName}} {{vm.payment.userLastName}}
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3 print-align">
+                                        <div class="col-xm-3 col-sm-3 col-md-3print-align">
                                             <span class="label-simple">Affiliation:</span>
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class=" col-xm-5 col-sm-5 col-md-5">
                                             {{vm.payment.affiliationName}}
                                         </div>
                                     </div>
 
 
                                     <div class="row">
-                                        <div class="col-md-3 print-align">
+                                        <div class="col-xm-3 col-sm-3 col-md-3 print-align">
                                             <span class="label-simple">Paid by:</span>
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class=" col-xm-5 col-sm-5 col-md-5">
                                             {{vm.payment.firstName}} {{payment.lastName}}
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-3 print-align">
+                                        <div class="col-xm-3 col-sm-3 col-md-3 print-align">
                                             <span class="label-simple">Date:</span>
                                         </div>
-                                        <div class="col-md-5">
-                                            {{vm.payment.date.split('T')[0]}}   
+                                        <div class="col-xm-5 col-sm-5 col-md-5">
+                                            {{vm.payment.date.split('T')[0]}}
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-3 print-align">
+                                        <div class="col-xm-3 col-sm-3 col-md-3 print-align">
                                             <span class="label-simple">Time:</span>
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class=" col-xm-5 col-sm-5 col-md-5">
                                             {{vm.payment.date.substr(11, 5)}}
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-3 print-align">
+                                        <div class="col-xm-3 col-sm-3 col-md-3print-align">
                                             <span class="label-simple">TransactionID:</span>
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class=" col-xm-5 col-sm-5 col-md-5">
                                             {{vm.payment.transactionid}}
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-md-3 print-align">
+                                        <div class="col-xm-3 col-sm-3 col-md-3print-align">
                                             <span class="label-simple">Tandem Id:</span>
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class=" col-xm-5 col-sm-5 col-md-5">
                                             {{vm.payment.tandemID}}
                                         </div>
                                     </div>
@@ -117,36 +117,37 @@
                                     
 
                                     <div class="row">
-                                        <div class=" col-md-3 print-align">
+                                        <div class=" col-xm-3 col-sm-3 col-md-3 print-align">
                                             <span class="label-simple">Method:</span>
                                         </div>
-                                        <div class="col-md-5">
+                                       
+                                        <div class=" col-xm-5 col-sm-5 col-md-5">
                                             {{vm.payment.methodOfPayment}}
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class=" col-md-3 print-align">
+                                        <div class=" col-xm-3 col-sm-3 col-md-3 print-align">
                                             <span class="label-simple">Amount Paid:</span>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-xm-3 col-sm-3 col-md-3">
                                             ${{vm.payment.amountPaid | number:2 }}
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class=" col-md-3 print-align">
+                                        <div class=" col-xm-3 col-sm-3 col-md-3 print-align">
                                             <span class="label-simple">User Type:</span>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-xm-3 col-sm-3 col-md-3">
                                             Sponsor
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class=" col-md-3 print-align">
+                                        <div class=" col-xm-3 col-sm-3 col-md-3 print-align">
                                             <span class="label-simple">Quantity:</span>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-xm-3 col-sm-3 col-md-3">
                                             1
                                         </div>
                                     </div>
@@ -155,7 +156,7 @@
                                         <div class=" col-md-3 print-align">
                                             <span class="label-simple">Description</span>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-xm-3 col-sm-3 col-md-3">
                                             {{vm.payment.description}}
                                         </div>
                                     </div>

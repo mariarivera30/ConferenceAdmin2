@@ -1,36 +1,36 @@
 ﻿<h3>Manage Sponsors</h3>
 <div ng-controller="profileSponsorCtrl as vm ">
   
-
-    <div class="col-lg-12" ng-show="vm.loading">
+    
+    <div class="col-xm-12 col-sm-12 col-md-12" ng-show="vm.loading">
         <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
     </div>
     
     <form ng-hide="vm.loading" name="addSponsorForm" id="addSponsorForm" novalidate >
-        <div class=" col-lg-12 right "><div class="right"><a href="#/ChangePassword">Change Password</a></div></div>
+        <div class=" col-xm-12 col-sm-12 col-md-12 right "><div class="right"><a href="#/ChangePassword">Change Password</a></div></div>
         <div class="row">
-            <div class="col-lg-6">
+            <div class=" col-xm-6 col-sm-6 col-md-6">
                 <label>Name:</label>
                 <input class="form-control" type="text" name="name" ng-model="vm.sponsor.firstName" required>
                 <p ng-show="addSponsorForm.name.$invalid && !addSponsorForm.name.$pristine" class="help-block">First name is required.</p>
             </div>
-            <div class="col-lg-6">
+            <div class=" col-xm-6 col-sm-6 col-md-6">
                 <label>Last Name:</label>
                 <input class="form-control" type="text" name="last" ng-model="vm.sponsor.lastName" required>
                 <p ng-show="addSponsorForm.last.$invalid && !addSponsorForm.last.$pristine" class="help-block">Last name is required.</p>
             </div>
         </div>
         <div class="row">
-
-            <div class=" col-lg-6">
+           
+            <div class=" col-xm-6 col-sm-6 col-md-6">
                 <label>Sponsor Type:</label>
-                
-                <input ng-show="vm.sponsor.active"   class=" form-control readonly" type="text" name="company" ng-model="vm.sponsor.typeName"  readonly>
-                
+
+                <input ng-show="vm.sponsor.active" class=" form-control readonly" type="text" name="company" ng-model="vm.sponsor.typeName" readonly>
+
                 <div ng-show="!vm.sponsor.active">Unactive Sponsor</div>
-                
+
             </div>
-            <div class=" col-lg-6">
+            <div class=" col-xm-6 col-sm-6 col-md-6">
                 <label>Company:</label>
                 <input class="form-control" type="text" name="company" ng-model="vm.sponsor.company" required>
                 <p ng-show="addSponsorForm.company.$invalid && !addSponsorForm.company.$pristine" class="help-block">Company name is required.</p>
@@ -39,51 +39,51 @@
 
         <h4>Address</h4>
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-xm-12 col-sm-12 col-md-12">
                 <label>Line 1</label>
                 <input class="form-control" type="text" name="line1" ng-model="vm.sponsor.line1" required>
                 <p ng-show="addSponsorForm.line1.$invalid && !addSponsorForm.line1.$pristine" class="help-block">Address is requiered.</p>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12 title-field">
+            <div class="col-xm-12 col-sm-12 col-md-12 title-field">
                 <label>Line 2</label>
                 <input class="form-control" type="text" name="" ng-model="vm.sponsor.line2">
             </div>
         </div>
 
         <div class="row">
-            <div class="col-lg-3">
+            <div class="col-xm-3 col-sm-3 col-md-3">
                 <label>City:</label>
                 <input class="form-control" class="for" type="text" name="city" ng-model="vm.sponsor.city" required>
                 <p ng-show="addSponsorForm.city.$invalid && !addSponsorForm.city.$pristine" class="help-block">City is required.</p>
             </div>
-            <div class="col-lg-3">
+            <div class="col-xm-3 col-sm-3 col-md-3">
                 <label>State:</label>
                 <input class="form-control" type="text" name="state" ng-model="vm.sponsor.state" required>
                 <p ng-show="addSponsorForm.state.$invalid && !addSponsorForm.state.$pristine" class="help-block">State is required.</p>
             </div>
-            <div class="col-lg-3">
+            <div class="col-xm-3 col-sm-3 col-md-3">
                 <label>Country:</label>
                 <input class="form-control" class="for" type="text" name="country" ng-model="vm.sponsor.country" required>
                 <p ng-show="addSponsorForm.country.$invalid && !addSponsorForm.country.$pristine" class="help-block">Country is required.</p>
             </div>
-            <div class="col-lg-3">
+            <div class="col-xm-3 col-sm-3 col-md-3">
                 <label>Zip Code:</label>
                 <input class="form-control" type="text" name="zipcode" ng-model="vm.sponsor.zipcode" ng-minlength="5" ng-maxlength="5" required>
                 <p ng-show="addSponsorForm.zipcode.$invalid && !addSponsorForm.zipcode.$pristine" class="help-block">Zip code is required.</p>
             </div>
         </div>
-
+        
         <h4>Contact Information</h4>
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-xm-6 col-sm-6 col-md-6">
                 <label>Email:</label>
                 <input class="form-control readonly" type="email" name="email" ng-model="vm.sponsor.email" readonly>
                 <p ng-show="addSponsorForm.email.$invalid && !addSponsorForm.email.$pristine" class="help-block">Email is required.</p>
 
             </div>
-            <span class="col-lg-6">
+            <span class=" col-xm-6 col-sm-6 col-md-6">
                 <label>Phone Number:</label>
                 <input class="form-control" type="text" name="phone" ng-model="vm.sponsor.phone" ng-minlength="9" ng-maxlength="10" required>
                 <p ng-show="addSponsorForm.phone.$invalid && !addSponsorForm.phone.$pristine" class="help-block">Phone number is required.</p>
@@ -94,17 +94,17 @@
 
         <div class="row">
 
-            <div class=" col-md-12">
+            <div class=" col-xm-12 col-sm-12 col-md-12">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class=" col-xm-6 col-sm-6 col-md-6">
                         <label> Upload Logo </label> <input id="inputFile" type="file" class="form-control" name="upload" file-model="File" on-read-file="showContent($fileContent, File)" required>
                         <a ng-if="content" type="submit" ng-click="vm.clearPic(File)"><i class="glyphicon glyphicon-trash"></i></a>
                         <p ng-show="vm.ext" class="help-block">Try pic,pict, png, jpg, jpeg or gif extention.</p>
-                        <div id="fileModel-load" class="col-lg-12">
+                        <div id="fileModel-load" class="col-xm-12 col-sm-12 col-md-12">
 
                         </div>
                     </div>
-                    <div ng-show="vm.sponsor.logo!= '' " class= "col-md-6">
+                    <div class=" col-xm-6 col-sm-6 col-md-6">
 
                         <label>Logo Image File:</label><br />
                         <button class="form-control" type="submit" class="btn btn-ar btn-primary right" ng-click="vm.downloadLogo()">Download</button>
@@ -113,11 +113,11 @@
                     </div>
                 </div>
 
-                <div class="col-md-12">
+                <div class="col-xm-12 col-sm-12 col-md-12">
 
                     <div class="row">
 
-                        <div class=" col-md-6">
+                        <div class=" col-xm-6 col-sm-6 col-md-6">
                             <label ng-if="content">New Logo:</label>
                             <img ng-if="content" class="img-responsive" ng-src="{{content}}" />
 
@@ -125,7 +125,7 @@
 
 
 
-                        <div ng-if="vm.currentSponsor.logo" class=" col-md-6   ">
+                        <div ng-if="vm.currentSponsor.logo" class="  col-xm-6 col-sm-6 col-md-6   ">
                             <label>Current Logo:</label>
                             <div>
                                 <img class="img-responsive" src="{{vm.currentSponsor.logo}}" />
@@ -135,7 +135,7 @@
 
                     </div>
 
-
+                   
 
                 </div>
             </div>

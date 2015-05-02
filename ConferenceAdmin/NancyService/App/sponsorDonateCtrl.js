@@ -99,21 +99,19 @@
         }
 
         function _sponsorPayment() {
-        
+            vm.sponsor.newAmount = vm.donation;
+            vm.sponsor.quantity = vm.donation * 100;
             restApi.sponsorPayment(vm.sponsor)
                 .success(function (data, status, headers, config) {
                    
                     vm.loadingUploading = false;
-                    if (data == null) {
-                        vm.toggleModal('error');
-                        window.open(data);
+                    if (data != null) {
+                       window.open(data);
                     }
                     else {
-                        
+                        vm.toggleModal('paymenterror');
                     }
                       
-                                        
-
                    }).
                    error(function (data, status, headers, config) {
                        vm.toggleModal('error');
@@ -125,7 +123,7 @@
 
         //This method validate the amount to be donated. Amount and sponsor type should match
         function _rangeInvalid() {
-            if (vm.sponsor != undefined && vm.sponsorType != undefined) {
+            if (vm.sponsor != undefined && vm.sponsorType != undefined ) {
             
                 if ((vm.sponsorType == 1) && ((vm.sponsor.amount + vm.donation) < (vm.sponsorsTypeList[vm.sponsorType-1].amount))) {
                     return true;
@@ -160,6 +158,17 @@
             if (action == "error") {
                 vm.obj.title = "Server Error",
                vm.obj.message1 = "Please refresh the page and try again.",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+            }
+            if (action == "paymenterror") {
+                vm.obj.title = "Payment Error",
+               vm.obj.message1 = "Please refresh the page and try to submit the payment again.",
                vm.obj.message2 = "",
                vm.obj.label = "",
                vm.obj.okbutton = true,

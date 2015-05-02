@@ -1,35 +1,36 @@
 ﻿<div ng-controller =" sponsorDonateCtrl as vm ">
-
+    
     <div  class= "row">
-        <div class=" col-md-6">
+        
+        <div class="col-xm-6 col-sm-6 col-md-6">
             <h3>Actual Status</h3>
             <p ng-show="!vm.sponsor.active">Inactive sponsor make your first donation!</p>
-            <div ng-show="vm.sponsor.active" class="row" ng-show="true">
+            <div ng-show="vm.sponsor.active" class="row">
                 <!--vm.sponsor.active-->
-                <div class=" col-md-12">
+                <div class="    col-xm-12 col-sm-12 col-md-12">
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class=" col-xm-5 col-sm-5 col-md-5">
                             <span class="label-simple">Sponsor Type:</span>
                         </div>
-                        <div class="col-md-2">
+                        <div class=" col-xm-5 col-sm-5 col-md-5">
 
                             {{vm.sponsor.typeName}}
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="  col-xm-5 col-sm-5 col-md-5">
                             <span class="label-simple">Donated </span>
                         </div>
-                        <div class="col-md-5">
+                        <div class="  col-xm-5 col-sm-5 col-md-5">
 
                             ${{vm.sponsor.amount}}
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class=" col-xm-5 col-sm-5 col-md-5">
                             <span class="label-simple">Benefits:</span>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-xm-6 col-sm-6 col-md-6">
 
                             <a href="" data-toggle="modal" ng-click="vm.showDetails(vm.sponsor.sponsorType)" data-target="#viewType">Details</a>
                         </div>
@@ -39,22 +40,24 @@
 
             </div>
         </div>
-        <div ng-hide="(vm.sponsor.active || vm.onTime )" class=" col-md-6">
+        <div ng-hide="(vm.sponsor.active || vm.onTime )" class="col-xm-6 col-sm-6 col-md-6">
             <h3>Deadline Expired!</h3>
             {{vm.deadlineInvalid}}
         </div>
-        <div ng-show="(vm.sponsor.active || vm.onTime )" class=" col-md-6">
+        <div ng-show="(vm.sponsor.active || vm.onTime )" class="col-xm-6 col-sm-6 col-md-6">
             <br />
 
             <h3>Donate</h3>
-            <div class=" col-md-5">
-                <label>Upgrade Sponsor Type:</label>
-                <select ng-model="vm.sponsorType"
-                        ng-options="type.sponsortypeID as type.name for type in vm.dropDown" class="form-control"></select>
-                <a href="" data-toggle="modal" ng-click="vm.showDetails(vm.sponsorType)" data-target="#viewType">Details</a>
+            <div class=" col-xm-5 col-sm-5 col-md-5">
+                <div class="row">
+                    <label>Upgrade Sponsor Type:</label>
+                    <select ng-model="vm.sponsorType"
+                            ng-options="type.sponsortypeID as type.name for type in vm.dropDown" class="form-control"></select>
+                    <a href="" data-toggle="modal" ng-click="vm.showDetails(vm.sponsorType)" data-target="#viewType">Details</a>
+                </div>
             </div>
-
-            <div class=" col-md-5">
+            <div class=" col-xm-1 col-sm-1 col-md-1"></div>
+            <div class=" col-xm-5 col-sm-5 col-md-5">
                 <div class="row">
                     <label ng-show="vm.sponsorType == 1">Amount: ${{vm.sponsorsTypeList[vm.sponsorType -1].amount }} ++</label>
                     <label ng-show="vm.sponsorType ==5">Amount: $1 - ${{vm.sponsorsTypeList[vm.sponsorType-1 ].amount -1}} </label>
@@ -64,11 +67,11 @@
                     <p ng-show="vm.rangeInvalid()">Amount out of range</p>
                     <br />
 
-
+                   
                 </div>
 
             </div>
-            <div class=" col-lg-1">
+            <div class=" col-xm-1 col-sm-1 col-md-1">
                 <br /><br />
 
             </div>
@@ -79,9 +82,9 @@
 
         </div>
     <div ng-show="(vm.sponsor.active || (vm.onTime ))" class=" row ">
-
-        <div class=" col-lg-4"></div>
-        <div class=" col-lg-7 ">
+    
+        <div class=" col-xm-4 col-sm-4 col-md-4"></div>
+        <div class="col-xm-7 col-sm-7 col-md-7">
             <div class=" row">
 
                 <p class="right">Total:   ${{vm.sponsor.amount | number:2}} +${{vm.donation | number:2}} = ${{vm.sponsor.amount + vm.donation | number:2}}</p>
@@ -95,19 +98,23 @@
             </div>
         </div>
 
-        <div class=" col-lg-1"></div>
+        <div class=" col-xm-1 col-sm-1 col-md-1"></div>
 
 
+    </div>
+    <div class="col-xm-6 col-sm-6 col-md-6">
+        <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
     </div>
     <div class="modal fade" id="viewType" tabindex="-1" role="dialog" aria-labelledby=viewSponsorLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="row">
-                        <div class="col-md-8"><h3>Sponsor Benefits</h3></div>
-                        <div class="col-md-4">
-                          
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button></div>
+                        <div class="col-xm-8 col-sm-8 col-md-8"><h3>Sponsor Benefits</h3></div>
+                        <div class=" col-xm-4 col-sm-4 col-md-4">
+
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                        </div>
                     </div>
 
 
@@ -116,10 +123,10 @@
                 <div class="modal-body">
                     <section id="body">
                         <div class="row">
-                            <div class="col-lg-12">
+                            <div class="   col-xm-12 col-sm-12 col-md-12">
                             </div>
 
-                            <div class="col-lg-12" ng-show="vm.detailType == 1">
+                            <div class="   col-xm-12 col-sm-12 col-md-12" ng-show="vm.detailType == 1">
                                 <div class="pricing-box animated fadeInUp animation-delay-1">
                                     <div class="pricing-box-header diamond">
                                         <h2>Diamond</h2>
@@ -145,7 +152,7 @@
                                 </div>
                             </div>
 
-                            <div class=" col-md-12" ng-show="vm.detailType == 2">
+                            <div class="   col-xm-12 col-sm-12 col-md-12" ng-show="vm.detailType == 2">
                                 <div class="pricing-box ">
                                     <div class="pricing-box-header platinum">
                                         <h2>Platinum- $ {{vm.iplatinumAmount}}</h2>
@@ -169,7 +176,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12" ng-show="vm.detailType == 3">
+                            <div class="    col-xm-12 col-sm-12 col-md-12" ng-show="vm.detailType == 3">
                                 <div class="pricing-box ">
                                     <div class="pricing-box-header gold">
                                         <h2>Gold-$ {{vm.igoldAmount}}</h2>
@@ -193,7 +200,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12" ng-show="vm.detailType == 4">
+                            <div class="   col-xm-12 col-sm-12 col-md-12" ng-show="vm.detailType == 4">
                                 <div class="pricing-box ">
                                     <div class="pricing-box-header silver">
                                         <h2>Silver-$ {{vm.isilverAmount}}</h2>
@@ -217,7 +224,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12" ng-show="vm.detailType == 5">
+                            <div class="   col-xm-12 col-sm-12 col-md-12" ng-show="vm.detailType == 5">
                                 <div class="pricing-box">
                                     <div class="pricing-box-header bronze">
                                         <h2>Bronze-$ {{vm.ibronzeAmount}}</h2>
