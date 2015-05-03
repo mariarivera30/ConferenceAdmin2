@@ -74,6 +74,7 @@
             vm.senderName = "";
             vm.senderEmail = "";
             vm.senderMessage = "";
+            $scope.contactForm.$setPristine();
         }
 
         function _reset() {

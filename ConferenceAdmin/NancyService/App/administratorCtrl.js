@@ -101,6 +101,7 @@
             vm.email = "";
             vm.firstName = "";
             vm.lastName = "";
+            $scope.addPrivilegeForm.$setPristine();
             var x = document.getElementsByName("privilegesAdd");
             var i;
             for (i = 0; i < x.length; i++) {

@@ -86,7 +86,7 @@ namespace NancyService.Modules
                                                                          country = s.user.address.country == "default" ? "" : s.user.address.country,
                                                                          zipCode = s.user.address.line1 == "default" ? "" : s.user.address.zipcode
                                                  
-                                                                    })).OrderBy(x => x.name);
+                                                                    }));
 
                     if (payments.Count() > 0)
                     {
@@ -217,6 +217,7 @@ namespace NancyService.Modules
                                      email = s.byAdmin == false ? s.user.membership.email : s.emailInfo,
                                      affiliation = s.user.affiliationName,
                                      userType = "Sponsor",
+                                     sponsorType= s.sponsortype1.name,
                                      amountPaid = bill.AmountPaid,
                                      paymentMethod = bill.methodOfPayment
                                  }).OrderBy(x => x.name); 
@@ -578,6 +579,7 @@ namespace NancyService.Modules
         public String state;
         public String country;
         public String zipCode;
+        public String sponsorType;
 
     }
 

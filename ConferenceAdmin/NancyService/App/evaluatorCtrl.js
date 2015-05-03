@@ -107,6 +107,7 @@
 
         function _clear() {
             vm.email = "";
+            $scope.addEvaluatorForm.$setPristine();
         }
 
         //Pending List Methods

@@ -63,6 +63,7 @@
 
         function _clear() {
             vm.name = "";
+            $scope.addTopicForm.$setPristine();
         }
 
         function _selectedTopicUpdate(id, name) {
