@@ -203,11 +203,14 @@ namespace NancyService.Modules
             Put["/addSubmissionFile"] = parameters =>
                 {
                     documentssubmitted doc = this.Bind<documentssubmitted>();
-
-                    if (submission.addSubmissionFile(doc))
-                        return HttpStatusCode.OK;
-                    else
-                        return HttpStatusCode.Conflict;
+                    if (doc.document != null)
+                    {
+                        if (submission.addSubmissionFile(doc))
+                            return HttpStatusCode.OK;
+                        else
+                            return HttpStatusCode.Conflict;
+                    }
+                    else return HttpStatusCode.Conflict;
                 };
             //manage existing files for a submission
             Put["/manageExistingFiles"] = parameters =>
