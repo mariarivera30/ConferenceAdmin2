@@ -248,7 +248,8 @@
             restApi.getSubmissionFile(id).
                 success(function (data, status, headers, config) {
                     //window.open(data.document);
-                    $("#file-"+id).attr("href", data.document).attr("download", data.documentName);
+
+                    $("#file-" + id).attr("href", data.document).attr("download", data.documentName);
                     
                     //var file = new Blob([data.document]);
                     //saveAs(file, data.documentName);
@@ -490,6 +491,7 @@
             vm.evaluationsList.forEach(function (eva, index) {
                 if (eva.evaluatorID == evaluatorID) {
                     vm.exists = true;
+                    vm.processing = false;
                 }
             });
 
@@ -734,7 +736,11 @@
                     submission.byAdmin = true;
                     restApi.postAdminFinalSubmission(submission)
                             .success(function (data, status, headers, config) {
-
+                                $('#success').modal({                    // wire up the actual modal functionality and show the dialog
+                                    "backdrop": "static",
+                                    "keyboard": true,
+                                    "show": true                     // ensure the modal is shown immediately
+                                })
                                 //manage existing list of files
                                 var IDsList = [];
                                 vm.documentsList.forEach(function (doc, index) {
@@ -907,7 +913,7 @@
                 });
         }
 
-        /* to preview image */
+        /* check extension */
         $scope.showContent = function ($fileContent) {
             vm.content = $fileContent;
             vm.fileext = vm.myFile.name.split(".", 2)[1];
@@ -994,7 +1000,19 @@
         function _getSubmissionsReport() {
             restApi.getSubmissionsReport().
                 success(function (data, status, headers, config) {
-                    window.open(data);
+                    //window.open(data);
+
+                    if (data != null && data != "") {
+                        var report = data;
+                        //vm.downloadLoading = false;
+                        //vm.loading = false;
+
+                        if (report != "" && report != undefined) {
+                            var blob = new Blob([report], { type: "text/plain;charset=utf-8" });
+                            saveAs(blob, "Submissions_Report.csv");
+                        }
+                    }
+
                     //var file = new Blob([data]);
                     //saveAs(file, "Submissions_Report.csv");
                 }).
