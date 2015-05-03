@@ -248,7 +248,8 @@
             restApi.getSubmissionFile(id).
                 success(function (data, status, headers, config) {
                     //window.open(data.document);
-                    $("#file-"+id).attr("href", data.document).attr("download", data.documentName);
+
+                    $("#file-" + id).attr("href", data.document).attr("download", data.documentName);
                     
                     //var file = new Blob([data.document]);
                     //saveAs(file, data.documentName);
@@ -490,6 +491,7 @@
             vm.evaluationsList.forEach(function (eva, index) {
                 if (eva.evaluatorID == evaluatorID) {
                     vm.exists = true;
+                    vm.processing = false;
                 }
             });
 
@@ -611,6 +613,12 @@
                             var params1 = { submissionID: data.submissionID, IDsList: IDsList };
                             restApi.manageExistingFiles(params1)
                                 .success(function (data2, status2, headers2, config2) {
+                                    $('#success').modal({                    // wire up the actual modal functionality and show the dialog
+                                        "backdrop": "static",
+                                        "keyboard": true,
+                                        "show": true                     // ensure the modal is shown immediately
+                                    });
+
                                     vm.documentsList.forEach(function (doc, index) {
 
                                         //add new files
@@ -666,6 +674,11 @@
                 //submission.documentssubmitteds = vm.documentsList;
                 restApi.editSubmission(submission)
                        .success(function (data, status, headers, config) {
+                           $('#success').modal({                    // wire up the actual modal functionality and show the dialog
+                               "backdrop": "static",
+                               "keyboard": true,
+                               "show": true                     // ensure the modal is shown immediately
+                           });
 
                            //manage existing list of files
                            var IDsList = [];
@@ -677,19 +690,21 @@
                            restApi.manageExistingFiles(params1)
                                .success(function (data2, status2, headers2, config2) {
                                    vm.documentsList.forEach(function (doc, index) {
-
+                                       if (doc.document != undefined && doc.document != null && doc.document != ""){
                                        //add new files
                                        var params = { documentssubmittedID: doc.documentssubmittedID, documentName: doc.documentName, document: doc.document, submissionID: data.submissionID };
                                        restApi.addFileToSubmission(params)
                                            .success(function (data3, status3, headers3, config3) {
-                                               
+                                               vm.documentsList.push(doc);
                                                _getAllSubmissions(vm.sindex);
                                            })
                                            .error(function (error) {
                                            });
+                                       }
                                        //end add new files
                                    });
                                    _getSubmissionView(vm.submissionID);
+                                   _getAllSubmissions(vm.sindex);
                                })
                                .error(function (error) {
                                });
@@ -734,7 +749,11 @@
                     submission.byAdmin = true;
                     restApi.postAdminFinalSubmission(submission)
                             .success(function (data, status, headers, config) {
-
+                                $('#success').modal({                    // wire up the actual modal functionality and show the dialog
+                                    "backdrop": "static",
+                                    "keyboard": true,
+                                    "show": true                     // ensure the modal is shown immediately
+                                });
                                 //manage existing list of files
                                 var IDsList = [];
                                 vm.documentsList.forEach(function (doc, index) {
@@ -745,15 +764,16 @@
                                 restApi.createFinalSubmissionFiles(params1)
                                     .success(function (data2, status2, headers2, config2) {
                                         vm.documentsList.forEach(function (doc, index) {
-
-                                            //add new files
-                                            var params = { documentssubmittedID: doc.documentssubmittedID, documentName: doc.documentName, document: doc.document, submissionID: data.submissionID };
-                                            restApi.addFileToSubmission(params)
-                                                .success(function (data3, status3, headers3, config3) {
-
-                                                })
-                                                .error(function (error) {
-                                                });
+                                            if (doc.document != undefined && doc.document != null && doc.document != "") {
+                                                //add new files
+                                                var params = { documentssubmittedID: doc.documentssubmittedID, documentName: doc.documentName, document: doc.document, submissionID: data.submissionID };
+                                                restApi.addFileToSubmission(params)
+                                                    .success(function (data3, status3, headers3, config3) {
+                                                        vm.documentsList.push(doc);
+                                                    })
+                                                    .error(function (error) {
+                                                    });
+                                            }
                                             //end add new files
                                         });
                                     })
@@ -907,7 +927,7 @@
                 });
         }
 
-        /* to preview image */
+        /* check extension */
         $scope.showContent = function ($fileContent) {
             vm.content = $fileContent;
             vm.fileext = vm.myFile.name.split(".", 2)[1];
@@ -995,8 +1015,20 @@
             restApi.getSubmissionsReport().
                 success(function (data, status, headers, config) {
                     //window.open(data);
-                    var file = new Blob([data]);
-                    saveAs(file, "Submissions_Report.csv");
+
+                    if (data != null && data != "") {
+                        var report = data;
+                        //vm.downloadLoading = false;
+                        //vm.loading = false;
+
+                        if (report != "" && report != undefined) {
+                            var blob = new Blob([report], { type: "text/plain;charset=utf-8" });
+                            saveAs(blob, "Submissions_Report.csv");
+                        }
+                    }
+
+                    //var file = new Blob([data]);
+                    //saveAs(file, "Submissions_Report.csv");
                 }).
                 error(function (data, status, headers, config) {
 

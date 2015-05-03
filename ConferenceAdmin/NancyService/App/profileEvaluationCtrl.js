@@ -88,6 +88,7 @@
         vm.downloadEvaluationTemplate = _downloadEvaluationTemplate;
         vm.downloadEvaluationFile = _downloadEvaluationFile;
         vm.openDocumentSubmitted = _openDocumentSubmitted;
+        vm.resetDownloadLink = _resetDownloadLink;
 
         _getAssignedSubmissions(vm.sindex);
 
@@ -98,8 +99,8 @@
 
         function _downloadEvaluationFile() {
             var data = { submissionID: vm.modalsubmissionID, evaluatorID: vm.modalevaluatorID };
-           //window.open(vm.modalevaluationFile);
-           restApi.getEvaluationFile(data).
+            //window.open(vm.modalevaluationFile);
+            restApi.getEvaluationFile(data).
                 success(function (data, status, headers, config) {
                     //window.open(data.evaluationFile);
 
@@ -111,10 +112,11 @@
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");
                 });
-       }
-       function _downloadEvaluationTemplate(id) {
-           //window.open(vm.modalevaluationTemplate);
-           restApi.getEvaluationTemplate(id).
+        }
+
+        function _downloadEvaluationTemplate(id) {
+            //window.open(vm.modalevaluationTemplate);
+            restApi.getEvaluationTemplate(id).
                 success(function (data, status, headers, config) {
                     //window.open(data.evaluationFile);
 
@@ -126,7 +128,7 @@
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");
                 });
-       };
+        };
 
         function _hideEvaluationForm() {
             vm.evaluate = false;
@@ -267,9 +269,20 @@
                   });
         }
 
-        //para preview la imagen
+        /* check file extension */
         $scope.showContent = function ($fileContent) {
             vm.content = $fileContent;
+            vm.fileext = vm.myFile.name.split(".", 2)[1];
+            if (vm.fileext == "pdf" || vm.fileext == "doc" || vm.fileext == "docx" || vm.fileext == "ppt")
+                vm.ext = false;
+            else {
+                document.getElementById("browseButton").value = "";
+                vm.ext = true;
+                $scope.content = "";
+                $fileContent = "";
+                vm.myFile = undefined;
+                File.name = "";
+            }
         };
 
         function _addEvaluation() {            
@@ -289,7 +302,7 @@
                 }
                 restApi.postEvaluation(evaluation)
                         .success(function (data, status, headers, config) {
-                           vm.submissionlist.forEach(function (submission, index) {
+                            vm.submissionlist.forEach(function (submission, index) {
                                 if (submission.submissionID == vm.modalsubmissionID) {
                                     submission.isEvaluated = true;
                                     submission.publicFeedback = vm.modalpublicFeedback;
@@ -300,11 +313,11 @@
                                     submission.evaluationName = vm.modalevaluationName;
                                     submission.allowFinalVersion = vm.modalAllowFinalVersion;
                                 }
-                           })
-                           if (vm.myFile != undefined) {
-                               vm.modalevaluationFile = vm.content;
-                               vm.modalevaluationName = vm.myFile.name;
-                           }
+                            })
+                            if (vm.myFile != undefined) {
+                                vm.modalevaluationFile = vm.content;
+                                vm.modalevaluationName = vm.myFile.name;
+                            }                           
                         })
                         .error(function (error) {
 

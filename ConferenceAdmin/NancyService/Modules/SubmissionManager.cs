@@ -1049,7 +1049,7 @@ namespace NancyService.Modules
                         subDoc.deleted = false;
                         context.documentssubmitteds.Add(subDoc);
                         context.SaveChanges();                                
-                    return true;
+                    return true;                               
                 }
             }
             catch (Exception ex)

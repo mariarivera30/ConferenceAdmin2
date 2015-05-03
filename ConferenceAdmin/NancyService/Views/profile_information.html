@@ -99,95 +99,108 @@
             <button class="btn btn-ar btn-primary right" ng-click="vm.updateProfileInfo()">Save Changes</button>-->
             <span class="right" ng-show="vm.userTypeID == 6">Companion Key: <b>{{vm.key}}</b></span>
         </h3><br ng-show="vm.userTypeID == 6" />
-        <div class="row">
-            <div class="col-lg-6">
-                <h5 class="after-title-field">First Name</h5>
-                <input type="text" ng-model="vm.firstName" class="form-control">
-            </div>
-            <div class="col-lg-6">
-                <h5 class="after-title-field">Last Name</h5>
-                <input type="text" ng-model="vm.lastName" class="form-control">
-            </div>
-        </div><br />
+        <form name="generalInfo">
+            <div class="row">
+                <div class=" col-xm-12 col-sm-12 col-md-12 right "><div class="right"><a href="#/ChangePassword">Change Password</a></div></div>
+                <div class="col-lg-6">
+                    <label class="after-title-field">First Name:</label>
+                    <input type="text" name="name" ng-model="vm.firstName" class="form-control" required>
+                    <p ng-show="generalInfo.name.$invalid && !generalInfo.name.$pristine">* First Name is required.</p>
+                </div>
+                <div class="col-lg-6">
+                    <label class="after-title-field">Last Name:</label>
+                    <input type="text" name="lastname" ng-model="vm.lastName" class="form-control" required>
+                    <p ng-show="generalInfo.lastname.$invalid && !generalInfo.lastname.$pristine">* Last Name is required.</p>
+                </div>
+            </div><br />
 
-        <div class="row">
-            <div class="col-lg-6">
-                <h5 class="after-title-field">Affiliation</h5>
-                <input type="text" ng-model="vm.affiliationName" class="form-control">
+            <div class="row">
+                <div class="col-lg-6">
+                    <label class="after-title-field">Affiliation:</label>
+                    <input type="text" name="affiliation" ng-model="vm.affiliationName" class="form-control" required>
+                    <p ng-show="generalInfo.affiliation.$invalid && !generalInfo.affiliation.$pristine">* Affiliation is required.</p>
+                </div>
+                <div class="col-lg-6">
+                    <label class="after-title-field">Title:</label>
+                    <input type="text" name="title" ng-model="vm.title" class="form-control" required>
+                    <p ng-show="generalInfo.title.$invalid && !generalInfo.title.$pristine">* Title is required.</p>
+                </div>
             </div>
-            <div class="col-lg-6">
-                <h5 class="after-title-field">Title</h5>
-                <input type="text" ng-model="vm.title" class="form-control">
-            </div>
-        </div>
 
-        <h4>Mailing Address</h4>
-        <div class="row">
-            <div class="col-lg-12">
-                <h5 class="after-title-field">Line 1</h5>
-                <input type="text" ng-model="vm.addressLine1" class="form-control">
+            <h4>Mailing Address</h4>
+            <div class="row">
+                <div class="col-lg-12">
+                    <label class="after-title-field">Line 1:</label>
+                    <input type="text" name="line1" ng-model="vm.addressLine1" class="form-control" required>
+                    <p ng-show="generalInfo.line1.$invalid && !generalInfo.line1.$pristine">* Address is required.</p>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12 title-field">
-                <h5 class="after-title-field">Line 2</h5>
-                <input type="text" ng-model="vm.addressLine2" class="form-control">
+            <div class="row">
+                <div class="col-lg-12 title-field">
+                    <label class="after-title-field">Line 2:</label>
+                    <input type="text" name="line2" ng-model="vm.addressLine2" class="form-control">
+                </div>
             </div>
-        </div>
-        <br />
-        <div class="row">
-            <div class="col-lg-3">
-                <h5 class="after-title-field">City</h5>
-                <input type="text" ng-model="vm.city" class="form-control">
+            <br />
+            <div class="row">
+                <div class="col-lg-3">
+                    <label class="after-title-field">City:</label>
+                    <input type="text" name="city" ng-model="vm.city" class="form-control" required>
+                    <p ng-show="generalInfo.city.$invalid && !generalInfo.city.$pristine">* City is required.</p>
+                </div>
+                <div class="col-lg-3">
+                    <label class="after-title-field">State:</label>
+                    <input type="text" name="state" ng-model="vm.state" class="form-control" required>
+                    <p ng-show="generalInfo.state.$invalid && !generalInfo.state.$pristine">* State is required.</p>
+                </div>
+                <div class="col-lg-3">
+                    <label class="after-title-field">Country:</label>
+                    <input type="text" name="country" ng-model="vm.country" class="form-control" required>
+                    <p ng-show="generalInfo.country.$invalid && !generalInfo.country.$pristine">* Country is required.</p>
+                </div>
+                <div class="col-lg-3">
+                    <label class="after-title-field">Zip Code:</label>
+                    <input type="text" name="zip" ng-model="vm.zipcode" class="form-control" required>
+                    <p ng-show="generalInfo.zip.$invalid && !generalInfo.zip.$pristine">* Zip Code is required.</p>
+                </div>
             </div>
-            <div class="col-lg-3">
-                <h5 class="after-title-field">State</h5>
-                <input type="text" ng-model="vm.state" class="form-control">
-            </div>
-            <div class="col-lg-3">
-                <h5 class="after-title-field">Country</h5>
-                <input type="text" ng-model="vm.country" class="form-control">
-            </div>
-            <div class="col-lg-3">
-                <h5 class="after-title-field">Zip Code</h5>
-                <input type="text" ng-model="vm.zipcode" class="form-control">
-            </div>
-        </div>
 
-        <h4>Contact Information</h4>
-        <div class="row">
-            <div class="col-lg-6">
-                <h5 class="after-title-field">Email</h5>
-                <input type="text" ng-model="vm.email" class="form-control readonly" readonly>
+            <h4>Contact Information</h4>
+            <div class="row">
+                <div class="col-lg-6">
+                    <label class="after-title-field">Email:</label>
+                    <input type="email" ng-model="vm.email" class="form-control readonly" readonly>
+                </div>
+                <div class="col-lg-3">
+                    <label class="after-title-field">Phone Number:</label>
+                    <input type="tel" name="phone" ng-model="vm.phone" class="form-control" ng-minlength="9" maxlength="10" required>
+                    <p ng-show="generalInfo.phone.$invalid && !generalInfo.phone.$pristine">* Phone Number is required.</p>
+                </div>
+                <div class="col-lg-3">
+                    <label class="after-title-field">Fax:</label>
+                    <input type="tel" ng-model="vm.userFax" class="form-control">
+                </div>
             </div>
-            <div class="col-lg-3">
-                <h5 class="after-title-field">Phone Number</h5>
-                <input type="text" ng-model="vm.phone" class="form-control">
-            </div>
-            <div class="col-lg-3">
-                <h5 class="after-title-field">Fax</h5>
-                <input type="text" ng-model="vm.userFax" class="form-control">
-            </div>
-        </div>
 
-        <h4 ng-show="vm.date1 || vm.date2 || vm.date3">Participation Days</h4>
-        <div class="row" ng-show="vm.date1 || vm.date2 || vm.date3">
-            <div class="col-lg-4">
-                <span class="block" ng-show="vm.date1">{{vm.datesList[0]}}</span>
-                <span class="block" ng-show="vm.date2">{{vm.datesList[1]}}</span>
-                <span class="block" ng-show="vm.date3">{{vm.datesList[2]}}</span>
+            <h4 ng-show="vm.date1 || vm.date2 || vm.date3">Participation Days</h4>
+            <div class="row" ng-show="vm.date1 || vm.date2 || vm.date3">
+                <div class="col-lg-4">
+                    <span class="block" ng-show="vm.date1">{{vm.datesList[0]}}</span>
+                    <span class="block" ng-show="vm.date2">{{vm.datesList[1]}}</span>
+                    <span class="block" ng-show="vm.date3">{{vm.datesList[2]}}</span>
+                </div>
             </div>
-        </div>
 
-        <h4 ng-show="vm.notes != null && vm.notes != ''">Notes</h4>
-        <div class="row" ng-show="vm.notes != null && vm.notes != ''">            
-            <div class="col-lg-8">
-                {{vm.notes}}
+            <h4 ng-show="vm.notes != null && vm.notes != ''">Notes</h4>
+            <div class="row" ng-show="vm.notes != null && vm.notes != ''">
+                <div class="col-lg-8">
+                    {{vm.notes}}
+                </div>
             </div>
-        </div>
+        </form>
 
-        <br />
-        <button class="btn btn-ar btn-primary" ng-click="vm.updateProfileInfo()" data-toggle="modal" data-target="#notificationModal">Save</button>
+        <br /><hr />
+        <button class="btn btn-ar btn-primary" ng-click="vm.updateProfileInfo()" data-toggle="modal" data-target="#notificationModal" ng-disabled="generalInfo.$invalid">Save</button>
         <button class="btn btn-ar btn-default" ng-click="vm.getProfileInfo(vm.userID)">Cancel</button>
 
     </div>

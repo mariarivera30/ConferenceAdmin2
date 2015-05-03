@@ -296,7 +296,7 @@
 
                     if (report != "" && report != undefined) {
                         var blob = new Blob([report], { type: "text/plain;charset=utf-8" });
-                        saveAs(blob, "attendancereport.csv");
+                        saveAs(blob, "Attendance_Report.csv");
                     }
                 }
             })
