@@ -288,10 +288,17 @@
         function _updateAcceptanceStatus() {
 
             if (vm.evaluator != null) {
+                var element;
+                var btn;
 
-                var element = document.getElementById("loading-" + vm.evaluator.userID);
-                var btn = document.getElementById("button-" + vm.evaluator.userID);
-
+                if (vm.showResults && vm.searchResults.length > 0) {
+                    element = document.getElementById("sloading-" + vm.evaluator.userID);
+                    btn = document.getElementById("sbutton-" + vm.evaluator.userID);
+                }
+                else {
+                    element = document.getElementById("loading-" + vm.evaluator.userID);
+                    btn = document.getElementById("button-" + vm.evaluator.userID);
+                }
 
                 if (element != null && btn != null) {
                     btn.style.display = "none";
@@ -308,8 +315,23 @@
                     var changeStatus = { userID: vm.evaluator.userID, acceptanceStatus: vm.acceptanceStatus };
                     restApi.updateEvaluatorAcceptanceStatus(changeStatus)
                         .success(function (data, status, headers, config) {
-                            if (data){
+                            if (data) {
+
+                               if (vm.showResults && vm.searchResults.length > 0) {
+                                        vm.searchResults.forEach(function (eva, index) {
+                                        if (eva.userID == vm.evaluator.userID) {
+                                            eva.acceptanceStatus = vm.acceptanceStatus;
+                                            if (element != null && btn != null) {
+                                                element.className = "";
+                                                btn.style.display = "";
+                                            }
+                                            $("#confirmationEvaluatorAcceptanceChange").modal('show');
+                                            }
+                                        });
+                                }
+
                                 if (vm.evaluator.acceptanceStatus == "Pending") {
+
                                     vm.pendingList.forEach(function (s, index) {
                                         if (s.userID == vm.evaluator.userID) {
                                             s.acceptanceStatus = vm.acceptanceStatus;
@@ -324,7 +346,8 @@
                                         }
                                     });
                                 }
-                                else {
+
+                                if (vm.evaluator.acceptanceStatus == "Accepted" || vm.evaluator.acceptanceStatus == "Rejected") {
                                     vm.evaluatorsList.forEach(function (eva, index) {
                                         if (eva.userID == vm.evaluator.userID) {
                                             eva.acceptanceStatus = vm.acceptanceStatus;

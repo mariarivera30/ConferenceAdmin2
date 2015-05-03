@@ -147,9 +147,12 @@
                             <td>{{evaluator.acceptanceStatus}}</td>
                             <td>
                                 <!-- DropDown Menu showing available status options. -->
-                                <select ng-model="evaluator.optionStatus"
-                                        ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
-                                <button class="btn btn-ar btn-primary" ng-click="vm.selectedEvaluator(evaluator)" data-toggle="modal" data-target="#updateConfirmation">Apply</button>
+                                <div id="sbutton-{{evaluator.userID}}">
+                                    <select ng-model="evaluator.optionStatus"
+                                            ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
+                                    <button class="btn btn-ar btn-primary" ng-click="vm.selectedEvaluator(evaluator)" ng-disabled="(evaluator.optionStatus == 'Accept' && evaluator.acceptanceStatus == 'Accepted') || (evaluator.optionStatus == 'Reject' && evaluator.acceptanceStatus == 'Rejected')" data-toggle="modal" data-target="#updateConfirmation">Apply</button>
+                                </div>
+                                <span id="sloading-{{evaluator.userID}}"></span>
                             </td>
                         </tr>
                     </tbody>
