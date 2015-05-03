@@ -258,18 +258,30 @@
                 restApi.editAdmin(vm.userID, vm.privilegeID, vm.oldPrivilegeID)
                 .success(function (data, status, headers, config) {
                     if (data != null && data != "") {
+
+                        if (vm.showResults && vm.searchResults.length > 0) {
+                            vm.searchResults.forEach(function (admin, index) {
+                            if (admin.userID == vm.userID) {
+                                admin.privilege = data;
+                                admin.privilegeID = vm.privilegeID;
+                              }
+                          });
+                        }
+
                         vm.adminList.forEach(function (admin, index) {
                             if (admin.userID == vm.userID) {
                                 admin.privilege = data;
                                 admin.privilegeID = vm.privilegeID;
                             }
                         });
+                        _clear();
                         $("#editPrivilege").modal('hide');
                         $("#editConfirm").modal('show');
                     }
                     vm.loading = false;
                 })
                 .error(function (data, status, headers, config) {
+                    _clear();
                     vm.loading = false;
                     $("#editPrivilege").modal('hide');
                     vm.toggleModal('error');
@@ -283,16 +295,31 @@
                 restApi.deleteAdmin(vm.userID, vm.privilegeDelID)
                 .success(function (data, status, headers, config) {
                     if (data) {
+
+                        if(vm.showResults && vm.searchResults.length > 0) {
+                            vm.searchResults.forEach(function (admin, index) {
+                            if (admin.userID == vm.userID) {
+                                   vm.searchResults.splice(index, 1);
+                                   if (vm.searchResults.length <= 0) {
+                                        $("#delete").modal('hide');
+                                        _back();
+                                    }
+                                }
+                            });
+                        }
+
                         vm.adminList.forEach(function (admin, index) {
                             if (admin.userID == vm.userID) {
                                 vm.adminList.splice(index, 1);
                             }
                         });
                         vm.loading = false;
+                        $("#delete").modal('hide');
                         $("#deleteConfirm").modal('show');
                     }
                     else {
                         vm.loading = false;
+                        $("#delete").modal('hide');
                         vm.toggleModal('error');
                     }
                 })
