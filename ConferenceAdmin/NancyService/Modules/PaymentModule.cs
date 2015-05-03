@@ -12,6 +12,8 @@ namespace NancyService.Modules
     {
         PaymentManager paymentManager = new PaymentManager();
         SponsorManager sponsorManager = new SponsorManager();
+        AdminManager adminManager = new AdminManager();
+        ProfileInfoManager profileInfoManager = new ProfileInfoManager();
         public PaymentModule(ITokenizer tokenizer)
             : base("/payment")
         {
@@ -48,18 +50,24 @@ namespace NancyService.Modules
             };
       //
             Put["/SponsorPayment"] = parameters =>
-                {
+                {   string sponsorProductID = "RECA0185";//registro
+       
                     var sponsor = this.Bind<NancyService.Modules.SponsorManager.SponsorQuery>();
                     var temp = this.Bind<PaymentXML>();
-                    
+                    temp.productID = sponsorProductID;
                     temp.IP =this.Request.UserHostAddress;
-                   
+                  
+                    PaymentInfo payInfo = new PaymentInfo();
+                    payInfo.phone=sponsor.phone;
+                    payInfo.amount = sponsor.newAmount;
+                    payInfo.paymentID =sponsorManager.getPaymentID(sponsor.sponsorID);
+                    payInfo.isUser = false;
                     xmlTransacctionID action = paymentManager.MakeWebServiceCall(temp);
                     if (action.error == "000")
                         {
-                           long paymentId= sponsorManager.getPaymentID(sponsor.sponsorID);
-                           if (paymentId != 0) { //dont exist a sponsor 
-                                paymentManager.createPaymentBill(paymentId,sponsor.newAmount,action.transactionID);
+                          
+                           if (payInfo.paymentID != 0) { //dont exist a sponsor 
+                                paymentManager.createPaymentBill(payInfo,action.transactionID);
                                 string secureLink = "https://secure2.uprm.edu/payment/index.php?id=" + action.transactionID;
                                 return Response.AsJson(secureLink);
                            }
@@ -76,35 +84,70 @@ namespace NancyService.Modules
                  
                 };
 
-            Put["/UserPayment"] = parameters =>
-            {
-              var sponsor = this.Bind<NancyService.Modules.SponsorManager.SponsorQuery>();
-                var temp = this.Bind<PaymentXML>();
-                temp.quantity = (sponsor.newAmount * 100).ToString();
-                temp.IP = HttpContext.Current.Request.UserHostAddress;
 
-                xmlTransacctionID action = paymentManager.MakeWebServiceCall(temp);
-                if (action.error == "000")
+            Put["/userPayment"] = parameters =>
+            {
+                string userProductID = "RECA0186";//registro
+                var user = this.Bind<UserInfo>();
+                var temp = this.Bind<PaymentXML>();
+                temp.line1 = user.addressLine1;
+                temp.line2 = user.addressLine2;
+                temp.phone=user.phone;
+                temp.productID = userProductID;
+                temp.IP = this.Request.UserHostAddress;
+                
+                PaymentInfo payInfo = profileInfoManager.userPayment(user);
+                payInfo.phone = user.phone;
+                payInfo.isUser = true;
+                if (payInfo != null)
                 {
-                    //   long userId= sponsorManager.getUserID(sponsor.sponsorID);
-                    //   if (userId != 0) { //dont exist a user 
-                    paymentManager.createPaymentBill(sponsor.sponsorID,sponsor.newAmount, action.transactionID);
-                    string secureLink = "https://secure2.uprm.edu/payment/index.php?id=" + action.transactionID;
-                    return Response.AsJson(secureLink);
-                    // }
-                    //else
-                    //{
-                    //    return HttpStatusCode.Conflict;
-                    //}
+                    temp.quantity = (payInfo.amount * 100).ToString();
+                    xmlTransacctionID action = paymentManager.MakeWebServiceCall(temp);
+
+                    if (action.error == "000")
+                    {
+                        paymentManager.createPaymentBill(payInfo, action.transactionID);
+                        string secureLink = "https://secure2.uprm.edu/payment/index.php?id=" + action.transactionID;
+                        return Response.AsJson(secureLink);
+                    }
+                    else
+                    {
+                        string errorLink = null;
+                        return Response.AsJson(errorLink);
+                    }
                 }
                 else
                 {
-                    string errorLink = "http://localhost:12036/#/PaymentError";
-                    return Response.AsJson(errorLink);
+                    return HttpStatusCode.Conflict;
                 }
 
             };
+            Get["/getUserPayment/{id:long}"] = parameters =>
+            {
+                long id = parameters.id;
 
+                PaymentQuery result = paymentManager.getUserPayment(id);
+
+                if (result != null)
+                {
+                    if(result.paymentBillID!=-1){
+                        return Response.AsJson(result);
+                    }
+                    else
+                    {
+                        return Response.AsJson("");
+                    }
+                   
+                }
+
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+
+
+            };
+            
             Get["/GetPayment/{id:long}"] = parameters =>
             {
                 long id = parameters.id;

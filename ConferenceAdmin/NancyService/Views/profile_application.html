@@ -101,11 +101,12 @@
                             <div class="col-md-12">
                                 <br />
                                 Your total amount to pay is <strong ng-hide="vm.correctComplementaryKey">{{vm.userTypesList[vm.userTypeID + 1].registrationCost | currency}}</strong> <strong ng-show="vm.correctComplementaryKey">$0.00</strong>.
-                                <a ng-hide="vm.correctComplementaryKey" href="https://knowledgecenter.zuora.com/@api/deki/files/873/sample_page.png" target="_blank" class="btn btn-ar btn-primary right" 
+                                <a ng-hide="vm.correctComplementaryKey" ng-disable="vm.loading" ng-click="vm.userPayment()" target="_blank" class="btn btn-ar btn-primary right"
                                    ng-disabled="(vm.userTypeID == 1 && vm.hasKey == false) || (vm.userTypeID == 1 && vm.hasKey == true && vm.companionRegistered==false)
                                     || (vm.datesList.length==3 && (vm.date3!=true && vm.date2!=true && vm.date1!=true))
                                     || (vm.datesList.length==2 && (vm.date2!=true && vm.date1!=true))
                                     || (vm.datesList.length==1 && (vm.date1!=true))">Make Payment</a>
+
                                 <a ng-show="vm.correctComplementaryKey" href="" data-dismiss="modal" class="btn btn-ar btn-primary right" ng-click="vm.complementaryPayment()"
                                    ng-disabled="(vm.datesList.length==3 && (vm.date3!=true && vm.date2!=true && vm.date1!=true))
                                     || (vm.datesList.length==2 && (vm.date2!=true && vm.date1!=true))
@@ -116,7 +117,8 @@
                                 <label class="right" ng-show="(vm.datesList.length==3 && (vm.date3!=true && vm.date2!=true && vm.date1!=true))
                                     || (vm.datesList.length==2 && (vm.date2!=true && vm.date1!=true))
                                     || (vm.datesList.length==1 && (vm.date1!=true))"><i>* Please select the date(s) you will be attending to.</i></label>
-                            </div>                                                           
+                            </div>  
+                                                                            
 
                         </div>
                     </div>
@@ -127,6 +129,9 @@
 
                 </div>
             </div>
+        </div>
+        <div class="col-lg-12 uploading-top" ng-show="vm.loading">
+            <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
         </div>
     </div>
 

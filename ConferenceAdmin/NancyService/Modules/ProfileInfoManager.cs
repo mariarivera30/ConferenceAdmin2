@@ -216,6 +216,71 @@ namespace NancyService.Modules
             }
         }
 
+        public PaymentInfo userPayment(UserInfo user)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    PaymentInfo pay = new PaymentInfo();
+                    payment payment = new payment();
+                    var registrationExist = context.registrations.Where(x => x.userID == user.userID).FirstOrDefault();
+                    if (registrationExist == null)
+                    {
+                        
+                       payment.paymentTypeID = 1;
+                       payment.deleted = false;
+                       payment.creationDate = DateTime.Now.Date;
+                      
+                        context.payments.Add(payment);
+                        context.SaveChanges();
+                        //Check if exist a registration then take it and edit it 
+                        registration registration = new registration
+                        {
+                            userID = user.userID,
+                            paymentID = payment.paymentID,
+                            date1 = user.date1,
+                            date2 = user.date2,
+                            date3 = user.date3,
+                            byAdmin = false,
+                            deleted = false,
+                            note = user.notes,
+                           
+                        };
+                        pay.paymentID = payment.paymentID;
+                        context.registrations.Add(registration);
+                        context.SaveChanges();
+
+                    }
+
+                    else
+                    {
+                        
+                        registrationExist.date1 = user.date1;
+                        registrationExist.date2 = user.date2;
+                        registrationExist.date3 = user.date3;
+                        registrationExist.byAdmin = false;
+                        registrationExist.deleted = false;
+                        registrationExist.note = user.notes;
+                        context.SaveChanges();
+                        pay.paymentID = registrationExist.paymentID;
+
+                    }
+                  
+                    var userType =context.usertypes.Where(x => x.userTypeID == user.userTypeID).First();
+                   
+                    //add check if is lateregistration o regular registration*****************************************IMPORTANT
+                    
+                    pay.amount=(double)userType.registrationCost;
+
+                    return pay;
+                }
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+        }
 
         public bool apply(UserInfo user)
         {
@@ -232,8 +297,9 @@ namespace NancyService.Modules
                     return true;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.Write("ProfileAuthorizationManager.UserPayment error " + ex);
                 return false;
             }
         }
@@ -258,7 +324,13 @@ namespace NancyService.Modules
 
     }
 }
-
+public class PaymentInfo
+{
+    public long paymentID {get;set;}
+    public double amount { get; set; }
+    public string phone { get; set; }
+    public bool isUser { get; set; }
+}
 
 public class UserInfo
 {
