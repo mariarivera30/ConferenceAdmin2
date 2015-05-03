@@ -613,6 +613,12 @@
                             var params1 = { submissionID: data.submissionID, IDsList: IDsList };
                             restApi.manageExistingFiles(params1)
                                 .success(function (data2, status2, headers2, config2) {
+                                    $('#success').modal({                    // wire up the actual modal functionality and show the dialog
+                                        "backdrop": "static",
+                                        "keyboard": true,
+                                        "show": true                     // ensure the modal is shown immediately
+                                    });
+
                                     vm.documentsList.forEach(function (doc, index) {
 
                                         //add new files
@@ -668,6 +674,11 @@
                 //submission.documentssubmitteds = vm.documentsList;
                 restApi.editSubmission(submission)
                        .success(function (data, status, headers, config) {
+                           $('#success').modal({                    // wire up the actual modal functionality and show the dialog
+                               "backdrop": "static",
+                               "keyboard": true,
+                               "show": true                     // ensure the modal is shown immediately
+                           });
 
                            //manage existing list of files
                            var IDsList = [];
@@ -740,7 +751,7 @@
                                     "backdrop": "static",
                                     "keyboard": true,
                                     "show": true                     // ensure the modal is shown immediately
-                                })
+                                });
                                 //manage existing list of files
                                 var IDsList = [];
                                 vm.documentsList.forEach(function (doc, index) {
