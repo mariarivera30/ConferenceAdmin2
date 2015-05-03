@@ -43,6 +43,7 @@
 
 
         // Functions
+        vm.changeMenu = _changeMenu;
         vm.tabViewControl = _tabViewControl;
         activate();
 
@@ -184,7 +185,9 @@
 
         };
 
-    
+        function _changeMenu() {
+            vm.hideMenu ? vm.hideMenu = false : vm.hideMenu = true;
+        }
 
 
     }
