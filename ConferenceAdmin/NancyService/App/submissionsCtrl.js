@@ -994,9 +994,9 @@
         function _getSubmissionsReport() {
             restApi.getSubmissionsReport().
                 success(function (data, status, headers, config) {
-                    window.open(data);
-                    //var file = new Blob([data]);
-                    //saveAs(file, "Submissions_Report.csv");
+                    //window.open(data);
+                    var file = new Blob([data]);
+                    saveAs(file, "Submissions_Report.csv");
                 }).
                 error(function (data, status, headers, config) {
 

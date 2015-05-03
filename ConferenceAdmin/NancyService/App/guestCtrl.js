@@ -22,6 +22,7 @@
         vm.overnightAuthorization;
         vm.companionAuthorization;
         vm.participationAuthorization;
+        vm.hasAcceptedSub;
         vm.title;
         vm.affiliationName;
         vm.line1;

@@ -50,7 +50,10 @@ namespace NancyService.Modules
                         day3 = i.registrations.FirstOrDefault() == null ? null : i.registrations.FirstOrDefault().date3,
                         companionFirstName = i.companions.FirstOrDefault() == null ? null : i.companions.FirstOrDefault().user.firstName,
                         companionLastName = i.companions.FirstOrDefault() == null ? null : i.companions.FirstOrDefault().user.lastName,
-                        companionID = i.companions.FirstOrDefault() == null ? -1 : (long)i.companions.FirstOrDefault().userID 
+                        companionID = i.companions.FirstOrDefault() == null ? -1 : (long)i.companions.FirstOrDefault().userID,
+                        hasAcceptedSub = i.usersubmissions.FirstOrDefault() == null ? 
+                        false : i.usersubmissions.FirstOrDefault().submission == null ? 
+                        (i.usersubmissions.FirstOrDefault().submission1 == null ? false : i.usersubmissions.FirstOrDefault().submission1.status == "Accepted") : i.usersubmissions.FirstOrDefault().submission.status == "Accepted"
                     }).OrderBy(f => f.firstName).ToList();
 
                     page.rowCount = guests.Count();
@@ -71,6 +74,39 @@ namespace NancyService.Modules
             }
         }
 
+        public bool hasAcceptedSub(long userID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    usersubmission userSub = context.usersubmission.Where(c => c.userID == userID).FirstOrDefault();
+                    if (userSub == null) return false;
+                    else
+                    {
+                        if (userSub.submission == null) return false;
+                        else 
+                        { 
+                            if (userSub.submission.status == "Accepted") return true; 
+                            else if (userSub.submission.status != "Accepted") return false; 
+                        }
+                        if (userSub.submission1 == null) return false;
+                        else 
+                        { 
+                            if (userSub.submission1.status == "Accepted") return true; 
+                            else if (userSub.submission1.status != "Accepted")return false; 
+                        }
+                        return false;
+                    }
+                               
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("GuestManager.hasAcceptedSub error " + ex);
+                return false;
+            }            
+        }
 
         // Search within the list with a certain criteria
 
@@ -296,6 +332,7 @@ namespace NancyService.Modules
         public String companionFirstName;
         public String companionLastName;
         public long companionID;
+        public bool hasAcceptedSub;
 
         public GuestList(long userID, String firstName, String lastName, String title, String affiliationName, String userTypeName,
             bool? authorizationStatus, bool isRegistered, String registrationStatus, String acceptanceStatus, String line1, String line2,

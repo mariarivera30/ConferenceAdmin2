@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 
-//Code written mostly by Jaimeiris with some help from Randy
+//Code written mostly by Jaimeiris, some functions by Randy
 namespace NancyService.Modules
 {
     class SubmissionManager
