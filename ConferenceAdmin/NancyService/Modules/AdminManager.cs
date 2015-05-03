@@ -180,6 +180,8 @@ namespace NancyService.Modules
                             }
                         }
 
+                        s.privilege = s.privilege == "Admin" ? "Administrator" : s.privilege == "CommitteEvaluator" ? "Committee Evaluator" : s.privilege;
+
                         return s;
                     }
 
@@ -309,7 +311,7 @@ namespace NancyService.Modules
                         firstName = admin.user.firstName,
                         lastName = admin.user.lastName,
                         email = admin.user.membership.email,
-                        privilege = admin.privilege.privilegestType,
+                        privilege = admin.privilege.privilegestType == "Admin" ? "Administrator" : admin.privilege.privilegestType == "CommitteEvaluator" ? "Committee Evaluator" : admin.privilege.privilegestType,
                         privilegeID = (int)admin.privilegesID
 
                     }).OrderBy(x => x.userID);
