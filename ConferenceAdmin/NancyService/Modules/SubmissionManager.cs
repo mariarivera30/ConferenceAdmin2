@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 
-
+//Code written mostly by Jaimeiris with some help from Randy
 namespace NancyService.Modules
 {
     class SubmissionManager
@@ -25,6 +25,7 @@ namespace NancyService.Modules
                     //gets all the evaluations assigned to the given evaluator
                     AssignedSubmission subs = new AssignedSubmission();
                     evaluatiorsubmission sub;
+                    //gets info for permissions in the front end (i.e. option to ask to add a final version)
                     bool isFinalVersion = context.usersubmission.Where(c => c.finalSubmissionID == submissionID).FirstOrDefault() == null ? false : true;
                     long userIDofEvaluator = context.evaluators.Where(c => c.evaluatorsID == evaluatorID).FirstOrDefault() == null ?
                         -1 : context.evaluators.Where(d => d.evaluatorsID == evaluatorID).FirstOrDefault().userID;
@@ -36,7 +37,7 @@ namespace NancyService.Modules
                         if (claim.privilegesID == 1 || claim.privilegesID == 3 || claim.privilegesID == 5) 
                             canAllowFinalVersion = true;
                     }
-
+                    //gets submission info
                     sub = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.evaluatorID == evaluatorID && c.deleted == false).FirstOrDefault();
 
                     if (sub.submission.submissionTypeID == 1 || sub.submission.submissionTypeID == 2 || sub.submission.submissionTypeID == 4)
@@ -183,17 +184,16 @@ namespace NancyService.Modules
             }
         }
 
-        //Jaimeiris - gets the submission with ID submission ID to be evaluated by evaluator with evaluatorID
+        //Jaimeiris - gets the evaluation with the submissionID and evaluatorID given in the parameters
         public Evaluation getEvaluationDetails(long submissionID, long evaluatorID)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
-                {
-                    //gets all the evaluations assigned to the given evaluator
+                {                    
                     Evaluation subs = new Evaluation();
                     evaluatiorsubmission sub;
-
+                    //gets the evaluatorsubmission relation where the submissionIF and evaluatorID matches woth the given parameters
                     sub = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.evaluatorID == evaluatorID && c.deleted == false).FirstOrDefault();
                     if (sub != null)
                     {
@@ -221,7 +221,7 @@ namespace NancyService.Modules
                 return null;
             }
         }
-
+        //Jaimeiris - gets the list of the submissions assigned to the evaluator with the userID that matches the userID sent in the parameter
         public SubmissionPagingQuery getAssignedSubmissions(long userID, int index)
         {
             SubmissionPagingQuery page = new SubmissionPagingQuery();
@@ -257,10 +257,12 @@ namespace NancyService.Modules
                             isEvaluated = (i.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true),
                             isFinalSubmission = false
                         }).ToList();
+                    //merge list of final submissions with non-final submissions
                     foreach (var finalSub in assignedFinalSubmissions)
                     {
                         assignedSubmissions.Add(finalSub);
                     }
+                    //submissions are ordered  by title
                     assignedSubmissions = assignedSubmissions.OrderBy(n => n.submissionTitle).ToList();
                     page.rowCount = assignedSubmissions.Count();
                     if (page.rowCount > 0)
@@ -349,7 +351,8 @@ namespace NancyService.Modules
                 return null;
             }
         }
-
+        //Jaimeiris - add an evaluation to a submission. 
+        //If the evaluator asked for a final version of the submission, the system sends an email to the submitter to add a final version of the submission
         public bool addEvaluation(evaluationsubmitted evaluation, usersubmission usersubIn)
         {
             try
@@ -360,7 +363,7 @@ namespace NancyService.Modules
                     bool isFinalSubmission = context.usersubmission.Where(c => c.finalSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault() == null ?
                         false : (context.usersubmission.Where(d => d.initialSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault() == null ? true : false);
                     usersubmission userSub;
-
+                    //adding the evaluation
                     evaluation.deleted = false;
                     context.evaluationsubmitteds.Add(evaluation);
                     context.SaveChanges();
@@ -376,6 +379,7 @@ namespace NancyService.Modules
                     }
                     userSub.allowFinalVersion = usersubIn.allowFinalVersion;
                     context.SaveChanges();
+                    //sends an email notifying the user if the evaluator asked for a final version of the submission
                     if (usersubIn.allowFinalVersion == true)
                     {
                         String email = null;
@@ -403,7 +407,7 @@ namespace NancyService.Modules
             }
         }
 
-        //Send email when submission status has been changed
+        //Jaimeiris - method that is called to send an email to a submitter to inform them that a final version of their submission has been requested.
         private void sendFinalVersionAllowedEmail(string email, String submissionTitle)
         {
             MailAddress ccwic = new MailAddress(ccwicEmail);
@@ -425,7 +429,8 @@ namespace NancyService.Modules
 
             smtp.Send(mail);
         }
-
+        //Jaimeiris - edits an evaluation that was previously made about a submission
+        //If the evaluator asked for a final version of the submission, the system sends an email to the submitter to add a final version of the submission
         public bool editEvaluation(evaluationsubmitted evaluation, usersubmission userSubIn)
         {
             try
@@ -438,6 +443,7 @@ namespace NancyService.Modules
 
                     evaluationsubmitted dbEvaluation = context.evaluationsubmitteds.Where(c => c.evaluationsubmittedID == evaluation.evaluationsubmittedID).FirstOrDefault();
                     dbEvaluation.deleted = false;
+                    //updates evaluation
                     if (evaluation.evaluationName != null || evaluation.evaluationFile != null)
                     {
                         dbEvaluation.evaluationName = evaluation.evaluationName;
@@ -447,6 +453,7 @@ namespace NancyService.Modules
                     dbEvaluation.publicFeedback = evaluation.publicFeedback;
                     dbEvaluation.privateFeedback = evaluation.privateFeedback;
                     var evaluatorSub = dbEvaluation.evaluatiorsubmission;
+                    //marks evaluator submission as evaluated
                     if (evaluatorSub != null)
                     {
                         dbEvaluation.evaluatiorsubmission.statusEvaluation = "Evaluated";
@@ -461,7 +468,7 @@ namespace NancyService.Modules
                         userSub.allowFinalVersion = userSubIn.allowFinalVersion;
                     }
                     context.SaveChanges();
-
+                    //sends email if final version was asked
                     if (userSubIn.allowFinalVersion == true)
                     {
                         String email = null;
@@ -488,7 +495,7 @@ namespace NancyService.Modules
             }
         }
 
-
+        //Jaimeiris - gets the submission to be viewed in the user's profile
         public List<Submission> getUserSubmissions(long userID)
         {
             try
@@ -806,17 +813,7 @@ namespace NancyService.Modules
                             null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault()) == null ?
                             null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault().publicFeedback
 
-                        };
-                        /*if (isFinalVersion)
-                        {
-                            subs.submitterFirstName = context.usersubmission.Where(c => c.finalSubmissionID == submissionID).FirstOrDefault() == null ?
-                                null : context.usersubmission.Where(c => c.finalSubmissionID == submissionID).FirstOrDefault().user.firstName; 
-                        }
-                        else
-                        {
-                            subs.submitterFirstName = context.usersubmission.Where(c => c.initialSubmissionID == submissionID).FirstOrDefault() == null ?
-                                null : context.usersubmission.Where(c => c.initialSubmissionID == submissionID).FirstOrDefault().user.firstName; 
-                        }*/
+                        };                        
                     }
                     return subs;
                 }
@@ -829,14 +826,13 @@ namespace NancyService.Modules
         }
 
 
-
+        //Jaimeiris - gets the list of all submission types
         public List<SubmissionType> getSubmissionTypes()
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
-                {
-                    //gets all the submissions uploaded by the user currently logged in
+                {                    
                     List<SubmissionType> userSubmissions = context.submissiontypes.
                         Select(i => new SubmissionType
                         {
@@ -852,7 +848,7 @@ namespace NancyService.Modules
                 return null;
             }
         }
-
+        //Jaimeiris - deletes a submission
         public Submission deleteSubmission(long submissionID)
         {
             try
@@ -862,6 +858,7 @@ namespace NancyService.Modules
                     Submission prevSub = null;
                     submission sub = context.submissions.Where(c => c.submissionID == submissionID).FirstOrDefault();
                     bool isFinalVersion = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID == submissionID).FirstOrDefault() == null ? false : true;
+                    //if its a final version deletes only the final version of the submission, not the previous one
                     if (isFinalVersion)
                     {
                         prevSub = context.usersubmission.Where(c => c.finalSubmissionID == submissionID).
@@ -894,7 +891,7 @@ namespace NancyService.Modules
                     }
                     //delete submission
                     sub.deleted = true;
-                    //delete user submissions
+                    //delete user submissions only if submission to be deleted is not a final version of a submission
                     if (sub.usersubmissions.FirstOrDefault() != null && isFinalVersion == false)
                     {
                         sub.usersubmissions.FirstOrDefault().deleted = true;
@@ -938,7 +935,7 @@ namespace NancyService.Modules
             }
         }
 
-        //este metodo no toma en consideracion cuando un admin sube un submission!
+        //Jaimeiris - a user adds a submission (does not take into consideration when an admin adds a submission for another user
         public Submission addSubmission(usersubmission usersubTA, submission submissionToAdd, panel pannelToAdd, workshop workshopToAdd)
         {
             try
@@ -1037,7 +1034,7 @@ namespace NancyService.Modules
                 return null;
             }
         }
-
+        //Jaimeiris - adds a submission file to a submission
         public bool addSubmissionFile(documentssubmitted file)
         {
             try
@@ -1061,14 +1058,14 @@ namespace NancyService.Modules
                 return false;
             }
         }
-
+        //Jaimeiris - Deletes the files that user has removed and maintains the ones the user wishes to keep
         public bool manageExistingFiles(long subID, List<long> existingDocsID)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //all documents in DB for submission with ID SubmissionID
+                    //all documents in DB for submission with SubmissionID
                     List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(d => d.submissionID == subID).ToList<documentssubmitted>();
                     //list of all documents that are in the DB and will not be removed from the submission
                     List<documentssubmitted> existingDocs = prevDocuments.Where(c => existingDocsID.Contains(c.documentssubmittedID)).ToList();
@@ -1090,7 +1087,7 @@ namespace NancyService.Modules
                 return false;
             }
         }
-
+        //Jaimeiris - edits a submission
         public Submission editSubmission(submission submissionToEdit, panel pannelToEdit, workshop workshopToEdit)
         {
             try
@@ -1136,37 +1133,7 @@ namespace NancyService.Modules
                     };
 
 
-                    /* if (submissionToEdit.submissionTypeID != 4)
-                     {
-                         //all documents in DB for submission with ID SubmissionID
-                         List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(d => d.submissionID == sub.submissionID).ToList<documentssubmitted>();
-                         //list of all new documents that are being added to the submission
-                         List<documentssubmitted> addedDocs = submissionToEdit.documentssubmitteds.Where(c => c.document != null ).ToList();
-                         //list of IDs of all documents that are in the DB and will not be removed from the submission
-                         List <long> remainingDocsID = submissionToEdit.documentssubmitteds.Where(c => c.document == null).Select(d => d.documentssubmittedID).ToList();
-                         //list of all documents that are in the DB and will not be removed from the submission
-                         List<documentssubmitted> remainingDocs = prevDocuments.Where(c => remainingDocsID.Contains(c.documentssubmittedID)).ToList();
-                         //list of all the documents that used to belong to the submission but where deleted by the user
-                         List<documentssubmitted> docsInDBtbd = prevDocuments.Except(remainingDocs).ToList();
-                         //remove from the DB all items delete by the user
-                         foreach (var docTBD in docsInDBtbd)
-                         {
-                             context.documentssubmitteds.Remove(docTBD);
-                         }
-                         context.SaveChanges();
-
-                         //add to the DB all new documents added to the submission
-                         documentssubmitted subDocs = new documentssubmitted();
-                         foreach (var docs in addedDocs)
-                         {
-                             subDocs.submissionID = sub.submissionID;
-                             subDocs.documentName = docs.documentName;
-                             subDocs.document = docs.document;
-                             subDocs.deleted = false;
-                             context.documentssubmitteds.Add(subDocs);
-                             context.SaveChanges();
-                         }
-                     }*/
+                    
                     return editedSub;
                 }
             }
@@ -1176,7 +1143,7 @@ namespace NancyService.Modules
                 return null;
             }
         }
-
+        //Jaimeiris - gets the name of the submission type with submissionTypeID
         public String getSubmissionTypeName(long submissionTypeID)
         {
             try
@@ -1193,7 +1160,8 @@ namespace NancyService.Modules
                 return null;
             }
         }
-
+        //Jaimeiris - gets all the submissions that have not been deleted
+        //gets the average score, submission status and number of evaluations of each submission
         public SubmissionPagingQuery getAllSubmissions(int index)
         {
             SubmissionPagingQuery page = new SubmissionPagingQuery();
@@ -1315,8 +1283,8 @@ namespace NancyService.Modules
                 return null;
             }
         }
-
-
+        //Jaimeiris - adds a final submission to a existing submission, this is when the submitter os not an administrator
+        //Also removes the evaluator submission assignment for the relations for which the evaluations have not been added and sends an email to the evaluators informing them that they no longer have to evaluate said submission
         public Submission addFinalSubmission(usersubmission usersubTA, submission submissionToAdd, documentssubmitted submissionDocuments, panel pannelToAdd, workshop workshopToAdd)
         {
             try
@@ -1341,39 +1309,8 @@ namespace NancyService.Modules
                     long finalSubmissionID = sub.submissionID;
                     usersubmission usersub = context.usersubmission.Where(c => c.initialSubmissionID == usersubTA.initialSubmissionID && c.deleted == false).FirstOrDefault();
                     usersub.finalSubmissionID = finalSubmissionID;
-                    context.SaveChanges();
-                    
-                    /*
-                    //list of all the files that the prev submission had
-                    List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(c => c.submissionID == usersubTA.initialSubmissionID).ToList();
-                    //list of all the documents of the remaining docs-the docs that are in the prev that will stay in the final
-                    List<long> remainingDocsID = submissionToAdd.documentssubmitteds.Where(c => c.document == null).Select(d => d.documentssubmittedID).ToList();
-                    //list of all documents that are in the DB and will not be removed from the submission
-                    List<documentssubmitted> remainingDocs = prevDocuments.Where(c => remainingDocsID.Contains(c.documentssubmittedID)).ToList();
-                    documentssubmitted doc = new documentssubmitted();
-                    foreach (var oldDocs in remainingDocs)
-                    {
-                        doc.submissionID = sub.submissionID;
-                        doc.documentName = oldDocs.documentName;
-                        doc.document = oldDocs.document;
-                        doc.deleted = false;
-                        context.documentssubmitteds.Add(doc);
-                        context.SaveChanges();
-                    }    
-
-                    //replace every document bound to the submission
-                    documentssubmitted subDocs = new documentssubmitted();
-                    //the new documents to be submitted
-                    List<documentssubmitted> newDocs = submissionToAdd.documentssubmitteds.Where(c => c.document != null).ToList();
-                    foreach (var docs in newDocs)
-                    {
-                        subDocs.submissionID = sub.submissionID;
-                        subDocs.documentName = docs.documentName;
-                        subDocs.document = docs.document;
-                        subDocs.deleted = false;
-                        context.documentssubmitteds.Add(subDocs);
-                        context.SaveChanges();
-                    }*/
+                    context.SaveChanges();                    
+                   
                     //table pannels
                     if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
                     {
@@ -1450,7 +1387,7 @@ namespace NancyService.Modules
             }
         }
 
-        //re-create final submission files
+        //Jaimeiris - re-create final submission files, for when editing final submissions
         public bool createFinalSubmissionFiles(long subID, long prevID, List<long> existingDocsID)
         {
             try
@@ -1483,7 +1420,7 @@ namespace NancyService.Modules
             }
         }
 
-        //Send email to evaluator when an assignment to a submission was removed
+        //Jaimeiris - Send email to evaluator when an assignment to a submission was removed
         private void sendAssignmentEmail(string email, String subject, String messageBody)
         {
             MailAddress ccwic = new MailAddress(ccwicEmail);
@@ -1503,7 +1440,7 @@ namespace NancyService.Modules
 
             smtp.Send(mail);
         }
-
+        //Jaimeiris - adds a final submission when the admins adds it
         public Submission postAdminFinalSubmission(usersubmission usersubTA, submission submissionToAdd, documentssubmitted submissionDocuments, panel pannelToAdd, workshop workshopToAdd)
         {
             try
@@ -1527,38 +1464,7 @@ namespace NancyService.Modules
                     long finalSubmissionID = sub.submissionID;
                     usersubmission usersub = context.usersubmission.Where(c => c.initialSubmissionID == usersubTA.initialSubmissionID && c.deleted == false).FirstOrDefault();
                     usersub.finalSubmissionID = finalSubmissionID;
-                    context.SaveChanges();
-                    /*
-                    //list of all the files that the prev submission had
-                    List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(c => c.submissionID == usersubTA.initialSubmissionID).ToList();
-                    //list of all the documents of the remaining docs-the docs that are in the prev that will stay in the final
-                    List<long> remainingDocsID = submissionToAdd.documentssubmitteds.Where(c => c.document == null).Select(d => d.documentssubmittedID).ToList();
-                    //list of all documents that are in the DB and will not be removed from the submission
-                    List<documentssubmitted> remainingDocs = prevDocuments.Where(c => remainingDocsID.Contains(c.documentssubmittedID)).ToList();
-                    documentssubmitted doc = new documentssubmitted();
-                    foreach (var oldDocs in remainingDocs)
-                    {
-                        doc.submissionID = sub.submissionID;
-                        doc.documentName = oldDocs.documentName;
-                        doc.document = oldDocs.document;
-                        doc.deleted = false;
-                        context.documentssubmitteds.Add(doc);
-                        context.SaveChanges();
-                    }
-
-                    //replace every document bound to the submission
-                    documentssubmitted subDocs = new documentssubmitted();
-                    //the new documents to be submitted
-                    List<documentssubmitted> newDocs = submissionToAdd.documentssubmitteds.Where(c => c.document != null).ToList();
-                    foreach (var docs in newDocs)
-                    {
-                        subDocs.submissionID = sub.submissionID;
-                        subDocs.documentName = docs.documentName;
-                        subDocs.document = docs.document;
-                        subDocs.deleted = false;
-                        context.documentssubmitteds.Add(subDocs);
-                        context.SaveChanges();
-                    }*/
+                    context.SaveChanges();                   
 
                     //table pannels
                     if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
@@ -1617,7 +1523,7 @@ namespace NancyService.Modules
                 return null;
             }
         }
-
+        //gets the evaluations for a submission, if submission has a previous version it gets the evaluations for both versions
         public List<Evaluation> getSubmissionEvaluations(long submissionID)
         {
             try
@@ -1629,6 +1535,7 @@ namespace NancyService.Modules
                     //Checking if submission has a previous version:
                     long initialSubmissionID = context.usersubmission.Where(c => c.finalSubmissionID == submissionID && c.deleted == false) == null ?
                         -1 : context.usersubmission.Where(c => c.finalSubmissionID == submissionID && c.deleted == false).Select(d => d.initialSubmissionID).FirstOrDefault();
+                    //if it has final and prev sub
                     if (initialSubmissionID > -1)//if submissionID belong to a submission that does has a previous version
                     {
                         //get initial submission evaluation
@@ -1638,13 +1545,13 @@ namespace NancyService.Modules
                         subEvals = getEvaluations(submissionID) == null ?
                             new List<Evaluation>() : getEvaluations(submissionID);
                     }
-                    else
+                    else//if submission does not have final submission
                     {
                         //get only submission evaluation
                         subEvals = getEvaluations(submissionID) == null ?
                             new List<Evaluation>() : getEvaluations(submissionID);
                     }
-                    if (prevSubEvals.Count > 0)
+                    if (prevSubEvals.Count > 0)//unites all evaluations and identifies if they belong to a previous submission
                     {
                         foreach (var eval in prevSubEvals)
                         {
@@ -1661,7 +1568,7 @@ namespace NancyService.Modules
                 return null;
             }
         }
-        //for admin
+        //Jaimeiris - get the list of evaluations for a submission (for admin submission module)
         public List<Evaluation> getEvaluations(long submissionID)
         {
             try
@@ -1725,7 +1632,7 @@ namespace NancyService.Modules
                 return null;
             }
         }
-
+        //Jaimeiris - gets the deadlines for all submission types
         public List<bool> getSubmissionDeadlines()
         {
             try
@@ -1753,7 +1660,7 @@ namespace NancyService.Modules
                 return null;
             }
         }
-
+        //Jaimeiris - gets the list of evaluators to assign them submissions
         public List<EvaluatorQuery> getAcceptedEvaluators()
         {
             try
@@ -1780,7 +1687,8 @@ namespace NancyService.Modules
                 return null;
             }
         }
-
+        //Jaimeiris - assigns the submission with submissionID to the evaluator with evaluatorID
+        //then sends an email to the evalutor indicating them that theu have a new evaluator to assign
         public Evaluation assignEvaluator(long submissionID, long evaluatorID)
         {
             try
@@ -1828,7 +1736,7 @@ namespace NancyService.Modules
                 return null;
             }
         }
-        //Assigns a template to a submission
+        //Jaimeiris - Assigns a template to a submission
         public bool assignTemplate(long submissionID, long templateID)
         {
             try
@@ -1862,7 +1770,7 @@ namespace NancyService.Modules
             }
         }
 
-        //removes relation of evaluator and submissions
+        //Jaimeiris - removes relation of evaluator and submissions and notifies evalutor via email of deletion of assignment
         public long removeEvaluatorSubmission(long evaluatorSubmissionID)
         {
             try
@@ -1896,7 +1804,8 @@ namespace NancyService.Modules
                 return -1;
             }
         }
-
+        //Jaimeiris - changes the status of a submission
+        //if submission was accepted the acceptance status of the submitter changes to accepted too.
         public Submission changeSubmissionStatus(long submissionID, string newStatus)
         {
             try
@@ -1976,7 +1885,7 @@ namespace NancyService.Modules
             smtp.Send(mail);
         }
 
-        //This adds the submission when it is added by an administrator
+        //Jaimeiris - This adds the submission when it is added by an administrator
         public Submission addSubmissionByAdmin(usersubmission usersubTA, submission submissionToAdd, panel pannelToAdd, workshop workshopToAdd)
         {
             try
@@ -2074,7 +1983,7 @@ namespace NancyService.Modules
                 return null;
             }
         }
-
+        //Jaimeiris - gets the list of all users
         public List<GuestList> getListOfUsers()
         {
             try
@@ -2097,7 +2006,7 @@ namespace NancyService.Modules
                 return null;
             }
         }
-        //gets all the deleted submissions
+        //Jaimeiris - gets all the deleted submissions
         public SubmissionPagingQuery getDeletedSubmissions(int index)
         {
             SubmissionPagingQuery page = new SubmissionPagingQuery();
@@ -2138,7 +2047,7 @@ namespace NancyService.Modules
             }
         }
 
-        //gets the fields of a deleted submission
+        //Jaimeiris - gets the details of a deleted submission
         public CurrAndPrevSub getADeletedSubmission(long submissionID)
         {
             try
@@ -2190,7 +2099,7 @@ namespace NancyService.Modules
                 return null;
             }
         }
-
+        //Jaimeiris - returns true if the person currently logged in is the master
         public bool isMaster(long userID)
         {
             try
@@ -2371,7 +2280,7 @@ namespace NancyService.Modules
                 return null;
             }
         }
-        //gets file with ID in parameter
+        //Jaimeiris - gets file with ID in parameter
         public SubmissionDocument getSubmissionFile(long documentID)
         {
             try
@@ -2396,7 +2305,7 @@ namespace NancyService.Modules
             }
         }
 
-        //get evaluation template
+        //Jaimeiris - gets evaluation template with templateID
         public Evaluation getEvaluationTemplate(long templateID)
         {
             try
@@ -2420,7 +2329,7 @@ namespace NancyService.Modules
             }
         }
 
-        //get submitted evaluation file
+        //Jaimeiris - get submitted evaluation file
         public Evaluation getEvaluationFile(long submissionID, long evaluatorID)
         {
             try
