@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 
-//Code written mostly by Jaimeiris with some help from Randy
+//Code written mostly by Jaimeiris, some functions by Randy
 namespace NancyService.Modules
 {
     class SubmissionManager
@@ -291,13 +291,13 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     int pageSize = 10;
-                    bool searchingFinal = criteria.Contains("final");
-                    bool searchingPending = criteria.Contains("pending");
+                    bool searchingFinal = criteria.ToLower().Contains("final");
+                    bool searchingPending = criteria.ToLower().Contains("pending");
                     //gets all final evaluations assigned to the given evaluator
                     List<Submission> assignedFinalSubmissions = context.evaluatiorsubmissions.
-                        Where(c => (c.submission.title.ToLower().Contains(criteria) 
-                            || c.submission.usersubmissions.Where(j => j.deleted == false).FirstOrDefault().user.usertype.userTypeName.ToLower().Contains(criteria) 
-                            || c.submission.topiccategory.name.ToLower().Contains(criteria)
+                        Where(c => (c.submission.title.ToLower().Contains(criteria.ToLower()) 
+                            || c.submission.usersubmissions.Where(j => j.deleted == false).FirstOrDefault().user.usertype.userTypeName.ToLower().Contains(criteria.ToLower())
+                            || c.submission.topiccategory.name.ToLower().Contains(criteria.ToLower())
                             || (c.evaluationsubmitteds.Where(j => j.deleted == false).FirstOrDefault() == null) == searchingPending
                             || searchingFinal) 
                             && c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions.Where(d => d.deleted == false).FirstOrDefault() != null).
@@ -314,9 +314,9 @@ namespace NancyService.Modules
 
                     //gets all non-final the evaluations assigned to the given evaluator
                     List<Submission> assignedSubmissions = context.evaluatiorsubmissions.
-                        Where(c => (c.submission.title.ToLower().Contains(criteria) 
-                            || c.submission.usersubmissions.Where(j => j.deleted == false).FirstOrDefault().user.usertype.userTypeName.ToLower().Contains(criteria) 
-                            || c.submission.topiccategory.name.ToLower().Contains(criteria)
+                        Where(c => (c.submission.title.ToLower().Contains(criteria.ToLower())
+                            || c.submission.usersubmissions.Where(j => j.deleted == false).FirstOrDefault().user.usertype.userTypeName.ToLower().Contains(criteria.ToLower())
+                            || c.submission.topiccategory.name.ToLower().Contains(criteria.ToLower())
                             || (c.evaluationsubmitteds.Where(j => j.deleted == false).FirstOrDefault() == null) == searchingPending) 
                             && c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions1.Where(d => d.deleted == false).FirstOrDefault() != null).
                         Select(i => new Submission
@@ -2132,7 +2132,7 @@ namespace NancyService.Modules
                     int numOfEvaluations = 0;
                     //get all final submissions.
                     List<Submission> userSubmissions = new List<Submission>();
-                    List<usersubmission> subList = context.usersubmission.Where(c => (c.submission.title.ToLower().Contains(criteria) || c.submission.topiccategory.name.ToLower().Contains(criteria) || c.submission.submissiontype.name.ToLower().Contains(criteria) || c.submission.status.ToLower().Contains(criteria)) && c.deleted == false && c.finalSubmissionID != null).ToList();
+                    List<usersubmission> subList = context.usersubmission.Where(c => (c.submission.title.ToLower().Contains(criteria.ToLower()) || c.submission.topiccategory.name.ToLower().Contains(criteria.ToLower()) || c.submission.submissiontype.name.ToLower().Contains(criteria.ToLower()) || c.submission.status.ToLower().Contains(criteria.ToLower())) && c.deleted == false && c.finalSubmissionID != null).ToList();
                     foreach (var sub in subList)
                     {
                         long userID = sub.userID;
@@ -2179,7 +2179,7 @@ namespace NancyService.Modules
                     avgScore = 0.00;
                     numOfEvaluations = 0;
                     //get all submissions that do not have a final submission
-                    List<usersubmission> subList2 = context.usersubmission.Where(c => (c.submission1.title.ToLower().Contains(criteria) || c.submission1.topiccategory.name.ToLower().Contains(criteria) || c.submission1.submissiontype.name.ToLower().Contains(criteria)) && c.deleted == false && c.finalSubmissionID == null).ToList();
+                    List<usersubmission> subList2 = context.usersubmission.Where(c => (c.submission1.title.ToLower().Contains(criteria.ToLower()) || c.submission1.topiccategory.name.ToLower().Contains(criteria.ToLower()) || c.submission1.submissiontype.name.ToLower().Contains(criteria.ToLower())) && c.deleted == false && c.finalSubmissionID == null).ToList();
                     foreach (var sub in subList2)
                     {
                         long userID = sub.userID;
@@ -2250,7 +2250,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     int pageSize = 10;
-                    var subs = context.submissions.Where(c => (c.title.ToLower().Contains(criteria) || c.topiccategory.name.ToLower().Contains(criteria) || c.submissiontype.name.ToLower().Contains(criteria)) && c.deleted == true).Select(d =>
+                    var subs = context.submissions.Where(c => (c.title.ToLower().Contains(criteria.ToLower()) || c.topiccategory.name.ToLower().Contains(criteria.ToLower()) || c.submissiontype.name.ToLower().Contains(criteria.ToLower())) && c.deleted == true).Select(d =>
                         new Submission
                         {
                             userID = d.usersubmissions.Where(c => c.deleted == true).FirstOrDefault() == null ? -1 : d.usersubmissions.Where(c => c.deleted == true).FirstOrDefault().userID,

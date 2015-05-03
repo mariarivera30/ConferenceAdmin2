@@ -22,6 +22,7 @@
         vm.overnightAuthorization;
         vm.companionAuthorization;
         vm.participationAuthorization;
+        vm.hasAcceptedSub;
         vm.title;
         vm.affiliationName;
         vm.line1;
@@ -186,11 +187,21 @@
 
         function _updateAcceptanceStatus(userID, acceptanceStatus) {
             var localGuest = { ID: userID, status: acceptanceStatus };
+            var element = document.getElementById("loading-" + userID);
+            var btn = document.getElementById("button-" + userID);
+            if (element != null && btn != null) {
+                btn.style.display = "none";
+                element.className = "glyphicon glyphicon-refresh glyphicon-refresh-animate";
+            }
             restApi.updateAcceptanceStatus(localGuest)
-                .success(function (data, status, headers, config) {
+                .success(function (data, status, headers, config) {                    
                     vm.guestList.forEach(function (guest, index) {
                         if (guest.userID == userID) {
                             guest.acceptanceStatus = acceptanceStatus;
+                            if (element != null && btn != null) {
+                                element.className = "";
+                                btn.style.display = "";
+                            }
                         }
                     })
                 })

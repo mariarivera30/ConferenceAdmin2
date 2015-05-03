@@ -77,7 +77,7 @@
                                         <tr>
                                             <th><b>Attendee Name</b></th>
                                             <th><b>Affiliation Name</b></th>
-                                            <th><b>Type of User</b></th>
+                                            <th><b>Sponsor Type</b></th>
                                             <th><b>Amount Paid</b></th>
                                         </tr>
                                     </thead>
@@ -85,7 +85,7 @@
                                         <tr ng-repeat="p in vm.sponsorList | filter:searchSponsor | orderBy: ['affiliation', 'name']">
                                             <td>{{p.name}}</td>
                                             <td>{{p.affiliation}}</td>
-                                            <td>{{p.userType}}</td>
+                                            <td>{{p.sponsorType}}</td>
                                             <td>${{p.amountPaid}}</td>
                                         </tr>
                                     </tbody>

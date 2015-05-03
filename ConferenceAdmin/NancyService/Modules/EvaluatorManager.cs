@@ -169,7 +169,7 @@ namespace NancyService.Modules
 
                             updateUser.evaluatorStatus = e.acceptanceStatus;
 
-                            try { sendRejectConfirmation(updateUser.membership.email, "Rejected"); }
+                            try { sendRejectConfirmation(updateUser.firstName, updateUser.membership.email, "Rejected"); }
                             catch (Exception ex)
                             {
                                 Console.Write("AdminManager.sendRejectEvaluatorEmail error " + ex);
@@ -180,7 +180,7 @@ namespace NancyService.Modules
                         else if (e.acceptanceStatus == "Accepted")
                         {
                             this.addEvaluator(updateUser.membership.email);
-                            try {sendAcceptConfirmation(updateUser.membership.email, "Accepted"); }
+                            try { sendAcceptConfirmation(updateUser.firstName, updateUser.membership.email, "Accepted"); }
                             catch (Exception ex)
                             {
                                 Console.Write("AdminManager.sendRejectEvaluatorEmail error " + ex);
@@ -323,7 +323,7 @@ namespace NancyService.Modules
             }
         }
 
-        private void sendAcceptConfirmation(string email, String p)
+        private void sendAcceptConfirmation(String name, String email, String p)
         {
             MailAddress ccwic = new MailAddress(ccwicEmail);
             MailAddress user = new MailAddress(testEmail);
@@ -332,7 +332,7 @@ namespace NancyService.Modules
             String closing = " \r\nThank you.\r\nCCWiC Administration";
 
             mail.Subject = "Caribbean Celebration of Women in Computing- Evaluator Information";
-            mail.Body = "Greetings,\r\n \r\nYour evaluator status has been updated to: " + p + ". You can now access Administrator Settings by login in ConferenceAdmin.\r\n" + closing;
+            mail.Body = "Greetings "+ name+",\r\n \r\nYour evaluator status has been updated to: " + p + ". You can now access Administrator Settings by login in ConferenceAdmin.\r\n" + closing;
 
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";
@@ -345,7 +345,7 @@ namespace NancyService.Modules
             smtp.Send(mail);
         }
 
-        private void sendRejectConfirmation(string email, String p)
+        private void sendRejectConfirmation(String name, String email, String p)
         {
             MailAddress ccwic = new MailAddress(ccwicEmail);
             MailAddress user = new MailAddress(testEmail);
@@ -354,7 +354,7 @@ namespace NancyService.Modules
             String closing = " \r\nThank you.\r\nCCWiC Administration";
 
             mail.Subject = "Caribbean Celebration of Women in Computing- Evaluator Information";
-            mail.Body = "Greetings,\r\n \r\nYour evaluator status has been updated to: " + p + ".\r\n"+closing;
+            mail.Body = "Greetings " + name + ",\r\n \r\nYour evaluator status has been updated to: " + p + ".\r\n" + closing;
 
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";

@@ -315,7 +315,7 @@ namespace NancyService.Modules
                 MailMessage mail = new System.Net.Mail.MailMessage(sender, user);
 
                 mail.Subject = "CCWiC Inquire";
-                mail.Body = "Name: " + info.name + "\r\n \r\nMessage: " + info.message;
+                mail.Body = "Name: " + info.name + "\r\nEmail: "+info.email+"\r\nMessage: " + info.message;
 
                 SmtpClient smtp = new SmtpClient();
                 smtp.Host = "smtp.gmail.com";
