@@ -75,7 +75,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    <label for="" class="black-label">Line 2<sup>*</sup></label>
+                    <label for="" class="black-label">Line 2</label>
                     <input type="text" class="form-control" name="title" ng-model="vm.user.line2">
                     <p ng-show="signForm.line2.$invalid && !signForm.line2.$pristine" class="help-block">Line2 is required.</p>
                 </div>
@@ -107,7 +107,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="" class="black-label">ZipCode<sup>*</sup></label>
-                    <input type="number" class="form-control" name="zipcode" ng-model="vm.user.zipcode" ng-minlength="5" ng-maxlength="5" required>
+                    <input type="text" class="form-control" name="zipcode" ng-model="vm.user.zipcode" ng-minlength="5" ng-maxlength="5" required>
                     <p ng-show="signForm.zipcode.$invalid && !signForm.zipcode.$pristine" class="help-block">Zipcode is required 5 characters.</p>
                 </div>
             </div>
@@ -115,14 +115,14 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="after-title-field black-label" for="">Phone Number<sup>*</sup></label>
-                    <input type="number" class="form-control" placeholder="7876789890" name="phone" ng-model="vm.user.phone" ng-minlength="9" ng-maxlength="10" required>
+                    <input type="tel" class="form-control" placeholder="7876789890" name="phone" ng-model="vm.user.phone" ng-minlength="9" ng-maxlength="10" required>
                     <p ng-show="signForm.phone.$invalid && !signForm.phone.$pristine " class="help-block">Phone is required.</p>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="after-title-field black-label" for="">Fax</label>
-                    <input type="number" placeholder="7876789890" class="form-control" name="fax" ng-model="vm.user.userFax" ng-minlength="9" ng-maxlength="10">
+                    <input type="tel" placeholder="7876789890" class="form-control" name="fax" ng-model="vm.user.userFax" ng-minlength="9" ng-maxlength="10">
 
                 </div>
             </div>
