@@ -43,10 +43,12 @@
                             <td>{{guest.acceptanceStatus}}</td>
                             <td>
                                 <!--dropdown for acceptance status-->
-                                <select ng-disabled="guest.isRegistered || guest.hasAcceptedSub" ng-model="guest.optionStatus"
-                                        ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
-                                <button ng-disabled="guest.isRegistered || guest.hasAcceptedSub" data-toggle="modal" data-target="#confirmAcceptanceChange" class="btn btn-ar btn-primary" ng-click="vm.updateAcceptanceStatus(guest.userID, guest.optionStatus)">Apply</button>
-                                <span id="loading-{{guest.userID}}"></span>
+                                <div id="button-{{guest.userID}}">
+                                    <select ng-disabled="guest.isRegistered || guest.hasAcceptedSub" ng-model="guest.optionStatus"
+                                            ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
+                                    <button ng-disabled="guest.isRegistered || guest.hasAcceptedSub" data-toggle="modal" data-target="#confirmAcceptanceChange" class="btn btn-ar btn-primary" ng-click="vm.updateAcceptanceStatus(guest.userID, guest.optionStatus)">Apply</button>
+                                </div>
+                                    <span id="loading-{{guest.userID}}"></span>
                             </td>
 
                             <td><!--column for registration status-->
