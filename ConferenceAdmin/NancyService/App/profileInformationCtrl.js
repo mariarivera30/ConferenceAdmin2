@@ -53,13 +53,13 @@
         vm.getProfileInfo = _getProfileInfo;
         vm.apply = _apply;
         vm.getUserTypes = _getUserTypes;
-        vm.makePayment = _makePayment;
+        vm.userPayment = _userPayment;
         vm.complementaryPayment = _complementaryPayment;
         vm.selectCompanion = _selectCompanion;
         vm.getCompanionKey = _getCompanionKey;
         vm.checkComplementaryKey = _checkComplementaryKey;
         //vm.checkAll;
-
+        vm.loading;
         _getDates();
 
         if (vm.userID != null) {
@@ -199,15 +199,19 @@
                    });
         }
 
-        function _makePayment() {
-            /*if (vm.checkAll) {
-                vm.date1 = true;
-                vm.date2 = true;
-                vm.date3 = true;
-            }*/
-            restApi.makePayment(vm).
+        function _userPayment() {
+            vm.loadingUploading = true;
+            restApi.userPayment(vm).
                 success(function (data, status, headers, config) {
-                    vm.registrationStatus = "Accepted";
+                    vm.loadingUploading = false;
+                    if (data != null) {
+                        window.open(data);
+                        $location.path('/profile/receiptinformation');
+                        
+                    }
+                    else {
+                    alert("An error occurred");
+                    }
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error occurred");
@@ -215,14 +219,10 @@
         }
 
         function _complementaryPayment() {
-            /*if (vm.checkAll) {
-                vm.date1 = true;
-                vm.date2 = true;
-                vm.date3 = true;
-            }*/
+       
             restApi.complementaryPayment(vm).
                 success(function (data, status, headers, config) {
-                    vm.registrationStatus = "Accepted";
+                    
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error occurred");
@@ -239,5 +239,38 @@
                    });
         }
 
+
+        ///Deadlines registation fee
+        function _getUserAmount() {
+            restApi.getUserAmountInDeadline()
+            .success(function (data, status, headers, config) {
+                vm.amount = data;
+
+            })
+            .error(function (error) {
+                load();
+                vm.toggleModal('error');
+            });
+        }
+
+        function _getUserPayments() {
+            vm.loadingComp = true;
+            restApi.getSponsorPayments(vm.userID).
+                   success(function (data, status, headers, config) {
+                       vm.bills = data;
+                       vm.loadingComp = false;
+                       if (vm.bills.length == 0)
+                           vm.messageVisible = true;
+                       else {
+                           vm.payment = vm.bills[0];
+                       }
+                   }).
+                   error(function (data, status, headers, config) {
+                       vm.toggleModal('error');
+                       vm.loadingComp = false;
+                       vm.loadingComp = false;
+                   });
+
+        }
     }
 })();

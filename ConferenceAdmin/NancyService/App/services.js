@@ -159,23 +159,31 @@
             sendContactEmail: _sendContactEmail,
             getSubmissionsReport: _getSubmissionsReport,
             getSubmissionDeadlines: _getSubmissionDeadlines,
-            searchKeyCodes: _searchKeyCodes
-        };
+            searchKeyCodes: _searchKeyCodes,
+            userPayment: _userPayment,
+            getUserPayment: _getUserPayment,
+        };  
 
         return service;
 
         //------------------------------------------Payment------------------------------------------
-        
+        function _userPayment(data) {
+            return $http.put('/payment/userPayment', data);
+        };
         function _sponsorPayment(data) {
             return $http.put('/payment/SponsorPayment', data);
+        };
+        function _getUserPayment(data) {
+            return $http.get('/payment/getUserPayment/' + data);
         };
         function _getPayment(data) {
             return $http.get('/payment/GetPayment/' + data);
         };
+    
         function _getSponsorPayments(data) {
             return $http.get('/payment/getsponsorpayments/' + data);
         };
-        
+      
         //-----------------------------------Sponsor Complementary-----------------------------------
         
 
@@ -187,7 +195,7 @@
             return $http.put('/admin/deleteComplementaryKey', data);
         };
 
-        function _getComplemetnaryKeys() {
+        function _getComplemetnaryKeys( ) {
             return $http.get('/admin/getComplementaryKeys');
         };
 
@@ -434,7 +442,7 @@
         function _apply(data) {
             return $http.put('profile/apply/', data);
         };
-
+     
         function _makePayment(data) {
             return $http.put('profile/makePayment/', data);
         };

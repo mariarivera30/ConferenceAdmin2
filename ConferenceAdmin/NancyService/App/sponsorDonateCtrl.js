@@ -27,6 +27,7 @@
             cancelbutton: false,
             cancelbuttoText: "Cancel",
         };
+        vm.loading;
         vm.donation = 0;
         vm.detailType;
         vm.okFunc;
@@ -106,7 +107,8 @@
                    
                     vm.loadingUploading = false;
                     if (data != null) {
-                       window.open(data);
+                        window.open(data);
+                        $location.path('/profile/sponsorpaymentbill');
                     }
                     else {
                         vm.toggleModal('paymenterror');
