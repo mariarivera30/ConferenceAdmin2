@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CCWiC</title>
     <link rel="shortcut icon" href="img/favicon.png">
     <meta name="description" content="">
@@ -125,7 +124,7 @@
 
                     </div>
                     <nav class="top-nav">
-                        <ul class="top-nav-social hidden-sm">
+                        <ul class="top-nav-social hidden-md hidden-sm">
                             <li><a href="https://twitter.com/hashtag/ccwic" class="animated fadeIn animation-delay-7 twitter" target="_blank" title="Twitter"><i class="fa fa-twitter"></i></a></li>
                             <li><a href="https://www.facebook.com/ccwic2014" class="animated fadeIn animation-delay-8 facebook" target="_blank" title="Facebook"><i class="fa fa-facebook"></i></a></li>
                             <li><a href="https://plus.google.com/s/ccwic" class="animated fadeIn animation-delay-9 google-plus" target="_blank" title="Google Plus"><i class="fa fa-google-plus"></i></a></li>
@@ -136,22 +135,23 @@
 
                             <!-- <li><a href="#" class="animated fadeIn animation-delay-9 instagram"><i class="fa fa-instagram"></i></a></li> -->
                         </ul>
-                        <ul class="top-nav-social hidden-xs hidden-sm">
-                            <li><a ng-hide="vm.showProfile" href="#/Login/Log"><i class=" fa fa-user"></i> Login | Sign-Up</a></li>
-                            <li><a ng-show="vm.showProfile" href="" ng-click="vm.profileView()"><i class="  fa fa-user"></i> Profile</a></li>
+                        <ul class="top-nav-social">
+                            <li><a ng-hide="vm.showProfile" href="#/Login/Log"><i class="fa fa-user"></i> Login | Sign-Up</a></li>
+                            <li><a ng-show="vm.showProfile" href="" ng-click="vm.profileView()"><i class="fa fa-user"></i> Profile</a></li>
 
-                            <li><a ng-show="vm.showAdminsitrator" href="" ng-click="vm.adminView()"><i class="hidden-xs hidden-sm fa fa-gear"></i> Administrator </a></li>
+                            <li><a ng-show="vm.showAdminsitrator" href="" ng-click="vm.adminView()"><i class="fa fa-gear"></i> Administrator </a></li>
 
                             <li></li>
                             <li></li>
 
                             <!-- <li><a href="#" class="animated fadeIn animation-delay-9 instagram"><i class="fa fa-instagram"></i></a></li> -->
                         </ul>
-                        <ul ng-show="vm.showProfile" class=" hidden-xs hidden-sm top-nav-social hidden-sm">
+                        <ul ng-show="vm.showProfile" class="top-nav-social">
 
                             <li ng-show="vm.showProfile"><a href="#/Home" ng-click="vm.logout()">Logout | {{vm.messageLogOut.split('@')[0]}}</a></li>
 
                         </ul>
+
                     </nav>
                 </div> <!-- container -->
             </header> <!-- header-full -->
@@ -164,37 +164,34 @@
                             <span class="sr-only">Toggle navigation</span>
                             <i class="fa fa-bars"></i>
                         </button>
-                        <a class="navbar-brand visible-xs visible-sm" href="#/Home"><span>CCWiC</span></a>
-                        <a class="visible-xs visible-sm white  right  " data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" ng-hide=" vm.showProfile" href="#/Login/Log"><span><i class="  fa fa-user"></i> Login | Sign-Up</span></a>
-                        <a class="visible-xs visible-sm white right " data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" ng-show="vm.showProfile" href=" #/Home" ng-click="vm.logout()"><span><i class="  fa fa-user"></i>Logout | {{vm.messageLogOut.split('@')[0]}}</span></a>
+                        <a class="navbar-brand hidden-lg hidden-md hidden-sm col-xs-4" href="#/Home"><span>CCWiC</span></a>
+                        <a class="white right hidden-lg hidden-md hidden-sm" ng-hide="vm.showProfile" href="#/Login/Log"><i class="fa fa-user"></i> Login | Sign-Up</a>
 
                     </div> <!-- navbar-header -->
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
 
-
-
-                            <li class=" visible-md visible-lg dropdown non-dropdown">
+                            <li class="hidden-xs dropdown non-dropdown">
                                 <a href="#/Home">Home</a>
                             </li>
-                            <li class="visible-md visible-lg dropdown non-dropdown">
+                            <li class="hidden-xs dropdown non-dropdown">
                                 <a href="#/Committee">Planning Committee</a>
                             </li>
-                            <li class="visible-md visible-lg dropdown non-dropdown">
+                            <li class="hidden-xs dropdown non-dropdown">
                                 <a href="#/Venue">Venue</a>
                             </li>
-                            <li class="visible-md visible-lg dropdown non-dropdown">
+                            <li class="hidden-xs dropdown non-dropdown">
                                 <a href="#/Deadlines">Deadlines</a>
                             </li>
-                            <li class="visible-md visible-lg dropdown non-dropdown">
+                            <li class="hidden-xs dropdown non-dropdown">
                                 <a href="#/Registration">Registration</a>
                             </li>
-                            <li class="visible-md visible-lg dropdown non-dropdown">
+                            <li class="hidden-xs dropdown non-dropdown">
                                 <a href="#/Participation">Call for Participation</a>
                             </li>
 
-                            <li class="visible-md visible-lg dropdown" ng-controller="programCtrl2 as vm">
+                            <li class="hidden-xs dropdown" ng-controller="programCtrl2 as vm">
                                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Program</a>
                                 <ul class="dropdown-menu dropdown-menu-left">
                                     <li><a href="" ng-click="vm.viewProgram()">Program Schedule</a></li>
@@ -202,17 +199,27 @@
                                 </ul>
                             </li>
 
-                            <li class="visible-md visible-lg dropdown non-dropdown">
+                            <li class="hidden-xs dropdown non-dropdown">
                                 <a href="#/Sponsors">Sponsors</a>
                             </li>
-                            <li class="visible-md visible-lg dropdown non-dropdown">
+                            <li class="hidden-xs dropdown non-dropdown">
                                 <a href="#/Contact">Contact</a>
                             </li>
                             <!-------Mobile --->
 
-
-                            <li ng-show="vm.showProfile" class=" visible-xs m dropdown non-dropdown">
-                                <a ng-show="vm.showAdminsitrator" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="" ng-click="vm.adminView()">Administrator </a>
+                            <li class="visible-xs dropdown" ng-show="vm.showProfile">
+                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">CCWiC Account</a>
+                                <ul class="dropdown-menu dropdown-menu-left">
+                                    <li class="visible-xs dropdown non-dropdown">
+                                        <a ng-show="vm.showProfile" href="" ng-click="vm.profileView()" data-toggle="collapse" data-target=".navbar-collapse">My Profile</a>
+                                    </li>
+                                    <li class="visible-xs dropdown non-dropdown">
+                                        <a ng-show="vm.showAdminsitrator" href="" ng-click="vm.adminView()" data-toggle="collapse" data-target=".navbar-collapse">Administrator Settings</a>
+                                    </li>
+                                    <li class="visible-xs dropdown non-dropdown">
+                                        <a ng-show="vm.showProfile" href="#/Home" ng-click="vm.logout()" data-toggle="collapse" data-target=".navbar-collapse">Log Out</a>
+                                    </li>
+                                </ul>
                             </li>
 
                             <li class=" visible-xs  dropdown non-dropdown">
@@ -248,6 +255,7 @@
                             <li class=" visible-xs  dropdown non-dropdown">
                                 <a data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" href="#/Contact">Contact</a>
                             </li>
+
                         </ul>
                     </div><!-- navbar-collapse -->
                 </div><!-- container -->
@@ -263,10 +271,9 @@
                     </div>
                 </div>
                 <div class="row btn-padding">
-                    <div id="content" class="noPrint ">
+                    <div id="content" class="noPrint">
 
-                        <div ui-view="banner" autoscroll="false" class="col-lg-12 col-md-12 col-sm-12 col-xm-12 margin-fix-banner">
-
+                        <div ui-view="banner" autoscroll="false" class="col-lg-12 col-md-12 col-sm-12 margin-fix-banner">
                         </div>
 
                     </div>

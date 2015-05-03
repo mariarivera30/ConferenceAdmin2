@@ -557,10 +557,8 @@ namespace NancyService.Modules
                 deadline.deadlineDate2 = this.getInterfaceElement("deadlineDate2").content;
                 deadline.deadline3 = this.getInterfaceElement("deadline3").content;
                 deadline.deadlineDate3 = this.getInterfaceElement("deadlineDate3").content;
-                deadline.deadline4 = this.getInterfaceElement("deadline4").content;
-                deadline.deadlineDate4 = this.getInterfaceElement("deadlineDate4").content;
-                deadline.deadline5 = this.getInterfaceElement("deadline5").content;
-                deadline.deadlineDate5 = this.getInterfaceElement("deadlineDate5").content;
+                deadline.registrationDeadline = this.getInterfaceElement("registrationDeadline").content;
+                deadline.lateRegistrationDeadline = this.getInterfaceElement("lateRegistrationDeadline").content;
                 deadline.paragraph = this.getInterfaceElement("deadlineParagraph1").content;
 
                 //Papers
@@ -613,10 +611,8 @@ namespace NancyService.Modules
                     deadline.deadlineDate2 = this.getInterfaceElement("deadlineDate2").content;
                     deadline.deadline3 = this.getInterfaceElement("deadline3").content;
                     deadline.deadlineDate3 = this.getInterfaceElement("deadlineDate3").content;
-                    deadline.deadline4 = this.getInterfaceElement("deadline4").content;
-                    deadline.deadlineDate4 = this.getInterfaceElement("deadlineDate4").content;
-                    deadline.deadline5 = this.getInterfaceElement("deadline5").content;
-                    deadline.deadlineDate5 = this.getInterfaceElement("deadlineDate5").content;
+                    deadline.registrationDeadline = this.getInterfaceElement("registrationDeadline").content;
+                    deadline.lateRegistrationDeadline = this.getInterfaceElement("lateRegistrationDeadline").content;
                     deadline.paragraph = this.getInterfaceElement("deadlineParagraph1").content;
 
                     deadline.extendedPaperDeadline = this.getDeadlineElement("Extended Paper").content;
@@ -630,8 +626,8 @@ namespace NancyService.Modules
                     deadline.deadlineDate1 = this.convertDates(deadline.deadlineDate1);
                     deadline.deadlineDate2 = this.convertDates(deadline.deadlineDate2);
                     deadline.deadlineDate3 = this.convertDates(deadline.deadlineDate3);
-                    deadline.deadlineDate4 = this.convertDates(deadline.deadlineDate4);
-                    deadline.deadlineDate5 = this.convertDates(deadline.deadlineDate5);
+                    deadline.registrationDeadline = this.convertDates(deadline.registrationDeadline);
+                    deadline.lateRegistrationDeadline = this.convertDates(deadline.lateRegistrationDeadline);
                     deadline.extendedPaperDeadline = this.convertDates(deadline.extendedPaperDeadline);
                     deadline.posterDeadline = this.convertDates(deadline.posterDeadline);
                     deadline.panelDeadline = this.convertDates(deadline.panelDeadline);
@@ -668,14 +664,14 @@ namespace NancyService.Modules
                     newDeadline.deadlineDate3 = "";
                 }
 
-                if (newDeadline.deadlineDate4 == "Invalid Date")
+                if (newDeadline.registrationDeadline == "Invalid Date")
                 {
-                    newDeadline.deadlineDate4 = "";
+                    newDeadline.registrationDeadline = "";
                 }
 
-                if (newDeadline.deadlineDate5 == "Invalid Date")
+                if (newDeadline.lateRegistrationDeadline == "Invalid Date")
                 {
-                    newDeadline.deadlineDate5 = "";
+                    newDeadline.lateRegistrationDeadline = "";
                 }
 
                 //Papers
@@ -736,20 +732,6 @@ namespace NancyService.Modules
                     if (deadline3 != null)
                         deadline3.content = newDeadline.deadline3;
 
-                    var deadline4 = (from s in context.interfaceinformations
-                                     where s.attribute == "deadline4"
-                                     select s).FirstOrDefault();
-
-                    if (deadline4 != null)
-                        deadline4.content = newDeadline.deadline4;
-
-                    var deadline5 = (from s in context.interfaceinformations
-                                     where s.attribute == "deadline5"
-                                     select s).FirstOrDefault();
-
-                    if (deadline5 != null)
-                        deadline5.content = newDeadline.deadline5;
-
                     var deadlineDate1 = (from s in context.interfaceinformations
                                          where s.attribute == "deadlineDate1"
                                          select s).FirstOrDefault();
@@ -771,19 +753,19 @@ namespace NancyService.Modules
                     if (deadlineDate3 != null)
                         deadlineDate3.content = newDeadline.deadlineDate3;
 
-                    var deadlineDate4 = (from s in context.interfaceinformations
-                                         where s.attribute == "deadlineDate4"
+                    var registrationDeadline = (from s in context.interfaceinformations
+                                                where s.attribute == "registrationDeadline"
                                          select s).FirstOrDefault();
 
-                    if (deadlineDate4 != null)
-                        deadlineDate4.content = newDeadline.deadlineDate4;
+                    if (registrationDeadline != null)
+                        registrationDeadline.content = newDeadline.registrationDeadline;
 
-                    var deadlineDate5 = (from s in context.interfaceinformations
-                                         where s.attribute == "deadlineDate5"
-                                         select s).FirstOrDefault();
+                    var lateRegistrationDeadline = (from s in context.interfaceinformations
+                                                    where s.attribute == "lateRegistrationDeadline"
+                                                    select s).FirstOrDefault();
 
-                    if (deadlineDate5 != null)
-                        deadlineDate5.content = newDeadline.deadlineDate5;
+                    if (lateRegistrationDeadline != null)
+                        lateRegistrationDeadline.content = newDeadline.lateRegistrationDeadline;
 
                     var sponsorDeadline = (from s in context.interfaceinformations
                                               where s.attribute == "sponsorDeadline"
@@ -1647,10 +1629,8 @@ namespace NancyService.Modules
         public String deadlineDate2;
         public String deadline3;
         public String deadlineDate3;
-        public String deadline4;
-        public String deadlineDate4;
-        public String deadline5;
-        public String deadlineDate5;
+        public String registrationDeadline;
+        public String lateRegistrationDeadline;
         public String extendedPaperDeadline;
         public String posterDeadline;
         public String panelDeadline;

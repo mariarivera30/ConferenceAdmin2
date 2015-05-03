@@ -1,18 +1,18 @@
 ﻿<div ng-controller="evaluatorCtrl as vm">
 
     <div class="row">
-        <div class="col-lg-8"><h3>Manage Evaluators</h3></div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8"><h3>Manage Evaluators</h3></div>
         <!-- Loading icon, appearing while table is loading its contents. -->
-        <div class="col-lg-3 loading-right">
+        <div class="col-lg-3 col-md-3 hidden-sm hidden-xs loading-right">
             <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
         </div>
     </div>
 
-    <div class="col-lg-12 btn-padding2" ng-show="!vm.showResults && (vm.pendingList.length || vm.evaluatorsList.length)">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 btn-padding2" ng-show="!vm.showResults && (vm.pendingList.length || vm.evaluatorsList.length)">
         <label class="left">Search: <input ng-model="vm.criteria" ng-change="vm.showSearch = false" /><button ng-click="vm.search(0)" ng-disabled="vm.loadingSearch"><i class="fa fa-search"></i></button> <label ng-show="vm.showSearch && !vm.showResults"> No results found.</label></label>
     </div>
 
-    <div class="col-lg-12 hide-until-loaded" id="body">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 hide-until-loaded" id="body">
         <div class="panel-group" id="accordion" ng-show="!vm.showResults">
             <div class="panel panel-default" id="panel1">
                 <div class="panel-heading panel-heading-link">
@@ -28,7 +28,7 @@
                         </div>
                         <div ng-show="vm.pendingList.length">
                             <div>
-                                <table class="table table-top col-lg-12">
+                                <table class="table table-top col-lg-12 col-md-12">
                                     <thead>
                                         <tr>
                                             <th><b>Name</b></th>
@@ -54,7 +54,7 @@
                                     </tbody>
                                 </table><br />
                             </div>
-                            <div aria-live="polite" class="col-lg-6">Showing page {{vm.pindex + 1}} of {{vm.pmaxIndex}}</div>
+                            <div aria-live="polite" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">Showing page {{vm.pindex + 1}} of {{vm.pmaxIndex}}</div>
                             <div class="col-lg-6 paging-word">
                                 <a class="btn btn-default" ng-click="vm.getPendingListFromIndex(vm.pindex)"><i class="glyphicon glyphicon-repeat"></i></a>
                                 <a class="btn btn-default" ng-disabled="vm.pindex==0" ng-click="vm.getFirstPendingPage()">First</a>
@@ -101,13 +101,13 @@
                                                             ng-options="acceptanceStatus for acceptanceStatus in vm.acceptanceStatusList"></select>
                                                     <button class="btn btn-ar btn-primary" ng-click="vm.selectedEvaluator(evaluator)" ng-disabled="(evaluator.optionStatus == 'Accept' && evaluator.acceptanceStatus == 'Accepted') || (evaluator.optionStatus == 'Reject' && evaluator.acceptanceStatus == 'Rejected')" data-toggle="modal" data-target="#updateConfirmation">Apply</button>
                                                 </div>
-                                               <span id="loading-{{evaluator.userID}}"></span>
+                                                <span id="loading-{{evaluator.userID}}"></span>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table><br />
                             </div>
-                            <div aria-live="polite" class="col-lg-6">Showing page {{vm.eindex + 1}} of {{vm.emaxIndex}}</div>
+                            <div aria-live="polite" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">Showing page {{vm.eindex + 1}} of {{vm.emaxIndex}}</div>
                             <div class="col-lg-6 paging-word">
                                 <a class="btn btn-default" ng-click="vm.getEvaluatorListFromIndex(vm.eindex)"><i class="glyphicon glyphicon-repeat"></i></a>
                                 <a class="btn btn-default" ng-disabled="vm.eindex==0" ng-click="vm.getFirstEvaluatorPage()">First</a>
@@ -155,7 +155,7 @@
                     </tbody>
                 </table><br />
             </div>
-            <div aria-live="polite" class="col-lg-6">Showing page {{vm.searchIndex + 1}} of {{vm.searchMaxIndex}}</div>
+            <div aria-live="polite" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">Showing page {{vm.searchIndex + 1}} of {{vm.searchMaxIndex}}</div>
             <div class="col-lg-6 paging-word">
                 <a class="btn btn-default" ng-click="vm.search(vm.searchIndex)"><i class="glyphicon glyphicon-repeat"></i></a>
                 <a class="btn btn-default" ng-disabled="vm.searchIndex==0" ng-click="vm.getFirstSearch()">First</a>

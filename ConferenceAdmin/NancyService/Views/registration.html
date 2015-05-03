@@ -14,11 +14,11 @@
 
                     <tr>
 
-                        <th>Participant</th>
+                        <th class="text-left text-red p-lg">Participant</th>
 
-                        <th>Cost</th>
+                        <th class="text-red p-lg">Registration Cost</th>
 
-                        <th>After deadline fee</th>
+                        <th class="text-red p-lg">Late Registration Cost</th>
 
                     </tr>
 
@@ -28,61 +28,61 @@
 
                     <tr ng-show="vm.iundergraduateStudentFee">
 
-                        <td>Undergraduate Student</td>
+                        <td class="text-left p-lg">Undergraduate Student</td>
 
-                        <td>${{vm.iundergraduateStudentFee}}</td>
+                        <td class="p-lg">${{vm.iundergraduateStudentFee}}</td>
 
-                        <td>${{vm.iundergraduateStudentLateFee}}</td>
+                        <td class="p-lg">${{vm.iundergraduateStudentLateFee}}</td>
 
                     </tr>
 
                     <tr ng-show="vm.igraduateStudentFee">
 
-                        <td>Graduate Student</td>
+                        <td class="text-left p-lg">Graduate Student</td>
 
-                        <td>${{vm.igraduateStudentFee}}</td>
+                        <td class="p-lg">${{vm.igraduateStudentFee}}</td>
 
-                        <td>${{vm.igraduateStudentLateFee}}</td>
+                        <td class="p-lg">${{vm.igraduateStudentLateFee}}</td>
 
                     </tr>
 
                     <tr ng-show="vm.ihighSchoolStudentFee">
 
-                        <td>High School Student</td>
+                        <td class="text-left p-lg">High School Student</td>
 
-                        <td>${{vm.ihighSchoolStudentFee}}</td>
+                        <td class="p-lg">${{vm.ihighSchoolStudentFee}}</td>
 
-                        <td>${{vm.ihighSchoolStudentLateFee}}</td>
+                        <td class="p-lg">${{vm.ihighSchoolStudentLateFee}}</td>
 
                     </tr>
 
                     <tr ng-show="vm.icompanionStudentFee">
 
-                        <td>High School Student Companion</td>
+                        <td class="text-left p-lg">High School Student Companion</td>
 
-                        <td>${{vm.icompanionStudentFee}}</td>
+                        <td class="p-lg">${{vm.icompanionStudentFee}}</td>
 
-                        <td>${{vm.icompanionStudentLateFee}}</td>
+                        <td class="p-lg">${{vm.icompanionStudentLateFee}}</td>
 
                     </tr>
 
                     <tr ng-show="vm.iprofessionalAcademyFee">
 
-                        <td>Professional Academia</td>
+                        <td class="text-left p-lg">Professional Academia</td>
 
-                        <td>${{vm.iprofessionalAcademyFee}}</td>
+                        <td class="p-lg">${{vm.iprofessionalAcademyFee}}</td>
 
-                        <td>${{vm.iprofessionalAcademyLateFee}}</td>
+                        <td class="p-lg">${{vm.iprofessionalAcademyLateFee}}</td>
 
                     </tr>
 
                     <tr ng-show="vm.professionalIndustryFee">
 
-                        <td>Professional Industry</td>
+                        <td class="text-left p-lg">Professional Industry</td>
 
-                        <td>${{vm.iprofessionalIndustryFee}}</td>
+                        <td class="p-lg">${{vm.iprofessionalIndustryFee}}</td>
 
-                        <td>${{vm.iprofessionalIndustryLateFee}}</td>
+                        <td class="p-lg">${{vm.iprofessionalIndustryLateFee}}</td>
 
                     </tr>
 
@@ -91,7 +91,9 @@
             </table>
         </div>
 
-        <div class="col-md-12 pl-g" ng-model="vm.iregistrationParagraph2" ckhtml></div>
+        <div class="col-md-12">
+            <div class="p-lg" ng-model="vm.iregistrationParagraph2" ckhtml></div>
+        </div>
 
     </div>
 

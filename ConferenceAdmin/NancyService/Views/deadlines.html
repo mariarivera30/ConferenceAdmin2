@@ -7,66 +7,73 @@
             <table class="table after-title-field" id="deadlinetable" ng-show="vm.iothersDeadline || vm.isponsorDeadline || vm.iworkshopDeadline || vm.iposterDeadline || vm.ipanelDeadline || vm.iextendedPaperDeadline || vm.ideadline1 || vm.ideadlineDate1 || vm.ideadline2 || vm.ideadlineDate2 || vm.ideadline3 || vm.ideadlineDate3 || vm.ideadline4 || vm.ideadlineDate4 || vm.ideadline5 || vm.ideadlineDate5">
                 <thead>
                     <tr>
-                        <th class="text-left">Deadline</th>
-                        <th class="text-left">Date</th>
+                        <th class="text-left text-red p-lg">Conference Deadlines</th>
+                        <th class="text-left text-red p-lg">Date</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <!--Papers-->
-                    <tr ng-show="vm.iextendedPaperDeadline">
-                        <td class="text-left"><h5 class="after-title-field">Submission for Extended Papers</h5></td>
-                        <td class="text-left">{{vm.iextendedPaperDeadline}}</td>
+
+                    <tr ng-show="vm.registrationDeadline">
+                        <td class="text-left p-lg">Registration</td>
+                        <td class="text-left p-lg">{{vm.registrationDeadline}}</td>
                     </tr>
 
-                    <tr ng-show="vm.iposterDeadline">
-                        <td class="text-left"><h5 class="after-title-field">Submission for Posters</h5></td>
-                        <td class="text-left">{{vm.iposterDeadline}}</td>
+                    <tr ng-show="vm.lateRegistrationDeadline">
+                        <td class="text-left p-lg">Late Registration</td>
+                        <td class="text-left p-lg">{{vm.lateRegistrationDeadline}}</td>
                     </tr>
 
-                    <tr ng-show="vm.ipanelDeadline">
-                        <td class="text-left"><h5 class="after-title-field">Submission for Panels</h5></td>
-                        <td class="text-left">{{vm.ipanelDeadline}}</td>
-                    </tr>
 
-                    <tr ng-show="vm.iworkshopDeadline">
-                        <td class="text-left"><h5 class="after-title-field">Submission for Workshops</h5></td>
-                        <td class="text-left">{{vm.iworkshopDeadline}}</td>
+                    <tr ng-show="vm.isponsorDeadline">
+                        <td class="text-left p-lg">Sponsorship</td>
+                        <td class="text-left p-lg">{{vm.isponsorDeadline}}</td>
                     </tr>
 
                     <tr ng-show="vm.ideadline1">
-                        <td class="text-left"><h5 class="after-title-field">{{vm.ideadline1}}</h5></td>
-                        <td class="text-left">{{vm.ideadlineDate1}}</td>
+                        <td class="text-left p-lg">{{vm.ideadline1}}</td>
+                        <td class="text-left p-lg">{{vm.ideadlineDate1}}</td>
                     </tr>
 
                     <tr ng-show="vm.ideadline2">
-                        <td class="text-left"><h5 class="after-title-field">{{vm.ideadline2}}</h5></td>
-                        <td class="text-left">{{vm.ideadlineDate2}}</td>
+                        <td class="text-left p-lg">{{vm.ideadline2}}</td>
+                        <td cclass="text-left p-lg">{{vm.ideadlineDate2}}</td>
                     </tr>
 
                     <tr ng-show="vm.ideadline3">
-                        <td class="text-left"><h5 class="after-title-field">{{vm.ideadline3}}</h5></td>
-                        <td class="text-left">{{vm.ideadlineDate3}}</td>
+                        <td class="text-left p-lg">{{vm.ideadline3}}</td>
+                        <td class="text-left p-lg">{{vm.ideadlineDate3}}</td>
                     </tr>
 
-                    <tr ng-show="vm.ideadline4">
-                        <td class="text-left"><h5 class="after-title-field">{{vm.ideadline4}}</h5></td>
-                        <td class="text-left">{{vm.ideadlineDate4}}</td>
+                    <tr>
+                        <th class="text-left text-red p-lg">Submission Deadlines</th>
+                        <th class="text-left text-red p-lg"></th>
                     </tr>
 
-                    <tr ng-show="vm.ideadline5">
-                        <td class="text-left"><h5 class="after-title-field">{{vm.ideadline5}}</h5></td>
-                        <td class="text-left">{{vm.ideadlineDate5}}</td>
+                    <!--Papers-->
+                    <tr ng-show="vm.iextendedPaperDeadline">
+                        <td class="text-left p-lg">Extended Papers</td>
+                        <td class="text-left p-lg">{{vm.iextendedPaperDeadline}}</td>
                     </tr>
 
-                    <tr ng-show="vm.isponsorDeadline">
-                        <td class="text-left"><h5 class="after-title-field">Sponsorship</h5></td>
-                        <td class="text-left">{{vm.isponsorDeadline}}</td>
+                    <tr ng-show="vm.iposterDeadline">
+                        <td class="text-left p-lg">Posters</td>
+                        <td class="text-left p-lg">{{vm.iposterDeadline}}</td>
+                    </tr>
+
+                    <tr ng-show="vm.ipanelDeadline">
+                        <td class="text-left p-lg">Panels</td>
+                        <td class="text-left p-lg">{{vm.ipanelDeadline}}</td>
+                    </tr>
+
+                    <tr ng-show="vm.iworkshopDeadline">
+                        <td class="text-left p-lg">Workshops</td>
+                        <td class="text-left p-lg">{{vm.iworkshopDeadline}}</td>
                     </tr>
 
                     <tr ng-show="vm.ibofDeadline">
-                        <td class="text-left"><h5 class="after-title-field">Others</h5></td>
-                        <td class="text-left">{{vm.iothersDeadline}}</td>
+                        <td class="text-left p-lg">Others</td>
+                        <td class="text-left p-lg">{{vm.iothersDeadline}}</td>
                     </tr>
 
                 </tbody>

@@ -20,10 +20,9 @@
         vm.deadlineDate2;
         vm.deadline3;
         vm.deadlineDate3;
-        vm.deadline4;
-        vm.deadlineDate4;
-        vm.deadline5;
-        vm.deadlineDate5;
+
+        vm.registrationDeadline;
+        vm.lateRegistrationDeadline;
 
         vm.deadlineParagraph1;
 
@@ -83,11 +82,12 @@
                 vm.deadlineDate2 = new Date(vm.temp.deadlineDate2.split('/')[2], vm.temp.deadlineDate2.split('/')[0] - 1, vm.temp.deadlineDate2.split('/')[1]);
                 vm.deadline3 = vm.temp.deadline3;
                 vm.deadlineDate3 = new Date(vm.temp.deadlineDate3.split('/')[2], vm.temp.deadlineDate3.split('/')[0] - 1, vm.temp.deadlineDate3.split('/')[1]);
-                vm.deadline4 = vm.temp.deadline4;
-                vm.deadlineDate4 = new Date(vm.temp.deadlineDate4.split('/')[2], vm.temp.deadlineDate4.split('/')[0] - 1, vm.temp.deadlineDate4.split('/')[1]);
-                vm.deadline5 = vm.temp.deadline5;
-                vm.deadlineDate5 = new Date(vm.temp.deadlineDate5.split('/')[2], vm.temp.deadlineDate5.split('/')[0] - 1, vm.temp.deadlineDate5.split('/')[1]);
+
+                vm.registrationDeadline = new Date(vm.temp.registrationDeadline.split('/')[2], vm.temp.registrationDeadline.split('/')[0] - 1, vm.temp.registrationDeadline.split('/')[1]);
+                vm.lateRegistrationDeadline = new Date(vm.temp.lateRegistrationDeadline.split('/')[2], vm.temp.lateRegistrationDeadline.split('/')[0] - 1, vm.temp.lateRegistrationDeadline.split('/')[1]);
+
                 vm.sponsorDeadline = new Date(vm.temp.sponsorDeadline.split('/')[2], vm.temp.sponsorDeadline.split('/')[0] - 1, vm.temp.sponsorDeadline.split('/')[1]);
+
 
                 vm.deadlineParagraph1 = vm.temp.paragraph;
 
@@ -113,10 +113,10 @@
                     vm.deadlineDate2 = new Date(data.deadlineDate2.split('/')[2], data.deadlineDate2.split('/')[0] - 1, data.deadlineDate2.split('/')[1]);
                     vm.deadline3 = data.deadline3;
                     vm.deadlineDate3 = new Date(data.deadlineDate3.split('/')[2], data.deadlineDate3.split('/')[0] - 1, data.deadlineDate3.split('/')[1]);
-                    vm.deadline4 = data.deadline4;
-                    vm.deadlineDate4 = new Date(data.deadlineDate4.split('/')[2], data.deadlineDate4.split('/')[0] - 1, data.deadlineDate4.split('/')[1]);
-                    vm.deadline5 = data.deadline5;
-                    vm.deadlineDate5 = new Date(data.deadlineDate5.split('/')[2], data.deadlineDate5.split('/')[0] - 1, data.deadlineDate5.split('/')[1]);
+
+                    vm.registrationDeadline = new Date(data.registrationDeadline.split('/')[2], data.registrationDeadline.split('/')[0] - 1, data.registrationDeadline.split('/')[1]);
+                    vm.lateRegistrationDeadline = new Date(data.lateRegistrationDeadline.split('/')[2], data.lateRegistrationDeadline.split('/')[0] - 1, data.lateRegistrationDeadline.split('/')[1]);
+
                     vm.sponsorDeadline = new Date(data.sponsorDeadline.split('/')[2], data.sponsorDeadline.split('/')[0] - 1, data.sponsorDeadline.split('/')[1]);
 
                     vm.deadlineParagraph1 = data.paragraph;
@@ -167,18 +167,18 @@
                 d3 = (vm.deadlineDate3.getUTCMonth() + 1) + "/" + vm.deadlineDate3.getUTCDate() + "/" + vm.deadlineDate3.getUTCFullYear();
             }
 
-            if (vm.deadlineDate4 == null || vm.deadlineDate4 == "Invalid Date") {
-                vm.deadlineDate4 = new Date("");
+            if (vm.registrationDeadline == null || vm.registrationDeadline == "Invalid Date") {
+                vm.registrationDeadline = new Date("");
             }
             else {
-                d4 = (vm.deadlineDate4.getUTCMonth() + 1) + "/" + vm.deadlineDate4.getUTCDate() + "/" + vm.deadlineDate4.getUTCFullYear();
+                d4 = (vm.registrationDeadline.getUTCMonth() + 1) + "/" + vm.registrationDeadline.getUTCDate() + "/" + vm.registrationDeadline.getUTCFullYear();
             }
 
-            if (vm.deadlineDate5 == null || vm.deadlineDate5 == "Invalid Date") {
-                vm.deadlineDate5 = new Date("");
+            if (vm.lateRegistrationDeadline == null || vm.lateRegistrationDeadline == "Invalid Date") {
+                vm.lateRegistrationDeadline = new Date("");
             }
             else {
-                d5 = (vm.deadlineDate5.getUTCMonth() + 1) + "/" + vm.deadlineDate5.getUTCDate() + "/" + vm.deadlineDate5.getUTCFullYear();
+                d5 = (vm.lateRegistrationDeadline.getUTCMonth() + 1) + "/" + vm.lateRegistrationDeadline.getUTCDate() + "/" + vm.lateRegistrationDeadline.getUTCFullYear();
             }
 
             if (vm.sponsorDeadline == null || vm.sponsorDeadline == "Invalid Date") {
@@ -231,10 +231,8 @@
                 deadlineDate2: d2,
                 deadline3: vm.deadline3,
                 deadlineDate3: d3,
-                deadline4: vm.deadline4,
-                deadlineDate4: d4,
-                deadline5: vm.deadline5,
-                deadlineDate5: d5,
+                registrationDeadline: d4,
+                lateRegistrationDeadline: d5,
                 sponsorDeadline: d6,
                 extendedPaperDeadline: s1,
                 posterDeadline:s2,

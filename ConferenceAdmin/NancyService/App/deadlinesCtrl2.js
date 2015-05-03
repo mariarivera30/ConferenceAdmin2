@@ -19,10 +19,10 @@
         vm.ideadlineDate2;
         vm.ideadline3;
         vm.ideadlineDate3;
-        vm.ideadline4;
-        vm.ideadlineDate4;
-        vm.ideadline5;
-        vm.ideadlineDate5;
+
+        vm.registrationDeadline;
+        vm.lateRegistrationDeadline;
+
         vm.idateFrom;
         vm.idateTo;
         vm.ideadlineTitle1;
@@ -81,10 +81,8 @@
                     vm.ideadlineDate2 = data.deadlineDate2;
                     vm.ideadline3 = data.deadline3;
                     vm.ideadlineDate3 = data.deadlineDate3;
-                    vm.ideadline4 = data.deadline4;
-                    vm.ideadlineDate4 = data.deadlineDate4;
-                    vm.ideadline5 = data.deadline5;
-                    vm.ideadlineDate5 = data.deadlineDate5;
+                    vm.registrationDeadline = data.registrationDeadline;
+                    vm.lateRegistrationDeadline = data.lateRegistrationDeadline;
                     vm.ideadlineTitle1 = data.title;
                     vm.ideadlineParagraph1 = data.paragraph;
 

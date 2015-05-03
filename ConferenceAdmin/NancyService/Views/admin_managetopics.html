@@ -2,7 +2,7 @@
 
     <h3>Manage Topics</h3>
 
-    <div class="col-lg-8 hide-until-loaded" id="body">
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 hide-until-loaded" id="body">
 
         <!-- Show message if the list of topics contains zero topics. -->
         <div ng-hide="vm.topicsList.length">
@@ -28,13 +28,15 @@
                 </tbody>
             </table>
         </div>
-        <button class="btn btn-ar btn-primary" data-toggle="modal" data-target="#addTopic">Add Topic</button> <a href=""><i class="fa fa-info-circle info-icon" title="Add a new topic"> </i></a>
-        <a class="btn btn-default right" ng-click="vm.getTopics()"><i class="glyphicon glyphicon-repeat"></i></a>
+        <div class="col-sm-6 col-xs-6">
+            <button class="btn btn-ar btn-primary" data-toggle="modal" data-target="#addTopic">Add Topic</button> <a href=""><i class="fa fa-info-circle info-icon hidden-sm hidden-xs" title="Add a new topic"> </i></a>
+        </div>
+            <a class="btn btn-default right" ng-click="vm.getTopics()"><i class="glyphicon glyphicon-repeat"></i></a>
         <br>
     </div>
 
     <!-- Loading icon -->
-    <div class="col-lg-12">
+    <div class="col-lg-12 col-md-12 col-xs-12">
         <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
     </div>
 

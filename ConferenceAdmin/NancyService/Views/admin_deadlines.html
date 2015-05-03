@@ -1,17 +1,17 @@
-﻿<div class="row" ng-controller="deadlinesCtrl as vm">
+﻿<div class="row" ng-controller="deadlinesCtrl as vm">    
 
-        <div class="col-lg-9"><h3>Deadlines Information</h3></div>
+    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"><h3>Deadlines Information</h3></div>
 
-        <!-- Loading icon, appearing while table is loading its contents. -->
-        <div class="col-lg-3 loading-right">
-            <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
-        </div><br />
+    <!-- Loading icon, appearing while table is loading its contents. -->
+    <div class="col-lg-3 col-md-3 hidden-sm hidden-xs loading-right">
+        <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
+    </div><br />
   
-    <div class="col-lg-10">
+    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
         <textarea class="form-control" ng-model="vm.deadlineParagraph1" ckeditor="150px"></textarea><br />
     </div>
 
-    <div class="col-lg-8 hide-until-loaded" id="body">
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 hide-until-loaded" id="body">
 
         <h5 class="after-title-field">Submission Deadlines</h5>
         <p>These deadlines are used for closing submissions.</p>
@@ -59,7 +59,7 @@
         </table>
 
         <h5 class="after-title-field">Conference Deadlines</h5>
-        <p>These deadlines are used for informational purposes only on the "Deadlines" section of the website.</p>
+        <p>Registration deadlines are used for closing conference registration at the specified date. Additional deadlines are used for informational purposes only on the "Deadlines" section of the website.</p>
         <table class="table after-title-field">
             <colgroup>
                 <col span="1" style="width: 75%;">
@@ -75,6 +75,16 @@
 
             <tbody>
                 <tr>
+                    <td class="text-left">Registration</td>
+                    <td><input type="date" class="form-control" ng-model="vm.registrationDeadline"></td>
+                </tr>
+
+                <tr>
+                    <td class="text-left">Late Registration</td>
+                    <td><input type="date" class="form-control" ng-model="vm.lateRegistrationDeadline"></td>
+                </tr>
+
+                <tr>
                     <td><input type="text" class="form-control" ng-model="vm.deadline1"></td>
                     <td><input type="date" class="form-control" ng-model="vm.deadlineDate1"></td>
                 </tr>
@@ -87,16 +97,6 @@
                 <tr>
                     <td><input type="text" class="form-control" ng-model="vm.deadline3"></td>
                     <td><input type="date" class="form-control" ng-model="vm.deadlineDate3"></td>
-                </tr>
-
-                <tr>
-                    <td><input type="text" class="form-control" ng-model="vm.deadline4"></td>
-                    <td><input type="date" class="form-control" ng-model="vm.deadlineDate4"></td>
-                </tr>
-
-                <tr>
-                    <td><input type="text" class="form-control" ng-model="vm.deadline5"></td>
-                    <td><input type="date" class="form-control" ng-model="vm.deadlineDate5"></td>
                 </tr>
             </tbody>
         </table>

@@ -1,18 +1,20 @@
 ﻿<div class="row" ng-controller="sponsorInterfaceCtrl as vm">
 
-    <div class="col-lg-9">
+    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
         <h3>Sponsors Information</h3>
     </div>
 
     <!-- Loading icon, appearing while table is loading its contents. -->
-    <div class="col-lg-3 loading-right">
+    <div class="col-lg-3 col-md-3 hidden-sm hidden-xs loading-right">
         <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
     </div>
 
     <div class="hide-until-loaded" id="body">
-        <div class="col-lg-10">
+        <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
             <h5 class="after-title-field">Instructions for Sponsors and Donations</h5>
-            <textarea class="form-control" ng-model="vm.instructions" ckeditor="200px"></textarea><br>
+            <div>
+                <textarea class="form-control" ng-model="vm.instructions" ckeditor="200px"></textarea><br>
+            </div>
             <h5 class="after-title-field">Sponsor Pricing and Benefits</h5><br />
         </div>
 

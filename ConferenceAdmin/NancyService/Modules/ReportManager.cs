@@ -37,12 +37,12 @@ namespace NancyService.Modules
                                             affiliation = s.user.affiliationName == "Paradigm Innovation" ? "" : s.user.affiliationName,
                                             userType = s.user.usertype.userTypeName,
                                             phoneNumber = bill.telephone == "default" ? "" : bill.telephone,
-                                            address1 = bill.address.line1 == "default" ? "" : bill.address.line1,
-                                            address2 = bill.address.line2 == "default" ? "" : bill.address.line2,
-                                            city = bill.address.city == "default" ? "" : bill.address.city,
-                                            state = bill.address.state == "default" ? "" : bill.address.state,
-                                            country = bill.address.country == "default" ? "" : bill.address.country,
-                                            zipCode = bill.address.zipcode == "default" ? "" : bill.address.zipcode
+                                            address1 = s.user.address.line1 == "default" ? "" : s.user.address.line1,
+                                            address2 = s.user.address.line2 == "default" ? "" : s.user.address.line2,
+                                            city = s.user.address.city == "default" ? "" : s.user.address.city,
+                                            state = s.user.address.state == "default" ? "" : s.user.address.state,
+                                            country = s.user.address.country == "default" ? "" : s.user.address.country,
+                                            zipCode = s.user.address.line1 == "default" ? "" : s.user.address.zipcode
 
                                         }).Concat((from s in context.registrations
                                                    from bill in context.paymentcomplementaries
@@ -63,7 +63,7 @@ namespace NancyService.Modules
                                                             city = s.user.address.city == "default" ? "" : s.user.address.city,
                                                             state = s.user.address.state == "default" ? "" : s.user.address.state,
                                                             country = s.user.address.country == "default" ? "" : s.user.address.country,
-                                                            zipCode = s.user.address.zipcode == "default" ? "" : s.user.address.zipcode
+                                                            zipCode = s.user.address.line1 == "default" ? "" : s.user.address.zipcode
 
                                                         })).Concat((from s in context.sponsor2
                                                                     from bill in context.paymentbills
@@ -78,13 +78,13 @@ namespace NancyService.Modules
                                                                          email = s.byAdmin == false ? s.user.membership.email : s.emailInfo,
                                                                          affiliation = s.user.affiliationName,
                                                                          userType = "Sponsor",
-                                                                         phoneNumber = bill.telephone,
-                                                                         address1 = bill.address.line1,
-                                                                         address2= bill.address.line2,
-                                                                         city = bill.address.city,
-                                                                         state= bill.address.state,
-                                                                         country= bill.address.country,
-                                                                         zipCode= bill.address.zipcode
+                                                                         phoneNumber = bill.telephone == "default" ? "" : bill.telephone,
+                                                                         address1 = s.user.address.line1 == "default" ? "" : s.user.address.line1,
+                                                                         address2 = s.user.address.line2 == "default" ? "" : s.user.address.line2,
+                                                                         city = s.user.address.city == "default" ? "" : s.user.address.city,
+                                                                         state = s.user.address.state == "default" ? "" : s.user.address.state,
+                                                                         country = s.user.address.country == "default" ? "" : s.user.address.country,
+                                                                         zipCode = s.user.address.line1 == "default" ? "" : s.user.address.zipcode
                                                  
                                                                     })).OrderBy(x => x.name);
 
