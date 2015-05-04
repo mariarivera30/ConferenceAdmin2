@@ -532,6 +532,18 @@
             vm.loadingUploading = true;
             restApi.updateSponsor(vm.sponsor)
             .success(function (data, status, headers, config) {
+
+                if (vm.showResults && vm.searchResults.length > 0) {
+                    vm.searchResults.forEach(function (sponsor, index) {
+                        if (sponsor.sponsorID == vm.sponsor.sponsorID) {
+                            vm.searchResults[index] = JSON.parse(JSON.stringify(data));
+                        }
+                        vm.loadingUploading = false;
+                        $('#addSponsor').modal('hide');
+
+                    });
+                }
+
                 vm.sponsorsList.forEach(function (sponsor, index) {
                     if (sponsor.sponsorID == vm.sponsor.sponsorID) {
                         vm.sponsorsList[index] = JSON.parse(JSON.stringify(data));
@@ -559,6 +571,19 @@
             vm.loadingRemoving = true;
             restApi.deleteSponsor(vm.sponsor.sponsorID)
             .success(function (data, status, headers, config) {
+
+                if (vm.showResults && vm.searchResults.length > 0) {
+                    vm.searchResults.forEach(function (sponsor, index) {
+                        if (sponsor.sponsorID == vm.sponsor.sponsorID) {
+                            vm.searchResults.splice(index, 1);
+                            if (vm.searchResults.length <= 0) {
+                                _back();
+                            }
+                        }
+                    });
+                }
+
+
                 vm.sponsorsList.forEach(function (sponsor, index) {
                     if (sponsor.sponsorID == vm.sponsor.sponsorID) {
                         vm.sponsorsList.splice(index, 1);

@@ -29,7 +29,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="key in  vm.sponsorKeys | filter:searchText | orderBy: ['name']">
+                        <tr ng-repeat="key in vm.sponsorKeys | filter:searchText | orderBy: ['name']">
                             <td>{{key.key}}</td>
                             <td>{{key.isUsed}}</td>
                             <td>{{key.name}}</td>
@@ -58,15 +58,15 @@
                                 <th><b>Key Code</b></th>
                                 <th><b>Used</b></th>
                                 <th><b>Used by</b></th>
-                                <th><b> <a href="" ng-click="vm.toggleModal('removeKeys');">Remove All</a></b></th>
+
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="key in  vm.searchResults | orderBy: ['name']">
+                            <tr ng-repeat="key in vm.searchResults | filter:searchText | orderBy: ['name']">
                                 <td>{{key.key}}</td>
                                 <td>{{key.isUsed}}</td>
                                 <td>{{key.name}}</td>
-                                <td><a href="" ng-click="vm.selectedKey(key); vm.toggleModal('removeKey');" ng-hide="key.isUsed">Deactivate</a></td>
+
                             </tr>
                         </tbody>
                     </table><br />
