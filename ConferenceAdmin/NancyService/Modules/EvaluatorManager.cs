@@ -153,18 +153,18 @@ namespace NancyService.Modules
 
                             if (updateEvaluator != null)
                             {
-                                updateEvaluator.deleted = true;
-                            }
+                                //list of the the submissions assigned to the evaluator with ID evaluatorID
+                                List<evaluatiorsubmission> evaluatorAssignments = context.evaluatiorsubmissions.Where(c => c.evaluatorID == updateEvaluator.evaluatorsID && c.deleted == false).ToList();
 
-                            //list of the the submissions assigned to the evaluator with ID evaluatorID
-                            List<evaluatiorsubmission> evaluatorAssignments = context.evaluatiorsubmissions.Where(c => c.evaluatorID == updateEvaluator.evaluatorsID && c.deleted == false).ToList();
-                            
-                            foreach (var assignment in evaluatorAssignments)
-                            {
-                                if (assignment.evaluationsubmitteds.FirstOrDefault() == null)//if no evaluation was submitted then delete the assignment
+                                foreach (var assignment in evaluatorAssignments)
                                 {
-                                    assignment.deleted = true;
+                                    if (assignment.evaluationsubmitteds.FirstOrDefault() == null)//if no evaluation was submitted then delete the assignment
+                                    {
+                                        assignment.deleted = true;
+                                    }
                                 }
+
+                                updateEvaluator.deleted = true;
                             }
 
                             updateUser.evaluatorStatus = e.acceptanceStatus;

@@ -1297,20 +1297,20 @@ namespace NancyService.Modules
                     conferenceDay1 = info.dateFrom;
                 }
 
-                else if (info.dateFrom != "" && info.dateTo != "")
+                else if (info.dateFrom != "" && info.dateTo != "" && info.dateFrom.Split('/').Count() > 2 && info.dateTo.Split('/').Count() > 2)
                 {                  
                     //check distance between dates
 
-                    string from = Convert.ToDateTime(info.dateFrom).ToShortDateString();
-                    string to = Convert.ToDateTime(info.dateTo).ToShortDateString();
+                    //string from = Convert.ToDateTime(info.dateFrom).ToShortDateString();
+                    //string to = Convert.ToDateTime(info.dateTo).ToShortDateString();
 
-                    var fromDay = Convert.ToInt32(from.Split('/')[1]);
-                    var fromMonth = Convert.ToInt32(from.Split('/')[0]);
-                    var fromYear = Convert.ToInt32(from.Split('/')[2]);
+                    var fromDay = Convert.ToInt32(info.dateFrom.Split('/')[1]);
+                    var fromMonth = Convert.ToInt32(info.dateFrom.Split('/')[0]);
+                    var fromYear = Convert.ToInt32(info.dateFrom.Split('/')[2]);
 
-                    var toDay = Convert.ToInt32(to.Split('/')[1]);
-                    var toMonth = Convert.ToInt32(to.Split('/')[0]);
-                    var toYear = Convert.ToInt32(to.Split('/')[2]);
+                    var toDay = Convert.ToInt32(info.dateTo.Split('/')[1]);
+                    var toMonth = Convert.ToInt32(info.dateTo.Split('/')[0]);
+                    var toYear = Convert.ToInt32(info.dateTo.Split('/')[2]);
 
                     // Constructor (Year, Month, Day)
 
