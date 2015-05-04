@@ -97,13 +97,13 @@
                             <div class="col-md-12" ng-show="vm.userTypeID == 1">
                                 <br />
                                 Enter the <b>Companion Key</b> of the adult in charge.<br />
-                                <input type="text" name="key" ng-model="vm.companionKey" ng-readonly="vm.hasKey" required /> <button class="btn btn-ar btn-primary" ng-click="vm.selectCompanion(vm.companionKey)" ng-disabled="vm.hasKey || vm.correctKey">Submit</button>
+                                <input type="text" name="key" ng-model="vm.companionKey" ng-readonly="vm.hasCompKey" required /> <button class="btn btn-ar btn-primary" ng-click="vm.selectCompanion(vm.companionKey)" ng-disabled="vm.hasCompKey || vm.correctKey">Submit</button>
                                 <span ng-show="vm.wrongKey" class="padding-5 alert-danger half-width">The key you have provided is incorrect.</span>
                                 <span ng-show="vm.correctKey" class="padding-5 alert-success half-width">Successfully added key.</span><br /><br />
                                 <span ng-show="vm.correctKey && !vm.companionRegistered" class="padding-5 alert-danger half-width">But your companion has not registered yet.</span>
                             </div>
 
-                            <div class="col-md-12" ng-show="vm.userTypeID != 1 && vm.userTypeID != 6">
+                            <div class="col-md-12" ng-show="vm.userTypeID != 6">
                                 <br />
                                 If you have a <b>Complementary Key</b> please enter it below.<br />
                                 <input type="text" name="key" ng-model="vm.key" ng-readonly="vm.hasKey" required /> <button class="btn btn-ar btn-primary" ng-click="vm.checkComplementaryKey(vm.key)" ng-disabled="vm.hasKey || vm.correctComplementaryKey">Check</button>

@@ -39,6 +39,7 @@
         vm.key;
         vm.wrongKey;
         vm.hasKey = false;
+        vm.hasCompKey = false;
         // Application Attributes
         vm.acceptanceStatus;
         vm.registrationStatus;
@@ -167,14 +168,14 @@
             .success(function (data, status, headers, config) {
                 vm.companionKey = data.companionKey;
                 if (vm.companionKey != null)
-                    vm.hasKey = true;
+                    vm.hasCompKey = true;
                 if (data == "Accepted")
                     vm.companionRegistered = true;
                 else
                     vm.companionRegistered = false;
             })
             .error(function (error) {
-                vm.hasKey = false;
+                vm.hasCompKey = false;
             });
         }
 
