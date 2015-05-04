@@ -126,7 +126,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     int pageSize = 10;
-                    var guestsThatApplied = context.users.Where(c => c.hasApplied == true && c.deleted != true).ToList();
+                    var guestsThatApplied = context.users.Where(c => ((c.firstName + " " + c.lastName).ToLower().Contains(criteria) || c.usertype.userTypeName.ToLower().Contains(criteria) || c.acceptanceStatus.ToLower().Contains(criteria) || c.registrationStatus.ToLower().Contains(criteria)) && c.hasApplied == true && c.deleted != true).ToList();
                     List<GuestList> guests = new List<GuestList>();
                     foreach (var i in guestsThatApplied)
                     {
