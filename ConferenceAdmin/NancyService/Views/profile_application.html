@@ -1,6 +1,24 @@
 ﻿<div class="row" ng-controller="profileInformationCtrl as vm">
     <h4 id="g-information">Application/Registration Status:</h4>
 
+    <center>
+        <img src="../img/Application%20Steps/step_1_pending.png" ng-show="!vm.hasApplied && vm.userTypeID != 1 " />
+        <img src="../img/Application%20Steps/step_1_finished.png" ng-show="vm.hasApplied && vm.userTypeID != 1 " />
+
+        <img src="../img/Application%20Steps/step_1_minor_pending.png" ng-show="vm.userTypeID == 1 && !vm.hassApplied" />
+        <img src="../img/Application%20Steps/step_1_minor_finished.png" ng-show="vm.userTypeID == 1 && vm.hassApplied" />
+
+        <img src="../img/Application%20Steps/step_2_pending.png" ng-show="vm.acceptanceStatus == 'Pending'" />
+        <img src="../img/Application%20Steps/step_2_finished.png" ng-show="vm.acceptanceStatus != 'Pending'" />
+
+        <img src="../img/Application%20Steps/step_3_pending.png" ng-show="vm.acceptanceStatus == 'Pending'" />
+        <img src="../img/Application%20Steps/step_3_finished.png" ng-show="vm.acceptanceStatus == 'Accepted'" />
+        <img src="../img/Application%20Steps/step_3_rejected.png" ng-show="vm.acceptanceStatus == 'Rejected'" />
+
+        <img src="../img/Application%20Steps/step_4_pending.png" ng-show="vm.registrationStatus == 'Pending'" />
+        <img src="../img/Application%20Steps/step_4_finished.png" ng-show="vm.registrationStatus == 'Accepted'" />
+    </center><br />
+
     <div class="alert alert-warning" ng-hide="vm.hasApplied">
         <strong><i class="fa fa-info"></i></strong> You have not applied yet. 
         <span ng-show="vm.userTypeID != 1">Please click the Apply button below to request acceptance from the administrator. Acceptance is subject to space availability.</span>

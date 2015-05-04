@@ -222,7 +222,7 @@
        
             restApi.complementaryPayment(vm).
                 success(function (data, status, headers, config) {
-                    
+                    vm.registrationStatus = "Accepted";
                 }).
                 error(function (data, status, headers, config) {
                     alert("An error occurred");
