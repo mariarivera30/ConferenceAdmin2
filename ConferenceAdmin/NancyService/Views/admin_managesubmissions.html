@@ -131,7 +131,7 @@
                 <div class="modal-body">
                     <label class="no-margin">Select an Evaluation Template for this Submission:</label><br />
                     <select name="template" ng-model="vm.TEMP" ng-options="template as template.name for template in vm.templatesList" ng-change="vm.changeTemp = true; vm.saved = false"></select>
-                    <p ng-show="vm.TEMP == null">* A Template is required.</p>
+                    <p ng-show="vm.TEMP == null && vm.saved">* A Template is required.</p>
                     <button class="btn btn-ar btn-primary" ng-click="vm.assignTemplate(vm.submissionID, vm.TEMP.templateID)" ng-disabled="vm.TEMP == null || vm.changeTemp != true || vm.saved">Submit</button> <i class="fa fa-check accepted" ng-show="vm.saved"> Submitted</i><br />
                     <br />
                     <table class="table col-md-12">
@@ -155,7 +155,7 @@
                     <p ng-show="vm.evaluationsList.length == 0">No evaluators have been assigned yet.</p>
                     <br />
                     <select ng-hide ="vm.processing" ng-model="vm.evaluatorID" ng-options="evaluator.evaluatorID as evaluator.firstName + ' ' + evaluator.lastName for evaluator in vm.evaluatorsList"></select>
-                    <button ng-hide="vm.processing" class="btn btn-ar btn-primary" ng-click="vm.assignEvaluator(vm.submissionID, vm.evaluatorID);" ng-disabled="vm.evaluatorID == '' || vm.TEMP == null">Assign <i class="fa fa-arrow-up"> </i></button>
+                    <button ng-hide="vm.processing" class="btn btn-ar btn-primary" ng-click="vm.assignEvaluator(vm.submissionID, vm.evaluatorID);" ng-disabled="vm.evaluatorID == '' || vm.TEMP == null || vm.assignEval != true">Assign <i class="fa fa-arrow-up"> </i></button>
                     <p ng-show="vm.TEMP == null">* Please assign a Template before assigning an evaluator.</p>
                     <p ng-show="vm.exists">This Evaluator has already been assigned.</p>
                     <div class="block" ng-show="vm.processing">

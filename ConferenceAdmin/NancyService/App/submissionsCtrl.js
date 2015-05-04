@@ -118,6 +118,7 @@
         /* Sets every field to a default value */
         function _clear() {
             // custom Submission class fields
+            vm.assignEval = false;
             vm.submissionID = 0;
             vm.evaluatorID = 0;
             vm.topic = null;
@@ -337,8 +338,10 @@
                         });
 
                         vm.templatesList.forEach(function (tem, index) {
-                            if (tem.templateID == data.templateID)
+                            if (tem.templateID == data.templateID) {
                                 vm.TEMP = vm.templatesList[index];
+                                vm.assignEval = true;
+                            }
                         });
 
                         _getEvaluationsForSubmission(submissionID);
@@ -534,6 +537,7 @@
             restApi.assignTemplate(IDs).
                   success(function (data, status, headers, config) {
                       vm.saved = true;
+                      vm.assignEval = true;
                   }).
                   error(function (data, status, headers, config) {
 

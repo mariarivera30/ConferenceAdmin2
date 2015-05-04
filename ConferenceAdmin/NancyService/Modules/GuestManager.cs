@@ -126,35 +126,46 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     int pageSize = 10;
-                    var guests = context.users.Where(c => ((c.firstName + " " + c.lastName).ToLower().Contains(criteria.ToLower()) || c.usertype.userTypeName.ToLower().Contains(criteria.ToLower()) || c.acceptanceStatus.ToLower().Contains(criteria.ToLower()) || c.registrationStatus.ToLower().Contains(criteria.ToLower())) && c.hasApplied == true && c.deleted != true).Select(i => new GuestList
+                    var guestsThatApplied = context.users.Where(c => ((c.firstName + " " + c.lastName).ToLower().Contains(criteria) || c.usertype.userTypeName.ToLower().Contains(criteria) || c.acceptanceStatus.ToLower().Contains(criteria) || c.registrationStatus.ToLower().Contains(criteria)) && c.hasApplied == true && c.deleted != true).ToList();
+                    List<GuestList> guests = new List<GuestList>();
+                    foreach (var i in guestsThatApplied)
                     {
-                        userID = (int)i.userID,
-                        firstName = i.firstName,
-                        lastName = i.lastName,
-                        title = i.title,
-                        affiliationName = i.affiliationName,
-                        userTypeName = i.usertype.userTypeName,
-                        isRegistered = (i.registrationStatus == "Accepted" ? true : false),
-                        registrationStatus = i.registrationStatus,
-                        acceptanceStatus = i.acceptanceStatus,
-                        optionStatus = "Accepted",
-                        authorizationStatus = i.minors.FirstOrDefault() == null ? null : i.minors.FirstOrDefault().authorizationStatus,
-                        line1 = i.address.line1,
-                        line2 = i.address.line2,
-                        city = i.address.city,
-                        state = i.address.state,
-                        country = i.address.country,
-                        zipcode = i.address.zipcode,
-                        email = i.membership.email,
-                        phoneNumber = i.phone,
-                        fax = i.userFax,
-                        day1 = i.registrations.FirstOrDefault() == null ? null : i.registrations.FirstOrDefault().date1,
-                        day2 = i.registrations.FirstOrDefault() == null ? null : i.registrations.FirstOrDefault().date2,
-                        day3 = i.registrations.FirstOrDefault() == null ? null : i.registrations.FirstOrDefault().date3,
-                        companionFirstName = i.companions.FirstOrDefault() == null ? null : i.companions.FirstOrDefault().user.firstName,
-                        companionLastName = i.companions.FirstOrDefault() == null ? null : i.companions.FirstOrDefault().user.lastName,
-                        companionID = i.companions.FirstOrDefault() == null ? -1 : (long)i.companions.FirstOrDefault().userID
-                    }).OrderBy(f => f.firstName).ToList();
+                        GuestList guest = new GuestList
+                        {
+                            userID = (int)i.userID,
+                            firstName = i.firstName,
+                            lastName = i.lastName,
+                            title = i.title,
+                            affiliationName = i.affiliationName,
+                            userTypeName = i.usertype.userTypeName,
+                            isRegistered = (i.registrationStatus == "Accepted" ? true : false),
+                            registrationStatus = i.registrationStatus,
+                            acceptanceStatus = i.acceptanceStatus,
+                            optionStatus = "Accepted",
+                            authorizationStatus = i.minors.FirstOrDefault() == null ? null : i.minors.FirstOrDefault().authorizationStatus,
+                            line1 = i.address.line1,
+                            line2 = i.address.line2,
+                            city = i.address.city,
+                            state = i.address.state,
+                            country = i.address.country,
+                            zipcode = i.address.zipcode,
+                            email = i.membership.email,
+                            phoneNumber = i.phone,
+                            fax = i.userFax,
+                            day1 = i.registrations.FirstOrDefault() == null ? null : i.registrations.FirstOrDefault().date1,
+                            day2 = i.registrations.FirstOrDefault() == null ? null : i.registrations.FirstOrDefault().date2,
+                            day3 = i.registrations.FirstOrDefault() == null ? null : i.registrations.FirstOrDefault().date3,
+                            companionFirstName = i.companions.FirstOrDefault() == null ? null : i.companions.FirstOrDefault().user.firstName,
+                            companionLastName = i.companions.FirstOrDefault() == null ? null : i.companions.FirstOrDefault().user.lastName,
+                            companionID = i.companions.FirstOrDefault() == null ? -1 : (long)i.companions.FirstOrDefault().userID,
+                            hasAcceptedSub = i.usersubmissions.FirstOrDefault() == null ?
+                            false : i.usersubmissions.FirstOrDefault().submission == null ?
+                            (i.usersubmissions.FirstOrDefault().submission1 == null ? false : i.usersubmissions.FirstOrDefault().submission1.status == "Accepted") : i.usersubmissions.FirstOrDefault().submission.status == "Accepted"
+                        };
+
+                        guests.Add(guest);
+                    }
+                    guests = guests.OrderBy(f => f.firstName).ToList();
 
                     page.rowCount = guests.Count();
                     if (page.rowCount > 0)
