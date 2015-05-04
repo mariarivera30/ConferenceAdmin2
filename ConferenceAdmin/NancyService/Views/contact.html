@@ -4,6 +4,7 @@
             <h2 class="section-title">Send Message</h2>
         </div>
         <div class="col-md-8">
+            <p ng-hide="vm.icontactAdditionalInfo || vm.icontactEmail">No content to display.</p>
                 <div class="p-lg" ng-show="vm.icontactAdditionalInfo" ng-model="vm.icontactAdditionalInfo" ckhtml></div>
                 <form name="contactForm" novalidate ng-show="vm.icontactEmail">
                     <div class="row">
