@@ -5,8 +5,8 @@
         <img src="../img/Application%20Steps/step_1_pending.png" ng-show="!vm.hasApplied && vm.userTypeID != 1 " />
         <img src="../img/Application%20Steps/step_1_finished.png" ng-show="vm.hasApplied && vm.userTypeID != 1 " />
 
-        <img src="../img/Application%20Steps/step_1_minor_pending.png" ng-show="vm.userTypeID == 1 && !vm.hassApplied" />
-        <img src="../img/Application%20Steps/step_1_minor_finished.png" ng-show="vm.userTypeID == 1 && vm.hassApplied" />
+        <img src="../img/Application%20Steps/step_1_minor_pending.png" ng-show="vm.userTypeID == 1 && !vm.hasApplied" />
+        <img src="../img/Application%20Steps/step_1_minor_finished.png" ng-show="vm.userTypeID == 1 && vm.hasApplied" />
 
         <img src="../img/Application%20Steps/step_2_pending.png" ng-show="vm.acceptanceStatus == 'Pending'" />
         <img src="../img/Application%20Steps/step_2_finished.png" ng-show="vm.acceptanceStatus != 'Pending'" />
