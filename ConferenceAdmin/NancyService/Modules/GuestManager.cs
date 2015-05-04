@@ -283,6 +283,18 @@ namespace NancyService.Modules
                     guest.registrations.FirstOrDefault().date2 = false;
                     guest.registrations.FirstOrDefault().date3 = false;
                     context.SaveChanges();
+                    //reject user's submission
+                    if (guest.usersubmissions.FirstOrDefault() != null)//if user has submissions
+                    {
+                        foreach (var userSub in guest.usersubmissions.ToList())
+                        {
+                            if (userSub.submission != null) 
+                                userSub.submission.status = "Rejected";
+                            if (userSub.submission1 != null) 
+                                userSub.submission1.status = "Rejected";
+                            context.SaveChanges();
+                        }
+                    }
                     //send email to reject
                     String email = context.users.Where(c => c.userID == id).FirstOrDefault().membership.email;
                     try { sendAcceptanceStatusUpdate(email, "rejectedRegistration"); }
