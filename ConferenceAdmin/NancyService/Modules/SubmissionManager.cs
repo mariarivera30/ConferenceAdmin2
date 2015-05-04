@@ -503,32 +503,38 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     //get all final submissions
-                    List<Submission> userFinalSubmissions = context.usersubmission.Where(c => c.userID == userID && c.deleted == false && c.finalSubmissionID != null && c.submission.byAdmin == false).
-                        Select(i => new Submission
-                        {
-                            submissionID = i.submission == null ? -1 : i.submission.submissionID,
-                            firstName = i.user.firstName,
-                            lastName = i.user.lastName,
-                            email = i.user.membership.email,
-                            submissionTypeName = i.submission == null ? null : i.submission.submissiontype.name,
-                            submissionTypeID = i.submission == null ? -1 : i.submission.submissionTypeID,
-                            submissionTitle = i.submission == null ? null : i.submission.title,
-                            topiccategoryID = i.submission == null ? -1 : i.submission.topicID,
-                            status = i.submission == null ? null : i.submission.status,
-                            templateName = i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
-                            null : i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().template.name,
-                            templateID = i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
-                            -1 : i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().templateID,
-                            isEvaluated = (i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
-                            isAssigned = i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true,
-                            isFinalSubmission = true
-
-                        }).ToList();
+                    List<usersubmission> userFinalSubmissions0 = context.usersubmission.Where(c => c.userID == userID && c.deleted == false && c.finalSubmissionID != null && c.submission.byAdmin == false).ToList();
+                    List<Submission> userFinalSubmissions = new List<Submission>();    
+                    foreach (var i in userFinalSubmissions0)
+	                    {
+                            Submission finalSub = new Submission
+                            {
+                                submissionID = i.submission == null ? -1 : i.submission.submissionID,
+                                firstName = i.user.firstName,
+                                lastName = i.user.lastName,
+                                email = i.user.membership.email,
+                                submissionTypeName = i.submission == null ? null : i.submission.submissiontype.name,
+                                submissionTypeID = i.submission == null ? -1 : i.submission.submissionTypeID,
+                                submissionTitle = i.submission == null ? null : i.submission.title,
+                                topiccategoryID = i.submission == null ? -1 : i.submission.topicID,
+                                status = i.submission == null ? null : i.submission.status,
+                                templateName = i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                                null : i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().template.name,
+                                templateID = i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                                -1 : i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().templateID,
+                                isEvaluated = (i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
+                                isAssigned = i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true,
+                                isFinalSubmission = true
+                            };
+                            userFinalSubmissions.Add(finalSub);
+                        }
                     //get all submissions that do no have a final submission
-                    List<Submission> userSubmissions = context.usersubmission.Where(c => c.userID == userID && c.deleted == false && c.finalSubmissionID == null && c.submission1.byAdmin == false).
-                        Select(i => new Submission
-                        {
-                            submissionID = i.submission1 == null ? -1 : i.submission1.submissionID,
+                    List<Submission> userSubmissions = new List<Submission>();
+                    List<usersubmission> userSubs = context.usersubmission.Where(c => c.userID == userID && c.deleted == false && c.finalSubmissionID == null && c.submission1.byAdmin == false).ToList();
+                        foreach (var i in userSubs)
+	                    {
+		                    Submission sub = new Submission{
+                                submissionID = i.submission1 == null ? -1 : i.submission1.submissionID,
                             submissionTypeName = i.submission1 == null ? null : i.submission1.submissiontype.name,
                             submissionTypeID = i.submission1 == null ? -1 : i.submission1.submissionTypeID,
                             submissionTitle = i.submission1 == null ? null : i.submission1.title,
@@ -537,8 +543,11 @@ namespace NancyService.Modules
                             isEvaluated = (i.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
                             isAssigned = i.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true,
                             isFinalSubmission = false,
-                            finalSubmissionAllowed = (i.allowFinalVersion == null ? false : i.allowFinalVersion) == false ? false : true
-                        }).ToList();
+                            finalSubmissionAllowed = (i.allowFinalVersion == null ? false : i.allowFinalVersion) == false ? false : true                        
+                            };
+                            userSubmissions.Add(sub);
+	                    }
+                           
                     foreach (Submission final in userFinalSubmissions)
                     {
                         userSubmissions.Add(final);
