@@ -9,9 +9,13 @@
     </div>
   
     <div class="row">
-        <div class="vertical-tabs-left">
-            <div class="vertical-tab-list noPrint">
-                <h5 class="title-centered">Settings</h5>
+        <div class="vertical-tabs-left full-width">
+            <div class="vertical-tab-list noPrint" ng-hide="vm.hideMenu">
+                <h5 class="title-centered">Settings
+                    <button type="button" class="btn btn-ar btn-primary hidden-lg right" ng-click="vm.changeMenu();" style="margin-top: -20px;" ng-hide="vm.hideMenu">
+                        <i class="glyphicon glyphicon-chevron-left"></i>
+                    </button></h5>
+                
                 <ul class="nav">
                     <li ng-show="vm.generalInfo" ng-click="selectedTab='generalInfo';" ng-class="{active: selectedTab=='generalInfo'}">
                         <a href="#/Profile/GeneralInformation"><i class="fa fa-pencil"> </i> General Information</a>
@@ -27,8 +31,8 @@
 
                     <li ng-show="vm.submission" ng-click="selectedTab='submission';" ng-class="{active: selectedTab=='submission'}">
                         <a href="#/Profile/Submissions"><i class="fa fa-newspaper-o"> </i> Submissions</a>
-                    </li>                    
-                   
+                    </li>
+
                     <li ng-show=vm.receipt ng-click="selectedTab='receipt';" ng-class="{active: selectedTab=='receipt'}">
                         <a href="#/Profile/ReceiptInformation"><i class="fa fa-money"></i> Receipt Information</a>
                     </li>
@@ -56,7 +60,10 @@
 
 
             <!-- vertical-tab-list -->
-            <div class="tab-content">
+            <button type="button" class="btn btn-ar btn-primary hidden-lg" ng-click="vm.changeMenu();" style="margin-top: -45px;" ng-hide="!vm.hideMenu">
+                <i class="glyphicon glyphicon-chevron-right"></i>
+            </button>
+            <div class="tab-content full-width">
 
                 <div ui-view="profilePage" autoscroll='false'>
 

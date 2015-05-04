@@ -2,9 +2,23 @@
     <div class="row">
         <div class="col-lg-12">
             <h2 class="section-title">Administrator Settings</h2>
-            <div class="vertical-tabs-left">
+            <button type="button" class="btn btn-ar btn-primary hidden-lg" ng-click="vm.changeMenu();" ng-hide="!vm.hideMenu">
+                <i class="glyphicon glyphicon-chevron-right"></i>
+            </button>
+            <div class="vertical-tabs-left hidden-lg" ng-hide="vm.hideMenu" style="width: 105px;">
                 <div class="vertical-tab-list">
-                    <h5 ng-show="vm.reports" class="title-centered">Website Content</h5>
+                    
+                    <button type="button" class="btn btn-ar btn-primary right" ng-click="vm.changeMenu();">
+                        <i class="glyphicon glyphicon-chevron-left"></i>
+                    </button><span class="right">Hide Menu &nbsp;&nbsp;</span>
+                </div>
+            </div>
+            <div class="vertical-tabs-left full-width">
+                <div class="vertical-tab-list" ng-hide="vm.hideMenu">
+                    <h5 ng-show="vm.reports" class="title-centered">
+                        Website Content
+                        
+                    </h5>
                     <ul class="nav">
 
                         <li ng-show="vm.general" ng-click="selectedTab='general';" ng-class="{active: selectedTab=='general'}"><a href="#/Administrator/GeneralInformation">General</a></li>
@@ -19,7 +33,7 @@
                         <li ng-show="vm.contact" ng-click="selectedTab='contact';" ng-class="{active: selectedTab=='contact'}"><a href="#/Administrator/Contact">Contact</a></li>
 
                     </ul>
-                    <h5 class="title-centered">Conference Management</h5>
+                    <h5 class="title-centered">Conference <br />Management</h5>
                     <ul class="nav">
                         <li ng-show="vm.committeeManage" ng-click="selectedTab='committeeManage';" ng-class="{active: selectedTab=='committeeManage'}"><a href="#/Administrator/ManageAdministrators">Administrators</a></li>
                         <li ng-show=" vm.evaluators" ng-click=" selectedTab='evaluators' ;" ng-class="{active: selectedTab=='evaluators'}"><a href="#/Administrator/ManageEvaluators">Evaluators</a></li>
@@ -29,13 +43,13 @@
                         <li ng-show="vm.submissions" ng-click="selectedTab='submissions';" ng-class="{active: selectedTab=='submissions'}"><a href="#/Administrator/ManageSubmissions">Submissions</a></li>
                         <li ng-show="vm.sponsors" ng-click="selectedTab='sponsors';" ng-class="{active: selectedTab=='sponsors'}"><a href="#/Administrator/ManageSponsors">Sponsors</a></li>
                         <li ng-show="vm.templates" ng-click="selectedTab='templates';" ng-class="{active: selectedTab=='templates'}"><a href="#/Administrator/ManageTemplates">Templates</a></li>
-                        <li ng-show="vm.authTemplates" ng-click="selectedTab='authTemplates';" ng-class="{active: selectedTab=='authTemplates'}"><a href="#/Administrator/ManageAuthTemplates">Authorization Templates</a></li>
+                        <li ng-show="vm.authTemplates" ng-click="selectedTab='authTemplates';" ng-class="{active: selectedTab=='authTemplates'}"><a href="#/Administrator/ManageAuthTemplates">Authorization<br /> Templates</a></li>
                         <li ng-show="vm.keyCodes" ng-click="selectedTab='keyCodes';" ng-class="{active: selectedTab=='keyCodes'}"><a href="#/Administrator/ManageKeyCodes">Key Codes</a></li>
                         <li ng-show="vm.reports" ng-click="selectedTab='reports';" ng-class="{active: selectedTab=='reports'}"><a href="#/Administrator/Reports">Bill Report</a></li>
                     </ul>
 
                 </div> <!-- vertical-tab-list -->
-                <div class="tab-content">
+                <div class="tab-content full-width left">
                     <div ui-view="adminPage" autoscroll="true"> </div> <!-- tab-content -->
                 </div> <!-- vertical-tabs-left -->
             </div>

@@ -23,6 +23,7 @@
         
 
         // Functions
+        vm.changeMenu = _changeMenu;
         vm.tabViewControl = _tabViewControl;
         vm.adminView = _adminView;
         activate();
@@ -119,7 +120,9 @@
         }
 
    
-
+        function _changeMenu() {
+            vm.hideMenu ? vm.hideMenu = false : vm.hideMenu = true;
+        }
 
 
 
