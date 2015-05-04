@@ -870,6 +870,7 @@
                            _getDeletedSubmissions(vm.dindex);
                        }
                        else {
+                           vm.empty2 = false;
                            vm.deletedSubmissionsList = data.results;
                        }
                    }).
