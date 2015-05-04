@@ -56,7 +56,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     int pageSize = 10;
-                    var query = context.users.Where(evaluator => (evaluator.evaluatorStatus == "Accepted" || evaluator.evaluatorStatus == "Rejected") && evaluator.userID != id && context.claims.Where(x => x.userID == evaluator.userID && (x.privilege.privilegesID == 1 || x.privilege.privilegesID == 3 || x.privilege.privilegesID == 5)).Select(x => x.userID).Count() == 0).Select(evaluator => new EvaluatorQuery
+                    var query = context.users.Where(evaluator => (evaluator.evaluatorStatus == "Accepted" || evaluator.evaluatorStatus == "Rejected") && evaluator.userID != id && context.claims.Where(x => x.userID == evaluator.userID && x.deleted != true && (x.privilege.privilegesID == 1 || x.privilege.privilegesID == 3 || x.privilege.privilegesID == 5)).Select(x => x.userID).Count() == 0).Select(evaluator => new EvaluatorQuery
                     {
                         userID = (long)evaluator.userID,
                         firstName = evaluator.firstName,
