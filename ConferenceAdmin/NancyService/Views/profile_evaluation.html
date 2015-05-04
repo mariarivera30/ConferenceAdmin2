@@ -120,8 +120,8 @@
 
             <div>
                 <div class="col-lg-6">
-                    <label>Score:&nbsp;</label>
-                    <input class="small-input form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" step="any" name="modalevaluationScore" ng-model="vm.modalevaluationScore" required>
+                    <label>Score:&nbsp;</label> (From 1 to 10)
+                    <input class="small-input form-control" ng-pattern="/^([1-9]|10)$/" type="number" step="any" name="modalevaluationScore" ng-model="vm.modalevaluationScore" required>
                     <p ng-show="addEvaluationForm.modalevaluationScore.$invalid" class="help-block">Score is required.</p>
                 </div>
                 <div ng-hide="vm.modalIsFinalVersion == true || vm.modalcanAllowFinalVersion == false"  class="col-lg-6">
@@ -153,6 +153,25 @@
                 </div>
                 <div class="modal-footer">
 
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Add Confirmation -->
+    <div class="modal fade" id="addConfirm" tabindex="-1" role="dialog" aria-labelledby="addConfirmLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="addConfirmLabel">Evaluation Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The evaluation has been submitted.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
                 </div>
             </div>
         </div>

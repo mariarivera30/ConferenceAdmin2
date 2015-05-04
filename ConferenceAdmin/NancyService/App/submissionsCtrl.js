@@ -870,6 +870,7 @@
                            _getDeletedSubmissions(vm.dindex);
                        }
                        else {
+                           vm.empty2 = false;
                            vm.deletedSubmissionsList = data.results;
                        }
                    }).
@@ -917,9 +918,10 @@
         function _deleteSubmission(id) {
             restApi.deleteSubmission(id).
                 success(function (data, status, headers, config) {
+                    _getAllSubmissions(vm.sindex);
+                    _getDeletedSubmissions(vm.dindex);
                     vm.submissionsList.forEach(function (submission, index) {
-                        _getAllSubmissions(vm.sindex);
-                        _getDeletedSubmissions(vm.dindex);
+                       
                     });
                 }).
                 error(function (data, status, headers, config) {

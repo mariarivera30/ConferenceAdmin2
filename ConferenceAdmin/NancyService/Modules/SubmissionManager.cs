@@ -1643,13 +1643,18 @@ namespace NancyService.Modules
                     for (int i = 1; i < 6; i++)
                     {
                         String deadline = context.submissiontypes.Where(c => c.submissiontypeID == i).Select(d => d.deadline).FirstOrDefault();
+                        bool comp = false;
+                        if (deadline == "" || deadline == null){}
+                        else
+                        {
+                            var Day = Convert.ToInt32(deadline.Split('/')[1]);
+                            var Month = Convert.ToInt32(deadline.Split('/')[0]);
+                            var Year = Convert.ToInt32(deadline.Split('/')[2]);
 
-                        var Day = Convert.ToInt32(deadline.Split('/')[1]);
-                        var Month = Convert.ToInt32(deadline.Split('/')[0]);
-                        var Year = Convert.ToInt32(deadline.Split('/')[2]);
-
-                        DateTime submissionDeadline = new DateTime(Year, Month, Day);
-                        deadlines.Add(DateTime.Compare(submissionDeadline, DateTime.Now.Date) >= 0);
+                            DateTime submissionDeadline = new DateTime(Year, Month, Day);
+                            comp = DateTime.Compare(submissionDeadline, DateTime.Now.Date) >= 0;
+                        }
+                        deadlines.Add(comp);
                     }
                     return deadlines;
                 }
