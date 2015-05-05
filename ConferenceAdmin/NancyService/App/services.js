@@ -419,7 +419,7 @@
         function _getDates() {
             return $http.get('/admin/getDates');
         };
-        //[Randy] download report of attendees
+        //[Heidi] download report of attendees
         function _getAttendanceReport() {
             return $http.get('admin/getAttendanceReport');
         };
