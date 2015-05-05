@@ -1,13 +1,13 @@
 ﻿<div ng-controller =" sponsorDonateCtrl as vm ">
     
     <div  class= "row">
-        <div ng-hide="vm.onTime  " class="col-xm-6 col-sm-6 col-md-6">
+        <div ng-hide="vm.onTime" class="col-xm-6 col-sm-6 col-md-6">
             <h3>Deadline Expired!</h3>
             {{vm.deadlineInvalid}}
         </div>
         <div ng-hide="(vm.sponsor.active ==false && vm.onTime == false )"  class="col-xm-6 col-sm-6 col-md-6">
             <h3>Actual Status</h3>
-            <p >Inactive sponsor make your first donation!</p>
+            <p ng-hide="vm.sponsor.active">Inactive sponsor make your first donation!</p>
             <div ng-show="vm.sponsor.active" class="row">
                 <!--vm.sponsor.active-->
                 <div class="    col-xm-12 col-sm-12 col-md-12">
@@ -60,8 +60,8 @@
             <div class=" col-xm-5 col-sm-5 col-md-5">
                 <div class="row">
                     <label ng-show="vm.sponsorType == 1">Amount: ${{vm.sponsorsTypeList[vm.sponsorType -1].amount }} ++</label>
-                    <label ng-show="vm.sponsorType ==5">Amount: $1 - ${{vm.sponsorsTypeList[vm.sponsorType-1 ].amount -1}} </label>
-                    <label ng-hide="vm.sponsorType == 1 || vm.sponsorType ==5">Amount: ${{vm.sponsorsTypeList[vm.sponsorType-1].amount +1 }} -${{vm.sponsorsTypeList[vm.sponsorType -2].amount-1 }}</label>
+                    <label ng-show="vm.sponsorType ==5">Amount: ${{vm.sponsorsTypeList[vm.sponsorType-1 ].amount }} -  ${{vm.sponsorsTypeList[vm.sponsorType-2 ].amount -1}} </label>
+                    <label ng-hide="vm.sponsorType == 1 || vm.sponsorType ==5">Amount: ${{vm.sponsorsTypeList[vm.sponsorType-1].amount}} -${{vm.sponsorsTypeList[vm.sponsorType -2].amount-1 }}</label>
                     <input class="form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" ng-change="vm.rangeInvalid()" name="amount" ng-model="vm.donation" required>
                     <p ng-show="addSponsorForm.amount.$invalid && !addSponsorForm.amount.$pristine" class="help-block">Valid amount paid is required.</p>
                     <p ng-show="vm.rangeInvalid()">Amount out of range</p>

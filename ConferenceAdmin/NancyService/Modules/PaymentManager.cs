@@ -34,6 +34,8 @@ namespace NancyService.Modules
         public string affiliationName { get; set; }
         public string type { get; set; }
         public string description { get; set; }
+        public string complementaryKey { get; set; }
+        public string sponsorBy { get; set; }
     }
     public class XMLReceiptInfo
     {
@@ -85,7 +87,7 @@ namespace NancyService.Modules
         public  PaymentManager()
         {}
 
-        public bool getAmountInDeadline()
+        private bool getDeadlineStatus(string deadlineName)
         {
             try
             {
@@ -93,7 +95,7 @@ namespace NancyService.Modules
                 {
 
                     WebManager webManager = new WebManager();
-                    string deadline = webManager.getInterfaceElement("sponsorDeadline").content;
+                    string deadline = webManager.getInterfaceElement(deadlineName).content;
 
                     var Day = Convert.ToInt32(deadline.Split('/')[1]);
                     var Month = Convert.ToInt32(deadline.Split('/')[0]);
@@ -107,10 +109,49 @@ namespace NancyService.Modules
             }
             catch (Exception ex)
             {
-                Console.Write("SubmissionManager.getSubmissionDeadline error " + ex);
+                Console.Write("PaymentManager.getAmountInDeadline error " + ex);
                 return false;
             }
         }
+        public AmountSatusRegistration getUserPriceInDeadline(int typeID)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    var type = context.usertypes.Where(x=>x.userTypeID==typeID).First();
+                    AmountSatusRegistration amountStatus = new AmountSatusRegistration();
+                    if (getDeadlineStatus("registrationDeadline"))
+                    {
+                        amountStatus.amount = (double)type.registrationCost;
+                        amountStatus.inTime = true;
+                        amountStatus.inTimeLateFee = false;
+
+                   }
+                    else if (getDeadlineStatus("lateRegistrationDeadline"))
+                   {
+                       amountStatus.amount = (double)type.registrationLateFee;
+                       amountStatus.inTime = false;
+                       amountStatus.inTimeLateFee = true;
+
+                   }
+                   else{
+                       amountStatus.inTime = false;
+                       amountStatus.inTimeLateFee = false;
+
+                   }
+
+                    return amountStatus;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("PaymentManager.getAmountInDeadline error " + ex);
+                return null;
+            }
+        }
+
+
 
 
         public List<PaymentQuery> getSponsorPayments(long id)
@@ -256,6 +297,37 @@ namespace NancyService.Modules
 
                                        }).FirstOrDefault();
 
+                    if (paymentInfo == null)
+                    { 
+                       
+                        paymentInfo = (from r in context.paymentcomplementaries
+                                       join p in context.complementarykeys on r.complementaryKeyID equals p.complementarykeyID
+                                       join pay in context.payments on r.paymentID equals pay.paymentID
+                                       join y in context.sponsor2 on p.sponsorID2 equals y.sponsorID
+                                       join x in context.registrations on r.paymentID equals x.paymentID
+                                       where  id == x.userID && x.deleted ==false && r.deleted ==false && p.deleted ==false && pay.deleted==false 
+                                       select new PaymentQuery
+                                       {
+                                           paymentBillID = r.paymentcomplementaryID,
+                                           complementaryKey =p.key,
+                                           date = (DateTime)pay.creationDate,
+                                           affiliationName = x.user.affiliationName,
+                                           transactionid = "N/A",
+                                           AmountPaid =0,
+                                           methodOfPayment = "Complementary Key",
+                                           userFirstName = x.user.firstName,
+                                           userLastName = x.user.lastName,
+                                           email = x.user.membership.email,
+                                           tandemID = "N/A",
+                                           batchID = "N/A",
+                                           firstName = y.user.firstName,
+                                           lastName =y.user.lastName,
+                                           description = "User Registration",
+                                           type = x.user.usertype.userTypeName,
+
+                                       }).FirstOrDefault();
+                      
+                    }
                     if (paymentInfo == null)
                     {
                         PaymentQuery error = new PaymentQuery();
@@ -438,7 +510,8 @@ namespace NancyService.Modules
                                 double total = 0;
                                 foreach (paymentbill b in bills)
                                 {
-                                    total += b.AmountPaid;
+                                    if(b.completed)
+                                        total += b.AmountPaid;
                                 }
 
                                 sponsor1.active = true;
@@ -452,20 +525,20 @@ namespace NancyService.Modules
                                     sponsor1.sponsorType = 1;
                                 }
 
-                                else if (sponsor1.totalAmount <= sponsorTypes[4].amount)
+                                else if (sponsorTypes[4].amount >= sponsor1.totalAmount && sponsor1.totalAmount<= sponsorTypes[3].amount -1)
                                 {
                                     sponsor1.sponsorType = 5;
                                 }
 
-                                else if (sponsor1.totalAmount >= sponsorTypes[4].amount && sponsor1.totalAmount <= sponsorTypes[3].amount)
+                                else if (sponsor1.totalAmount >= sponsorTypes[3].amount && sponsor1.totalAmount <= sponsorTypes[4].amount -1)
                                 {
                                     sponsor1.sponsorType = 4;
                                 }
-                                else if (sponsor1.totalAmount >= sponsorTypes[3].amount && sponsor1.totalAmount <= sponsorTypes[2].amount)
+                                else if (sponsor1.totalAmount >= sponsorTypes[2].amount && sponsor1.totalAmount <= sponsorTypes[3].amount -1)
                                 {
                                     sponsor1.sponsorType = 3;
                                 }
-                                else if (sponsor1.totalAmount >= sponsorTypes[2].amount && sponsor1.totalAmount <= sponsorTypes[1].amount)
+                                else if (sponsor1.totalAmount >= sponsorTypes[1].amount && sponsor1.totalAmount <= sponsorTypes[2].amount-1)
                                 {
                                     sponsor1.sponsorType = 2;
                                 }
@@ -579,7 +652,10 @@ namespace NancyService.Modules
 
 
     }
-
-
-
+    public class AmountSatusRegistration
+    {
+        public double amount { get; set; }
+        public bool inTimeLateFee { get; set; }
+        public bool inTime { get; set; }
+    }
 }

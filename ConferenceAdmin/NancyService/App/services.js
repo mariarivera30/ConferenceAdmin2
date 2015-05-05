@@ -162,6 +162,7 @@
             searchKeyCodes: _searchKeyCodes,
             userPayment: _userPayment,
             getUserPayment: _getUserPayment,
+            getUserPriceInDeadline: _getUserPriceInDeadline,
         };  
 
         return service;
@@ -172,6 +173,9 @@
         };
         function _sponsorPayment(data) {
             return $http.put('/payment/SponsorPayment', data);
+        };
+        function _getUserPriceInDeadline(data) {
+            return $http.get('/payment/getUserPriceInDeadline/'+ data);
         };
         function _getUserPayment(data) {
             return $http.get('/payment/getUserPayment/' + data);

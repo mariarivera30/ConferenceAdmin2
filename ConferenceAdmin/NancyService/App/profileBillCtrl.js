@@ -9,7 +9,7 @@
 
     function profileBillCtrl($scope, $http,restApi, $window) {
         var vm = this;
-        vm.message = "This User do not have a payment receipt."
+        vm.message = "No content to display."
         vm.visible = false;
         vm.activate = activate;
         vm.payment;

@@ -39,6 +39,12 @@
         vm.key;
         vm.wrongKey;
         vm.hasKey = false;
+        vm.obj = {};
+        vm.amount;
+      
+        //Payemnt
+        
+        vm.amountStatus;
         // Application Attributes
         vm.acceptanceStatus;
         vm.registrationStatus;
@@ -58,19 +64,68 @@
         vm.selectCompanion = _selectCompanion;
         vm.getCompanionKey = _getCompanionKey;
         vm.checkComplementaryKey = _checkComplementaryKey;
+
         //vm.checkAll;
         vm.loading;
         _getDates();
+        //payment Fucntions
+        vm.getUserPriceInDeadline = _getUserPriceInDeadline;
+        vm.goTo = _goTo;
 
         if (vm.userID != null) {
             _getProfileInfo(vm.userID);
             _getUserTypes();
             _getCompanionKey();
+           
         }
 
         function activate() {
 
         }
+//Display dialogs of error or payments
+        function _goTo() {
+            $location.path('/profile/receiptinformation');
+        }
+        vm.toggleModal = function (action) {
+
+
+            if (action == "error") {
+                vm.obj.title = "Server Error",
+               vm.obj.message1 = "Please refresh the page and try again.",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+            }
+            if (action == "paymenterror") {
+                vm.obj.title = "Payment Error",
+               vm.obj.message1 = "Please refresh the page and try to submit the payment again.",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+
+            }
+            if (action == "Register") {
+                vm.obj.title = "CCWIC Registration",
+               vm.obj.message1 = "Your Registration was completed successfully. ",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+               vm.okFunc = vm.goTo;
+               
+            }
+        };
 
 
         function toggleEdit() {
@@ -102,9 +157,10 @@
                        vm.userTypeID = data.userTypeID;
                        vm.notes = data.notes;
                        vm.key = data.key;
+                       _getUserPriceInDeadline();
                    }).
                    error(function (data, status, headers, config) {
-                       alert("An error occurred trying to access your Profile Information.");
+                       vm.toggleModal('error');
                    });
         }
 
@@ -114,7 +170,7 @@
                     success(function (data, status, headers, config) {
                     }).
                     error(function (data, status, headers, config) {
-                        alert("An error occurred trying to access your Profile Information.");
+                        vm.toggleModal('error');
                     });
             vm.edit = false;
         }
@@ -198,23 +254,31 @@
                        vm.userTypesList = data;
                    });
         }
-
+        //Make Payment
         function _userPayment() {
             vm.loadingUploading = true;
+            vm.amount = vm.amountStatus.amount;
             restApi.userPayment(vm).
                 success(function (data, status, headers, config) {
                     vm.loadingUploading = false;
                     if (data != null) {
-                        window.open(data);
-                        $location.path('/profile/receiptinformation');
+                        if (data == "billCreated") {
+                            vm.toggleModal('Register');
+
+                        }
+                        else {
+                            window.open(data);
+                            $location.path('/profile/receiptinformation');
+                        }
+                       
                         
                     }
                     else {
-                    alert("An error occurred");
+                        vm.toggleModal('error');
                     }
                 }).
                 error(function (data, status, headers, config) {
-                    alert("An error occurred");
+                    vm.toggleModal('error');
                 });
         }
 
@@ -222,10 +286,10 @@
        
             restApi.complementaryPayment(vm).
                 success(function (data, status, headers, config) {
-                    
+                    vm.toggleModal('Register');
                 }).
                 error(function (data, status, headers, config) {
-                    alert("An error occurred");
+                    vm.toggleModal('error');
                 });
         }
 
@@ -241,18 +305,30 @@
 
 
         ///Deadlines registation fee
-        function _getUserAmount() {
-            restApi.getUserAmountInDeadline()
+        function _getUserPriceInDeadline() {
+            restApi.getUserPriceInDeadline(vm.userTypeID)
             .success(function (data, status, headers, config) {
-                vm.amount = data;
+                vm.amountStatus = data;
+
+                if (vm.amountStatus == null) {
+                    vm.toggleModal('error');
+                }
+                else {
+                    if (vm.amountStatus.amount == 0)
+                        vm.paymentbuttonText = "Register";
+                    else {
+                        vm.paymentbuttonText = "Make Payment";
+                    }
+                    }
+                        
 
             })
             .error(function (error) {
-                load();
+   
                 vm.toggleModal('error');
             });
         }
-
+        //Get Receipt
         function _getUserPayments() {
             vm.loadingComp = true;
             restApi.getSponsorPayments(vm.userID).
