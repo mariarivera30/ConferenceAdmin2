@@ -20,13 +20,14 @@ namespace NancyService.Modules
             SubmissionManager submission = new SubmissionManager();
             ProfileAuthorizationManager profileAuthorization = new ProfileAuthorizationManager();
 
-
+            // [Randy] Get information for the user profile
             Get["/getProfileInfo/{userID:long}"] = parameters =>
             {
                 var user = this.Bind<UserInfo>();
                 return Response.AsJson(profileInfo.getProfileInfo(user));
             };
 
+            // [Randy] Edit information of the user profile
             Put["/updateProfileInfo"] = parameters =>
             {
                 var user = this.Bind<UserInfo>();
@@ -37,6 +38,7 @@ namespace NancyService.Modules
                     return HttpStatusCode.Conflict;
             };
 
+            // [Randy] Make application to attend the conference
             Put["/apply"] = parameters =>
             {
                 var user = this.Bind<UserInfo>();
@@ -47,16 +49,17 @@ namespace NancyService.Modules
                     return HttpStatusCode.Conflict;
             };
 
-            Put["/makePayment"] = parameters =>
-            {
-                var user = this.Bind<UserInfo>();
-                if (profileInfo.makePayment(user))
-                    return HttpStatusCode.OK;
+            //Put["/makePayment"] = parameters =>
+            //{
+            //    var user = this.Bind<UserInfo>();
+            //    if (.makePayment(user))
+            //        return HttpStatusCode.OK;
 
-                else
-                    return HttpStatusCode.Conflict;
-            };
+            //    else
+            //        return HttpStatusCode.Conflict;
+            //};
 
+            // [Randy] Register as a complementary user without paying
             Put["/complementaryPayment"] = parameters =>
             {
                 var user = this.Bind<UserInfo>();
@@ -67,6 +70,7 @@ namespace NancyService.Modules
                     return HttpStatusCode.Conflict;
             };
 
+            // [Randy] Verify the complementary key
             Get["/checkComplementaryKey/{complementaryKey}"] = parameters =>
             {
                 var key = parameters.complementaryKey;
@@ -76,7 +80,7 @@ namespace NancyService.Modules
 
 
             //------------------------EVALUATOR - SUBMISSIONS-------------------------------------------
-            //Gets the list of submissions assigned to the evaluator currently logged in to the system
+            // [Jaimeiris] Gets the list of submissions assigned to the evaluator currently logged in to the system
             Get["/getAssignedSubmissions/{evaluatorUserID:long}/{index:int}"] = parameters =>
             {
                 long evaluatorUserID = parameters.evaluatorUserID; //ID of the evaluator that is currently signed in
@@ -89,7 +93,7 @@ namespace NancyService.Modules
                 return Response.AsJson(assignedSubmissions);
             };
 
-            //Search within a list with a specific criteria
+            /* [Randy] Search within the list with a certain criteria */
             Get["/searchAssignedSubmission/{evaluatorUserID}/{index}/{criteria}"] = parameters =>
             {
                 long evaluatorUserID = parameters.evaluatorUserID; //ID of the evaluator that is currently signed in
@@ -103,7 +107,7 @@ namespace NancyService.Modules
                 return Response.AsJson(assignedSubmissions);
             };
 
-            //Get the info of a submission
+            // [Jaimeiris] Get the info of a submission
             Get["/getSubmission/{submissionID:long}/{evaluatorID:long}"] = parameters =>
             {
                 long submissionID = parameters.submissionID;
@@ -116,7 +120,7 @@ namespace NancyService.Modules
                 return Response.AsJson(sub);
             };
 
-            //Post new evaluation for a submission
+            // [Jaimeiris] Post new evaluation for a submission
             Post["/addEvaluation"] = parameters =>
             {
                 var evaluation = this.Bind<evaluationsubmitted>();
@@ -126,7 +130,7 @@ namespace NancyService.Modules
                 else return HttpStatusCode.Conflict;
             };
 
-            //Edit evaluation for a submission
+            // [Jaimeiris] Edit evaluation for a submission
             Put["/editEvaluation"] = parameters =>
             {
                 var evaluation = this.Bind<evaluationsubmitted>();
@@ -136,6 +140,7 @@ namespace NancyService.Modules
                 else return HttpStatusCode.Conflict;
             };
             //------------------------------------USER SUBMISSIONS---------------------------------
+            // [Jaimeiris] Get list of all submissions
             Get["/getUserSubmissionList/{id}"] = parameters =>
             {
                 long userID = parameters.id; //ID of the evaluator that is currently signed in
@@ -147,7 +152,7 @@ namespace NancyService.Modules
 
                 return Response.AsJson(userSubmissions);
             };
-            //get single user submission
+            // [Jaimeiris] Get single user submission
             Get["/getUserSubmission/{id}"] = parameters =>
             {
                 long submissionID = parameters.id;
@@ -158,7 +163,7 @@ namespace NancyService.Modules
                 }
                 return Response.AsJson(sub);
             };
-            //get submission types
+            // [Jaimeiris] Get submission types
             Get["/getSubmissionTypes"] = parameters =>
             {
                 List<SubmissionType> subTypes = submission.getSubmissionTypes();
@@ -168,7 +173,7 @@ namespace NancyService.Modules
                 }
                 return Response.AsJson(subTypes);
             };
-            //Delete a submission
+            // [Jaimeiris] Delete a submission
             Delete["/deleteSubmission/{id}"] = parameters =>
             {
                 long submissionID = parameters.id;
@@ -177,7 +182,7 @@ namespace NancyService.Modules
                     return Response.AsJson(prevSub);
                 else return null;
             };
-            //Add a submission
+            // [Jaimeiris] Add a submission
             Post["/postSubmission"] = parameters =>
             {
                 panel pannelToAdd = null;
@@ -199,7 +204,7 @@ namespace NancyService.Modules
                 return Response.AsJson(newSubmission);
 
             };
-            //add new file to submission
+            // [Jaimeiris] Add new file to submission
             Put["/addSubmissionFile"] = parameters =>
                 {
                     documentssubmitted doc = this.Bind<documentssubmitted>();
@@ -212,7 +217,7 @@ namespace NancyService.Modules
                     }
                     else return HttpStatusCode.Conflict;
                 };
-            //manage existing files for a submission
+            // [Jaimeiris] Manage existing files for a submission
             Put["/manageExistingFiles"] = parameters =>
                 {
                     //documentssubmitted sub = this.Bind<documentssubmitted>();
@@ -231,7 +236,7 @@ namespace NancyService.Modules
                     }
                 };
 
-            //re-create final submission files
+            // [Jaimeiris] Re-create final submission files
             Put["/createFinalSubmissionFiles"] = parameters =>
             {
                 //documentssubmitted sub = this.Bind<documentssubmitted>();
@@ -250,7 +255,7 @@ namespace NancyService.Modules
                 }
             };
 
-            //edit submission
+            // [Jaimeiris] Edit submission
             Put["/editSubmission"] = parameters =>
             {
                 panel pannelToEdit = null;
@@ -270,7 +275,7 @@ namespace NancyService.Modules
                     submission.editSubmission(submissionToEdit, pannelToEdit, workshopToEdit);
                 return Response.AsJson(editedSubmission);
             };
-            //post final version of evaluation
+            // [Jaimeiris] Post final version of evaluation
             Post["/postFinalSubmission"] = parameters =>
                 {
                     panel pannelToAdd = null;
@@ -296,30 +301,30 @@ namespace NancyService.Modules
                         submission.addFinalSubmission(usersubTA, submissionToAdd, submissionDocuments, pannelToAdd, workshopToAdd);
                     return Response.AsJson(newSubmission);
                 };
-            //get the deadline for the additon of submissions
+            // [Jaimeiris] Get the deadline for the additon of submissions
             Get["/getSubmissionDeadlines"] = parameters =>
                 {
                     return Response.AsJson(submission.getSubmissionDeadlines());
                 };
-            //get the template file
+            // [Jaimeiris] Get the template file
             Get["/getTemplateFile/{id}"] = parameters =>
                 {
                     int templateID = parameters.id;
                     return Response.AsJson(profileAuthorization.getTemplateFile(templateID));
                 };
-            //get the authorization file 
+            // [Jaimeiris] Get the authorization file 
             Get["/getAuthorizationFile/{id}"] = parameters =>
             {
                 int authorizationID = parameters.id;
                 return Response.AsJson(profileAuthorization.getAuthorizationFile(authorizationID));
             };
-            //get evaluation template
+            // [Jaimeiris] Get evaluation template
             Get["/getEvaluationTemplate/{templateID:long}"] = parameters =>
                 {
                     int templateID = parameters.templateID;
                     return Response.AsJson(submission.getEvaluationTemplate(templateID));
                 };
-            //get evaluation file 
+            // [Jaimeiris] Get evaluation file 
             Get["/getEvaluationFile/{submissionID:long}/{evaluatorID:long}"] = parameters =>
             {
                 long submissionID = parameters.submissionID;
@@ -328,24 +333,25 @@ namespace NancyService.Modules
             };
 
             //------------------------AUTHORIZATION----------------------------------
+            // [Randy] Upload an authorization document
             Put["/uploadDocument"] = parameters =>
             {
                 var doc = this.Bind<Authorization>();
                 var minor = this.Bind<MinorUser>();
                 return Response.AsJson(profileAuthorization.uploadDocument(doc, minor));
             };
-
+            // [Randy] Get list of authorization templates
             Get["/getTemplates"] = parameters =>
             {
                 return Response.AsJson(profileAuthorization.getTemplates());
             };
-
+            // [Randy] Get list of authorization documents submitted
             Get["/getDocuments/{userID:long}"] = parameters =>
             {
                 var user = this.Bind<UserInfo>();
                 return Response.AsJson(profileAuthorization.getDocuments(user));
             };
-
+            // [Randy] Delete a specific document
             Put["/deleteDocument"] = parameters =>
             {
                 var doc = this.Bind<Authorization>();
@@ -355,7 +361,7 @@ namespace NancyService.Modules
                 else
                     return HttpStatusCode.Conflict;
             };
-
+            // [Randy] Bind companion with minor
             Post["/selectCompanion"] = parameters =>
             {
                 var user = this.Bind<UserInfo>();
@@ -367,16 +373,14 @@ namespace NancyService.Modules
                 else
                     return HttpStatusCode.Conflict;
             };
-
+            // [Randy] Get submitted companion key
             Get["/getCompanionKey/{userID:long}"] = parameters =>
             {
                 var user = this.Bind<UserInfo>();
                 return Response.AsJson(profileAuthorization.getCompanionKey(user));
             };
-
-
-
         }
+
         public class ExistingFile
         {
             public long submissionID { get; set; }

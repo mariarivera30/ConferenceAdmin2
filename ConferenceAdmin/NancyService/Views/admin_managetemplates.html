@@ -1,4 +1,4 @@
-﻿<div ng-controller="templateCtrl as vm">
+﻿<div ng-controller="templateCtrl as vm"><!--Html view to manage evaluation templates -->
     <div class="row">
         <div class="col-lg-9"><h3>Manage Evaluation Templates</h3></div>
         <div class="col-lg-3" ng-show="vm.loading">
@@ -42,7 +42,7 @@
         </div>
         <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" ng-click=" vm.addValues();" data-target="#addTemplate">Add New Template</button> <a href=""><i class="fa fa-info-circle info-icon" title="Adding a Template will include them in the Template selection option."> </i></a>
     </div>
-
+    <!--Modal View to confirm template deletion -->
     <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -68,7 +68,7 @@
             </div>
         </div>
     </div>
-
+    <!--Modal View to add template and view templates  -->
     <div class="modal fade" id="addTemplate" tabindex="-1" role="dialog" aria-labelledby="addTemplateLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -109,7 +109,7 @@
                     </form>
 
                 </div>
-
+                <!--Show if view is true-->
                 <div ng-show="vm.view" class="modal-body">
                     <form class="after-title-field">
 

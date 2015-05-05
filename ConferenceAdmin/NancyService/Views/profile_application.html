@@ -1,13 +1,31 @@
 ﻿<div class="row" ng-controller="profileInformationCtrl as vm">
     <h4 id="g-information">Application/Registration Status:</h4>
 
-    <div class="alert alert-warning" ng-hide="vm.hasApplied">
-        <strong><i class="fa fa-info"></i></strong> You have not applied yet. 
+    <center>
+        <img src="../img/Application%20Steps/step_1_pending.png" ng-show="!vm.hasApplied && vm.userTypeID != 1 " />
+        <img src="../img/Application%20Steps/step_1_finished.png" ng-show="vm.hasApplied && vm.userTypeID != 1 " />
+
+        <img src="../img/Application%20Steps/step_1_minor_pending.png" ng-show="vm.userTypeID == 1 && !vm.hasApplied" />
+        <img src="../img/Application%20Steps/step_1_minor_finished.png" ng-show="vm.userTypeID == 1 && vm.hasApplied" />
+
+        <img src="../img/Application%20Steps/step_2_pending.png" ng-show="vm.acceptanceStatus == 'Pending'" />
+        <img src="../img/Application%20Steps/step_2_finished.png" ng-show="vm.acceptanceStatus != 'Pending'" />
+
+        <img src="../img/Application%20Steps/step_3_pending.png" ng-show="vm.acceptanceStatus == 'Pending'" />
+        <img src="../img/Application%20Steps/step_3_finished.png" ng-show="vm.acceptanceStatus == 'Accepted'" />
+        <img src="../img/Application%20Steps/step_3_rejected.png" ng-show="vm.acceptanceStatus == 'Rejected'" />
+
+        <img src="../img/Application%20Steps/step_4_pending.png" ng-show="vm.registrationStatus == 'Pending'" />
+        <img src="../img/Application%20Steps/step_4_finished.png" ng-show="vm.registrationStatus == 'Accepted'" />
+    </center><br />
+
+    <div class="alert alert-warning" ng-hide="vm.hasApplied || ((vm.amountStatus.inTime == false && vm.amountStatus.inTimeLateFee == false) && vm.acceptanceStatus != 'Accepted' && vm.acceptanceStatus != 'Rejected')">
+        <strong><i class="fa fa-info"></i></strong> You have not applied yet.
         <span ng-show="vm.userTypeID != 1">Please click the Apply button below to request acceptance from the administrator. Acceptance is subject to space availability.</span>
         <span ng-show="vm.userTypeID == 1">All minors must provide the required Authorization Documents in order to apply. Please go to the Authorization tab to complete your application.</span>
     </div>
 
-    <div class="alert alert-info" ng-show="vm.hasApplied && (vm.registrationStatus == 'Pending') && (vm.acceptanceStatus == 'Pending')">
+    <div class="alert alert-info" ng-show="vm.hasApplied && (vm.registrationStatus == 'Pending') && (vm.acceptanceStatus == 'Pending') && (vm.amountStatus.inTime == false && vm.amountStatus.inTimeLateFee == false)==false">
         <strong><i class="fa fa-refresh"></i></strong> Your application is currently being processed. You will be notified when your application is reviewed.
     </div>
 
@@ -19,7 +37,7 @@
         <strong><i class="fa fa-times"></i></strong> Your registration has been <strong>REJECTED</strong>.
     </div>
 
-    <div class="alert alert-info" ng-show="vm.acceptanceStatus == 'Accepted' && (vm.registrationStatus == 'Pending')">
+    <div class="alert alert-info" ng-show="(vm.acceptanceStatus == 'Accepted' && (vm.registrationStatus == 'Pending')) && (vm.amountStatus.inTime == true || vm.amountStatus.inTimeLateFee == true)">
         <strong><i class="fa fa-bullhorn"></i></strong> Your application has been <strong>APPROVED</strong>. Please proceed with your Registration by clicking the Register button below.
     </div>
 
@@ -27,9 +45,13 @@
         <strong><i class="fa fa-check"></i></strong> Your Registration process has been completed.
     </div>
 
-    <button class="btn btn-ar btn-primary" ng-disabled="vm.hasApplied" ng-click="vm.apply()" ng-hide="vm.userTypeID == 1">Apply</button>
-    <button class="btn btn-ar btn-primary" ng-disabled="vm.acceptanceStatus != 'Accepted' || !vm.hasApplied || (vm.registrationStatus != 'Pending')" data-toggle="modal" data-target="#registerModal">Register</button>
-
+    <div class="alert alert-danger" ng-show="(vm.amountStatus.inTime == false && vm.amountStatus.inTimeLateFee == false) && vm.acceptanceStatus != 'Accepted' && vm.acceptanceStatus != 'Rejected'">
+        <strong><i class="fa fa-times"></i></strong>Registration deadlines expired. <strong>REJECTED</strong>.
+    </div>
+    <div ng-hide="(vm.amountStatus.inTime == false && vm.amountStatus.inTimeLateFee == false) || ((vm.registrationStatus == 'Accepted' )|| (vm.registrationStatus == 'Rejected')) ">
+        <button class="btn btn-ar btn-primary" ng-disabled="vm.hasApplied" ng-click="vm.apply()" ng-hide="vm.userTypeID == 1">Apply</button>
+        <button class="btn btn-ar btn-primary" ng-disabled="vm.acceptanceStatus != 'Accepted' || !vm.hasApplied || (vm.registrationStatus != 'Pending')" data-toggle="modal" data-target="#registerModal">Register</button>
+    </div>
 
 
     <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -79,13 +101,13 @@
                             <div class="col-md-12" ng-show="vm.userTypeID == 1">
                                 <br />
                                 Enter the <b>Companion Key</b> of the adult in charge.<br />
-                                <input type="text" name="key" ng-model="vm.companionKey" ng-readonly="vm.hasKey" required /> <button class="btn btn-ar btn-primary" ng-click="vm.selectCompanion(vm.companionKey)" ng-disabled="vm.hasKey || vm.correctKey">Submit</button>
+                                <input type="text" name="key" ng-model="vm.companionKey" ng-readonly="vm.hasCompKey" required /> <button class="btn btn-ar btn-primary" ng-click="vm.selectCompanion(vm.companionKey)" ng-disabled="vm.hasCompKey || vm.correctKey">Submit</button>
                                 <span ng-show="vm.wrongKey" class="padding-5 alert-danger half-width">The key you have provided is incorrect.</span>
                                 <span ng-show="vm.correctKey" class="padding-5 alert-success half-width">Successfully added key.</span><br /><br />
                                 <span ng-show="vm.correctKey && !vm.companionRegistered" class="padding-5 alert-danger half-width">But your companion has not registered yet.</span>
                             </div>
 
-                            <div class="col-md-12" ng-show="vm.userTypeID != 1 && vm.userTypeID != 6">
+                            <div class="col-md-12" ng-show="vm.userTypeID != 6">
                                 <br />
                                 If you have a <b>Complementary Key</b> please enter it below.<br />
                                 <input type="text" name="key" ng-model="vm.key" ng-readonly="vm.hasKey" required /> <button class="btn btn-ar btn-primary" ng-click="vm.checkComplementaryKey(vm.key)" ng-disabled="vm.hasKey || vm.correctComplementaryKey">Check</button>
@@ -100,24 +122,33 @@
 
                             <div class="col-md-12">
                                 <br />
-                                Your total amount to pay is <strong ng-hide="vm.correctComplementaryKey">{{vm.userTypesList[vm.userTypeID + 1].registrationCost | currency}}</strong> <strong ng-show="vm.correctComplementaryKey">$0.00</strong>.
-                                <a ng-hide="vm.correctComplementaryKey" ng-disable="vm.loading" ng-click="vm.userPayment()" target="_blank" class="btn btn-ar btn-primary right"
-                                   ng-disabled="(vm.userTypeID == 1 && vm.hasKey == false) || (vm.userTypeID == 1 && vm.hasKey == true && vm.companionRegistered==false)
+                                    <div ng-show="vm.amountStatus.inTime">
+                                        <label>Registration</label>
+                                        Your total amount to pay is <strong ng-hide="vm.correctComplementaryKey">{{vm.amountStatus.amount| currency}}</strong> <strong ng-show="vm.correctComplementaryKey">$0.00</strong>.
+                                    </div>
+                                <div ng-show="vm.amountStatus.inTimeLateFee">
+                                    <label>Late Registration</label>
+                                    Your total amount with the late fee included to pay is <strong ng-hide="vm.correctComplementaryKey">{{vm.amountStatus.amount | currency}}</strong> <strong ng-show="vm.correctComplementaryKey">$0.00</strong>.
+                                </div>
+                                    <a ng-hide="vm.correctComplementaryKey" ng-disable="vm.loading" ng-click="vm.userPayment()" target="_blank" class="btn btn-ar btn-primary right"
+                                       ng-disabled="(vm.userTypeID == 1 && vm.hasKey == false) || (vm.userTypeID == 1 && vm.hasKey == true && vm.companionRegistered==false)
                                     || (vm.datesList.length==3 && (vm.date3!=true && vm.date2!=true && vm.date1!=true))
                                     || (vm.datesList.length==2 && (vm.date2!=true && vm.date1!=true))
-                                    || (vm.datesList.length==1 && (vm.date1!=true))">Make Payment</a>
+                                    || (vm.datesList.length==1 && (vm.date1!=true))">{{vm.paymentbuttonText}}</a>
 
-                                <a ng-show="vm.correctComplementaryKey" href="" data-dismiss="modal" class="btn btn-ar btn-primary right" ng-click="vm.complementaryPayment()"
-                                   ng-disabled="(vm.datesList.length==3 && (vm.date3!=true && vm.date2!=true && vm.date1!=true))
+
+
+                                    <a ng-show="vm.correctComplementaryKey" href="" data-dismiss="modal" class="btn btn-ar btn-primary right" ng-click="vm.complementaryPayment()"
+                                       ng-disabled="(vm.datesList.length==3 && (vm.date3!=true && vm.date2!=true && vm.date1!=true))
                                     || (vm.datesList.length==2 && (vm.date2!=true && vm.date1!=true))
                                     || (vm.datesList.length==1 && (vm.date1!=true))">Register</a>
-                                <br />Please proceed to 
-                                <span ng-hide="vm.correctComplementaryKey"><strong>Make Payment</strong> and fill the required form.</span>
-                                <span ng-show="vm.correctComplementaryKey"><strong>Register</strong> to complete the process.</span>
-                                <label class="right" ng-show="(vm.datesList.length==3 && (vm.date3!=true && vm.date2!=true && vm.date1!=true))
+                                    <br />Please proceed to
+                                    <span ng-hide="vm.correctComplementaryKey"><strong>Make Payment</strong> and fill the required form.</span>
+                                    <span ng-show="vm.correctComplementaryKey"><strong>Register</strong> to complete the process.</span>
+                                    <label class="right" ng-show="(vm.datesList.length==3 && (vm.date3!=true && vm.date2!=true && vm.date1!=true))
                                     || (vm.datesList.length==2 && (vm.date2!=true && vm.date1!=true))
                                     || (vm.datesList.length==1 && (vm.date1!=true))"><i>* Please select the date(s) you will be attending to.</i></label>
-                            </div>  
+                                </div>  
                                                                             
 
                         </div>
@@ -133,9 +164,12 @@
         <div class="col-lg-12 uploading-top" ng-show="vm.loading">
             <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
         </div>
+
     </div>
 
-
+    <div class="col-lg-6">
+        <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
+    </div>
 
 
 

@@ -8,11 +8,10 @@ namespace NancyService.Modules
 {
     public class ProfileInfoManager
     {
-        public ProfileInfoManager()
-        {
+        /* [Randy] Empty Constructor */
+        public ProfileInfoManager(){}
 
-        }
-
+        /* [Randy] Get information for the user profile */
         public UserInfo getProfileInfo(UserInfo user)
         {
             try
@@ -68,6 +67,7 @@ namespace NancyService.Modules
             }
         }
 
+        /* [Randy] Edit information of the user profile */
         public bool updateProfileInfo(UserInfo user)
         {
             try
@@ -93,19 +93,20 @@ namespace NancyService.Modules
                     address.state = user.state;
                     address.country = user.country;
                     address.zipcode = user.zipcode;
-                    
+
                     context.SaveChanges();
                     return true;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.Write("ProfileAuthorizationManager.UpdateProfile error " + ex);
                 return false;
             }
         }
 
 
-        public bool makePayment(UserInfo user)
+        public bool makePaymentFree(UserInfo user)
         {
             try
             {
@@ -131,7 +132,7 @@ namespace NancyService.Modules
                         byAdmin = false,
                         deleted = false,
                         note = user.notes
-                    };                    
+                    };
 
                     user saveUser = context.users.Where(u => u.userID == user.userID).FirstOrDefault();
                     saveUser.registrationStatus = "Accepted";
@@ -142,11 +143,18 @@ namespace NancyService.Modules
                         addressID = saveUser.addressID,
                         deleted = false,
                         AmountPaid = (double)saveUser.usertype.registrationCost,
-                        // transaction fields
-                        transactionid = "1",
-                        methodOfPayment = "VISA",
-                        //creditCardNumber = "123456789",
-                       // cardExpirationDate = DateTime.Now.Date
+                        
+                        transactionid = "N/A",
+                        methodOfPayment = "N/A",
+                        tandemID ="N/A",
+                        batchID ="N/A",
+                        completed=true,
+                        date =DateTime.Now,
+                        firstName=saveUser.firstName,
+                        lastName=saveUser.lastName,
+                        email=saveUser.membership.email,
+                        telephone =saveUser.phone,
+
                     };
 
                     context.registrations.Add(registration);
@@ -155,14 +163,15 @@ namespace NancyService.Modules
                     return true;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.Write("ProfileAuthorizationManager.MakePaymentFree error " + ex);
                 return false;
             }
         }
 
 
-
+        /* [Randy] Register as a complementary user without paying */
         public bool complementaryPayment(UserInfo user, string key)
         {
             try
@@ -210,8 +219,9 @@ namespace NancyService.Modules
                     return true;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Console.Write("ProfileAuthorizationManager.complementaryPaymentError error " + ex);
                 return false;
             }
         }
@@ -227,11 +237,10 @@ namespace NancyService.Modules
                     var registrationExist = context.registrations.Where(x => x.userID == user.userID).FirstOrDefault();
                     if (registrationExist == null)
                     {
-                        
-                       payment.paymentTypeID = 1;
-                       payment.deleted = false;
-                       payment.creationDate = DateTime.Now.Date;
-                      
+
+                        payment.paymentTypeID = 1;
+                        payment.deleted = false;
+                        payment.creationDate = DateTime.Now.Date;
                         context.payments.Add(payment);
                         context.SaveChanges();
                         //Check if exist a registration then take it and edit it 
@@ -245,17 +254,19 @@ namespace NancyService.Modules
                             byAdmin = false,
                             deleted = false,
                             note = user.notes,
-                           
+
                         };
                         pay.paymentID = payment.paymentID;
                         context.registrations.Add(registration);
+
+                        
                         context.SaveChanges();
 
                     }
 
                     else
                     {
-                        
+
                         registrationExist.date1 = user.date1;
                         registrationExist.date2 = user.date2;
                         registrationExist.date3 = user.date3;
@@ -266,22 +277,23 @@ namespace NancyService.Modules
                         pay.paymentID = registrationExist.paymentID;
 
                     }
-                  
-                    var userType =context.usertypes.Where(x => x.userTypeID == user.userTypeID).First();
-                   
-                    //add check if is lateregistration o regular registration*****************************************IMPORTANT
+
                     
-                    pay.amount=(double)userType.registrationCost;
+                    //add check if is lateregistration o regular registration*****************************************IMPORTANT
+
+                    pay.amount = user.amount;
 
                     return pay;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                Console.Write("ProfileAuthorizationManager.UserPayment error " + ex);
                 return null;
             }
         }
 
+        /* [Randy] Make application to attend the conference */
         public bool apply(UserInfo user)
         {
             try
@@ -304,6 +316,7 @@ namespace NancyService.Modules
             }
         }
 
+        /* [Randy] Verify the complementary key */
         public bool checkComplementaryKey(string key)
         {
             try
@@ -311,7 +324,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     complementarykey complementaryKey = context.complementarykeys.Where(ck => ck.key == key && ck.isUsed == false && ck.deleted == false).FirstOrDefault();
-                    
+
                     return complementaryKey != null;
                 }
             }
@@ -322,8 +335,39 @@ namespace NancyService.Modules
             }
         }
 
+        public bool getSponsorDeadline()
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+
+                    WebManager webManager = new WebManager();
+                    string deadline = webManager.getInterfaceElement("sponsorDeadline").content;
+
+                    var Day = Convert.ToInt32(deadline.Split('/')[1]);
+                    var Month = Convert.ToInt32(deadline.Split('/')[0]);
+                    var Year = Convert.ToInt32(deadline.Split('/')[2]);
+
+                    DateTime submissionDeadline = new DateTime(Year, Month, Day);
+
+
+                    return (DateTime.Compare(submissionDeadline, DateTime.Now.Date) >= 0);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getSubmissionDeadline error " + ex);
+                return false;
+
+
+
+            }
+
+        }
     }
 }
+
 public class PaymentInfo
 {
     public long paymentID {get;set;}
@@ -357,4 +401,5 @@ public class UserInfo
     public bool? date3;
     public string notes;
     public string key;
+    public double amount;
 }

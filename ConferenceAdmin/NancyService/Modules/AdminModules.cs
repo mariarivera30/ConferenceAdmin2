@@ -232,6 +232,8 @@ namespace NancyService.Modules
 
             Get["/getSponsorDeadline/"] = parameters =>
             {
+                this.RequiresAuthentication();
+                this.RequiresAnyClaim(new[] { "sponsor", "admin", "Master", "Admin", "CommitteEvaluator" });
                 return  Response.AsJson(sponsorManager.getSponsorDeadline());
             };
             
@@ -253,6 +255,7 @@ namespace NancyService.Modules
 
             Get["/getSponsorListIndex/{index:int}"] = parameters =>
             {
+              
                 int index = parameters.index;
                 return Response.AsJson(sponsorManager.getSponsorList(index));
             };
@@ -261,8 +264,8 @@ namespace NancyService.Modules
             {
                 try
                 {
-                    // this.RequiresAuthentication();
-                    // this.RequiresClaims(new[] { "minor" });
+                    this.RequiresAuthentication();
+                    this.RequiresAnyClaim(new[] { "sponsor", "admin", "Master", "Admin", "CommitteEvaluator" });
                     long id = parameters.id;
                     return Response.AsJson(sponsorManager.getSponsorbyID(id));
                 }
@@ -500,7 +503,7 @@ namespace NancyService.Modules
                 return Response.AsJson(list);
             };
 
-            //search within the list with a certain criteria
+            // [Randy] search within the list with a certain criteria
             Get["/searchRegistration/{index}/{criteria}"] = parameters =>
             {
                 int index = parameters.index;
@@ -560,7 +563,7 @@ namespace NancyService.Modules
                 return Response.AsJson(authorizations);
             };
 
-            //search within the list with a certain criteria
+            // [Randy] search within the list with a certain criteria
             Get["/searchGuest/{index}/{criteria}"] = parameters =>
             {
                 int index = parameters.index;
@@ -927,7 +930,7 @@ namespace NancyService.Modules
                     bool isMaster = submissionManager.isMaster(userID);
                     return isMaster;
                 };
-            //search within the list with a certain criteria
+            // [Randy] search within the list with a certain criteria
             Get["/searchSubmission/{index}/{criteria}"] = parameters =>
             {
                 int index = parameters.index;
@@ -935,7 +938,7 @@ namespace NancyService.Modules
                 var list = submissionManager.searchSubmission(index, criteria);
                 return Response.AsJson(list);
             };
-            //search within the list with a certain criteria
+            // [Randy] search within the list with a certain criteria
             Get["/searchDeletedSubmission/{index}/{criteria}"] = parameters =>
             {
                 int index = parameters.index;

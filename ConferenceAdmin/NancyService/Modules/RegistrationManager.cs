@@ -12,11 +12,10 @@ namespace NancyService.Modules
 {
     public class RegistrationManager
     {
-        public RegistrationManager()
-        {
+        /* [Randy] Empty Constructor */
+        public RegistrationManager(){}
 
-        }
-
+        /* [Randy] Add new registration entry */
         public string addRegistration(registration reg, user user, membership mem)
         {/*int type, string firstname, string lastname, string affiliationName, bool registrationstatus, bool hasapplied, bool acceptancestatus*/
             try
@@ -77,6 +76,7 @@ namespace NancyService.Modules
 
         }
 
+        /* [Randy] Send an email to the user */
         private void sendEmailConfirmation(string email, string pass)
         {
             string ccwicEmail = "ccwictest@gmail.com";
@@ -101,6 +101,7 @@ namespace NancyService.Modules
             smtp.Send(mail);
         }
 
+        /* [Randy] Get list of all registration entries */
         public RegistrationPagingQuery getRegistrationList(int index)
         {
             RegistrationPagingQuery page = new RegistrationPagingQuery();
@@ -143,7 +144,7 @@ namespace NancyService.Modules
             }
         }
 
-
+        /* [Randy] Search within the list with a certain criteria */
         public RegistrationPagingQuery searchRegistration(int index, string criteria)
         {
             RegistrationPagingQuery page = new RegistrationPagingQuery();
@@ -186,7 +187,7 @@ namespace NancyService.Modules
             }
         }
 
-
+        /* [Randy] Get list of all types of users */
         public List<UserTypeName> getUserTypesList()
         {
             try
@@ -213,7 +214,7 @@ namespace NancyService.Modules
             }
         }
 
-
+        /* [Randy] Delete a specific registration entry */
         public bool deleteRegistration(int id)
         {
             try
@@ -237,6 +238,7 @@ namespace NancyService.Modules
             }
         }
 
+        /* [Randy] Edit a specific registration entry */
         public bool updateRegistration(RegisteredUser registeredUser)
         {
             try
@@ -266,6 +268,7 @@ namespace NancyService.Modules
             }
         }
 
+        /* [Randy] Get dates of the conference */
         public List<string> getDates()
         {
             try

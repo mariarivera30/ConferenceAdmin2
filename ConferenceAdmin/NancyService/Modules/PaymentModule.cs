@@ -95,7 +95,17 @@ namespace NancyService.Modules
                 temp.phone=user.phone;
                 temp.productID = userProductID;
                 temp.IP = this.Request.UserHostAddress;
-                
+                if (user.amount == 0)
+                {
+                    if( profileInfoManager.makePaymentFree(user))
+                        return Response.AsJson("billCreated");
+                    else
+                    {
+                        return HttpStatusCode.Conflict;
+                    }
+              
+
+                }
                 PaymentInfo payInfo = profileInfoManager.userPayment(user);
                 payInfo.phone = user.phone;
                 payInfo.isUser = true;
@@ -120,6 +130,24 @@ namespace NancyService.Modules
                 {
                     return HttpStatusCode.Conflict;
                 }
+
+            };
+            
+                Get["/getUserPriceInDeadline/{id:int}"] = parameters =>
+            {
+                int id = parameters.id;
+
+                AmountSatusRegistration result = paymentManager.getUserPriceInDeadline(id);
+
+                if(result!=null){
+                        return Response.AsJson(result);
+                }
+                
+                else
+                {
+                    return HttpStatusCode.Conflict;
+                }
+
 
             };
             Get["/getUserPayment/{id:long}"] = parameters =>

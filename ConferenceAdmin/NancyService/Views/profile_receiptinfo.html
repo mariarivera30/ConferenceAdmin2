@@ -18,7 +18,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div ng-hide="(vm.payment.methodOfPayment == 'Complementary Key' )|| (vm.payment.amount==0) " class="row">
                 <div class=" col-xm-3 col-sm-3 col-md-3 print-align">
                     <span class="label-simple">URL:</span>
                 </div>
@@ -70,7 +70,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div ng-hide="(vm.payment.methodOfPayment == 'Complementary Key' )|| (vm.payment.amount==0) " class="row">
                 <div class="col-xm-3 col-sm-3 col-md-3 print-align">
                     <span class="label-simple">TransactionID:</span>
                 </div>
@@ -79,7 +79,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div ng-hide="(vm.payment.methodOfPayment == 'Complementary Key' )|| (vm.payment.amount==0) " class="row">
                 <div class="col-xm-3 col-sm-3 col-md-3 print-align">
                     <span class="label-simple">Tandem Id:</span>
                 </div>
@@ -87,13 +87,6 @@
                     {{vm.payment.tandemID}}
                 </div>
             </div>
-
-        </div>
-
-        <div class="col-lg-12 margin-fix-banner">
-
-
-
             <div class="row">
                 <div class=" col-xm-3 col-sm-3 col-md-3 print-align">
                     <span class="label-simple">Method:</span>
@@ -117,7 +110,7 @@
                     <span class="label-simple">User Type:</span>
                 </div>
                 <div class="col-xm-3 col-sm-3 col-md-3">
-                    Sponsor
+                    {{vm.payment.type}}
                 </div>
             </div>
 
@@ -141,8 +134,11 @@
 
         </div>
 
+ 
+
 
     </div>
+
 
     <div class="col-lg-6">
         <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>

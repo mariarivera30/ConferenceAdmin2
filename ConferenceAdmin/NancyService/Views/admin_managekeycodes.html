@@ -1,18 +1,18 @@
-﻿<div ng-controller="ushersCtrl as vm">
+﻿<div ng-controller="ushersCtrl as vm"><!--This html is for Usher Key Codes-->
     <div class="row">
-        <div class="col-lg-9"><h3>Manage Ushers Complementary Codes</h3></div>
-        <div class="col-lg-3" ng-show="vm.loadingComp">
+        <div class=" col-xs-9 col-sm-9 col-md-9"><h3>Manage Ushers Complementary Codes</h3></div>
+        <div class="col-xs-3 col-sm-3 col-md-3" ng-show="vm.loadingComp">
             <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
         </div>
     </div>
 
-    <div class="col-lg-12 btn-padding2" ng-show="!vm.showResults && vm.sponsorKeys.length">
+    <div class="col-xs-12 col-sm-12 col-md-12 btn-padding2" ng-show="!vm.showResults && vm.sponsorKeys.length">
         <label class="left">Search: <input ng-model="vm.criteria" ng-change="vm.showSearch = false" /><button ng-click="vm.search(0)" ng-disabled="vm.loadingSearch"><i class="fa fa-search"></i></button> <label ng-show="vm.showSearch && !vm.showResults"> No results found.</label></label>
     </div>
-
+   
     <div class="row">
-        <div class="col-lg-1"></div>
-        <div ng-hide="vm.loadingComp" class="col-lg-10">
+        <div class="col-xs-1 col-sm-1 col-md-1"></div>
+        <div ng-hide="vm.loadingComp" class="col-xs-10 col-sm-10 col-md-10">
             <div ng-hide="vm.sponsorKeys.length || vm.showSearch">
                 <p class="title-field">No content to display.</p>
                 <a class="btn btn-default btn-padding" ng-click="vm.getSponsorComplimentaryKeysFromIndex(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
@@ -37,8 +37,8 @@
                     </tbody>
                 </table><br />
 
-                <div aria-live="polite" class="col-lg-6">Showing page {{vm.sindex + 1}} of {{vm.smaxIndex}}</div>
-                <div class="col-lg-6 paging-word">
+                <div aria-live="polite" class="col-xs-6 col-sm-6 col-md-6">Showing page {{vm.sindex + 1}} of {{vm.smaxIndex}}</div>
+                <div class="col-xs-6 col-sm-6 col-md-6 paging-word">
                     <a class="btn btn-default" ng-click="vm.getSponsorComplimentaryKeysFromIndex(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i></a>
                     <a class="btn btn-default" ng-disabled="vm.sindex==0" ng-click="vm.getFirstComplimentaryPage()">First</a>
                     <a class="btn btn-default" ng-disabled="vm.sindex==0" ng-click="vm.previousComplimentary()">plntPrevious</a>
@@ -47,11 +47,11 @@
                     <a class="btn btn-default" ng-disabled="vm.sindex >= (vm.smaxIndex-1)" ng-click="vm.getLastComplimentaryPage()">Last</a>
                 </div>
             </div>
-            <br />
+            <br /><!--Search Result-->
             <div ng-show="vm.searchResults.length && vm.showSearch">
                 <div>
                     <label class="left"><button ng-click="vm.back()"><i class="glyphicon glyphicon-arrow-left"></i> </button> Showing results for: "{{vm.criteria}}"</label>
-                    <table class="table table-top col-lg-12">
+                    <table class="table table-top col-xs-12 col-sm-12 col-md-12">
                         <thead>
                             <tr>
                                 <th><b>Key Code</b></th>
@@ -70,8 +70,8 @@
                         </tbody>
                     </table><br />
                 </div>
-                <div aria-live="polite" class="col-lg-6">Showing page {{vm.searchIndex + 1}} of {{vm.searchMaxIndex}}</div>
-                <div class="col-lg-6 paging-word">
+                <div aria-live="polite" class=" col-xs-6 col-sm-6 col-md-6">Showing page {{vm.searchIndex + 1}} of {{vm.searchMaxIndex}}</div>
+                <div class=" col-xs-6 col-sm-6 col-md-6 paging-word">
                     <a class="btn btn-default" ng-click="vm.search(vm.searchIndex)"><i class="glyphicon glyphicon-repeat"></i></a>
                     <a class="btn btn-default" ng-disabled="vm.searchIndex==0" ng-click="vm.getFirstSearch()">First</a>
                     <a class="btn btn-default" ng-disabled="vm.searchIndex==0" ng-click="vm.previousSearch()">Previous</a>
@@ -79,56 +79,58 @@
                     <a class="btn btn-default" ng-disabled="vm.searchIndex >= (vm.searchMaxIndex-1)" ng-click="vm.nextSearch()">Next</a>
                     <a class="btn btn-default" ng-disabled="vm.searchIndex >= (vm.searchMaxIndex-1)" ng-click="vm.getLastSearch()">Last</a>
                 </div>
-            </div>
-            <div class="col-lg-12" ng-show="vm.loadingRemovingComp">
+            </div><!--Loading Logo-->
+            <div class="col-xs-12 col-sm-12 col-md-12" ng-show="vm.loadingRemovingComp">
                 <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Removing</h3>
             </div>
         </div>
 
     </div>
     <div class="row">
-            <div class="col-lg-1"></div>
-            <div ng-hide="vm.loadingRemovingComp" class="col-lg-10">
-                <div class="panel-group" id="accordion" ng-show="!vm.showResults">
-                    <div class="panel panel-default">
-                        <div class="panel-heading panel-heading-link">
-                            <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" aria-expanded="false" class="collapsed">
-                                Add Complementary keys
-                            </a>
-                        </div>
-                        <div id="collapseOne" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-lg-1"></div>
-                                    <label>Quantity of Complementary Keys</label>
-                                </div>
-                                <div ng-hide="vm.uploadingComp" class="row">
-                                    <div class="col-lg-1"></div>
-                                    <form name="addComple" novalidate>
-                                        <div class="col-lg-2">
+        <div class="col-xs-1 col-sm-1 col-md-1"></div>
+        <div ng-hide="vm.loadingRemovingComp" class="col-xs-10 col-sm-10 col-md-10">
+            <div class="panel-group" id="accordion" ng-show="!vm.showResults">
+                <div class="panel panel-default">
+                    <div class="panel-heading panel-heading-link">
+                        <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" aria-expanded="false" class="collapsed">
+                            Add Complementary keys
+                        </a>
+                    </div><!--Accodion to add Usher Key Codes-->
+                    <div id="collapseOne" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-1 col-sm-1 col-md-1"></div>
+                                <label>Quantity of Complementary Keys</label>
+                            </div>
+                            <div ng-hide="vm.uploadingComp" class="row">
+                                <div class="col-xs-1 col-sm-1 col-md-1"></div>
+                                <form name="addComple" novalidate>
+                                    <div class="col-xs-2 col-sm-2 col-md-2">
+                                        <input class="form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" name="amount" ng-model="vm.quantity" required>
+                                    </div>
+                                    
+                                    
+                                    <div class="col-xs-8 col-sm-8 col-md-8"><button class="btn btn-ar btn-primary right" ng-disabled="addComple.$invalid" ng-click="vm.addComplementaryKey()">Add</button></div>
 
-                                            <input type="number" ng-model="vm.quantity" required>
-                                        </div>
 
-                                        <div class="col-lg-8"><button class="btn btn-ar btn-primary right" ng-disabled="addComple.$invalid" ng-click="vm.addComplementaryKey()">Add</button></div>
+                                </form>
 
 
-                                    </form>
-
-                                </div>
-                                <div class="col-lg-12" ng-show="vm.uploadingComp">
-                                    <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>Creating</h3>
-                                </div>
-
+                            </div> <!--Loding animation-->
+                            <div class="col-xs-12 col-sm-12 col-md-12" ng-show="vm.uploadingComp">
+                                <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>Creating</h3>
                             </div>
 
                         </div>
+
                     </div>
                 </div>
             </div>
-            <div class="col-lg-1"></div>
+        </div>
+        <div class="col-xs-1 col-sm-1 col-md-1"></div>
     </div>
-    <div class="col-lg-6">
+    <!--Angular Directive to display modal messages-->
+    <div class=" col-xs-6 col-sm-6 col-md-6">
         <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
     </div>
 </div>

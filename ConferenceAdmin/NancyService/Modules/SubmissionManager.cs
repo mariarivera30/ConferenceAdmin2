@@ -305,7 +305,7 @@ namespace NancyService.Modules
             }
         }
 
-        //Search within a list with a specific criteria
+        /* [Randy] Search within the list with a certain criteria */
         public SubmissionPagingQuery searchAssignedSubmission(long userID, int index, string criteria)
         {
             SubmissionPagingQuery page = new SubmissionPagingQuery();
@@ -2154,7 +2154,7 @@ namespace NancyService.Modules
             }
         }
 
-        // Search within the list with a certain criteria
+        /* [Randy] Search within the list with a certain criteria */
         public SubmissionPagingQuery searchSubmission(int index, string criteria)
         {
             SubmissionPagingQuery page = new SubmissionPagingQuery();
@@ -2277,7 +2277,7 @@ namespace NancyService.Modules
             }
         }
 
-        // Search within the list with a certain criteria
+        /* [Randy] Search within the list with a certain criteria */
         public SubmissionPagingQuery searchDeletedSubmission(int index, string criteria)
         {
             SubmissionPagingQuery page = new SubmissionPagingQuery();

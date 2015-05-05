@@ -1,24 +1,24 @@
-﻿<div ng-controller="sponsorCtrl as vm ">
-
+﻿<div ng-controller="sponsorCtrl as vm ">  <!--This HTML manage all ui for the sponsor administrator views-->
+   
     <div class="row">
-        <div class="col-lg-8"><h3>Manage Sponsors</h3></div>
+        <div class="col-xs-8 col-sm-8 col-md-8"><h3>Manage Sponsors</h3></div>
         <!-- Loading icon, appearing while table is loading its contents. -->
-        <div class="col-lg-3 col-xs-3 loading-right" ng-show="vm.loading">
+        <div class="col-xs-3 col-sm-3 col-md-3  loading-right" ng-show="vm.loading">
             <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
         </div>
-    </div>
-
-    <div class="col-lg-12" ng-hide="vm.loading" ng-show="!vm.showResults">
+    </div> 
+    <!--General list with sponsors-->
+    <div class="col-xs-12 col-sm-12 col-md-12" ng-hide="vm.loading" ng-show="!vm.showResults">
 
         <div ng-hide="vm.sponsorsList.length">
             <p class="title-field">No content to display.</p>
             <a class="btn btn-default btn-padding" ng-click="vm.getSponsorListFromIndex(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
         </div>
 
-        <div class="col-lg-12 btn-padding2" ng-show="!vm.showResults && vm.sponsorsList.length">
+        <div class="col-xs-12 col-sm-12 col-md-12 btn-padding2" ng-show="!vm.showResults && vm.sponsorsList.length">
             <label class="left">Search: <input ng-model="vm.criteria" ng-change="vm.showSearch = false" /><button ng-click="vm.search(0)"><i class="fa fa-search"></i></button> <label ng-show="vm.showSearch && !vm.showResults"> No results found.</label></label>
         </div>
-
+        
         <div ng-show="vm.sponsorsList.length">
             <table ng-table="tableParams" class="table row">
                 <thead>
@@ -37,14 +37,14 @@
                         <td>{{sponsor.company}}</td>
                         <td>{{sponsor.amount}}</td>
 
-                        <td data-toggle="modal" ng-click="vm.selectedSponsor(sponsor);vm.editValues()" data-target="#addSponsor"><a ng-show ="sponsor.byAdmin" href="">Edit</a></td>
+                        <td data-toggle="modal" ng-click="vm.selectedSponsor(sponsor);vm.editValues()" data-target="#addSponsor"><a ng-show="sponsor.byAdmin" href="">Edit</a></td>
                         <td data-toggle="modal" data-target="#complementary" ng-click="vm.complementaryValues(sponsor)"><a href="">Complementary Keys</a></td>
-                        <td ><a href="" ng-show="sponsor.byAdmin" data-toggle="modal" ng-click="vm.selectedSponsor(sponsor);vm.toggleModal('remove');"><i ng-hide="sponsor.sponsorID == 1" class="glyphicon glyphicon-remove"></i></a></td>
+                        <td><a href="" ng-show="sponsor.byAdmin" data-toggle="modal" ng-click="vm.selectedSponsor(sponsor);vm.toggleModal('remove');"><i ng-hide="sponsor.sponsorID == 1" class="glyphicon glyphicon-remove"></i></a></td>
                     </tr>
                 </tbody>
             </table><br />
-            <div aria-live="polite" class="col-lg-6">Showing page {{vm.sindex + 1}} of {{vm.smaxIndex}}</div>
-            <div class="col-lg-6 paging-word">
+            <div aria-live="polite" class="col-xs-6 col-sm-6 col-md-6">Showing page {{vm.sindex + 1}} of {{vm.smaxIndex}}</div>
+            <div class="col-xs-6 col-sm-6 col-md-6 paging-word">
                 <a class="btn btn-default" ng-click="vm.getSponsorListFromIndex(vm.sindex)"><i class="glyphicon glyphicon-repeat"></i></a>
                 <a class="btn btn-default" ng-disabled="vm.sindex==0" ng-click="vm.getFirstSponsorPage()">First</a>
                 <a class="btn btn-default" ng-disabled="vm.sindex==0" ng-click="vm.previousSponsor()">Previous</a>
@@ -54,17 +54,17 @@
             </div>
         </div>
     </div>
-
+    
     <div class="row btn-padding2" ng-show="!vm.showResults && !vm.loading">
-        <div class="col-lg-12">
+        <div class="col-xs-12 col-sm-12 col-md-12">
             <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" ng-click="vm.addValues()" data-target="#addSponsor">Add Sponsor</button> <a href=""><i class="fa fa-info-circle info-icon" title="Manually Add Sponsor"> </i></a>
         </div>
     </div>
-
+    <!--Search list with sponsors-->
     <div ng-show="vm.searchResults.length && vm.showSearch">
         <div>
             <label class="left"><button ng-click="vm.back()"><i class="glyphicon glyphicon-arrow-left"></i> </button> Showing results for: "{{vm.criteria}}"</label>
-            <table class="table table-top col-lg-12">
+            <table class="table table-top col-xs-12 col-sm-12 col-md-12">
                 <thead>
                     <tr>
                         <th><b>Name</b></th>
@@ -88,8 +88,8 @@
                 </tbody>
             </table><br />
         </div>
-        <div aria-live="polite" class="col-lg-6">Showing page {{vm.searchIndex + 1}} of {{vm.searchMaxIndex}}</div>
-        <div class="col-lg-6 paging-word">
+        <div aria-live="polite" class="col-xs-6 col-sm-6 col-md-6">Showing page {{vm.searchIndex + 1}} of {{vm.searchMaxIndex}}</div>
+        <div class="col-xs-6 col-sm-6 col-md-6 paging-word">
             <a class="btn btn-default" ng-click="vm.search(vm.searchIndex)"><i class="glyphicon glyphicon-repeat"></i></a>
             <a class="btn btn-default" ng-disabled="vm.searchIndex==0" ng-click="vm.getFirstSearch()">First</a>
             <a class="btn btn-default" ng-disabled="vm.searchIndex==0" ng-click="vm.previousSearch()">Previous</a>
@@ -98,32 +98,7 @@
             <a class="btn btn-default" ng-disabled="vm.searchIndex >= (vm.searchMaxIndex-1)" ng-click="vm.getLastSearch()">Last</a>
         </div>
     </div>
-
-    <!--<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-                    <h4 class="modal-title" id="deleteLabel">Remove Sponsor</h4>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to remove the selection?
-                    <br />
-                    <label>Name:</label> {{vm.sponsor.firstName}}  {{vm.sponsor.lastName}}
-                </div>
-                <div class="col-lg-12" ng-show="vm.loadingRemoving">
-                    <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Removing</h3>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" ng-click="vm.deleteSponsor()">Remove</button>
-                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>-->
-
-
-
+    <!--Modal used to add or edit sponsor depending on vm.add and vm.edit the same modal is dynamic-->
     <div class="modal fade" id="addSponsor" tabindex="-1" role="dialog" aria-labelledby="addSponsorLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -135,70 +110,70 @@
                 <div class="modal-body">
                     <form name="addSponsorForm" id="addSponsorForm" novalidate>
                         <div class="row">
-                            <span class="col-lg-6">
+                            <span class="col-xs-6 col-sm-6 col-md-6">
                                 <label>Name:</label>
                                 <input class="form-control" type="text" name="name" ng-model="vm.sponsor.firstName" required>
                                 <p ng-show="addSponsorForm.name.$invalid && !addSponsorForm.name.$pristine" class="help-block">First name is required.</p>
                             </span>
-                            <span class="col-lg-6">
+                            <span class="col-xs-6 col-sm-6 col-md-6">
                                 <label>Last Name:</label>
                                 <input class="form-control" type="text" name="last" ng-model="vm.sponsor.lastName" required>
                                 <p ng-show="addSponsorForm.last.$invalid && !addSponsorForm.last.$pristine" class="help-block">Last name is required.</p>
                             </span>
                         </div>
                         <div class="row">
-                            <span class=" col-lg-6">
+                            <span class="col-xs-6 col-sm-6 col-md-6">
                                 <label>Email:</label>
                                 <input class="form-control" type="email" name="email" ng-model="vm.sponsor.email" required>
                                 <p ng-show="addSponsorForm.email.$invalid && !addSponsorForm.email.$pristine" class="help-block">Email is required.</p>
                             </span>
-                            <span class=" col-lg-6">
+                            <span class="col-xs-6 col-sm-6 col-md-6">
                                 <label>Sponsor Type:</label>
                                 <br />
-                               
+
 
                                 <select ng-model="vm.sponsor.sponsorType"
-                                        ng-options="type.sponsortypeID as type.name for type in vm.sponsorsTypeList" class="form-control"></select>   
-                                
+                                        ng-options="type.sponsortypeID as type.name for type in vm.sponsorsTypeList" class="form-control"></select>
+
                             </span>
                         </div>
                         <div class="row">
-                            <span class="col-lg-12">
+                            <span class="col-xs-12 col-sm-12 col-md-12">
                                 <label>Company:</label>
                                 <input class="form-control" type="text" name="company" ng-model="vm.sponsor.company" required>
                                 <p ng-show="addSponsorForm.company.$invalid && !addSponsorForm.company.$pristine" class="help-block">Company name is required.</p>
                             </span>
                         </div>
                         <div class="row">
-                            <span class="col-lg-6">
+                            <span class="col-xs-6 col-sm-6 col-md-6">
                                 <label>Street Address Line 1:</label>
                                 <input class="form-control" type="text" name="line1" ng-model="vm.sponsor.line1" required>
                                 <p ng-show="addSponsorForm.line1.$invalid && !addSponsorForm.line1.$pristine" class="help-block">First name is required.</p>
                             </span>
-                            <span class="col-lg-6">
+                            <span class="col-xs-6 col-sm-6 col-md-6">
                                 <label>Street Address Line 2:</label>
                                 <input class="form-control" type="text" name="" ng-model="vm.sponsor.line2">
                             </span>
                         </div>
                         <div class="row">
-                            <span class="col-lg-6">
+                            <span class="col-xs-6 col-sm-6 col-md-6">
                                 <label>State:</label>
                                 <input class="form-control" type="text" name="state" ng-model="vm.sponsor.state" required>
                                 <p ng-show="addSponsorForm.state.$invalid && !addSponsorForm.state.$pristine" class="help-block">State is required.</p>
                             </span>
-                            <span class="col-lg-6">
+                            <span class="col-xs-6 col-sm-6 col-md-6">
                                 <label>Country:</label>
                                 <input class="form-control" class="for" type="text" name="country" ng-model="vm.sponsor.country" required>
                                 <p ng-show="addSponsorForm.country.$invalid && !addSponsorForm.country.$pristine" class="help-block">Country is required.</p>
                             </span>
                         </div>
                         <div class="row">
-                            <span class="col-lg-6">
+                            <span class="col-xs-6 col-sm-6 col-md-6">
                                 <label>City:</label>
                                 <input class="form-control" class="for" type="text" name="city" ng-model="vm.sponsor.city" required>
                                 <p ng-show="addSponsorForm.city.$invalid && !addSponsorForm.city.$pristine" class="help-block">City is required.</p>
                             </span>
-                            <span class="col-lg-6">
+                            <span class="col-xs-6 col-sm-6 col-md-6">
                                 <label>Zip Code:</label>
                                 <input class="form-control" type="text" name="zipcode" ng-model="vm.sponsor.zipcode" ng-minlength="5" ng-maxlength="5" required>
                                 <p ng-show="addSponsorForm.zipcode.$invalid && !addSponsorForm.zipcode.$pristine" class="help-block">Zip code is required.</p>
@@ -206,43 +181,53 @@
 
 
                         </div>
-
                         <div class="row">
-                            <span class=" col-lg-6">
+
+                            <span class=" col-xm-6 col-sm-6 col-md-6">
                                 <label>Phone Number:</label>
-                                <input class="form-control" type="text" name="phone" ng-model="vm.sponsor.phone" ng-minlength="9" ng-maxlength="10" required>
+                                <input class="form-control" type="text" name="phone" ng-model="vm.sponsor.phone" ng-minlength="9" ng-maxlength="30" required>
                                 <p ng-show="addSponsorForm.phone.$invalid && !addSponsorForm.phone.$pristine" class="help-block">Phone number is required.</p>
                             </span>
 
-                            <span class=" col-lg-6">
+
+                            <span class=" col-xm-6 col-sm-6 col-md-6">
+                                <label>Fax Number:</label>
+                                <input class="form-control" type="text" name="fax" ng-model="vm.sponsor.userFax" ng-minlength="9" ng-maxlength="30" required>
+                                <p ng-show="addSponsorForm.fax.$invalid && !addSponsorForm.fax.$pristine" class="help-block">Fax number is required.</p>
+                            </span>
+
+                        </div>
+                        <div class="row">
+                            
+                            <span class=" col-xs-6 col-sm-6 col-md-6">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
                                         <label> Upload Logo </label> <input id="inputFile" type="file" class="form-control" name="upload" file-model="File" on-read-file="showContent($fileContent, File)" required>
                                         <a ng-if="content" type="submit" ng-click="vm.clearPic(File)"><i class="glyphicon glyphicon-trash"></i></a>
                                         <p ng-show="vm.ext" class="help-block">Try pic,pict, png, jpg, jpeg or gif extention.</p>
                                     </div>
-                                
-                                </div>
-                               
-                             
-                                <div id="fileModel-load" class="col-lg-12">
 
                                 </div>
 
-                                <div class="col-sm-6 col-md-6">
+
+                                <div id="fileModel-load" class="col-xs-12 col-sm-12 col-md-12">
+
+                                </div>
+
+                                <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div ng-if="content">
                                         <br />
-                                        <div class= "row">
-                                         <div class="col-lg-12" >
-                                            <img class="img-responsive" ng-src="{{content}}" />
-                                         </div>
-                                           
-                                        
-                                        
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                                <img class="img-responsive" ng-src="{{content}}" />
+                                            </div>
+
+
+
                                         </div>
-                                       
-                                      
-                                       
+
+
+
                                     </div>
                                 </div>
 
@@ -257,25 +242,25 @@
                             <h4>Payment Bill Information:</h4>
                         </div>
                         <div class="row">
-                            <span class=" col-lg-6">
+                            <span class="col-xs-6 col-sm-6 col-md-6">
                                 <label>Method Payment:</label>
                                 <input class="form-control" type="text" name="method" ng-model="vm.sponsor.method" required>
                                 <p ng-show="addSponsorForm.method.$invalid && !addSponsorForm.method.$pristine" class="help-block">Method of payment is required.</p>
                             </span>
-                            <span class=" col-lg-6">
+                            <span class="col-xs-6 col-sm-6 col-md-6">
                                 <label>Transaction Id:</label>
                                 <input class="form-control" type="text" name="trasaction" ng-model="vm.sponsor.transactionID" required>
                                 <p ng-show="addSponsorForm.trasaction.$invalid && !addSponsorForm.trasaction.$pristine" class="help-block">Method of payment is required.</p>
                             </span>
                         </div>
                         <div class="row">
-                            <span class=" col-lg-6">
+                            <span class="col-xs-6 col-sm-6 col-md-6">
                                 <label>Amount Paid:</label>
                                 <input class="form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" step="any" name="amount" ng-model="vm.sponsor.amount" required>
                                 <p ng-show="addSponsorForm.amount.$invalid && !addSponsorForm.amount.$pristine" class="help-block">Valid amount paid is required.</p>
                             </span>
                         </div>
-                        <div class="col-lg-12 uploading-top" ng-show="vm.loadingUploading">
+                        <div class="col-xs-12 col-sm-12 col-md-12 uploading-top" ng-show="vm.loadingUploading">
                             <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Uploading</h3>
                         </div>
                         <div ng-hide=" vm.view" class="modal-footer">
@@ -291,6 +276,7 @@
             </div>
         </div>
     </div>
+    <!--Modal to view the sponsors-->
     <div class="modal fade" id="viewSponsor" tabindex="-1" role="dialog" aria-labelledby=viewSponsorLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -300,109 +286,115 @@
                 </div>
 
                 <div class="modal-body">
-
+                    
 
                     <div class="row">
-                        <span class="col-lg-6">
+                        <span class="col-xs-6 col-sm-6 col-md-6">
                             <label>Name:</label> {{vm.sponsor.firstName}}
                         </span>
-                        <span class="col-lg-6">
+                        <span class="col-xs-6 col-sm-6 col-md-6">
                             <label>Last Name:</label> {{vm.sponsor.lastName}}
                         </span>
                     </div>
                     <div class="row">
-                        <span class=" col-lg-6">
+                        <span class=" col-xs-6 col-sm-6 col-md-6">
                             <label>Email:</label> {{vm.sponsor.email}}
 
                         </span>
-                        <span class=" col-lg-6">
+                        <span class="col-xs-6 col-sm-6 col-md-6">
                             <label>Sponsor Type:</label> {{vm.sponsor.typeName}}
 
                         </span>
                     </div>
                     <div class="row">
-                        <span class="col-lg-6">
+                        <span class="col-xs-6 col-sm-6 col-md-6">
                             <label>Company:</label> {{vm.sponsor.company}}
                         </span>
-                        <span class=" col-lg-6">
-                            <label>Phone Number:</label> {{vm.sponsor.phone}}
-                        </span>
-                    </div>
-                    <div class="row">
-                        <span class="col-lg-6">
-                            <label>Street Address Line 1:</label> {{vm.sponsor.line1}}
-                        </span>
-                        <span class="col-lg-6">
-                            <label>Street Address Line 2:</label> {{vm.sponsor.line2}}
-                        </span>
-                    </div>
-                    <div class="row">
-                        <span class="col-lg-6">
-                            <label>State:</label> {{vm.sponsor.state}}
-                        </span>
-                        <span class="col-lg-6">
-                            <label>Country:</label> {{vm.sponsor.country}}
-                        </span>
-                    </div>
-                    <div class="row">
-                        <span class="col-lg-6">
-                            <label>City:</label> {{vm.sponsor.city}}
-                        </span>
-                        <span class="col-lg-6">
-                            <label>Zip Code:</label> {{vm.sponsor.zipcode}}
-                        </span>
-                    </div>
-
-                    <div class="row">
-
-
-                        <span class=" col-lg-6   ">
-                            <label>Current Logo:</label>
-                            <div>
-                                <img class="img-responsive" src="{{vm.sponsor.logo}}" />
-                            </div>
-                        </span>
-                        <span class=" col-lg-6">
-
-
-                            <label>Logo Image File:</label><br />
-                            <button class="form-control" type="submit" class="btn btn-ar btn-primary right" ng-click="vm.downloadLogo()">Download</button>
-
-
-                        </span>
-                    </div>
-                    
-                    <div>
-                        <br />
-                        <h4 class="modal-title" id="">Payment Bill Information:</h4>
-                    </div>
-                    <div ng-show="vm.sponsor.byAdmin"class="row">
-                        <span class=" col-lg-6">
-                            <label>Method Payment:</label> {{vm.sponsor.method}}
-                        </span>
-                        <span class=" col-lg-6">
-                            <label>Transaction Id:</label> {{vm.sponsor.transactionID}}
-                        </span>
-                    </div>
-                    <div class="row">
-                        <span class=" col-lg-6">
-                            <label>Amount Paid:</label> {{vm.sponsor.amount}}
-                        </span>
-                    </div>
-
-                    <div class="modal-footer">
-
-
 
                     </div>
+                        <div class="row">
+                            <span class="col-xs-6 col-sm-6 col-md-6">
+                                <label>Phone Number:</label> {{vm.sponsor.phone}}
+                            </span>
+                            <span class="col-xs-6 col-sm-6 col-md-6">
+                                <label>Fax Number:</label> {{vm.sponsor.userFax}}
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="col-xs-6 col-sm-6 col-md-6">
+                                <label>Street Address Line 1:</label> {{vm.sponsor.line1}}
+                            </span>
+                            <span class="col-xs-6 col-sm-6 col-md-6">
+                                <label>Street Address Line 2:</label> {{vm.sponsor.line2}}
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="col-xs-6 col-sm-6 col-md-6">
+                                <label>State:</label> {{vm.sponsor.state}}
+                            </span>
+                            <span class="col-xs-6 col-sm-6 col-md-6">
+                                <label>Country:</label> {{vm.sponsor.country}}
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="col-xs-6 col-sm-6 col-md-6">
+                                <label>City:</label> {{vm.sponsor.city}}
+                            </span>
+                            <span class="col-xs-6 col-sm-6 col-md-6">
+                                <label>Zip Code:</label> {{vm.sponsor.zipcode}}
+                            </span>
+                        </div>
+
+                        <div class="row">
 
 
-                </div>
+                            <span class="col-xs-6 col-sm-6 col-md-6 ">
+                                <label>Current Logo:</label>
+                                <div>
+                                    <img class="img-responsive" src="{{vm.sponsor.logo}}" />
+                                </div>
+                            </span>
+                            <span class="col-xs-6 col-sm-6 col-md-6">
+
+
+                                <label>Logo Image File:</label><br />
+                                <button class="form-control" type="submit" class="btn btn-ar btn-primary right" ng-click="vm.downloadLogo()">Download</button>
+
+
+                            </span>
+                        </div>
+
+                        <div>
+                            <br />
+                            <h4 class="modal-title" id="">Payment Bill Information:</h4>
+                        </div>
+                        <div ng-show="vm.sponsor.byAdmin" class="row">
+                            <span class=" col-xs-6 col-sm-6 col-md-6">
+                                <label>Method Payment:</label> {{vm.sponsor.method}}
+                            </span>
+                            <span class="col-xs-6 col-sm-6 col-md-6">
+                                <label>Transaction Id:</label> {{vm.sponsor.transactionID}}
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class=" col-xs-6 col-sm-6 col-md-6">
+                                <label>Amount Paid:</label> {{vm.sponsor.amount}}
+                            </span>
+                        </div>
+
+                        <div class="modal-footer">
+
+
+
+                        </div>
+
+
+                    </div>
 
             </div>
         </div>
     </div>
-
+    <!--Modal to manage the complemtary kes of sponsors-->
     <div class="modal fade" id="complementary" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -411,10 +403,10 @@
                     <h4 class="modal-title" id="deleteLabel">Manage Complementary Codes</h4>
                 </div>
                 <div class="modal-body">
-
+                    
                     <div class="row">
-                        <div class="col-lg-1"></div>
-                        <div ng-hide="vm.loadingComp" class="col-lg-10">
+                        <div class="col-xs-1 col-sm-1 col-md-1"></div>
+                        <div ng-hide="vm.loadingComp" class="col-xs-10 col-sm-10 col-md-10">
                             <div ng-hide="vm.sponsorKeys.length">
                                 <p class="title-field">No content to display.</p>
                                 <a class="btn btn-default btn-padding" ng-click="vm.getSponsorComplementaryKeys(vm.cindex)"><i class="glyphicon glyphicon-repeat"></i> Refresh</a>
@@ -434,8 +426,8 @@
                                         <td><a href="" ng-click="vm.selectedKey(key);vm.toggleModal('removeKey');" ng-hide="key.isUsed">Deactivate</a></td>
                                     </tr>
                                 </table>
-                                <div aria-live="polite" class="col-lg-6">Showing page {{vm.cindex + 1}} of {{vm.cmaxIndex}}</div>
-                                <div class="col-lg-10 paging-word-left">
+                                <div aria-live="polite" class="col-xs-6 col-sm-6 col-md-6">Showing page {{vm.cindex + 1}} of {{vm.cmaxIndex}}</div>
+                                <div class="col-xs-10 col-sm-10 col-md-10 paging-word-left">
                                     <a class="btn btn-default" ng-click="vm.getSponsorComplementaryKeys(vm.cindex)"><i class="glyphicon glyphicon-repeat"></i></a>
                                     <a class="btn btn-default" ng-disabled="vm.cindex==0" ng-click="vm.getFirstComplimentaryPage()">First</a>
                                     <a class="btn btn-default" ng-disabled="vm.cindex==0" ng-click="vm.previousComplimentary()">Previous</a>
@@ -445,21 +437,21 @@
                                 </div>
                             </div>
                             <br />
-                            <div class="col-lg-12" ng-show="vm.loadingRemovingComp">
+                            <div class="col-xs-12 col-sm-12 col-md-12" ng-show="vm.loadingRemovingComp">
                                 <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Removing</h3>
                             </div>
 
                         </div>
-                        <div class="col-lg-12" ng-show="vm.loadingComp">
+                        <div class="col-xs-12 col-sm-12 col-md-12" ng-show="vm.loadingComp">
                             <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
                         </div>
 
 
                     </div>
                     <div class="row">
-                        <div class="col-lg-12">
-                            <div class="col-lg-1"></div>
-                            <div ng-hide="vm.loadingRemovingComp" class="col-lg-10">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="col-xs-1 col-sm-1 col-md-1"></div>
+                            <div ng-hide="vm.loadingRemovingComp" class="col-xs-10 col-sm-10 col-md-10">
                                 <div class="panel-group" id="accordion">
                                     <div class="panel panel-default">
 
@@ -471,24 +463,22 @@
                                         <div id="collapseOne" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
                                             <div class="panel-body">
                                                 <div class="row">
-                                                    <div class="col-lg-1"></div>
+                                                    <div class="col-xs-1 col-sm-1 col-md-1"></div>
                                                     <label>Quantity of Complementary Keys</label>
                                                 </div>
                                                 <div ng-hide="vm.uploadingComp" class="row">
-                                                    <div class="col-lg-1"></div>
+                                                    
                                                     <form name="addComple" novalidate>
-                                                        <div class="col-lg-2">
-
-                                                            <input type="number" ng-model="vm.quantity" required>
+                                                        <div class="col-xs-1 col-sm-1 col-md-1"></div>
+                                                        <div class="col-xs-4 col-sm-4 col-md-4">
+                                                            <input class="form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" name="amount" ng-model="vm.quantity" required />
                                                         </div>
-
-                                                        <div class="col-lg-8"><button class="btn btn-ar btn-primary right" ng-disabled="addComple.$invalid" ng-click="vm.addComplementaryKey()">Add</button></div>
-
-
+                                                        <div class="col-xs-3 col-sm-3 col-md-3"></div>
+                                                        <div class="col-xs-4 col-sm-4 col-md-4"><button class="btn btn-ar btn-primary right" ng-disabled="addComple.$invalid" ng-click="vm.addComplementaryKey()">Add</button></div>
                                                     </form>
 
                                                 </div>
-                                                <div class="col-lg-12" ng-show="vm.uploadingComp">
+                                                <div class="col-xs-12 col-sm-12 col-md-12" ng-show="vm.uploadingComp">
                                                     <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>Creating</h3>
                                                 </div>
 
@@ -498,7 +488,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-1"></div>
+                            <div class="col-xs-1 col-sm-1 col-md-1"></div>
 
                         </div>
 
@@ -510,8 +500,8 @@
             </div>
         </div>
         
-    </div>
-    <div class="col-lg-6">
+    </div>    <!--Angular directive to display custom modals-->
+    <div class="col-xs-6 col-sm-6 col-md-6">
         <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
     </div>
         

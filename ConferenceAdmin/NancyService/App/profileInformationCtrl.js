@@ -37,8 +37,16 @@
         vm.notes;
         vm.companionKey;
         vm.key;
+        vm.secureLink;
         vm.wrongKey;
         vm.hasKey = false;
+
+        //Payemnt
+        vm.obj = {};
+        vm.amount;
+        vm.amountStatus;
+
+        vm.hasCompKey = false;
         // Application Attributes
         vm.acceptanceStatus;
         vm.registrationStatus;
@@ -58,25 +66,94 @@
         vm.selectCompanion = _selectCompanion;
         vm.getCompanionKey = _getCompanionKey;
         vm.checkComplementaryKey = _checkComplementaryKey;
+
         //vm.checkAll;
         vm.loading;
         _getDates();
-
-        if (vm.userID != null) {
-            _getProfileInfo(vm.userID);
-            _getUserTypes();
-            _getCompanionKey();
-        }
+        //payment Fucntions
+        vm.getUserPriceInDeadline = _getUserPriceInDeadline;
+        vm.goToBillAfter = _goToBillAfter;
+        vm.goToBill = _goToBill;
+        activate();
 
         function activate() {
+            if (vm.userID != null) {
+                _getProfileInfo(vm.userID);
+                _getUserTypes();
+                _getCompanionKey();
 
+            }
         }
 
+        /* [Maria] Display dialogs of error or payments */
+        function _goToBillAfter() {
+            window.open(vm.secureLink);
+            $location.path('/profile/receiptinformation');
+        }
+        function _goToBill() {
+           
+            $location.path('/profile/receiptinformation');
+        }
+        vm.toggleModal = function (action) {
 
+
+            if (action == "error") {
+                vm.obj.title = "Server Error",
+               vm.obj.message1 = "Please refresh the page and try again.",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+            }
+            if (action == "paymenterror") {
+                vm.obj.title = "Payment Error",
+               vm.obj.message1 = "Please refresh the page and try to submit the payment again.",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+
+            }
+            if (action == "Register") {
+                vm.obj.title = "CCWIC Registration",
+               vm.obj.message1 = "Your Registration was completed successfully. ",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+                vm.okFunc = vm.goToBill;
+               
+            }
+
+            if (action == "paymentInProcess") {
+                vm.obj.title = "Payment In Process",
+                vm.obj.message1 = "Please complete the payment in the next page.",
+                vm.obj.message2 = "",
+                vm.obj.label = "",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "OK",
+                vm.obj.cancelbutton = false,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.showConfirmModal = !vm.showConfirmModal;
+                vm.okFunc = vm.goToBillAfter;
+            }
+        };
+
+        /* [Randy] show/hide edit form */
         function toggleEdit() {
             vm.edit ? vm.edit = false : vm.edit = true;
         }
 
+        /* [Randy] get information for the user profile */
         function _getProfileInfo(userID) {
             restApi.getProfileInfo(userID).
                    success(function (data, status, headers, config) {
@@ -102,24 +179,25 @@
                        vm.userTypeID = data.userTypeID;
                        vm.notes = data.notes;
                        vm.key = data.key;
+                       _getUserPriceInDeadline();
                    }).
                    error(function (data, status, headers, config) {
-                       alert("An error occurred trying to access your Profile Information.");
+                       vm.toggleModal('error');
                    });
         }
 
-
+        /* [Randy] edit information of the user profile */
         function _updateProfileInfo() {
             restApi.updateProfileInfo(vm).
                     success(function (data, status, headers, config) {
                     }).
                     error(function (data, status, headers, config) {
-                        alert("An error occurred trying to access your Profile Information.");
+                        vm.toggleModal('error');
                     });
             vm.edit = false;
         }
 
-        //if not Minor
+        /* [Randy] verify complementary key */
         function _checkComplementaryKey(complementaryKey) {
             restApi.checkComplementaryKey(complementaryKey)
             .success(function (data, status, headers, config) {
@@ -141,7 +219,7 @@
             });
         }
 
-        //if Minor
+        /* [Randy] verify companion key and assign minor to companion */
         function _selectCompanion(companionKey) {
             vm.companionKey = companionKey;
             restApi.selectCompanion(vm)
@@ -161,24 +239,24 @@
             });
         }
 
-        //if Minor
+        /* [Randy] get selected companion key */
         function _getCompanionKey() {
             restApi.getCompanionKey(vm.userID)
             .success(function (data, status, headers, config) {
                 vm.companionKey = data.companionKey;
                 if (vm.companionKey != null)
-                    vm.hasKey = true;
+                    vm.hasCompKey = true;
                 if (data == "Accepted")
                     vm.companionRegistered = true;
                 else
                     vm.companionRegistered = false;
             })
             .error(function (error) {
-                vm.hasKey = false;
+                vm.hasCompKey = false;
             });
         }
 
-
+        /* [Randy] make application to attend the conference */
         function _apply() {
             restApi.apply(vm).
                     success(function (data, status, headers, config) {
@@ -189,6 +267,7 @@
                     });
         }
 
+        /* [Randy] get list of types of users */
         function _getUserTypes() {
             restApi.getUserTypes().
                    success(function (data, status, headers, config) {
@@ -199,36 +278,50 @@
                    });
         }
 
+        /* [Maria] make the payment as a user */
         function _userPayment() {
             vm.loadingUploading = true;
+            vm.amount = vm.amountStatus.amount;
             restApi.userPayment(vm).
                 success(function (data, status, headers, config) {
                     vm.loadingUploading = false;
                     if (data != null) {
-                        window.open(data);
-                        $location.path('/profile/receiptinformation');
+                        vm.secureLink = null;
+                        if (data == "billCreated") {
+                            vm.toggleModal('Register');
+                           
+                        }
+                        else {
+                            vm.secureLink = data;
+                            vm.toggleModal('paymentInProcess');
+                        }
+                       
                         
                     }
                     else {
-                    alert("An error occurred");
+                        vm.toggleModal('error');
                     }
                 }).
                 error(function (data, status, headers, config) {
-                    alert("An error occurred");
+                    vm.toggleModal('error');
                 });
         }
 
+        /* [Randy] register as complementary with a payment of zero */
         function _complementaryPayment() {
        
             restApi.complementaryPayment(vm).
                 success(function (data, status, headers, config) {
-                    
+                    vm.toggleModal('Register');
+                    vm.registrationStatus = "Accepted";
+
                 }).
                 error(function (data, status, headers, config) {
-                    alert("An error occurred");
+                    vm.toggleModal('error');
                 });
         }
 
+        /* [Randy] get dates of the conference */
         function _getDates() {
             restApi.getDates().
                    success(function (data, status, headers, config) {
@@ -240,19 +333,32 @@
         }
 
 
-        ///Deadlines registation fee
-        function _getUserAmount() {
-            restApi.getUserAmountInDeadline()
+        /* [Maria] deadlines registation fee */
+        function _getUserPriceInDeadline() {
+            restApi.getUserPriceInDeadline(vm.userTypeID)
             .success(function (data, status, headers, config) {
-                vm.amount = data;
+                vm.amountStatus = data;
+
+                if (vm.amountStatus == null) {
+                    vm.toggleModal('error');
+                }
+                else {
+                    if (vm.amountStatus.amount == 0)
+                        vm.paymentbuttonText = "Register";
+                    else {
+                        vm.paymentbuttonText = "Make Payment";
+                    }
+                    }
+                        
 
             })
             .error(function (error) {
-                load();
+   
                 vm.toggleModal('error');
             });
         }
 
+        /* [Maria] get receipt */
         function _getUserPayments() {
             vm.loadingComp = true;
             restApi.getSponsorPayments(vm.userID).

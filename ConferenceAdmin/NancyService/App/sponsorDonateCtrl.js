@@ -5,9 +5,9 @@
 
     // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
-        ['$scope', '$http', 'restApi','$window', sponsorDonateCtrl]);
+        ['$scope', '$http', 'restApi','$window','$location', sponsorDonateCtrl]);
 
-    function sponsorDonateCtrl($scope, $http, restApi,$window) {
+    function sponsorDonateCtrl($scope, $http, restApi, $window, $location) {
         var vm = this;
         vm.activate = activate;
         //add sponsor fields
@@ -27,6 +27,8 @@
             cancelbutton: false,
             cancelbuttoText: "Cancel",
         };
+        vm.data;
+        vm.goTo = _goTo;
         vm.loading;
         vm.donation = 0;
         vm.detailType;
@@ -71,7 +73,12 @@
 
 
         }
-        
+        function _goTo() {
+            window.open(vm.data);
+            $location.path('/profile/receiptinformation');
+           
+        }
+
         function _getSponsorDeadline() {
             restApi.getSponsorDeadline()
             .success(function (data, status, headers, config) {
@@ -107,8 +114,9 @@
                    
                     vm.loadingUploading = false;
                     if (data != null) {
-                        window.open(data);
-                        $location.path('/profile/sponsorpaymentbill');
+                        vm.data = data;
+                        vm.toggleModal('paymentInProcess');
+                       
                     }
                     else {
                         vm.toggleModal('paymenterror');
@@ -178,6 +186,18 @@
                vm.obj.cancelbutton = false,
                vm.obj.cancelbuttoText = "Cancel",
                vm.showConfirmModal = !vm.showConfirmModal;
+            }
+            if (action == "paymentInProcess") {
+                vm.obj.title = "Payment In Process",
+               vm.obj.message1 = "Please complete the payment in the next page.",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+               vm.okFunc = vm.goTo;
             }
         };
 
