@@ -1890,7 +1890,7 @@ namespace NancyService.Modules
                 return null;
             }
         }
-        //Send email when submission status has been changed
+        //Jaimeiris - Send email when submission status has been changed
         private void sendSubmissionUpdateEmail(string email, String submissionName, String submissionStatus, bool acceptanceUpdated)
         {
             MailAddress ccwic = new MailAddress(ccwicEmail);
