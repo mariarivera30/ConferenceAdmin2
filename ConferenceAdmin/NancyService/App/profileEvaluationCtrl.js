@@ -317,7 +317,8 @@
                             if (vm.myFile != undefined) {
                                 vm.modalevaluationFile = vm.content;
                                 vm.modalevaluationName = vm.myFile.name;
-                            }                           
+                            }
+                            $("#addConfirm").modal('show');
                         })
                         .error(function (error) {
 
@@ -342,8 +343,10 @@
                                    vm.modalevaluationFile = vm.content;
                                    vm.modalevaluationName = vm.myFile.name;
                                }
-                           }
-                       )})
+                           }                           
+                       )
+                           $("#addConfirm").modal('show');
+                       })
                        .error(function (error) {
                        });
             }

@@ -231,9 +231,19 @@ namespace NancyService.Modules
                 {
                     int pageSize = 10;
                     //gets all final evaluations assigned to the given evaluator
-                    List<Submission> assignedFinalSubmissions = context.evaluatiorsubmissions.
-                        Where(c => c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions.Where(d => d.deleted == false).FirstOrDefault() != null).
-                        Select(i => new Submission
+                    List<Submission> assignedFinalSubmissions = new List<Submission>();
+                    //List<evaluatiorsubmission> finalevs = context.evaluatiorsubmissions.Where(c => c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions.Where(d => d.deleted == false).FirstOrDefault() != null).ToList();
+
+                    List<evaluatiorsubmission> finalevs = (from e in context.evaluators
+                               from s in context.submissions
+                               from es in context.evaluatiorsubmissions
+                               from us in context.usersubmission
+                               where (es.evaluatorID == e.evaluatorsID && es.submissionID == s.submissionID && s.submissionID == us.finalSubmissionID && e.userID == userID && es.deleted == false && us.deleted == false)
+                               select es).ToList();
+                    
+                    foreach (var i in finalevs)
+                       {
+                           Submission subEv = new Submission
                         {
                             submissionID = i.submissionID,
                             evaluatorID = i.evaluatorID,
@@ -242,21 +252,34 @@ namespace NancyService.Modules
                             topic = i.submission.topiccategory.name,
                             isEvaluated = (i.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true),
                             isFinalSubmission = true
-                        }).ToList();
+                        };
+                           assignedFinalSubmissions.Add(subEv);
+                       } 
 
                     //gets all non-final the evaluations assigned to the given evaluator
-                    List<Submission> assignedSubmissions = context.evaluatiorsubmissions.
-                        Where(c => c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions1.Where(d => d.deleted == false).FirstOrDefault() != null).
-                        Select(i => new Submission
+                    List<Submission> assignedSubmissions = new List<Submission>();
+                        
+                        //List<evaluatiorsubmission> evsub = context.evaluatiorsubmissions.Where(c => c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions1.Where(d => d.deleted == false).FirstOrDefault() != null).ToList();
+                    List<evaluatiorsubmission> evsub = (from e in context.evaluators
+                                 from s in context.submissions
+                                 from es in context.evaluatiorsubmissions
+                                 from us in context.usersubmission
+                                 where (es.evaluatorID == e.evaluatorsID && es.submissionID == s.submissionID && s.submissionID == us.initialSubmissionID && e.userID == userID && es.deleted == false && us.deleted == false)
+                                 select es).ToList();    
+                    foreach (var i in evsub)
                         {
-                            submissionID = i.submissionID,
-                            evaluatorID = i.evaluatorID,
-                            userType = i.submission.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault().user.usertype.userTypeName,
-                            submissionTitle = i.submission.title,
-                            topic = i.submission.topiccategory.name,
-                            isEvaluated = (i.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true),
-                            isFinalSubmission = false
-                        }).ToList();
+                            Submission theSub = new Submission
+                            {
+                                submissionID = i.submissionID,
+                                evaluatorID = i.evaluatorID,
+                                userType = i.submission.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault().user.usertype.userTypeName,
+                                submissionTitle = i.submission.title,
+                                topic = i.submission.topiccategory.name,
+                                isEvaluated = (i.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true),
+                                isFinalSubmission = false
+                            };
+                            assignedSubmissions.Add(theSub);
+                        } 
                     //merge list of final submissions with non-final submissions
                     foreach (var finalSub in assignedFinalSubmissions)
                     {
@@ -503,32 +526,38 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     //get all final submissions
-                    List<Submission> userFinalSubmissions = context.usersubmission.Where(c => c.userID == userID && c.deleted == false && c.finalSubmissionID != null && c.submission.byAdmin == false).
-                        Select(i => new Submission
-                        {
-                            submissionID = i.submission == null ? -1 : i.submission.submissionID,
-                            firstName = i.user.firstName,
-                            lastName = i.user.lastName,
-                            email = i.user.membership.email,
-                            submissionTypeName = i.submission == null ? null : i.submission.submissiontype.name,
-                            submissionTypeID = i.submission == null ? -1 : i.submission.submissionTypeID,
-                            submissionTitle = i.submission == null ? null : i.submission.title,
-                            topiccategoryID = i.submission == null ? -1 : i.submission.topicID,
-                            status = i.submission == null ? null : i.submission.status,
-                            templateName = i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
-                            null : i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().template.name,
-                            templateID = i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
-                            -1 : i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().templateID,
-                            isEvaluated = (i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
-                            isAssigned = i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true,
-                            isFinalSubmission = true
-
-                        }).ToList();
+                    List<usersubmission> userFinalSubmissions0 = context.usersubmission.Where(c => c.userID == userID && c.deleted == false && c.finalSubmissionID != null && c.submission.byAdmin == false).ToList();
+                    List<Submission> userFinalSubmissions = new List<Submission>();    
+                    foreach (var i in userFinalSubmissions0)
+	                    {
+                            Submission finalSub = new Submission
+                            {
+                                submissionID = i.submission == null ? -1 : i.submission.submissionID,
+                                firstName = i.user.firstName,
+                                lastName = i.user.lastName,
+                                email = i.user.membership.email,
+                                submissionTypeName = i.submission == null ? null : i.submission.submissiontype.name,
+                                submissionTypeID = i.submission == null ? -1 : i.submission.submissionTypeID,
+                                submissionTitle = i.submission == null ? null : i.submission.title,
+                                topiccategoryID = i.submission == null ? -1 : i.submission.topicID,
+                                status = i.submission == null ? null : i.submission.status,
+                                templateName = i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                                null : i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().template.name,
+                                templateID = i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                                -1 : i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().templateID,
+                                isEvaluated = (i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
+                                isAssigned = i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true,
+                                isFinalSubmission = true
+                            };
+                            userFinalSubmissions.Add(finalSub);
+                        }
                     //get all submissions that do no have a final submission
-                    List<Submission> userSubmissions = context.usersubmission.Where(c => c.userID == userID && c.deleted == false && c.finalSubmissionID == null && c.submission1.byAdmin == false).
-                        Select(i => new Submission
-                        {
-                            submissionID = i.submission1 == null ? -1 : i.submission1.submissionID,
+                    List<Submission> userSubmissions = new List<Submission>();
+                    List<usersubmission> userSubs = context.usersubmission.Where(c => c.userID == userID && c.deleted == false && c.finalSubmissionID == null && c.submission1.byAdmin == false).ToList();
+                        foreach (var i in userSubs)
+	                    {
+		                    Submission sub = new Submission{
+                                submissionID = i.submission1 == null ? -1 : i.submission1.submissionID,
                             submissionTypeName = i.submission1 == null ? null : i.submission1.submissiontype.name,
                             submissionTypeID = i.submission1 == null ? -1 : i.submission1.submissionTypeID,
                             submissionTitle = i.submission1 == null ? null : i.submission1.title,
@@ -537,8 +566,11 @@ namespace NancyService.Modules
                             isEvaluated = (i.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
                             isAssigned = i.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true,
                             isFinalSubmission = false,
-                            finalSubmissionAllowed = (i.allowFinalVersion == null ? false : i.allowFinalVersion) == false ? false : true
-                        }).ToList();
+                            finalSubmissionAllowed = (i.allowFinalVersion == null ? false : i.allowFinalVersion) == false ? false : true                        
+                            };
+                            userSubmissions.Add(sub);
+	                    }
+                           
                     foreach (Submission final in userFinalSubmissions)
                     {
                         userSubmissions.Add(final);
@@ -1643,13 +1675,18 @@ namespace NancyService.Modules
                     for (int i = 1; i < 6; i++)
                     {
                         String deadline = context.submissiontypes.Where(c => c.submissiontypeID == i).Select(d => d.deadline).FirstOrDefault();
+                        bool comp = false;
+                        if (deadline == "" || deadline == null){}
+                        else
+                        {
+                            var Day = Convert.ToInt32(deadline.Split('/')[1]);
+                            var Month = Convert.ToInt32(deadline.Split('/')[0]);
+                            var Year = Convert.ToInt32(deadline.Split('/')[2]);
 
-                        var Day = Convert.ToInt32(deadline.Split('/')[1]);
-                        var Month = Convert.ToInt32(deadline.Split('/')[0]);
-                        var Year = Convert.ToInt32(deadline.Split('/')[2]);
-
-                        DateTime submissionDeadline = new DateTime(Year, Month, Day);
-                        deadlines.Add(DateTime.Compare(submissionDeadline, DateTime.Now.Date) >= 0);
+                            DateTime submissionDeadline = new DateTime(Year, Month, Day);
+                            comp = DateTime.Compare(submissionDeadline, DateTime.Now.Date) >= 0;
+                        }
+                        deadlines.Add(comp);
                     }
                     return deadlines;
                 }

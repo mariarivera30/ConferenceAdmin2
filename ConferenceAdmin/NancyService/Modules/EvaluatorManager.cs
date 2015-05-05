@@ -56,7 +56,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     int pageSize = 10;
-                    var query = context.users.Where(evaluator => (evaluator.evaluatorStatus == "Accepted" || evaluator.evaluatorStatus == "Rejected") && evaluator.userID != id && context.claims.Where(x => x.userID == evaluator.userID && (x.privilege.privilegesID == 1 || x.privilege.privilegesID == 3 || x.privilege.privilegesID == 5)).Select(x => x.userID).Count() == 0).Select(evaluator => new EvaluatorQuery
+                    var query = context.users.Where(evaluator => (evaluator.evaluatorStatus == "Accepted" || evaluator.evaluatorStatus == "Rejected") && evaluator.userID != id && context.claims.Where(x => x.userID == evaluator.userID && x.deleted != true && (x.privilege.privilegesID == 1 || x.privilege.privilegesID == 3 || x.privilege.privilegesID == 5)).Select(x => x.userID).Count() == 0).Select(evaluator => new EvaluatorQuery
                     {
                         userID = (long)evaluator.userID,
                         firstName = evaluator.firstName,
@@ -153,18 +153,18 @@ namespace NancyService.Modules
 
                             if (updateEvaluator != null)
                             {
-                                updateEvaluator.deleted = true;
-                            }
+                                //list of the the submissions assigned to the evaluator with ID evaluatorID
+                                List<evaluatiorsubmission> evaluatorAssignments = context.evaluatiorsubmissions.Where(c => c.evaluatorID == updateEvaluator.evaluatorsID && c.deleted == false).ToList();
 
-                            //list of the the submissions assigned to the evaluator with ID evaluatorID
-                            List<evaluatiorsubmission> evaluatorAssignments = context.evaluatiorsubmissions.Where(c => c.evaluatorID == updateEvaluator.evaluatorsID && c.deleted == false).ToList();
-                            
-                            foreach (var assignment in evaluatorAssignments)
-                            {
-                                if (assignment.evaluationsubmitteds.FirstOrDefault() == null)//if no evaluation was submitted then delete the assignment
+                                foreach (var assignment in evaluatorAssignments)
                                 {
-                                    assignment.deleted = true;
+                                    if (assignment.evaluationsubmitteds.FirstOrDefault() == null)//if no evaluation was submitted then delete the assignment
+                                    {
+                                        assignment.deleted = true;
+                                    }
                                 }
+
+                                updateEvaluator.deleted = true;
                             }
 
                             updateUser.evaluatorStatus = e.acceptanceStatus;

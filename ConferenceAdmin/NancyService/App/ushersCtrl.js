@@ -206,6 +206,21 @@
             vm.loadingRemovingComp = true;
             restApi.deleteComplemetaryKey(vm.key.complementarykeyID)
             .success(function (data, status, headers, config) {
+
+                if (vm.showResults && vm.searchResults.length > 0) {
+                    vm.searchResults.forEach(function (key, index) {
+                        if (key.complementarykeyID == vm.key.complementarykeyID) {
+                            vm.searchResults.splice(index, 1);
+                            vm.loadingRemovingComp = false;
+                            $('#delete').modal('hide');
+                            if (vm.searchResults.length <= 0) {
+                                _back();
+                            }
+                        }
+
+                    });
+                }
+
                 vm.sponsorKeys.forEach(function (key, index) {
                     if (key.complementarykeyID == vm.key.complementarykeyID) {
                         vm.sponsorKeys.splice(index, 1);

@@ -360,6 +360,13 @@
                                     });
                                 }
                             }
+
+                            else{
+                                if (element != null && btn != null) {element.className = ""; btn.style.display = ""; }
+                                    btn.style.display = "";
+                                    element.className = "";
+                                    vm.toggleModal('error');
+                            }
                         })
 
                         .error(function (error) {

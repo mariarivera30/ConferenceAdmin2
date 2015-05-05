@@ -156,7 +156,7 @@
         function _getInstructions() {
             restApi.getInstructions()
             .success(function (data, status, headers, config) {
-                if (data != null && data != "") {
+                if (data != null) {
                     vm.temp = data;
                     vm.instructions = data;
                     load();

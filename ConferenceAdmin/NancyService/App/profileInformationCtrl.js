@@ -39,12 +39,13 @@
         vm.key;
         vm.wrongKey;
         vm.hasKey = false;
+
+        //Payemnt
         vm.obj = {};
         vm.amount;
-      
-        //Payemnt
-        
         vm.amountStatus;
+
+        vm.hasCompKey = false;
         // Application Attributes
         vm.acceptanceStatus;
         vm.registrationStatus;
@@ -72,16 +73,17 @@
         vm.getUserPriceInDeadline = _getUserPriceInDeadline;
         vm.goTo = _goTo;
 
-        if (vm.userID != null) {
-            _getProfileInfo(vm.userID);
-            _getUserTypes();
-            _getCompanionKey();
-           
-        }
+        activate();
 
         function activate() {
+            if (vm.userID != null) {
+                _getProfileInfo(vm.userID);
+                _getUserTypes();
+                _getCompanionKey();
 
+            }
         }
+
 //Display dialogs of error or payments
         function _goTo() {
             $location.path('/profile/receiptinformation');
@@ -223,14 +225,14 @@
             .success(function (data, status, headers, config) {
                 vm.companionKey = data.companionKey;
                 if (vm.companionKey != null)
-                    vm.hasKey = true;
+                    vm.hasCompKey = true;
                 if (data == "Accepted")
                     vm.companionRegistered = true;
                 else
                     vm.companionRegistered = false;
             })
             .error(function (error) {
-                vm.hasKey = false;
+                vm.hasCompKey = false;
             });
         }
 
@@ -287,6 +289,8 @@
             restApi.complementaryPayment(vm).
                 success(function (data, status, headers, config) {
                     vm.toggleModal('Register');
+                    vm.registrationStatus = "Accepted";
+
                 }).
                 error(function (data, status, headers, config) {
                     vm.toggleModal('error');

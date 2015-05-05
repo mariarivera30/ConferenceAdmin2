@@ -148,10 +148,12 @@
                             }
                         });
                         vm.loading = false;
+                        $("#deleteTopic").modal('hide');
                         $("#deleteConfirm").modal('show');
                     }
                     else {
                         vm.loading = false;
+                        $("#deleteTopic").modal('hide');
                         $("#deleteError").modal('show');
                     }
                 })

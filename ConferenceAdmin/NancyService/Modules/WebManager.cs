@@ -144,7 +144,10 @@ namespace NancyService.Modules
                                           select s).FirstOrDefault();
 
                     if (homeParagraph1 != null)
+                    {
+                        newHome.homeParagraph1 = newHome.homeParagraph1 == null ? "" : newHome.homeParagraph1;
                         homeParagraph1.content = newHome.homeParagraph1;
+                    }
 
                     var img = (from s in context.interfacedocuments
                                where s.attibuteName == "homeImage"
@@ -216,7 +219,10 @@ namespace NancyService.Modules
                                            where s.attribute == "venueParagraph1"
                                            select s).FirstOrDefault();
                     if (venueParagraph1 != null)
+                    {
+                        newVenue.venueParagraph1 = newVenue.venueParagraph1 == null ? "" : newVenue.venueParagraph1;
                         venueParagraph1.content = newVenue.venueParagraph1;
+                    }
 
                     var venueTitleBox = (from s in context.interfaceinformations
                                          where s.attribute == "venueTitleBox"
@@ -231,7 +237,10 @@ namespace NancyService.Modules
                                                     select s).FirstOrDefault();
 
                     if (venueParagraphContentBox != null)
+                    {
+                        newVenue.venueParagraphContentBox = newVenue.venueParagraphContentBox == null ? "" : newVenue.venueParagraphContentBox;
                         venueParagraphContentBox.content = newVenue.venueParagraphContentBox;
+                    }
 
                     context.SaveChanges();
                     return true;
@@ -293,7 +302,10 @@ namespace NancyService.Modules
                                                  select s).FirstOrDefault();
 
                     if (contactAdditionalInfo != null)
+                    {
+                        newContact.contactAdditionalInfo = newContact.contactAdditionalInfo == null ? "" : newContact.contactAdditionalInfo;
                         contactAdditionalInfo.content = newContact.contactAdditionalInfo;
+                    }
 
                     context.SaveChanges();
                     return true;
@@ -362,7 +374,10 @@ namespace NancyService.Modules
                                                    where s.attribute == "participationParagraph1"
                                                    select s).FirstOrDefault();
                     if (participationParagraph1 != null)
+                    {
+                        newParticipation.participationParagraph1 = newParticipation.participationParagraph1 == null ? "" : newParticipation.participationParagraph1;
                         participationParagraph1.content = newParticipation.participationParagraph1;
+                    }
 
                     context.SaveChanges();
                     return true;
@@ -465,14 +480,20 @@ namespace NancyService.Modules
                                                   where s.attribute == "registrationParagraph1"
                                                   select s).FirstOrDefault();
                     if (registrationParagraph1 != null)
+                    {
+                        newRegistration.registrationParagraph1 = newRegistration.registrationParagraph1 == null ? "" : newRegistration.registrationParagraph1;
                         registrationParagraph1.content = newRegistration.registrationParagraph1;
+                    }
 
                     var registrationParagraph2 = (from s in context.interfaceinformations
                                                   where s.attribute == "registrationParagraph2"
                                                   select s).FirstOrDefault();
 
                     if (registrationParagraph2 != null)
+                    {
+                        newRegistration.registrationParagraph2 = newRegistration.registrationParagraph2 == null ? "" : newRegistration.registrationParagraph2;
                         registrationParagraph2.content = newRegistration.registrationParagraph2;
+                    }
 
 
                     var undergraduateStudentFee = (from s in context.usertypes
@@ -711,7 +732,10 @@ namespace NancyService.Modules
                                      where s.attribute == "deadlineParagraph1"
                                      select s).FirstOrDefault();
                     if (paragraph != null)
+                    {
+                        newDeadline.paragraph = newDeadline.paragraph == null ? "" : newDeadline.paragraph;
                         paragraph.content = newDeadline.paragraph;
+                    }
 
                     var deadline1 = (from s in context.interfaceinformations
                                      where s.attribute == "deadline1"
@@ -851,7 +875,10 @@ namespace NancyService.Modules
                              select s).FirstOrDefault();
 
                     if (i != null)
+                    {
+                        committee = committee == null ? "" : committee;
                         i.content = committee;
+                    }
 
                     context.SaveChanges();
                     return true;
@@ -1081,7 +1108,10 @@ namespace NancyService.Modules
                              select s).FirstOrDefault();
 
                     if (i != null)
+                    {
+                        instructions = instructions == null ? "" : instructions;
                         i.content = instructions;
+                    }
 
                     context.SaveChanges();
                     return true;
@@ -1297,20 +1327,20 @@ namespace NancyService.Modules
                     conferenceDay1 = info.dateFrom;
                 }
 
-                else if (info.dateFrom != "" && info.dateTo != "")
+                else if (info.dateFrom != "" && info.dateTo != "" && info.dateFrom.Split('/').Count() > 2 && info.dateTo.Split('/').Count() > 2)
                 {                  
                     //check distance between dates
 
-                    string from = Convert.ToDateTime(info.dateFrom).ToShortDateString();
-                    string to = Convert.ToDateTime(info.dateTo).ToShortDateString();
+                    //string from = Convert.ToDateTime(info.dateFrom).ToShortDateString();
+                    //string to = Convert.ToDateTime(info.dateTo).ToShortDateString();
 
-                    var fromDay = Convert.ToInt32(from.Split('/')[1]);
-                    var fromMonth = Convert.ToInt32(from.Split('/')[0]);
-                    var fromYear = Convert.ToInt32(from.Split('/')[2]);
+                    var fromDay = Convert.ToInt32(info.dateFrom.Split('/')[1]);
+                    var fromMonth = Convert.ToInt32(info.dateFrom.Split('/')[0]);
+                    var fromYear = Convert.ToInt32(info.dateFrom.Split('/')[2]);
 
-                    var toDay = Convert.ToInt32(to.Split('/')[1]);
-                    var toMonth = Convert.ToInt32(to.Split('/')[0]);
-                    var toYear = Convert.ToInt32(to.Split('/')[2]);
+                    var toDay = Convert.ToInt32(info.dateTo.Split('/')[1]);
+                    var toMonth = Convert.ToInt32(info.dateTo.Split('/')[0]);
+                    var toYear = Convert.ToInt32(info.dateTo.Split('/')[2]);
 
                     // Constructor (Year, Month, Day)
 

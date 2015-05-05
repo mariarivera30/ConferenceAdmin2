@@ -145,7 +145,7 @@
                         </div>
                     </div>
 
-                    <h4>Participation Days</h4>
+                    <h4 ng-hide="!vm.date1 && !vm.date2 && !vm.date3">Participation Days</h4>
                     <div class="row">
                         <div class="col-lg-6">
                             <span ng-show="vm.date1"> {{vm.date1}}&nbsp;&nbsp;<i ng-show="vm.modalDay1" class="fa fa-check"></i></span>

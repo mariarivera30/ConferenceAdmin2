@@ -58,12 +58,13 @@
                 <a class="btn btn-default" ng-disabled="vm.index >= (vm.maxIndex-1)" ng-click="vm.getLastAdminPage()">Last</a>
             </div>
         </div>
-    </div>
 
-    <div class="row btn-padding2" ng-show="!vm.showResults">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <button class="btn btn-ar btn-primary pull" data-toggle="modal" data-target="#addAdmin">Add Administrator</button> <a href=""><i class="fa fa-info-circle info-icon" title="Add an administrator"> </i></a>
+        <div class="row btn-padding2" ng-show="!vm.showResults">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button class="btn btn-ar btn-primary pull" data-toggle="modal" data-target="#addAdmin">Add Administrator</button> <a href=""><i class="fa fa-info-circle info-icon" title="Add an administrator"> </i></a>
+            </div>
         </div>
+
     </div>
 
     <div ng-show="vm.searchResults.length && vm.showSearch">
@@ -208,7 +209,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-ar btn-primary left" ng-click="vm.editAdmin()" ng-disabled="editPrivilegeForm.$invalid || vm.loading">Save</button>
-                    <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-ar btn-default left" data-dismiss="modal" ng-click="vm.privilegeID=''">Cancel</button>
                     <span ng-show="vm.loading" class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
                 </div>
             </div>

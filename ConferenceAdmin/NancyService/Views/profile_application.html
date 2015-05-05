@@ -1,6 +1,24 @@
 ﻿<div class="row" ng-controller="profileInformationCtrl as vm">
     <h4 id="g-information">Application/Registration Status:</h4>
 
+    <center>
+        <img src="../img/Application%20Steps/step_1_pending.png" ng-show="!vm.hasApplied && vm.userTypeID != 1 " />
+        <img src="../img/Application%20Steps/step_1_finished.png" ng-show="vm.hasApplied && vm.userTypeID != 1 " />
+
+        <img src="../img/Application%20Steps/step_1_minor_pending.png" ng-show="vm.userTypeID == 1 && !vm.hasApplied" />
+        <img src="../img/Application%20Steps/step_1_minor_finished.png" ng-show="vm.userTypeID == 1 && vm.hasApplied" />
+
+        <img src="../img/Application%20Steps/step_2_pending.png" ng-show="vm.acceptanceStatus == 'Pending'" />
+        <img src="../img/Application%20Steps/step_2_finished.png" ng-show="vm.acceptanceStatus != 'Pending'" />
+
+        <img src="../img/Application%20Steps/step_3_pending.png" ng-show="vm.acceptanceStatus == 'Pending'" />
+        <img src="../img/Application%20Steps/step_3_finished.png" ng-show="vm.acceptanceStatus == 'Accepted'" />
+        <img src="../img/Application%20Steps/step_3_rejected.png" ng-show="vm.acceptanceStatus == 'Rejected'" />
+
+        <img src="../img/Application%20Steps/step_4_pending.png" ng-show="vm.registrationStatus == 'Pending'" />
+        <img src="../img/Application%20Steps/step_4_finished.png" ng-show="vm.registrationStatus == 'Accepted'" />
+    </center><br />
+
     <div class="alert alert-warning" ng-hide="vm.hasApplied">
         <strong><i class="fa fa-info"></i></strong> You have not applied yet. 
         <span ng-show="vm.userTypeID != 1">Please click the Apply button below to request acceptance from the administrator. Acceptance is subject to space availability.</span>
@@ -83,13 +101,13 @@
                             <div class="col-md-12" ng-show="vm.userTypeID == 1">
                                 <br />
                                 Enter the <b>Companion Key</b> of the adult in charge.<br />
-                                <input type="text" name="key" ng-model="vm.companionKey" ng-readonly="vm.hasKey" required /> <button class="btn btn-ar btn-primary" ng-click="vm.selectCompanion(vm.companionKey)" ng-disabled="vm.hasKey || vm.correctKey">Submit</button>
+                                <input type="text" name="key" ng-model="vm.companionKey" ng-readonly="vm.hasCompKey" required /> <button class="btn btn-ar btn-primary" ng-click="vm.selectCompanion(vm.companionKey)" ng-disabled="vm.hasCompKey || vm.correctKey">Submit</button>
                                 <span ng-show="vm.wrongKey" class="padding-5 alert-danger half-width">The key you have provided is incorrect.</span>
                                 <span ng-show="vm.correctKey" class="padding-5 alert-success half-width">Successfully added key.</span><br /><br />
                                 <span ng-show="vm.correctKey && !vm.companionRegistered" class="padding-5 alert-danger half-width">But your companion has not registered yet.</span>
                             </div>
 
-                            <div class="col-md-12" ng-show="vm.userTypeID != 1 && vm.userTypeID != 6">
+                            <div class="col-md-12" ng-show="vm.userTypeID != 6">
                                 <br />
                                 If you have a <b>Complementary Key</b> please enter it below.<br />
                                 <input type="text" name="key" ng-model="vm.key" ng-readonly="vm.hasKey" required /> <button class="btn btn-ar btn-primary" ng-click="vm.checkComplementaryKey(vm.key)" ng-disabled="vm.hasKey || vm.correctComplementaryKey">Check</button>

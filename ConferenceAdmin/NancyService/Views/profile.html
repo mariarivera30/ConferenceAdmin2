@@ -10,12 +10,14 @@
   
     <div class="row">
         <div class="vertical-tabs-left full-width">
-            <div class="vertical-tab-list noPrint" ng-hide="vm.hideMenu">
-                <h5 class="title-centered">Settings
+            <div class="vertical-tab-list noPrint pixels-105" ng-hide="vm.hideMenu">
+                <h5 class="title-centered">
+                    Settings
                     <button type="button" class="btn btn-ar btn-primary hidden-lg right" ng-click="vm.changeMenu();" style="margin-top: -20px;" ng-hide="vm.hideMenu">
                         <i class="glyphicon glyphicon-chevron-left"></i>
-                    </button></h5>
-                
+                    </button>
+                </h5>
+
                 <ul class="nav">
                     <li ng-show="vm.generalInfo" ng-click="selectedTab='generalInfo';" ng-class="{active: selectedTab=='generalInfo'}">
                         <a href="#/Profile/GeneralInformation"><i class="fa fa-pencil"> </i> General Information</a>

@@ -101,6 +101,7 @@
             vm.email = "";
             vm.firstName = "";
             vm.lastName = "";
+            vm.privilegeID= "";
             $scope.addPrivilegeForm.$setPristine();
             var x = document.getElementsByName("privilegesAdd");
             var i;
@@ -245,6 +246,7 @@
                     })
 
                     .error(function (error) {
+                        _clear();
                         vm.loading = false;
                         $("#addAdmin").modal('hide');
                         vm.toggleModal('error');

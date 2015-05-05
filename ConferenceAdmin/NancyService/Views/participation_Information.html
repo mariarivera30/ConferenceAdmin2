@@ -2,6 +2,9 @@
     <div class="row hide-until-loaded" id="body">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h2 class="section-title">Participate <a href="#/Login/Signup" class="btn btn-ar btn-primary right">Apply</a></h2>
+            <div ng-hide="vm.iparticipationParagraph1">
+                <p>No content to display.</p>
+            </div>
             <div ng-show="vm.iparticipationParagraph1">
                 <div class="p-lg" ng-model="vm.iparticipationParagraph1" ckhtml></div>
             </div><br />
@@ -11,3 +14,4 @@
         <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
     </div>
 </div>
+
