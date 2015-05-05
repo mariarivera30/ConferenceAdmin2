@@ -129,7 +129,7 @@
                           }
                       });
                       data.submissionFileList.forEach(function (doc, index) {
-                          vm.documentsList.push({ documentssubmittedID: doc.documentssubmittedID, documentName: doc.documentName });
+                          vm.documentsList.push({ documentssumittedID: doc.documentssubmittedID, documentName: doc.documentName });
                       });
                       vm.submissionTypeList.forEach(function (type, index) {
                           if (type.submissionTypeID == vm.modalsubmissionTypeID) {
@@ -222,7 +222,7 @@
                       vm.modalpublicFeedback = data.publicFeedback;
 
                       /*data.submissionFileList.forEach(function (doc, index) {
-                          vm.documentsList.push({ documentssubmittedID: doc.documentssubmittedID, documentName: doc.documentName });
+                          vm.documentsList.push({ documentssumittedID: doc.documentssumittedID, documentName: doc.documentName });
                       });*/
                       vm.documentsList = data.submissionFileList;
 
