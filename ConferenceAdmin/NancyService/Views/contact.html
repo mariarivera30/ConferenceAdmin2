@@ -10,7 +10,7 @@
                 <form name="contactForm" novalidate ng-show="vm.icontactEmail">
                     <div class="row">
                         <div class="col-md-4">
-                            <label for="name" class="black-label">Name</label>
+                            <label for="name" class="black-label">Your Name</label>
                             <input type="text" class="form-control" id="name" name="name" ng-model="vm.senderName" required>
                             <label class="help-inline" ng-show="contactForm.name.$invalid && !contactForm.name.$pristine">Name is required.</label>
                         </div>
@@ -18,7 +18,7 @@
 
                     <div class="row">
                         <div class="col-md-4">
-                            <label for="email" class="black-label">Email address</label>
+                            <label for="email" class="black-label">Your Email address</label>
                             <input type="email" class="form-control" id="email" name="email" ng-model="vm.senderEmail" required>
                             <label class="help-inline" ng-show="contactForm.email.$invalid && !contactForm.email.$pristine">Email is required.</label>
                         </div>

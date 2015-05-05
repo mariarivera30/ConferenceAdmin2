@@ -370,7 +370,7 @@ namespace NancyService.Modules
             }
 
             MailAddress ccwic = new MailAddress(ccwicEmail);
-            MailAddress user = new MailAddress(testEmail);
+            MailAddress user = new MailAddress(email);
             MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
 
             String closing = " \r\nThank you.\r\nCCWiC Administration";
@@ -406,7 +406,7 @@ namespace NancyService.Modules
             }
             
             MailAddress ccwic = new MailAddress(ccwicEmail);
-            MailAddress user = new MailAddress(testEmail);
+            MailAddress user = new MailAddress(email);
             MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
 
             String closing = " \r\nThank you.\r\nCCWiC Administration";
