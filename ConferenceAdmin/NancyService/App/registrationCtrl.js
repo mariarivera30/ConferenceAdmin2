@@ -9,7 +9,10 @@
 
     function registrationCtrl($scope, $http, restApi) {
         var vm = this;
+
+        //attributes
         vm.activate = activate;
+
         //add registration fields        
         vm.title = 'registrationCtrl';
         vm.userID;
@@ -85,6 +88,7 @@
             date3 = vm.date3;
         }
 
+        /* [Randy] resets all attributes */
         function clear() {
             vm.password = "";
             vm.email = "";
@@ -118,6 +122,7 @@
             $scope.$fileContent = "";
         }
 
+        /* [Randy] add new registration entry */
         function _addRegistration() {
             var userTypeName = vm.usertypeid.userTypeName;
             vm.usertypeid = vm.usertypeid.userTypeID;
@@ -142,7 +147,7 @@
             //activate();
         }
 
-
+        /* [Randy] get list of all registration entries */
         function _getRegistrations(index) {
             restApi.getRegistrations(index).
                    success(function (data, status, headers, config) {
@@ -164,6 +169,8 @@
                    error(function (data, status, headers, config) {
                    });
         }
+
+        /* [Jaimeiris] Pagination: get next page */
         function _nextRegistration() {
             if (vm.sindex < vm.smaxIndex - 1) {
                 vm.sindex += 1;
@@ -171,7 +178,7 @@
             }
         }
 
-
+        /* [Jaimeiris] Pagination: get previous page */
         function _previousRegistration() {
             if (vm.sindex > 0) {
                 vm.sindex -= 1;
@@ -179,11 +186,13 @@
             }
         }
 
+        /* [Jaimeiris] Pagination: get first page */
         function _getFirstRegistrationPage() {
             vm.sindex = 0;
             _getRegistrations(vm.sindex);
         }
 
+        /* [Jaimeiris] Pagination: get last page */
         function _getLastRegistrationPage() {
             vm.sindex = vm.smaxIndex - 1;
             _getRegistrations(vm.sindex);
@@ -191,7 +200,7 @@
         //----END PAGINATON CODE---
 
 
-
+        /* [Randy] prepare registration to be edited */
         function _selectedRegistrationUpdate(id, firstname, lastname, usertypeid, affiliationName, date1, date2, date3, note) {
             vm.currentid = id;
             vm.editfirstname = firstname;
@@ -208,6 +217,7 @@
             vm.editnote = note;
         }
 
+        /* [Randy] edit a specific registration entry */
         function _updateRegistration() {
             /*if (vm.checkAll) {
                 vm.editdate1 = true;
@@ -241,13 +251,13 @@
             }
             clear();
         }
-
-
-
+        
+        /* [Randy] alert of deletion, prepare the registration to be deleted */
         function _selectedRegistrationDelete(id) {
             vm.currentid = id;
         }
 
+        /* [Randy] delete a specific registration entry */
         function _deleteRegistration() {
             if (vm.currentid != undefined) {
                 restApi.deleteRegistration(vm.currentid)
@@ -263,7 +273,7 @@
             }
         }
 
-
+        /* [Randy] get list of all types of users */
         function _getUserTypes() {
             restApi.getUserTypes().
                    success(function (data, status, headers, config) {
@@ -274,6 +284,7 @@
                    });
         }
 
+        /* [Randy] get dates of the conference */
         function _getDates() {
             restApi.getDates().
                    success(function (data, status, headers, config) {
@@ -284,6 +295,7 @@
                    });
         }
 
+        /* [Randy] download report of attendees */
         function _downloadAttendanceList() {
             //vm.loading = true;
             //vm.downloadLoading = true;
@@ -306,6 +318,7 @@
            });
         }
 
+        /* [Randy] search for a registration using a certain criteria */
         function _searchRegistration() {
             vm.sindex = 0;
             var params = { index: vm.sindex, criteria: vm.criteria };

@@ -9,6 +9,8 @@
 
     function profileEvaluationCtrl($scope, $http, restApi, $window) {
         var vm = this;
+
+        //attributes
         vm.activate = activate;
         vm.title = 'profileEvaluationCtrl';
         vm.evaluate = false;
@@ -43,6 +45,7 @@
         vm.content;
         vm.currentUserID = $window.sessionStorage.getItem('userID');
 
+        //modal attributes
         vm.modalsubmissionID;
         vm.modaluserType;
         vm.modalevaluatorID;
@@ -67,13 +70,14 @@
         vm.modalpublicFeedback;
         vm.modalprivateFeedback;
         vm.modalhasFile;
-        
+
+        //table attributes
         vm.submissionlist = [];
         vm.sindex = 0;
         vm.smaxIndex = 0;
         vm.sfirstPage = true;
 
-        //Functions
+        //functions
         vm.getAssignedSubmissions = _getAssignedSubmissions;
         vm.searchAssignedSubmission = _searchAssignedSubmission;
         vm.nextSub = _nextSub;
@@ -90,6 +94,7 @@
         vm.openDocumentSubmitted = _openDocumentSubmitted;
         vm.resetDownloadLink = _resetDownloadLink;
 
+        //function calls
         _getAssignedSubmissions(vm.sindex);
 
         //Functions implemented:
@@ -97,6 +102,7 @@
 
         }
 
+        /* [Randy] download the submitted file for this evaluation */
         function _downloadEvaluationFile() {
             var data = { submissionID: vm.modalsubmissionID, evaluatorID: vm.modalevaluatorID };
             //window.open(vm.modalevaluationFile);
@@ -114,6 +120,7 @@
                 });
         }
 
+        /* [Randy] download the template for this evaluation */
         function _downloadEvaluationTemplate(id) {
             //window.open(vm.modalevaluationTemplate);
             restApi.getEvaluationTemplate(id).
@@ -140,12 +147,12 @@
         function _getAbstract() {
             vm.modalAbstract = vm.modalsubmissionAbstract;
         }
-        //gets documents like abstract to show en modal only
+        /* [Jaimeiris] gets documents like abstract to show en modal only */
         function _getDocumentSubmitted(document, documentName) {
             vm.modalDocument = document;
             vm.modalDocumentName = documentName;            
         }
-        //opens the documents in another screen
+        /* [Jaimeiris] opens the documents in another screen */
         function _openDocumentSubmitted(id) {
             restApi.getSubmissionFile(id).
                 success(function (data, status, headers, config) {
@@ -161,11 +168,12 @@
                 });
         }
 
-        /* reset the link to default */
+        /* [Randy] reset the link to default */
         function _resetDownloadLink(id) {
             $("#file-" + id).attr("href", "").removeAttr("download");
         }
 
+        /* [Jaimeiris] get list of all submissions assigned to a specific evaluator */
         function _getAssignedSubmissions(index) {
             vm.uploadingComp = true;
             var data = { evaluatorUserID: vm.currentUserID, index: index }
@@ -192,6 +200,7 @@
                    });
         }
 
+        /* [Jaimeiris] Pagination: get next page */
         function _nextSub() {
             if (vm.sindex < vm.smaxIndex - 1) {
                 vm.sindex += 1;
@@ -199,7 +208,7 @@
             }
         }
 
-
+        /* [Jaimeiris] Pagination: get previious page */
         function _previousSub() {
             if (vm.sindex > 0) {
                 vm.sindex -= 1;
@@ -207,17 +216,20 @@
             }
         }
 
+        /* [Jaimeiris] Pagination: get first page */
         function _getFirstSubPage() {
             vm.sindex = 0;
             _getAssignedSubmissions(vm.sindex);
         }
 
+        /* [Jaimeiris] Pagination: get last page */
         function _getLastSubPage() {
             vm.sindex = vm.smaxIndex - 1;
             _getAssignedSubmissions(vm.sindex);
         }
         //----END PAGINATON CODE---
 
+        /* [Jaimeiris] Prepare screen with the information of the evaluation */
         function _showEvaluationScreen(submissionID, evaluatorID) {
             vm.evaluate = true;
             var myData = { submissionID: submissionID, evaluatorID: evaluatorID }
@@ -269,7 +281,7 @@
                   });
         }
 
-        /* check file extension */
+        /* [Randy] check file extension */
         $scope.showContent = function ($fileContent) {
             vm.content = $fileContent;
             vm.fileext = vm.myFile.name.split(".", 2)[1];
@@ -285,6 +297,7 @@
             }
         };
 
+        /* [Jaimeiris] add new evaluation to a submission */
         function _addEvaluation() {            
             var evaluation = {
                 evaluationsubmittedID: vm.modalevaluationsubmittedID, evaluatiorSubmissionID: vm.modalevaluatiorSubmissionID,
@@ -352,6 +365,7 @@
             }
         }
 
+        /* [Randy] search for a submission using a certain criteria */
         function _searchAssignedSubmission(index) {
             var data = { evaluatorUserID: vm.currentUserID, index: index, criteria: vm.criteria }
             restApi.searchAssignedSubmission(data).

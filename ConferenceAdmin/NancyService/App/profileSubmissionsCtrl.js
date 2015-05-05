@@ -82,6 +82,7 @@
             
         }
 
+        /* [Randy] add a document to the list */
         function _addDocument() {
             vm.document = vm.content;
             vm.documentName = vm.myFile.name;
@@ -90,6 +91,7 @@
             vm.documentsList.push(vm.myFile);
         }
 
+        /* [Randy] remove document from the list */
         function _deleteDocument(document) {
             vm.documentsList.forEach(function (doc, index) {
                 if (doc.documentName == document.documentName) {
@@ -98,6 +100,7 @@
             });
         }
 
+        /* [Jaimeiris] prepare final version page */
         function _selectFinalversion(submissionID) {
             restApi.getUserSubmission(submissionID).
                   success(function (data, status, headers, config) {
@@ -145,6 +148,7 @@
             
         }
 
+        /* [Randy] resets all attributes */
         function _clear() {
             vm.modalsubmissionID = null;
             vm.modaluserType = null;
@@ -176,11 +180,13 @@
             }*/
         }
 
+        /* [Jaimeiris] open add modal */
         function _viewAdd() {
             vm.viewModal = "Add";
             _clear();   
         }
 
+        /* [Jaimeiris] prepares selected submission view */
         function _selectedSubmission(topiccategoryID, action) {
             vm.topicsList.forEach(function (topic, index) {
                 if (topic.topiccategoryID == topiccategoryID) {
@@ -189,6 +195,7 @@
             })            
         }
 
+        /* [Jaimeiris] open edit submission */
         function _viewEditForm(submissionID) {
             _clear();
             vm.viewModal = "Edit";
@@ -233,6 +240,7 @@
               });
         }
 
+        /* [Jaimeiris] open view submission */
         function _viewTheView(submissionTypeName, submissionID) {
             vm.view = "View";
             vm.itemSubmissionType = submissionTypeName;
@@ -284,7 +292,7 @@
             vm.view = "Home";
         }
 
-        //para preview la imagen
+        /* [Jaimeiris] manage content of a file */
         $scope.showContent = function ($fileContent) {
             vm.content = $fileContent;
             vm.fileext = vm.myFile.name.split(".", 2)[1];
@@ -300,6 +308,7 @@
             }
         };
        
+        /* [Jaimeiris] add a new submission */
         function _addSubmission() {           
             //if submiting for the first time
             if (vm.viewModal == "Add") {
@@ -526,9 +535,12 @@
                        });
         }*/
 
+        /* [Jaimeiris] alert of deletion */
         function _deleteSelectedSubmission(submissionID) {
             vm.currentSubmissionID = submissionID;
         }
+
+        /* [Jaimeiris] delete a specific submission */
         function _deleteSubmission() {
             if (vm.currentSubmissionID != undefined) {
                 restApi.deleteSubmission(vm.currentSubmissionID)
@@ -547,6 +559,7 @@
             }
         }
 
+        /* [Jaimeiris] get list of submissions */
         function _getUserSubmissions(currentUserID) {
             vm.uploadingComp = true;
             restApi.getUserSubmissionList(currentUserID).
@@ -564,6 +577,7 @@
                    });
         }
 
+        /* [Jaimeiris] get list of types */
         function _getSubmissionTypes() {
             restApi.getSubmissionTypes().
                    success(function (data, status, headers, config) {
@@ -580,6 +594,7 @@
                    });
         }
 
+        /* [Jaimeiris] get list of topics */
         function _getTopics() {
             restApi.getTopics()
             .success(function (data, status, headers, config) {
@@ -592,7 +607,7 @@
            });
         }
 
-        /* Download a file through the browser */
+        /* [Randy] Download a file through the browser */
         function _downloadPDFFile(id) {
             restApi.getSubmissionFile(id).
                 success(function (data, status, headers, config) {
@@ -607,12 +622,12 @@
                 });
         }
 
-        /* reset the link to default */
+        /* [Randy] reset the link to default */
         function _resetDownloadLink(id) {
             $("#file-" + id).attr("href", "").removeAttr("download");
         }
 
-        /* get whether a deadline has passed or not */
+        /* [Randy] get whether a deadline has passed or not */
         function _getSubmissionDeadlines() {
             restApi.getSubmissionDeadlines().
                 success(function (data, status, headers, config) {
@@ -623,7 +638,7 @@
                 });
         }
 
-        /* return whether deadline has passed or not */
+        /* [Randy] return whether deadline has passed or not */
         function _checkDeadline(i) {
             vm.onTime = vm.deadlinesList[i-1];
         }
