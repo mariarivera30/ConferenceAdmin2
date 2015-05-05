@@ -46,7 +46,7 @@
     </div>
 
     <div class="alert alert-danger" ng-show="(vm.amountStatus.inTime == false && vm.amountStatus.inTimeLateFee == false) && vm.acceptanceStatus != 'Accepted' && vm.acceptanceStatus != 'Rejected'">
-        <strong><i class="fa fa-times"></i></strong>Registration deadlines expired. <strong>REJECTED</strong>.
+        <strong><i class="fa fa-times"></i></strong>Registration deadlines expired. <strong ng-show="vm.hasApplied">REJECTED</strong>
     </div>
     <div ng-hide="(vm.amountStatus.inTime == false && vm.amountStatus.inTimeLateFee == false) || ((vm.registrationStatus == 'Accepted' )|| (vm.registrationStatus == 'Rejected')) ">
         <button class="btn btn-ar btn-primary" ng-disabled="vm.hasApplied" ng-click="vm.apply()" ng-hide="vm.userTypeID == 1">Apply</button>
