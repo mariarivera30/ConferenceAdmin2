@@ -188,7 +188,7 @@
                vm.showConfirmModal = !vm.showConfirmModal;
             }
             if (action == "paymentInProcess") {
-                vm.obj.title = "Payment In Process",
+               vm.obj.title = "Payment In Process",
                vm.obj.message1 = "Please complete the payment in the next page.",
                vm.obj.message2 = "",
                vm.obj.label = "",

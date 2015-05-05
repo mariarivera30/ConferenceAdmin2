@@ -4,140 +4,141 @@
         <h3><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
     </div>
     
-    <div ng-hide="vm.loading" class="col-lg-12 margin-fix-banner">
-        <br />
-        <div class="row">
-            <h2 id="g-information">Receipt Information </h2>
-        </div>
-        <div class="row">
-            <div class="col-md-3 print-align">
-                <span class="label-simple">Merchant Name:</span>
-            </div>
-            <div class="col-md-6">
-                Caribbean Celebration of Women in Computing (UPRM)
-            </div>
-        </div>
+    
+    
+        <div class="panel-body">
+            <div ng-hide="vm.loading" class="col-lg-12 margin-fix-banner">
+                <br />
+                <div class="row">
+                    <h2 id="g-information">Receipt Information </h2>
+                </div>
+                <div class="row">
+                    <div class="  col-xm-3 col-sm-3 col-md-3 print-align">
+                        <span class="label-simple">Merchant Name:</span>
+                    </div>
+                    <div class=" col-sm-6 col-md-6">
+                        Caribbean Celebration of Women in Computing (UPRM)
+                    </div>
+                </div>
 
-        <div class="row">
-            <div class="col-md-3 print-align">
-                <span class="label-simple">URL:</span>
+                <div class="row">
+                    <div class=" col-xm-3 col-sm-3 col-md-3 print-align">
+                        <span class="label-simple">URL:</span>
+                    </div>
+                    <div class=" col-xm-3 col-sm-3 col-md-3">
+                        http://secure.uprm.edu
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-md-3 print-align">
+                        <span class="label-simple">Registration by:</span>
+                    </div>
+                    <div class=" col-xm-5 col-sm-5 col-md-5">
+                        {{vm.payment.userFirstName}} {{vm.payment.userLastName}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xm-3 col-sm-3 col-md-3print-align">
+                        <span class="label-simple">Affiliation:</span>
+                    </div>
+                    <div class=" col-xm-5 col-sm-5 col-md-5">
+                        {{vm.payment.affiliationName}}
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-xm-3 col-sm-3 col-md-3 print-align">
+                        <span class="label-simple">Paid by:</span>
+                    </div>
+                    <div class=" col-xm-5 col-sm-5 col-md-5">
+                        {{vm.payment.firstName}} {{vm.payment.lastName}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xm-3 col-sm-3 col-md-3 print-align">
+                        <span class="label-simple">Date:</span>
+                    </div>
+                    <div class="col-xm-5 col-sm-5 col-md-5">
+                        {{vm.payment.date.split('T')[0]}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xm-3 col-sm-3 col-md-3 print-align">
+                        <span class="label-simple">Time:</span>
+                    </div>
+                    <div class=" col-xm-5 col-sm-5 col-md-5">
+                        {{vm.payment.date.substr(11, 5)}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xm-3 col-sm-3 col-md-3 print-align">
+                        <span class="label-simple">TransactionID:</span>
+                    </div>
+                    <div class=" col-xm-5 col-sm-5 col-md-5">
+                        {{vm.payment.transactionid}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xm-3 col-sm-3 col-md-3 print-align">
+                        <span class="label-simple">Tandem Id:</span>
+                    </div>
+                    <div class=" col-xm-5 col-sm-5 col-md-5">
+                        {{vm.payment.tandemID}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class=" col-xm-3 col-sm-3 col-md-3 print-align">
+                        <span class="label-simple">Method:</span>
+                    </div>
+
+                    <div class=" col-xm-5 col-sm-5 col-md-5">
+                        {{vm.payment.methodOfPayment}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class=" col-xm-3 col-sm-3 col-md-3 print-align">
+                        <span class="label-simple">Amount Paid:</span>
+                    </div>
+                    <div class="col-xm-3 col-sm-3 col-md-3">
+                        ${{vm.payment.amountPaid | number:2 }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class=" col-xm-3 col-sm-3 col-md-3 print-align">
+                        <span class="label-simple">User Type:</span>
+                    </div>
+                    <div class="col-xm-3 col-sm-3 col-md-3">
+                        Sponsor
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class=" col-md-3 print-align">
+                        <span class="label-simple">Description</span>
+                    </div>
+                    <div class="col-xm-5 col-sm-5 col-md-5">
+                        {{vm.payment.description}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class=" col-md-12 print-align">
+                        <button class="btn btn-ar btn-primary right noPrint" onclick="window.print();">Download Bill</button>
+
+                    </div>
+
+                </div>
+
             </div>
-            <div class="col-md-3">
-                http://secure.uprm.edu
-            </div>
+
         </div>
-        <div class="row">
-            <div class="col-md-3 print-align">
-                <span class="label-simple">Registration by:</span>
-            </div>
-            <div class="col-md-3">
-                {{vm.payment.userFirstName}} {{vm.payment.userLastName}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3 print-align">
-                <span class="label-simple">Affiliation:</span>
-            </div>
-            <div class="col-md-3">
-                {{vm.payment.affiliationName}}
-            </div>
-        </div>
+      
 
-
-        <div class="row">
-            <div class="col-md-3 print-align">
-                <span class="label-simple">Paid by:</span>
-            </div>
-            <div class="col-md-3">
-                {{vm.payment.firstName}} {{vm.payment.lastName}}
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-3 print-align">
-                <span class="label-simple">Date:</span>
-            </div>
-            <div class="col-md-3">
-                {{vm.payment.date}}
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-3 print-align">
-                <span class="label-simple">TransactionID:</span>
-            </div>
-            <div class="col-md-3">
-                {{vm.payment.transactionid}}
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-3 print-align">
-                <span class="label-simple">Tandem Id:</span>
-            </div>
-            <div class="col-md-3">
-                {{vm.payment.tandemID}}
-            </div>
-        </div>
-
-    </div>
-
-    <div class="col-lg-12 margin-fix-banner">
-
-        <b>Payment Method</b>
-
-        <div class="row">
-            <div class=" col-md-3 print-align">
-                <span class="label-simple">Method of Payment:</span>
-            </div>
-            <div class="col-md-3">
-                {{vm.payment.transactionType}}
-            </div>
-        </div>
-
-        <div class="row">
-            <div class=" col-md-3 print-align">
-                <span class="label-simple">Amount Paid:</span>
-            </div>
-            <div class="col-md-3">
-                {{vm.payment.amountPaid}} 
-            </div>
-        </div>
-        <div class="row">
-            <div class=" col-md-3 print-align">
-                <span class="label-simple">Payment Type:</span>
-            </div>
-            <div class="col-md-3">
-              {{vm.payment.type}}
-            </div>
-        </div>
-
-        <div class="row">
-            <div class=" col-md-3 print-align">
-                <span class="label-simple">Quantity:</span>
-            </div>
-            <div class="col-md-3">
-                1
-            </div>
-        </div>
-
-        <div class="row">
-            <div class=" col-md-3 print-align">
-                <span class="label-simple">Description</span>
-            </div>
-            <div class="col-md-3">
-                {{vm.payment.description}}
-            </div>
-        </div>
-        <div class="row">
-            <div class=" col-md-6 print-align">
-                <button class="btn btn-ar btn-primary right noPrint" onclick="window.print();">Download Bill</button>
-
-            </div>
-         
-        </div>
-
-    </div>
 
   
 </div>
