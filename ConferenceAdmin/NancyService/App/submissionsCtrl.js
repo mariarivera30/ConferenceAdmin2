@@ -73,6 +73,7 @@
         vm.getFirstSubmissionPage = _getFirstSubmissionPage;
         vm.getLastSubmissionPage = _getLastSubmissionPage;
         vm.downloadPDFFile = _downloadPDFFile;
+        vm.downloadEvaluationFile = _downloadEvaluationFile;
         vm.getSubmissionView = _getSubmissionView;
         vm.getEvaluationsForSubmission = _getEvaluationsForSubmission;
         vm.getEvaluationDetails = _getEvaluationDetails;
@@ -244,7 +245,7 @@
         }
         //----END PAGINATON CODE---
 
-        /* Download a file through the browser */
+        /* [Randy] Download a file through the browser */
         function _downloadPDFFile(id) {
             restApi.getSubmissionFile(id).
                 success(function (data, status, headers, config) {
@@ -258,6 +259,11 @@
                 error(function (data, status, headers, config) {
                     alert("An error ocurred while downloading the file.");
                 });
+        }
+
+        /* [Randy] Download a file through the browser */
+        function _downloadEvaluationFile(id) {
+            $("#file-" + id).attr("href", vm.evaluationFile).attr("download", vm.evaluationName);
         }
 
         /* reset the link to default */
