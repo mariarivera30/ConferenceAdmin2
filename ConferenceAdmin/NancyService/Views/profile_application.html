@@ -19,8 +19,8 @@
         <img src="../img/Application%20Steps/step_4_finished.png" ng-show="vm.registrationStatus == 'Accepted'" />
     </center><br />
 
-    <div class="alert alert-warning" ng-hide="vm.hasApplied">
-        <strong><i class="fa fa-info"></i></strong> You have not applied yet. 
+    <div class="alert alert-warning" ng-hide="vm.hasApplied || ((vm.amountStatus.inTime == false && vm.amountStatus.inTimeLateFee == false) && vm.acceptanceStatus != 'Accepted' && vm.acceptanceStatus != 'Rejected')">
+        <strong><i class="fa fa-info"></i></strong> You have not applied yet.
         <span ng-show="vm.userTypeID != 1">Please click the Apply button below to request acceptance from the administrator. Acceptance is subject to space availability.</span>
         <span ng-show="vm.userTypeID == 1">All minors must provide the required Authorization Documents in order to apply. Please go to the Authorization tab to complete your application.</span>
     </div>

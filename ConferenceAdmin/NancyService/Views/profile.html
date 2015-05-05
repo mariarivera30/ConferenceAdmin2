@@ -24,11 +24,11 @@
                     </li>
 
                     <li ng-show="vm.application" ng-click="selectedTab='application';" ng-class="{active: selectedTab=='application'}">
-                        <a href="#/Profile/Application"><i class="fa fa-file-text-o"> </i> Application</a>
+                        <a href="#/Profile/Application"><i class="fa fa-file-text-o"> </i> <span ng-hide="vm.authorization">Application &amp;</span> Registration</a>
                     </li>
 
                     <li ng-show="vm.authorization" ng-click="selectedTab='authorization';" ng-class="{active: selectedTab=='authorization'}">
-                        <a href="#/Profile/Authorization"><i class="fa fa-plus-square-o"> </i> Authorization</a>
+                        <a href="#/Profile/Authorization"><i class="fa fa-plus-square-o"> </i> Authorization &amp; Application</a>
                     </li>
 
                     <li ng-show="vm.submission" ng-click="selectedTab='submission';" ng-class="{active: selectedTab=='submission'}">
