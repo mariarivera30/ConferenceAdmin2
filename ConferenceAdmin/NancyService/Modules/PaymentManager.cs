@@ -208,7 +208,7 @@ namespace NancyService.Modules
                 {
                     var paymentInfo = (from s in context.paymentbills
                                        from sp in context.sponsor2
-                                       where s.paymentBillID == id && s.deleted == false && sp.paymentID == s.paymentID
+                                       where s.paymentBillID == id && s.deleted == false && sp.paymentID == s.paymentID &&s.completed ==true
                                        select new PaymentQuery
                                        {
                                            paymentBillID = s.paymentBillID,
@@ -234,7 +234,7 @@ namespace NancyService.Modules
                     {
                          paymentInfo = (from s in context.paymentbills
                                             from r in context.registrations
-                                            where s.paymentBillID == id && s.deleted == false && r.paymentID == s.paymentID
+                                            where s.paymentBillID == id && s.deleted == false && r.paymentID == s.paymentID &&s.completed==true
                                             select new PaymentQuery
                                             {
                                                 paymentBillID = s.paymentBillID,
