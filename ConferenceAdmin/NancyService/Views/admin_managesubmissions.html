@@ -324,7 +324,7 @@
                     <div class="col-md-6"><label>Score:</label> {{vm.score}}</div>
                     <div class="col-md-12">
                         <label>Evaluation Document:</label><br />
-                        <a href="" ng-click="vm.downloadPDFFile(vm.documentssubmittedID)"><i class="fa fa-file-text"></i> {{vm.evaluationName}}</a>
+                        <a href="" ng-mouseover="vm.downloadEvaluationFile(0)" ng-mouseleave="vm.resetDownloadLink(0)" id="file-0" class="file-link"><i class="fa fa-file-text file-icon"></i> {{vm.evaluationName}}</a>
                     </div>
                     <div class="col-md-12">
                         <label>Public Feedback:</label><br /> {{vm.publicFeedback}}
