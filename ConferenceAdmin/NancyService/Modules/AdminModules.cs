@@ -31,13 +31,13 @@ namespace NancyService.Modules
 
             /*------------------Payment--------------------------*/
             Post["/secureReentry"] = parameters =>
-             {
-                 /*receive the tandem ID  and information store on data base and confirm payment
-                 /*return in the xml the the receipt link or the error link*/
-                 return Response.AsXml("");
+            {
+                /*receive the tandem ID  and information store on data base and confirm payment
+                /*return in the xml the the receipt link or the error link*/
+                return Response.AsXml("");
 
-             };
-   
+            };
+
             /* ----- Template -----*/
 
 
@@ -72,17 +72,15 @@ namespace NancyService.Modules
             Put["/deleteTemplate"] = parameters =>
             {
                 var id = this.Bind<long>();
-                if (templateManager.deleteTemplate(id))
-                {
-                    return HttpStatusCode.OK;
-                }
+                int result = templateManager.deleteTemplate(id);
+                if (result == 1 || result == 0)
+                    return Response.AsJson(result);
 
                 else
                 {
                     return HttpStatusCode.Conflict;
                 }
             };
-
             Put["/updateTemplate"] = parameters =>
             {
                 var template = this.Bind<template>();
@@ -234,9 +232,9 @@ namespace NancyService.Modules
             {
                 this.RequiresAuthentication();
                 this.RequiresAnyClaim(new[] { "sponsor", "admin", "Master", "Admin", "CommitteEvaluator" });
-                return  Response.AsJson(sponsorManager.getSponsorDeadline());
+                return Response.AsJson(sponsorManager.getSponsorDeadline());
             };
-            
+
             Post["/addsponsor"] = parameters =>
             {
 
@@ -255,7 +253,7 @@ namespace NancyService.Modules
 
             Get["/getSponsorListIndex/{index:int}"] = parameters =>
             {
-              
+
                 int index = parameters.index;
                 return Response.AsJson(sponsorManager.getSponsorList(index));
             };
@@ -364,8 +362,8 @@ namespace NancyService.Modules
             {
                 try
                 {
-                   int index = parameters.index;
-                   return Response.AsJson(adminManager.getAdministratorList(index));
+                    int index = parameters.index;
+                    return Response.AsJson(adminManager.getAdministratorList(index));
                 }
                 catch { return null; }
             };
@@ -418,7 +416,7 @@ namespace NancyService.Modules
             {
                 int index = parameters.index;
                 int id = parameters.id;
-                return Response.AsJson(evaluatorManager.getEvaluatorList(index,id));
+                return Response.AsJson(evaluatorManager.getEvaluatorList(index, id));
             };
 
             //get pending list of evaluators
@@ -701,7 +699,7 @@ namespace NancyService.Modules
             {
                 return webManager.getAdminSponsorBenefits(parameters.data);
             };
-            
+
             //update benefits of a sponsor category
             Put["/saveAdminSponsorBenefits"] = parameters =>
             {
@@ -796,33 +794,33 @@ namespace NancyService.Modules
             //-----------------SUBMISSIONS- JAIMEIRIS------------------------------------
             //Gets all submissions in the system that have not been deleted
             Get["/getAllSubmissions/{index:int}"] = parameters =>
-                {
-                    int index = parameters.index;
-                    return Response.AsJson(submissionManager.getAllSubmissions(index));
-                };
+            {
+                int index = parameters.index;
+                return Response.AsJson(submissionManager.getAllSubmissions(index));
+            };
             //gets the evaluation for a submission
             Get["/getEvaluationsForSubmission/{submissionID}"] = parameters =>
-                {
-                    long submissionID = parameters.submissionID;
-                    var evaluations = submissionManager.getSubmissionEvaluations(submissionID);
+            {
+                long submissionID = parameters.submissionID;
+                var evaluations = submissionManager.getSubmissionEvaluations(submissionID);
 
-                    return Response.AsJson(evaluations);
-                };
+                return Response.AsJson(evaluations);
+            };
             //gets all approved evaluators so as to assign them submissions to evaluate
             Get["/getAllEvaluators"] = parameters =>
-                {
-                    return Response.AsJson(submissionManager.getAcceptedEvaluators());
-                };
+            {
+                return Response.AsJson(submissionManager.getAcceptedEvaluators());
+            };
             //Assigns an evaluator to a submission
             Post["/assignEvaluator/{submissionID:long}/{evaluatorID:long}"] = parameters =>
-                {
-                    long submissionID = parameters.submissionID;
-                    long evaluatorID = parameters.evaluatorID;
+            {
+                long submissionID = parameters.submissionID;
+                long evaluatorID = parameters.evaluatorID;
 
-                    Evaluation evList = submissionManager.assignEvaluator(submissionID, evaluatorID);
+                Evaluation evList = submissionManager.assignEvaluator(submissionID, evaluatorID);
 
-                    return Response.AsJson(evList);
-                };
+                return Response.AsJson(evList);
+            };
             //Assigns a template to a submission
             Post["/assignTemplate/{submissionID:long}/{templateID:long}"] = parameters =>
             {
@@ -845,11 +843,11 @@ namespace NancyService.Modules
             };
             //Remove evaluator submission relation
             Put["/removeEvaluatorSubmission/{evaluatorSubmissionID}"] = parameters =>
-                {
-                    long evaluatorSubmissionID = parameters.evaluatorSubmissionID;
-                    long es = submissionManager.removeEvaluatorSubmission(evaluatorSubmissionID);
-                    return Response.AsJson(es);
-                };
+            {
+                long evaluatorSubmissionID = parameters.evaluatorSubmissionID;
+                long es = submissionManager.removeEvaluatorSubmission(evaluatorSubmissionID);
+                return Response.AsJson(es);
+            };
             //Change submission status
             Put["/changeSubmissionStatus/{status}/{submissionID}"] = parameters =>
             {
@@ -908,28 +906,28 @@ namespace NancyService.Modules
             };
             //gets all deleted submissions
             Get["/getDeletedSubmissions/{index:int}"] = parameters =>
-                {
-                    int index = parameters.index;
-                    return Response.AsJson(submissionManager.getDeletedSubmissions(index));
-                };
+            {
+                int index = parameters.index;
+                return Response.AsJson(submissionManager.getDeletedSubmissions(index));
+            };
             //gets the details of a deleted submission
             Get["/getADeletedSubmission/{submissionID:long}"] = parameters =>
-                {
-                    long submissionID = parameters.submissionID;
-                    return Response.AsJson(submissionManager.getADeletedSubmission(submissionID));
-                };
+            {
+                long submissionID = parameters.submissionID;
+                return Response.AsJson(submissionManager.getADeletedSubmission(submissionID));
+            };
             //gets the list of all users
             Get["/getListOfUsers"] = parameters =>
-                {
-                    return Response.AsJson(submissionManager.getListOfUsers());
-                };
+            {
+                return Response.AsJson(submissionManager.getListOfUsers());
+            };
             //returns true is the currently logged in user is the master
             Get["/isMaster/{userID:long}"] = parameters =>
-                {
-                    long userID = parameters.userID;
-                    bool isMaster = submissionManager.isMaster(userID);
-                    return isMaster;
-                };
+            {
+                long userID = parameters.userID;
+                bool isMaster = submissionManager.isMaster(userID);
+                return isMaster;
+            };
             // [Randy] search within the list with a certain criteria
             Get["/searchSubmission/{index}/{criteria}"] = parameters =>
             {
@@ -948,22 +946,22 @@ namespace NancyService.Modules
             };
             //Gets the file for the submission with submissionID
             Get["/getSubmissionFile/{fileID}"] = parameters =>
-                {
-                    int fileID = parameters.fileID;
-                    return Response.AsJson(submissionManager.getSubmissionFile(fileID));
-                };
+            {
+                int fileID = parameters.fileID;
+                return Response.AsJson(submissionManager.getSubmissionFile(fileID));
+            };
             //get submission report
             Get["/getSubmissionsReport"] = parameters =>
-                {
-                    return Response.AsJson(reportManager.getSubmissionsReport());
-                };
+            {
+                return Response.AsJson(reportManager.getSubmissionsReport());
+            };
 
             //------------------------------------Banner---------------------------------------------
             Get["/getBanners/{index:int}/{sponsor}"] = parameters =>
             {
                 int index = parameters.index;
                 String sponsor = parameters.sponsor;
-                return Response.AsJson(bannerManager.getBannerList(sponsor,index));
+                return Response.AsJson(bannerManager.getBannerList(sponsor, index));
             };
 
         }

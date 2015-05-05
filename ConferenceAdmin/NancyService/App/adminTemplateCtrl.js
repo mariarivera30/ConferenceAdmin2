@@ -20,7 +20,7 @@
         vm.loading = true;
         vm.template;
         vm.topicObj = null;
-
+        vm.cannotDelete = false;
         vm.obj = {
             title: "",
             message1: "",
@@ -34,7 +34,7 @@
         vm.okFunc;
         vm.cancelFunc;
         vm.clearPic = _clearPic;
-        
+        vm.cancelDelete = _cancelDelete;
         //Templates- Variables (Paging)
         vm.templatesList = []; //Results to Display
         vm.tindex = 0;  //Page index [Goes from 0 to tmaxIndex-1]
@@ -43,7 +43,7 @@
         vm.toggleModal = function (action) {
          
 
-            if (action === "missingDoc") {
+            if (action == "missingDoc") {
 
                 vm.obj.title = "Document Requiered",
                 vm.obj.message1 = "A template selection is necessary.",
@@ -59,7 +59,18 @@
                 vm.cancelFunc;
 
             }
-            else if (action == "error")
+            else if (action == "noDelete") {
+                vm.obj.title = "Template Evaluation",
+               vm.obj.message1 = "This template can not be deleted it is currently assigned to a submission.",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+            }
+            else if (action == "error") {
                 vm.obj.title = "Server Error",
                vm.obj.message1 = "Please refresh the page and try again.",
                vm.obj.message2 = "",
@@ -69,6 +80,7 @@
                vm.obj.cancelbutton = false,
                vm.obj.cancelbuttoText = "Cancel",
                vm.showConfirmModal = !vm.showConfirmModal;
+            }
         };
         // Functions
         vm.addTemplate = _addTemplate;
@@ -116,7 +128,9 @@
             _getSubmissionTypes();
 
         }
-
+        function _cancelDelete() {
+            vm.cannotDelete = false;
+        }
         function _selectedTemplate(template, action) {
 
             vm.template = JSON.parse(JSON.stringify(template));
@@ -334,25 +348,37 @@
         }
         function _deleteTemplate() {
             vm.loadingRemoving = true;
-            restApi.deleteTemplate(vm.template.templateID)
-            .success(function (data, status, headers, config) {
-                vm.templatesList.forEach(function (template, index) {
-                    if (template.templateID == vm.template.templateID) {
-                        vm.templatesList.splice(index, 1);
+            
+                restApi.deleteTemplate(vm.template.templateID)
+                .success(function (data, status, headers, config) {
+                    if (data ==1) {
+                    vm.templatesList.forEach(function (template, index) {
+                        if (template.templateID == vm.template.templateID) {
+                            vm.templatesList.splice(index, 1);
+                            vm.loadingRemoving = false;
+                            $('#delete').modal('hide');
+                            return;
+                        }
+
+                    });
+                    }
+                    else {
                         vm.loadingRemoving = false;
-                        $('#delete').modal('hide');
-                        return;
+                        vm.message="This template is assigned to a submission. Can not be deleted."
+                        vm.cannotDelete = true;
+                        
+               
                     }
 
-                });
-                vm.template = {};
-            })
+                    vm.template = {};
+                })
 
-            .error(function (data, status, headers, config) {
-                vm.toggleModal('error');
-                vm.loadingRemoving = false;
-                $('#delete').modal('hide');
-            });
+                .error(function (data, status, headers, config) {
+                    vm.toggleModal('error');
+                    vm.loadingRemoving = false;
+                    $('#delete').modal('hide');
+                });
+
         }
 
         function _getTopics() {

@@ -149,7 +149,7 @@ namespace NancyService.Modules
 
         }
 
-        public bool deleteTemplate(long id)
+        public int deleteTemplate(long id)
         {
             try
             {
@@ -158,21 +158,25 @@ namespace NancyService.Modules
 
                     //verificar que se quiere se de disable a todos los evaluation q los tiene o que simplemente no se pueda escoger desde la pantalla 
                     //donde se asignan los evaluation pero lo q ya lo tienen  se queden con las evaluaciones.
+                    var isUsed = context.templatesubmissions.Where(x=>x.templateID==id).FirstOrDefault();
+                    if (isUsed == null)
+                    {
+                        var template = (from temp in context.templates
+                                        where temp.templateID == id
+                                        select temp).FirstOrDefault();
 
-                    var template = (from temp in context.templates
-                                    where temp.templateID == id
-                                    select temp).FirstOrDefault();
+                        template.deleted = true;
 
-                    template.deleted = true;
-
-                    context.SaveChanges();
-                    return true;
+                        context.SaveChanges();
+                        return 1;
+                    }
+                    else { return 0; }
                 }
             }
             catch (Exception ex)
             {
                 Console.Write("AdminManager.deleteTemplate error " + ex);
-                return false;
+                return -1;
             }
 
         }

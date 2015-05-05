@@ -37,8 +37,9 @@
                 <a class="btn btn-default" ng-disabled="vm.tindex >= (vm.tmaxIndex-1)" ng-click="vm.nextTemplate()">Next</a>
                 <a class="btn btn-default" ng-disabled="vm.tindex >= (vm.tmaxIndex-1)" ng-click="vm.getLastTemplatePage()">Last</a>
             </div>
-            <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" ng-click=" vm.addValues();" data-target="#addTemplate">Add New Template</button> <a href=""><i class="fa fa-info-circle info-icon" title="Adding a Template will include them in the Template selection option."> </i></a>
-        </div>
+           </div>
+        <button class="btn btn-ar btn-primary ng-scope" data-toggle="modal" ng-click=" vm.addValues();" data-target="#addTemplate">Add New Template</button> <a href=""><i class="fa fa-info-circle info-icon" title="Adding a Template will include them in the Template selection option."> </i></a>
+
     </div>
     <!--Modal View to confirm template deletion -->
     <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
