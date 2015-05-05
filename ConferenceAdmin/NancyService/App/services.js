@@ -193,7 +193,7 @@
             return $http.get('/payment/getsponsorpayments/' + data);
         };
       
-        //-----------------------------------Sponsor Complementary-----------------------------------
+        //----------------------------------- SPONSOR COMPLEMENTARY -----------------------------------
         //[Maria] delete a specific sponsor complementary key
         function _deleteSponsorComplemetaryKey(data) {
             return $http.put('/admin/deleteSponsorComplementaryKey', data);
@@ -223,7 +223,7 @@
             return $http.get('admin/searchKeyCodes/' + data.index + '/' + data.sponsorID + '/' + data.criteria);
         };
 
-        //-----------------------------------Sponsor-----------------------------------
+        //----------------------------------- SPONSOR -----------------------------------
         //[Maria] get deadline for becoming a sponsor
         function _getSponsorDeadline() {
             return $http.get('/admin/getSponsorDeadline/' );
@@ -261,7 +261,7 @@
             return $http.get('admin/searchSponsors/' + data.index + '/' + data.criteria);
         };
 
-        //-----------------------------------Templates-------------------------------
+        //----------------------------------- TEMPLATES -------------------------------
         //[Maria] edit a specific template
         function _updateTemplate(data) {
             return $http.put('/admin/updateTemplate', data);
@@ -283,7 +283,7 @@
             return $http.post('/admin/addTemplate', data);
         };
 
-        //-----------------------------------Authorization Templates-------------------------------
+        //----------------------------------- AUTHORIZATION TEMPLATES -------------------------------
         //[Maria] edit a specific authorization template
         function _updateAuthTemplate(data) {
             return $http.put('/admin/updateAuthTemplate', data);
@@ -305,12 +305,12 @@
             return $http.post('/admin/addAuthTemplate', data);
         };
 
-        //-----------------------------------LOGIN-----------------------------------
+        //----------------------------------- LOGIN -----------------------------------
         //[Maria] login with user name and password
         function _login(data) {
             return $http.post('/auth/login', { email: data.email, password: data.password });
         };
-        //-----------------------------------SignUp-----------------------------------
+        //----------------------------------- SIGN-UP -----------------------------------
         //[Maria] add new user to the system
         function _createUser(data) {
             return $http.post('/auth/createUser', data);
@@ -319,7 +319,7 @@
         function _accountConfirmation(data) {
             return $http.get('/auth/accountConfirmation/' + data);
         };
-        //----------------------------------RecoverPass--------------------------------
+        //---------------------------------- RECOVER PASSWORD --------------------------------
         //[Maria] verifies email of user
         function _checkEmail(data) {
             return $http.get('/auth/checkEmail/' + data);
@@ -332,7 +332,7 @@
         function _changePassword(data) {
             return $http.post('/auth/changePassword/', data);
         };
-        //-----------------------------------TOPICS-----------------------------------
+        //----------------------------------- TOPICS -----------------------------------
         //[Heidi] get list of all topics
         function _getTopics() {
             return $http.get('/admin/getTopic');
@@ -352,7 +352,7 @@
             return $http.put('/admin/deleteTopic/' + data);
         };
 
-        //-----------------------------------ADMINISTRATORS-----------------------------------
+        //----------------------------------- ADMINISTRATORS -----------------------------------
         //[Heidi] get list of all administrators
         function _getAdministrators(data) {
             return $http.get('/admin/getAdministrators/'+data);
@@ -390,7 +390,7 @@
             return $http.get('admin/searchAdmin/' + data.index + '/' + data.criteria);
         };
 
-        //-----------------------------------REGISTRATIONS-----------------------------------
+        //----------------------------------- REGISTRATIONS -----------------------------------
         //[Randy] get list of all registrations
         function _getRegistrations(data) {
             return $http.get('/admin/getRegistrations/' + data);
@@ -423,7 +423,7 @@
         function _getAttendanceReport() {
             return $http.get('admin/getAttendanceReport');
         };
-        //-----------------------------------GUESTS-----------------------------------
+        //----------------------------------- GUESTS -----------------------------------
         //[Jaimeiris] get guest list for admin
         function _getGuestList(data) {
             return $http.get('admin/getGuestList/' + data);
@@ -445,7 +445,7 @@
             return $http.get('admin/searchGuest/' + data.index + '/' + data.criteria);
         };
 
-        //-----------------------------------PROFILE-INFO-----------------------------------
+        //----------------------------------- PROFILE-INFO -----------------------------------
         //[Randy] get information for the user profile
         function _getProfileInfo(data) {
             return $http.get('profile/getProfileInfo/' + data);
@@ -471,7 +471,7 @@
             return $http.get('profile/checkComplementaryKey/' + data);
         };
 
-        //---------------------------------PROFILE-SUBMISSIONS---------------------------
+        //--------------------------------- PROFILE-SUBMISSIONS ---------------------------
         //[Jaimeiris] get list of submissions assigned to the evalutor currently logged in
         function _getAssignedSubmissions(data) {
             return $http.get('profile/getAssignedSubmissions/' + data.evaluatorUserID + '/' + data.index);
@@ -512,7 +512,7 @@
         function _createFinalSubmissionFiles(data) {
             return $http.put('profile/createFinalSubmissionFiles', data);
         };
-        //-----------------------------------PROFILE-AUTHORIZATION-----------------------------------
+        //----------------------------------- PROFILE-AUTHORIZATION -----------------------------------
         //[Randy] add authorization document
         function _uploadDocument(data) {
             return $http.put('/profile/uploadDocument/', data);
@@ -546,7 +546,7 @@
             return $http.get('profile/getAuthorizationFile/' + data);
         };
 
-        //-----------------------------------EVALUATORS---------------------------------
+        //----------------------------------- EVALUATORS ---------------------------------
         //[Heidi] get list of evaluators starting at a specified index
         function _getEvaluatorListFromIndex(data) {
             return $http.get('admin/getEvaluatorListFromIndex/' + data.index + '/' + data.id);
@@ -572,7 +572,7 @@
             return $http.put('admin/updateEvaluatorAcceptanceStatus', { userID: data.userID, acceptanceStatus: data.acceptanceStatus });
         };
 
-        //---------------------------------WEBSITE CONTENT----------------------------------------------
+        //--------------------------------- WEBSITE CONTENT ----------------------------------------------
         //[Heidi] get information for the Home tab
         function _getHome() {
             return $http.get('/admin/getHome');
@@ -710,7 +710,7 @@
             return $http.get('admin/searchReport/' + data.index + '/' + data.criteria);
         };
 
-        //----------------------------------USER SUBMISSIONS----------------------------------
+        //---------------------------------- USER SUBMISSIONS ----------------------------------
         //[Jaimeiris] gets the submissions of the user currently logged in
         function _getUserSubmissionList(data) {
             return $http.get('profile/getUserSubmissionList/' + data);
@@ -744,7 +744,7 @@
             return $http.get('profile/getSubmissionDeadline');
         };
 
-        //--------------------------------------------ADMIN-SUBMISSIONS------------------------------------
+        //-------------------------------------------- ADMIN-SUBMISSIONS ------------------------------------
         //[Jaimeiris] Gets all submissions that have not been deleted
         function _getAllSubmissions(data) {
             return $http.get('admin/getAllSubmissions/' + data);
@@ -829,7 +829,7 @@
         function _getSubmissionDeadlines() {
             return $http.get('profile/getSubmissionDeadlines');
         };
-        //------------------------------------Banner-------------------------------------
+        //------------------------------------ BANNER -------------------------------------
         //[Heidi] get sponsor logos for banner
         function _getBanners() {
             return $http.get('admin/getBanners');
