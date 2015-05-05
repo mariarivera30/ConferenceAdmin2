@@ -8,11 +8,10 @@ namespace NancyService.Modules
 {
     public class ProfileInfoManager
     {
-        public ProfileInfoManager()
-        {
+        /* [Randy] Empty Constructor */
+        public ProfileInfoManager(){}
 
-        }
-
+        /* [Randy] Get information for the user profile */
         public UserInfo getProfileInfo(UserInfo user)
         {
             try
@@ -68,6 +67,7 @@ namespace NancyService.Modules
             }
         }
 
+        /* [Randy] Edit information of the user profile */
         public bool updateProfileInfo(UserInfo user)
         {
             try
@@ -171,7 +171,7 @@ namespace NancyService.Modules
         }
 
 
-
+        /* [Randy] Register as a complementary user without paying */
         public bool complementaryPayment(UserInfo user, string key)
         {
             try
@@ -293,6 +293,7 @@ namespace NancyService.Modules
             }
         }
 
+        /* [Randy] Make application to attend the conference */
         public bool apply(UserInfo user)
         {
             try
@@ -315,6 +316,7 @@ namespace NancyService.Modules
             }
         }
 
+        /* [Randy] Verify the complementary key */
         public bool checkComplementaryKey(string key)
         {
             try

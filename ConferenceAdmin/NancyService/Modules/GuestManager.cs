@@ -116,8 +116,8 @@ namespace NancyService.Modules
             }            
         }
 
-        // Search within the list with a certain criteria
 
+        /* [Randy] Search within the list with a certain criteria */
         public GuestsPagingQuery searchGuest(int index, string criteria)
         {
             GuestsPagingQuery page = new GuestsPagingQuery();
