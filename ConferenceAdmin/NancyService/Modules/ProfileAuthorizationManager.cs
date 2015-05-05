@@ -8,10 +8,10 @@ namespace NancyService.Modules
 {
     public class ProfileAuthorizationManager
     {
-        public ProfileAuthorizationManager()
-        {
-        }
+        /* [Randy] Empty Constructor */
+        public ProfileAuthorizationManager(){}
 
+        /* [Randy] Get list of authorization templates */
         public List<Template> getTemplates()
         {
             try
@@ -34,7 +34,7 @@ namespace NancyService.Modules
             }
         }
 
-        //get file of authorizationID
+        /* [Randy] Download authorization template file */
         public Template getTemplateFile(int templateID)
         {
             try
@@ -58,6 +58,7 @@ namespace NancyService.Modules
             }
         }
 
+        /* [Randy] Get list of all documents submitted */
         public List<Authorization> getDocuments(UserInfo user)
         {
             try
@@ -82,7 +83,7 @@ namespace NancyService.Modules
             }
         }
 
-        //get file of authorizationID
+        /* [Randy] Download a selected authorization file */
         public Authorization getAuthorizationFile(int authorizationID)
         {
             try
@@ -106,6 +107,7 @@ namespace NancyService.Modules
             }
         }
 
+        /* [Randy] Upload an authorization file */
         public int uploadDocument(Authorization auth, MinorUser minor)
         {
             try
@@ -135,7 +137,7 @@ namespace NancyService.Modules
             }
         }
 
-
+        /* [Randy] Delete a specific authorization document */
         public bool deleteDocument(Authorization auth)
         {
             try
@@ -155,6 +157,7 @@ namespace NancyService.Modules
             }
         }
 
+        /* [Randy] Get the submitted companion key */
         public CompanionKey getCompanionKey(UserInfo user)
         {
             try
@@ -178,6 +181,7 @@ namespace NancyService.Modules
             }
         }
 
+        /* [Randy] Bind companion with minor */
         public string selectCompanion(UserInfo user, companion companion)
         {
             try
