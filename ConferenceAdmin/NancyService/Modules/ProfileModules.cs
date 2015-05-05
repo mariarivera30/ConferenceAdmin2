@@ -222,18 +222,18 @@ namespace NancyService.Modules
                 {
                     //documentssubmitted sub = this.Bind<documentssubmitted>();
                     ExistingFile sub = this.Bind<ExistingFile>();
-                    if (sub.IDsList.Count == 0)
+                    /*if (sub.IDsList.Count == 0)
                     {
                         return HttpStatusCode.OK;
                     }
                     else
-                    {
+                    {*/
 
                         if (submission.manageExistingFiles(sub.submissionID, sub.IDsList))
                             return HttpStatusCode.OK;
                         else
                             return HttpStatusCode.Conflict;
-                    }
+                   // }
                 };
 
             // [Jaimeiris] Re-create final submission files
