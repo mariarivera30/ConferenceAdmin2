@@ -322,38 +322,44 @@ namespace NancyService.Modules
                 //
             };
 
-            /* ----- Topic -----*/
+            /* ----- Topic -----(Heidi)*/
 
+            //get list of conference topics
             Get["/getTopic"] = parameters =>
             {
 
                 return Response.AsJson(topicManager.getTopicList());
             };
 
+            //add a new topic
             Post["/addTopic"] = parameters =>
             {
                 var topic = this.Bind<topiccategory>();
                 return Response.AsJson(topicManager.addTopic(topic));
             };
 
+            //update a new topic
             Put["/updateTopic"] = parameters =>
             {
                 var topic = this.Bind<topiccategory>();
                 return (topicManager.updateTopic(topic));
             };
 
+            //delete topic
             Put["/deleteTopic/{topiccategoryID:int}"] = parameters =>
             {
                 return topicManager.deleteTopic(parameters.topiccategoryID);
             };
 
-            /* ----- Administrators -----*/
+            /* ----- Administrators -----(Heidi)*/
 
+            //check if there an email has account in ConferenceAdmin when adding a new evaluator
             Get["/getNewAdmin/{email}"] = parameters =>
             {
                 return adminManager.checkNewAdmin(parameters.email);
             };
 
+            //get list of administratos
             Get["/getAdministrators/{index:int}"] = parameters =>
             {
                 try
@@ -364,6 +370,7 @@ namespace NancyService.Modules
                 catch { return null; }
             };
 
+            //get list of privileges in the system
             Get["/getPrivilegesList"] = parameters =>
             {
                 try
@@ -375,24 +382,28 @@ namespace NancyService.Modules
                 catch { return null; }
             };
 
+            //create a new administrator with a specified privilege
             Post["/addAdmin"] = parameters =>
             {
                 var newAdmin = this.Bind<AdministratorQuery>();
                 return Response.AsJson(adminManager.addAdmin(newAdmin));
             };
 
+            //update an administrator
             Put["/editAdmin"] = parameters =>
             {
                 var editAdmin = this.Bind<AdministratorQuery>();
                 return Response.AsJson(adminManager.editAdministrator(editAdmin));
             };
 
+            //remove administrator privileges to a user
             Put["/deleteAdmin"] = parameters =>
             {
                 var delAdmin = this.Bind<AdministratorQuery>();
                 return adminManager.deleteAdministrator(delAdmin);
             };
 
+            //search administrators that contain the search criteria
             Get["/searchAdmin/{index:int}/{criteria}"] = parameters =>
             {
                 int index = parameters.index;
@@ -400,8 +411,9 @@ namespace NancyService.Modules
                 return Response.AsJson(adminManager.searchAdministrators(index, criteria));
             };
 
-            /*------ Evaluators -----*/
+            /*------ Evaluators -----(Heidi)*/
 
+            //get list of evaluators past applications
             Get["/getEvaluatorListFromIndex/{index:int}/{id:int}"] = parameters =>
             {
                 int index = parameters.index;
@@ -409,28 +421,33 @@ namespace NancyService.Modules
                 return Response.AsJson(evaluatorManager.getEvaluatorList(index,id));
             };
 
+            //get pending list of evaluators
             Get["/getPendingListFromIndex/{index:int}"] = parameters =>
             {
                 int index = parameters.index;
                 return Response.AsJson(evaluatorManager.getPendingList(index));
             };
 
+            //check evaluator has an account in ConferenceAdmin
             Get["/getNewEvaluator/{email}"] = parameters =>
             {
                 return evaluatorManager.checkNewEvaluator(parameters.email);
             };
 
+            //add a new evaluator with status "Accepted"
             Post["/addEvaluator/{email}"] = parameters =>
             {
                 return evaluatorManager.addEvaluator(parameters.email);
             };
 
+            //update status of an evaluator application
             Put["/updateEvaluatorAcceptanceStatus"] = parameters =>
             {
                 var updateEvaluator = this.Bind<EvaluatorQuery>();
                 return (evaluatorManager.updateAcceptanceStatus(updateEvaluator));
             };
 
+            //search evaluators that contain search criteria
             Get["/searchEvaluators/{index:int}/{criteria}"] = parameters =>
             {
                 int index = parameters.index;
@@ -555,176 +572,207 @@ namespace NancyService.Modules
                 return Response.AsJson(list);
             };
 
-            //-----------------------------------------WEBSITE CONTENT ----------------------------------------
+            //-----------------------------------------WEBSITE CONTENT ----------------------------------[Heidi]
 
+            //get content of the Home section of the website
             Get["/getHome"] = parameters =>
             {
                 return Response.AsJson(webManager.getHome());
             };
 
+            //get image found in the Home section of the website
             Get["/getHomeImage"] = parameters =>
             {
                 return Response.AsJson(webManager.getHomeImage());
             };
 
+            //get conference logo
             Get["/getWebsiteLogo"] = parameters =>
             {
                 return Response.AsJson(webManager.getWebsiteLogo());
             };
 
+            //Update content found in the Home section of the website
             Put["/saveHome"] = parameters =>
             {
                 var home = this.Bind<HomeQuery>();
                 return webManager.saveHome(home);
             };
 
+            //remove an image from conference content
             Put["/removeFile/{data}"] = parameters =>
             {
                 return webManager.removeFile(parameters.data);
             };
 
+            //get content found in the Venue section of the website
             Get["/getVenue"] = parameters =>
             {
                 return Response.AsJson(webManager.getVenue());
             };
 
+            //update content found in the Venue section of the website
             Put["/saveVenue"] = parameters =>
             {
                 var venue = this.Bind<VenueQuery>();
                 return webManager.saveVenue(venue);
             };
 
+            //get content found in the Contact section of the website
             Get["/getContact"] = parameters =>
             {
                 return Response.AsJson(webManager.getContact());
             };
 
+            //update content found in the Contact section of the website
             Put["/saveContact"] = parameters =>
             {
                 var contact = this.Bind<ContactQuery>();
                 return webManager.saveContact(contact);
             };
 
+            //send inquire email 
             Post["/sendContactEmail"] = parameters =>
             {
                 var emailInfo = this.Bind<ContactEmailQuery>();
                 return Response.AsJson(webManager.sendContactEmail(emailInfo));
             };
 
+            //get content found in the Call for Participation section of the website
             Get["/getParticipation"] = parameters =>
             {
                 return Response.AsJson(webManager.getParticipation());
             };
 
+            //update content found in the Call for Participation section of the website
             Put["/saveParticipation"] = parameters =>
             {
                 var participation = this.Bind<ParticipationQuery>();
                 return webManager.saveParticipation(participation);
             };
 
+            //get content found in the Registration section of the website and registration fees
             Get["/getRegistrationInfo"] = parameters =>
             {
                 return Response.AsJson(webManager.getRegistrationInfo());
             };
 
+            //update content found in the Registration section of the website and registration fees
             Put["/saveRegistrationInfo"] = parameters =>
             {
                 var registrationInfo = this.Bind<RegistrationQuery>();
                 return webManager.saveRegistrationInfo(registrationInfo);
             };
 
+            //get conference deadlines
             Get["/getDeadlines"] = parameters =>
             {
                 return Response.AsJson(webManager.getDeadlines());
             };
 
+            //get conference deadlines formatted to string: day of the week, day of the month, month and year
             Get["/getInterfaceDeadlines"] = parameters =>
             {
                 return Response.AsJson(webManager.getInterfaceDeadlines());
             };
 
+            //update conference deadlines
             Put["/saveDeadlines"] = parameters =>
             {
                 var deadlines = this.Bind<DeadlinesQuery>();
                 return webManager.saveDeadlines(deadlines);
             };
 
+            //get content found in the Committee section of the website
             Get["/getCommitteeInterface"] = parameters =>
             {
                 return Response.AsJson(webManager.getCommittee());
             };
 
+            //update content found in the Committee section of the website
             Put["/saveCommitteeInterface"] = parameters =>
             {
                 var info = this.Bind<CommitteeQuery>();
                 return webManager.saveCommittee(info);
             };
 
+            //get the benefits of a sponsor category
             Get["/getAdminSponsorBenefits/{data}"] = parameters =>
             {
                 return webManager.getAdminSponsorBenefits(parameters.data);
             };
             
+            //update benefits of a sponsor category
             Put["/saveAdminSponsorBenefits"] = parameters =>
             {
                 var sponsor = this.Bind<SaveSponsorQuery>();
                 return webManager.saveSponsorBenefits(sponsor);
             };
 
-
+            //update content found in the Sponsor section of the website
             Put["/saveInstructions"] = parameters =>
             {
                 var info = this.Bind<SponsorInterfaceBenefits>();
                 return webManager.saveInstructions(info);
             };
 
+            //get content found in the Sponsor section of the website
             Get["/getSponsorInstructions"] = parameters =>
             {
                 return Response.AsJson(webManager.getInstructions());
             };
 
+            //get all benefits for each category (for website content)
             Get["/getAllSponsorBenefits"] = parameters =>
             {
                 return Response.AsJson(webManager.getAllSponsorBenefits());
             };
 
+            //get conference general information: name, days
             Get["/getGeneralInfo"] = parameters =>
             {
                 return Response.AsJson(webManager.getGeneralInfo());
             };
 
+            //update conference general information: name, days, logo
             Put["/saveGeneralInfo"] = parameters =>
             {
                 var info = this.Bind<GeneralInfoQuery>();
                 return webManager.saveGeneralInfo(info);
             };
 
+            //get documents found in the Program section of the website
             Get["/getProgram"] = parameters =>
             {
                 return Response.AsJson(webManager.getProgram());
             };
 
+            //get abstract document
             Get["/getAbstractDocument"] = parameters =>
             {
                 return Response.AsJson(webManager.getAbstractDocument());
             };
 
+            //get program document
             Get["/getProgramDocument"] = parameters =>
             {
                 return Response.AsJson(webManager.getProgramDocument());
             };
 
+            //update documents found in the Program section of the website
             Put["/saveProgram"] = parameters =>
             {
                 var info = this.Bind<ProgramQuery>();
                 return webManager.saveProgram(info);
             };
 
+            //Get bill report including registrations and sponsor payments
             Get["/getBillReport"] = parameters =>
             {
                 return Response.AsJson(reportManager.getBillReportList());
             };
 
+            //search records in the bill report that contain the search criterai
             Get["/searchReport/{index:int}/{criteria}"] = parameters =>
             {
                 int index = parameters.index;
@@ -732,12 +780,14 @@ namespace NancyService.Modules
                 return Response.AsJson(reportManager.searchReport(index, criteria));
             };
 
+            //get conference registrations
             Get["/getRegistrationPayments/{index:int}"] = parameters =>
             {
                 int index = parameters.index;
                 return Response.AsJson(reportManager.getRegistrationPayments(index));
             };
 
+            //get sponsor payments
             Get["/getSponsorPayments/{index:int}"] = parameters =>
             {
                 int index = parameters.index;
@@ -909,9 +959,11 @@ namespace NancyService.Modules
                 };
 
             //------------------------------------Banner---------------------------------------------
-            Get["/getBanners"] = parameters =>
+            Get["/getBanners/{index:int}/{sponsor}"] = parameters =>
             {
-                return Response.AsJson(bannerManager.getBannerList());
+                int index = parameters.index;
+                String sponsor = parameters.sponsor;
+                return Response.AsJson(bannerManager.getBannerList(sponsor,index));
             };
 
         }

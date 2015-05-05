@@ -15,11 +15,14 @@ namespace NancyService.Modules
         string ccwicEmailPass = "ccwic123456789";
         string testEmail = "heidi.negron1@upr.edu";
 
+        //Code by: Heidi Negron
         public EvaluatorManager()
         {
 
         }
 
+        //Verify the specified email has an accoun in conference admin.
+        //Returns true if a match is made, false otherwise
         public bool checkNewEvaluator(String email)
         {
             try
@@ -46,6 +49,8 @@ namespace NancyService.Modules
             }
         }
 
+        //Get list of evaluators with an 'Accepted' or 'Rejected' status
+        //Returns userID, first name, last name, email and its evaluator status
         public EvaluatorPagingQuery getEvaluatorList(int index, int id)
         {
             EvaluatorPagingQuery e = new EvaluatorPagingQuery();
@@ -56,6 +61,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     int pageSize = 10;
+                    //Get list of evaluators
                     var query = context.users.Where(evaluator => (evaluator.evaluatorStatus == "Accepted" || evaluator.evaluatorStatus == "Rejected") && evaluator.userID != id && context.claims.Where(x => x.userID == evaluator.userID && x.deleted != true && (x.privilege.privilegesID == 1 || x.privilege.privilegesID == 3 || x.privilege.privilegesID == 5)).Select(x => x.userID).Count() == 0).Select(evaluator => new EvaluatorQuery
                     {
                         userID = (long)evaluator.userID,
@@ -67,7 +73,7 @@ namespace NancyService.Modules
                     }).OrderBy(x => x.email);
 
                     e.rowCount = query.Count();
-
+                    //Paging -> Filter results to obtain 10 results per page (index references to page number)
                     if (e.rowCount > 0)
                     {
                         e.maxIndex = (int)Math.Ceiling(e.rowCount / (double)pageSize);
@@ -85,6 +91,8 @@ namespace NancyService.Modules
             }
         }
 
+        //Get list of evaluators with an 'Pending' status
+        //Returns userID, first name, last name, email and its evaluator status
         public EvaluatorPagingQuery getPendingList(int index)
         {
             EvaluatorPagingQuery e = new EvaluatorPagingQuery();
@@ -94,6 +102,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     int pageSize = 10;
+                    //Get list of pending applications
                     var query = context.users.Where(evaluator => evaluator.evaluatorStatus == "Pending").Select(evaluator => new EvaluatorQuery
                     {
                         userID = (long)evaluator.userID,
@@ -105,7 +114,7 @@ namespace NancyService.Modules
                     }).OrderBy(x => x.email);
 
                     e.rowCount = query.Count();
-
+                    //Paging -> Filter results to obtain 10 results per page (index references to page number)
                     if (e.rowCount > 0)
                     {
                         e.maxIndex = (int)Math.Ceiling(e.rowCount / (double)pageSize);
@@ -123,6 +132,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Update the status of an evaluator
         public bool updateAcceptanceStatus(EvaluatorQuery e)
         {
             try
@@ -166,9 +176,10 @@ namespace NancyService.Modules
 
                                 updateEvaluator.deleted = true;
                             }
-
+                            //Update status
                             updateUser.evaluatorStatus = e.acceptanceStatus;
 
+                            //Send reject email
                             try { sendRejectConfirmation(updateUser.firstName, updateUser.membership.email, "Rejected"); }
                             catch (Exception ex)
                             {
@@ -179,7 +190,9 @@ namespace NancyService.Modules
 
                         else if (e.acceptanceStatus == "Accepted")
                         {
+                            //Give evaluator privilege to user
                             this.addEvaluator(updateUser.membership.email);
+                            //Send confirmation email
                             try { sendAcceptConfirmation(updateUser.firstName, updateUser.membership.email, "Accepted"); }
                             catch (Exception ex)
                             {
@@ -204,6 +217,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Give an evaluator the "Accepted" status
         public EvaluatorQuery addEvaluator(String email)
         {
             try
@@ -215,13 +229,14 @@ namespace NancyService.Modules
                              select u).FirstOrDefault();
                     if (e != null)
                     {
+                        //Check if user has been an evaluator before
                         var check = (from s in context.evaluators
                                      where s.userID == e.userID
                                      select s).FirstOrDefault();
 
                         if (check != null)
                         {
-                            //User is already in evaluator
+                            //Update status to Accepted
                             check.deleted = false;
                             var claims = (from s in context.claims
                                           where s.userID == e.userID && s.privilege.privilegestType == "Evaluator"
@@ -284,6 +299,8 @@ namespace NancyService.Modules
             }
         }
 
+        //Search evaluators that contain the specified criteria
+        //Returns userID, first name, last name, email and its evaluator status
         public EvaluatorPagingQuery searchEvaluators(int index, String criteria)
         {
             EvaluatorPagingQuery e = new EvaluatorPagingQuery();
@@ -294,6 +311,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     int pageSize = 10;
+                    //Get all evaluators applications 
                     var query = context.users.Where(evaluator => ((evaluator.firstName.ToLower() + " " + evaluator.lastName.ToLower()).Contains(criteria.ToLower()) || evaluator.membership.email.ToLower().Contains(criteria.ToLower())) && (evaluator.evaluatorStatus == "Accepted" || evaluator.evaluatorStatus == "Rejected" || evaluator.evaluatorStatus == "Pending")).Select(evaluator => new EvaluatorQuery
                     {
                         userID = (long)evaluator.userID,
@@ -305,7 +323,7 @@ namespace NancyService.Modules
                     }).OrderBy(x => x.email);
 
                     e.rowCount = query.Count();
-
+                    //Paging -> Filter results to 10 records per index (page) 
                     if (e.rowCount > 0)
                     {
                         e.maxIndex = (int)Math.Ceiling(e.rowCount / (double)pageSize);
@@ -323,6 +341,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Send confirmation email notifying of status
         private void sendAcceptConfirmation(String name, String email, String p)
         {
             MailAddress ccwic = new MailAddress(ccwicEmail);
@@ -344,7 +363,6 @@ namespace NancyService.Modules
 
             smtp.Send(mail);
         }
-
         private void sendRejectConfirmation(String name, String email, String p)
         {
             MailAddress ccwic = new MailAddress(ccwicEmail);

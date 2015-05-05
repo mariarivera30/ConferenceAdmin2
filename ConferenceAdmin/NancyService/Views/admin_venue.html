@@ -7,8 +7,9 @@
         <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
     </div>
 
+    <!--Venue customization from Administator Settings-->
     <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 hide-until-loaded" id="body">
-
+        <p>The information you include here is used for informational purposes only. It is displayed on the "Venue" section of the website.</p>
         <div>
             <textarea ng-model="vm.venueParagraph1" class="form-control" ckeditor="250px"></textarea><br />
         </div>
@@ -34,6 +35,7 @@
         </div>
     </div>
 
+    <!--Modal Update Confirmation-->
     <div class="modal fade" id="updateConfirm" tabindex="-1" role="dialog" aria-labelledby="updateConfirmLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -53,6 +55,7 @@
         </div>
     </div>
 
+    <!--Error Modal-->
     <div class="col-lg-6">
         <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
     </div>

@@ -6,7 +6,9 @@
         <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
     </div>
 
+    <!--Contanct information specification from Administrator Settings-->
     <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 hide-until-loaded" id="body">
+        <p>The information you include here is displayed on the "Contact" section of the website.</p>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -29,12 +31,13 @@
             <div class="col-md-6">
                 <form name="contactInfo" novalidate>
                     <h5 class="after-title-field">Contact Email</h5>
+                    <p>You will receive messages at this email address.</p>
                     <input id="email" name="email" type="email" ng-model="vm.contactEmail" />
                     <label class="help-inline" ng-show="contactInfo.email.$invalid && !contactInfo.email.$pristine">Provide a valid email.</label>
                 </form>
             </div>
         </div>
-
+        <!--Contact Additional Information-->
         <h5 class="after-title-field2">Additional Information</h5>
         <div>
             <textarea class="form-control" ng-model="vm.contactAdditionalInfo" ckeditor="200px"></textarea>
@@ -48,6 +51,7 @@
         </div>
     </div>
 
+    <!--Modal Update Information-->
     <div class="modal fade" id="updateConfirm" tabindex="-1" role="dialog" aria-labelledby="updateConfirmLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -67,6 +71,7 @@
         </div>
     </div>
 
+    <!--Error Modal-->
     <div class="col-lg-6">
         <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
     </div>

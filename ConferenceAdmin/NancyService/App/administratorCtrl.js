@@ -1,4 +1,5 @@
-﻿(function () {
+﻿//By: Heidi
+(function () {
     'use strict';
 
     var controllerId = 'administratorCtrl';
@@ -49,6 +50,7 @@
         vm.okFunc;
         vm.cancelFunc;
 
+        //Error Modal
         vm.toggleModal = function (action) {
 
             if (action == "error")
@@ -132,6 +134,7 @@
             vm.privilegeDelID = privilegeID;
         }
 
+        //get list of administrators
         function _getAdmin(index) {
             restApi.getAdministrators(index)
             .success(function (data, status, headers, config) {
@@ -181,6 +184,7 @@
             _getAdmin(vm.index);
         }
 
+        //get list of privileges
         function _getPrivilegeList() {
             restApi.getPrivilegesList()
             .success(function (data, status, headers, config) {
@@ -217,6 +221,7 @@
             }
         }
         
+        //add a new adminsitrator
         function _addAdmin() {
 
             if (vm.email != undefined && vm.email != "" && vm.privilegeID != undefined && vm.privilegeID != "") {
@@ -254,6 +259,7 @@
             }
         }
 
+        //Edit administrators
         function _editAdmin() {
             vm.loading = true;
             if (vm.userID != undefined && vm.userID != "" && vm.privilegeID != undefined && vm.privilegeDelID != "" && vm.oldPrivilegeID != undefined && vm.oldPrivilegeID != "") {
@@ -262,6 +268,7 @@
                     if (data != null && data != "") {
 
                         if (vm.showResults && vm.searchResults.length > 0) {
+                            //Iterate 'search results' list and update administrators privilege
                             vm.searchResults.forEach(function (admin, index) {
                             if (admin.userID == vm.userID) {
                                 admin.privilege = data;
@@ -270,6 +277,7 @@
                           });
                         }
 
+                        //Search main list and update administrators privilege
                         vm.adminList.forEach(function (admin, index) {
                             if (admin.userID == vm.userID) {
                                 admin.privilege = data;
@@ -291,6 +299,7 @@
             }
         }
 
+        //Delete an administrators
         function _deleteAdmin() {
             vm.loading = true;
             if (vm.userID != undefined && vm.userID != "" && vm.privilegeDelID != undefined && vm.privilegeDelID != "") {
@@ -298,7 +307,8 @@
                 .success(function (data, status, headers, config) {
                     if (data) {
 
-                        if(vm.showResults && vm.searchResults.length > 0) {
+                        if (vm.showResults && vm.searchResults.length > 0) {
+                            //Iterate 'search results' list and remove
                             vm.searchResults.forEach(function (admin, index) {
                             if (admin.userID == vm.userID) {
                                    vm.searchResults.splice(index, 1);
@@ -309,7 +319,7 @@
                                 }
                             });
                         }
-
+                        //Search list and remove element
                         vm.adminList.forEach(function (admin, index) {
                             if (admin.userID == vm.userID) {
                                 vm.adminList.splice(index, 1);
@@ -389,6 +399,7 @@
             _search(vm.searchIndex);
         }
 
+        //Clear Search Results
         function _back() {
             vm.criteria = "";
             vm.searchIndex = 0;

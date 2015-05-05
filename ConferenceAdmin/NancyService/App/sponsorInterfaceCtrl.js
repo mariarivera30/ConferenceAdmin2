@@ -1,4 +1,5 @@
-﻿(function () {
+﻿//By: Heidi
+(function () {
     'use strict';
 
     var controllerId = 'sponsorInterfaceCtrl';
@@ -33,6 +34,7 @@
         vm.okFunc;
         vm.cancelFunc;
 
+        //Error Modal
         vm.toggleModal = function (action) {
 
             if (action == "error")
@@ -62,16 +64,19 @@
 
         }
 
+        //Reload original
         function _reset() {
             vm.instructions = vm.temp;
         }
 
+        //Clear benefits modal
         function _clear() {
             vm.selectedSponsorType = "";
             vm.amount = "";
             vm.benefits = {};
         }
 
+        //Sponsor type that has been selected for displaying benefits
         function _selectedSponsor(sponsorType) {
             vm.sponsorType = sponsorType;
             if (sponsorType == "Diamond") {
@@ -94,6 +99,7 @@
             }
         }
 
+        //get a Sponsor type benefits
         function _getBenefits(sname) {
             restApi.getAdminSponsorBenefits(sname)
             .success(function (data, status, headers, config) {
@@ -131,6 +137,7 @@
             });
         }
 
+        //update a sponsor type benefits
         function _saveBenefits() {
             vm.loading = true;
             var saveSponsor = {
@@ -153,6 +160,7 @@
             });
         }
 
+        //get Sponsor content information for editing
         function _getInstructions() {
             restApi.getInstructions()
             .success(function (data, status, headers, config) {
@@ -168,6 +176,7 @@
             });
         }
 
+        //update Sponsor content
         function _saveInstructions() {
             vm.loading = true;
             var info = {

@@ -32,6 +32,7 @@
         vm.okFunc;
         vm.cancelFunc;
 
+        //Error Modal
         vm.toggleModal = function (action) {
 
             if (action == "error")
@@ -281,6 +282,7 @@
             _search(vm.searchIndex);
         }
 
+        //Clear search results
         function _back() {
             vm.criteria = "";
             vm.searchIndex = 0;

@@ -1,4 +1,5 @@
-﻿(function () {
+﻿//By: Heidi
+(function () {
     'use strict';
 
     var controllerId = 'homeCtrl2';
@@ -14,7 +15,7 @@
         vm.activate = activate;
         vm.title = 'homeCtrl2';
 
-        //InterfaceElements
+        //Interface Elements
         vm.ihomeMainTitle;
         vm.ihomeParagraph1;
         vm.iimg;
@@ -57,6 +58,7 @@
 
         }
 
+        //Get Home content Information
         function _getHome() {
             restApi.getHome()
             .success(function (data, status, headers, config) {
@@ -76,6 +78,7 @@
             });
         }
 
+        //Get home image if exists
         function _getImage() {
             restApi.getHomeImage()
             .success(function (data, status, headers, config) {

@@ -295,7 +295,7 @@
                    });
         }
 
-        /* [Randy] download report of attendees */
+        /* [Heidi] download report of attendees */
         function _downloadAttendanceList() {
             //vm.loading = true;
             //vm.downloadLoading = true;

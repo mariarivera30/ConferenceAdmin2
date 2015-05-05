@@ -419,7 +419,7 @@
         function _getDates() {
             return $http.get('/admin/getDates');
         };
-        //[Randy] download report of attendees
+        //[Heidi] download report of attendees
         function _getAttendanceReport() {
             return $http.get('admin/getAttendanceReport');
         };
@@ -831,8 +831,8 @@
         };
         //------------------------------------ BANNER -------------------------------------
         //[Heidi] get sponsor logos for banner
-        function _getBanners() {
-            return $http.get('admin/getBanners');
+        function _getBanners(data) {
+            return $http.get('admin/getBanners/' + data.index + '/' + data.sponsor);
         };
     }
 }
