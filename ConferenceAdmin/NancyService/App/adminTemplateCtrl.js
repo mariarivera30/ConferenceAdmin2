@@ -184,8 +184,14 @@
 
         //Download Document
         function _download() {
-            if($scope.content != undefined && $scope.conten != "")
-                window.open($scope.content);
+            if($scope.content != undefined && $scope.content != "")
+                {
+                   // vm.sub = $scope.content.substring(17, 21).split(";")[0];
+                    var element = document.createElement('a');
+                    element.setAttribute("href", $scope.content);
+                    element.setAttribute("download", vm.template.name );
+                    element.click();
+                }
         }
 
         /* Get Submission Types for Dropdown menu */

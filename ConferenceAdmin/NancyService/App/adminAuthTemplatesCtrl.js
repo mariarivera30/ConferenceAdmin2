@@ -170,7 +170,13 @@
 
         //Download Document
         function _download() {
-            window.open($scope.content);
+            if ($scope.content != undefined && $scope.content != "") {
+                // vm.sub = $scope.content.substring(17, 21).split(";")[0];
+                var element = document.createElement('a');
+                element.setAttribute("href", $scope.content);
+                element.setAttribute("download", vm.template.authorizationName);
+                element.click();
+            }
         }
         
                    
