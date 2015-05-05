@@ -84,7 +84,7 @@
             }
         }
 
-//Display dialogs of error or payments
+        /* [Maria] Display dialogs of error or payments */
         function _goTo() {
             $location.path('/profile/receiptinformation');
         }
@@ -129,11 +129,12 @@
             }
         };
 
-
+        /* [Randy] show/hide edit form */
         function toggleEdit() {
             vm.edit ? vm.edit = false : vm.edit = true;
         }
 
+        /* [Randy] get information for the user profile */
         function _getProfileInfo(userID) {
             restApi.getProfileInfo(userID).
                    success(function (data, status, headers, config) {
@@ -166,7 +167,7 @@
                    });
         }
 
-
+        /* [Randy] edit information of the user profile */
         function _updateProfileInfo() {
             restApi.updateProfileInfo(vm).
                     success(function (data, status, headers, config) {
@@ -177,7 +178,7 @@
             vm.edit = false;
         }
 
-        //if not Minor
+        /* [Randy] verify complementary key */
         function _checkComplementaryKey(complementaryKey) {
             restApi.checkComplementaryKey(complementaryKey)
             .success(function (data, status, headers, config) {
@@ -199,7 +200,7 @@
             });
         }
 
-        //if Minor
+        /* [Randy] verify companion key and assign minor to companion */
         function _selectCompanion(companionKey) {
             vm.companionKey = companionKey;
             restApi.selectCompanion(vm)
@@ -219,7 +220,7 @@
             });
         }
 
-        //if Minor
+        /* [Randy] get selected companion key */
         function _getCompanionKey() {
             restApi.getCompanionKey(vm.userID)
             .success(function (data, status, headers, config) {
@@ -236,7 +237,7 @@
             });
         }
 
-
+        /* [Randy] make application to attend the conference */
         function _apply() {
             restApi.apply(vm).
                     success(function (data, status, headers, config) {
@@ -247,6 +248,7 @@
                     });
         }
 
+        /* [Randy] get list of types of users */
         function _getUserTypes() {
             restApi.getUserTypes().
                    success(function (data, status, headers, config) {
@@ -256,7 +258,8 @@
                        vm.userTypesList = data;
                    });
         }
-        //Make Payment
+
+        /* [Maria] make the payment as a user */
         function _userPayment() {
             vm.loadingUploading = true;
             vm.amount = vm.amountStatus.amount;
@@ -284,6 +287,7 @@
                 });
         }
 
+        /* [Randy] register as complementary with a payment of zero */
         function _complementaryPayment() {
        
             restApi.complementaryPayment(vm).
@@ -297,6 +301,7 @@
                 });
         }
 
+        /* [Randy] get dates of the conference */
         function _getDates() {
             restApi.getDates().
                    success(function (data, status, headers, config) {
@@ -308,7 +313,7 @@
         }
 
 
-        ///Deadlines registation fee
+        /* [Maria] deadlines registation fee */
         function _getUserPriceInDeadline() {
             restApi.getUserPriceInDeadline(vm.userTypeID)
             .success(function (data, status, headers, config) {
@@ -332,7 +337,8 @@
                 vm.toggleModal('error');
             });
         }
-        //Get Receipt
+
+        /* [Maria] get receipt */
         function _getUserPayments() {
             vm.loadingComp = true;
             restApi.getSponsorPayments(vm.userID).

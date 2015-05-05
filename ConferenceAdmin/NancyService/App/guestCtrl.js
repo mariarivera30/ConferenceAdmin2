@@ -240,6 +240,7 @@
             }
         }
 
+        /* [Randy] download a file */
         function _downloadPDFFile(id) {
             restApi.getAuthorizationFile(id).
                 success(function (data, status, headers, config) {
@@ -255,12 +256,12 @@
                 });
         }
 
-        /* reset the link to default */
+        /* [Randy] reset the link to default */
         function _resetDownloadLink(id) {
             $("#file-" + id).attr("href", "").removeAttr("download");
         }
 
-        /* Search within the list with a certain criteria */
+        /* [Randy] Search within the list with a certain criteria */
         function _searchGuest() {
             vm.index = 0;
             var params = {index: vm.index, criteria: vm.criteria};

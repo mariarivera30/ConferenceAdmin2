@@ -3,13 +3,12 @@
 
     var controllerId = 'profileAuthorizationCtrl';
 
-    // TODO: replace app with your module name
     angular.module('app').controller(controllerId,
         ['$scope', '$http', 'restApi','$window', profileAuthorizationCtrl]);
 
     function profileAuthorizationCtrl($scope, $http, restApi, $window) {
         var vm = this;
-
+        // attributes
         vm.userID = $window.sessionStorage.getItem('userID');
         vm.authorizationStatus;
         vm.authorization;
@@ -38,6 +37,7 @@
         vm.getProfileInfo = _getProfileInfo;
         vm.resetDownloadLink = _resetDownloadLink;
 
+        //function calls
         _getTemplates();
         _getDocuments();
         _getProfileInfo(vm.userID);
@@ -46,6 +46,7 @@
 
         }
 
+        /* [Randy] Get information for the user profile */
         function _getProfileInfo(userID) {
             restApi.getProfileInfo(userID).
                    success(function (data, status, headers, config) {
@@ -56,6 +57,7 @@
                    });
         }
 
+        /* [Randy] Manage content of browsed file */
         $scope.showContent = function ($fileContent) {
             $scope.content = $fileContent;
             vm.fileext = vm.myFile.name.split(".", 2)[1];
@@ -71,6 +73,7 @@
             }
         };
 
+        /* [Randy] Get list of all authorization templates */
         function _getTemplates() {
             restApi.getTemplates().
                    success(function (data, status, headers, config) {
@@ -81,6 +84,7 @@
                    });
         }
 
+        /* [Randy] Download the selected authorization template */
         function _downloadTemplate(id) {
             //window.open(doc.authorizationDocument);
             restApi.getTemplateFile(id).
@@ -97,11 +101,12 @@
                 });
         }
 
-        /* reset the link to default */
+        /* [Randy] Reset the link to default */
         function _resetDownloadLink(id) {
             $("#file-" + id).attr("href", "").removeAttr("download");
         }
 
+        /* [Randy] Upload an authorization document */
         function _uploadDocument() {
             vm.authorizationFile = $scope.content;
             vm.authorizationName = vm.myFile.name;
@@ -119,7 +124,7 @@
                      });
         }
 
-
+        /* [Randy] Get list of all submitted authorization documents */
         function _getDocuments() {
             restApi.getDocuments(vm.userID).
                    success(function (data, status, headers, config) {
@@ -130,6 +135,7 @@
                    });
         }
 
+        /* [Randy] Download the seleted authorization document */
         function _downloadDocument(id) {
             //window.open(doc.authorizationFile);
             restApi.getAuthorizationFile(id).
@@ -146,7 +152,7 @@
                 });
         }
 
-
+        /* [Randy] Delete a specific authorization document */
         function _deleteDocument() {
             if (vm.authorizationID != undefined) {
                 restApi.deleteDocument(vm)
@@ -164,11 +170,12 @@
             }
         }
 
-
+        /* [Randy] Specify ID of authorization document to delete */
         function _selectedDocumentDelete(id) {
             vm.authorizationID = id;
         }
 
+        /* [Randy] Make application to attend to conference */
         function _apply() {
             restApi.apply(vm).
                     success(function (data, status, headers, config) {
