@@ -65,13 +65,21 @@
 
         //Reset files
         function _clear() {
+            _clearProgram();
+            _clearAbstract();
+        }
+
+        function _clearProgram() {
             if (document.getElementById("programFile") != undefined) {
                 document.getElementById("programFile").value = "";
             }
+            $scope.pfile = "";
+        }
+
+        function _clearAbstract() {
             if (document.getElementById("abstractFile") != undefined) {
                 document.getElementById("abstractFile").value = "";
             }
-            $scope.pfile = "";
             $scope.afile = "";
         }
 
@@ -92,15 +100,50 @@
 
         //Selected document for Program Schedule
         $scope.saveProgramFile = function ($fileContent) {
+
             if ($fileContent != undefined) {
-                $scope.pfile = $fileContent;
+                var fileName = vm.myFile.name;
+                var size = vm.myFile.size;
+                if (fileName != undefined) {
+                    var ext = fileName.split(".", 2)[1];
+                    if (ext == "doc" || ext == "docx" || ext == "pdf") {
+                        if (size <= 5000000) {
+                            $scope.pfile = $fileContent;
+                        }
+                        else {
+                            $("#fileExtError2").modal('show');
+                            _clearProgram();
+                        }
+                    }
+                    else {
+                        $("#fileExtError").modal('show');
+                        _clearProgram();
+                    }
+                }
             }
         };
 
         //Selected document for Abstracts
         $scope.saveAbstractFile = function ($fileContent) {
             if ($fileContent != undefined) {
-                $scope.afile = $fileContent;
+                var fileName = vm.myFile2.name;
+                var size = vm.myFile2.size;
+                if (fileName != undefined) {
+                    var ext = fileName.split(".", 2)[1];
+                    if (ext == "doc" || ext == "docx" || ext == "pdf") {
+                        if (size <= 5000000) {
+                            $scope.afile = $fileContent;
+                        }
+                        else {
+                            $("#fileExtError2").modal('show');
+                            _clearAbstract();
+                        }
+                    }
+                    else {
+                        $("#fileExtError").modal('show');
+                        _clearAbstract();
+                    }
+                }
             }
         };
 

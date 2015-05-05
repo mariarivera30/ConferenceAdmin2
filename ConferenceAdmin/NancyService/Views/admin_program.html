@@ -9,7 +9,8 @@
 
     <!--Conference Program Information -->
     <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 hide-until-loaded" id="body">
-        <p>The information you include here is used for informational purposes only. It is displayed on the "Program" section of the website.</p>
+        <p>The information you include here is used for informational purposes only. It is displayed on the "Program" section of the website. <b>Each file must not exceed 5 MB. Valid file formats include .pdf .doc .docx</b></p>
+        
         <div class="col-lg-5">
             <div class="row">
                 <h5 class="after-title-field2">Program Schedule</h5>
@@ -122,6 +123,51 @@
                 <div class="modal-body">
                     <p>
                         The information could not be updated. Try again later.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Error: Extension -->
+    <div class="modal fade" id="fileExtError" tabindex="-1" role="dialog" aria-labelledby="fileExtErrorLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="fileExtErrorLabel">File Extension Error</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The file must be in a valid image format:<br />
+                        <ul class="list-unstyled list-inline">
+                            <li>.pdf</li>
+                            <li>.doc</li>
+                            <li>.docx</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Error: Size -->
+    <div class="modal fade" id="fileExtError2" tabindex="-1" role="dialog" aria-labelledby="fileExtError2Label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="fileExtError2Label">File Size Error</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        The file must not exceed 5 MB:<br />
                     </p>
                 </div>
                 <div class="modal-footer">
