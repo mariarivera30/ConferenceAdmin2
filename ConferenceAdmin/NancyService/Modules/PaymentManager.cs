@@ -255,7 +255,12 @@ namespace NancyService.Modules
                                             }).FirstOrDefault();
                     }
 
-
+                    if (paymentInfo == null)
+                    {
+                        PaymentQuery error = new PaymentQuery();
+                        error.paymentBillID = -1;//notify not found
+                        return error;
+                    }
                     return paymentInfo;
                 }
 

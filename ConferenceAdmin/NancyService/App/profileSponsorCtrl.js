@@ -131,8 +131,13 @@
       
      
         function _downloadLogo() {
-            if (vm.sponsor.logo != undefined && vm.sponsor.logo != "")
-                window.open(vm.sponsor.logo);
+            if (vm.sponsor.logo != undefined && vm.sponsor.logo != "") {
+                vm.sub = vm.sponsor.logo.substring(11, 16).split(";")[0];
+                var element = document.createElement('a');
+                element.setAttribute("href", vm.sponsor.logo);
+                element.setAttribute("download", vm.sponsor.company + "Logo" + "." + vm.sub);
+                element.click();
+            }
             
 
         }

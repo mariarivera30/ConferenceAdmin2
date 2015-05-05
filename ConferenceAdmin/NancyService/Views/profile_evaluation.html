@@ -122,7 +122,7 @@
             <div>
                 <div class="col-lg-6">
                     <label>Score:&nbsp;</label> (From 1 to 10)
-                    <input class="small-input form-control" ng-pattern="/^([1-9]|10)$/" type="number" step="any" name="modalevaluationScore" ng-model="vm.modalevaluationScore" required>
+                    <input class="small-input form-control" ng-pattern="/^([1-9]|10)$/" type="number" step="1" max="10" min="1" name="modalevaluationScore" ng-model="vm.modalevaluationScore" required>
                     <p ng-show="addEvaluationForm.modalevaluationScore.$invalid" class="help-block">Score is required and must be within range.</p>
                 </div>
                 <div ng-hide="vm.modalIsFinalVersion == true || vm.modalcanAllowFinalVersion == false"  class="col-lg-6">
@@ -189,7 +189,7 @@
                     Are you sure you want to submit the evaluation?
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addEvaluation()">Submit</button>
+                    <button class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addEvaluation(); vm.evaluate = false;">Submit</button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

@@ -21,7 +21,7 @@ namespace NancyService.Modules
             
             Get["/billerror"] = parameters =>
             {
-                return Response.AsRedirect("http://localhost:12036/#/PaymentError");
+                return Response.AsRedirect("http://136.145.116.238/#/PaymentError");
             };
 
 
@@ -38,14 +38,14 @@ namespace NancyService.Modules
                     if (paymentID == 0 || paymentID ==-1)
                     {
                         //error storing Payment
-                        return "http://localhost:12036/#/PaymentError";
+                        return "http://136.145.116.238/#/PaymentError";
                     }
                   
                     else
-                        return "http://localhost:12036/#/PaymentBill/" + paymentID ;
+                        return "http://136.145.116.238/#/PaymentBill/" + paymentID;
                     
                 }
-                else { return "http://localhost:12036/#/PaymentError"; }
+                else { return "http://136.145.116.238/#/PaymentError"; }
            
             };
       //

@@ -40,7 +40,11 @@
                             </td>
                             <td>{{guest.userTypeName}}</td>
                             <td><a ng-show="guest.authorizationStatus" href="" data-toggle="modal" data-target="#authorizations" ng-click="vm.displayAuthorizations(guest.userID, guest.firstName, guest.lastName)">View</a></td>
-                            <td>{{guest.acceptanceStatus}}</td>
+                            <td>
+                                <span class="accepted" ng-show="guest.acceptanceStatus == 'Accepted'">Accepted</span>
+                                <span class="pending" ng-show="guest.acceptanceStatus == 'Pending'">Pending</span>
+                                <span class="rejected" ng-show="guest.acceptanceStatus == 'Rejected'">Rejected</span>
+                            </td>
                             <td>
                                 <!--dropdown for acceptance status-->
                                 <div id="button-{{guest.userID}}">
