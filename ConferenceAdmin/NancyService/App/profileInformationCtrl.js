@@ -37,6 +37,7 @@
         vm.notes;
         vm.companionKey;
         vm.key;
+        vm.secureLink;
         vm.wrongKey;
         vm.hasKey = false;
 
@@ -71,8 +72,8 @@
         _getDates();
         //payment Fucntions
         vm.getUserPriceInDeadline = _getUserPriceInDeadline;
-        vm.goTo = _goTo;
-
+        vm.goToBillAfter = _goToBillAfter;
+        vm.goToBill = _goToBill;
         activate();
 
         function activate() {
@@ -85,7 +86,12 @@
         }
 
         /* [Maria] Display dialogs of error or payments */
-        function _goTo() {
+        function _goToBillAfter() {
+            window.open(vm.secureLink);
+            $location.path('/profile/receiptinformation');
+        }
+        function _goToBill() {
+           
             $location.path('/profile/receiptinformation');
         }
         vm.toggleModal = function (action) {
@@ -124,8 +130,21 @@
                vm.obj.cancelbutton = false,
                vm.obj.cancelbuttoText = "Cancel",
                vm.showConfirmModal = !vm.showConfirmModal;
-               vm.okFunc = vm.goTo;
+                vm.okFunc = vm.goToBill;
                
+            }
+
+            if (action == "paymentInProcess") {
+                vm.obj.title = "Payment In Process",
+                vm.obj.message1 = "Please complete the payment in the next page.",
+                vm.obj.message2 = "",
+                vm.obj.label = "",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "OK",
+                vm.obj.cancelbutton = false,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.showConfirmModal = !vm.showConfirmModal;
+                vm.okFunc = vm.goToBillAfter;
             }
         };
 
@@ -267,13 +286,14 @@
                 success(function (data, status, headers, config) {
                     vm.loadingUploading = false;
                     if (data != null) {
+                        vm.secureLink = null;
                         if (data == "billCreated") {
                             vm.toggleModal('Register');
-
+                           
                         }
                         else {
-                            window.open(data);
-                            $location.path('/profile/receiptinformation');
+                            vm.secureLink = data;
+                            vm.toggleModal('paymentInProcess');
                         }
                        
                         

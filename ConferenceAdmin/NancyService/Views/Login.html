@@ -1,4 +1,5 @@
-﻿<div ng-controller="loginCtrl as vm">
+﻿ <!--Login tabs html inside this html is ui-view for Login,request Password and sigh Up Htmls -->
+<div ng-controller="loginCtrl as vm">
     <div class="login-form-full">
         <div class="fix-box">
             <div class="text-center title-logo animated fadeInDown animation-delay-5" ng-style="vm.conferenceLogo != '' && {'background-image':'url('+vm.conferenceLogo+')'}"><span>CCWiC</span></div>
@@ -10,7 +11,7 @@
                    
                 </ul>
 
-                <!-- Tab panes -->
+                <!-- ui-view manage by angular -->
                 <div class="tab-content">
 
                     <div ui-view="login" autoscroll="false">
