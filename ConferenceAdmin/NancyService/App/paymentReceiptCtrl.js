@@ -17,12 +17,7 @@
 
         //functions 
         vm.getPayment = _getPayment;
-       
-        if ($window.sessionStorage.getItem('userID') != null)
-            vm.userID = $window.sessionStorage.getItem('userID');
-        else {
-            $location.path("/Home");
-        }
+    
 
         activate();
         function activate() {

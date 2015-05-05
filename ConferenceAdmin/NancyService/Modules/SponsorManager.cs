@@ -46,6 +46,7 @@ namespace NancyService.Modules
             public bool byAdmin { get; set; }
             public bool active { get; set; }
             public double newAmount { get; set; }
+            public string userFax { get; set; }
 
 
         }
@@ -155,6 +156,7 @@ namespace NancyService.Modules
                     user.membershipID = 1;
                     user.firstName = x.firstName;
                     user.lastName = x.lastName;
+                    user.userFax = x.userFax;
                     user.phone = x.phone;
                     user.addressID = address.addressID;
                     user.affiliationName = x.company;
@@ -272,7 +274,7 @@ namespace NancyService.Modules
                                        amount = s.totalAmount,
                                        method = s.byAdmin == true ? x.methodOfPayment : null,
                                        transactionID = s.byAdmin == true ? x.transactionid : null,
-
+                                       userFax = s.user.userFax,
                                        byAdmin = s.byAdmin,
                                        typeName = s.sponsortype1.name,
                                        active = (bool)s.active,
@@ -304,7 +306,7 @@ namespace NancyService.Modules
                                                  amount = s.totalAmount,
                                                  method = "",
                                                  transactionID = "",
-
+                                                 userFax = s.user.userFax,
                                                  byAdmin = s.byAdmin,
                                                  typeName = s.sponsortype1.name,
                                                  active = (bool)s.active,
@@ -365,7 +367,7 @@ namespace NancyService.Modules
                                        amount = s.totalAmount,
                                        method = s.byAdmin == true ? y.methodOfPayment : null,
                                        transactionID = s.byAdmin == true ? y.transactionid : null,
-
+                                       userFax = s.user.userFax,
                                        byAdmin = s.byAdmin,
                                        typeName = s.sponsortype1.name,
                                        active = (bool)s.active,
@@ -402,7 +404,7 @@ namespace NancyService.Modules
                                        amount = s.totalAmount,
                                        method = "",
                                        transactionID = "",
-
+                                       userFax = s.user.userFax,
                                        byAdmin = s.byAdmin,
                                        typeName = s.sponsortype1.name,
                                        active = (bool)s.active,
@@ -479,7 +481,7 @@ namespace NancyService.Modules
                         sponsor.logo = x.logo;
                         sponsor.user.phone = x.phone;
                         sponsor.sponsorType = x.sponsorType;
-
+                        sponsor.user.userFax = x.userFax;
                         sponsor.user.address.city = x.city;
                         sponsor.user.address.country = x.country;
                         sponsor.user.address.state = x.state;
@@ -753,6 +755,7 @@ namespace NancyService.Modules
                                        line1 = s.user.address.line1,
                                        line2 = s.user.address.line2,
                                        state = s.user.address.state,
+                                       userFax =s.user.userFax,
                                        zipcode = s.user.address.zipcode,
                                        country = s.user.address.country,
                                        sponsorType = (int)s.sponsorType,
@@ -791,7 +794,7 @@ namespace NancyService.Modules
                                                  amount = s.totalAmount,
                                                  method = "",
                                                  transactionID = "",
-
+                                                 userFax = s.user.userFax,
                                                  byAdmin = s.byAdmin,
                                                  typeName = s.sponsortype1.name,
                                                  active = (bool)s.active,
