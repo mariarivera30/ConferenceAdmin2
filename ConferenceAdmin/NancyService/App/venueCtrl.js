@@ -1,4 +1,5 @@
-﻿(function () {
+﻿//By: Heidi
+(function () {
     'use strict';
 
     var controllerId = 'venueCtrl';
@@ -12,7 +13,7 @@
         vm.activate = activate;
         vm.title = 'venueCtrl';
 
-        //From Admin Website
+        //From Admin View
         vm.temp;
         vm.venueParagraph1;
         vm.venueTitleBox;

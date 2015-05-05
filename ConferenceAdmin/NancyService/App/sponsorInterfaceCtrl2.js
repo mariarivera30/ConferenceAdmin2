@@ -1,4 +1,5 @@
-﻿(function () {
+﻿//By: Heidi
+(function () {
     'use strict';
 
     var controllerId = 'sponsorInterfaceCtrl2';

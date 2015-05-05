@@ -1,4 +1,5 @@
-﻿(function () {
+﻿//By: Heidi
+(function () {
     'use strict';
 
     var controllerId = 'deadlinesCtrl';
@@ -12,7 +13,7 @@
         vm.activate = activate;
         vm.title = 'deadlinesCtrl';
 
-        //Admin
+        //Admin View
         vm.temp;
         vm.deadline1;
         vm.deadlineDate1;

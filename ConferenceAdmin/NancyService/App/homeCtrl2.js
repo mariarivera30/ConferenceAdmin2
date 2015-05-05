@@ -1,4 +1,5 @@
-﻿(function () {
+﻿//By: Heidi
+(function () {
     'use strict';
 
     var controllerId = 'homeCtrl2';
@@ -14,7 +15,7 @@
         vm.activate = activate;
         vm.title = 'homeCtrl2';
 
-        //InterfaceElements
+        //Interface Elements
         vm.ihomeMainTitle;
         vm.ihomeParagraph1;
         vm.iimg;

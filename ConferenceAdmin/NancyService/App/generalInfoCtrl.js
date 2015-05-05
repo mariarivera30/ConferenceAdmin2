@@ -1,4 +1,5 @@
-﻿(function () {
+﻿//By: Heidi
+(function () {
     'use strict';
 
     var controllerId = 'generalInfoCtrl';
@@ -18,7 +19,7 @@
         vm.disabled = false;
         vm.saveLoading = false;
 
-        //From Admin Website
+        //From Admin View
         vm.temp;
         vm.conferenceAcronym;
         vm.conferenceName;

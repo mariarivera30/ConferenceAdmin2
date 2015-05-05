@@ -1,4 +1,5 @@
-﻿(function () {
+﻿//By: Heidi
+(function () {
     'use strict';
 
     var controllerId = 'homeCtrl';
@@ -16,7 +17,7 @@
         vm.disabled = false;
         vm.saveLoading = false;
 
-        //From Admin Website
+        //From Admin View
         vm.temp;
         vm.homeMainTitle;
         vm.homeParagraph1;

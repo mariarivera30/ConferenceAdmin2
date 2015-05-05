@@ -8,7 +8,7 @@ namespace NancyService.Modules
 {
     public class TopicManager
     {
-        //Code by Heidi Negron
+        //By: Heidi Negron
         public TopicManager()
         {
 

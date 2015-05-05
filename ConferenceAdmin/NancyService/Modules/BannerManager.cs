@@ -8,12 +8,13 @@ namespace NancyService.Modules
 {
     public class BannerManager
     {
+        //By:Heidi Negron
         public BannerManager()
         {
 
         }
 
-        //Heidi: Get sponsor's logos by category.
+        //Get sponsor's logos by category.
         public BannerSponsorQuery getBannerList(String sponsor, int index)
         {
             BannerSponsorQuery page = new BannerSponsorQuery();

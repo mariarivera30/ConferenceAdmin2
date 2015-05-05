@@ -16,7 +16,7 @@ namespace NancyService.Modules
         string ccwicEmailPass = "ccwic123456789";
         string testEmail = "heidi.negron1@upr.edu";
 
-        //Code by Heidi Negron
+        //By: Heidi Negron
         public WebManager()
         {
 

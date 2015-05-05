@@ -1,4 +1,5 @@
-﻿(function () {
+﻿//By: Heidi
+(function () {
     'use strict';
 
     var controllerId = 'contactCtrl';
@@ -12,7 +13,7 @@
         vm.activate = activate;
         vm.title = 'contactCtrl';
 
-        //Admin
+        //Admin View
         vm.temp;
         vm.contactName;
         vm.contactPhone;

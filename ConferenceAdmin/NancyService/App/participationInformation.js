@@ -1,4 +1,5 @@
-﻿(function () {
+﻿//By: Heidi
+(function () {
     'use strict';
 
     var controllerId = 'participationCtrl';
@@ -12,7 +13,7 @@
         vm.activate = activate;
         vm.title = 'participationCtrl';
 
-        //Admin
+        //From Admin View
         vm.temp;
         vm.participationParagraph1;
 

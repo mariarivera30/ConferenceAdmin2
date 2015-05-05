@@ -1,4 +1,5 @@
-﻿(function () {
+﻿//By: Heidi
+(function () {
     'use strict';
 
     var controllerId = 'registrationWebCtrl';
@@ -11,7 +12,7 @@
         vm.activate = activate;
         vm.title = 'homeCtrl';
 
-        //From Admin Website
+        //From Admin View
         vm.temp;
         vm.registrationParagraph1;
         vm.registrationParagraph2;

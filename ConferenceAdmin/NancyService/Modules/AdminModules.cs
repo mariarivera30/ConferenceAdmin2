@@ -572,7 +572,7 @@ namespace NancyService.Modules
                 return Response.AsJson(list);
             };
 
-            //-----------------------------------------WEBSITE CONTENT --------------------------------------(Heidi)
+            //-----------------------------------------WEBSITE CONTENT ----------------------------------[Heidi]
 
             //get content of the Home section of the website
             Get["/getHome"] = parameters =>
