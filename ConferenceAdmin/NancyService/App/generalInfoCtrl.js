@@ -46,6 +46,7 @@
         vm.okFunc;
         vm.cancelFunc;
 
+        //Error Modal
         vm.toggleModal = function (action) {
 
             if (action == "error")
@@ -73,6 +74,7 @@
 
         }
 
+        //Reload original information
         function _reset() {
             if (vm.temp != null && vm.temp != "") {
                 vm.conferenceAcronym = vm.temp.conferenceAcronym;
@@ -84,6 +86,7 @@
             }
         }
 
+        //Reset selected file location
         function _clear() {
             if (document.getElementById("imageFile") != undefined) {
                 document.getElementById("imageFile").value = "";
@@ -93,27 +96,34 @@
             $scope.img = "";
         }
 
+        //get selected file information
         $scope.saveImg = function ($fileContent) {
             if ($fileContent != undefined) {
                 var fileName = $scope.myFile.name;
+                var size = $scope.myFile.size;
                 if (fileName != undefined) {
                     var ext = fileName.split(".", 2)[1];
                     if (ext == "png" || ext == "jpg" || ext == "gif" || ext == "jpeg" || ext == "pic" || ext == "pict") {
-                        vm.show = true;
-                        $scope.img = $fileContent;
+                        if (size <= 5000000) {
+                            vm.show = true;
+                            $scope.img = $fileContent;
+                        }
+                        else {
+                            $("#fileExtError2").modal('show');
+                            _clear();
+                            vm.show = false;
+                        }
                     }
                     else {
                         $("#fileExtError").modal('show');
-                        if (document.getElementById("imageFile") != undefined) {
-                            document.getElementById("imageFile").value = "";
-                        }
-                        $scope.img = "";
+                        _clear();
                         vm.show = false;
                     }
                 }
             }
         };
 
+        //display image
         $scope.showContent = function (data) {
             if (data != undefined) {
                 $scope.content = data;
@@ -121,10 +131,12 @@
             }
         };
 
+        //dowload information
         function _downloadLogo() {
             window.open(vm.logo);
         }
 
+        //get conference general information: name, acronym, conference days
         function _getGeneralInfo() {
             restApi.getGeneralInfo()
             .success(function (data, status, headers, config) {
@@ -151,13 +163,14 @@
             });
         }
 
+        //get conference logo
         function _getImage() {
             restApi.getWebsiteLogo()
             .success(function (data, status, headers, config) {
                 if (data != null && data != "") {
                     vm.logo = data.logo;
                     vm.temp.logo = data.logo;
-
+                    //display if it is not undefined
                     if (vm.logo != "" && vm.logo != undefined) {
                         $scope.showContent(vm.logo);
                     }
@@ -172,11 +185,12 @@
             });
         }
 
+        //update general conference information
         function _saveGeneralInfo() {
 
             vm.disabled = true;
             vm.saveLoading = true;
-
+            //format selected dates
             var d1 = ""; var d2 = "";
 
             if (vm.dateFrom != null && vm.dateFrom != "Invalid Date") {
@@ -247,6 +261,7 @@
             });
         }
 
+        //delete conference logo
         function _removeImage() {
             restApi.removeFile("logo")
            .success(function (data, status, headers, config) {

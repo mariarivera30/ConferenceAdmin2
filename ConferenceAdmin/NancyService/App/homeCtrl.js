@@ -43,6 +43,7 @@
         vm.okFunc;
         vm.cancelFunc;
 
+        //Error modal
         vm.toggleModal = function (action) {
 
             if (action == "error")
@@ -64,6 +65,7 @@
 
         }
 
+        //Reload origianl information
         function _reset() {
             if (vm.temp != null) {
                 vm.homeMainTitle = vm.temp.homeMainTitle;
@@ -73,6 +75,7 @@
             }
         }
 
+        //Clear select file content
         function _clear() {
             if (document.getElementById("imageFile") != undefined) {
                 document.getElementById("imageFile").value = "";
@@ -81,25 +84,34 @@
             $scope.img = "";
         }
 
+        //get information from selected file.
         $scope.saveImg = function ($fileContent) {
             if ($fileContent != undefined) {
                 var fileName = $scope.myFile.name;
+                var size = $scope.myFile.size;
                 if (fileName != undefined) {
                     var ext = fileName.split(".", 2)[1];
                     if (ext == "png" || ext == "jpg" || ext == "gif" || ext == "jpeg" || ext == "pic" || ext == "pict") {
-                        $scope.img = $fileContent;
+                        if (size <= 5000000) {
+                            vm.show = true;
+                            $scope.img = $fileContent;
+                        }
+                        else {
+                            $("#fileExtError2").modal('show');
+                            _clear();
+                            vm.show = false;
+                        }
                     }
                     else {
                         $("#fileExtError").modal('show');
-                        if (document.getElementById("imageFile") != undefined) {
-                            document.getElementById("imageFile").value = "";
-                        }
-                        $scope.img = "";
+                        _clear();
+                        vm.show = false;
                     }
                 }
             }
         };
 
+        //display image
         $scope.showContent = function (data) {
             if (data != null) {
                 $scope.content = data;
@@ -107,6 +119,7 @@
             }
         };
 
+        //get Home content information
         function _getHome() {
             restApi.getHome()
             .success(function (data, status, headers, config) {
@@ -127,6 +140,7 @@
             });
         }
 
+        //get home image information
         function _getImage() {
             restApi.getHomeImage()
             .success(function (data, status, headers, config) {
@@ -148,6 +162,7 @@
             });
         }
 
+        //update Home Information
         function _saveHome() {
             vm.disabled = true;
             vm.saveLoading = true;
@@ -160,10 +175,10 @@
             restApi.saveHome(newHome)
             .success(function (data, status, headers, config) {
                 if (data) {
-
+                    //update temp variables
                     vm.temp.homeMainTitle = newHome.homeMainTitle;
                     vm.temp.homeParagraph1 = newHome.homeParagraph1;
-
+                    //display image if is not undefined
                     if (newHome.image != "" && newHome.image != undefined) {
                         vm.img = newHome.image;
                         vm.temp.image = newHome.image;
@@ -183,7 +198,7 @@
             });
 
         }
-
+        //remove Home image
         function _removeImage() {
             restApi.removeFile("homeImage")
            .success(function (data, status, headers, config) {

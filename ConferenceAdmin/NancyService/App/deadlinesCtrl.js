@@ -49,6 +49,7 @@
         vm.okFunc;
         vm.cancelFunc;
 
+        //Error Modal
         vm.toggleModal = function (action) {
 
           if (action == "error")
@@ -74,6 +75,7 @@
 
         }
 
+        //Reload original information
         function _reset() {
             if (vm.temp != null && vm.temp != "") {
                 vm.deadline1 = vm.temp.deadline1;
@@ -91,7 +93,7 @@
 
                 vm.deadlineParagraph1 = vm.temp.paragraph;
 
-                //Papers Deadlines
+                //Submission Deadlines
                 vm.extendedPaperDeadline = new Date(vm.temp.extendedPaperDeadline.split('/')[2], vm.temp.extendedPaperDeadline.split('/')[0] - 1, vm.temp.extendedPaperDeadline.split('/')[1]);
                 vm.posterDeadline = new Date(vm.temp.posterDeadline.split('/')[2], vm.temp.posterDeadline.split('/')[0] - 1, vm.temp.posterDeadline.split('/')[1]);
                 vm.panelDeadline = new Date(vm.temp.panelDeadline.split('/')[2], vm.temp.panelDeadline.split('/')[0] - 1, vm.temp.panelDeadline.split('/')[1]);
@@ -101,6 +103,7 @@
             }
         }
 
+        //get Conference deadlines, Registration and Submission deadlines
         function _getDeadlines() {
             restApi.getDeadlines()
             .success(function (data, status, headers, config) {
@@ -138,6 +141,7 @@
             });
         }
 
+        //update conference deadlines
         function _saveDeadlines() {
 
             vm.loading = true;
@@ -145,6 +149,8 @@
             var d1 = "", d2 = "", d3 = "", d4 = "", d5 = "", d6 = "";
 
             var s1 = "", s2 = "", s3 = "", s4 = "", s5 = "";
+
+            //Format dates to acceptable string format
 
             if (vm.deadlineDate1 == null || vm.deadlineDate1 == "Invalid Date") {
                 vm.deadlineDate1 = new Date("");

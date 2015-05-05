@@ -14,6 +14,8 @@ namespace NancyService.Modules
 
         }
 
+        //Heidi: Get the bill report for the payments made to the conference. 
+        //Returns the transaction id, payment date, payment ammount, payment method, name, usertype, affiliation, email, address, and phone number.
         public ReportQuery getBillReportList()
         {
             ReportQuery b = new ReportQuery();
@@ -23,6 +25,7 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    //Get registration payments, complimentary payments, and sponsor payments (in the order mentioned)
                     var payments = (from s in context.registrations
                                     from bill in context.paymentbills
                                     where (s.payment.deleted != true && s.paymentID == bill.paymentID && bill.completed != false)
@@ -90,6 +93,7 @@ namespace NancyService.Modules
 
                     if (payments.Count() > 0)
                     {
+                        //Create csv string: Column titles
                             csv += ("\"Transaction ID\"," +
                                     "\"Payment Date\"," +
                                     "\"Amount Paid\"," +
@@ -108,6 +112,7 @@ namespace NancyService.Modules
 
                         foreach (var p in payments)
                         {
+                            //Append to the csv string each record
                             csv += ("\"" + p.transactionID + "\"," +
                                     "\"" + p.paymentDate + "\"," +
                                     "\"" + p.amountPaid + "\"," +
@@ -139,6 +144,8 @@ namespace NancyService.Modules
             }
         }
 
+        //Heidi: Get registrations
+        //Returns the transaction id, payment date, payment method payment ammount, name, usertype, affiliation, email.
         public BillPagingQuery getRegistrationPayments(int index)
         {
             BillPagingQuery page = new BillPagingQuery();
@@ -148,6 +155,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     int pageSize = 10;
+                    //Get registration both the paid registrations, and the complimentary registrations
                     var query = (from s in context.registrations
                                  from bill in context.paymentcomplementaries
                                  where (s.payment.deleted != true && s.paymentID == bill.paymentID)
@@ -177,6 +185,7 @@ namespace NancyService.Modules
                                                         paymentMethod = bill.methodOfPayment
                                                     })).OrderBy(x => x.name);
                     
+                    //Paging->Filter results to a limit of 10 records per page
                     page.rowCount= query.Count();
                     if (page.rowCount > 0)
                     {
@@ -197,6 +206,8 @@ namespace NancyService.Modules
             }
         }
 
+        //Heidi: Get the Sponsor Payments
+        //Returns the transaction id, payment date, payment method payment ammount, name, usertype, affiliation, email.
         public BillPagingQuery getSponsorPayments(int index)
         {
             BillPagingQuery page = new BillPagingQuery();
@@ -206,6 +217,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     int pageSize = 10;
+                    //Get sponsor payments
                     var query = (from s in context.sponsor2
                                  from bill in context.paymentbills
                                  where (s.payment.deleted != true && s.paymentID == bill.paymentID && s.paymentID != 1 && bill.completed != false && s.active != false)
@@ -220,8 +232,9 @@ namespace NancyService.Modules
                                      sponsorType= s.sponsortype1.name,
                                      amountPaid = bill.AmountPaid,
                                      paymentMethod = bill.methodOfPayment
-                                 }).OrderBy(x => x.name); 
+                                 }).OrderBy(x => x.name);
 
+                    //Paging->Filter results to a limit of 10 records per page
                     page.rowCount = query.Count();
                     if (page.rowCount > 0)
                     {
@@ -242,6 +255,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Heidi: Search reports that meet specified criteria
         public BillPagingQuery searchReport(int index, String criteria)
         {
             BillPagingQuery b = new BillPagingQuery();
@@ -251,6 +265,7 @@ namespace NancyService.Modules
                 int pageSize = 10;
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    //Get registrations, and sponsor payments
                     var payments = (from s in context.registrations
                                     from bill in context.paymentbills
                                     where ((s.payment.deleted != true && s.paymentID == bill.paymentID) && ((s.user.firstName.ToLower() + " " + s.user.lastName.ToLower()).Contains(criteria.ToLower()) || s.user.membership.email.ToLower().Contains(criteria.ToLower())))
@@ -293,7 +308,7 @@ namespace NancyService.Modules
                                                                amountPaid = bill.AmountPaid,
                                                                paymentMethod = bill.methodOfPayment
                                                            })).OrderBy(x => x.name);
-
+                    //Paging->Filter results to a limit of 10 records per page
                     if (payments.Count() > 0)
                     {
                         b.maxIndex = (int)Math.Ceiling(payments.Count() / (double)pageSize);
@@ -313,6 +328,8 @@ namespace NancyService.Modules
             }
         }
 
+        //Heidi: get record of users that have registered for the conference
+        //Returns registrationID, name, email, phone, usertype, dates of attendance, affiliation, address and special notes
         public ReportQuery getAttendanceReport()
         {
             ReportQuery b = new ReportQuery();
@@ -324,6 +341,7 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    //Get conference registrations
                     var registrationList = new List<RegisteredUserInformation>();
                     registrationList = context.registrations.Where(reg => reg.deleted == false).Select(reg => new RegisteredUserInformation
                     {
@@ -347,14 +365,17 @@ namespace NancyService.Modules
 
                     }).OrderBy(f => f.registrationID).ToList();
 
+                    //Converto to csv string
                     if (registrationList.Count() > 0)
                     {
+                            //Column titles
                             csv += ("\"Registration ID\"," +
                                     "\"Name\"," +
                                     "\"Email\"," +
                                     "\"Phone Number\"," +
                                     "\"User Type\",");
 
+                            //Add each date of the conference as column title
                             if (conferenceDates.Count() > 0)
                             {
                                 string[] date = conferenceDates[0].Split(',');
@@ -383,6 +404,7 @@ namespace NancyService.Modules
                                     "\"Zip Code\"," +
                                     "\"Notes\"\r\n");
 
+                            //Append each registration to csv string. 
                             foreach (var p in registrationList)
                             {
                             csv += ("\"" + p.registrationID + "\"," +
@@ -391,6 +413,7 @@ namespace NancyService.Modules
                                     "\"" + p.phone + "\"," +
                                     "\"" + p.usertype + "\",");
 
+                            //Mark days the user will attend the conference.
                             if (conferenceDates.Count() > 0 && conferenceDates[0].Split(',').Count() ==3)
                             {
                                 string date = p.date1 == true ? "X" : "";
@@ -431,6 +454,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Jaimeiris
         public String getSubmissionsReport()
         {
             try

@@ -44,6 +44,7 @@
         vm.okFunc;
         vm.cancelFunc;
 
+        //Error Modal
         vm.toggleModal = function (action) {
 
             if (action == "error")
@@ -70,6 +71,7 @@
 
         }
 
+        //Clear sent message information
         function _clear() {
             vm.senderName = "";
             vm.senderEmail = "";
@@ -77,6 +79,7 @@
             $scope.contactForm.$setPristine();
         }
 
+        //Reload original information
         function _reset() {
             if (vm.temp != null && vm.temp != "") {
                 vm.contactName = vm.temp.contactName;
@@ -86,6 +89,7 @@
             }
         }
 
+        //get Contact Information
         function _getContact() {
             restApi.getContact()
             .success(function (data, status, headers, config) {
@@ -111,6 +115,7 @@
             });
         }
 
+        //update Contact Information
         function _saveContact() {
             vm.loading = true;
             var newContact = {
@@ -136,6 +141,7 @@
             });
         }
 
+        //Send Inquire Email
         function _sendEmail() {
             if (vm.contactEmail != null && vm.contactEmail != "") {
                 vm.iloading = true;

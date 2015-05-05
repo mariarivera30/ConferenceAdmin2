@@ -13,51 +13,33 @@ namespace NancyService.Modules
 
         }
 
-        public BannerSponsorQuery getBannerList()
+        //Heidi: Get sponsor's logos by category.
+        public BannerSponsorQuery getBannerList(String sponsor, int index)
         {
-            BannerSponsorQuery banners = new BannerSponsorQuery();
+            BannerSponsorQuery page = new BannerSponsorQuery();
 
             try
             {
-
+                int pageSize = 10;
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    banners.diamond = context.sponsor2.Where(x => x.deleted != true && x.sponsortype1.name == "Diamond" && x.logo != "" && x.logo != null && x.sponsorID != 1).Select(x => new BannerQuery
+                    var query = context.sponsor2.Where(x => x.deleted != true && x.sponsortype1.name == sponsor && x.logo != "" && x.logo != null && x.sponsorID != 1).Select(x => new BannerQuery
                     {
                         sponsor = x.user.affiliationName,
                         logo = x.logo
 
-                    }).ToList();
+                    }).OrderBy(x => x.sponsor);
 
-                    banners.platinum = context.sponsor2.Where(x => x.deleted != true && x.sponsortype1.name == "Platinum" && x.logo != "" && x.logo != null && x.sponsorID != 1).Select(x => new BannerQuery
+                    //Paging: Depending on the index value (which represents a page number) filters the results to the adequeate pageSize
+                    page.rowCount = query.Count();
+                    if (page.rowCount > 0)
                     {
-                        sponsor= x.user.affiliationName,
-                        logo=x.logo
+                        page.maxIndex = (int)Math.Ceiling(page.rowCount / (double)pageSize);
+                        var administrators = query.Skip(pageSize * index).Take(pageSize).ToList(); //Skip past rows and take new elements
+                        page.results = administrators;
+                    }
 
-                    }).ToList();
-
-                    banners.gold = context.sponsor2.Where(x => x.deleted != true && x.sponsortype1.name == "Gold" && x.logo != "" && x.logo != null && x.sponsorID != 1).Select(x => new BannerQuery
-                    {
-                        sponsor = x.user.affiliationName,
-                        logo = x.logo
-
-                    }).ToList();
-
-                    banners.silver = context.sponsor2.Where(x => x.deleted != true && x.sponsortype1.name == "Silver" && x.logo != "" && x.logo != null && x.sponsorID != 1).Select(x => new BannerQuery
-                    {
-                        sponsor = x.user.affiliationName,
-                        logo = x.logo
-
-                    }).ToList();
-
-                    banners.bronze = context.sponsor2.Where(x => x.deleted != true && x.sponsortype1.name == "Bronze" && x.logo != "" && x.logo != null && x.sponsorID != 1).Select(x => new BannerQuery
-                    {
-                        sponsor = x.user.affiliationName,
-                        logo = x.logo
-
-                    }).ToList();
-
-                    return banners;
+                    return page;
                 }
             }
             catch (Exception ex)
@@ -82,19 +64,14 @@ namespace NancyService.Modules
 
     public class BannerSponsorQuery
     {
-        public List<BannerQuery> diamond;
-        public List<BannerQuery> platinum;
-        public List<BannerQuery> gold;
-        public List<BannerQuery> silver;
-        public List<BannerQuery> bronze;
+        public int indexPage;
+        public int maxIndex;
+        public int rowCount;
+        public List<BannerQuery> results;
 
         public BannerSponsorQuery()
         {
-            diamond = new List<BannerQuery>();
-            platinum = new List<BannerQuery>();
-            gold = new List<BannerQuery>();
-            silver = new List<BannerQuery>();
-            bronze = new List<BannerQuery>();
+            results = new List<BannerQuery>();
 
         }
     }

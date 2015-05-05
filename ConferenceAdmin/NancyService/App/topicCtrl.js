@@ -61,21 +61,25 @@
         function activate() {
         }
 
+        //Clear form
         function _clear() {
             vm.name = "";
             $scope.addTopicForm.$setPristine();
         }
 
+        //Topic selected for update
         function _selectedTopicUpdate(id, name) {
             vm.currentid = id;
             //Update input field
             vm.editname = name;
         }
 
+        //Topic selected for deletion
         function _selectedTopicDelete(id) {
             vm.currentid = id;
         }
 
+        //get list of topics
         function _getTopics() {
             restApi.getTopics()
             .success(function (data, status, headers, config) {
@@ -88,6 +92,7 @@
            });
         }
 
+        //add a new topic
         function _addTopic() {
             vm.loading = true;
             var topicname = vm.name;
@@ -110,6 +115,7 @@
             }
         }
 
+        //change topic name
         function _updateTopic() {
             vm.loading = true;
             if (vm.currentid != undefined && vm.currentid != "" && vm.editname != null && vm.editname != "") {
@@ -136,6 +142,7 @@
             }
         }
 
+        //delete topic
         function _deleteTopic() {
             vm.loading = true;
             if (vm.currentid != undefined && vm.currentid != "") {

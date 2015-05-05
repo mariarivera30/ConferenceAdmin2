@@ -16,11 +16,14 @@ namespace NancyService.Modules
         string ccwicEmailPass = "ccwic123456789";
         string testEmail = "heidi.negron1@upr.edu";
 
+        //Code by Heidi Negron
         public WebManager()
         {
 
         }
 
+        //Get the content of an element from the web interface
+        //Returns elementID, and its content
         public ContentQuery getInterfaceElement(String element)
         {
             try
@@ -28,7 +31,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     ContentQuery webInterface = new ContentQuery();
-
+                    //Select element and save its content
                     webInterface = context.interfaceinformations.Where(inter => inter.attribute == element).Select(inter => new ContentQuery
                     {
                         interfaceID = (int)inter.interfaceID,
@@ -52,6 +55,7 @@ namespace NancyService.Modules
 
         }
 
+        //Get the deadlines of an specified submission
         public ContentQuery getDeadlineElement(String element)
         {
             try
@@ -60,6 +64,7 @@ namespace NancyService.Modules
                 {
                     ContentQuery webInterface = new ContentQuery();
 
+                    //Get element and save its content (date)
                     webInterface = context.submissiontypes.Where(inter => inter.name == element).Select(inter => new ContentQuery
                     {
                         content = inter.deadline
@@ -82,6 +87,7 @@ namespace NancyService.Modules
 
         }
 
+        //Get Home section of the Website
         public HomeQuery getHome()
         {
             try
@@ -100,6 +106,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Get Image found in the Home section of the website
         public HomeQuery getHomeImage()
         {
             try
@@ -107,7 +114,7 @@ namespace NancyService.Modules
                 HomeQuery home = new HomeQuery();
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-
+                    //Get element and save its content
                     var img = (from s in context.interfacedocuments
                                where s.attibuteName == "homeImage"
                                select s).FirstOrDefault();
@@ -127,15 +134,18 @@ namespace NancyService.Modules
             }
         }
 
+        //Update content of the Home section of the website
         public bool saveHome(HomeQuery newHome)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    //Get element
                     var homeMainTitle = (from s in context.interfaceinformations
                                          where s.attribute == "homeMainTitle"
                                          select s).FirstOrDefault();
+                    //Save new content
                     if (homeMainTitle != null)
                         homeMainTitle.content = newHome.homeMainTitle;
 
@@ -149,10 +159,12 @@ namespace NancyService.Modules
                         homeParagraph1.content = newHome.homeParagraph1;
                     }
 
+                    //Get image element
                     var img = (from s in context.interfacedocuments
                                where s.attibuteName == "homeImage"
                                select s).FirstOrDefault();
 
+                    //Save new content
                     if (img != null && newHome.image != null && newHome.image != "")
                         img.content = newHome.image;
 
@@ -167,6 +179,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Remove Uploaded File
         public bool removeFile(String src)
         {
             try
@@ -176,7 +189,7 @@ namespace NancyService.Modules
                     var img = (from s in context.interfacedocuments
                                where s.attibuteName == src
                                select s).FirstOrDefault();
-
+                    //Empty element content
                     if (img != null)
                         img.content = "";
 
@@ -191,6 +204,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Get content found in the Venue section of the website
         public VenueQuery getVenue()
         {
             try
@@ -209,15 +223,19 @@ namespace NancyService.Modules
             }
         }
 
+        //Update content of the Venue section of the website
         public bool saveVenue(VenueQuery newVenue)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    //Get element (occurs for each element)
                     var venueParagraph1 = (from s in context.interfaceinformations
                                            where s.attribute == "venueParagraph1"
                                            select s).FirstOrDefault();
+
+                    //Save content (occurs for each element)
                     if (venueParagraph1 != null)
                     {
                         newVenue.venueParagraph1 = newVenue.venueParagraph1 == null ? "" : newVenue.venueParagraph1;
@@ -253,6 +271,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Get content found in the Contact section of the website
         public ContactQuery getContact()
         {
             try
@@ -272,15 +291,18 @@ namespace NancyService.Modules
             }
         }
 
+        //Update content of the Contact section of the website
         public bool saveContact(ContactQuery newContact)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    //Get element (occurs for each element)
                     var contactName = (from s in context.interfaceinformations
                                        where s.attribute == "contactName"
                                        select s).FirstOrDefault();
+                    //Save content (occurs for each element)
                     if (contactName != null)
                         contactName.content = newContact.contactName;
 
@@ -318,14 +340,16 @@ namespace NancyService.Modules
             }
         }
 
+        //Send inquire email to CCWiC
         public bool sendContactEmail(ContactEmailQuery info)
         {
             try {
-                
+                //Define sender and recipient
                 MailAddress sender = new MailAddress(info.email);
                 MailAddress user = new MailAddress(testEmail); //info.contactEmail
                 MailMessage mail = new System.Net.Mail.MailMessage(sender, user);
 
+                //Email Message
                 mail.Subject = "CCWiC Inquire";
                 mail.Body = "Name: " + info.name + "\r\nEmail: "+info.email+"\r\nMessage: " + info.message;
 
@@ -336,6 +360,7 @@ namespace NancyService.Modules
                 smtp.Credentials = new NetworkCredential(ccwicEmail, ccwicEmailPass); //OJO
                 smtp.EnableSsl = true;
 
+                //Send email
                 smtp.Send(mail);
 
                 return true;
@@ -348,6 +373,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Get content found in the Call for Participation section of the website
         public ParticipationQuery getParticipation()
         {
             try
@@ -364,15 +390,18 @@ namespace NancyService.Modules
             }
         }
 
+        //Update content of the Call for Participation section of the website
         public bool saveParticipation(ParticipationQuery newParticipation)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    //Get element
                     var participationParagraph1 = (from s in context.interfaceinformations
                                                    where s.attribute == "participationParagraph1"
                                                    select s).FirstOrDefault();
+                    //Save content
                     if (participationParagraph1 != null)
                     {
                         newParticipation.participationParagraph1 = newParticipation.participationParagraph1 == null ? "" : newParticipation.participationParagraph1;
@@ -390,6 +419,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Get content found in the Registration section of the website
         public RegistrationQuery getRegistrationInfo()
         {
             try
@@ -398,6 +428,7 @@ namespace NancyService.Modules
                 registration.registrationParagraph1 = this.getInterfaceElement("registrationParagraph1").content;
                 registration.registrationParagraph2 = this.getInterfaceElement("registrationParagraph2").content;
 
+                //Get registration fees
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     var undergraduateStudent = (from usertype in context.usertypes
@@ -470,15 +501,18 @@ namespace NancyService.Modules
             }
         }
 
+        //Update content found in the Registration section of the website
         public bool saveRegistrationInfo(RegistrationQuery newRegistration)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    //Get element (occurs for each element)
                     var registrationParagraph1 = (from s in context.interfaceinformations
                                                   where s.attribute == "registrationParagraph1"
                                                   select s).FirstOrDefault();
+                    //Save content (occurs for each element)
                     if (registrationParagraph1 != null)
                     {
                         newRegistration.registrationParagraph1 = newRegistration.registrationParagraph1 == null ? "" : newRegistration.registrationParagraph1;
@@ -567,10 +601,12 @@ namespace NancyService.Modules
             }
         }
 
+        //Get content found in the Administator->Deadlines section of the website
         public DeadlinesQuery getDeadlines()
         {
             try
             {
+                //Get Registration deadlines, and custom deadlines
                 DeadlinesQuery deadline = new DeadlinesQuery();
                 deadline.deadline1 = this.getInterfaceElement("deadline1").content;
                 deadline.deadlineDate1 = this.getInterfaceElement("deadlineDate1").content;
@@ -582,7 +618,7 @@ namespace NancyService.Modules
                 deadline.lateRegistrationDeadline = this.getInterfaceElement("lateRegistrationDeadline").content;
                 deadline.paragraph = this.getInterfaceElement("deadlineParagraph1").content;
 
-                //Papers
+                //Submission Deadlines
                 deadline.extendedPaperDeadline = this.getDeadlineElement("Extended Paper").content;
                 deadline.posterDeadline = this.getDeadlineElement("Poster ").content;
                 deadline.panelDeadline = this.getDeadlineElement("Panel").content;
@@ -599,6 +635,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Convert mm/dd/yyyy date to 'Day of the Week, Day of the Month, Month, Year' string format
         public String convertDates(String deadline)
         {
             String result = "";
@@ -612,6 +649,7 @@ namespace NancyService.Modules
                         Convert.ToInt32(date[2]),
                         Convert.ToInt32(date[0]),
                         Convert.ToInt32(date[1]));
+                    //Split date and convert to string
                     result = d.DayOfWeek + ", " + d.ToString("MMMM", CultureInfo.InvariantCulture) + " " + d.Day + ", " + d.Year;
                 }
             }
@@ -619,6 +657,7 @@ namespace NancyService.Modules
             return result;
         }
 
+        //Get content found in the Deadlines section of the website
         public DeadlinesQuery getInterfaceDeadlines()
         {
             try
@@ -666,10 +705,12 @@ namespace NancyService.Modules
             }
         }
 
+        //Update content found in the Deadlines section of the website
         public bool saveDeadlines(DeadlinesQuery newDeadline)
         {
             try
             {
+                //Check the dates are not invalid.
                 if (newDeadline.deadlineDate1 == "Invalid Date")
                 {
                     newDeadline.deadlineDate1 = "";
@@ -695,7 +736,7 @@ namespace NancyService.Modules
                     newDeadline.lateRegistrationDeadline = "";
                 }
 
-                //Papers
+                //Check submission dates are not invalid
                 if (newDeadline.extendedPaperDeadline == "Invalid Date")
                 {
                     newDeadline.extendedPaperDeadline = "";
@@ -728,9 +769,11 @@ namespace NancyService.Modules
 
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    //Get element (occurs for each element)
                     var paragraph = (from s in context.interfaceinformations
                                      where s.attribute == "deadlineParagraph1"
                                      select s).FirstOrDefault();
+                    //Save content (occurs for each element)
                     if (paragraph != null)
                     {
                         newDeadline.paragraph = newDeadline.paragraph == null ? "" : newDeadline.paragraph;
@@ -798,7 +841,7 @@ namespace NancyService.Modules
                     if (sponsorDeadline != null)
                         sponsorDeadline.content = newDeadline.sponsorDeadline;
 
-                    //Papers
+                    //Submission deadlines
                     var extendedPaperDeadline = (from s in context.submissiontypes
                                               where s.name == "Extended Paper"
                                               select s).FirstOrDefault();
@@ -845,6 +888,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Get content found in the Committee section of the website
         public CommitteeQuery getCommittee()
         {
             try
@@ -862,6 +906,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Update content found in the Committee section of the website
         public bool saveCommittee(CommitteeQuery info)
         {
             String committee= info.committee;
@@ -870,10 +915,12 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    //Get element
                     var i = (from s in context.interfaceinformations
                              where s.attribute == "committee"
                              select s).FirstOrDefault();
 
+                    //Save content
                     if (i != null)
                     {
                         committee = committee == null ? "" : committee;
@@ -891,6 +938,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Get benefits under the specfied sponsor category
         public SponsorInterfaceBenefits getAdminSponsorBenefits(String name)
         {
             try
@@ -1027,6 +1075,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Update benefits under a sponsor cateogry
         public bool saveSponsorBenefits(SaveSponsorQuery sponsorBenefits)
         {
             try
@@ -1034,7 +1083,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     var sponsor = new sponsortype();
-
+                    //Get element
                     if (sponsorBenefits.name == "Diamond")
                     {
                         sponsor = (from s in context.sponsortypes
@@ -1067,7 +1116,7 @@ namespace NancyService.Modules
                                    where s.name == "Bronze"
                                    select s).FirstOrDefault();
                     }
-
+                    //Save content
                     if (sponsor != null)
                     {
                         sponsor.amount = sponsorBenefits.amount;
@@ -1095,6 +1144,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Update text found in the Sponsor section of the website
         public bool saveInstructions(SponsorInterfaceBenefits info)
         {
             String instructions = info.instructions;
@@ -1103,10 +1153,11 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    //Get element
                     var i = (from s in context.interfaceinformations
                              where s.attribute == "sponsorInstructions"
                              select s).FirstOrDefault();
-
+                    //Save content
                     if (i != null)
                     {
                         instructions = instructions == null ? "" : instructions;
@@ -1124,6 +1175,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Get text found in the Sponsor section of the website
         public String getInstructions()
         {
             try
@@ -1138,6 +1190,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Get benefits of all sponsors for Sponsors section of the website (web content)
         public SponsorInterfaceBenefits getAllSponsorBenefits()
         {
             try
@@ -1258,6 +1311,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Get general content found in the conference
         public GeneralInfoQuery getGeneralInfo()
         {
             try
@@ -1282,6 +1336,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Get conference logo
         public GeneralInfoQuery getWebsiteLogo()
         {
             try
@@ -1309,10 +1364,12 @@ namespace NancyService.Modules
             }
         }
 
+        //Update general content found in the website
         public bool saveGeneralInfo(GeneralInfoQuery info)
         {
             try
             {
+                //Check dates are valid
                 String conferenceDay1 = "";
                 String conferenceDay2 = "";
                 String conferenceDay3 = "";
@@ -1349,6 +1406,7 @@ namespace NancyService.Modules
 
                     double differenceDays = dateTo.Subtract(dateFrom).TotalDays;
 
+                    //Depending on the difference assign 1, 2 or 3 conference days
                     if (differenceDays < 0 || differenceDays >= 3)
                     {
                         return false;
@@ -1376,9 +1434,11 @@ namespace NancyService.Modules
 
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    //Get element (occurs for each element)
                     var conferenceAcronym = (from s in context.interfaceinformations
                                              where s.attribute == "conferenceAcronym"
                                              select s).FirstOrDefault();
+                    //Save element (occurs for each element)
                     if (conferenceAcronym != null)
                         conferenceAcronym.content = info.conferenceAcronym;
 
@@ -1427,6 +1487,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Get conference program documents: Program Schedule and Abstracts
         public ProgramQuery getProgram()
         {
             try
@@ -1523,16 +1584,18 @@ namespace NancyService.Modules
             }
         }
 
+        //Update conference program documents
         public bool saveProgram(ProgramQuery programInfo)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    //Get element (occurs for each element)
                     var program = (from s in context.interfacedocuments
                                    where s.attibuteName == "agendaPDF"
                                    select s).FirstOrDefault();
-
+                    //Save content
                     if (program != null && programInfo.program != null && programInfo.program != "")
                         program.content = programInfo.program;
 

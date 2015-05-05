@@ -811,8 +811,9 @@
             return $http.get('profile/getSubmissionDeadlines');
         }
         //------------------------------------Banner-------------------------------------
-        function _getBanners() {
-            return $http.get('admin/getBanners')
+        //get Sponsor Banners
+        function _getBanners(data) {
+            return $http.get('admin/getBanners/' + data.index + '/' + data.sponsor);
         };
     }
 }

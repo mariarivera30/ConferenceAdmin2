@@ -26,6 +26,7 @@
         vm.okFunc;
         vm.cancelFunc;
 
+        //Error modal
         vm.toggleModal = function (action) {
 
             if (action == "error")
@@ -49,6 +50,7 @@
 
         }
 
+        //get Committee information for website
         function _getCommitteeInterface() {
             restApi.getCommitteeInterface()
            .success(function (data, status, headers, config) {

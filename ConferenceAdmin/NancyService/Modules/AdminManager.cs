@@ -8,6 +8,7 @@ using System.Net.Mail;
 
 namespace NancyService.Modules
 {
+    //Code by Heidi Negron
     public class AdminManager
     {
         //ccwicEmail
@@ -20,6 +21,7 @@ namespace NancyService.Modules
 
         }
 
+        //Gets the list of administrators of the list with: name, email, privilege and user id
         public AdminPagingQuery getAdministratorList(int index)
         {
             AdminPagingQuery page = new AdminPagingQuery();
@@ -29,6 +31,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     int pageSize = 10;
+                    //Get administrator info
                     var query = context.claims.Where(admin => admin.deleted != true && admin.privilege.privilegestType != "Master" && admin.privilege.privilegestType != "Evaluator").Select(admin => new AdministratorQuery
                     {
                         userID = (long)admin.userID,
@@ -40,6 +43,7 @@ namespace NancyService.Modules
 
                     }).OrderBy(x => x.userID);
 
+                    //Paging: Depending on the index value (which represents a page number) filters the results to the adequeate pageSize
                     page.rowCount = query.Count();
                     if (page.rowCount > 0)
                     {
@@ -58,6 +62,7 @@ namespace NancyService.Modules
             }
         }
 
+        //When adding a new administrator, the sistem first checks that the email provided has an account in the system
         public bool checkNewAdmin(String email)
         {
             try
@@ -65,6 +70,7 @@ namespace NancyService.Modules
 
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    //Get account with speficied email
                     var result = (from user in context.users
                                   where user.membership.email == email
                                   select user.userID).Count();
@@ -84,6 +90,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Get list of systems privilege: priviligeID, privilege name
         public List<PrivilegeQuery> getPrivilegesList()
         {
             try
@@ -91,6 +98,7 @@ namespace NancyService.Modules
 
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    //List of privileges, the results do not include the user with master privilege.
                     var privileges = context.privileges.Where(privilege => privilege.privilegestType != "Master" && privilege.privilegestType != "Evaluator").Select(privilege => new PrivilegeQuery()
                     {
                         privilegeID = privilege.privilegesID,
@@ -108,6 +116,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Adds a new administrator with the specified userID and privilege
         public AdministratorQuery addAdmin(AdministratorQuery s)
         {
             try
@@ -196,6 +205,7 @@ namespace NancyService.Modules
 
         }
 
+        //Edits administrator with the specified userID
         public String editAdministrator(AdministratorQuery editAdmin)
         {
             try
@@ -219,11 +229,13 @@ namespace NancyService.Modules
 
                     if (oldAdmin != null && privilege != null)
                     {
+                        //If the user has had the privilege before, recover record by setting deleted attribute to false
                         if (admin != null && admin.claimsID != oldAdmin.claimsID)
                         {
                             admin.deleted = false;
                             oldAdmin.deleted = true;
                             
+                            //If the user is an Administrator or 'Evaluator Committee' they receive Evaluator privileges
                             if (privilege != "Finance")
                             {
                                 EvaluatorManager evaluator = new EvaluatorManager();
@@ -233,6 +245,7 @@ namespace NancyService.Modules
 
                         else
                         {
+                            //If the user has never had the new privilege to be assigned, substitute.
                             oldAdmin.privilegesID = editAdmin.privilegeID;
 
                             if (privilege != "Finance")
@@ -242,6 +255,7 @@ namespace NancyService.Modules
                             }
                         }
 
+                        //Send confirmation email.
                         try {sendEmailEditAdminConfirmation(oldAdmin.user.membership.email, privilege);}
                         catch (Exception ex)
                         {
@@ -262,12 +276,14 @@ namespace NancyService.Modules
             }
         }
 
+        //Removes administrator privileges to the user with the specified userID
         public bool deleteAdministrator(AdministratorQuery delAdmin)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    //Find user 
                     var admin = (from s in context.claims
                                  where s.userID == delAdmin.userID && s.privilegesID == delAdmin.privilegeID && s.deleted != true
                                  select s).FirstOrDefault();
@@ -277,7 +293,8 @@ namespace NancyService.Modules
                     }
                     context.SaveChanges();
 
-                    if (delAdmin.privilegeID != 2)//Finance Privilege
+                    //Remove evaluator privileges if the user was an administrator or committee evaluator.
+                    if (delAdmin.privilegeID != 2)
                     {
                         EvaluatorQuery evaluator = new EvaluatorQuery();
                         evaluator.userID = delAdmin.userID;
@@ -296,6 +313,7 @@ namespace NancyService.Modules
             }
         }
 
+        //Search administrators that contain the criteria specified and eturns their names, emails, privileges and user id's 
         public AdminPagingQuery searchAdministrators(int index, String criteria)
         {
             AdminPagingQuery page = new AdminPagingQuery();
@@ -305,6 +323,7 @@ namespace NancyService.Modules
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
                     int pageSize = 10;
+                    //Gets list of administrators containing the criteria in their: name, email, privilege.
                     var query = context.claims.Where(admin => (admin.deleted != true && admin.privilege.privilegestType != "Master" && admin.privilege.privilegestType != "Evaluator") && ((admin.user.firstName.ToLower() + " " + admin.user.lastName.ToLower()).Contains(criteria.ToLower()) || admin.user.membership.email.ToLower().Contains(criteria.ToLower()))).Select(admin => new AdministratorQuery
                     {
                         userID = (long)admin.userID,
@@ -333,7 +352,8 @@ namespace NancyService.Modules
                 return null;
             }
         }
-
+        
+        //Notifiy new administrator privileges to user. 
         private void sendEmailConfirmation(string email, String p)
         {
             if (p == "Admin")
@@ -369,6 +389,7 @@ namespace NancyService.Modules
             smtp.Send(mail);
         }
 
+        //Notifiy updates to administrator privileges to user. 
         private void sendEmailEditAdminConfirmation(string email, String p)
         {
             if (p == "Admin")

@@ -29,6 +29,7 @@
         vm.okFunc;
         vm.cancelFunc;
 
+        //Error modal
         vm.toggleModal = function (action) {
 
             if (action == "error")
@@ -56,6 +57,7 @@
             vm.name = name;
         }
 
+        //Download Program Schedule
         function _viewProgram() {
 
             restApi.getProgramDocument()
@@ -63,7 +65,13 @@
                     if (data != null && data != "") {
                         vm.program = data.program;
                         if (vm.program != undefined && vm.program != "") {
-                            window.open(vm.program);
+                            var element = document.createElement('a');
+                            element.setAttribute("href", vm.program);
+                            element.setAttribute("download", "program.pdf");
+                            element.click();
+
+                            //$("#program").attr("href", vm.program).attr("download", "program.pdf");
+                            //window.open(vm.program);
                         }
                     }
                 })
@@ -73,13 +81,19 @@
                 });
         }
 
+        //Download abstract
         function _viewAbstract() {
             restApi.getAbstractDocument()
                .success(function (data, status, headers, config) {
                    if (data != null && data != "") {
                        vm.abstracts = data.abstracts;
                        if (vm.abstracts != undefined && vm.abstracts != "") {
-                           window.open(vm.abstracts);
+                           var element = document.createElement('a');
+                           element.setAttribute("href", vm.abstracts);
+                           element.setAttribute("download", "abstract.pdf");
+                           element.click();
+                           //$("#abstract").attr("href", vm.program).attr("download", "abstract.pdf");
+                           //window.open(vm.abstracts);
                        }
                    }
                })

@@ -67,6 +67,7 @@
 
     </div>
 
+    <!--Display search results-->
     <div ng-show="vm.searchResults.length && vm.showSearch">
         <div>
             <label class="left"><button ng-click="vm.back()"><i class="glyphicon glyphicon-arrow-left"></i> </button> Showing results for: "{{vm.criteria}}"</label>
@@ -129,6 +130,7 @@
                         <li>Manage Authorization Templates</li>
                         <li>Manage Submission Templates</li>
                         <li>Access Reports</li>
+                        <li>Evaluate Submissions</li>
                        </ul></p>
                     <p>
                         Finance:
@@ -149,6 +151,8 @@
                             <li>Manage Topics</li>
                             <li>Manage Authorization Templates</li>
                             <li>Manage Submission Templates</li>
+                            <li>Evaluator Privilege</li>
+                            <li>Evaluate Submissions</li>
                         </ul>
                     </p>
                 </div>
@@ -171,6 +175,7 @@
                 </div>
                 <div class="modal-body">
                     <form name="addPrivilegeForm" novalidate>
+                        <p>Please, provide the email of the user you wish to add as an administrator. Note: The user must own an account in ConferenceAdmin.</p>
                         <label>Email:</label>
                         <input id="email" name="email" type="email" ng-model="vm.email" required />
                         <label class="help-inline" ng-show="addPrivilegeForm.email.$invalid && !addPrivilegeForm.email.$pristine">Email is required.</label>
@@ -306,10 +311,10 @@
                 </div>
                 <div class="modal-body">
                     <p>
-                        The administrator could not be added with the specified privilege:
+                        The administrator could not be added with the specified privilege. Possible reasons include:
                         <ul>
-                            <li>The email provided has already a privilege assigned. OR:</li>
-                            <li>The user cannot be added as administrator at this moment.</li>
+                            <li>The email provided has already a privilege assigned.</li>
+                            <li>The user cannot be added as administrator at this moment. Try again later.</li>
                         </ul>
                     </p>
                 </div>

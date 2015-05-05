@@ -35,6 +35,7 @@
         vm.okFunc;
         vm.cancelFunc;
 
+        //Error Modal
         vm.toggleModal = function (action) {
 
             if (action == "error")
@@ -60,10 +61,12 @@
 
         }
 
+        //Reload original information
         function _reset() {
             vm.participationParagraph1 = vm.temp.participationParagraph1;
         }
 
+        //get Call for Participation content
         function _getParticipation() {
             restApi.getParticipation()
             .success(function (data, status, headers, config) {
@@ -81,6 +84,7 @@
             });
         }
 
+        //Update Call for Participation content
         function _saveParticipation() {
             vm.loading = true;
             var newParticipation = {

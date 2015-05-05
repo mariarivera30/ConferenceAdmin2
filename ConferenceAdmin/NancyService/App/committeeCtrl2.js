@@ -29,6 +29,7 @@
         vm.okFunc;
         vm.cancelFunc;
 
+        //Error modal
         vm.toggleModal = function (action) {
 
             if (action == "error")
@@ -54,10 +55,12 @@
 
         }
 
+        //Reload original information
         function _reset() {
             vm.committee = vm.temp;
         }
 
+        //get Committee information
         function _getCommittee() {
             restApi.getCommitteeInterface()
            .success(function (data, status, headers, config) {
@@ -74,6 +77,7 @@
           });
         }
 
+        //update Committee Information
         function _saveCommittee() {
             vm.loading = true;
             var info = {
@@ -82,6 +86,7 @@
                 restApi.saveCommitteeInterface(info)
                 .success(function (data, status, headers, config) {
                     if (data) {
+                    //update temp
                     vm.temp = info.committee;
                     vm.loading = false;
                     $("#updateConfirm").modal('show');

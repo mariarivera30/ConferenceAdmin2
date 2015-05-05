@@ -55,6 +55,7 @@
         vm.okFunc;
         vm.cancelFunc;
 
+        //Error Modal
         vm.toggleModal = function (action) {
 
             if (action == "error")
@@ -105,6 +106,7 @@
             _getPendingListFromIndex(vm.pindex);
         }
 
+        //Clear Add Evaluator Modal
         function _clear() {
             vm.email = "";
             $scope.addEvaluatorForm.$setPristine();
@@ -249,6 +251,7 @@
             }
         }
         
+        //Add a new evaluator and save information to list
         function _addEvaluator() {
             if (vm.email != undefined && vm.email != "") {
                 restApi.postNewEvaluator(vm.email)
@@ -281,16 +284,18 @@
             }
         }
 
+        //evaluator select for update
         function _selectedEvaluator(evaluator) {
             vm.evaluator = JSON.parse(JSON.stringify(evaluator));
         }
 
+        //update acceptance status of evaluator
         function _updateAcceptanceStatus() {
 
             if (vm.evaluator != null) {
                 var element;
                 var btn;
-
+                //for loading icon and removal of 'Apply' button
                 if (vm.showResults && vm.searchResults.length > 0) {
                     element = document.getElementById("sloading-" + vm.evaluator.userID);
                     btn = document.getElementById("sbutton-" + vm.evaluator.userID);
@@ -310,7 +315,7 @@
                 else if (vm.evaluator.optionStatus == "Reject") {
                     vm.acceptanceStatus = "Rejected";
                 }
-
+                //Search list where evaluators is currently in, and updateAcceptanceStatus in UI
                 if (vm.acceptanceStatus != undefined && vm.acceptanceStatus != "") {
                     var changeStatus = { userID: vm.evaluator.userID, acceptanceStatus: vm.acceptanceStatus };
                     restApi.updateEvaluatorAcceptanceStatus(changeStatus)
@@ -321,6 +326,7 @@
                                         vm.searchResults.forEach(function (eva, index) {
                                         if (eva.userID == vm.evaluator.userID) {
                                             eva.acceptanceStatus = vm.acceptanceStatus;
+                                            //Clear elements and return UI to original state
                                             if (element != null && btn != null) {
                                                 element.className = "";
                                                 btn.style.display = "";
@@ -339,6 +345,7 @@
                                             vm.pendingList.splice(index, 1);
                                             _getEvaluatorListFromIndex(vm.eindex);
                                             if (element != null && btn != null) {
+                                                //Clear elements and return UI to original state
                                                 element.className = "";
                                                 btn.style.display = "";
                                             }
@@ -352,6 +359,7 @@
                                         if (eva.userID == vm.evaluator.userID) {
                                             eva.acceptanceStatus = vm.acceptanceStatus;
                                             if (element != null && btn != null) {
+                                                //Clear elements and return UI to original state
                                                 element.className = "";
                                                 btn.style.display = "";
                                             }
@@ -436,6 +444,7 @@
             _searchEvaluators(vm.searchIndex);
         }
 
+        //Clear search results
         function _back() {
             vm.criteria = "";
             vm.searchIndex = 0;

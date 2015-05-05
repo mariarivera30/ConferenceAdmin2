@@ -10,7 +10,9 @@
     </div>
 
     <div class="hide-until-loaded" id="body">
+        <!--Sponsor customization from Administrator Settings-->
         <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+            <p>The information you include in the following editor is used for informational purposes only. It is displayed on the "Sponsors" section of the website.</p>
             <h5 class="after-title-field">Instructions for Sponsors and Donations</h5>
             <div>
                 <textarea class="form-control" ng-model="vm.instructions" ckeditor="200px"></textarea><br>
@@ -63,6 +65,7 @@
         </div>
     </div>
 
+    <!--Specify sponsor benefits-->
     <div class="modal fade" id="editSponsorBenefits" tabindex="-1" role="dialog" aria-labelledby="editSponsorBenefitsLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -121,6 +124,7 @@
         </div>
     </div>
 
+    <!--Modal update confirmation-->
     <div class="modal fade" id="updateConfirm" tabindex="-1" role="dialog" aria-labelledby="updateConfirmLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -140,6 +144,7 @@
         </div>
     </div>
 
+    <!--Error modal confirmation-->
     <div class="col-lg-6">
         <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
     </div>

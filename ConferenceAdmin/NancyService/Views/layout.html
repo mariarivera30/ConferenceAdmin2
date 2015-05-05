@@ -34,7 +34,6 @@
     <script src="/Scripts/angular-route.js"></script>
     <script src="/Scripts/ng-ckeditor-master/ng-ckeditor.js"></script>
 
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.min.js"></script>
     <script src="/App/app.js"></script>
@@ -194,8 +193,8 @@
                             <li class="hidden-xs dropdown" ng-controller="programCtrl2 as vm">
                                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Program</a>
                                 <ul class="dropdown-menu dropdown-menu-left">
-                                    <li><a href="" ng-click="vm.viewProgram()">Program Schedule</a></li>
-                                    <li><a href="" ng-click="vm.viewAbstract()">Abstracts / Bios</a></li>
+                                    <li><a id="program" href="" ng-click="vm.viewProgram()">Program Schedule</a></li>
+                                    <li><a id="abstract" href="" ng-click="vm.viewAbstract()">Abstracts / Bios</a></li>
                                 </ul>
                             </li>
 

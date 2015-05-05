@@ -57,6 +57,7 @@
 
         }
 
+        //Get Home content Information
         function _getHome() {
             restApi.getHome()
             .success(function (data, status, headers, config) {
@@ -76,6 +77,7 @@
             });
         }
 
+        //Get home image if exists
         function _getImage() {
             restApi.getHomeImage()
             .success(function (data, status, headers, config) {

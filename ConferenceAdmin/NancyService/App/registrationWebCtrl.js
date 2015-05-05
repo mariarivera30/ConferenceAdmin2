@@ -63,6 +63,7 @@
         vm.okFunc;
         vm.cancelFunc;
 
+        //Error modal
         vm.toggleModal = function (action) {
 
             if (action == "error")
@@ -88,6 +89,7 @@
 
         }
 
+        //Reload original
         function _reset() {
             vm.registrationParagraph1 = vm.temp.registrationParagraph1;
             vm.registrationParagraph2 = vm.temp.registrationParagraph2;
@@ -107,6 +109,7 @@
             vm.professionalIndustryLateFee = vm.temp.professionalIndustryLateFee;
         }
 
+        //Get registration fees and information
         function _getRegistrationInfo() {
             restApi.getRegistrationDetails()
             .success(function (data, status, headers, config) {
@@ -156,6 +159,7 @@
             });
         }
 
+        //Update registration fees and information
         function _saveRegistrationInfo() {
             vm.loading = true;
             var newRegistration = {

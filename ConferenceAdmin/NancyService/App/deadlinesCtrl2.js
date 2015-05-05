@@ -49,6 +49,7 @@
         vm.okFunc;
         vm.cancelFunc;
 
+        //Error Modal
         vm.toggleModal = function (action) {
 
           if (action == "error")
@@ -71,6 +72,7 @@
 
         }
 
+        //Get string Deadlines
         function _getInterfaceDeadlines() {
             restApi.getInterfaceDeadlines()
             .success(function (data, status, headers, config) {
@@ -103,6 +105,7 @@
             });
         }
 
+        //get String conference dates
         function _getDates() {
             restApi.getDates().
                    success(function (data, status, headers, config) {

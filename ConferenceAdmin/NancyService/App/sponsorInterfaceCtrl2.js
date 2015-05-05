@@ -38,6 +38,7 @@
         vm.okFunc;
         vm.cancelFunc;
 
+        //Error modal
         vm.toggleModal = function (action) {
 
             if (action == "error")
@@ -62,6 +63,7 @@
 
         }
 
+        //get Sponsor benefits for Sponsor (from website)
         function _getBenefits() {
             restApi.getAllSponsorBenefits()
             .success(function (data, status, headers, config) {
@@ -86,6 +88,7 @@
             });
         }
 
+        //get Sponsor content (from website)
         function _getInstructions() {
             restApi.getInstructions()
             .success(function (data, status, headers, config) {

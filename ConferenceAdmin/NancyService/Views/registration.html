@@ -1,13 +1,14 @@
 ﻿<div class="container" ng-controller="registrationWebCtrl as vm">
     <div class="row hide-until-loaded" id="body">
         <div class="col-md-12">
+            <!--Display Registration information-->
             <h2 class="section-title no-margin-top">Registration Fees</h2>
             <p ng-hide="vm.iregistrationParagraph1 || vm.iregistrationParagraph2 || vm.iundergraduateStudentFee || vm.iundergraduateStudentLateFee || vm.igraduateStudentFee || vm.igraduateStudentLateFee || vm.ihighSchoolStudentFee || vm.ihighSchoolStudentLateFee || vm.icompanionStudentFee || vm.icompanionStudentLateFee || vm.iprofessionalAcademyFee || vm.iprofessionalAcademyLateFee || vm.iprofessionalIndustryFee || vm.iprofessionalIndustryLateFee">No content to display.</p>
             <div class="p-lg" ng-model="vm.iregistrationParagraph1" ckhtml></div>
         </div>
 
         <div class="col-md-8">
-
+            <!--Display registration fees-->
             <table class="table" ng-show="vm.iundergraduateStudentFee || vm.iundergraduateStudentLateFee || vm.igraduateStudentFee || vm.igraduateStudentLateFee || vm.ihighSchoolStudentFee || vm.ihighSchoolStudentLateFee || vm.icompanionStudentFee || vm.icompanionStudentLateFee || vm.iprofessionalAcademyFee || vm.iprofessionalAcademyLateFee || vm.iprofessionalIndustryFee || vm.iprofessionalIndustryLateFee">
 
                 <thead>
@@ -91,12 +92,14 @@
             </table>
         </div>
 
+        <!--Display additional information-->
         <div class="col-md-12">
             <div class="p-lg" ng-model="vm.iregistrationParagraph2" ckhtml></div>
         </div>
 
     </div>
 
+    <!--Modal: updated information confirmation-->
     <div class="modal fade" id="updateConfirm" tabindex="-1" role="dialog" aria-labelledby="updateConfirmLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

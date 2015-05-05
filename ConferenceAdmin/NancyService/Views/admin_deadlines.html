@@ -7,7 +7,9 @@
         <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
     </div><br />
   
+    <!--Deadlines selection from Administrator Settings-->
     <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+        <p>The information you include in the following text editor is used for informational purposes only. It is displayed on the "Deadlines" section of the website.</p>
         <textarea class="form-control" ng-model="vm.deadlineParagraph1" ckeditor="150px"></textarea><br />
     </div>
 
@@ -23,7 +25,7 @@
                     <th class="text-left">Date</th>
                 </tr>
             </thead>
-
+            <!--Submission Deadlines-->
             <tbody>
                 <tr>
                     <td class="text-left"><p class="after-title-field text-dark">Extended Paper Deadline</p></td>
@@ -57,7 +59,7 @@
 
             </tbody>
         </table>
-
+        <!--Conference Deadlines specification-->
         <h5 class="after-title-field">Conference Deadlines</h5>
         <p>Registration deadlines are used for closing conference registration at the specified date. Additional deadlines are used for informational purposes only on the "Deadlines" section of the website.</p>
         <table class="table after-title-field">
@@ -105,6 +107,7 @@
         <button class="btn btn-ar btn-primary" ng-click="vm.saveDeadlines()" ng-disabled="vm.loading">Save</button>
     </div>
 
+    <!--Modal Update Information-->
     <div class="modal fade" id="updateConfirm" tabindex="-1" role="dialog" aria-labelledby="updateConfirmLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -124,6 +127,7 @@
         </div>
     </div>
 
+    <!--Error Modal-->
     <div class="col-lg-6">
         <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
     </div>

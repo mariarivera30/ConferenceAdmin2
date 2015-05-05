@@ -43,6 +43,7 @@
         vm.okFunc;
         vm.cancelFunc;
 
+        //Error Modal
         vm.toggleModal = function (action) {
 
           if (action == "error")
@@ -63,12 +64,14 @@
 
         }
 
+        //Reload text as original
         function _reset() {
             vm.venueParagraph1 = vm.temp.venueParagraph1;
             vm.venueTitleBox = vm.temp.venueTitleBox;
             vm.venueParagraphContentBox = vm.temp.venueParagraphContentBox;
         }
 
+        //get Venue Information for editing
         function _getVenue() {
             restApi.getVenue()
             .success(function (data, status, headers, config) {
@@ -92,6 +95,7 @@
             });
         }
 
+        //update Venue content
         function _saveVenue() {
             vm.loading = true;
             var newVenue = {
