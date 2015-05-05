@@ -12,6 +12,7 @@
         vm.paymentID;
         vm.activate = activate;
         vm.obj = {};
+        vm.message;
         vm.title = 'paymentReceiptCtrl';
 
 
@@ -23,7 +24,6 @@
         function activate() {
       
         }
-        vm.paymentid = $state.params.paymentId;
         
        _getPayment();
           
@@ -43,23 +43,38 @@
                vm.obj.cancelbuttoText = "Cancel",
                vm.showConfirmModal = !vm.showConfirmModal;
            }
+     
        };
      
 
-        function _getPayment() {
-            vm.loading =true;
-            restApi.getPayment(vm.paymentid)
-                   .success(function (data, status, headers, config) {
-                       vm.payment = data;
-                       vm.loading = false;
+       function _getPayment() {
 
-                   }).
-                   error(function (data, status, headers, config) {
-                       
-                       vm.loading = false;
-                       vm.toggleModal('error');
-                   });
-        }
+           vm.paymentid = $state.params.paymentId;
+           if (vm.paymentid != undefined) {
+               vm.loading = true;
+               restApi.getPayment(vm.paymentid)
+                      .success(function (data, status, headers, config) {
+                          if (data != null) {
+                              if (data.paymentBillID != -1) {
+                                  vm.payment = data;
+                                  vm.loading = false;
+                              }
+
+                              else {
+                                  vm.message = true;
+                                  vm.loading = false;
+                              }
+                          }
+                         
+
+                      }).
+                      error(function (data, status, headers, config) {
+
+                          vm.loading = false;
+                          vm.toggleModal('error');
+                      });
+           }
+       }
         
 
 

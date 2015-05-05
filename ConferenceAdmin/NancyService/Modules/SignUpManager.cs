@@ -207,7 +207,7 @@ namespace NancyService.Modules
 
 
             mail.Subject = "Caribbean Celebration of Women in Computing Account Confirmation!";
-            mail.Body = "Please click the link to confirm your account. \n\n " + "http://136.145.116.238/#/Validate" + "\n\n Your key is " + key;
+            mail.Body = "Please click the link to confirm your account. \n\n " + "http://136.145.116.238/#/validate/"+ key;
 
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";

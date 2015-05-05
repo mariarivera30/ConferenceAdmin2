@@ -303,7 +303,7 @@
                }
            })
             .state('validate', {
-                url: "/validate",
+                url: "/validate/:key",
                 views: {
                     'dynamic': {
                         templateUrl: "views/validateAccount.html"
