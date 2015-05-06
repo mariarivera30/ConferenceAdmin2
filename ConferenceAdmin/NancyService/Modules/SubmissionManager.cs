@@ -321,7 +321,7 @@ namespace NancyService.Modules
                         Where(c => (c.submission.title.ToLower().Contains(criteria.ToLower()) 
                             || c.submission.usersubmissions.Where(j => j.deleted == false).FirstOrDefault().user.usertype.userTypeName.ToLower().Contains(criteria.ToLower())
                             || c.submission.topiccategory.name.ToLower().Contains(criteria.ToLower())
-                            || (c.evaluationsubmitteds.Where(j => j.deleted == false).FirstOrDefault() == null) == searchingPending
+                           // || (c.evaluationsubmitteds.Where(j => j.deleted == false).FirstOrDefault() == null) == searchingPending
                             || searchingFinal) 
                             && c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions.Where(d => d.deleted == false).FirstOrDefault() != null).
                         Select(i => new Submission
@@ -340,7 +340,8 @@ namespace NancyService.Modules
                         Where(c => (c.submission.title.ToLower().Contains(criteria.ToLower())
                             || c.submission.usersubmissions.Where(j => j.deleted == false).FirstOrDefault().user.usertype.userTypeName.ToLower().Contains(criteria.ToLower())
                             || c.submission.topiccategory.name.ToLower().Contains(criteria.ToLower())
-                            || (c.evaluationsubmitteds.Where(j => j.deleted == false).FirstOrDefault() == null) == searchingPending) 
+                          //  || (c.evaluationsubmitteds.Where(j => j.deleted == false).FirstOrDefault() == null) == searchingPending
+                          ) 
                             && c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions1.Where(d => d.deleted == false).FirstOrDefault() != null).
                         Select(i => new Submission
                         {
