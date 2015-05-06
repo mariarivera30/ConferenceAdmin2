@@ -70,7 +70,7 @@ namespace NancyService.Modules
 
                                                         })).Concat((from s in context.sponsor2
                                                                     from bill in context.paymentbills
-                                                                    where (s.payment.deleted != true && s.paymentID == bill.paymentID && s.paymentID != 1 && bill.completed != false && s.active != false)
+                                                                    where (s.payment.deleted != true && s.paymentID == bill.paymentID && s.sponsorID != 1 && s.paymentID != 1 && bill.completed != false && s.active != false)
                                                                     select new BillQuery
                                                                     {
                                                                          transactionID = bill.transactionid,
@@ -121,7 +121,7 @@ namespace NancyService.Modules
                                     "\"" + p.email + "\"," +
                                     "\"" + p.affiliation + "\"," +
                                     "\"" + p.userType + "\"," +
-                                    "\"" + p.amountPaid + "\"," +
+                                    "\"" + p.phoneNumber + "\"," +
                                     "\"" + p.address1 + "\"," +
                                     "\"" + p.address2 + "\"," +
                                     "\"" + p.city + "\"," +
@@ -220,7 +220,7 @@ namespace NancyService.Modules
                     //Get sponsor payments
                     var query = (from s in context.sponsor2
                                  from bill in context.paymentbills
-                                 where (s.payment.deleted != true && s.paymentID == bill.paymentID && s.paymentID != 1 && bill.completed != false && s.active != false)
+                                 where (s.payment.deleted != true && s.paymentID == bill.paymentID && s.sponsorID != 1 && s.paymentID != 1 && bill.completed != false && s.active != false)
                                  select new BillQuery
                                  {
                                      transactionID = bill.transactionid,
@@ -296,7 +296,7 @@ namespace NancyService.Modules
 
                                                })).Concat((from s in context.sponsor2
                                                            from bill in context.paymentbills
-                                                           where ((s.payment.deleted != true && s.paymentID == bill.paymentID && bill.completed != false && s.active != false) && ((s.user.firstName.ToLower() + " " + s.user.lastName.ToLower()).Contains(criteria.ToLower()) || s.emailInfo.ToLower().Contains(criteria.ToLower()) || s.user.membership.email.ToLower().Contains(criteria.ToLower())))
+                                                           where ((s.payment.deleted != true && s.paymentID == bill.paymentID && s.sponsorID != 1 && s.paymentID != 1 && bill.completed != false && s.active != false) && ((s.user.firstName.ToLower() + " " + s.user.lastName.ToLower()).Contains(criteria.ToLower()) || s.emailInfo.ToLower().Contains(criteria.ToLower()) || s.user.membership.email.ToLower().Contains(criteria.ToLower())))
                                                            select new BillQuery
                                                            {
                                                                transactionID = bill.transactionid,
@@ -341,29 +341,57 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //Get conference registrations
+                    //Get conference registrations A.Get adults, B. Get minors
                     var registrationList = new List<RegisteredUserInformation>();
-                    registrationList = context.registrations.Where(reg => reg.deleted == false).Select(reg => new RegisteredUserInformation
-                    {
-                        registrationID = reg.registrationID,
-                        name = reg.user.firstName+ " " +reg.user.lastName,
-                        email = reg.byAdmin == true ? "" : reg.user.membership.email,
-                        phone = reg.byAdmin == true ? "" : reg.user.phone,
-                        usertypeid = reg.user.usertype.userTypeName,
-                        date1 = reg.date1,
-                        date2 = reg.date2,
-                        date3 = reg.date3,
-                        affiliationName = reg.user.affiliationName,
-                        line1 = reg.byAdmin == true ? "" : reg.user.address.line1,
-                        line2 = reg.byAdmin == true ? "" : reg.user.address.line2,
-                        city = reg.byAdmin == true ? "" : reg.user.address.city,
-                        state = reg.byAdmin == true ? "" : reg.user.address.state,
-                        country = reg.byAdmin == true ? "" : reg.user.address.country,
-                        zipCode = reg.byAdmin == true ? "" : reg.user.address.zipcode,
-                        notes = reg.note,
-                        usertype = reg.user.usertype.userTypeName
+                    registrationList = (from reg in context.registrations
+                                        where reg.deleted == false && context.minors.Where(m => m.userID == reg.userID).Select(m=>m.userID).Count() == 0
+                                        select new RegisteredUserInformation
+                                        {
+                                            registrationID = reg.registrationID,
+                                            name = reg.user.firstName+ " " +reg.user.lastName,
+                                            email = reg.byAdmin == true ? "" : reg.user.membership.email,
+                                            phone = reg.byAdmin == true ? "" : reg.user.phone,
+                                            usertypeid = reg.user.usertype.userTypeName,
+                                            companion = "",
+                                            date1 = reg.date1,
+                                            date2 = reg.date2,
+                                            date3 = reg.date3,
+                                            affiliationName = reg.user.affiliationName,
+                                            line1 = reg.byAdmin == true ? "" : reg.user.address.line1,
+                                            line2 = reg.byAdmin == true ? "" : reg.user.address.line2,
+                                            city = reg.byAdmin == true ? "" : reg.user.address.city,
+                                            state = reg.byAdmin == true ? "" : reg.user.address.state,
+                                            country = reg.byAdmin == true ? "" : reg.user.address.country,
+                                            zipCode = reg.byAdmin == true ? "" : reg.user.address.zipcode,
+                                            notes = reg.note,
+                                            usertype = reg.user.usertype.userTypeName
 
-                    }).OrderBy(f => f.registrationID).ToList();
+                                        }).Concat((from reg in context.registrations
+                                                   from c in context.companionminors
+                                                   from m in context.minors
+                                                   where reg.deleted == false && m.minorsID == c.minorID && reg.userID == m.userID
+                                                   select new RegisteredUserInformation
+                                                   {
+                                                       registrationID = reg.registrationID,
+                                                       name = reg.user.firstName + " " + reg.user.lastName,
+                                                       email = reg.byAdmin == true ? "" : reg.user.membership.email,
+                                                       phone = reg.byAdmin == true ? "" : reg.user.phone,
+                                                       usertypeid = reg.user.usertype.userTypeName,
+                                                       companion = c.companion.user.firstName+" "+ c.companion.user.lastName,
+                                                       date1 = reg.date1,
+                                                       date2 = reg.date2,
+                                                       date3 = reg.date3,
+                                                       affiliationName = reg.user.affiliationName,
+                                                       line1 = reg.byAdmin == true ? "" : reg.user.address.line1,
+                                                       line2 = reg.byAdmin == true ? "" : reg.user.address.line2,
+                                                       city = reg.byAdmin == true ? "" : reg.user.address.city,
+                                                       state = reg.byAdmin == true ? "" : reg.user.address.state,
+                                                       country = reg.byAdmin == true ? "" : reg.user.address.country,
+                                                       zipCode = reg.byAdmin == true ? "" : reg.user.address.zipcode,
+                                                       notes = reg.note,
+                                                       usertype = reg.user.usertype.userTypeName
+
+                                                   })).OrderBy(f => f.registrationID).ToList();
 
                     //Converto to csv string
                     if (registrationList.Count() > 0)
@@ -373,7 +401,8 @@ namespace NancyService.Modules
                                     "\"Name\"," +
                                     "\"Email\"," +
                                     "\"Phone Number\"," +
-                                    "\"User Type\",");
+                                    "\"User Type\"," +
+                                    "\"Companion\",");
 
                             //Add each date of the conference as column title
                             if (conferenceDates.Count() > 0)
@@ -411,7 +440,8 @@ namespace NancyService.Modules
                                     "\"" + p.name + "\"," +
                                     "\"" + p.email + "\"," +
                                     "\"" + p.phone + "\"," +
-                                    "\"" + p.usertype + "\",");
+                                    "\"" + p.usertype + "\"," +
+                                    "\"" + p.companion + "\",");
 
                             //Mark days the user will attend the conference.
                             if (conferenceDates.Count() > 0 && conferenceDates[0].Split(',').Count() ==3)
@@ -454,7 +484,7 @@ namespace NancyService.Modules
             }
         }
 
-        //Jaimeiris
+        //Jaimeiris- Get submission reports. Returns submission title, topic, status, userID, submissionID
         public String getSubmissionsReport()
         {
             try
@@ -646,6 +676,7 @@ namespace NancyService.Modules
         public string zipCode;
         //General
         public string usertypeid;
+        public String companion;
         public bool? date1;
         public bool? date2;
         public bool? date3;
