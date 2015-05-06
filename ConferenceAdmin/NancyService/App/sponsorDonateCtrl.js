@@ -140,7 +140,7 @@
                 }
                 else if (vm.sponsorType == 5) {
 
-                    if ((vm.sponsor.amount + vm.donation) < 1 || ((vm.sponsor.amount + vm.donation) > (vm.sponsorsTypeList[vm.sponsorType - 1].amount - 1))) {
+                    if ((vm.sponsor.amount + vm.donation) < (vm.sponsorsTypeList[vm.sponsorType - 1].amount ) || ((vm.sponsor.amount + vm.donation) > (vm.sponsorsTypeList[vm.sponsorType - 2].amount - 1))) {
                         return true;
                     }
 
@@ -211,47 +211,49 @@
                        if (data != null) {
                            if (vm.sponsor.active) {
 
-                               if (vm.sponsor.amount == vm.sponsorsTypeList[vm.sponsor.sponsorType].amount)
-                               {
-                                   vm.dropDown.splice(vm.sponsor.sponsorType - 1, 5 - vm.sponsor.sponsorType + 1);
-                                   vm.sponsorType = vm.sponsor.sponsorType - 1;
+                               if (vm.sponsor.sponsorType == 1) {
+
+                                   vm.dropDown.splice(1, 4);
+                                   vm.sponsorType = 1;
+
+                               }
+                               else if (vm.sponsor.sponsorType == 2) {
+                                   if (vm.sponsor.amount == vm.sponsorsTypeList[0].amount - 1) {
+                                       vm.dropDown.splice(1, 4);
+                                       vm.sponsorType = 1;
+                                   }
+                                   else  {
+                                       vm.dropDown.splice(2, 3);
+                                       vm.sponsorType = 2;
+                                   }
+                               }
+                               else if (vm.sponsor.sponsorType == 3) {
+                                   if (vm.sponsor.amount == vm.sponsorsTypeList[1].amount - 1) {
+                                       vm.dropDown.splice(2, 3);
+                                       vm.sponsorType = 2;
+                                   }
+                                   else  {
+                                       vm.dropDown.splice(3, 2);
+                                       vm.sponsorType = 3;
+                                   }
+                               }
+                               else if (vm.sponsor.sponsorType == 4) {
+                                   if (vm.sponsor.amount == vm.sponsorsTypeList[2].amount - 1) {
+                                       vm.dropDown.splice(3, 2);
+                                       vm.sponsorType = 3;
+                                   }
+                                   else  {
+                                       vm.dropDown.splice(4, 1);
+                                       vm.sponsorType = 4;
+                                   }
                                }
 
+
+
                                else {
-                                   vm.dropDown.splice(vm.sponsor.sponsorType, 5 - vm.sponsor.sponsorType);
-                                   vm.sponsorType = vm.sponsor.sponsorType;
+                                   vm.sponsorType = 5;
                                }
-                               /*
-                               if (vm.sponsor.sponsorType == 5) {
-                                   if (vm.sponsor.amount == vm.sponsorsTypeList[vm.sponsor.sponsorType - 1].amount) {
-                                       vm.dropDown.splice(vm.sponsor.sponsorType -1, 5 - vm.sponsor.sponsorType + 1);
-                                       vm.sponsorType = vm.sponsor.sponsorType -1;
-                                   }
-                                   else {
-                                       vm.dropDown.splice(vm.sponsor.sponsorType, 5 - vm.sponsor.sponsorType);
-                                       vm.sponsorType = vm.sponsor.sponsorType;
-                                   }
-                               }
-                               else if (vm.sponsor.amount == vm.sponsorsTypeList[vm.sponsor.sponsorType - 1].amount && vm.sponsor.sponsorType != 1) {
-                                   vm.dropDown.splice(vm.sponsor.sponsorType-1, 5 - vm.sponsor.sponsorType + 1);
-                                   vm.sponsorType = vm.sponsor.sponsorType - 1;
-                               }
-                               else if (vm.sponsor.amount == vm.sponsorsTypeList[vm.sponsor.sponsorType -1].amount) {
-                                   vm.dropDown.splice(vm.sponsor.sponsorType, 5 - vm.sponsor.sponsorType+1 );
-                                   vm.sponsorType = vm.sponsor.sponsorType ;
-                               }
-                              
-                               else  {
-                                   vm.dropDown.splice(vm.sponsor.sponsorType, 5 - vm.sponsor.sponsorType );
-                                   vm.sponsorType = vm.sponsor.sponsorType;
-                               }
-                               */
                            }
-                           
-                           else {
-                               vm.sponsorType = 1;
-                           }
-                       
                        }
                    }).
                    error(function (data, status, headers, config) {

@@ -94,6 +94,7 @@
                 <span class=" col-xm-6 col-sm-6 col-md-6">
                     <label>Fax Number:</label>
                     <input class="form-control" type="text" name="fax" ng-model="vm.sponsor.userFax" ng-minlength="9" ng-maxlength="30" >
+                    <p ng-show="addSponsorForm.fax.$invalid && !addSponsorForm.fax.$pristine" class="help-block">Fax number is required.</p>
                 </span>
 
 </div>

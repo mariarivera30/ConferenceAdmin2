@@ -369,11 +369,12 @@
                         
                
                     }
-
                     vm.template = {};
+                   
                 })
 
                 .error(function (data, status, headers, config) {
+                    vm.template = {};
                     vm.toggleModal('error');
                     vm.loadingRemoving = false;
                     $('#delete').modal('hide');

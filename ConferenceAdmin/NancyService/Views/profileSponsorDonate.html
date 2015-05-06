@@ -59,9 +59,9 @@
             <div class=" col-xm-1 col-sm-1 col-md-1"></div>
             <div class=" col-xm-5 col-sm-5 col-md-5">
                 <div class="row">
-                    <label ng-show="vm.sponsorType == 1">Amount: ${{vm.sponsorsTypeList[vm.sponsorType -1].amount }} ++</label>
-                    <label ng-show="vm.sponsorType ==5">Amount: ${{vm.sponsorsTypeList[vm.sponsorType-1 ].amount }} -  ${{vm.sponsorsTypeList[vm.sponsorType-2 ].amount -1}} </label>
-                    <label ng-hide="vm.sponsorType == 1 || vm.sponsorType ==5">Amount: ${{vm.sponsorsTypeList[vm.sponsorType-1].amount}} -${{vm.sponsorsTypeList[vm.sponsorType -2].amount-1 }}</label>
+                    <label ng-show="vm.sponsorType == 1">Amount: ${{vm.sponsorsTypeList[0].amount }} ++</label>
+                    <label ng-show="vm.sponsorType ==5">Amount: ${{vm.sponsorsTypeList[4].amount }} -  ${{vm.sponsorsTypeList[3].amount -1}} </label>
+                    <label ng-hide="vm.sponsorType == 1 || vm.sponsorType ==5">Amount: ${{vm.sponsorsTypeList[vm.sponsorType -1].amount}} -${{vm.sponsorsTypeList[vm.sponsorType -2 ].amount-1 }}</label>
                     <input class="form-control" ng-pattern="/^[1-9][0-9]{0,2}(?:,?[0-9]{3}){0,3}(?:\.[0-9]{1,2})?$/" type="number" ng-change="vm.rangeInvalid()" name="amount" ng-model="vm.donation" required>
                     <p ng-show="addSponsorForm.amount.$invalid && !addSponsorForm.amount.$pristine" class="help-block">Valid amount paid is required.</p>
                     <p ng-show="vm.rangeInvalid()">Amount out of range</p>

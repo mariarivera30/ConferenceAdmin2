@@ -194,6 +194,7 @@
                             <span class=" col-xm-6 col-sm-6 col-md-6">
                                 <label>Fax Number:</label>
                                 <input class="form-control" type="text" name="fax" ng-model="vm.sponsor.userFax" ng-minlength="9" ng-maxlength="30" >
+                                <p ng-show="addSponsorForm.fax.$invalid && !addSponsorForm.fax.$pristine" class="help-block">Fax number is required.</p>
                             </span>
 
                         </div>
@@ -301,8 +302,12 @@
                             <label>Email:</label> {{vm.sponsor.email}}
 
                         </span>
-                        <span class="col-xs-6 col-sm-6 col-md-6">
+                        <span ng-hide="vm.sponsor.amount ==0" class="col-xs-6 col-sm-6 col-md-6">
                             <label>Sponsor Type:</label> {{vm.sponsor.typeName}}
+
+                        </span>
+                        <span ng-show="vm.sponsor.amount ==0" class="col-xs-6 col-sm-6 col-md-6">
+                            <label>Sponsor Type:</label> Unactive Sponsor
 
                         </span>
                     </div>
