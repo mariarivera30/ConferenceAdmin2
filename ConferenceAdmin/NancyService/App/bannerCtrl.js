@@ -65,7 +65,6 @@
         }
 
         //Display Banners
-
         function _showPlatinum() {
             //Platinum up to two logos per slide
             vm.platinumBanner = [];
@@ -78,7 +77,7 @@
         }
 
         function _showGold() {
-            //Platinum up to four logos per slide
+            //Gold up to four logos per slide
             vm.goldBanner = [];
             var i, j, temparray, size = 4;
             for (i = 0, j = vm.goldSponsors.length; i < j; i += size) {
@@ -89,7 +88,7 @@
         }
 
         function _showSilver() {
-            //Platinum up to six logos per slide
+            //Silver up to six logos per slide
             vm.silverBanner = [];
             var i, j, temparray, size = 6;
             for (i = 0, j = vm.silverSponsors.length; i < j; i += size) {
@@ -100,7 +99,7 @@
         }
 
         function _showBronze() {
-            //Platinum up to eight logos per slide
+            //Bronze up to eight logos per slide
             vm.bronzeBanner = [];
             var i, j, temparray, size = 8;
             for (i = 0, j = vm.bronzeSponsors.length; i < j; i += size) {
