@@ -70,7 +70,7 @@
             postEvaluation: _postEvaluation,
             editEvaluation: _editEvaluation,
             uploadDocument: _uploadDocument,
-            getTemplates: _getTemplates,
+            getAuthTemplates: _getAuthTemplates,
             getDocuments: _getDocuments,
             deleteDocument: _deleteDocument,
             selectCompanion: _selectCompanion,
@@ -519,7 +519,7 @@
             return $http.put('/profile/uploadDocument/', data);
         };
         //[Randy] get list of authorization templates
-        function _getTemplates() {
+        function _getAuthTemplates() {
             return $http.get('profile/getTemplates');
         };
         //[Randy] get list of authorization documents added

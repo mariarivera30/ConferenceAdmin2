@@ -75,7 +75,7 @@
 
         /* [Randy] Get list of all authorization templates */
         function _getTemplates() {
-            restApi.getTemplates().
+            restApi.getAuthTemplates().
                    success(function (data, status, headers, config) {
                        vm.templatesList = data;
                    }).

@@ -532,11 +532,13 @@ namespace NancyService.Modules
                             }
                             userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
                             submissionTypeID, submissionTitle, topiccategoryID, topic, status, avgScore, numOfEvaluations, byAdmin));
+                            numOfEvaluations = 0;
                         }
                         else
                         {
                             userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
                             submissionTypeID, submissionTitle, topiccategoryID, topic, status, 0, numOfEvaluations, byAdmin));
+                            numOfEvaluations = 0;
                         }
                     }
                     scoreSum = 0;
@@ -579,11 +581,13 @@ namespace NancyService.Modules
                             }
                             userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
                             submissionTypeID, submissionTitle, topiccategoryID, topic, status, avgScore, numOfEvaluations, byAdmin));
+                            numOfEvaluations = 0;
                         }
                         else
                         {
                             userSubmissions.Add(new Submission(userID, submissionID, submissionTypeName,
                             submissionTypeID, submissionTitle, topiccategoryID, topic, status, 0, numOfEvaluations, byAdmin));
+                            numOfEvaluations = 0;
                         }
                     }
                     userSubmissions = userSubmissions.OrderBy(c => -c.avgScore).ToList();
