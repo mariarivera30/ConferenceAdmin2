@@ -6,7 +6,7 @@
             <div class="p-lg" ng-model="vm.ideadlineParagraph1" ckhtml></div>
             <table class="table after-title-field" id="deadlinetable" ng-show="vm.iothersDeadline || vm.isponsorDeadline || vm.iworkshopDeadline || vm.iposterDeadline || vm.ipanelDeadline || vm.iextendedPaperDeadline || vm.ideadline1 || vm.ideadlineDate1 || vm.ideadline2 || vm.ideadlineDate2 || vm.ideadline3 || vm.ideadlineDate3 || vm.ideadline4 || vm.ideadlineDate4 || vm.ideadline5 || vm.ideadlineDate5">
                 <thead>
-                    <tr>
+                    <tr ng-show="vm.registrationDeadline || vm.lateRegistrationDeadline || vm.isponsorDeadline || vm.ideadline1 || vm.ideadline2 || vm.ideadline3">
                         <th class="text-left text-red p-lg">Conference Deadlines</th>
                         <th class="text-left text-red p-lg">Date</th>
                     </tr>
@@ -46,8 +46,8 @@
                     </tr>
 
                     <tr>
-                        <th class="text-left text-red p-lg">Submission Deadlines</th>
-                        <th class="text-left text-red p-lg"></th>
+                        <th class="text-left text-red p-lg" ng-show="vm.iextendedPaperDeadline || vm.iposterDeadline || vm.ipanelDeadline || vm.iworkshopDeadline || vm.iothersDeadline">Submission Deadlines</th>
+                        <th class="text-left text-red p-lg" ng-hide="vm.registrationDeadline || vm.lateRegistrationDeadline || vm.isponsorDeadline || vm.ideadline1 || vm.ideadline2 || vm.ideadline3">Date</th>
                     </tr>
 
                     <!--Submission deadlines-->

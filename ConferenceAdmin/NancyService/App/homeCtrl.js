@@ -66,7 +66,7 @@
 
         }
 
-        //Reload origianl information
+        //Reload original information
         function _reset() {
             if (vm.temp != null) {
                 vm.homeMainTitle = vm.temp.homeMainTitle;
@@ -94,19 +94,16 @@
                     var ext = fileName.split(".", 2)[1];
                     if (ext == "png" || ext == "jpg" || ext == "gif" || ext == "jpeg" || ext == "pic" || ext == "pict") {
                         if (size <= 5000000) {
-                            vm.show = true;
                             $scope.img = $fileContent;
                         }
                         else {
                             $("#fileExtError2").modal('show');
                             _clear();
-                            vm.show = false;
                         }
                     }
                     else {
                         $("#fileExtError").modal('show');
                         _clear();
-                        vm.show = false;
                     }
                 }
             }
@@ -213,6 +210,7 @@
                }
            })
            .error(function (error) {
+               vm.show = false;
                $("#viewImg").modal('hide');
                $("#deleteImgError").modal('show');
            });
