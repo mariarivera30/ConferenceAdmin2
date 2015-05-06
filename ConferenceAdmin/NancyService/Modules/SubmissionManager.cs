@@ -2345,6 +2345,31 @@ namespace NancyService.Modules
             }
         }
 
+        //Jaimeiris - get templates for evaluations
+        public List<template> getTemplates()
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    var tempList = (from t in context.templates
+                                    where t.deleted == false
+                                    select new template
+                                    {
+                                        templateID = t.templateID,
+                                        name = t.name                                        
+                                    }).ToList();
+
+                    return tempList;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("SubmissionManager.getTemplates error " + ex);
+                return null;
+            }
+        }
+
         //Jaimeiris - gets evaluation template with templateID
         public Evaluation getEvaluationTemplate(long templateID)
         {
