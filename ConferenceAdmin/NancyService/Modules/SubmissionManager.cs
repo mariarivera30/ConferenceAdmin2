@@ -2346,7 +2346,7 @@ namespace NancyService.Modules
         }
 
         //Jaimeiris - get templates for evaluations
-        public List<template> getTemplates()
+        public List<Template> getTemplates()
         {
             try
             {
@@ -2354,10 +2354,10 @@ namespace NancyService.Modules
                 {
                     var tempList = (from t in context.templates
                                     where t.deleted == false
-                                    select new template
+                                    select new Template
                                     {
-                                        templateID = t.templateID,
-                                        name = t.name                                        
+                                        templateID = (int)t.templateID,
+                                        templateName = t.name                                        
                                     }).ToList();
 
                     return tempList;
