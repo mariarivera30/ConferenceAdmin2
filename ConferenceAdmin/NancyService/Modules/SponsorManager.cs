@@ -250,7 +250,7 @@ namespace NancyService.Modules
                     int pageSize = 10;
                     var sponsor = (from s in context.sponsor2
                                    join p in context.paymentbills on s.paymentID equals p.paymentID into sponsorsQuery
-                                   where s.byAdmin == true && s.deleted == false
+                                   where s.byAdmin == true && s.deleted == false && s.active == true 
                                    from x in sponsorsQuery.DefaultIfEmpty()
 
                                    select new SponsorQuery
@@ -762,13 +762,12 @@ namespace NancyService.Modules
                                        amount = s.totalAmount,
                                        method = s.byAdmin == true ? x.methodOfPayment : null,
                                        transactionID = s.byAdmin == true ? x.transactionid : null,
-
                                        byAdmin = s.byAdmin,
                                        typeName = s.sponsortype1.name,
                                        active = (bool)s.active,
 
 
-                                   }).Union((from s in context.sponsor2
+                                   }).Concat((from s in context.sponsor2
                                              join p in context.paymentbills on s.paymentID equals p.paymentID into sponsorsQuery
                                              where ((s.byAdmin == false && s.active == true && s.deleted == false) && ((s.user.firstName.ToLower() + " " + s.user.lastName.ToLower()).Contains(criteria.ToLower()) || s.user.affiliationName.Contains(criteria.ToLower()) || s.user.membership.email.ToLower().Contains(criteria.ToLower())))
                                              from x in sponsorsQuery.DefaultIfEmpty()
@@ -788,13 +787,13 @@ namespace NancyService.Modules
                                                  line1 = s.user.address.line1,
                                                  line2 = s.user.address.line2,
                                                  state = s.user.address.state,
+                                                 userFax = s.user.userFax,
                                                  zipcode = s.user.address.zipcode,
                                                  country = s.user.address.country,
                                                  sponsorType = (int)s.sponsorType,
                                                  amount = s.totalAmount,
                                                  method = "",
                                                  transactionID = "",
-                                                 userFax = s.user.userFax,
                                                  byAdmin = s.byAdmin,
                                                  typeName = s.sponsortype1.name,
                                                  active = (bool)s.active,
