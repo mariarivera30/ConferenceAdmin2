@@ -881,35 +881,38 @@ namespace NancyService.Modules
             }
         }
         //Jaimeiris - deletes a submission
-        public Submission deleteSubmission(long submissionID)
+        public Submission deleteSubmission(long subID)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
+                    usersubmission i = null;//previous submission
                     Submission prevSub = null;
-                    submission sub = context.submissions.Where(c => c.submissionID == submissionID).FirstOrDefault();
-                    bool isFinalVersion = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID == submissionID).FirstOrDefault() == null ? false : true;
+                    submission sub = context.submissions.Where(c => c.submissionID == subID).FirstOrDefault();
+                    bool isFinalVersion = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID == subID).FirstOrDefault() == null ? false : true;
                     //if its a final version deletes only the final version of the submission, not the previous one
                     if (isFinalVersion)
                     {
-                        prevSub = context.usersubmission.Where(c => c.finalSubmissionID == submissionID).
-                        Select(i => new Submission
-                        {
-                            submissionID = i.submission1 == null ? -1 : i.submission1.submissionID,
-                            submissionTypeName = i.submission1 == null ? null : i.submission1.submissiontype.name,
-                            submissionTypeID = i.submission1 == null ? -1 : i.submission1.submissionTypeID,
-                            submissionTitle = i.submission1 == null ? null : i.submission1.title,
-                            topiccategoryID = i.submission1 == null ? -1 : i.submission1.topicID,
-                            status = i.submission1 == null ? null : i.submission1.status,
-                            isEvaluated = (i.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
-                            isAssigned = i.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true,
-                            isFinalSubmission = false,
-                            finalSubmissionAllowed = (i.allowFinalVersion == null ? false : i.allowFinalVersion) == false ? false : true
-                        }).FirstOrDefault();
+                        i = context.usersubmission.Where(c => c.finalSubmissionID == subID).FirstOrDefault();
+                        
+                            long submissionID = i.submission1 == null ? -1 : i.submission1.submissionID;
+                            String submissionTypeName = i.submission1 == null ? null : i.submission1.submissiontype.name;
+                            int submissionTypeID = i.submission1 == null ? -1 : i.submission1.submissionTypeID;
+                            String submissionTitle = i.submission1 == null ? null : i.submission1.title;
+                            int topiccategoryID = i.submission1 == null ? -1 : i.submission1.topicID;
+                            String status = i.submission1 == null ? null : i.submission1.status;
+                            bool isEvaluated = (context.evaluatiorsubmissions.Where(c => c.deleted == false && c.submissionID == submissionID).FirstOrDefault() == null ? null : context.evaluatiorsubmissions.Where(c => c.deleted == false && c.submissionID == submissionID).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false;
+                            bool isAssigned = context.evaluatiorsubmissions.Where(c => c.deleted == false && c.submissionID == submissionID).FirstOrDefault() == null ? false : true;
+                            bool isFinalSubmission = false;
+                            bool finalSubmissionAllowed = (i.allowFinalVersion == null ? false : i.allowFinalVersion) == false ? false : true;
+
+                            prevSub = new Submission(submissionID, submissionTypeName, submissionTypeID, submissionTitle, 
+                                topiccategoryID, status, isEvaluated, isAssigned, isFinalSubmission, finalSubmissionAllowed);
+                        
 
                         //if submission to be deleted is final version disconnect the final version from the previous one                       
-                        var theFinalSub = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID == submissionID).FirstOrDefault();
+                        var theFinalSub = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID == subID).FirstOrDefault();
                         theFinalSub.finalSubmissionID = null;
                     }
 
@@ -949,14 +952,14 @@ namespace NancyService.Modules
                         }
                     }
                     //if submission has an evaluator assigned (can only happen when an admin or committe evaluator deletes it)
-                    List<evaluatiorsubmission> evaluatorSubmission = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.deleted == false).ToList();
+                    List<evaluatiorsubmission> evaluatorSubmission = context.evaluatiorsubmissions.Where(c => c.submissionID == subID && c.deleted == false).ToList();
                     foreach (evaluatiorsubmission evalSub in evaluatorSubmission)
                     {
                         evalSub.deleted = true;
                     }
 
                     context.SaveChanges();
-
+                    
                     return prevSub;
                 }
             }
@@ -2542,6 +2545,21 @@ namespace NancyService.Modules
             this.avgScore = avgScore;
             this.numOfEvaluations = numOfEvaluations;
             this.byAdmin = byAdmin;
+        }
+
+        public Submission(long submissionID1, string submissionTypeName1, int submissionTypeID1, string submissionTitle1, int topiccategoryID1, string status1, bool isEvaluated1, bool isAssigned1, bool isFinalSubmission1, bool finalSubmissionAllowed1)
+        {
+            // TODO: Complete member initialization
+            this.submissionID = submissionID1;
+            this.submissionTypeName = submissionTypeName1;
+            this.submissionTypeID = submissionTypeID1;
+            this.submissionTitle = submissionTitle1;
+            this.topiccategoryID = topiccategoryID1;
+            this.status = status1;
+            this.isEvaluated = isEvaluated1;
+            this.isAssigned = isAssigned1;
+            this.isFinalSubmission = isFinalSubmission1;
+            this.finalSubmissionAllowed = finalSubmissionAllowed1;
         }
 
     }
