@@ -822,7 +822,7 @@
 
         /* Get all templates for dropdown */
         function _getTemplates() {
-            restApi.getTemplatesAdmin().
+            restApi.getTemplates().
                    success(function (data, status, headers, config) {
                        vm.templatesList = data;
                    }).
