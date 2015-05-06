@@ -224,18 +224,18 @@
             vm.companionKey = companionKey;
             restApi.selectCompanion(vm)
             .success(function (data, status, headers, config) {
-                vm.wrongKey = false;
+                vm.wrongCompKey = false;
                 vm.correctKey = true;
-                vm.hasKey = true;
+                vm.hasCompKey = true;
                 if (data == "Accepted")
                     vm.companionRegistered = true;
                 else
                     vm.companionRegistered = false;
             })
             .error(function (error) {
-                vm.wrongKey = true;
+                vm.wrongCompKey = true;
                 vm.correctKey = false;
-                vm.hasKey = false;
+                vm.hasCompKey = false;
             });
         }
 

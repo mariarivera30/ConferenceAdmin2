@@ -345,8 +345,8 @@ namespace NancyService.Modules
         {
             try {
                 //Define sender and recipient
-                MailAddress sender = new MailAddress(info.email);
-                MailAddress user = new MailAddress(testEmail); //info.contactEmail
+                MailAddress sender = new MailAddress(info.contactEmail);
+                MailAddress user = new MailAddress(info.contactEmail);
                 MailMessage mail = new System.Net.Mail.MailMessage(sender, user);
 
                 //Email Message

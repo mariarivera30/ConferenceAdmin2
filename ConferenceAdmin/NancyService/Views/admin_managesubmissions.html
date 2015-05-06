@@ -130,7 +130,7 @@
                 </div>
                 <div class="modal-body">
                     <label class="no-margin">Select an Evaluation Template for this Submission:</label><br />
-                    <select name="template" ng-model="vm.TEMP" ng-options="template as template.name for template in vm.templatesList" ng-change="vm.changeTemp = true; vm.saved = false"></select>
+                    <select name="template" ng-model="vm.TEMP" ng-options="template as template.templateName for template in vm.templatesList" ng-change="vm.changeTemp = true; vm.saved = false"></select>
                     <p ng-show="vm.TEMP == null && vm.saved">* A Template is required.</p>
                     <button class="btn btn-ar btn-primary" ng-click="vm.assignTemplate(vm.submissionID, vm.TEMP.templateID)" ng-disabled="vm.TEMP == null || vm.changeTemp != true || vm.saved">Submit</button> <i class="fa fa-check accepted" ng-show="vm.saved"> Submitted</i><br />
                     <br />

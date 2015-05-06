@@ -28,7 +28,7 @@
                         <td>
                             <a ng-hide="submission.isAssigned || submission.status != 'Pending'" href="" data-toggle="modal" data-target="#editSubmissionModal" ng-click="vm.selectedSubmission(submission.topiccategoryID); vm.viewEditForm(submission.submissionID); vm.clear();">Edit </a><span ng-hide="submission.isAssigned || submission.status != 'Pending'"> | </span>
                             <a ng-hide="submission.isAssigned || submission.status != 'Pending'" href="" data-toggle="modal" data-target="#deleteSubmission" ng-click="vm.deleteSelectedSubmission(submission.submissionID) ">Delete</a>
-                            <a ng-show="submission.finalSubmissionAllowed && !submission.isFinalSubmission" href="" data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.selectFinalversion(submission.submissionID); vm.clear();">Add final version</a>
+                            <a ng-show="submission.finalSubmissionAllowed && !submission.isFinalSubmission" href="" data-toggle="modal" data-target="#addSubmissionModal" ng-click="vm.selectFinalversion(submission.submissionID); vm.clear(); vm.checkDeadline(vm.TYPE.submissionTypeID)">Add final version</a>
 
                         </td>
                         <td>
@@ -51,7 +51,7 @@
 
     <div class="modal fade" id="addSubmissionModal" tabindex="-1" role="dialog" aria-labelledby="evaluationModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content" ng-show="vm.onTime">
+            <div class="modal-content" ng-show="vm.onTime || vm.viewModal == 'addFinal'">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 ng-show="vm.viewModal == 'Add'" class="modal-title" id="evaluationModalLabel">Add {{vm.TYPE.submissionTypeName}}</h4>
@@ -116,7 +116,7 @@
                                 <label>Uploaded Documents:</label>
                                 <div class="templates-list table-box">
                                     <ul class="list-group list-group-striped">
-                                        <li ng-repeat="doc in vm.documentsList" class="list-group-item">{{doc.documentName}} <span class="right"><a href="" ng-click="vm.deleteDocument(doc.documentssubmittedID)">Delete</a></span></li>
+                                        <li ng-repeat="doc in vm.documentsList" class="list-group-item">{{doc.documentName}} <span class="right"><a href="" ng-click="vm.deleteDocument(doc)">Delete</a></span></li>
                                     </ul>
                                 </div>
 
@@ -159,7 +159,7 @@
             </div>
 
             <!------- Deadline Alert ------->
-            <div class="modal-content" ng-hide="vm.onTime">
+            <div class="modal-content" ng-hide="vm.onTime || vm.viewModal == 'addFinal'">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h5>Add Submission Alert!</h5>

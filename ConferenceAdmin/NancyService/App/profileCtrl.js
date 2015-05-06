@@ -90,6 +90,7 @@
                     if (claim.localeCompare('companion') == 0) {
                         vm.generalInfo = true;
                         vm.application = true;
+                        vm.receipt = true;
                         $rootScope.$emit('Loginpart');
 
                     }

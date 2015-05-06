@@ -516,7 +516,7 @@ namespace NancyService.Modules
             };
 
             //-------------------------------------GUESTS---------------------------------------------
-            //Guest list for admins
+            //Jaimeiris - Guest list for admins
             Get["/getGuestList/{index:int}"] = parameters =>
             {
                 int index = parameters.index;
@@ -529,7 +529,7 @@ namespace NancyService.Modules
                 return Response.AsJson(guestList);
             };
 
-            //update acceptance status of guest
+            //Jaimeiris - update acceptance status of guest
             Put["/updateAcceptanceStatus"] = parameters =>
             {
                 var update = this.Bind<AcceptanceStatusInfo>();
@@ -540,7 +540,7 @@ namespace NancyService.Modules
                 else return HttpStatusCode.Conflict;
             };
 
-            //set registration status of guest to Rejected.
+            //Jaimeiris - set registration status of guest to Rejected.
             Put["/rejectRegisteredGuest/{id}"] = parameters =>
             {
                 int id = parameters.id;
@@ -549,7 +549,7 @@ namespace NancyService.Modules
                 else return HttpStatusCode.Conflict;
             };
 
-            //get minor's authorizations
+            //Jaimeiris - get minor's authorizations
             Get["/displayAuthorizations/{id}"] = parameters =>
             {
                 int id = parameters.id;
@@ -792,13 +792,13 @@ namespace NancyService.Modules
                 return Response.AsJson(reportManager.getSponsorPayments(index));
             };
             //-----------------SUBMISSIONS- JAIMEIRIS------------------------------------
-            //Gets all submissions in the system that have not been deleted
+            //Jaimeiris - Gets all submissions in the system that have not been deleted
             Get["/getAllSubmissions/{index:int}"] = parameters =>
             {
                 int index = parameters.index;
                 return Response.AsJson(submissionManager.getAllSubmissions(index));
             };
-            //gets the evaluation for a submission
+            //Jaimeiris - gets the evaluation for a submission
             Get["/getEvaluationsForSubmission/{submissionID}"] = parameters =>
             {
                 long submissionID = parameters.submissionID;
@@ -806,12 +806,12 @@ namespace NancyService.Modules
 
                 return Response.AsJson(evaluations);
             };
-            //gets all approved evaluators so as to assign them submissions to evaluate
+            //Jaimeiris - gets all approved evaluators so as to assign them submissions to evaluate
             Get["/getAllEvaluators"] = parameters =>
             {
                 return Response.AsJson(submissionManager.getAcceptedEvaluators());
             };
-            //Assigns an evaluator to a submission
+            //Jaimeiris - Assigns an evaluator to a submission
             Post["/assignEvaluator/{submissionID:long}/{evaluatorID:long}"] = parameters =>
             {
                 long submissionID = parameters.submissionID;
@@ -821,7 +821,7 @@ namespace NancyService.Modules
 
                 return Response.AsJson(evList);
             };
-            //Assigns a template to a submission
+            //Jaimeiris - Assigns a template to a submission
             Post["/assignTemplate/{submissionID:long}/{templateID:long}"] = parameters =>
             {
                 long submissionID = parameters.submissionID;
@@ -829,7 +829,7 @@ namespace NancyService.Modules
                 if (submissionManager.assignTemplate(submissionID, templateID)) return HttpStatusCode.OK;
                 else return HttpStatusCode.Conflict;
             };
-            //Get the info of an evaluation
+            //Jaimeiris - Get the info of an evaluation
             Get["/getEvaluationDetails/{submissionID:long}/{evaluatorID:long}"] = parameters =>
             {
                 long submissionID = parameters.submissionID;
@@ -841,14 +841,14 @@ namespace NancyService.Modules
                 }
                 return Response.AsJson(sub);
             };
-            //Remove evaluator submission relation
+            //Jaimeiris - Remove evaluator submission relation
             Put["/removeEvaluatorSubmission/{evaluatorSubmissionID}"] = parameters =>
             {
                 long evaluatorSubmissionID = parameters.evaluatorSubmissionID;
                 long es = submissionManager.removeEvaluatorSubmission(evaluatorSubmissionID);
                 return Response.AsJson(es);
             };
-            //Change submission status
+            //Jaimeiris - Change submission status
             Put["/changeSubmissionStatus/{status}/{submissionID}"] = parameters =>
             {
                 String newStatus = parameters.status;
@@ -857,7 +857,7 @@ namespace NancyService.Modules
 
                 return Response.AsJson(sub);
             };
-            //admin adds a submission
+            //Jaimeiris - admin adds a submission
             Post["/postAdminSubmission"] = parameters =>
             {
                 panel pannelToAdd = null;
@@ -878,7 +878,7 @@ namespace NancyService.Modules
                     submissionManager.addSubmissionByAdmin(usersubTA, submissionToAdd, pannelToAdd, workshopToAdd);
                 return Response.AsJson(newSubmission);
             };
-            //post final version of evaluation submitted by admin
+            //Jaimeiris - post final version of evaluation submitted by admin
             Post["/postAdminFinalSubmission"] = parameters =>
             {
                 panel pannelToAdd = null;
@@ -904,24 +904,24 @@ namespace NancyService.Modules
                     submissionManager.postAdminFinalSubmission(usersubTA, submissionToAdd, submissionDocuments, pannelToAdd, workshopToAdd);
                 return Response.AsJson(newSubmission);
             };
-            //gets all deleted submissions
+            //Jaimeiris - gets all deleted submissions
             Get["/getDeletedSubmissions/{index:int}"] = parameters =>
             {
                 int index = parameters.index;
                 return Response.AsJson(submissionManager.getDeletedSubmissions(index));
             };
-            //gets the details of a deleted submission
+            //Jaimeiris - gets the details of a deleted submission
             Get["/getADeletedSubmission/{submissionID:long}"] = parameters =>
             {
                 long submissionID = parameters.submissionID;
                 return Response.AsJson(submissionManager.getADeletedSubmission(submissionID));
             };
-            //gets the list of all users
+            //Jaimeiris - gets the list of all users
             Get["/getListOfUsers"] = parameters =>
             {
                 return Response.AsJson(submissionManager.getListOfUsers());
             };
-            //returns true is the currently logged in user is the master
+            //Jaimeiris - returns true is the currently logged in user is the master
             Get["/isMaster/{userID:long}"] = parameters =>
             {
                 long userID = parameters.userID;
@@ -944,17 +944,22 @@ namespace NancyService.Modules
                 var list = submissionManager.searchDeletedSubmission(index, criteria);
                 return Response.AsJson(list);
             };
-            //Gets the file for the submission with submissionID
+            //Jaimeiris - Gets the file for the submission with submissionID
             Get["/getSubmissionFile/{fileID}"] = parameters =>
             {
                 int fileID = parameters.fileID;
                 return Response.AsJson(submissionManager.getSubmissionFile(fileID));
             };
-            //get submission report
+            //Jaimeiris - get submission report
             Get["/getSubmissionsReport"] = parameters =>
             {
                 return Response.AsJson(reportManager.getSubmissionsReport());
             };
+            //Jaimeiris-get templates list
+            Get["/getTemplates"] = parameters =>
+                {
+                    return Response.AsJson(submissionManager.getTemplates());
+                };
 
             //------------------------------------Banner---------------------------------------------
             Get["/getBanners/{index:int}/{sponsor}"] = parameters =>

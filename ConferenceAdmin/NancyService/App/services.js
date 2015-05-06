@@ -27,6 +27,7 @@
             updateAuthTemplate: _updateAuthTemplate,
             addAuthTemplate: _addAuthTemplate,
             deleteTemplate: _deleteTemplate,
+            getTemplates: _getTemplates,
             getTemplatesAdmin: _getTemplatesAdmin,
             getTemplatesAdminListIndex: _getTemplatesAdminListIndex,
             updateTemplate: _updateTemplate,
@@ -828,6 +829,10 @@
         //[Randy] get submission deadlines
         function _getSubmissionDeadlines() {
             return $http.get('profile/getSubmissionDeadlines');
+        };
+        //[Randy] get list of templates
+        function _getTemplates() {
+            return $http.get('/admin/getTemplates');
         };
         //------------------------------------ BANNER -------------------------------------
         //[Heidi] get sponsor logos for banner
