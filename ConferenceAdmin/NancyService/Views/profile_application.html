@@ -15,7 +15,7 @@
         <img src="../img/Application%20Steps/step_3_finished.png" ng-show="vm.acceptanceStatus == 'Accepted'" />
         <img src="../img/Application%20Steps/step_3_rejected.png" ng-show="vm.acceptanceStatus == 'Rejected'" />
 
-        <img src="../img/Application%20Steps/step_4_pending.png" ng-show="vm.registrationStatus == 'Pending'" />
+        <img src="../img/Application%20Steps/step_4_pending.png" ng-show="vm.registrationStatus != 'Accepted'" />
         <img src="../img/Application%20Steps/step_4_finished.png" ng-show="vm.registrationStatus == 'Accepted'" />
     </center><br />
 
