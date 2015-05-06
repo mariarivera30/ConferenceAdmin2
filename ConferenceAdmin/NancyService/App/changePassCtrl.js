@@ -12,6 +12,7 @@
 
         vm.activate = activate;
         vm.title = 'changePassCtrl';
+        vm.loged;
         vm.credentials = {
             password: "",
             newPass: "",
@@ -32,8 +33,10 @@
         };
         function _goTo()
         {
-            if (vm.actionPopUp == "changed")
+            if (vm.actionPopUp == "changed" && (vm.loged ==false) )
                 $location.path('/Login/Log');
+            else if (vm.actionPopUp == "changedLoged" && (vm.loged == true))
+                $location.path('/profile/generalinformation');
             else {
                 vm.credentials = {};
             }
@@ -43,8 +46,8 @@
           
             if (action == "changed") {
                 vm.actionPopUp = "changed";
-                vm.obj.title = "Your Password was changed!";
-                vm.obj.message1 = "Please Login!",
+                vm.obj.title = "Password Changed";
+                vm.obj.message1 = "Your Password was changed. Please Login.",
                 vm.obj.message2 = vm.credentials.email,
                 vm.obj.label = "Email",
                 vm.obj.okbutton = true,
@@ -53,6 +56,19 @@
                 vm.obj.cancelbuttoText = "Cancel",
                 vm.showConfirmModal = !vm.showConfirmModal;
                 
+            }
+            if (action == "changedLoged") {
+                vm.actionPopUp = "changedLoged";
+                vm.obj.title = "Password Changed";
+                vm.obj.message1 = "Your Password was changed!",
+                vm.obj.message2 = vm.credentials.email,
+                vm.obj.label = "Email",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "OK",
+                vm.obj.cancelbutton = false,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.showConfirmModal = !vm.showConfirmModal;
+
             }
             if (action == "notchanged") {
                 
@@ -80,19 +96,39 @@
         };
         //Functions
         vm.changePassword= _changePassword;
+        vm.setView = _setView;
 
+        activate();
         function activate() {
-
+            _setView()
         }
+        function _setView() {
+            if ($window.sessionStorage.length == 0) {
+                vm.loged = false;
+                vm.placeholder = "Temporary Password";
+            }
+            else {
+                vm.loged = true;
+                vm.credentials.email = JSON.parse($window.sessionStorage.getItem('email'));
+                vm.placeholder = "Previous Password";
 
+            }
+
+            
+        }
         function _changePassword() {
             vm.loadingUploading = true;
             restApi.changePassword(vm.credentials)
             .success(function (data, status, headers, config) {
                 if (data != null && data != "") {
                     vm.loadingUploading = false;
-                    vm.toggleModal('changed');
-                    
+
+                   
+                    if(vm.loged)
+                        vm.toggleModal('changedLoged');
+                    else {
+                        vm.toggleModal('changed');
+                    }
                 }
 
                 else {
@@ -151,5 +187,7 @@
                    });
 
         }
+
+
     }
 })();
