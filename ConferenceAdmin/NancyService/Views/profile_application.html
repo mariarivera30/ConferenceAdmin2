@@ -1,7 +1,7 @@
 ﻿<div class="row" ng-controller="profileInformationCtrl as vm">
     <h4 id="g-information">Application &amp; Registration Status:</h4>
 
-    <center ng-hide="(vm.amountStatus.inTime == false && vm.amountStatus.inTimeLateFee == false)">
+    <center ng-hide="(vm.amountStatus.inTime == false && vm.amountStatus.inTimeLateFee == false) && vm.registrationStatus != 'Accepted'">
         <img src="../img/Application%20Steps/step_1_pending.png" ng-show="!vm.hasApplied && vm.userTypeID != 1 " />
         <img src="../img/Application%20Steps/step_1_finished.png" ng-show="vm.hasApplied && vm.userTypeID != 1 " />
 
@@ -45,8 +45,8 @@
         <strong><i class="fa fa-check"></i></strong> Your Registration process has been completed.
     </div>
 
-    <div class="alert alert-danger" ng-show="(vm.amountStatus.inTime == false && vm.amountStatus.inTimeLateFee == false)">
-        <strong><i class="fa fa-times"></i></strong>Registration deadlines expired. <strong ng-show="vm.hasApplied">REJECTED</strong>
+    <div class="alert alert-danger" ng-show="(vm.amountStatus.inTime == false && vm.amountStatus.inTimeLateFee == false) && vm.registrationStatus != 'Accepted'">
+        <strong><i class="fa fa-times"></i></strong>Registration deadlines expired.
     </div>
     <div ng-hide="(vm.amountStatus.inTime == false && vm.amountStatus.inTimeLateFee == false)">
         <button class="btn btn-ar btn-primary" ng-disabled="vm.hasApplied" ng-click="vm.apply()" ng-hide="vm.userTypeID == 1">Apply</button>
