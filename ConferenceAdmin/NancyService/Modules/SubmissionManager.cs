@@ -321,7 +321,7 @@ namespace NancyService.Modules
                         Where(c => (c.submission.title.ToLower().Contains(criteria.ToLower()) 
                             || c.submission.usersubmissions.Where(j => j.deleted == false).FirstOrDefault().user.usertype.userTypeName.ToLower().Contains(criteria.ToLower())
                             || c.submission.topiccategory.name.ToLower().Contains(criteria.ToLower())
-                            || (c.evaluationsubmitteds.Where(j => j.deleted == false).FirstOrDefault() == null) == searchingPending
+                           // || (c.evaluationsubmitteds.Where(j => j.deleted == false).FirstOrDefault() == null) == searchingPending
                             || searchingFinal) 
                             && c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions.Where(d => d.deleted == false).FirstOrDefault() != null).
                         Select(i => new Submission
@@ -340,7 +340,8 @@ namespace NancyService.Modules
                         Where(c => (c.submission.title.ToLower().Contains(criteria.ToLower())
                             || c.submission.usersubmissions.Where(j => j.deleted == false).FirstOrDefault().user.usertype.userTypeName.ToLower().Contains(criteria.ToLower())
                             || c.submission.topiccategory.name.ToLower().Contains(criteria.ToLower())
-                            || (c.evaluationsubmitteds.Where(j => j.deleted == false).FirstOrDefault() == null) == searchingPending) 
+                          //  || (c.evaluationsubmitteds.Where(j => j.deleted == false).FirstOrDefault() == null) == searchingPending
+                          ) 
                             && c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions1.Where(d => d.deleted == false).FirstOrDefault() != null).
                         Select(i => new Submission
                         {
@@ -2219,7 +2220,7 @@ namespace NancyService.Modules
                     avgScore = 0.00;
                     numOfEvaluations = 0;
                     //get all submissions that do not have a final submission
-                    List<usersubmission> subList2 = context.usersubmission.Where(c => (c.submission1.title.ToLower().Contains(criteria.ToLower()) || c.submission1.topiccategory.name.ToLower().Contains(criteria.ToLower()) || c.submission1.submissiontype.name.ToLower().Contains(criteria.ToLower())) && c.deleted == false && c.finalSubmissionID == null).ToList();
+                    List<usersubmission> subList2 = context.usersubmission.Where(c => (c.submission1.title.ToLower().Contains(criteria.ToLower()) || c.submission1.topiccategory.name.ToLower().Contains(criteria.ToLower()) || c.submission1.submissiontype.name.ToLower().Contains(criteria.ToLower()) || c.submission1.status.ToLower().Contains(criteria.ToLower())) && c.deleted == false && c.finalSubmissionID == null).ToList();
                     foreach (var sub in subList2)
                     {
                         long userID = sub.userID;
