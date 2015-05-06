@@ -107,7 +107,7 @@
                                 <span ng-show="vm.correctKey && !vm.companionRegistered" class="padding-5 alert-danger half-width">But your companion has not registered yet.</span>
                             </div>
 
-                            <div class="col-md-12" ng-show="vm.userTypeID != 6">
+                            <div class="col-md-12">
                                 <br />
                                 If you have a <b>Complementary Key</b> please enter it below.<br />
                                 <input type="text" name="key" ng-model="vm.key" ng-readonly="vm.hasKey" required /> <button class="btn btn-ar btn-primary" ng-click="vm.checkComplementaryKey(vm.key)" ng-disabled="vm.hasKey || vm.correctComplementaryKey">Check</button>
