@@ -6,6 +6,19 @@ using System.Linq;
 using Nancy.ModelBinding;
 using System.Web;
 
+/*Created by: Maria Rivera
+ * This module contains the routes used to make a payment
+ * 
+ *  Get["/billerror"] = parameters => error page used by UPRMSecure to redirect the use in case of error
+ *  Post["/reentry"]  Used by UPRMSecure to complete a payment base on the transaction ID
+ *  Put["/SponsorPayment"]  Used for Initialize a sponsor Paymentprocess
+ *  Put["/userPayment"]  Used for Initialize  a User Payment
+ *  Get["/getUserPriceInDeadline/{id:int}"] Used for get the correct amount for a registration depending on type of user and registration deadlines
+ *  Get["/getUserPayment/{id:long}"] 
+ *  Get["/getsponsorpayments/{id:long}"] 
+ *  Get["/getUserPayment/{id:long}"]---> General Receipt used by UPRMSecure to redirect the user
+ * 
+ */
 namespace NancyService.Modules
 {
     public class PaymentModule : NancyModule
@@ -50,7 +63,7 @@ namespace NancyService.Modules
             };
       //
             Put["/SponsorPayment"] = parameters =>
-                {   string sponsorProductID = "RECA0185";//registro
+                {   string sponsorProductID = "RECA0185";//sponsor
        
                     var sponsor = this.Bind<NancyService.Modules.SponsorManager.SponsorQuery>();
                     var temp = this.Bind<PaymentXML>();

@@ -11,7 +11,11 @@ using System.Text.RegularExpressions;
 using NancyService.Models;
 
 
-
+/*Created by: Maria Rivera
+ * This module contains the implementation of the function use by the PaymentModule 
+ * 
+ 
+ */
 namespace NancyService.Modules
 {
     public class PaymentQuery
@@ -352,7 +356,7 @@ namespace NancyService.Modules
         }
 
       
-     
+     // Method used for generate a string need by securesystem with payment Information
         public string creatXML(PaymentXML payment)
         {   
           string xml  = "<VERSION>" + version +"</VERSION>\n" +
@@ -372,7 +376,7 @@ namespace NancyService.Modules
             return xml;
         }
         
-
+        
         public xmlTransacctionID MakeWebServiceCall( PaymentXML payment)
         {
                 // this is what we are sending
@@ -421,7 +425,7 @@ namespace NancyService.Modules
                
                 
         }
-        //
+        //This method is reponsible to create a paymentBill with the transaction ID and status completed == false
         public void createPaymentBill(PaymentInfo info, string transactionID)
         {
             try
@@ -440,38 +444,7 @@ namespace NancyService.Modules
                     bill.telephone = info.phone;
                     context.paymentbills.Add(bill);
                     context.SaveChanges();
-                    /*var sponsor = (from p in context.sponsor2
-                                   where p.paymentID == info.paymentID
-                                    select p).FirstOrDefault();
                    
-                    if (sponsor != null) { 
-                        paymentbill bill = new paymentbill();
-                        bill.AmountPaid = info.amount;
-                        bill.paymentID = info.paymentID;
-                        bill.completed = false;
-                        bill.transactionid = transactionID;
-                        bill.quantity = (int)quantity;
-                        bill.deleted = false;
-                        bill.date = DateTime.Now;
-                        bill.telephone = sponsor.user.phone;
-                        context.paymentbills.Add(bill);
-                        context.SaveChanges();
-                    }
-
-                    else
-                    {
-                        paymentbill bill = new paymentbill();
-                        bill.AmountPaid = info.amount;
-                        bill.paymentID = info.paymentID;
-                        bill.completed = false;
-                        bill.transactionid = transactionID;
-                        bill.quantity = (int)quantity;
-                        bill.deleted = false;
-                        bill.date = DateTime.Now;
-                        bill.telephone = info.phone;
-                        context.paymentbills.Add(bill);
-                        context.SaveChanges();
-                    }*/
                  
                 }
             }
@@ -567,10 +540,10 @@ namespace NancyService.Modules
                             user saveUser = context.users.Where(u => u.userID == registration.userID).FirstOrDefault();
                             saveUser.registrationStatus = "Accepted";
                             context.SaveChanges();
-                            return -1;
+                            return bill.paymentBillID;
                         };
 
-                }
+                }  
                     else
                     {
                         return -1;
@@ -617,7 +590,7 @@ namespace NancyService.Modules
            return xmlObj;
         }
           
-
+        //This method parse the receipt information received from UPRMSecure
           public XMLReceiptInfo parseReceiptInfo(string xml)
         {
             XMLReceiptInfo   xmlObj =new XMLReceiptInfo();
@@ -638,7 +611,7 @@ namespace NancyService.Modules
 
            return xmlObj;
         }
-
+        //Rejex code used to detect the tags on the request string 
         private string getProperty(string xml, string property){
             //check
             Match m = Regex.Match(xml, @"<"+property+">\\s*(.+?)\\s*</"+property+">");

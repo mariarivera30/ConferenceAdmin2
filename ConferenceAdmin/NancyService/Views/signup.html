@@ -124,7 +124,7 @@
                     <label class="after-title-field black-label" for="">Fax</label>
                     <input type="tel" placeholder="7876789890" class="form-control" name="fax" ng-model="vm.user.userFax" ng-minlength="9" ng-maxlength="30">
                     <p ng-show="signForm.fax.$invalid && !signForm.fax.$pristine" class="help-block">Fax number is required.</p>
-
+                    ng-class="{red: test.MyNumber.$invalid}"
                 </div>
             </div>
         </div>

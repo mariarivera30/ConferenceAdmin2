@@ -65,7 +65,6 @@
         // Functions
         function activate() {
             _getSponsorbyID();
-    
             _getSponsorDeadline();
             vm.loading = true;
             _getBenefits();
@@ -75,7 +74,7 @@
         }
         function _goTo() {
             window.open(vm.data);
-            $location.path('/profile/receiptinformation');
+            $location.path('/profile/sponsorpaymentbill');
            
         }
 
@@ -133,7 +132,7 @@
 
         //This method validate the amount to be donated. Amount and sponsor type should match
         function _rangeInvalid() {
-            if (vm.sponsor != undefined && vm.sponsorType != undefined ) {
+            if (vm.sponsor != undefined && vm.sponsorType != undefined && vm.donation != undefined ) {
             
                 if ((vm.sponsorType == 1) && ((vm.sponsor.amount + vm.donation) < (vm.sponsorsTypeList[vm.sponsorType-1].amount))) {
                     return true;
@@ -145,7 +144,7 @@
                     }
 
                 }
-                else if (vm.donation == 0 || vm.donation == undefined) {
+                else if (vm.donation == 0 || vm.donation == undefined ) {
                     return true;
                 }
                 else if (vm.sponsorType != 1 && vm.sponsorType != 5) {
@@ -253,6 +252,9 @@
                                else {
                                    vm.sponsorType = 5;
                                }
+                           }
+                           else {
+                               vm.sponsorType = 5;
                            }
                        }
                    }).
