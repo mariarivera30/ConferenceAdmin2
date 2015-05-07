@@ -51,14 +51,23 @@ namespace NancyService.Modules
                     if (paymentID == 0 || paymentID ==-1)
                     {
                         //error storing Payment
-                        return "http://136.145.116.238/#/PaymentError";
+                        string link = "http://136.145.116.238/#/PaymentError";
+                        return "<URL>"+link+"<URL>";
                     }
                   
-                    else
-                        return "http://136.145.116.238/#/PaymentBill/" + paymentID;
+                    else{
+                        string link = "http://136.145.116.238/#/PaymentBill/" + paymentID;
+                         return "<URL> " + link + "<URL>";
+                 
+
+                    }
+                       
                     
                 }
-                else { return "http://136.145.116.238/#/PaymentError"; }
+                else { 
+                    string link = "http://136.145.116.238/#/PaymentError";
+                    return "<URL>"+link+"<URL>";
+                }
            
             };
       //
