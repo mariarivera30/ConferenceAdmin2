@@ -92,6 +92,7 @@
                        vm.date1 = vm.datesList[0];
                        vm.date2 = vm.datesList[1];
                        vm.date3 = vm.datesList[2];
+                       vm.toggleModal("error");
                    });
         }
 
@@ -120,6 +121,40 @@
             vm.modalCompanionFirstName = companionFirstName;
             vm.modalCompanionLastName = companionLastName;
         }
+        /*  Display dialogs */
+        vm.obj = {};
+        vm.toggleModal = function (action) {
+
+
+
+            if (action == "errorfile") {
+
+                vm.obj.title = "File Error",
+                vm.obj.message1 = "Please refresh the page, a problem occured downloading a file.",
+
+                vm.obj.message2 = vm.keyPop,
+                vm.obj.label = "",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "OK",
+                vm.obj.cancelbutton = false,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.showConfirmModal = !vm.showConfirmModal;
+                vm.okFunc = vm.deleteComplemetaryKey;
+                vm.cancelFunc;
+
+            }
+            else if (action == "error") {
+                vm.obj.title = "Server Error",
+               vm.obj.message1 = "Please refresh the page and try again.",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+            }
+        };
 
         function _displayAuthorizations(userID, firstName, lastName) {
             restApi.displayAuthorizations(userID).
@@ -134,6 +169,7 @@
                        // called asynchronously if an error occurs
                        // or server returns response with an error status.
                        vm.authorizations = data;
+                       vm.toggleModal("error");
                    });
         }
         //START PAGINATION CODE
@@ -157,6 +193,7 @@
                    }).
                    error(function (data, status, headers, config) {
                        vm.uploadingComp = false;
+                       vm.toggleModal("error");
                    });
         }
             function _nextGuest() {
@@ -207,7 +244,7 @@
                 })
 
                 .error(function (error) {
-
+                    vm.toggleModal("error");
                 });
         }
 
@@ -235,7 +272,7 @@
 
 
                 .error(function (error) {
-
+                    vm.toggleModal("error");
                 });
             }
         }
@@ -252,7 +289,7 @@
                     //saveAs(file);
                 }).
                 error(function (data, status, headers, config) {
-                    alert("An error ocurred while downloading the file.");
+                    vm.toggleModal("errorfile");
                 });
         }
 
@@ -281,6 +318,7 @@
                     }
                 }).
                    error(function (data, status, headers, config) {
+                       vm.toggleModal("error");
                    });
         }
 

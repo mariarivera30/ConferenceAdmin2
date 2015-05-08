@@ -98,22 +98,7 @@
 
 
                        vm.uploadingComp = false;
-                       //data.userClaims.forEach(function (claim) {
-                       //    if (claim.localeCompare('Finance') == 0 || claim.localeCompare('Committee') == 0 || claim.localeCompare('Committee') == 0 || claim.localeCompare('Master') == 0) {
-                       //       $location.path('/Administrator/GeneralInformation');
-                       //         vm.isAdmin = true;
-                       //        $rootScope.$emit('Login', event, vm.isAdmin);
-                       //    }
-
-                       //    else if (claim.localeCompare('minor') == 0 || claim.localeCompare('companion') == 0 || claim.localeCompare('participant') == 0 || claim.localeCompare('evaluator') == 0) {
-                       //        $location.path('/Profile/GeneralInformation');
-                       //        vm.isAdmin = false;
-                       //        $rootScope.$emit('Login', event, vm.isAdmin);
-                       //        return;
-                       //    }
-
-
-                       //});
+                      
                        $location.path('/Profile/GeneralInformation');
 
                    })
@@ -179,7 +164,6 @@
                        // when the response is available
                        vm.creatingUser = false;
                        $rootScope.$emit('popUp', 'makeConfirmation');
-
 
 
                    }).

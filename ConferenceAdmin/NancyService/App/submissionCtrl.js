@@ -56,6 +56,7 @@
         function activate() {
 
         }
+       
         //gets the list of all submissions
         function _getAllSubmissions() {
             restApi.getAllSubmissions().

@@ -64,7 +64,7 @@
         vm.dindex = 0;
         vm.dmaxIndex = 0;
         vm.dfirstPage = true;
-
+      
         //functions
         vm.clear = _clear;
         vm.getAllSubmissions = _getAllSubmissions;
@@ -193,6 +193,41 @@
                 vm.myFile = undefined;
             }
         }
+
+        /*  Display dialogs */
+        vm.obj = {};
+        vm.toggleModal = function (action) {
+
+
+
+            if (action == "errorfile") {
+
+                vm.obj.title = "File Error",
+                vm.obj.message1 = "Please refresh the page and try again to submit or download your Files.",
+
+                vm.obj.message2 = vm.keyPop,
+                vm.obj.label = "",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "OK",
+                vm.obj.cancelbutton = false,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.showConfirmModal = !vm.showConfirmModal;
+                vm.okFunc = vm.deleteComplemetaryKey;
+                vm.cancelFunc;
+
+            }
+            else if (action == "error") {
+                vm.obj.title = "Server Error",
+               vm.obj.message1 = "Please refresh the page and try again.",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+            }
+        };
         //start pagination code
         /* Retrieves every submission in the system */
         function _getAllSubmissions(index) {
@@ -217,6 +252,7 @@
                        });
                    }).
                    error(function (data, status, headers, config) {
+                       vm.toggleModal("error");
                    });
         }
         function _nextSubmission() {
@@ -257,7 +293,8 @@
                     //saveAs(file, data.documentName);
                 }).
                 error(function (data, status, headers, config) {
-                    alert("An error ocurred while downloading the file.");
+                   
+                    vm.toggleModal("errorfile");
                 });
         }
 
@@ -354,13 +391,17 @@
                     }).
                    error(function (data, status, headers, config) {
                        vm.submissionsList = data;
+                       vm.toggleModal("error");
                    });
         }
+        
 
         /* Set all fields with the deleted submission information */
         function _getDeletedSubmissionView(submissionID) {
+            vm.loading = true;
             restApi.getADeletedSubmission(submissionID).
                     success(function (data, status, headers, config) {
+
                         vm.submitterFirstName = data.submitterFirstName;
                         vm.submitterLastName = data.submitterLastName;
                         vm.submitterEmail = data.submitterEmail;
@@ -436,6 +477,7 @@
                     }).
                    error(function (data, status, headers, config) {
                        vm.submissionsList = data;
+                       vm.toggleModal("error");
                    });
         }
 
@@ -454,6 +496,7 @@
 
                   }).
                   error(function (data, status, headers, config) {
+                      vm.toggleModal("error");
                       vm.evaluationsList = data;
                   });
         }
@@ -476,7 +519,7 @@
                       vm.deleted = data.deleted;
                   }).
                   error(function (data, status, headers, config) {
-
+                      vm.toggleModal("error");
                   });
         }
 
@@ -487,6 +530,7 @@
                       vm.evaluatorsList = data;
                   }).
                   error(function (data, status, headers, config) {
+                      vm.toggleModal("error");
                       vm.evaluatorsList = data;
                   });
         }
@@ -512,7 +556,7 @@
                       vm.processing = false;
                   }).
                   error(function (data, status, headers, config) {
-
+                      vm.toggleModal("error");
                   });                
             }
 
@@ -533,7 +577,7 @@
                       });
                   }).
                   error(function (data, status, headers, config) {
-
+                      vm.toggleModal("error");
                   });
         }
 
@@ -546,7 +590,7 @@
                       vm.assignEval = true;
                   }).
                   error(function (data, status, headers, config) {
-
+                      vm.toggleModal("error");
                   });
         }
 
@@ -563,6 +607,7 @@
                        vm.submissionTypeList[4] = other;
                    }).
                    error(function (data, status, headers, config) {
+                       vm.toggleModal("error");
                    });
         }
 
@@ -575,7 +620,7 @@
                     vm.CTYPE = vm.topicsList[0];
             })
            .error(function (data, status, headers, config) {
-
+               vm.toggleModal("error");
            });
         }
 
@@ -638,11 +683,13 @@
 
                                             })
                                             .error(function (error) {
+                                                vm.toggleModal("errorfile");
                                             });
                                         //end add new files
                                     });
                                 })
                                 .error(function (error) {
+                                    vm.toggleModal("error");
                                 });
                             //end manage existing list of files
 
@@ -650,6 +697,7 @@
                         })
                         .error(function (error) {
                             _getAllSubmissions(vm.sindex);
+                            vm.toggleModal("error");
                         });
             }
             else if (vm.viewModal == 'edit') { //if updating submission
@@ -709,6 +757,7 @@
                                                _getAllSubmissions(vm.sindex);
                                            })
                                            .error(function (error) {
+                                               vm.toggleModal("errorfile");
                                            });
                                        }
                                        //end add new files
@@ -717,12 +766,14 @@
                                    _getAllSubmissions(vm.sindex);
                                })
                                .error(function (error) {
+                                   vm.toggleModal("errorfile");
                                });
                            //end manage existing list of files
 
                            
                        })
                        .error(function (error) {
+                           vm.toggleModal("error");
                            
                        });                
             }
@@ -782,12 +833,14 @@
                                                         vm.documentsList.push(doc);
                                                     })
                                                     .error(function (error) {
+                                                        vm.toggleModal("errorfile");
                                                     });
                                             }
                                             //end add new files
                                         });
                                     })
                                     .error(function (error) {
+                                        vm.toggleModal("errorfile");
                                     });
                                 //end manage existing list of files
 
@@ -795,6 +848,7 @@
                                 vm.view = false;
                             })
                             .error(function (error) {
+                                vm.toggleModal("error");
                                 
                             });
             }
@@ -827,6 +881,7 @@
                        vm.templatesList = data;
                    }).
                    error(function (data, status, headers, config) {
+                       vm.toggleModal("error");
                        vm.templatesList = data;
                        _clear();
                    });
@@ -845,6 +900,7 @@
                        $('#statusChanged').modal('show');
                    }).
                    error(function (data, status, headers, config) {
+                       vm.toggleModal("error");
                    });
         }
 
@@ -861,6 +917,7 @@
                    }).
                    error(function (data, status, headers, config) {
                        vm.usersList = data;
+                       vm.toggleModal("error");
                    });
         }
 
@@ -885,6 +942,7 @@
                        }
                    }).
                    error(function (data, status, headers, config) {
+                       vm.toggleModal("error");
                    });
         }
         function _nextDeletedSubmission() {
@@ -921,6 +979,7 @@
                    }).
                    error(function (data, status, headers, config) {
                        vm.isMaster = data;
+                       vm.toggleModal("error");
                    });
         }
 
@@ -935,7 +994,7 @@
                     });
                 }).
                 error(function (data, status, headers, config) {
-
+                    vm.toggleModal("error");
                 });
         }
 
@@ -943,7 +1002,7 @@
         $scope.showContent = function ($fileContent) {
             vm.content = $fileContent;
             vm.fileext = vm.myFile.name.split(".", 2)[1];
-            if (vm.fileext == "pdf" || vm.fileext == "doc" || vm.fileext == "docx" || vm.fileext == "ppt")
+            if (vm.fileext == "pdf" || vm.fileext == "doc" || vm.fileext == "docx" || vm.fileext == "ppt" || vm.fileext == "pptx")
                 vm.ext = false;
             else {
                 document.getElementById("documentFile").value = "";
@@ -979,6 +1038,7 @@
                     });
                 }).
                    error(function (data, status, headers, config) {
+                       vm.toggleModal("error");
                    });
         }
 
@@ -1002,6 +1062,7 @@
                     }
                 }).
                 error(function (data, status, headers, config) {
+                    vm.toggleModal("error");
 
                 });
         }
@@ -1013,6 +1074,7 @@
                     vm.deadlinesList = data;
                 }).
                 error(function (data, status, headers, config) {
+                    vm.toggleModal("error");
 
                 });
         }
@@ -1043,7 +1105,7 @@
                     //saveAs(file, "Submissions_Report.csv");
                 }).
                 error(function (data, status, headers, config) {
-
+                    vm.toggleModal("error");
                 });
         }
     }
