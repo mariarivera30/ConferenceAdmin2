@@ -14,7 +14,6 @@ namespace NancyService.Modules
     {
         string ccwicEmail = "ccwictest@gmail.com";
         string ccwicEmailPass = "ccwic123456789";
-        string testEmail = "heidi.negron1@upr.edu";
 
         //By: Heidi Negron
         public WebManager()
@@ -53,6 +52,36 @@ namespace NancyService.Modules
                 return null;
             }
 
+        }
+
+        //Save the new content of an interface element
+        public bool saveInterfaceElement(String element, String newContent)
+        {
+            try
+            {
+                using (conferenceadminContext context = new conferenceadminContext())
+                {
+                    //Get element
+                    var query = (from s in context.interfaceinformations
+                                 where s.attribute == element
+                                 select s).FirstOrDefault();
+                    //Save element if not null
+                    if (query != null)
+                    {
+                        query.content = newContent == null ? "" : newContent;
+                        context.SaveChanges();
+                        return true;
+                    }
+
+                    return false;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("WebManager.save" + element + " error " + ex);
+                return false;
+            }
         }
 
         //Get the deadlines of an specified submission
@@ -141,23 +170,9 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //Get element
-                    var homeMainTitle = (from s in context.interfaceinformations
-                                         where s.attribute == "homeMainTitle"
-                                         select s).FirstOrDefault();
-                    //Save new content
-                    if (homeMainTitle != null)
-                        homeMainTitle.content = newHome.homeMainTitle;
+                    this.saveInterfaceElement("homeMainTitle", newHome.homeMainTitle);
 
-                    var homeParagraph1 = (from s in context.interfaceinformations
-                                          where s.attribute == "homeParagraph1"
-                                          select s).FirstOrDefault();
-
-                    if (homeParagraph1 != null)
-                    {
-                        newHome.homeParagraph1 = newHome.homeParagraph1 == null ? "" : newHome.homeParagraph1;
-                        homeParagraph1.content = newHome.homeParagraph1;
-                    }
+                    this.saveInterfaceElement("homeParagraph1", newHome.homeParagraph1);
 
                     //Get image element
                     var img = (from s in context.interfacedocuments
@@ -169,6 +184,7 @@ namespace NancyService.Modules
                         img.content = newHome.image;
 
                     context.SaveChanges();
+
                     return true;
                 }
             }
@@ -230,37 +246,12 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //Get element (occurs for each element)
-                    var venueParagraph1 = (from s in context.interfaceinformations
-                                           where s.attribute == "venueParagraph1"
-                                           select s).FirstOrDefault();
+                    this.saveInterfaceElement("venueParagraph1", newVenue.venueParagraph1);
 
-                    //Save content (occurs for each element)
-                    if (venueParagraph1 != null)
-                    {
-                        newVenue.venueParagraph1 = newVenue.venueParagraph1 == null ? "" : newVenue.venueParagraph1;
-                        venueParagraph1.content = newVenue.venueParagraph1;
-                    }
+                    this.saveInterfaceElement("venueTitleBox", newVenue.venueTitleBox);
 
-                    var venueTitleBox = (from s in context.interfaceinformations
-                                         where s.attribute == "venueTitleBox"
-                                         select s).FirstOrDefault();
+                    this.saveInterfaceElement("venueParagraphContentBox", newVenue.venueParagraphContentBox);
 
-                    if (venueTitleBox != null)
-                        venueTitleBox.content = newVenue.venueTitleBox;
-
-
-                    var venueParagraphContentBox = (from s in context.interfaceinformations
-                                                    where s.attribute == "venueParagraphContentBox"
-                                                    select s).FirstOrDefault();
-
-                    if (venueParagraphContentBox != null)
-                    {
-                        newVenue.venueParagraphContentBox = newVenue.venueParagraphContentBox == null ? "" : newVenue.venueParagraphContentBox;
-                        venueParagraphContentBox.content = newVenue.venueParagraphContentBox;
-                    }
-
-                    context.SaveChanges();
                     return true;
                 }
             }
@@ -298,38 +289,14 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //Get element (occurs for each element)
-                    var contactName = (from s in context.interfaceinformations
-                                       where s.attribute == "contactName"
-                                       select s).FirstOrDefault();
-                    //Save content (occurs for each element)
-                    if (contactName != null)
-                        contactName.content = newContact.contactName;
+                    this.saveInterfaceElement("contactName", newContact.contactName);
 
-                    var contactPhone = (from s in context.interfaceinformations
-                                        where s.attribute == "contactPhone"
-                                        select s).FirstOrDefault();
-                    if (contactPhone != null)
-                        contactPhone.content = newContact.contactPhone;
+                    this.saveInterfaceElement("contactPhone", newContact.contactPhone);
 
-                    var contactEmail = (from s in context.interfaceinformations
-                                        where s.attribute == "contactEmail"
-                                        select s).FirstOrDefault();
+                    this.saveInterfaceElement("contactEmail", newContact.contactEmail);
 
-                    if (contactEmail != null)
-                        contactEmail.content = newContact.contactEmail;
+                    this.saveInterfaceElement("contactAdditionalInfo", newContact.contactAdditionalInfo);
 
-                    var contactAdditionalInfo = (from s in context.interfaceinformations
-                                                 where s.attribute == "contactAdditionalInfo"
-                                                 select s).FirstOrDefault();
-
-                    if (contactAdditionalInfo != null)
-                    {
-                        newContact.contactAdditionalInfo = newContact.contactAdditionalInfo == null ? "" : newContact.contactAdditionalInfo;
-                        contactAdditionalInfo.content = newContact.contactAdditionalInfo;
-                    }
-
-                    context.SaveChanges();
                     return true;
                 }
             }
@@ -397,18 +364,7 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //Get element
-                    var participationParagraph1 = (from s in context.interfaceinformations
-                                                   where s.attribute == "participationParagraph1"
-                                                   select s).FirstOrDefault();
-                    //Save content
-                    if (participationParagraph1 != null)
-                    {
-                        newParticipation.participationParagraph1 = newParticipation.participationParagraph1 == null ? "" : newParticipation.participationParagraph1;
-                        participationParagraph1.content = newParticipation.participationParagraph1;
-                    }
-
-                    context.SaveChanges();
+                    this.saveInterfaceElement("participationParagraph1", newParticipation.participationParagraph1);
                     return true;
                 }
             }
@@ -508,27 +464,9 @@ namespace NancyService.Modules
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //Get element (occurs for each element)
-                    var registrationParagraph1 = (from s in context.interfaceinformations
-                                                  where s.attribute == "registrationParagraph1"
-                                                  select s).FirstOrDefault();
-                    //Save content (occurs for each element)
-                    if (registrationParagraph1 != null)
-                    {
-                        newRegistration.registrationParagraph1 = newRegistration.registrationParagraph1 == null ? "" : newRegistration.registrationParagraph1;
-                        registrationParagraph1.content = newRegistration.registrationParagraph1;
-                    }
+                    this.saveInterfaceElement("registrationParagraph1", newRegistration.registrationParagraph1);
 
-                    var registrationParagraph2 = (from s in context.interfaceinformations
-                                                  where s.attribute == "registrationParagraph2"
-                                                  select s).FirstOrDefault();
-
-                    if (registrationParagraph2 != null)
-                    {
-                        newRegistration.registrationParagraph2 = newRegistration.registrationParagraph2 == null ? "" : newRegistration.registrationParagraph2;
-                        registrationParagraph2.content = newRegistration.registrationParagraph2;
-                    }
-
+                    this.saveInterfaceElement("registrationParagraph2", newRegistration.registrationParagraph2);
 
                     var undergraduateStudentFee = (from s in context.usertypes
                                                    where s.userTypeName == "Undergraduate Student"
@@ -767,79 +705,48 @@ namespace NancyService.Modules
                     newDeadline.sponsorDeadline = "";
                 }
 
+                /*
+                //Check registration and late registration
+                //If dates are not empty, and in the correct date format
+                else if (newDeadline.registrationDeadline != "" && newDeadline.lateRegistrationDeadline != "" && newDeadline.registrationDeadline.Split('/').Count() > 2 && newDeadline.lateRegistrationDeadline.Split('/').Count() > 2)
+                {
+
+                    var rDay = Convert.ToInt32(newDeadline.registrationDeadline.Split('/')[1]);
+                    var rMonth = Convert.ToInt32(newDeadline.registrationDeadline.Split('/')[0]);
+                    var rYear = Convert.ToInt32(newDeadline.registrationDeadline.Split('/')[2]);
+
+                    var lrDay = Convert.ToInt32(newDeadline.lateRegistrationDeadline.Split('/')[1]);
+                    var lrMonth = Convert.ToInt32(newDeadline.lateRegistrationDeadline.Split('/')[0]);
+                    var lrYear = Convert.ToInt32(newDeadline.lateRegistrationDeadline.Split('/')[2]);
+
+                    // Constructor (Year, Month, Day)
+
+                    DateTime registrationDate = new DateTime(rYear, rMonth, rDay);
+                    DateTime lateRegistrationDate = new DateTime(lrYear, lrMonth, lrDay);
+
+                    double differenceDays = lateRegistrationDate.Subtract(registrationDate).TotalDays;
+
+                    //if late registration occurs before registration
+                    if (differenceDays < 0)
+                    {
+                        newDeadline.lateRegistrationDeadline = "";
+                    }
+                }*/
+
+
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //Get element (occurs for each element)
-                    var paragraph = (from s in context.interfaceinformations
-                                     where s.attribute == "deadlineParagraph1"
-                                     select s).FirstOrDefault();
-                    //Save content (occurs for each element)
-                    if (paragraph != null)
-                    {
-                        newDeadline.paragraph = newDeadline.paragraph == null ? "" : newDeadline.paragraph;
-                        paragraph.content = newDeadline.paragraph;
-                    }
+                    this.saveInterfaceElement("deadlineParagraph1", newDeadline.paragraph);
+                    this.saveInterfaceElement("deadline1", newDeadline.deadline1);
+                    this.saveInterfaceElement("deadline2", newDeadline.deadline2);
+                    this.saveInterfaceElement("deadline3", newDeadline.deadline3);
+                    this.saveInterfaceElement("deadlineDate1", newDeadline.deadlineDate1);
+                    this.saveInterfaceElement("deadlineDate2", newDeadline.deadlineDate2);
+                    this.saveInterfaceElement("deadlineDate3", newDeadline.deadlineDate3);
+                    this.saveInterfaceElement("registrationDeadline", newDeadline.registrationDeadline);
+                    this.saveInterfaceElement("lateRegistrationDeadline", newDeadline.lateRegistrationDeadline);
+                    this.saveInterfaceElement("sponsorDeadline", newDeadline.sponsorDeadline);
 
-                    var deadline1 = (from s in context.interfaceinformations
-                                     where s.attribute == "deadline1"
-                                     select s).FirstOrDefault();
-                    if (deadline1 != null)
-                        deadline1.content = newDeadline.deadline1;
-
-                    var deadline2 = (from s in context.interfaceinformations
-                                     where s.attribute == "deadline2"
-                                     select s).FirstOrDefault();
-                    if (deadline2 != null)
-                        deadline2.content = newDeadline.deadline2;
-
-                    var deadline3 = (from s in context.interfaceinformations
-                                     where s.attribute == "deadline3"
-                                     select s).FirstOrDefault();
-
-                    if (deadline3 != null)
-                        deadline3.content = newDeadline.deadline3;
-
-                    var deadlineDate1 = (from s in context.interfaceinformations
-                                         where s.attribute == "deadlineDate1"
-                                         select s).FirstOrDefault();
-
-                    if (deadlineDate1 != null)
-                        deadlineDate1.content = newDeadline.deadlineDate1;
-
-                    var deadlineDate2 = (from s in context.interfaceinformations
-                                         where s.attribute == "deadlineDate2"
-                                         select s).FirstOrDefault();
-
-                    if (deadlineDate2 != null)
-                        deadlineDate2.content = newDeadline.deadlineDate2;
-
-                    var deadlineDate3 = (from s in context.interfaceinformations
-                                         where s.attribute == "deadlineDate3"
-                                         select s).FirstOrDefault();
-
-                    if (deadlineDate3 != null)
-                        deadlineDate3.content = newDeadline.deadlineDate3;
-
-                    var registrationDeadline = (from s in context.interfaceinformations
-                                                where s.attribute == "registrationDeadline"
-                                         select s).FirstOrDefault();
-
-                    if (registrationDeadline != null)
-                        registrationDeadline.content = newDeadline.registrationDeadline;
-
-                    var lateRegistrationDeadline = (from s in context.interfaceinformations
-                                                    where s.attribute == "lateRegistrationDeadline"
-                                                    select s).FirstOrDefault();
-
-                    if (lateRegistrationDeadline != null)
-                        lateRegistrationDeadline.content = newDeadline.lateRegistrationDeadline;
-
-                    var sponsorDeadline = (from s in context.interfaceinformations
-                                              where s.attribute == "sponsorDeadline"
-                                              select s).FirstOrDefault();
-
-                    if (sponsorDeadline != null)
-                        sponsorDeadline.content = newDeadline.sponsorDeadline;
 
                     //Submission deadlines
                     var extendedPaperDeadline = (from s in context.submissiontypes
@@ -909,25 +816,11 @@ namespace NancyService.Modules
         //Update content found in the Committee section of the website
         public bool saveCommittee(CommitteeQuery info)
         {
-            String committee= info.committee;
-
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //Get element
-                    var i = (from s in context.interfaceinformations
-                             where s.attribute == "committee"
-                             select s).FirstOrDefault();
-
-                    //Save content
-                    if (i != null)
-                    {
-                        committee = committee == null ? "" : committee;
-                        i.content = committee;
-                    }
-
-                    context.SaveChanges();
+                    this.saveInterfaceElement("committee", info.committee);
                     return true;
                 }
             }
@@ -1147,24 +1040,11 @@ namespace NancyService.Modules
         //Update text found in the Sponsor section of the website
         public bool saveInstructions(SponsorInterfaceBenefits info)
         {
-            String instructions = info.instructions;
-
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //Get element
-                    var i = (from s in context.interfaceinformations
-                             where s.attribute == "sponsorInstructions"
-                             select s).FirstOrDefault();
-                    //Save content
-                    if (i != null)
-                    {
-                        instructions = instructions == null ? "" : instructions;
-                        i.content = instructions;
-                    }
-
-                    context.SaveChanges();
+                    this.saveInterfaceElement("sponsorInstructions", info.instructions);
                     return true;
                 }
             }
@@ -1434,40 +1314,15 @@ namespace NancyService.Modules
 
                 using (conferenceadminContext context = new conferenceadminContext())
                 {
-                    //Get element (occurs for each element)
-                    var conferenceAcronym = (from s in context.interfaceinformations
-                                             where s.attribute == "conferenceAcronym"
-                                             select s).FirstOrDefault();
-                    //Save element (occurs for each element)
-                    if (conferenceAcronym != null)
-                        conferenceAcronym.content = info.conferenceAcronym;
+                    this.saveInterfaceElement("conferenceAcronym", info.conferenceAcronym);
 
-                    var conferenceName = (from s in context.interfaceinformations
-                                          where s.attribute == "conferenceName"
-                                          select s).FirstOrDefault();
-                    if (conferenceName != null)
-                        conferenceName.content = info.conferenceName;
+                    this.saveInterfaceElement("conferenceName", info.conferenceName);
 
-                    var d1 = (from s in context.interfaceinformations
-                              where s.attribute == "conferenceDay1"
-                              select s).FirstOrDefault();
+                    this.saveInterfaceElement("conferenceDay1", conferenceDay1);
 
-                    if (d1 != null)
-                        d1.content = conferenceDay1;
+                    this.saveInterfaceElement("conferenceDay2", conferenceDay2);
 
-                    var d2 = (from s in context.interfaceinformations
-                              where s.attribute == "conferenceDay2"
-                              select s).FirstOrDefault();
-
-                    if (d2 != null)
-                        d2.content = conferenceDay2;
-
-                    var d3 = (from s in context.interfaceinformations
-                              where s.attribute == "conferenceDay3"
-                              select s).FirstOrDefault();
-
-                    if (d3 != null)
-                        d3.content = conferenceDay3;
+                    this.saveInterfaceElement("conferenceDay3", conferenceDay3);
 
                     var logo = (from s in context.interfacedocuments
                                 where s.attibuteName == "logo"

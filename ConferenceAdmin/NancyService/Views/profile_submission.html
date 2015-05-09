@@ -130,7 +130,7 @@
                                 </div>
                                 <div class="col-md-4 right">
                                     <div class="input-group-btn">
-                                        <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="documentFile" type="file" class="file" ng-model="vm.modalevaluationFile" class="form-control" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)" required></div>
+                                        <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="documentFile" type="file" class="form-control" ng-model="vm.modalevaluationFile" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)" required></div>
                                     </div>
                                     <p ng-show="vm.ext" class="help-block">* Try .doc, .docx, .ppt, .pdf files.</p>
                                 </div>
@@ -260,7 +260,7 @@
                                     </div>
                                     <div class="col-md-4 right">
                                         <div class="input-group-btn">
-                                            <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="documentFile" type="file" class="file" ng-model="vm.modalevaluationFile" class="form-control" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)" required></div>
+                                            <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="documentFile" type="file" class="file form-control" ng-model="vm.modalevaluationFile" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)" required></div>
                                         </div>
                                         <p ng-show="vm.ext" class="help-block">* Try .doc, .docx, .ppt, .pdf files.</p>
                                     </div>
@@ -404,5 +404,8 @@
         </div>
     </div>
     <!------------------------------------------------delete end-------------------------------------------------->
+    <div class="col-xs-6 col-sm-6 col-md-6">
+        <modal source="vm.obj" visible="vm.showConfirmModal" okcallback=" vm.okFunc()"></modal>
+    </div>
 </div>
 

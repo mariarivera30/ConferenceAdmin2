@@ -130,8 +130,8 @@
                                     <label>Late Registration</label>
                                     Your total amount with the late fee included to pay is <strong ng-hide="vm.correctComplementaryKey">{{vm.amountStatus.amount | currency}}</strong> <strong ng-show="vm.correctComplementaryKey">$0.00</strong>.
                                 </div>
-                                    <a ng-hide="vm.correctComplementaryKey" ng-disable="vm.loading" ng-click="vm.userPayment()" target="_blank" class="btn btn-ar btn-primary right"
-                                       ng-disabled="(vm.userTypeID == 1 && vm.hasKey == false) || (vm.userTypeID == 1 && vm.hasKey == true && vm.companionRegistered==false)
+                                <a ng-hide="vm.correctComplementaryKey" ng-disable="vm.loading" ng-click="vm.userPayment()" target="_blank" class="btn btn-ar btn-primary right"
+                                   ng-disabled="(vm.userTypeID == 1 && vm.hasCompKey == false) || (vm.userTypeID == 1 && vm.hasCompKey == true && vm.companionRegistered==false)
                                     || (vm.datesList.length==3 && (vm.date3!=true && vm.date2!=true && vm.date1!=true))
                                     || (vm.datesList.length==2 && (vm.date2!=true && vm.date1!=true))
                                     || (vm.datesList.length==1 && (vm.date1!=true))">{{vm.paymentbuttonText}}</a>

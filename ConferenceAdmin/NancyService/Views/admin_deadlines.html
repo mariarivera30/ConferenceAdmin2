@@ -104,7 +104,8 @@
         </table>
 
         <button class="btn btn-ar btn-default" ng-click="vm.reset()">Reload</button>
-        <button class="btn btn-ar btn-primary" ng-click="vm.saveDeadlines()" ng-disabled="vm.loading">Save</button>
+        <button class="btn btn-ar btn-primary" ng-click="vm.saveDeadlines()" ng-disabled="vm.loading || vm.lateRegistrationDeadline.getTime() <= vm.registrationDeadline.getTime()">Save</button>
+        <label ng-show="vm.lateRegistrationDeadline.getTime() <= vm.registrationDeadline.getTime()">Late Registration Date must occur after the default Registration Date. Check your dates and try again.</label>
     </div>
 
     <!--Modal Update Information-->
