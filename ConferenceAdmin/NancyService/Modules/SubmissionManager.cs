@@ -34,7 +34,7 @@ namespace NancyService.Modules
                     foreach (var claim in userClaims)
                     {
                         //if user is a master, admin or committee manager allow the to allow the submitter to submit a final version
-                        if (claim.privilegesID == 1 || claim.privilegesID == 3 || claim.privilegesID == 5) 
+                        if (claim.privilegesID == 1 || claim.privilegesID == 3 || claim.privilegesID == 5)
                             canAllowFinalVersion = true;
                     }
                     //gets submission info
@@ -190,7 +190,7 @@ namespace NancyService.Modules
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
-                {                    
+                {
                     Evaluation subs = new Evaluation();
                     evaluatiorsubmission sub;
                     //gets the evaluatorsubmission relation where the submissionIF and evaluatorID matches woth the given parameters
@@ -235,15 +235,15 @@ namespace NancyService.Modules
                     //List<evaluatiorsubmission> finalevs = context.evaluatiorsubmissions.Where(c => c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions.Where(d => d.deleted == false).FirstOrDefault() != null).ToList();
 
                     List<evaluatiorsubmission> finalevs = (from e in context.evaluators
-                               from s in context.submissions
-                               from es in context.evaluatiorsubmissions
-                               from us in context.usersubmission
-                               where (es.evaluatorID == e.evaluatorsID && es.submissionID == s.submissionID && s.submissionID == us.finalSubmissionID && e.userID == userID && es.deleted == false && us.deleted == false)
-                               select es).ToList();
-                    
+                                                           from s in context.submissions
+                                                           from es in context.evaluatiorsubmissions
+                                                           from us in context.usersubmission
+                                                           where (es.evaluatorID == e.evaluatorsID && es.submissionID == s.submissionID && s.submissionID == us.finalSubmissionID && e.userID == userID && es.deleted == false && us.deleted == false)
+                                                           select es).ToList();
+
                     foreach (var i in finalevs)
-                       {
-                           Submission subEv = new Submission
+                    {
+                        Submission subEv = new Submission
                         {
                             submissionID = i.submissionID,
                             evaluatorID = i.evaluatorID,
@@ -253,33 +253,33 @@ namespace NancyService.Modules
                             isEvaluated = (i.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true),
                             isFinalSubmission = true
                         };
-                           assignedFinalSubmissions.Add(subEv);
-                       } 
+                        assignedFinalSubmissions.Add(subEv);
+                    }
 
                     //gets all non-final the evaluations assigned to the given evaluator
                     List<Submission> assignedSubmissions = new List<Submission>();
-                        
-                        //List<evaluatiorsubmission> evsub = context.evaluatiorsubmissions.Where(c => c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions1.Where(d => d.deleted == false).FirstOrDefault() != null).ToList();
+
+                    //List<evaluatiorsubmission> evsub = context.evaluatiorsubmissions.Where(c => c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions1.Where(d => d.deleted == false).FirstOrDefault() != null).ToList();
                     List<evaluatiorsubmission> evsub = (from e in context.evaluators
-                                 from s in context.submissions
-                                 from es in context.evaluatiorsubmissions
-                                 from us in context.usersubmission
-                                 where (es.evaluatorID == e.evaluatorsID && es.submissionID == s.submissionID && s.submissionID == us.initialSubmissionID && e.userID == userID && es.deleted == false && us.deleted == false)
-                                 select es).ToList();    
+                                                        from s in context.submissions
+                                                        from es in context.evaluatiorsubmissions
+                                                        from us in context.usersubmission
+                                                        where (es.evaluatorID == e.evaluatorsID && es.submissionID == s.submissionID && s.submissionID == us.initialSubmissionID && e.userID == userID && es.deleted == false && us.deleted == false)
+                                                        select es).ToList();
                     foreach (var i in evsub)
+                    {
+                        Submission theSub = new Submission
                         {
-                            Submission theSub = new Submission
-                            {
-                                submissionID = i.submissionID,
-                                evaluatorID = i.evaluatorID,
-                                userType = i.submission.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault().user.usertype.userTypeName,
-                                submissionTitle = i.submission.title,
-                                topic = i.submission.topiccategory.name,
-                                isEvaluated = (i.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true),
-                                isFinalSubmission = false
-                            };
-                            assignedSubmissions.Add(theSub);
-                        } 
+                            submissionID = i.submissionID,
+                            evaluatorID = i.evaluatorID,
+                            userType = i.submission.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.usersubmissions1.Where(c => c.deleted == false).FirstOrDefault().user.usertype.userTypeName,
+                            submissionTitle = i.submission.title,
+                            topic = i.submission.topiccategory.name,
+                            isEvaluated = (i.evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true),
+                            isFinalSubmission = false
+                        };
+                        assignedSubmissions.Add(theSub);
+                    }
                     //merge list of final submissions with non-final submissions
                     foreach (var finalSub in assignedFinalSubmissions)
                     {
@@ -318,11 +318,11 @@ namespace NancyService.Modules
                     bool searchingPending = criteria.ToLower().Contains("pending");
                     //gets all final evaluations assigned to the given evaluator
                     List<Submission> assignedFinalSubmissions = context.evaluatiorsubmissions.
-                        Where(c => (c.submission.title.ToLower().Contains(criteria.ToLower()) 
+                        Where(c => (c.submission.title.ToLower().Contains(criteria.ToLower())
                             || c.submission.usersubmissions.Where(j => j.deleted == false).FirstOrDefault().user.usertype.userTypeName.ToLower().Contains(criteria.ToLower())
                             || c.submission.topiccategory.name.ToLower().Contains(criteria.ToLower())
-                           // || (c.evaluationsubmitteds.Where(j => j.deleted == false).FirstOrDefault() == null) == searchingPending
-                            || searchingFinal) 
+                            // || (c.evaluationsubmitteds.Where(j => j.deleted == false).FirstOrDefault() == null) == searchingPending
+                            || searchingFinal)
                             && c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions.Where(d => d.deleted == false).FirstOrDefault() != null).
                         Select(i => new Submission
                         {
@@ -340,8 +340,8 @@ namespace NancyService.Modules
                         Where(c => (c.submission.title.ToLower().Contains(criteria.ToLower())
                             || c.submission.usersubmissions.Where(j => j.deleted == false).FirstOrDefault().user.usertype.userTypeName.ToLower().Contains(criteria.ToLower())
                             || c.submission.topiccategory.name.ToLower().Contains(criteria.ToLower())
-                          //  || (c.evaluationsubmitteds.Where(j => j.deleted == false).FirstOrDefault() == null) == searchingPending
-                          ) 
+                            //  || (c.evaluationsubmitteds.Where(j => j.deleted == false).FirstOrDefault() == null) == searchingPending
+                          )
                             && c.evaluator.userID == userID && c.deleted == false && c.submission.usersubmissions1.Where(d => d.deleted == false).FirstOrDefault() != null).
                         Select(i => new Submission
                         {
@@ -411,7 +411,7 @@ namespace NancyService.Modules
                             context.usersubmission.Where(c => c.initialSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault().user.membership.email);
                         if (email == null) email = context.usersubmission.Where(c => c.finalSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault() == null ?
                              null : context.usersubmission.Where(c => c.finalSubmissionID == usersubIn.initialSubmissionID).FirstOrDefault().user.membership.email;
-                        
+
                         try { sendFinalVersionAllowedEmail(email, context.submissions.Where(c => c.submissionID == usersubIn.initialSubmissionID).FirstOrDefault().title); }
 
                         catch (Exception ex)
@@ -437,12 +437,12 @@ namespace NancyService.Modules
             MailAddress ccwic = new MailAddress(ccwicEmail);
             MailAddress user = new MailAddress(email);
             MailMessage mail = new System.Net.Mail.MailMessage(ccwic, user);
-            
-                mail.Subject = "Caribbean Celebration of Women in Computing Submission Requirement";
-                mail.Body = "Greetings, \n\n " +
-                    "Our evaluators have asked that you submit a final version of your submission with the name: " + submissionTitle + ". To view the comments made about your submission and the desired changes, please login to view your profile through the following link: \n\n" +
-                    "http://136.145.116.238/#/Login/Log" + ".";            
-            
+
+            mail.Subject = "Caribbean Celebration of Women in Computing Submission Requirement";
+            mail.Body = "Greetings, \n\n " +
+                "Our evaluators have asked that you submit a final version of your submission with the name: " + submissionTitle + ". To view the comments made about your submission and the desired changes, please login to view your profile through the following link: \n\n" +
+                "http://136.145.116.238/#/Login/Log" + ".";
+
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";
             smtp.Port = 587;
@@ -488,7 +488,7 @@ namespace NancyService.Modules
                     }
                     else
                     {
-                        userSub = context.usersubmission.Where(c => c.initialSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault(); 
+                        userSub = context.usersubmission.Where(c => c.initialSubmissionID == userSubIn.initialSubmissionID).FirstOrDefault();
                         userSub.allowFinalVersion = userSubIn.allowFinalVersion;
                     }
                     context.SaveChanges();
@@ -528,37 +528,38 @@ namespace NancyService.Modules
                 {
                     //get all final submissions
                     List<usersubmission> userFinalSubmissions0 = context.usersubmission.Where(c => c.userID == userID && c.deleted == false && c.finalSubmissionID != null && c.submission.byAdmin == false).ToList();
-                    List<Submission> userFinalSubmissions = new List<Submission>();    
+                    List<Submission> userFinalSubmissions = new List<Submission>();
                     foreach (var i in userFinalSubmissions0)
-	                    {
-                            Submission finalSub = new Submission
-                            {
-                                submissionID = i.submission == null ? -1 : i.submission.submissionID,
-                                firstName = i.user.firstName,
-                                lastName = i.user.lastName,
-                                email = i.user.membership.email,
-                                submissionTypeName = i.submission == null ? null : i.submission.submissiontype.name,
-                                submissionTypeID = i.submission == null ? -1 : i.submission.submissionTypeID,
-                                submissionTitle = i.submission == null ? null : i.submission.title,
-                                topiccategoryID = i.submission == null ? -1 : i.submission.topicID,
-                                status = i.submission == null ? null : i.submission.status,
-                                templateName = i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
-                                null : i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().template.name,
-                                templateID = i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
-                                -1 : i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().templateID,
-                                isEvaluated = (i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
-                                isAssigned = i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true,
-                                isFinalSubmission = true
-                            };
-                            userFinalSubmissions.Add(finalSub);
-                        }
+                    {
+                        Submission finalSub = new Submission
+                        {
+                            submissionID = i.submission == null ? -1 : i.submission.submissionID,
+                            firstName = i.user.firstName,
+                            lastName = i.user.lastName,
+                            email = i.user.membership.email,
+                            submissionTypeName = i.submission == null ? null : i.submission.submissiontype.name,
+                            submissionTypeID = i.submission == null ? -1 : i.submission.submissionTypeID,
+                            submissionTitle = i.submission == null ? null : i.submission.title,
+                            topiccategoryID = i.submission == null ? -1 : i.submission.topicID,
+                            status = i.submission == null ? null : i.submission.status,
+                            templateName = i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            null : i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().template.name,
+                            templateID = i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ?
+                            -1 : i.submission.templatesubmissions.Where(c => c.deleted == false).FirstOrDefault().templateID,
+                            isEvaluated = (i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
+                            isAssigned = i.submission.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true,
+                            isFinalSubmission = true
+                        };
+                        userFinalSubmissions.Add(finalSub);
+                    }
                     //get all submissions that do no have a final submission
                     List<Submission> userSubmissions = new List<Submission>();
                     List<usersubmission> userSubs = context.usersubmission.Where(c => c.userID == userID && c.deleted == false && c.finalSubmissionID == null && c.submission1.byAdmin == false).ToList();
-                        foreach (var i in userSubs)
-	                    {
-		                    Submission sub = new Submission{
-                                submissionID = i.submission1 == null ? -1 : i.submission1.submissionID,
+                    foreach (var i in userSubs)
+                    {
+                        Submission sub = new Submission
+                        {
+                            submissionID = i.submission1 == null ? -1 : i.submission1.submissionID,
                             submissionTypeName = i.submission1 == null ? null : i.submission1.submissiontype.name,
                             submissionTypeID = i.submission1 == null ? -1 : i.submission1.submissionTypeID,
                             submissionTitle = i.submission1 == null ? null : i.submission1.title,
@@ -567,11 +568,11 @@ namespace NancyService.Modules
                             isEvaluated = (i.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? null : i.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false,
                             isAssigned = i.submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault() == null ? false : true,
                             isFinalSubmission = false,
-                            finalSubmissionAllowed = (i.allowFinalVersion == null ? false : i.allowFinalVersion) == false ? false : true                        
-                            };
-                            userSubmissions.Add(sub);
-	                    }
-                           
+                            finalSubmissionAllowed = (i.allowFinalVersion == null ? false : i.allowFinalVersion) == false ? false : true
+                        };
+                        userSubmissions.Add(sub);
+                    }
+
                     foreach (Submission final in userFinalSubmissions)
                     {
                         userSubmissions.Add(final);
@@ -846,7 +847,7 @@ namespace NancyService.Modules
                             null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault()) == null ?
                             null : sub.usersubmissions.Where(c => c.deleted == false).FirstOrDefault().submission1.evaluatiorsubmissions.Where(c => c.deleted == false).FirstOrDefault().evaluationsubmitteds.Where(c => c.deleted == false).FirstOrDefault().publicFeedback
 
-                        };                        
+                        };
                     }
                     return subs;
                 }
@@ -865,7 +866,7 @@ namespace NancyService.Modules
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
-                {                    
+                {
                     List<SubmissionType> userSubmissions = context.submissiontypes.
                         Select(i => new SubmissionType
                         {
@@ -896,21 +897,21 @@ namespace NancyService.Modules
                     if (isFinalVersion)
                     {
                         i = context.usersubmission.Where(c => c.finalSubmissionID == subID).FirstOrDefault();
-                        
-                            long submissionID = i.submission1 == null ? -1 : i.submission1.submissionID;
-                            String submissionTypeName = i.submission1 == null ? null : i.submission1.submissiontype.name;
-                            int submissionTypeID = i.submission1 == null ? -1 : i.submission1.submissionTypeID;
-                            String submissionTitle = i.submission1 == null ? null : i.submission1.title;
-                            int topiccategoryID = i.submission1 == null ? -1 : i.submission1.topicID;
-                            String status = i.submission1 == null ? null : i.submission1.status;
-                            bool isEvaluated = (context.evaluatiorsubmissions.Where(c => c.deleted == false && c.submissionID == submissionID).FirstOrDefault() == null ? null : context.evaluatiorsubmissions.Where(c => c.deleted == false && c.submissionID == submissionID).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false;
-                            bool isAssigned = context.evaluatiorsubmissions.Where(c => c.deleted == false && c.submissionID == submissionID).FirstOrDefault() == null ? false : true;
-                            bool isFinalSubmission = false;
-                            bool finalSubmissionAllowed = (i.allowFinalVersion == null ? false : i.allowFinalVersion) == false ? false : true;
 
-                            prevSub = new Submission(submissionID, submissionTypeName, submissionTypeID, submissionTitle, 
-                                topiccategoryID, status, isEvaluated, isAssigned, isFinalSubmission, finalSubmissionAllowed);
-                        
+                        long submissionID = i.submission1 == null ? -1 : i.submission1.submissionID;
+                        String submissionTypeName = i.submission1 == null ? null : i.submission1.submissiontype.name;
+                        int submissionTypeID = i.submission1 == null ? -1 : i.submission1.submissionTypeID;
+                        String submissionTitle = i.submission1 == null ? null : i.submission1.title;
+                        int topiccategoryID = i.submission1 == null ? -1 : i.submission1.topicID;
+                        String status = i.submission1 == null ? null : i.submission1.status;
+                        bool isEvaluated = (context.evaluatiorsubmissions.Where(c => c.deleted == false && c.submissionID == submissionID).FirstOrDefault() == null ? null : context.evaluatiorsubmissions.Where(c => c.deleted == false && c.submissionID == submissionID).FirstOrDefault().statusEvaluation) == "Evaluated" ? true : false;
+                        bool isAssigned = context.evaluatiorsubmissions.Where(c => c.deleted == false && c.submissionID == submissionID).FirstOrDefault() == null ? false : true;
+                        bool isFinalSubmission = false;
+                        bool finalSubmissionAllowed = (i.allowFinalVersion == null ? false : i.allowFinalVersion) == false ? false : true;
+
+                        prevSub = new Submission(submissionID, submissionTypeName, submissionTypeID, submissionTitle,
+                            topiccategoryID, status, isEvaluated, isAssigned, isFinalSubmission, finalSubmissionAllowed);
+
 
                         //if submission to be deleted is final version disconnect the final version from the previous one                       
                         var theFinalSub = context.usersubmission.Where(c => c.deleted == false && c.finalSubmissionID == subID).FirstOrDefault();
@@ -960,7 +961,7 @@ namespace NancyService.Modules
                     }
 
                     context.SaveChanges();
-                    
+
                     return prevSub;
                 }
             }
@@ -1006,6 +1007,7 @@ namespace NancyService.Modules
                     user.hasApplied = true;
                     context.SaveChanges();
 
+                    /*
                     //table documents submitted
                     if (submissionToAdd.submissionTypeID != 4)
                     {
@@ -1021,7 +1023,8 @@ namespace NancyService.Modules
                             context.SaveChanges();
                         }
 
-                    }
+                    }*/
+
                     //table pannels
                     if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
                     {
@@ -1071,27 +1074,27 @@ namespace NancyService.Modules
             }
         }
         //Jaimeiris - adds a submission file to a submission
-        public bool addSubmissionFile(documentssubmitted file)
+        public documentssubmitted addSubmissionFile(documentssubmitted file)
         {
             try
             {
                 using (conferenceadminContext context = new conferenceadminContext())
-                {                   
-                        documentssubmitted subDoc = new documentssubmitted();
+                {
+                    documentssubmitted subDoc = new documentssubmitted();
 
-                        subDoc.submissionID = file.submissionID;
-                        subDoc.documentName = file.documentName;
-                        subDoc.document = file.document;
-                        subDoc.deleted = false;
-                        context.documentssubmitteds.Add(subDoc);
-                        context.SaveChanges();                                
-                    return true;                               
+                    subDoc.submissionID = file.submissionID;
+                    subDoc.documentName = file.documentName;
+                    subDoc.document = file.document;
+                    subDoc.deleted = false;
+                    context.documentssubmitteds.Add(subDoc);
+                    context.SaveChanges();
+                    return subDoc;
                 }
             }
             catch (Exception ex)
             {
                 Console.Write("SubmissionManager.addSubmission error " + ex);
-                return false;
+                return null;
             }
         }
         //Jaimeiris - Deletes the files that user has removed and maintains the ones the user wishes to keep
@@ -1113,9 +1116,10 @@ namespace NancyService.Modules
                         docTBD.deleted = true;
                         context.SaveChanges();
                     }
-                                     
+
+                    return true;
+
                 }
-                return true;
             }
             catch (Exception ex)
             {
@@ -1138,6 +1142,27 @@ namespace NancyService.Modules
                     sub.submissionAbstract = submissionToEdit.submissionAbstract;
                     sub.title = submissionToEdit.title;
                     context.SaveChanges();
+
+                    //table documents submitted
+                    if (submissionToEdit.submissionTypeID != 4)
+                    {
+                        documentssubmitted subDocs = new documentssubmitted();
+
+                        List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(d => d.submissionID == submissionToEdit.submissionID && d.deleted != true).Select(d => d).ToList();
+
+                        foreach (var doc in prevDocuments)
+                        {
+
+                            int count = submissionToEdit.documentssubmitteds.Where(d => d.documentssubmittedID == doc.documentssubmittedID).Count();
+                            if (count == 0)
+                            {
+                                doc.deleted = true;
+                                context.SaveChanges();
+                            }
+
+                        }
+                    }
+
                     //table pannels
                     if (sub.submissionTypeID == 3 && pannelToEdit != null)
                     {
@@ -1169,7 +1194,7 @@ namespace NancyService.Modules
                     };
 
 
-                    
+
                     return editedSub;
                 }
             }
@@ -1345,8 +1370,33 @@ namespace NancyService.Modules
                     long finalSubmissionID = sub.submissionID;
                     usersubmission usersub = context.usersubmission.Where(c => c.initialSubmissionID == usersubTA.initialSubmissionID && c.deleted == false).FirstOrDefault();
                     usersub.finalSubmissionID = finalSubmissionID;
-                    context.SaveChanges();                    
-                   
+                    context.SaveChanges();
+
+                    //table documents submitted
+                    if (submissionToAdd.submissionTypeID != 4)
+                    {
+                        documentssubmitted subDocs = new documentssubmitted();
+
+                        List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(d => d.submissionID == usersubTA.initialSubmissionID && d.deleted != true).Select(d => d).ToList();
+
+                        foreach (var doc in prevDocuments)
+                        {
+
+                            int count = submissionToAdd.documentssubmitteds.Where(d => d.documentssubmittedID == doc.documentssubmittedID).Count();
+                            if (count != 0)
+                            {
+                                var newDoc = new documentssubmitted();
+                                newDoc.submissionID = finalSubmissionID;
+                                newDoc.documentName = doc.documentName;
+                                newDoc.document = doc.document;
+                                newDoc.deleted = false;
+                                context.documentssubmitteds.Add(newDoc);
+                                context.SaveChanges();
+                            }
+
+                        }
+                    }
+
                     //table pannels
                     if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
                     {
@@ -1383,12 +1433,13 @@ namespace NancyService.Modules
                         //quitando el assignment de submission y evaluator del intial submission a los q aun no han evaluado, se les envia un email al evaluador de que no esta asignado.
                         assignment.deleted = true;
 
-                        try {
+                        try
+                        {
                             email = assignment.evaluator.user.membership.email;//evaluator email
                             String subject = "Caribbean Celebration of Women in Computing Assignment Deletion";
                             String messageBody = "Greetings, \n\n " +
                                 "The request to evaluate the submission with title " + assignment.submission.title + " has been removed. It is no longer required for you to evaluate said submission.  To view all of your assigned submission please login to the system through the following link: \n\n" +
-                                "http://136.145.116.238/#/Login/Log" + ".";                            
+                                "http://136.145.116.238/#/Login/Log" + ".";
                             sendAssignmentEmail(email, subject, messageBody); //inform evaluator of deleted assignment via email
                         }
 
@@ -1400,7 +1451,7 @@ namespace NancyService.Modules
 
                     }
                     context.SaveChanges();
-                    
+
 
                     Submission addedSub = new Submission
                     {
@@ -1445,7 +1496,7 @@ namespace NancyService.Modules
                         doc.deleted = false;
                         context.documentssubmitteds.Add(doc);
                         context.SaveChanges();
-                    }                                     
+                    }
                 }
                 return true;
             }
@@ -1500,7 +1551,32 @@ namespace NancyService.Modules
                     long finalSubmissionID = sub.submissionID;
                     usersubmission usersub = context.usersubmission.Where(c => c.initialSubmissionID == usersubTA.initialSubmissionID && c.deleted == false).FirstOrDefault();
                     usersub.finalSubmissionID = finalSubmissionID;
-                    context.SaveChanges();                   
+                    context.SaveChanges();
+
+                    //table documents submitted
+                    if (submissionToAdd.submissionTypeID != 4)
+                    {
+                        documentssubmitted subDocs = new documentssubmitted();
+
+                        List<documentssubmitted> prevDocuments = context.documentssubmitteds.Where(d => d.submissionID == usersubTA.initialSubmissionID && d.deleted != true).Select(d => d).ToList();
+
+                        foreach (var doc in prevDocuments)
+                        {
+
+                            int count = submissionToAdd.documentssubmitteds.Where(d => d.documentssubmittedID == doc.documentssubmittedID).Count();
+                            if (count != 0)
+                            {
+                                var newDoc = new documentssubmitted();
+                                newDoc.submissionID = finalSubmissionID;
+                                newDoc.documentName = doc.documentName;
+                                newDoc.document = doc.document;
+                                newDoc.deleted = false;
+                                context.documentssubmitteds.Add(newDoc);
+                                context.SaveChanges();
+                            }
+
+                        }
+                    }
 
                     //table pannels
                     if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
@@ -1680,7 +1756,7 @@ namespace NancyService.Modules
                     {
                         String deadline = context.submissiontypes.Where(c => c.submissiontypeID == i).Select(d => d.deadline).FirstOrDefault();
                         bool comp = false;
-                        if (deadline == "" || deadline == null){}
+                        if (deadline == "" || deadline == null) { }
                         else
                         {
                             var Day = Convert.ToInt32(deadline.Split('/')[1]);
@@ -1710,15 +1786,15 @@ namespace NancyService.Modules
                 {
                     var evaluators = context.users.Where(evaluator => evaluator.evaluatorStatus == "Accepted" && evaluator.deleted == false).
                         Select(evaluator => new EvaluatorQuery
-                    {
-                        userID = (long)evaluator.userID,
-                        evaluatorID = evaluator.evaluators.Where(c => c.deleted == false).FirstOrDefault() == null ? -1 : evaluator.evaluators.Where(c => c.deleted == false).FirstOrDefault().evaluatorsID,
-                        firstName = evaluator.firstName,
-                        lastName = evaluator.lastName,
-                        email = evaluator.membership.email,
-                        acceptanceStatus = evaluator.evaluatorStatus
+                        {
+                            userID = (long)evaluator.userID,
+                            evaluatorID = evaluator.evaluators.Where(c => c.deleted == false).FirstOrDefault() == null ? -1 : evaluator.evaluators.Where(c => c.deleted == false).FirstOrDefault().evaluatorsID,
+                            firstName = evaluator.firstName,
+                            lastName = evaluator.lastName,
+                            email = evaluator.membership.email,
+                            acceptanceStatus = evaluator.evaluatorStatus
 
-                    }).ToList();
+                        }).ToList();
                     return evaluators;
                 }
             }
@@ -1961,7 +2037,7 @@ namespace NancyService.Modules
                     user.hasApplied = true;
                     context.SaveChanges();
 
-                    //table documents submitted
+                    /*/table documents submitted
                     if (submissionToAdd.submissionTypeID != 4)
                     {
                         documentssubmitted subDocs = new documentssubmitted();
@@ -1975,7 +2051,8 @@ namespace NancyService.Modules
                             context.documentssubmitteds.Add(subDocs);
                             context.SaveChanges();
                         }
-                    }
+                    }*/
+
                     //table pannels
                     if (submissionToAdd.submissionTypeID == 3 && pannelToAdd != null)
                     {
@@ -2358,7 +2435,7 @@ namespace NancyService.Modules
                                     select new Template
                                     {
                                         templateID = (int)t.templateID,
-                                        templateName = t.name                                        
+                                        templateName = t.name
                                     }).ToList();
 
                     return tempList;
@@ -2380,7 +2457,7 @@ namespace NancyService.Modules
                 {
                     Evaluation file = context.templates.Where(c => c.templateID == templateID && c.deleted == false).
                         Select(d => new Evaluation
-                        {                            
+                        {
                             templateID = d.templateID,
                             evaluationFile = d.document,
                             evaluationFileName = d.name,
@@ -2405,7 +2482,7 @@ namespace NancyService.Modules
                     Evaluation file = context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.evaluatorID == evaluatorID && c.deleted == false).FirstOrDefault() == null ?
                         new Evaluation() : context.evaluatiorsubmissions.Where(c => c.submissionID == submissionID && c.evaluatorID == evaluatorID && c.deleted == false).FirstOrDefault().evaluationsubmitteds.
                         Select(d => new Evaluation
-                        {                            
+                        {
                             evaluationFile = d.evaluationFile,
                             evaluationFileName = d.evaluationName,
                         }).FirstOrDefault();
