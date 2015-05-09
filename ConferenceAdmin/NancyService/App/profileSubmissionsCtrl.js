@@ -82,6 +82,41 @@
             
         }
 
+        /*  Display dialogs */
+        vm.obj = {};
+        vm.toggleModal = function (action) {
+
+
+           
+            if (action == "errorfile") {
+
+                vm.obj.title = "File Error",
+                vm.obj.message1 = "Please refresh the page and try again to submit or download your Files.",
+
+                vm.obj.message2 = vm.keyPop,
+                vm.obj.label = "",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "OK",
+                vm.obj.cancelbutton = false,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.showConfirmModal = !vm.showConfirmModal;
+                vm.okFunc = vm.deleteComplemetaryKey;
+                vm.cancelFunc;
+
+            }
+            else if (action == "error") {
+                vm.obj.title = "Server Error",
+               vm.obj.message1 = "Please refresh the page and try again.",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+            }
+        };
+
         /* [Randy] add a document to the list */
         function _addDocument() {
             vm.document = vm.content;
@@ -236,6 +271,7 @@
               error(function (data, status, headers, config) {
                   // called asynchronously if an error occurs
                   // or server returns response with an error status.
+                  vm.toggleModal("error");
                   vm.submissionlist = data;
               });
         }
@@ -286,6 +322,7 @@
                       // called asynchronously if an error occurs
                       // or server returns response with an error status.
                       vm.submissionlist = data;
+                      vm.toggleModal("error");
                   });
         }
         function _backToList() {
@@ -309,7 +346,8 @@
         };
        
         /* [Jaimeiris] add a new submission */
-        function _addSubmission() {           
+        function _addSubmission() {
+        
             //if submiting for the first time
             if (vm.viewModal == "Add") {
                 if (vm.TYPE.submissionTypeID == 1 || vm.TYPE.submissionTypeID == 2 || vm.TYPE.submissionTypeID == 4) {//if paper, poster o bof
@@ -360,20 +398,25 @@
                                         var params = { documentssubmittedID: doc.documentssubmittedID, documentName: doc.documentName, document: doc.document, submissionID: data.submissionID };
                                         restApi.addFileToSubmission(params)
                                             .success(function (data3, status3, headers3, config3) {
-
+                                               
                                             })
                                             .error(function (error) {
+                                                vm.toggleModal("errorfile");
+                                               
                                             });
                                         //end add new files
                                     });
                                 })
                                 .error(function (error) {
+                                    vm.toggleModal("errorfile");
+                                  
                                 });
                             //end manage existing list of files
 
                             vm.submissionlist.push(data);
                         })
                         .error(function (error) {
+                            vm.toggleModal("error");
                         });
             }
             else if (vm.viewModal == 'Edit') { //if updating submission
@@ -418,20 +461,23 @@
                            var params1 = { submissionID: data.submissionID, IDsList: IDsList };
                            restApi.manageExistingFiles(params1)
                                .success(function (data2, status2, headers2, config2) {
+                                  
                                    vm.documentsList.forEach(function (doc, index) {
 
                                        //add new files
                                        var params = { documentssubmittedID: doc.documentssubmittedID, documentName: doc.documentName, document: doc.document, submissionID: data.submissionID };
                                        restApi.addFileToSubmission(params)
                                            .success(function (data3, status3, headers3, config3) {
-
+                                          
                                            })
                                            .error(function (error) {
+                                               vm.toggleModal("errorfile");
                                            });
                                        //end add new files
                                    });
                                })
                                .error(function (error) {
+                                   vm.toggleModal("errorfile");
                                });
                            //end manage existing list of files
 
@@ -444,6 +490,7 @@
                        )
                        })
                        .error(function (error) {
+                           vm.toggleModal("error");
                            _clear();
                        });
                 
@@ -496,14 +543,17 @@
                                         var params = { documentssubmittedID: doc.documentssubmittedID, documentName: doc.documentName, document: doc.document, submissionID: data.submissionID };
                                         restApi.addFileToSubmission(params)
                                             .success(function (data3, status3, headers3, config3) {
-
+                                       
                                             })
                                             .error(function (error) {
+                                                vm.toggleModal("errorfile");
                                             });
                                         //end add new files
                                     });
                                 })
                                 .error(function (error) {
+                                   
+                                    vm.toggleModal("errorfile");
                                 });
                             //end manage existing list of files
 
@@ -515,10 +565,12 @@
                             vm.submissionlist.push(data);
                         })
                         .error(function (error) {
+                            vm.toggleModal("error");
+                        
 
                         });
             }
-            $('#editSubmissionModal').modal('hide');
+           // $('#editSubmissionModal').modal('hide');
         }
 
         function getSubmission() {
@@ -542,10 +594,12 @@
 
         /* [Jaimeiris] delete a specific submission */
         function _deleteSubmission() {
+            
             if (vm.currentSubmissionID != undefined) {
                 restApi.deleteSubmission(vm.currentSubmissionID)
                 .success(function (data, status, headers, config) {
                     _getUserSubmissions(currentUserID);
+                   
                     /*vm.submissionlist.forEach(function (submission, index) {
                         if (submission.submissionID == vm.currentSubmissionID) {
                             vm.submissionlist.splice(index, 1);
@@ -555,6 +609,8 @@
                     vm.submissionlist.push(data);*/
                 })
                 .error(function (data, status, headers, config) {
+                    vm.toggleModal("error");
+                 
                 });
             }
         }
@@ -574,6 +630,7 @@
                        // or server returns response with an error status.
                        vm.uploadingComp = false;
                        vm.submissionlist = data;
+                       vm.toggleModal("error");
                    });
         }
 
@@ -590,7 +647,8 @@
                        vm.submissionTypeList[4] = other;
                    }).
                    error(function (data, status, headers, config) {
-                       alert("add un alert de submission type list");
+                     //  alert("add un alert de submission type list");
+                       vm.toggleModal("error");
                    });
         }
 
@@ -603,22 +661,27 @@
                     vm.CTYPE = vm.topicsList[0];
             })
            .error(function (data, status, headers, config) {
-               alert("An error ocurred.");
+               vm.toggleModal("error");
+              // alert("An error ocurred.");
            });
         }
 
         /* [Randy] Download a file through the browser */
         function _downloadPDFFile(id) {
+          
             restApi.getSubmissionFile(id).
                 success(function (data, status, headers, config) {
                     //window.open(data.document);
+             
                     $("#file-" + id).attr("href", data.document).attr("download", data.documentName);
 
                     //var file = new Blob([data.document]);
                     //saveAs(file, data.documentName);
                 }).
                 error(function (data, status, headers, config) {
-                    alert("An error ocurred while downloading the file.");
+                    vm.toggleModal("error");
+                
+                    //alert("An error ocurred while downloading the file.");
                 });
         }
 
@@ -634,7 +697,7 @@
                     vm.deadlinesList = data;
                 }).
                 error(function (data, status, headers, config) {
-
+                    vm.toggleModal("error");
                 });
         }
 
