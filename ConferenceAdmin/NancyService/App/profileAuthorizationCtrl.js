@@ -46,6 +46,41 @@
 
         }
 
+        /*  Display dialogs */
+        vm.obj = {};
+        vm.toggleModal = function (action) {
+
+
+
+            if (action == "errorfile") {
+
+                vm.obj.title = "File Error",
+                vm.obj.message1 = "Please refresh the page and try again to submit or download your Files.",
+
+                vm.obj.message2 = vm.keyPop,
+                vm.obj.label = "",
+                vm.obj.okbutton = true,
+                vm.obj.okbuttonText = "OK",
+                vm.obj.cancelbutton = false,
+                vm.obj.cancelbuttoText = "Cancel",
+                vm.showConfirmModal = !vm.showConfirmModal;
+                vm.okFunc = vm.deleteComplemetaryKey;
+                vm.cancelFunc;
+
+            }
+            else if (action == "error") {
+                vm.obj.title = "Server Error",
+               vm.obj.message1 = "Please refresh the page and try again.",
+               vm.obj.message2 = "",
+               vm.obj.label = "",
+               vm.obj.okbutton = true,
+               vm.obj.okbuttonText = "OK",
+               vm.obj.cancelbutton = false,
+               vm.obj.cancelbuttoText = "Cancel",
+               vm.showConfirmModal = !vm.showConfirmModal;
+            }
+        };
+
         /* [Randy] Get information for the user profile */
         function _getProfileInfo(userID) {
             restApi.getProfileInfo(userID).
@@ -53,7 +88,8 @@
                        vm.hasApplied = data.hasApplied;
                    }).
                    error(function (data, status, headers, config) {
-                       alert("An error occurred trying to access your Profile Information.");
+                       vm.toggleModal("error");
+                      // alert("An error occurred trying to access your Profile Information.");
                    });
         }
 
@@ -61,7 +97,7 @@
         $scope.showContent = function ($fileContent) {
             $scope.content = $fileContent;
             vm.fileext = vm.myFile.name.split(".", 2)[1];
-            if (vm.fileext == "pdf" || vm.fileext == "doc" || vm.fileext == "docx" || vm.fileext == "ppt")
+            if (vm.fileext == "pdf" || vm.fileext == "doc" || vm.fileext == "docx" || vm.fileext == "ppt" ||  vm.fileext == "pptx")
                 vm.ext = false;
             else {
                 document.getElementById("input-1a").value = "";
@@ -81,6 +117,7 @@
                    }).
                    error(function (data, status, headers, config) {
                        vm.templatesList = data;
+                       vm.toggleModal("error");
                    });
         }
 
@@ -97,7 +134,8 @@
                     //saveAs(file, data.templateName);
                 }).
                 error(function (data, status, headers, config) {
-                    alert("An error ocurred while downloading the file.");
+                    vm.toggleModal("errorfile");
+                   // alert("An error ocurred while downloading the file.");
                 });
         }
 
@@ -120,7 +158,8 @@
                      })
 
                      .error(function (error) {
-                         alert("Something went wrong. Please try again.");
+                        // alert("Something went wrong. Please try again.");
+                         vm.toggleModal("error");
                      });
         }
 
@@ -148,7 +187,8 @@
                     //saveAs(file, data.authorizationName);
                 }).
                 error(function (data, status, headers, config) {
-                    alert("An error ocurred while downloading the file.");
+                    //alert("An error ocurred while downloading the file.");
+                    vm.toggleModal("errorfile");
                 });
         }
 
@@ -165,7 +205,8 @@
                 })
 
                 .error(function (error) {
-                    alert("Something went wrong. Please try again.");
+                  //  alert("Something went wrong. Please try again.");
+                    vm.toggleModal("error");
                 });
             }
         }
@@ -182,7 +223,8 @@
                         vm.hasApplied = true;
                     }).
                     error(function (data, status, headers, config) {
-                        alert("An error occurred");
+                     //   alert("An error occurred");
+                        vm.toggleModal("error");
                     });
         }
     }

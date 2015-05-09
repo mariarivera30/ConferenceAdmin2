@@ -293,7 +293,6 @@
                 $scope.content = "";
                 $fileContent = "";
                 vm.myFile = undefined;
-                File.name = "";
             }
         };
 
@@ -307,6 +306,8 @@
             if (vm.myFile != undefined) {
                 evaluation.evaluationFile =  vm.content;
                 evaluation.evaluationName = vm.myFile.name;
+                vm.myFile = "";
+                vm.content = "";
             }
             //if evaluating for the first time
             if (vm.modalsubIsEvaluated == false) {

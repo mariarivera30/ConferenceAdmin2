@@ -24,28 +24,6 @@
 
         }]);
 
-//    $rootscope.$on( "$statechangestart", function(event, next, current) {
-//        if ($rootscope.loggedinuser == null) {
-//            // no logged user, redirect to /login
-//            if (next.templateurl === "adminusers.html"  || next.templateurl === "adminsettings.html"|| next.templateurl === "adminitems.html" || next.templateurl === "admincomment.html" || 
-//                current.templateurl === "adminusers.html"  || current.templateurl === "adminsettings.html"|| current.templateurl === "adminitems.html" || current.templateurl === "admincomment.html") {
-        		
-//                event.preventdefault();
-//                $state.transitionto('form.admin.login');
-        		
-//            } 
-
-//        }
-//        else if(next.templateurl === "adminlogin.html"){
-//            event.preventdefault();
-//            $state.transitionto('form.admin.users');
-//        }
-
-     
-
-//    });
-//});
-
    app.factory('AuthInterceptor', function ($window, $q) {
         return {
             request: function (config) {
