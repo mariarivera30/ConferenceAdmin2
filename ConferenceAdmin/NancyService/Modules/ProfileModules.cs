@@ -206,46 +206,46 @@ namespace NancyService.Modules
             };
             // [Jaimeiris] Add new file to submission
             Put["/addSubmissionFile"] = parameters =>
-            {
-                documentssubmitted doc = this.Bind<documentssubmitted>();
-                if (doc.document != null)
                 {
-                    return Response.AsJson(submission.addSubmissionFile(doc));
+                    documentssubmitted doc = this.Bind<documentssubmitted>();
+                    if (doc.document != null)
+                    {
+                        return Response.AsJson(submission.addSubmissionFile(doc));
 
-                }
-                else return null;
-            };
+                    }
+                    else return null;
+                };
             // [Jaimeiris] Manage existing files for a submission
             Put["/manageExistingFiles"] = parameters =>
-            {
-                //documentssubmitted sub = this.Bind<documentssubmitted>();
-                ExistingFile sub = this.Bind<ExistingFile>();
-                /*if (sub.IDsList.Count == 0)
                 {
-                    return HttpStatusCode.OK;
-                }
-                else
-                {*/
+                    //documentssubmitted sub = this.Bind<documentssubmitted>();
+                    ExistingFile sub = this.Bind<ExistingFile>();
+                    /*if (sub.IDsList.Count == 0)
+                    {
+                        return HttpStatusCode.OK;
+                    }
+                    else
+                    {*/
 
-                if (submission.manageExistingFiles(sub.submissionID, sub.IDsList))
-                    return HttpStatusCode.OK;
-                else
-                    return HttpStatusCode.Conflict;
-                // }
+                    if (submission.manageExistingFiles(sub.submissionID, sub.IDsList))
+                        return HttpStatusCode.OK;
+                    else
+                        return HttpStatusCode.Conflict;
+                    // }
 
-            };
+                };
 
             // [Jaimeiris] Re-create final submission files
             Put["/createFinalSubmissionFiles"] = parameters =>
             {
                 //documentssubmitted sub = this.Bind<documentssubmitted>();
                 ExistingFile sub = this.Bind<ExistingFile>();
-
+                
                 if (submission.createFinalSubmissionFiles(sub.submissionID, sub.prevID, sub.IDsList))
                     return HttpStatusCode.OK;
                 else
                     return HttpStatusCode.Conflict;
-
+                
             };
 
             // [Jaimeiris] Edit submission
@@ -270,41 +270,41 @@ namespace NancyService.Modules
             };
             // [Jaimeiris] Post final version of evaluation
             Post["/postFinalSubmission"] = parameters =>
-            {
-                panel pannelToAdd = null;
-                workshop workshopToAdd = null;
-                submission submissionToAdd = this.Bind<submission>();
-                documentssubmitted submissionDocuments = this.Bind<documentssubmitted>();
-                usersubmission usersubTA = this.Bind<usersubmission>();
+                {
+                    panel pannelToAdd = null;
+                    workshop workshopToAdd = null;
+                    submission submissionToAdd = this.Bind<submission>();
+                    documentssubmitted submissionDocuments = this.Bind<documentssubmitted>();
+                    usersubmission usersubTA = this.Bind<usersubmission>();
 
-                int submissionTypeID = submissionToAdd.submissionTypeID;
-                if (submissionDocuments.document == null && submissionDocuments.documentName == null)
-                {
-                    submissionDocuments = null;
-                }
-                if (submissionTypeID == 3)
-                {
-                    pannelToAdd = this.Bind<panel>();
-                }
-                else if (submissionTypeID == 5)
-                {
-                    workshopToAdd = this.Bind<workshop>();
-                }
-                Submission newSubmission =
-                    submission.addFinalSubmission(usersubTA, submissionToAdd, submissionDocuments, pannelToAdd, workshopToAdd);
-                return Response.AsJson(newSubmission);
-            };
+                    int submissionTypeID = submissionToAdd.submissionTypeID;
+                    if (submissionDocuments.document == null && submissionDocuments.documentName == null)
+                    {
+                        submissionDocuments = null;
+                    }
+                    if (submissionTypeID == 3)
+                    {
+                        pannelToAdd = this.Bind<panel>();
+                    }
+                    else if (submissionTypeID == 5)
+                    {
+                        workshopToAdd = this.Bind<workshop>();
+                    }
+                    Submission newSubmission =
+                        submission.addFinalSubmission(usersubTA, submissionToAdd, submissionDocuments, pannelToAdd, workshopToAdd);
+                    return Response.AsJson(newSubmission);
+                };
             // [Jaimeiris] Get the deadline for the additon of submissions
             Get["/getSubmissionDeadlines"] = parameters =>
-            {
-                return Response.AsJson(submission.getSubmissionDeadlines());
-            };
+                {
+                    return Response.AsJson(submission.getSubmissionDeadlines());
+                };
             // [Jaimeiris] Get the template file
             Get["/getTemplateFile/{id}"] = parameters =>
-            {
-                int templateID = parameters.id;
-                return Response.AsJson(profileAuthorization.getTemplateFile(templateID));
-            };
+                {
+                    int templateID = parameters.id;
+                    return Response.AsJson(profileAuthorization.getTemplateFile(templateID));
+                };
             // [Jaimeiris] Get the authorization file 
             Get["/getAuthorizationFile/{id}"] = parameters =>
             {
@@ -313,10 +313,10 @@ namespace NancyService.Modules
             };
             // [Jaimeiris] Get evaluation template
             Get["/getEvaluationTemplate/{templateID:long}"] = parameters =>
-            {
-                int templateID = parameters.templateID;
-                return Response.AsJson(submission.getEvaluationTemplate(templateID));
-            };
+                {
+                    int templateID = parameters.templateID;
+                    return Response.AsJson(submission.getEvaluationTemplate(templateID));
+                };
             // [Jaimeiris] Get evaluation file 
             Get["/getEvaluationFile/{submissionID:long}/{evaluatorID:long}"] = parameters =>
             {

@@ -197,22 +197,7 @@
         /*  Display dialogs */
         vm.obj = {};
         vm.toggleModal = function (action) {
-            if (action == "errorfilename") {
 
-                vm.obj.title = "File Error",
-                vm.obj.message1 = "Please try again to submit your file with a short Name.",
-
-                vm.obj.message2 = vm.keyPop,
-                vm.obj.label = "",
-                vm.obj.okbutton = true,
-                vm.obj.okbuttonText = "OK",
-                vm.obj.cancelbutton = false,
-                vm.obj.cancelbuttoText = "Cancel",
-                vm.showConfirmModal = !vm.showConfirmModal;
-                vm.okFunc = vm.deleteComplemetaryKey;
-                vm.cancelFunc;
-
-            }
 
 
             if (action == "errorfile") {
@@ -641,6 +626,7 @@
 
         /* Add a new Submission */
         function _addAdminSubmission(file) {
+        vm.loading =true;
             if(vm.viewModal == 'add') {
                 if (vm.TYPE.submissionTypeID == 1 || vm.TYPE.submissionTypeID == 2 || vm.TYPE.submissionTypeID == 4) {//if paper, poster o bof
                     var submission = {
@@ -667,26 +653,35 @@
                 }
                 restApi.postAdminSubmission(submission)
                         .success(function (data, status, headers, config) {
-                        vm.loading = false;
+                     
                                    /* $('#success').modal({                    // wire up the actual modal functionality and show the dialog
                                         "backdrop": "static",
                                "keyboard" : true,
                                         "show": true                     // ensure the modal is shown immediately
                                     });*/
-                             $('#addSubmissionModal').modal('hide');
+                            
                             if (vm.TYPE.submissionTypeID != 4){
                             vm.documentsList.forEach(function(file, index) {
-                                file.submissionID = data.submissionID;
+                            file.submissionID = data.submissionID;
                                 restApi.addFileToSubmission(file)
-                                    .success(function(data2, status2, headers2, config2) { })
+                                    .success(function(data2, status2, headers2, config2) {
+
+                                    	if(index == vm.documentsList.length -1){
+                                    		vm.loading = false;
+                                    		 $('#addSubmissionModal').modal('hide');
+                                    		    _clear();
+                                    		}
+                                       })
                                     .error(function(error) { 
-                                     	 $('#addSubmissionModal').modal('hide');
+                                   		 vm.loading = false;
+                                          $('#addSubmissionModal').modal('hide');
                                          vm.toggleModal("error");
 
                                        });
                                 });
                             }
                             _getAllSubmissions(vm.sindex);
+
                         })
                         .error(function (error) {
                          vm.loading = false;
@@ -732,10 +727,12 @@
                                "keyboard": true,
                                "show": true                     // ensure the modal is shown immediately
                            });*/ 
-                            $('#editSubmissionModal').modal('hide');
-                           			vm.loading = false;
+                           vm.loading =false;
+
+                            
                                    _getSubmissionView(vm.submissionID);
                                    _getAllSubmissions(vm.sindex);
+                                    $('#editSubmissionModal').modal('hide');
                                })
                                .error(function (error) {
                                  $('#editSubmissionModal').modal('hide');
@@ -770,6 +767,7 @@
 
                     submission.documentssubmitteds = vm.documentsList;
                     submission.byAdmin = true;
+                    vm.loading = true;
                     restApi.postAdminFinalSubmission(submission)
                             .success(function (data, status, headers, config) {
                              /*   $('#success').modal({                    // wire up the actual modal functionality and show the dialog
@@ -777,18 +775,22 @@
                                     "keyboard": true,
                                     "show": true                     // ensure the modal is shown immediately
                                 });*/
-                                vm.loading = false;
-                                $('#addSubmissionModal').modal('hide'); 
+                               
+                                 
                                 vm.documentsList.forEach(function (file, index) {
                                 if (file.document != null && file.document != "") {
                                     file.submissionID = data.submissionID;
-                                     vm.loading = true;
+                                     
                                     restApi.addFileToSubmission(file)
 
                                     .success(function (data2, status2, headers2, config2) {
-                                    vm.loading = false;
+                                    if(index== vm.documentsList.length -1){
+                                    		vm.loading = false;
+                                    		 $('#editSubmissionModal').modal('hide');
+                                    		   
+                                    		}
                                     }).error(function (error) {
-                                                       $('#addSubmissionModal').modal('hide'); 
+                                                        $('#editSubmissionModal').modal('hide');
                                                         vm.loading = false;
                                                         vm.toggleModal("errorfile");
                                                     });
@@ -796,10 +798,10 @@
                                     });
                                 _getAllSubmissions(vm.sindex);
                                 vm.view = false;
-                                 $('#addSubmissionModal').modal('hide'); 
+                                 $('#editSubmissionModal').modal('hide');
                             })
                             .error(function (error) {
-                               $('#addSubmissionModal').modal('hide'); 
+                               $('#editSubmissionModal').modal('hide');
                                 vm.loading = false;
                                 vm.toggleModal("error");
                                 
@@ -828,12 +830,9 @@
                           vm.myFile.documentssubmittedID = data.documentssubmittedID;
                           vm.documentsList.push(vm.myFile);
                       }
-                      else {
-                          vm.toggleModal("errorfilename");
-                      }
                   })
                   .error(function (error) {
-                   	  vm.loading = false;
+                         vm.loading = false;
                       vm.toggleModal("errorfile");
                   });
             }

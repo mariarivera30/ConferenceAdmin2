@@ -146,20 +146,20 @@
                     <button ng-show="vm.TYPE.submissionTypeID == 2" ng-disabled="vm.loading || addSubmissionForm.modalsubmissionTitle.$invalid || addSubmissionForm.modalsubmissionAbstract.$invalid" class="btn btn-ar btn-primary left" ng-click="vm.addSubmission(myFile)">Submit</button>
                     <button ng-show="vm.TYPE.submissionTypeID == 3" ng-disabled=" vm.loading || addSubmissionForm.modalsubmissionTitle.$invalid || addSubmissionForm.modalsubmissionAbstract.$invalid ||
                                     addSubmissionForm.modalpanelistNames.$invalid || addSubmissionForm.modalplan.$invalid || addSubmissionForm.modalguideQuestions.$invalid ||
-                                    addSubmissionForm.modalformat.$invalid || addSubmissionForm.modalequipment.$invalid" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addSubmission(myFile)">
+                                    addSubmissionForm.modalformat.$invalid || addSubmissionForm.modalequipment.$invalid" class="btn btn-ar btn-primary left"  ng-click="vm.addSubmission(myFile)">
                         Submit
                     </button>
                     <button ng-show="vm.TYPE.submissionTypeID == 4" ng-disabled="vm.loading || addSubmissionForm.modalsubmissionTitle.$invalid || addSubmissionForm.modalsubmissionAbstract.$invalid" class="btn btn-ar btn-primary left" ng-click="vm.addSubmission(myFile)">Submit</button>
                     <button ng-show="vm.TYPE.submissionTypeID == 5" ng-disabled="vm.loading || addSubmissionForm.modalsubmissionTitle.$invalid || addSubmissionForm.modalsubmissionAbstract.$invalid ||
                                     addSubmissionForm.modalduration.$invalid || addSubmissionForm.modaldelivery.$invalid || addSubmissionForm.modalplan.$invalid ||
-                                    addSubmissionForm.modalequipment.$invalid" class="btn btn-ar btn-primary left" data-dismiss="modal" ng-click="vm.addSubmission(myFile)">
+                                    addSubmissionForm.modalequipment.$invalid" class="btn btn-ar btn-primary left"  ng-click="vm.addSubmission(myFile)">
                         Submit
                     </button>
                     <button class="btn btn-ar btn-default left" data-dismiss="modal">Cancel</button>
                     </div>
                      <div class="col-xs-3 col-sm-3 col-md-3  loading-right" ng-show="vm.loading">
-            <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
-        </div>
+          				  <h3 id="loading-icon"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading</h3>
+        			</div>
                 </div>
             </div>
 

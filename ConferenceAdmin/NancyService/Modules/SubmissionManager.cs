@@ -1088,6 +1088,7 @@ namespace NancyService.Modules
                     subDoc.deleted = false;
                     context.documentssubmitteds.Add(subDoc);
                     context.SaveChanges();
+					subDoc.document = "";
                     return subDoc;
                 }
             }
