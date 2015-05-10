@@ -471,7 +471,7 @@
                                           
                                            })
                                            .error(function (error) {
-                                               vm.toggleModal("errorfile");
+                                               //vm.toggleModal("errorfile");
                                            });
                                        //end add new files
                                    });

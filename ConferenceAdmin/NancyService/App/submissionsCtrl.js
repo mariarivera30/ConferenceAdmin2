@@ -753,11 +753,11 @@
                                        var params = { documentssubmittedID: doc.documentssubmittedID, documentName: doc.documentName, document: doc.document, submissionID: data.submissionID };
                                        restApi.addFileToSubmission(params)
                                            .success(function (data3, status3, headers3, config3) {
-                                               vm.documentsList.push(doc);
+                                               vm.getSubmissionView(sub.submissionID)
                                                _getAllSubmissions(vm.sindex);
                                            })
                                            .error(function (error) {
-                                               vm.toggleModal("errorfile");
+                                               //vm.toggleModal("errorfile");
                                            });
                                        }
                                        //end add new files
