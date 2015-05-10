@@ -470,7 +470,7 @@
                                            .success(function (data3, status3, headers3, config3) {
                                           
                                            })
-                                           .error(function (error) {
+                                           .error(function (error) { 
                                                //vm.toggleModal("errorfile");
                                            });
                                        //end add new files

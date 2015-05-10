@@ -754,7 +754,7 @@
                                        restApi.addFileToSubmission(params)
                                            .success(function (data3, status3, headers3, config3) {
                                                vm.getSubmissionView(sub.submissionID)
-                                               _getAllSubmissions(vm.sindex);
+                                               _getAllSubmissions(vm.sindex); 
                                            })
                                            .error(function (error) {
                                                //vm.toggleModal("errorfile");
