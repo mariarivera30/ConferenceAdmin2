@@ -244,7 +244,7 @@ namespace NancyService.Modules
                                        select new PaymentQuery
                                        {
                                            paymentBillID = s.paymentBillID,
-                                           date = (DateTime)s.payment.creationDate,
+										   date = s.date,
                                            transactionid = s.transactionid,
                                            AmountPaid = s.AmountPaid,
                                            methodOfPayment = s.methodOfPayment,

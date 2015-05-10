@@ -52,12 +52,12 @@ namespace NancyService.Modules
                     {
                         //error storing Payment
                         string link = "http://136.145.116.238/#/PaymentError";
-                        return "<URL>"+link+"<URL>";
+                        return "<URL>"+link+"</URL>";
                     }
                   
                     else{
                         string link = "http://136.145.116.238/#/PaymentBill/" + paymentID;
-                         return "<URL> " + link + "<URL>";
+                         return "<URL> " + link + "</URL>";
                  
 
                     }
@@ -66,7 +66,7 @@ namespace NancyService.Modules
                 }
                 else { 
                     string link = "http://136.145.116.238/#/PaymentError";
-                    return "<URL>"+link+"<URL>";
+                    return "<URL>"+link+"</URL>";
                 }
            
             };
