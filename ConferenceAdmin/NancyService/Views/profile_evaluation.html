@@ -101,7 +101,7 @@
                     </div>
 
                     <div class="input-group-btn">
-                        <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="browseButton" type="file" class="file" ng-model="vm.modalevaluationFile" class="form-control" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)" required></div>
+                        <div class="btn btn-default btn-file full-width"> <i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse … <input id="browseButton" type="file" class="file" ng-model="vm.modalevaluationFile" name="upload" file-model="vm.myFile" on-read-file="showContent($fileContent)" required></div>
                         <button type="button" title="Clear selected files" class="btn btn-default fileinput-remove fileinput-remove-button" ng-click="vm.myFile = undefined"><i class="glyphicon glyphicon-trash"></i> Remove</button>
                     </div>
                     <p ng-show="vm.myFile == undefined && !vm.modalsubIsEvaluated" class="help-block">Evaluation file is required.</p>
@@ -125,7 +125,7 @@
                     <input class="small-input form-control" ng-pattern="/^([1-9]|10)$/" type="number" step="1" max="10" min="1" name="modalevaluationScore" ng-model="vm.modalevaluationScore" required>
                     <p ng-show="addEvaluationForm.modalevaluationScore.$invalid" class="help-block">Score is required and must be within range.</p>
                 </div>
-                <div ng-hide="vm.modalIsFinalVersion == true || vm.modalcanAllowFinalVersion == false"  class="col-lg-6">
+                <div ng-hide="vm.modalIsFinalVersion == true || vm.modalcanAllowFinalVersion == false" class="col-lg-6">
                     <br /><br />
                     <input type="checkbox" ng-model="vm.modalAllowFinalVersion" id="allowFinalVersionCheck" value="AllowFinalVersion"> Allow submitter to add a final version to this submission.
                 </div>

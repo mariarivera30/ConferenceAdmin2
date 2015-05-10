@@ -79,7 +79,7 @@
                                     <span class="label-simple">Date:</span>
                                 </div>
                                 <div class="col-xm-5 col-sm-5 col-md-5">
-                                    {{vm.payment.date.split('T')[0]}}
+                                    {{vm.payment.date.split('T')[0].split('-')[2]}} / {{vm.payment.date.split('T')[0].split('-')[1]}} / {{vm.payment.date.split('T')[0].split('-')[0].split('-')[0]}}
                                 </div>
                             </div>
                             <div class="row">
