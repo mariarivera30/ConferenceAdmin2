@@ -58,9 +58,6 @@
                               if (data.paymentBillID != -1) {
 
                                   vm.payment = data;
-                                  vm.dateTemp = new Date(data.date.split('/')[2], data.date.split('/')[0] - 1, data.date.split('/')[1]);
-
-                                  vm.payment.date = vm.dateTemp;
                                   vm.loading = false;
                               }
 
